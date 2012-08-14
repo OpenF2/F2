@@ -1,0 +1,2035 @@
+/*! JSON v3.2.3 | http://bestiejs.github.com/json3 | Copyright 2012, Kit Cambridge | http://kit.mit-license.org */
+;(function () {
+  // Convenience aliases.
+  var getClass = {}.toString, isProperty, forEach, undef;
+
+  // Detect the `define` function exposed by asynchronous module loaders and set
+  // up the internal `JSON3` namespace. The strict equality check for `define`
+  // is necessary for compatibility with the RequireJS optimizer (`r.js`).
+  var isLoader = typeof define === "function" && define.amd, JSON3 = typeof exports == "object" && exports;
+
+  // A JSON source string used to test the native `stringify` and `parse`
+  // implementations.
+  var serialized = '{"A":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}';
+
+  // Feature tests to determine whether the native `JSON.stringify` and `parse`
+  // implementations are spec-compliant. Based on work by Ken Snyder.
+  var stringifySupported, Escapes, toPaddedString, quote, serialize;
+  var parseSupported, fromCharCode, Unescapes, abort, lex, get, walk, update, Index, Source;
+
+  // Test the `Date#getUTC*` methods. Based on work by @Yaffle.
+  var value = new Date(-3509827334573292), floor, Months, getDay;
+
+  try {
+    // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
+    // results for certain dates in Opera >= 10.53.
+    value = value.getUTCFullYear() == -109252 && value.getUTCMonth() === 0 && value.getUTCDate() == 1 &&
+      // Safari < 2.0.2 stores the internal millisecond time value correctly,
+      // but clips the values returned by the date methods to the range of
+      // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
+      value.getUTCHours() == 10 && value.getUTCMinutes() == 37 && value.getUTCSeconds() == 6 && value.getUTCMilliseconds() == 708;
+  } catch (exception) {}
+
+  // Define additional utility methods if the `Date` methods are buggy.
+  if (!value) {
+    floor = Math.floor;
+    // A mapping between the months of the year and the number of days between
+    // January 1st and the first of the respective month.
+    Months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    // Internal: Calculates the number of days between the Unix epoch and the
+    // first day of the given month.
+    getDay = function (year, month) {
+      return Months[month] + 365 * (year - 1970) + floor((year - 1969 + (month = +(month > 1))) / 4) - floor((year - 1901 + month) / 100) + floor((year - 1601 + month) / 400);
+    };
+  }
+
+  // Export JSON 3 for asynchronous module loaders, CommonJS environments, web
+  // browsers, and JavaScript engines. Credits: Oyvind Sean Kinsey.
+  if (isLoader || JSON3) {
+    if (isLoader) {
+      // Export for asynchronous module loaders. The `JSON3` namespace is
+      // redefined because module loaders do not provide the `exports` object.
+      define("json", (JSON3 = {}));
+    }
+    if (typeof JSON == "object" && JSON) {
+      // Delegate to the native `stringify` and `parse` implementations in
+      // asynchronous module loaders and CommonJS environments.
+      JSON3.stringify = JSON.stringify;
+      JSON3.parse = JSON.parse;
+    }
+  } else {
+    // Export for browsers and JavaScript engines.
+    JSON3 = this.JSON || (this.JSON = {});
+  }
+
+  // Test `JSON.stringify`.
+  if ((stringifySupported = typeof JSON3.stringify == "function" && !getDay)) {
+    // A test function object with a custom `toJSON` method.
+    (value = function () {
+      return 1;
+    }).toJSON = value;
+    try {
+      stringifySupported =
+        // Firefox 3.1b1 and b2 serialize string, number, and boolean
+        // primitives as object literals.
+        JSON3.stringify(0) === "0" &&
+        // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
+        // literals.
+        JSON3.stringify(new Number()) === "0" &&
+        JSON3.stringify(new String()) == '""' &&
+        // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
+        // does not define a canonical JSON representation (this applies to
+        // objects with `toJSON` properties as well, *unless* they are nested
+        // within an object or array).
+        JSON3.stringify(getClass) === undef &&
+        // IE 8 serializes `undefined` as `"undefined"`. Safari 5.1.2 and FF
+        // 3.1b3 pass this test.
+        JSON3.stringify(undef) === undef &&
+        // Safari 5.1.2 and FF 3.1b3 throw `Error`s and `TypeError`s,
+        // respectively, if the value is omitted entirely.
+        JSON3.stringify() === undef &&
+        // FF 3.1b1, 2 throw an error if the given value is not a number,
+        // string, array, object, Boolean, or `null` literal. This applies to
+        // objects with custom `toJSON` methods as well, unless they are nested
+        // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
+        // methods entirely.
+        JSON3.stringify(value) === "1" &&
+        JSON3.stringify([value]) == "[1]" &&
+        // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
+        // `"[null]"`.
+        JSON3.stringify([undef]) == "[null]" &&
+        // YUI 3.0.0b1 fails to serialize `null` literals.
+        JSON3.stringify(null) == "null" &&
+        // FF 3.1b1, 2 halts serialization if an array contains a function:
+        // `[1, true, getClass, 1]` serializes as "[1,true,],". These versions
+        // of Firefox also allow trailing commas in JSON objects and arrays.
+        // FF 3.1b3 elides non-JSON values from objects and arrays, unless they
+        // define custom `toJSON` methods.
+        JSON3.stringify([undef, getClass, null]) == "[null,null,null]" &&
+        // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
+        // where character escape codes are expected (e.g., `\b` => `\u0008`).
+        JSON3.stringify({ "result": [value, true, false, null, "\0\b\n\f\r\t"] }) == serialized &&
+        // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
+        JSON3.stringify(null, value) === "1" &&
+        JSON3.stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
+        // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
+        // serialize extended years.
+        JSON3.stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
+        // The milliseconds are optional in ES 5, but required in 5.1.
+        JSON3.stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
+        // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
+        // four-digit years instead of six-digit years. Credits: @Yaffle.
+        JSON3.stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
+        // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
+        // values less than 1000. Credits: @Yaffle.
+        JSON3.stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
+    } catch (exception) {
+      stringifySupported = false;
+    }
+  }
+
+  // Test `JSON.parse`.
+  if (typeof JSON3.parse == "function") {
+    try {
+      // FF 3.1b1, b2 will throw an exception if a bare literal is provided.
+      // Conforming implementations should also coerce the initial argument to
+      // a string prior to parsing.
+      if (JSON3.parse("0") === 0 && !JSON3.parse(false)) {
+        // Simple parsing test.
+        value = JSON3.parse(serialized);
+        if ((parseSupported = value.A.length == 5 && value.A[0] == 1)) {
+          try {
+            // Safari <= 5.1.2 and FF 3.1b1 allow unescaped tabs in strings.
+            parseSupported = !JSON3.parse('"\t"');
+          } catch (exception) {}
+          if (parseSupported) {
+            try {
+              // FF 4.0 and 4.0.1 allow leading `+` signs, and leading and
+              // trailing decimal points. FF 4.0, 4.0.1, and IE 9 also allow
+              // certain octal literals.
+              parseSupported = JSON3.parse("01") != 1;
+            } catch (exception) {}
+          }
+        }
+      }
+    } catch (exception) {
+      parseSupported = false;
+    }
+  }
+
+  // Clean up the variables used for the feature tests.
+  value = serialized = null;
+
+  if (!stringifySupported || !parseSupported) {
+    // Internal: Determines if a property is a direct property of the given
+    // object. Delegates to the native `Object#hasOwnProperty` method.
+    if (!(isProperty = {}.hasOwnProperty)) {
+      isProperty = function (property) {
+        var members = {}, constructor;
+        if ((members.__proto__ = null, members.__proto__ = {
+          // The *proto* property cannot be set multiple times in recent
+          // versions of Firefox and SeaMonkey.
+          "toString": 1
+        }, members).toString != getClass) {
+          // Safari <= 2.0.3 doesn't implement `Object#hasOwnProperty`, but
+          // supports the mutable *proto* property.
+          isProperty = function (property) {
+            // Capture and break the object's prototype chain (see section 8.6.2
+            // of the ES 5.1 spec). The parenthesized expression prevents an
+            // unsafe transformation by the Closure Compiler.
+            var original = this.__proto__, result = property in (this.__proto__ = null, this);
+            // Restore the original prototype chain.
+            this.__proto__ = original;
+            return result;
+          };
+        } else {
+          // Capture a reference to the top-level `Object` constructor.
+          constructor = members.constructor;
+          // Use the `constructor` property to simulate `Object#hasOwnProperty` in
+          // other environments.
+          isProperty = function (property) {
+            var parent = (this.constructor || constructor).prototype;
+            return property in this && !(property in parent && this[property] === parent[property]);
+          };
+        }
+        members = null;
+        return isProperty.call(this, property);
+      };
+    }
+
+    // Internal: Normalizes the `for...in` iteration algorithm across
+    // environments. Each enumerated key is yielded to a `callback` function.
+    forEach = function (object, callback) {
+      var size = 0, Properties, members, property, forEach;
+
+      // Tests for bugs in the current environment's `for...in` algorithm. The
+      // `valueOf` property inherits the non-enumerable flag from
+      // `Object.prototype` in older versions of IE, Netscape, and Mozilla.
+      (Properties = function () {
+        this.valueOf = 0;
+      }).prototype.valueOf = 0;
+
+      // Iterate over a new instance of the `Properties` class.
+      members = new Properties();
+      for (property in members) {
+        // Ignore all properties inherited from `Object.prototype`.
+        if (isProperty.call(members, property)) {
+          size++;
+        }
+      }
+      Properties = members = null;
+
+      // Normalize the iteration algorithm.
+      if (!size) {
+        // A list of non-enumerable properties inherited from `Object.prototype`.
+        members = ["valueOf", "toString", "toLocaleString", "propertyIsEnumerable", "isPrototypeOf", "hasOwnProperty", "constructor"];
+        // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
+        // properties.
+        forEach = function (object, callback) {
+          var isFunction = getClass.call(object) == "[object Function]", property, length;
+          for (property in object) {
+            // Gecko <= 1.0 enumerates the `prototype` property of functions under
+            // certain conditions; IE does not.
+            if (!(isFunction && property == "prototype") && isProperty.call(object, property)) {
+              callback(property);
+            }
+          }
+          // Manually invoke the callback for each non-enumerable property.
+          for (length = members.length; property = members[--length]; isProperty.call(object, property) && callback(property));
+        };
+      } else if (size == 2) {
+        // Safari <= 2.0.4 enumerates shadowed properties twice.
+        forEach = function (object, callback) {
+          // Create a set of iterated properties.
+          var members = {}, isFunction = getClass.call(object) == "[object Function]", property;
+          for (property in object) {
+            // Store each property name to prevent double enumeration. The
+            // `prototype` property of functions is not enumerated due to cross-
+            // environment inconsistencies.
+            if (!(isFunction && property == "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
+              callback(property);
+            }
+          }
+        };
+      } else {
+        // No bugs detected; use the standard `for...in` algorithm.
+        forEach = function (object, callback) {
+          var isFunction = getClass.call(object) == "[object Function]", property, isConstructor;
+          for (property in object) {
+            if (!(isFunction && property == "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
+              callback(property);
+            }
+          }
+          // Manually invoke the callback for the `constructor` property due to
+          // cross-environment inconsistencies.
+          if (isConstructor || isProperty.call(object, (property = "constructor"))) {
+            callback(property);
+          }
+        };
+      }
+      return forEach(object, callback);
+    };
+
+    // Public: Serializes a JavaScript `value` as a JSON string. The optional
+    // `filter` argument may specify either a function that alters how object and
+    // array members are serialized, or an array of strings and numbers that
+    // indicates which properties should be serialized. The optional `width`
+    // argument may be either a string or number that specifies the indentation
+    // level of the output.
+    if (!stringifySupported) {
+      // Internal: A map of control characters and their escaped equivalents.
+      Escapes = {
+        "\\": "\\\\",
+        '"': '\\"',
+        "\b": "\\b",
+        "\f": "\\f",
+        "\n": "\\n",
+        "\r": "\\r",
+        "\t": "\\t"
+      };
+
+      // Internal: Converts `value` into a zero-padded string such that its
+      // length is at least equal to `width`. The `width` must be <= 6.
+      toPaddedString = function (width, value) {
+        // The `|| 0` expression is necessary to work around a bug in
+        // Opera <= 7.54u2 where `0 == -0`, but `String(-0) !== "0"`.
+        return ("000000" + (value || 0)).slice(-width);
+      };
+
+      // Internal: Double-quotes a string `value`, replacing all ASCII control
+      // characters (characters with code unit values between 0 and 31) with
+      // their escaped equivalents. This is an implementation of the
+      // `Quote(value)` operation defined in ES 5.1 section 15.12.3.
+      quote = function (value) {
+        var result = '"', index = 0, symbol;
+        for (; symbol = value.charAt(index); index++) {
+          // Escape the reverse solidus, double quote, backspace, form feed, line
+          // feed, carriage return, and tab characters.
+          result += '\\"\b\f\n\r\t'.indexOf(symbol) > -1 ? Escapes[symbol] :
+            // If the character is a control character, append its Unicode escape
+            // sequence; otherwise, append the character as-is.
+            symbol < " " ? "\\u00" + toPaddedString(2, symbol.charCodeAt(0).toString(16)) : symbol;
+        }
+        return result + '"';
+      };
+
+      // Internal: Recursively serializes an object. Implements the
+      // `Str(key, holder)`, `JO(value)`, and `JA(value)` operations.
+      serialize = function (property, object, callback, properties, whitespace, indentation, stack) {
+        var value = object[property], className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, any;
+        if (typeof value == "object" && value) {
+          className = getClass.call(value);
+          if (className == "[object Date]" && !isProperty.call(value, "toJSON")) {
+            if (value > -1 / 0 && value < 1 / 0) {
+              // Dates are serialized according to the `Date#toJSON` method
+              // specified in ES 5.1 section 15.9.5.44. See section 15.9.1.15
+              // for the ISO 8601 date time string format.
+              if (getDay) {
+                // Manually compute the year, month, date, hours, minutes,
+                // seconds, and milliseconds if the `getUTC*` methods are
+                // buggy. Adapted from @Yaffle's `date-shim` project.
+                date = floor(value / 864e5);
+                for (year = floor(date / 365.2425) + 1970 - 1; getDay(year + 1, 0) <= date; year++);
+                for (month = floor((date - getDay(year, 0)) / 30.42); getDay(year, month + 1) <= date; month++);
+                date = 1 + date - getDay(year, month);
+                // The `time` value specifies the time within the day (see ES
+                // 5.1 section 15.9.1.2). The formula `(A % B + B) % B` is used
+                // to compute `A modulo B`, as the `%` operator does not
+                // correspond to the `modulo` operation for negative numbers.
+                time = (value % 864e5 + 864e5) % 864e5;
+                // The hours, minutes, seconds, and milliseconds are obtained by
+                // decomposing the time within the day. See section 15.9.1.10.
+                hours = floor(time / 36e5) % 24;
+                minutes = floor(time / 6e4) % 60;
+                seconds = floor(time / 1e3) % 60;
+                milliseconds = time % 1e3;
+              } else {
+                year = value.getUTCFullYear();
+                month = value.getUTCMonth();
+                date = value.getUTCDate();
+                hours = value.getUTCHours();
+                minutes = value.getUTCMinutes();
+                seconds = value.getUTCSeconds();
+                milliseconds = value.getUTCMilliseconds();
+              }
+              // Serialize extended years correctly.
+              value = (year <= 0 || year >= 1e4 ? (year < 0 ? "-" : "+") + toPaddedString(6, year < 0 ? -year : year) : toPaddedString(4, year)) +
+                "-" + toPaddedString(2, month + 1) + "-" + toPaddedString(2, date) +
+                // Months, dates, hours, minutes, and seconds should have two
+                // digits; milliseconds should have three.
+                "T" + toPaddedString(2, hours) + ":" + toPaddedString(2, minutes) + ":" + toPaddedString(2, seconds) +
+                // Milliseconds are optional in ES 5.0, but required in 5.1.
+                "." + toPaddedString(3, milliseconds) + "Z";
+            } else {
+              value = null;
+            }
+          } else if (typeof value.toJSON == "function" && ((className != "[object Number]" && className != "[object String]" && className != "[object Array]") || isProperty.call(value, "toJSON"))) {
+            // Prototype <= 1.6.1 adds non-standard `toJSON` methods to the
+            // `Number`, `String`, `Date`, and `Array` prototypes. JSON 3
+            // ignores all `toJSON` methods on these objects unless they are
+            // defined directly on an instance.
+            value = value.toJSON(property);
+          }
+        }
+        if (callback) {
+          // If a replacement function was provided, call it to obtain the value
+          // for serialization.
+          value = callback.call(object, property, value);
+        }
+        if (value === null) {
+          return "null";
+        }
+        className = getClass.call(value);
+        if (className == "[object Boolean]") {
+          // Booleans are represented literally.
+          return "" + value;
+        } else if (className == "[object Number]") {
+          // JSON numbers must be finite. `Infinity` and `NaN` are serialized as
+          // `"null"`.
+          return value > -1 / 0 && value < 1 / 0 ? "" + value : "null";
+        } else if (className == "[object String]") {
+          // Strings are double-quoted and escaped.
+          return quote(value);
+        }
+        // Recursively serialize objects and arrays.
+        if (typeof value == "object") {
+          // Check for cyclic structures. This is a linear search; performance
+          // is inversely proportional to the number of unique nested objects.
+          for (length = stack.length; length--;) {
+            if (stack[length] === value) {
+              // Cyclic structures cannot be serialized by `JSON.stringify`.
+              throw TypeError();
+            }
+          }
+          // Add the object to the stack of traversed objects.
+          stack.push(value);
+          results = [];
+          // Save the current indentation level and indent one additional level.
+          prefix = indentation;
+          indentation += whitespace;
+          if (className == "[object Array]") {
+            // Recursively serialize array elements.
+            for (index = 0, length = value.length; index < length; any || (any = true), index++) {
+              element = serialize(index, value, callback, properties, whitespace, indentation, stack);
+              results.push(element === undef ? "null" : element);
+            }
+            return any ? (whitespace ? "[\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "]" : ("[" + results.join(",") + "]")) : "[]";
+          } else {
+            // Recursively serialize object members. Members are selected from
+            // either a user-specified list of property names, or the object
+            // itself.
+            forEach(properties || value, function (property) {
+              var element = serialize(property, value, callback, properties, whitespace, indentation, stack);
+              if (element !== undef) {
+                // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
+                // is not the empty string, let `member` {quote(property) + ":"}
+                // be the concatenation of `member` and the `space` character."
+                // The "`space` character" refers to the literal space
+                // character, not the `space` {width} argument provided to
+                // `JSON.stringify`.
+                results.push(quote(property) + ":" + (whitespace ? " " : "") + element);
+              }
+              any || (any = true);
+            });
+            return any ? (whitespace ? "{\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "}" : ("{" + results.join(",") + "}")) : "{}";
+          }
+          // Remove the object from the traversed object stack.
+          stack.pop();
+        }
+      };
+
+      // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
+      JSON3.stringify = function (source, filter, width) {
+        var whitespace, callback, properties, index, length, value;
+        if (typeof filter == "function" || typeof filter == "object" && filter) {
+          if (getClass.call(filter) == "[object Function]") {
+            callback = filter;
+          } else if (getClass.call(filter) == "[object Array]") {
+            // Convert the property names array into a makeshift set.
+            properties = {};
+            for (index = 0, length = filter.length; index < length; value = filter[index++], ((getClass.call(value) == "[object String]" || getClass.call(value) == "[object Number]") && (properties[value] = 1)));
+          }
+        }
+        if (width) {
+          if (getClass.call(width) == "[object Number]") {
+            // Convert the `width` to an integer and create a string containing
+            // `width` number of space characters.
+            if ((width -= width % 1) > 0) {
+              for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ");
+            }
+          } else if (getClass.call(width) == "[object String]") {
+            whitespace = width.length <= 10 ? width : width.slice(0, 10);
+          }
+        }
+        // Opera <= 7.54u2 discards the values associated with empty string keys
+        // (`""`) only if they are used directly within an object member list
+        // (e.g., `!("" in { "": 1})`).
+        return serialize("", (value = {}, value[""] = source, value), callback, properties, whitespace, "", []);
+      };
+    }
+
+    // Public: Parses a JSON source string.
+    if (!parseSupported) {
+      fromCharCode = String.fromCharCode;
+      // Internal: A map of escaped control characters and their unescaped
+      // equivalents.
+      Unescapes = {
+        "\\": "\\",
+        '"': '"',
+        "/": "/",
+        "b": "\b",
+        "t": "\t",
+        "n": "\n",
+        "f": "\f",
+        "r": "\r"
+      };
+
+      // Internal: Resets the parser state and throws a `SyntaxError`.
+      abort = function() {
+        Index = Source = null;
+        throw SyntaxError();
+      };
+
+      // Internal: Returns the next token, or `"$"` if the parser has reached
+      // the end of the source string. A token may be a string, number, `null`
+      // literal, or Boolean literal.
+      lex = function () {
+        var source = Source, length = source.length, symbol, value, begin, position, sign;
+        while (Index < length) {
+          symbol = source.charAt(Index);
+          if ("\t\r\n ".indexOf(symbol) > -1) {
+            // Skip whitespace tokens, including tabs, carriage returns, line
+            // feeds, and space characters.
+            Index++;
+          } else if ("{}[]:,".indexOf(symbol) > -1) {
+            // Parse a punctuator token at the current position.
+            Index++;
+            return symbol;
+          } else if (symbol == '"') {
+            // Advance to the next character and parse a JSON string at the
+            // current position. String tokens are prefixed with the sentinel
+            // `@` character to distinguish them from punctuators.
+            for (value = "@", Index++; Index < length;) {
+              symbol = source.charAt(Index);
+              if (symbol < " ") {
+                // Unescaped ASCII control characters are not permitted.
+                abort();
+              } else if (symbol == "\\") {
+                // Parse escaped JSON control characters, `"`, `\`, `/`, and
+                // Unicode escape sequences.
+                symbol = source.charAt(++Index);
+                if ('\\"/btnfr'.indexOf(symbol) > -1) {
+                  // Revive escaped control characters.
+                  value += Unescapes[symbol];
+                  Index++;
+                } else if (symbol == "u") {
+                  // Advance to the first character of the escape sequence.
+                  begin = ++Index;
+                  // Validate the Unicode escape sequence.
+                  for (position = Index + 4; Index < position; Index++) {
+                    symbol = source.charAt(Index);
+                    // A valid sequence comprises four hexdigits that form a
+                    // single hexadecimal value.
+                    if (!(symbol >= "0" && symbol <= "9" || symbol >= "a" && symbol <= "f" || symbol >= "A" && symbol <= "F")) {
+                      // Invalid Unicode escape sequence.
+                      abort();
+                    }
+                  }
+                  // Revive the escaped character.
+                  value += fromCharCode("0x" + source.slice(begin, Index));
+                } else {
+                  // Invalid escape sequence.
+                  abort();
+                }
+              } else {
+                if (symbol == '"') {
+                  // An unescaped double-quote character marks the end of the
+                  // string.
+                  break;
+                }
+                // Append the original character as-is.
+                value += symbol;
+                Index++;
+              }
+            }
+            if (source.charAt(Index) == '"') {
+              Index++;
+              // Return the revived string.
+              return value;
+            }
+            // Unterminated string.
+            abort();
+          } else {
+            // Parse numbers and literals.
+            begin = Index;
+            // Advance the scanner's position past the sign, if one is
+            // specified.
+            if (symbol == "-") {
+              sign = true;
+              symbol = source.charAt(++Index);
+            }
+            // Parse an integer or floating-point value.
+            if (symbol >= "0" && symbol <= "9") {
+              // Leading zeroes are interpreted as octal literals.
+              if (symbol == "0" && (symbol = source.charAt(Index + 1), symbol >= "0" && symbol <= "9")) {
+                // Illegal octal literal.
+                abort();
+              }
+              sign = false;
+              // Parse the integer component.
+              for (; Index < length && (symbol = source.charAt(Index), symbol >= "0" && symbol <= "9"); Index++);
+              // Floats cannot contain a leading decimal point; however, this
+              // case is already accounted for by the parser.
+              if (source.charAt(Index) == ".") {
+                position = ++Index;
+                // Parse the decimal component.
+                for (; position < length && (symbol = source.charAt(position), symbol >= "0" && symbol <= "9"); position++);
+                if (position == Index) {
+                  // Illegal trailing decimal.
+                  abort();
+                }
+                Index = position;
+              }
+              // Parse exponents.
+              symbol = source.charAt(Index);
+              if (symbol == "e" || symbol == "E") {
+                // Skip past the sign following the exponent, if one is
+                // specified.
+                symbol = source.charAt(++Index);
+                if (symbol == "+" || symbol == "-") {
+                  Index++;
+                }
+                // Parse the exponential component.
+                for (position = Index; position < length && (symbol = source.charAt(position), symbol >= "0" && symbol <= "9"); position++);
+                if (position == Index) {
+                  // Illegal empty exponent.
+                  abort();
+                }
+                Index = position;
+              }
+              // Coerce the parsed value to a JavaScript number.
+              return +source.slice(begin, Index);
+            }
+            // A negative sign may only precede numbers.
+            if (sign) {
+              abort();
+            }
+            // `true`, `false`, and `null` literals.
+            if (source.slice(Index, Index + 4) == "true") {
+              Index += 4;
+              return true;
+            } else if (source.slice(Index, Index + 5) == "false") {
+              Index += 5;
+              return false;
+            } else if (source.slice(Index, Index + 4) == "null") {
+              Index += 4;
+              return null;
+            }
+            // Unrecognized token.
+            abort();
+          }
+        }
+        // Return the sentinel `$` character if the parser has reached the end
+        // of the source string.
+        return "$";
+      };
+
+      // Internal: Parses a JSON `value` token.
+      get = function (value) {
+        var results, any, key;
+        if (value == "$") {
+          // Unexpected end of input.
+          abort();
+        }
+        if (typeof value == "string") {
+          if (value.charAt(0) == "@") {
+            // Remove the sentinel `@` character.
+            return value.slice(1);
+          }
+          // Parse object and array literals.
+          if (value == "[") {
+            // Parses a JSON array, returning a new JavaScript array.
+            results = [];
+            for (;; any || (any = true)) {
+              value = lex();
+              // A closing square bracket marks the end of the array literal.
+              if (value == "]") {
+                break;
+              }
+              // If the array literal contains elements, the current token
+              // should be a comma separating the previous element from the
+              // next.
+              if (any) {
+                if (value == ",") {
+                  value = lex();
+                  if (value == "]") {
+                    // Unexpected trailing `,` in array literal.
+                    abort();
+                  }
+                } else {
+                  // A `,` must separate each array element.
+                  abort();
+                }
+              }
+              // Elisions and leading commas are not permitted.
+              if (value == ",") {
+                abort();
+              }
+              results.push(get(value));
+            }
+            return results;
+          } else if (value == "{") {
+            // Parses a JSON object, returning a new JavaScript object.
+            results = {};
+            for (;; any || (any = true)) {
+              value = lex();
+              // A closing curly brace marks the end of the object literal.
+              if (value == "}") {
+                break;
+              }
+              // If the object literal contains members, the current token
+              // should be a comma separator.
+              if (any) {
+                if (value == ",") {
+                  value = lex();
+                  if (value == "}") {
+                    // Unexpected trailing `,` in object literal.
+                    abort();
+                  }
+                } else {
+                  // A `,` must separate each object member.
+                  abort();
+                }
+              }
+              // Leading commas are not permitted, object property names must be
+              // double-quoted strings, and a `:` must separate each property
+              // name and value.
+              if (value == "," || typeof value != "string" || value.charAt(0) != "@" || lex() != ":") {
+                abort();
+              }
+              results[value.slice(1)] = get(lex());
+            }
+            return results;
+          }
+          // Unexpected token encountered.
+          abort();
+        }
+        return value;
+      };
+
+      // Internal: Updates a traversed object member.
+      update = function(source, property, callback) {
+        var element = walk(source, property, callback);
+        if (element === undef) {
+          delete source[property];
+        } else {
+          source[property] = element;
+        }
+      };
+
+      // Internal: Recursively traverses a parsed JSON object, invoking the
+      // `callback` function for each value. This is an implementation of the
+      // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
+      walk = function (source, property, callback) {
+        var value = source[property], length;
+        if (typeof value == "object" && value) {
+          if (getClass.call(value) == "[object Array]") {
+            for (length = value.length; length--;) {
+              update(value, length, callback);
+            }
+          } else {
+            // `forEach` can't be used to traverse an array in Opera <= 8.54,
+            // as `Object#hasOwnProperty` returns `false` for array indices
+            // (e.g., `![1, 2, 3].hasOwnProperty("0")`).
+            forEach(value, function (property) {
+              update(value, property, callback);
+            });
+          }
+        }
+        return callback.call(source, property, value);
+      };
+
+      // Public: `JSON.parse`. See ES 5.1 section 15.12.2.
+      JSON3.parse = function (source, callback) {
+        Index = 0;
+        Source = source;
+        var result = get(lex());
+        // If a JSON string contains multiple tokens, it is invalid.
+        if (lex() != "$") {
+          abort();
+        }
+        // Reset the parser state.
+        Index = Source = null;
+        return callback && getClass.call(callback) == "[object Function]" ? walk((value = {}, value[""] = result, value), "", callback) : result;
+      };
+    }
+  }
+}).call(this);
+/*!
+ * Copyright (c) 2011 hij1nx http://www.twitter.com/hij1nx
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+;!function(exports, undefined) {
+
+  var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
+    return Object.prototype.toString.call(obj) === "[object Array]";
+  };
+  var defaultMaxListeners = 10;
+
+  function init() {
+    this._events = new Object;
+  }
+
+  function configure(conf) {
+    if (conf) {
+      conf.delimiter && (this.delimiter = conf.delimiter);
+      conf.wildcard && (this.wildcard = conf.wildcard);
+      if (this.wildcard) {
+        this.listenerTree = new Object;
+      }
+    }
+  }
+
+  function EventEmitter(conf) {
+    this._events = new Object;
+    configure.call(this, conf);
+  }
+
+  //
+  // Attention, function return type now is array, always !
+  // It has zero elements if no any matches found and one or more
+  // elements (leafs) if there are matches
+  //
+  function searchListenerTree(handlers, type, tree, i) {
+    if (!tree) {
+      return [];
+    }
+    var listeners=[], leaf, len, branch, xTree, xxTree, isolatedBranch, endReached,
+        typeLength = type.length, currentType = type[i], nextType = type[i+1];
+    if (i === typeLength && tree._listeners) {
+      //
+      // If at the end of the event(s) list and the tree has listeners
+      // invoke those listeners.
+      //
+      if (typeof tree._listeners === 'function') {
+        handlers && handlers.push(tree._listeners);
+        return [tree];
+      } else {
+        for (leaf = 0, len = tree._listeners.length; leaf < len; leaf++) {
+          handlers && handlers.push(tree._listeners[leaf]);
+        }
+        return [tree];
+      }
+    }
+
+    if ((currentType === '*' || currentType === '**') || tree[currentType]) {
+      //
+      // If the event emitted is '*' at this part
+      // or there is a concrete match at this patch
+      //
+      if (currentType === '*') {
+        for (branch in tree) {
+          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
+            listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+1));
+          }
+        }
+        return listeners;
+      } else if(currentType === '**') {
+        endReached = (i+1 === typeLength || (i+2 === typeLength && nextType === '*'));
+        if(endReached && tree._listeners) {
+          // The next element has a _listeners, add it to the handlers.
+          listeners = listeners.concat(searchListenerTree(handlers, type, tree, typeLength));
+        }
+
+        for (branch in tree) {
+          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
+            if(branch === '*' || branch === '**') {
+              if(tree[branch]._listeners && !endReached) {
+                listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], typeLength));
+              }
+              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
+            } else if(branch === nextType) {
+              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+2));
+            } else {
+              // No match on this one, shift into the tree but not in the type array.
+              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
+            }
+          }
+        }
+        return listeners;
+      }
+
+      listeners = listeners.concat(searchListenerTree(handlers, type, tree[currentType], i+1));
+    }
+
+    xTree = tree['*'];
+    if (xTree) {
+      //
+      // If the listener tree will allow any match for this part,
+      // then recursively explore all branches of the tree
+      //
+      searchListenerTree(handlers, type, xTree, i+1);
+    }
+    
+    xxTree = tree['**'];
+    if(xxTree) {
+      if(i < typeLength) {
+        if(xxTree._listeners) {
+          // If we have a listener on a '**', it will catch all, so add its handler.
+          searchListenerTree(handlers, type, xxTree, typeLength);
+        }
+        
+        // Build arrays of matching next branches and others.
+        for(branch in xxTree) {
+          if(branch !== '_listeners' && xxTree.hasOwnProperty(branch)) {
+            if(branch === nextType) {
+              // We know the next element will match, so jump twice.
+              searchListenerTree(handlers, type, xxTree[branch], i+2);
+            } else if(branch === currentType) {
+              // Current node matches, move into the tree.
+              searchListenerTree(handlers, type, xxTree[branch], i+1);
+            } else {
+              isolatedBranch = {};
+              isolatedBranch[branch] = xxTree[branch];
+              searchListenerTree(handlers, type, { '**': isolatedBranch }, i+1);
+            }
+          }
+        }
+      } else if(xxTree._listeners) {
+        // We have reached the end and still on a '**'
+        searchListenerTree(handlers, type, xxTree, typeLength);
+      } else if(xxTree['*'] && xxTree['*']._listeners) {
+        searchListenerTree(handlers, type, xxTree['*'], typeLength);
+      }
+    }
+
+    return listeners;
+  }
+
+  function growListenerTree(type, listener) {
+
+    type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+    
+    //
+    // Looks for two consecutive '**', if so, don't add the event at all.
+    //
+    for(var i = 0, len = type.length; i+1 < len; i++) {
+      if(type[i] === '**' && type[i+1] === '**') {
+        return;
+      }
+    }
+
+    var tree = this.listenerTree;
+    var name = type.shift();
+
+    while (name) {
+
+      if (!tree[name]) {
+        tree[name] = new Object;
+      }
+
+      tree = tree[name];
+
+      if (type.length === 0) {
+
+        if (!tree._listeners) {
+          tree._listeners = listener;
+        }
+        else if(typeof tree._listeners === 'function') {
+          tree._listeners = [tree._listeners, listener];
+        }
+        else if (isArray(tree._listeners)) {
+
+          tree._listeners.push(listener);
+
+          if (!tree._listeners.warned) {
+
+            var m = defaultMaxListeners;
+            
+            if (typeof this._events.maxListeners !== 'undefined') {
+              m = this._events.maxListeners;
+            }
+
+            if (m > 0 && tree._listeners.length > m) {
+
+              tree._listeners.warned = true;
+              console.error('(node) warning: possible EventEmitter memory ' +
+                            'leak detected. %d listeners added. ' +
+                            'Use emitter.setMaxListeners() to increase limit.',
+                            tree._listeners.length);
+              console.trace();
+            }
+          }
+        }
+        return true;
+      }
+      name = type.shift();
+    }
+    return true;
+  };
+
+  // By default EventEmitters will print a warning if more than
+  // 10 listeners are added to it. This is a useful default which
+  // helps finding memory leaks.
+  //
+  // Obviously not all Emitters should be limited to 10. This function allows
+  // that to be increased. Set to zero for unlimited.
+
+  EventEmitter.prototype.delimiter = '.';
+
+  EventEmitter.prototype.setMaxListeners = function(n) {
+    this._events || init.call(this);
+    this._events.maxListeners = n;
+  };
+
+  EventEmitter.prototype.event = '';
+
+  EventEmitter.prototype.once = function(event, fn) {
+    this.many(event, 1, fn);
+    return this;
+  };
+
+  EventEmitter.prototype.many = function(event, ttl, fn) {
+    var self = this;
+
+    if (typeof fn !== 'function') {
+      throw new Error('many only accepts instances of Function');
+    }
+
+    function listener() {
+      if (--ttl === 0) {
+        self.off(event, listener);
+      }
+      fn.apply(this, arguments);
+    };
+
+    listener._origin = fn;
+
+    this.on(event, listener);
+
+    return self;
+  };
+
+  EventEmitter.prototype.emit = function() {
+    this._events || init.call(this);
+
+    var type = arguments[0];
+
+    if (type === 'newListener') {
+      if (!this._events.newListener) { return false; }
+    }
+
+    // Loop through the *_all* functions and invoke them.
+    if (this._all) {
+      var l = arguments.length;
+      var args = new Array(l - 1);
+      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+      for (i = 0, l = this._all.length; i < l; i++) {
+        this.event = type;
+        this._all[i].apply(this, args);
+      }
+    }
+
+    // If there is no 'error' event listener then throw.
+    if (type === 'error') {
+      
+      if (!this._all && 
+        !this._events.error && 
+        !(this.wildcard && this.listenerTree.error)) {
+
+        if (arguments[1] instanceof Error) {
+          throw arguments[1]; // Unhandled 'error' event
+        } else {
+          throw new Error("Uncaught, unspecified 'error' event.");
+        }
+        return false;
+      }
+    }
+
+    var handler;
+
+    if(this.wildcard) {
+      handler = [];
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      searchListenerTree.call(this, handler, ns, this.listenerTree, 0);
+    }
+    else {
+      handler = this._events[type];
+    }
+
+    if (typeof handler === 'function') {
+      this.event = type;
+      if (arguments.length === 1) {
+        handler.call(this);
+      }
+      else if (arguments.length > 1)
+        switch (arguments.length) {
+          case 2:
+            handler.call(this, arguments[1]);
+            break;
+          case 3:
+            handler.call(this, arguments[1], arguments[2]);
+            break;
+          // slower
+          default:
+            var l = arguments.length;
+            var args = new Array(l - 1);
+            for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+            handler.apply(this, args);
+        }
+      return true;
+    }
+    else if (handler) {
+      var l = arguments.length;
+      var args = new Array(l - 1);
+      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+
+      var listeners = handler.slice();
+      for (var i = 0, l = listeners.length; i < l; i++) {
+        this.event = type;
+        listeners[i].apply(this, args);
+      }
+      return (listeners.length > 0) || this._all;
+    }
+    else {
+      return this._all;
+    }
+
+  };
+
+  EventEmitter.prototype.on = function(type, listener) {
+    
+    if (typeof type === 'function') {
+      this.onAny(type);
+      return this;
+    }
+
+    if (typeof listener !== 'function') {
+      throw new Error('on only accepts instances of Function');
+    }
+    this._events || init.call(this);
+
+    // To avoid recursion in the case that type == "newListeners"! Before
+    // adding it to the listeners, first emit "newListeners".
+    this.emit('newListener', type, listener);
+
+    if(this.wildcard) {
+      growListenerTree.call(this, type, listener);
+      return this;
+    }
+
+    if (!this._events[type]) {
+      // Optimize the case of one listener. Don't need the extra array object.
+      this._events[type] = listener;
+    }
+    else if(typeof this._events[type] === 'function') {
+      // Adding the second element, need to change to array.
+      this._events[type] = [this._events[type], listener];
+    }
+    else if (isArray(this._events[type])) {
+      // If we've already got an array, just append.
+      this._events[type].push(listener);
+
+      // Check for listener leak
+      if (!this._events[type].warned) {
+
+        var m = defaultMaxListeners;
+        
+        if (typeof this._events.maxListeners !== 'undefined') {
+          m = this._events.maxListeners;
+        }
+
+        if (m > 0 && this._events[type].length > m) {
+
+          this._events[type].warned = true;
+          console.error('(node) warning: possible EventEmitter memory ' +
+                        'leak detected. %d listeners added. ' +
+                        'Use emitter.setMaxListeners() to increase limit.',
+                        this._events[type].length);
+          console.trace();
+        }
+      }
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.onAny = function(fn) {
+
+    if(!this._all) {
+      this._all = [];
+    }
+
+    if (typeof fn !== 'function') {
+      throw new Error('onAny only accepts instances of Function');
+    }
+
+    // Add the function to the event listener collection.
+    this._all.push(fn);
+    return this;
+  };
+
+  EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+  EventEmitter.prototype.off = function(type, listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('removeListener only takes instances of Function');
+    }
+
+    var handlers,leafs=[];
+
+    if(this.wildcard) {
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+    }
+    else {
+      // does not use listeners(), so no side effect of creating _events[type]
+      if (!this._events[type]) return this;
+      handlers = this._events[type];
+      leafs.push({_listeners:handlers});
+    }
+
+    for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
+      var leaf = leafs[iLeaf];
+      handlers = leaf._listeners;
+      if (isArray(handlers)) {
+
+        var position = -1;
+
+        for (var i = 0, length = handlers.length; i < length; i++) {
+          if (handlers[i] === listener ||
+            (handlers[i].listener && handlers[i].listener === listener) ||
+            (handlers[i]._origin && handlers[i]._origin === listener)) {
+            position = i;
+            break;
+          }
+        }
+
+        if (position < 0) {
+          return this;
+        }
+
+        if(this.wildcard) {
+          leaf._listeners.splice(position, 1)
+        }
+        else {
+          this._events[type].splice(position, 1);
+        }
+
+        if (handlers.length === 0) {
+          if(this.wildcard) {
+            delete leaf._listeners;
+          }
+          else {
+            delete this._events[type];
+          }
+        }
+      }
+      else if (handlers === listener ||
+        (handlers.listener && handlers.listener === listener) ||
+        (handlers._origin && handlers._origin === listener)) {
+        if(this.wildcard) {
+          delete leaf._listeners;
+        }
+        else {
+          delete this._events[type];
+        }
+      }
+    }
+
+    return this;
+  };
+
+  EventEmitter.prototype.offAny = function(fn) {
+    var i = 0, l = 0, fns;
+    if (fn && this._all && this._all.length > 0) {
+      fns = this._all;
+      for(i = 0, l = fns.length; i < l; i++) {
+        if(fn === fns[i]) {
+          fns.splice(i, 1);
+          return this;
+        }
+      }
+    } else {
+      this._all = [];
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.removeListener = EventEmitter.prototype.off;
+
+  EventEmitter.prototype.removeAllListeners = function(type) {
+    if (arguments.length === 0) {
+      !this._events || init.call(this);
+      return this;
+    }
+
+    if(this.wildcard) {
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      var leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+
+      for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
+        var leaf = leafs[iLeaf];
+        leaf._listeners = null;
+      }
+    }
+    else {
+      if (!this._events[type]) return this;
+      this._events[type] = null;
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.listeners = function(type) {
+    if(this.wildcard) {
+      var handlers = [];
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      searchListenerTree.call(this, handlers, ns, this.listenerTree, 0);
+      return handlers;
+    }
+
+    this._events || init.call(this);
+
+    if (!this._events[type]) this._events[type] = [];
+    if (!isArray(this._events[type])) {
+      this._events[type] = [this._events[type]];
+    }
+    return this._events[type];
+  };
+
+  EventEmitter.prototype.listenersAny = function() {
+
+    if(this._all) {
+      return this._all;
+    }
+    else {
+      return [];
+    }
+
+  };
+
+  if (typeof define === 'function' && define.amd) {
+    define(function() {
+      return EventEmitter;
+    });
+  } else {
+    exports.EventEmitter2 = EventEmitter; 
+  }
+
+}(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
+
+/*!
+ * easyXDM
+ * http://easyxdm.net/
+ * Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+(function(N,d,p,K,k,H){var b=this;var n=Math.floor(Math.random()*10000);var q=Function.prototype;var Q=/^((http.?:)\/\/([^:\/\s]+)(:\d+)*)/;var R=/[\-\w]+\/\.\.\//;var F=/([^:])\/\//g;var I="";var o={};var M=N.easyXDM;var U="easyXDM_";var E;var y=false;var i;var h;function C(X,Z){var Y=typeof X[Z];return Y=="function"||(!!(Y=="object"&&X[Z]))||Y=="unknown"}function u(X,Y){return !!(typeof(X[Y])=="object"&&X[Y])}function r(X){return Object.prototype.toString.call(X)==="[object Array]"}function c(){try{var X=new ActiveXObject("ShockwaveFlash.ShockwaveFlash");i=Array.prototype.slice.call(X.GetVariable("$version").match(/(\d+),(\d+),(\d+),(\d+)/),1);h=parseInt(i[0],10)>9&&parseInt(i[1],10)>0;X=null;return true}catch(Y){return false}}var v,x;if(C(N,"addEventListener")){v=function(Z,X,Y){Z.addEventListener(X,Y,false)};x=function(Z,X,Y){Z.removeEventListener(X,Y,false)}}else{if(C(N,"attachEvent")){v=function(X,Z,Y){X.attachEvent("on"+Z,Y)};x=function(X,Z,Y){X.detachEvent("on"+Z,Y)}}else{throw new Error("Browser not supported")}}var W=false,J=[],L;if("readyState" in d){L=d.readyState;W=L=="complete"||(~navigator.userAgent.indexOf("AppleWebKit/")&&(L=="loaded"||L=="interactive"))}else{W=!!d.body}function s(){if(W){return}W=true;for(var X=0;X<J.length;X++){J[X]()}J.length=0}if(!W){if(C(N,"addEventListener")){v(d,"DOMContentLoaded",s)}else{v(d,"readystatechange",function(){if(d.readyState=="complete"){s()}});if(d.documentElement.doScroll&&N===top){var g=function(){if(W){return}try{d.documentElement.doScroll("left")}catch(X){K(g,1);return}s()};g()}}v(N,"load",s)}function G(Y,X){if(W){Y.call(X);return}J.push(function(){Y.call(X)})}function m(){var Z=parent;if(I!==""){for(var X=0,Y=I.split(".");X<Y.length;X++){Z=Z[Y[X]]}}return Z.easyXDM}function e(X){N.easyXDM=M;I=X;if(I){U="easyXDM_"+I.replace(".","_")+"_"}return o}function z(X){return X.match(Q)[3]}function f(X){return X.match(Q)[4]||""}function j(Z){var X=Z.toLowerCase().match(Q);var aa=X[2],ab=X[3],Y=X[4]||"";if((aa=="http:"&&Y==":80")||(aa=="https:"&&Y==":443")){Y=""}return aa+"//"+ab+Y}function B(X){X=X.replace(F,"$1/");if(!X.match(/^(http||https):\/\//)){var Y=(X.substring(0,1)==="/")?"":p.pathname;if(Y.substring(Y.length-1)!=="/"){Y=Y.substring(0,Y.lastIndexOf("/")+1)}X=p.protocol+"//"+p.host+Y+X}while(R.test(X)){X=X.replace(R,"")}return X}function P(X,aa){var ac="",Z=X.indexOf("#");if(Z!==-1){ac=X.substring(Z);X=X.substring(0,Z)}var ab=[];for(var Y in aa){if(aa.hasOwnProperty(Y)){ab.push(Y+"="+H(aa[Y]))}}return X+(y?"#":(X.indexOf("?")==-1?"?":"&"))+ab.join("&")+ac}var S=(function(X){X=X.substring(1).split("&");var Z={},aa,Y=X.length;while(Y--){aa=X[Y].split("=");Z[aa[0]]=k(aa[1])}return Z}(/xdm_e=/.test(p.search)?p.search:p.hash));function t(X){return typeof X==="undefined"}var O=function(){var Y={};var Z={a:[1,2,3]},X='{"a":[1,2,3]}';if(typeof JSON!="undefined"&&typeof JSON.stringify==="function"&&JSON.stringify(Z).replace((/\s/g),"")===X){return JSON}if(Object.toJSON){if(Object.toJSON(Z).replace((/\s/g),"")===X){Y.stringify=Object.toJSON}}if(typeof String.prototype.evalJSON==="function"){Z=X.evalJSON();if(Z.a&&Z.a.length===3&&Z.a[2]===3){Y.parse=function(aa){return aa.evalJSON()}}}if(Y.stringify&&Y.parse){O=function(){return Y};return Y}return null};function T(X,Y,Z){var ab;for(var aa in Y){if(Y.hasOwnProperty(aa)){if(aa in X){ab=Y[aa];if(typeof ab==="object"){T(X[aa],ab,Z)}else{if(!Z){X[aa]=Y[aa]}}}else{X[aa]=Y[aa]}}}return X}function a(){var Y=d.body.appendChild(d.createElement("form")),X=Y.appendChild(d.createElement("input"));X.name=U+"TEST"+n;E=X!==Y.elements[X.name];d.body.removeChild(Y)}function A(X){if(t(E)){a()}var Z;if(E){Z=d.createElement('<iframe name="'+X.props.name+'"/>')}else{Z=d.createElement("IFRAME");Z.name=X.props.name}Z.id=Z.name=X.props.name;delete X.props.name;if(X.onLoad){v(Z,"load",X.onLoad)}if(typeof X.container=="string"){X.container=d.getElementById(X.container)}if(!X.container){T(Z.style,{position:"absolute",top:"-2000px"});X.container=d.body}var Y=X.props.src;delete X.props.src;T(Z,X.props);Z.border=Z.frameBorder=0;Z.allowTransparency=true;X.container.appendChild(Z);Z.src=Y;X.props.src=Y;return Z}function V(aa,Z){if(typeof aa=="string"){aa=[aa]}var Y,X=aa.length;while(X--){Y=aa[X];Y=new RegExp(Y.substr(0,1)=="^"?Y:("^"+Y.replace(/(\*)/g,".$1").replace(/\?/g,".")+"$"));if(Y.test(Z)){return true}}return false}function l(Z){var ae=Z.protocol,Y;Z.isHost=Z.isHost||t(S.xdm_p);y=Z.hash||false;if(!Z.props){Z.props={}}if(!Z.isHost){Z.channel=S.xdm_c;Z.secret=S.xdm_s;Z.remote=S.xdm_e;ae=S.xdm_p;if(Z.acl&&!V(Z.acl,Z.remote)){throw new Error("Access denied for "+Z.remote)}}else{Z.remote=B(Z.remote);Z.channel=Z.channel||"default"+n++;Z.secret=Math.random().toString(16).substring(2);if(t(ae)){if(j(p.href)==j(Z.remote)){ae="4"}else{if(C(N,"postMessage")||C(d,"postMessage")){ae="1"}else{if(Z.swf&&C(N,"ActiveXObject")&&c()){ae="6"}else{if(navigator.product==="Gecko"&&"frameElement" in N&&navigator.userAgent.indexOf("WebKit")==-1){ae="5"}else{if(Z.remoteHelper){Z.remoteHelper=B(Z.remoteHelper);ae="2"}else{ae="0"}}}}}}}Z.protocol=ae;switch(ae){case"0":T(Z,{interval:100,delay:2000,useResize:true,useParent:false,usePolling:false},true);if(Z.isHost){if(!Z.local){var ac=p.protocol+"//"+p.host,X=d.body.getElementsByTagName("img"),ad;var aa=X.length;while(aa--){ad=X[aa];if(ad.src.substring(0,ac.length)===ac){Z.local=ad.src;break}}if(!Z.local){Z.local=N}}var ab={xdm_c:Z.channel,xdm_p:0};if(Z.local===N){Z.usePolling=true;Z.useParent=true;Z.local=p.protocol+"//"+p.host+p.pathname+p.search;ab.xdm_e=Z.local;ab.xdm_pa=1}else{ab.xdm_e=B(Z.local)}if(Z.container){Z.useResize=false;ab.xdm_po=1}Z.remote=P(Z.remote,ab)}else{T(Z,{channel:S.xdm_c,remote:S.xdm_e,useParent:!t(S.xdm_pa),usePolling:!t(S.xdm_po),useResize:Z.useParent?false:Z.useResize})}Y=[new o.stack.HashTransport(Z),new o.stack.ReliableBehavior({}),new o.stack.QueueBehavior({encode:true,maxLength:4000-Z.remote.length}),new o.stack.VerifyBehavior({initiate:Z.isHost})];break;case"1":Y=[new o.stack.PostMessageTransport(Z)];break;case"2":Y=[new o.stack.NameTransport(Z),new o.stack.QueueBehavior(),new o.stack.VerifyBehavior({initiate:Z.isHost})];break;case"3":Y=[new o.stack.NixTransport(Z)];break;case"4":Y=[new o.stack.SameOriginTransport(Z)];break;case"5":Y=[new o.stack.FrameElementTransport(Z)];break;case"6":if(!i){c()}Y=[new o.stack.FlashTransport(Z)];break}Y.push(new o.stack.QueueBehavior({lazy:Z.lazy,remove:true}));return Y}function D(aa){var ab,Z={incoming:function(ad,ac){this.up.incoming(ad,ac)},outgoing:function(ac,ad){this.down.outgoing(ac,ad)},callback:function(ac){this.up.callback(ac)},init:function(){this.down.init()},destroy:function(){this.down.destroy()}};for(var Y=0,X=aa.length;Y<X;Y++){ab=aa[Y];T(ab,Z,true);if(Y!==0){ab.down=aa[Y-1]}if(Y!==X-1){ab.up=aa[Y+1]}}return ab}function w(X){X.up.down=X.down;X.down.up=X.up;X.up=X.down=null}T(o,{version:"2.4.15.118",query:S,stack:{},apply:T,getJSONObject:O,whenReady:G,noConflict:e});o.DomHelper={on:v,un:x,requiresJSON:function(X){if(!u(N,"JSON")){d.write('<script type="text/javascript" src="'+X+'"><\/script>')}}};(function(){var X={};o.Fn={set:function(Y,Z){X[Y]=Z},get:function(Z,Y){var aa=X[Z];if(Y){delete X[Z]}return aa}}}());o.Socket=function(Y){var X=D(l(Y).concat([{incoming:function(ab,aa){Y.onMessage(ab,aa)},callback:function(aa){if(Y.onReady){Y.onReady(aa)}}}])),Z=j(Y.remote);this.origin=j(Y.remote);this.destroy=function(){X.destroy()};this.postMessage=function(aa){X.outgoing(aa,Z)};X.init()};o.Rpc=function(Z,Y){if(Y.local){for(var ab in Y.local){if(Y.local.hasOwnProperty(ab)){var aa=Y.local[ab];if(typeof aa==="function"){Y.local[ab]={method:aa}}}}}var X=D(l(Z).concat([new o.stack.RpcBehavior(this,Y),{callback:function(ac){if(Z.onReady){Z.onReady(ac)}}}]));this.origin=j(Z.remote);this.destroy=function(){X.destroy()};X.init()};o.stack.SameOriginTransport=function(Y){var Z,ab,aa,X;return(Z={outgoing:function(ad,ae,ac){aa(ad);if(ac){ac()}},destroy:function(){if(ab){ab.parentNode.removeChild(ab);ab=null}},onDOMReady:function(){X=j(Y.remote);if(Y.isHost){T(Y.props,{src:P(Y.remote,{xdm_e:p.protocol+"//"+p.host+p.pathname,xdm_c:Y.channel,xdm_p:4}),name:U+Y.channel+"_provider"});ab=A(Y);o.Fn.set(Y.channel,function(ac){aa=ac;K(function(){Z.up.callback(true)},0);return function(ad){Z.up.incoming(ad,X)}})}else{aa=m().Fn.get(Y.channel,true)(function(ac){Z.up.incoming(ac,X)});K(function(){Z.up.callback(true)},0)}},init:function(){G(Z.onDOMReady,Z)}})};o.stack.FlashTransport=function(aa){var ac,X,ab,ad,Y,ae;function af(ah,ag){K(function(){ac.up.incoming(ah,ad)},0)}function Z(ah){var ag=aa.swf+"?host="+aa.isHost;var aj="easyXDM_swf_"+Math.floor(Math.random()*10000);o.Fn.set("flash_loaded"+ah.replace(/[\-.]/g,"_"),function(){o.stack.FlashTransport[ah].swf=Y=ae.firstChild;var ak=o.stack.FlashTransport[ah].queue;for(var al=0;al<ak.length;al++){ak[al]()}ak.length=0});if(aa.swfContainer){ae=(typeof aa.swfContainer=="string")?d.getElementById(aa.swfContainer):aa.swfContainer}else{ae=d.createElement("div");T(ae.style,h&&aa.swfNoThrottle?{height:"20px",width:"20px",position:"fixed",right:0,top:0}:{height:"1px",width:"1px",position:"absolute",overflow:"hidden",right:0,top:0});d.body.appendChild(ae)}var ai="callback=flash_loaded"+ah.replace(/[\-.]/g,"_")+"&proto="+b.location.protocol+"&domain="+z(b.location.href)+"&port="+f(b.location.href)+"&ns="+I;ae.innerHTML="<object height='20' width='20' type='application/x-shockwave-flash' id='"+aj+"' data='"+ag+"'><param name='allowScriptAccess' value='always'></param><param name='wmode' value='transparent'><param name='movie' value='"+ag+"'></param><param name='flashvars' value='"+ai+"'></param><embed type='application/x-shockwave-flash' FlashVars='"+ai+"' allowScriptAccess='always' wmode='transparent' src='"+ag+"' height='1' width='1'></embed></object>"}return(ac={outgoing:function(ah,ai,ag){Y.postMessage(aa.channel,ah.toString());if(ag){ag()}},destroy:function(){try{Y.destroyChannel(aa.channel)}catch(ag){}Y=null;if(X){X.parentNode.removeChild(X);X=null}},onDOMReady:function(){ad=aa.remote;o.Fn.set("flash_"+aa.channel+"_init",function(){K(function(){ac.up.callback(true)})});o.Fn.set("flash_"+aa.channel+"_onMessage",af);aa.swf=B(aa.swf);var ah=z(aa.swf);var ag=function(){o.stack.FlashTransport[ah].init=true;Y=o.stack.FlashTransport[ah].swf;Y.createChannel(aa.channel,aa.secret,j(aa.remote),aa.isHost);if(aa.isHost){if(h&&aa.swfNoThrottle){T(aa.props,{position:"fixed",right:0,top:0,height:"20px",width:"20px"})}T(aa.props,{src:P(aa.remote,{xdm_e:j(p.href),xdm_c:aa.channel,xdm_p:6,xdm_s:aa.secret}),name:U+aa.channel+"_provider"});X=A(aa)}};if(o.stack.FlashTransport[ah]&&o.stack.FlashTransport[ah].init){ag()}else{if(!o.stack.FlashTransport[ah]){o.stack.FlashTransport[ah]={queue:[ag]};Z(ah)}else{o.stack.FlashTransport[ah].queue.push(ag)}}},init:function(){G(ac.onDOMReady,ac)}})};o.stack.PostMessageTransport=function(aa){var ac,ad,Y,Z;function X(ae){if(ae.origin){return j(ae.origin)}if(ae.uri){return j(ae.uri)}if(ae.domain){return p.protocol+"//"+ae.domain}throw"Unable to retrieve the origin of the event"}function ab(af){var ae=X(af);if(ae==Z&&af.data.substring(0,aa.channel.length+1)==aa.channel+" "){ac.up.incoming(af.data.substring(aa.channel.length+1),ae)}}return(ac={outgoing:function(af,ag,ae){Y.postMessage(aa.channel+" "+af,ag||Z);if(ae){ae()}},destroy:function(){x(N,"message",ab);if(ad){Y=null;ad.parentNode.removeChild(ad);ad=null}},onDOMReady:function(){Z=j(aa.remote);if(aa.isHost){var ae=function(af){if(af.data==aa.channel+"-ready"){Y=("postMessage" in ad.contentWindow)?ad.contentWindow:ad.contentWindow.document;x(N,"message",ae);v(N,"message",ab);K(function(){ac.up.callback(true)},0)}};v(N,"message",ae);T(aa.props,{src:P(aa.remote,{xdm_e:j(p.href),xdm_c:aa.channel,xdm_p:1}),name:U+aa.channel+"_provider"});ad=A(aa)}else{v(N,"message",ab);Y=("postMessage" in N.parent)?N.parent:N.parent.document;Y.postMessage(aa.channel+"-ready",Z);K(function(){ac.up.callback(true)},0)}},init:function(){G(ac.onDOMReady,ac)}})};o.stack.FrameElementTransport=function(Y){var Z,ab,aa,X;return(Z={outgoing:function(ad,ae,ac){aa.call(this,ad);if(ac){ac()}},destroy:function(){if(ab){ab.parentNode.removeChild(ab);ab=null}},onDOMReady:function(){X=j(Y.remote);if(Y.isHost){T(Y.props,{src:P(Y.remote,{xdm_e:j(p.href),xdm_c:Y.channel,xdm_p:5}),name:U+Y.channel+"_provider"});ab=A(Y);ab.fn=function(ac){delete ab.fn;aa=ac;K(function(){Z.up.callback(true)},0);return function(ad){Z.up.incoming(ad,X)}}}else{if(d.referrer&&j(d.referrer)!=S.xdm_e){N.top.location=S.xdm_e}aa=N.frameElement.fn(function(ac){Z.up.incoming(ac,X)});Z.up.callback(true)}},init:function(){G(Z.onDOMReady,Z)}})};o.stack.NameTransport=function(ab){var ac;var ae,ai,aa,ag,ah,Y,X;function af(al){var ak=ab.remoteHelper+(ae?"#_3":"#_2")+ab.channel;ai.contentWindow.sendMessage(al,ak)}function ad(){if(ae){if(++ag===2||!ae){ac.up.callback(true)}}else{af("ready");ac.up.callback(true)}}function aj(ak){ac.up.incoming(ak,Y)}function Z(){if(ah){K(function(){ah(true)},0)}}return(ac={outgoing:function(al,am,ak){ah=ak;af(al)},destroy:function(){ai.parentNode.removeChild(ai);ai=null;if(ae){aa.parentNode.removeChild(aa);aa=null}},onDOMReady:function(){ae=ab.isHost;ag=0;Y=j(ab.remote);ab.local=B(ab.local);if(ae){o.Fn.set(ab.channel,function(al){if(ae&&al==="ready"){o.Fn.set(ab.channel,aj);ad()}});X=P(ab.remote,{xdm_e:ab.local,xdm_c:ab.channel,xdm_p:2});T(ab.props,{src:X+"#"+ab.channel,name:U+ab.channel+"_provider"});aa=A(ab)}else{ab.remoteHelper=ab.remote;o.Fn.set(ab.channel,aj)}ai=A({props:{src:ab.local+"#_4"+ab.channel},onLoad:function ak(){var al=ai||this;x(al,"load",ak);o.Fn.set(ab.channel+"_load",Z);(function am(){if(typeof al.contentWindow.sendMessage=="function"){ad()}else{K(am,50)}}())}})},init:function(){G(ac.onDOMReady,ac)}})};o.stack.HashTransport=function(Z){var ac;var ah=this,af,aa,X,ad,am,ab,al;var ag,Y;function ak(ao){if(!al){return}var an=Z.remote+"#"+(am++)+"_"+ao;((af||!ag)?al.contentWindow:al).location=an}function ae(an){ad=an;ac.up.incoming(ad.substring(ad.indexOf("_")+1),Y)}function aj(){if(!ab){return}var an=ab.location.href,ap="",ao=an.indexOf("#");if(ao!=-1){ap=an.substring(ao)}if(ap&&ap!=ad){ae(ap)}}function ai(){aa=setInterval(aj,X)}return(ac={outgoing:function(an,ao){ak(an)},destroy:function(){N.clearInterval(aa);if(af||!ag){al.parentNode.removeChild(al)}al=null},onDOMReady:function(){af=Z.isHost;X=Z.interval;ad="#"+Z.channel;am=0;ag=Z.useParent;Y=j(Z.remote);if(af){Z.props={src:Z.remote,name:U+Z.channel+"_provider"};if(ag){Z.onLoad=function(){ab=N;ai();ac.up.callback(true)}}else{var ap=0,an=Z.delay/50;(function ao(){if(++ap>an){throw new Error("Unable to reference listenerwindow")}try{ab=al.contentWindow.frames[U+Z.channel+"_consumer"]}catch(aq){}if(ab){ai();ac.up.callback(true)}else{K(ao,50)}}())}al=A(Z)}else{ab=N;ai();if(ag){al=parent;ac.up.callback(true)}else{T(Z,{props:{src:Z.remote+"#"+Z.channel+new Date(),name:U+Z.channel+"_consumer"},onLoad:function(){ac.up.callback(true)}});al=A(Z)}}},init:function(){G(ac.onDOMReady,ac)}})};o.stack.ReliableBehavior=function(Y){var aa,ac;var ab=0,X=0,Z="";return(aa={incoming:function(af,ad){var ae=af.indexOf("_"),ag=af.substring(0,ae).split(",");af=af.substring(ae+1);if(ag[0]==ab){Z="";if(ac){ac(true)}}if(af.length>0){aa.down.outgoing(ag[1]+","+ab+"_"+Z,ad);if(X!=ag[1]){X=ag[1];aa.up.incoming(af,ad)}}},outgoing:function(af,ad,ae){Z=af;ac=ae;aa.down.outgoing(X+","+(++ab)+"_"+af,ad)}})};o.stack.QueueBehavior=function(Z){var ac,ad=[],ag=true,aa="",af,X=0,Y=false,ab=false;function ae(){if(Z.remove&&ad.length===0){w(ac);return}if(ag||ad.length===0||af){return}ag=true;var ah=ad.shift();ac.down.outgoing(ah.data,ah.origin,function(ai){ag=false;if(ah.callback){K(function(){ah.callback(ai)},0)}ae()})}return(ac={init:function(){if(t(Z)){Z={}}if(Z.maxLength){X=Z.maxLength;ab=true}if(Z.lazy){Y=true}else{ac.down.init()}},callback:function(ai){ag=false;var ah=ac.up;ae();ah.callback(ai)},incoming:function(ak,ai){if(ab){var aj=ak.indexOf("_"),ah=parseInt(ak.substring(0,aj),10);aa+=ak.substring(aj+1);if(ah===0){if(Z.encode){aa=k(aa)}ac.up.incoming(aa,ai);aa=""}}else{ac.up.incoming(ak,ai)}},outgoing:function(al,ai,ak){if(Z.encode){al=H(al)}var ah=[],aj;if(ab){while(al.length!==0){aj=al.substring(0,X);al=al.substring(aj.length);ah.push(aj)}while((aj=ah.shift())){ad.push({data:ah.length+"_"+aj,origin:ai,callback:ah.length===0?ak:null})}}else{ad.push({data:al,origin:ai,callback:ak})}if(Y){ac.down.init()}else{ae()}},destroy:function(){af=true;ac.down.destroy()}})};o.stack.VerifyBehavior=function(ab){var ac,aa,Y,Z=false;function X(){aa=Math.random().toString(16).substring(2);ac.down.outgoing(aa)}return(ac={incoming:function(af,ad){var ae=af.indexOf("_");if(ae===-1){if(af===aa){ac.up.callback(true)}else{if(!Y){Y=af;if(!ab.initiate){X()}ac.down.outgoing(af)}}}else{if(af.substring(0,ae)===Y){ac.up.incoming(af.substring(ae+1),ad)}}},outgoing:function(af,ad,ae){ac.down.outgoing(aa+"_"+af,ad,ae)},callback:function(ad){if(ab.initiate){X()}}})};o.stack.RpcBehavior=function(ad,Y){var aa,af=Y.serializer||O();var ae=0,ac={};function X(ag){ag.jsonrpc="2.0";aa.down.outgoing(af.stringify(ag))}function ab(ag,ai){var ah=Array.prototype.slice;return function(){var aj=arguments.length,al,ak={method:ai};if(aj>0&&typeof arguments[aj-1]==="function"){if(aj>1&&typeof arguments[aj-2]==="function"){al={success:arguments[aj-2],error:arguments[aj-1]};ak.params=ah.call(arguments,0,aj-2)}else{al={success:arguments[aj-1]};ak.params=ah.call(arguments,0,aj-1)}ac[""+(++ae)]=al;ak.id=ae}else{ak.params=ah.call(arguments,0)}if(ag.namedParams&&ak.params.length===1){ak.params=ak.params[0]}X(ak)}}function Z(an,am,ai,al){if(!ai){if(am){X({id:am,error:{code:-32601,message:"Procedure not found."}})}return}var ak,ah;if(am){ak=function(ao){ak=q;X({id:am,result:ao})};ah=function(ao,ap){ah=q;var aq={id:am,error:{code:-32099,message:ao}};if(ap){aq.error.data=ap}X(aq)}}else{ak=ah=q}if(!r(al)){al=[al]}try{var ag=ai.method.apply(ai.scope,al.concat([ak,ah]));if(!t(ag)){ak(ag)}}catch(aj){ah(aj.message)}}return(aa={incoming:function(ah,ag){var ai=af.parse(ah);if(ai.method){if(Y.handle){Y.handle(ai,X)}else{Z(ai.method,ai.id,Y.local[ai.method],ai.params)}}else{var aj=ac[ai.id];if(ai.error){if(aj.error){aj.error(ai.error)}}else{if(aj.success){aj.success(ai.result)}}delete ac[ai.id]}},init:function(){if(Y.remote){for(var ag in Y.remote){if(Y.remote.hasOwnProperty(ag)){ad[ag]=ab(Y.remote[ag],ag)}}}aa.down.init()},destroy:function(){for(var ag in Y.remote){if(Y.remote.hasOwnProperty(ag)&&ad.hasOwnProperty(ag)){delete ad[ag]}}aa.down.destroy()}})};b.easyXDM=o})(window,document,location,window.setTimeout,decodeURIComponent,encodeURIComponent);
+
+/*!
+ * F2 License Goes Here
+ */
+if (!window.F2) {
+	/**
+	 * Open F2
+	 * @namespace
+	 */
+	F2 = {
+		/** 
+		 * Generates a somewhat random id
+		 */
+		guid:function() {
+			var S4 = function() {
+				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+			};
+			return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		},
+		/**
+		 * Wrapper logging function.
+		 */
+		log:function(args) {
+			if (window.console && window.console.log) {
+				console.log(args);
+			}
+		},
+		/**
+		 * Search for a value within an array.
+		 * @param {object} The value to search for
+		 * @param {Array} The array to search
+		 */
+		inArray:function(value, array) {
+			return $.inArray(value, array) > -1;
+		},
+
+		/**
+		 * Creates a namespace on F2 and copies the contents of an object into
+		 * that namespace optionally overwriting existing properties.
+		 * @param {string} ns The namespace to create. Pass a falsy value to 
+		 * add properties to the F2 namespace directly.
+		 * @param {object} obj The object to copy into the namespace.
+		 * @param {bool} overwrite True if object properties should be overwritten
+		 * @returns {object} The created object
+		 */
+		extend:function (ns, obj, overwrite) {
+			var parts = ns ? ns.split('.') : [];
+			var parent = window.F2;
+			obj = obj || {};
+			
+			// ignore leading global
+			if (parts[0] === "F2") {
+				parts = parts.slice(1);
+			}
+			
+			// create namespaces
+			for (var i = 0; i < parts.length; i++) {
+				if (typeof parent[parts[i]] === "undefined") {
+					parent[parts[i]] = {};
+				}
+				parent = parent[parts[i]];
+			}
+			
+			// copy object into namespace
+			for (var prop in obj) {
+				if (typeof parent[prop] === "undefined" || overwrite) {
+					parent[prop] = obj[prop];
+				} 
+			}
+
+			return parent;
+		},
+
+		/**
+		 * Wrapper to convert a JSON string to an object
+		 * @param {string} str The JSON string to convert
+		 * @returns {object} The parsed object
+		 */
+		parse:function(str) {
+			return JSON.parse(str);
+		},
+		/**
+		 * Wrapper to convert an object to JSON
+		 * @param {object} obj The object to convert
+		 * @returns {string} The JSON string
+		 */
+		stringify:function(obj) {
+			return JSON.stringify(obj);
+		}
+	};
+}
+F2.extend("Constants",
+	/**
+	 * Constants used throughout the Open Financial Framework
+	 * @name F2.Constants
+	 * @namespace
+	 */
+	{
+		/**
+		 * CSS class constants
+		 * @memberOf F2.Constants
+		 * @namespace
+		 */
+		Css:(function() {
+
+			/** @private */
+			var _PREFIX = "f2-";
+
+			/** @scope F2.Constants.Css */
+			return {
+				/**
+				 * The APP class should be applied to the DOM Element that surrounds the entire App,
+				 * including any extra html that surrounds the APP_CONTAINER that is inserted 
+				 * by the Container. See appWrapper property in the {@link F2.ContainerConfiguration}
+				 * object.
+				 */
+				APP:_PREFIX + "app",
+				/**
+				 * The APP_CONTAINER class should be applied to the outermost DOM Element
+				 * of the App.
+				 */
+				APP_CONTAINER:_PREFIX + "app-container",
+				/**
+				 * The APP_REMOVE_BUTTON class should be applied to the DOM Element that
+				 * will remove an App.
+				 */
+				APP_REMOVE_BUTTON:_PREFIX + "btn-remove",
+				/**
+				 * The APP_VIEW class should be applied to the DOM Element that contains
+				 * a view for an App. The DOM Element should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE}
+				 * attribute that specifies which {@link F2.Constants.Views} it is. 
+				 */
+				APP_VIEW: "app-view",
+				/**
+				 * APP_VIEW_TRIGGER class shuld be applied to the DOM Elements that
+				 * trigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element
+				 * should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE} attribute that
+				 * specifies which {@link F2.Constants.Views} it will trigger.
+				 */
+				APP_VIEW_TRIGGER: "app-view-trigger"
+			};
+		})(),
+		
+		/**
+		 * Events constants
+		 * @memberOf F2.Constants
+		 * @namespace
+		 */
+		Events:(function() {
+			/** @private */
+			var _APP_EVENT_PREFIX = "App.";
+			/** @private */
+			var _CONTAINER_EVENT_PREFIX = "Container.";
+
+			/** @scope F2.Constants.Events */
+			return {
+				/**
+				 * The APPLICATION_LOAD event is fired once an App's Styles, Scripts, Inline 
+				 * Scripts, and HTML have been inserted into the DOM. The App's instanceId should
+				 * be concatenated to this constant.
+				 * @example
+				 * F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {
+				 *   var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);
+				 *   HelloWorldApp.init();
+				 * });
+				 * @returns {F2.App} The App object
+				 * @returns {F2.AppAssets} The App's html/css/js to be loaded into the page.
+				 */
+				APPLICATION_LOAD:"appLoad.",
+				/**
+				 * The APP_HEIGHT_CHANGE event should be fired by an App when the height of the
+				 * App is changed. 
+				 * @returns {object} An object with the App's instanceId and height.
+				 * <code>{ instanceId:"73603967-5f59-9fba-b611-e311d9fc7ee4", height:200 }</code>
+				 */
+				APP_HEIGHT_CHANGE:_APP_EVENT_PREFIX + "heightChange",
+				/**
+				 * The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an App. It 
+				 * is up to the App developer to fire this event.
+				 * @returns {object} An object with the symbol and the company name. 
+				 * <code>{ symbol: "MSFT", name: "Microsoft Corp (NAZDAQ)" }</code>
+				 */
+				APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + "symbolChange",
+				/**
+				 * The APP_VIEW_CHANGE event will be fired by the Container when a user clicks
+				 * to switch the view for an App. The App's instanceId should be concatenated
+				 * to this constant.
+				 * @returns {string} The current view
+				 */
+				APP_VIEW_CHANGE:_APP_EVENT_PREFIX + "viewChange.",
+				/**
+				 * The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed at the Container
+				 * level. This event should only be fired by the Container or Container Provider.
+				 * @returns {object} An object with the symbol and the company name.
+				 * <code>{ symbol: "MSFT", name: "Microsoft Corp (NAZDAQ)" }</code>
+				 */
+				CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + "symbolChange",
+				/**
+				 * The SOCKET_LOAD event is fired when an iframe socket initially loads. It is only
+				 * used with easyXDM and not with EventEmitter2
+				 * @returns {string} A JSON string that represents an {@link F2.App}
+				 * object and an {@link F2.AppAssets} object
+				 */
+				SOCKET_LOAD:"__socketLoad__"
+			};
+		})(),
+
+		/**
+		 * The available view types to Apps. The view should be specified by applying
+		 * the {@link F2.Constants.Css.APP_VIEW} class to thecontaining DOM Element. A 
+		 * DATA_ATTRIBUTE attribute should be added to the Element as well which defines
+		 * what view type is represented.
+		 * @memberOf F2.Constants
+		 * @namespace
+		 */
+		Views:{
+			/**
+			 * @memberOf F2.Constants.Views
+			 */
+			DATA_ATTRIBUTE:"data-f2-view",
+			/**
+			 * The ABOUT view gives details about the App.
+			 * @memberOf F2.Constants.Views
+			 */
+			ABOUT:"about",
+			/**
+			 * The HELP view provides users with help information for using an App.
+			 * @memberOf F2.Constants.Views
+			 */
+			HELP:"help",
+			/**
+			 * The HOME view is the main view for an App. This view should always
+			 * be provided by an App.
+			 * @memberOf F2.Constants.Views
+			 */
+			HOME:"home",
+			/**
+			 * The REMOVE view is a special view that handles the removal of an App
+			 * from the Container.
+			 * @memberOf F2.Constants.Views
+			 */
+			REMOVE:"remove",
+			/**
+			 * The SETTINGS view provides users the ability to modify advanced settings
+			 * for an App.
+			 * @memberOf F2.Constants.Views
+			 */
+			SETTINGS:"settings"
+		}
+	}
+);
+/**
+ * Core Container functionality
+ */
+F2.extend("",
+	(function(){
+
+		var _apps = {};
+		var _config = {};
+		var _hasSocketConnections = false;
+		var _isInit = false;
+		var _sockets = [];
+
+		// init EventEmitter
+		var _events = new EventEmitter2({
+			wildcard:true
+		});
+
+		// unlimited listeners, set to > 0 for debugging
+		_events.setMaxListeners(0);
+
+		// handle APP_HEIGHT_CHANGE event
+		_events.on(F2.Constants.Events.APP_HEIGHT_CHANGE, function(obj) {
+			$("#" + obj.instanceId).find("iframe").height(obj.height);
+		});
+
+		/**
+		 * Override the emit function so that events can be privateassed down into iframes
+		 * @private
+		 * @ignore
+		 */
+		_events.emit = function() {
+			if (_hasSocketConnections) {
+				for (var i = 0, len = _sockets.length; i < len; i++) {
+					_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
+				}
+			}
+			//F2.log([_hasSocketConnections, location.href, arguments]);
+			EventEmitter2.prototype.emit.apply(this, arguments);
+		};
+
+		/**
+		 * Attach App events
+		 * @private
+		 */
+		var _attachAppEvents = function (app) {
+
+			var appContainer = $("#" + app.instanceId);
+
+			// these events should only be attached outside of the secure app
+			if (!_config.isSecureAppPage) {
+
+				// it is assumed that all containers will at least have F2.Constants.Views.HOME
+				if (_config.supportedViews.length > 1) {
+					$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
+
+						var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
+
+						// handle the special REMOVE view
+						if (view == F2.Constants.Views.REMOVE) {
+							F2.removeApp(app.instanceId);
+
+						// make sure the app supports this type of view
+						} else if (F2.inArray(view, app.views)) {
+							F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
+						}
+					});
+				}
+			}
+		};
+
+		/**
+		 * Creates a socket connection from the App to the Container
+		 * @private
+		 * @see The <a href="http://easyxdm.net" target="_blank">easyXDM</a> project.
+		 */
+		var _createAppToContainerSocket = function() {
+
+			var socketLoad = new RegExp("^" + F2.Constants.Events.SOCKET_LOAD);
+			var isLoaded = false;
+			var socket = new easyXDM.Socket({
+				onMessage: function(message, origin){
+
+					if (!isLoaded && socketLoad.test(message)) {
+						message = message.replace(socketLoad, "");
+						var appParts = JSON.parse(message);
+
+						// make sure we have the App and AppAssets
+						if (appParts.length == 2) {
+							var app = appParts[0];
+							var appAssets = appParts[1];
+
+							// save app and appAssets
+							_apps[app.instanceId] = {
+								app:app
+							};
+
+							F2.loadApp(app, appAssets);
+							isLoaded = true;
+						}
+					} else {
+						var eventArgs = JSON.parse(message);
+						//F2.log(eventArgs);
+						// do not call F2.Events.emit here, otherwise a circular message will occur
+						EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+					}
+				}
+			});
+
+			if (socket != null) {
+				_sockets.push(socket);
+				_hasSocketConnections = true;
+			}
+		};
+
+		/**
+		 * Creates a socket connection from the Container to the App using easyXDM
+		 * @private
+		 * @see The <a href="http://easyxdm.net" target="_blank">easyXDM</a> project.
+		 * @param {F2.App} app The App object
+		 * @param {F2.AppAssets} app The AppAssets object
+		 */
+		var _createContainerToAppSocket = function(app, appAssets) {
+
+			var container = $("#" + app.instanceId).find("." + F2.Constants.Css.APP_CONTAINER);
+
+			if (!container.length) {
+				F2.log("Unable to locate app in order to establish secure connection.");
+				return;
+			}
+
+			var socket = new easyXDM.Socket({
+				remote: _config.secureAppPagePath,
+				container: container.get(0),
+				props:{ scrolling: "no" },
+				onMessage: function(message, origin) {
+					var eventArgs = JSON.parse(message);
+					// do not call F2.Events.emit here, otherwise a circular message will occur
+					EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+				},
+				onReady: function() {
+					socket.postMessage(F2.Constants.Events.SOCKET_LOAD + F2.stringify([app, appAssets]));
+				}
+			});
+
+			if (socket != null) {
+				_sockets.push(socket);
+				_hasSocketConnections = true;
+			}
+
+			return socket;
+		};
+
+		/**
+		 * Function to render the html for an App.
+		 * @private
+		 */
+		var _getAppHtml = function(app, html) {
+
+			function outerHtml(html) {
+				return $("<div></div>").append(html).html();
+			}
+
+			// apply APP_CONTAINER class
+			html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER));
+
+			// optionally apply wrapper html
+			if (_config.appWrapper) {
+				html = _config.appWrapper(app, html);
+			}
+
+			// apply APP class and instanceId
+			return outerHtml($(html).addClass(F2.Constants.Css.APP).attr("id", app.instanceId));
+		};
+
+		/** @private */
+		var _initError = function() {
+			F2.log("\"F2.init\" must be called first");
+		};
+
+		/**
+		 * Appends the App's html to the DOM
+		 * @private
+		 */
+		var _writeAppHtml = function(app, html) {
+			var handler = _config.appWriter || function(app, html) {
+				$("body").append(html);
+			};
+			handler(app, html);
+		};
+
+		/** @lends F2 */
+		return {
+			/**
+			 * The App object represents an App's meta data
+			 * @class App
+			 * @property {string} appId The unique ID of the App
+			 * @property {string} description The description of the App
+			 * @property {string} developerCompany The company of the developer
+			 * @property {string} developerName The name of the developer
+			 * @property {string} developerUrl The url of the developer
+			 * @property {int} height The height of the App. The initial height will be pulled from
+			 * the {@link F2.App} object, but later modified by firing an 
+			 * {@link F2.Constants.Events.APP_HEIGHT_CHANGE} event.
+			 * @property {string} instanceId The unique runtime ID of the App
+			 * @property {bool} isSecure True if the App will be loaded in an iframe. This property
+			 * will be true if the {@link F2.App} object sets isSecure = true. It will 
+			 * also be true if the Container has decided to run Apps in iframes.
+			 * @property {string} name The name of the App
+			 * @property {string} url The url of the App
+			 * @property {Array} views The views that this App supports. Available views
+			 * are defined in {@link F2.Constants.Views}. The presence of a view can be checked
+			 * via {@link F2.inArray}:
+			 * 
+			 * <code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)</code>
+			 *
+			 * The {@link F2.Constants.Views}.HOME view should always be present.
+			 */
+			App:function(){},
+			/**
+			 * The assets needed to render an App on the page
+			 * @class AppAssets
+			 * @property {Array} Scripts Urls to javascript files required by the App
+			 * @property {Array} Styles Urls to CSS files required by the App
+			 * @property {Array} InlineScripts Any inline javascript tha should initially be run
+			 * @property {string} Html The html of the App
+			 */
+			AppAssets:function(){},
+			/**
+			 * An object containing configuration information for the Container
+			 * @class ContainerConfiguration
+			 * @property {function} appWrapper Allows the Container to wrap an App in extra html. The
+			 * function should accept an {@link F2.App} object and also a string of html.
+			 * The extra html can provide links to edit app settings and remove an app from the
+			 * Container. See {@link F2.Constants.Css} for CSS classes that should be applied to elements.
+			 * @property {function} appWriter Allows the Container to override how an App's html is 
+			 * inserted into the page. The function should accept an {@link F2.App} object
+			 * and also a string of html
+			 * @property {string} instanceId The unique DOM id of the App. This property is set at runtime
+			 * by the Container
+			 * @property {bool} isSecureAppPage Tells the Container that it is currently running within
+			 * a secure app page
+			 * @property {string} secureAppPagePath Allows the Container to specify which page is used when
+			 * loading a secure app. The page must reside on a different domain than the Container
+			 * @property {Array} supportedViews Specifies what views a Container will provide buttons
+			 * or liks to. Generally, the views will be switched via buttons or links in the App's
+			 * header. The {@link F2.Constants.Views}.HOME view should always be present.
+			 */
+			ContainerConfiguration:function() {},
+			/**
+			 * Description of Events goes here
+			 * @see The <a href="https://github.com/hij1nx/EventEmitter2" target="_blank">EventEmitter2</a> project.
+			 */
+			Events:_events,
+			/**
+			 * Initializes the Container. This method must be called before performing any other
+			 * actions in the Container.
+			 * @param {F2.ContainerConfiguration} config The configuration object
+			 */
+			init:function(config) {
+				_config = config;
+
+				if (_config.isSecureAppPage) {
+					_createAppToContainerSocket();
+				}
+
+				_isInit = true;
+			},
+			/**
+			 * Loads the App's html/css/javascript
+			 * @param {F2.App} app The App's context object.
+			 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the page.
+			 */
+			loadApp:function(app, appAssets) {
+
+				if (!app.instanceId || !_apps[app.instanceId]) {
+					F2.log("\"F2.registerApp\" must be called before \"F2.loadApp\"");
+					return;
+				}
+
+				var scripts = appAssets.Scripts || [];
+				var styles = appAssets.Styles || [];
+				var inlines = appAssets.InlineScripts || [];
+				var scriptCount = scripts.length;
+				var scriptsLoaded = 0;
+				var loadEvent = function() {
+					_events.emit(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, app, appAssets);
+				};
+
+				// load styles
+				var stylesFragment = [];
+				$.each(styles, function(i, e) {
+					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
+				});
+				$("head").append(stylesFragment.join(''));
+
+				// load scripts and eval inlines once complete
+				$.each(scripts, function(i, e) {
+					$.getScript(e)
+						.done(function() {
+							if (++scriptsLoaded == scriptCount) {
+								$.each(inlines, function(i, e) {
+									//TODO: Remove this temporary work-around for working with the WidgetApi
+									//remove outer function call b/c it overwrites itself
+									e = e.replace('window["__modWidgetInit__"] = function() {','');
+									//remove final "}" in string
+									e = e.slice(0, -1);
+
+									try {
+										eval(e);
+									} catch (exception) {
+										F2.log("Error loading inline script (" + e + ")");
+									}
+								});
+								// fire the load event to tell the App it can proceed
+								loadEvent();
+							}
+						})
+						.fail(function(jqxhr, settings, exception) {
+							F2.log(["Failed to load script (" + e +")", exception.toString()]);
+						});
+				});
+
+				//TODO: Remove the Widgets[0].Html as its a work-around for working with the WidgetApi
+				// load html
+				_writeAppHtml(app, _getAppHtml(app, appAssets.Widgets[0].Html));
+
+				// init events
+				_attachAppEvents(app);
+
+				// if no scripts were to be processed, fire the appLoad event
+				if (!scriptCount) {
+					loadEvent();
+				}
+			},
+			/**
+			 * Loads the App's html/css/javascript into an iframe
+			 * @param {F2.App} app The App's context object.
+			 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the page.
+			 */
+			loadSecureApp:function(app, appAssets) {
+
+				// make sure the Container is configured for secure apps
+				if (_config.secureAppPagePath) {
+					// create the html container for the iframe
+					_writeAppHtml(app, _getAppHtml(app, "<div></div>"));
+					// init events
+					_attachAppEvents(app);
+					// setup the iframe/socket connection
+					_apps[app.instanceId].socket = _createContainerToAppSocket(app, appAssets);
+				} else {
+					F2.log("Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.");
+				}
+			},
+			/**
+			 * Loads the App's jsonp data to begin the App loading process. The App will
+			 * be passed the {@link F2.App} object which will contain the App's unique
+			 * instanceId within the Container.
+			 * @param {F2.App} app The App's meta data object containing
+			 * the url to be loaded.
+			 * @param {F2.AppAssets} appAssets Optionally, the AppAssets object. This can 
+			 * be useful if Apps are loaded on the server-side and passed down to the
+			 * client.
+			 */
+			registerApp:function(app, appAssets) {
+
+					// check for valid App configurations
+				if (!app) {
+					F2.log("\"app\" is a required parameter");
+					return;
+				} else if (!app.appId) {
+					F2.log("\"appId\" missing from App object");
+					return;
+				} else if (!app.url) {
+					F2.log("\"url\" missing from App object");
+					return;
+				} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
+					F2.log("\"views\" not defined or missing \"F2.Constants.Views.HOME\" view.");
+					return;
+				}
+
+				// create the instanceId for the App
+				app.instanceId = F2.guid();
+
+				// save app and appAssets
+				_apps[app.instanceId] = {
+					app:app
+				};
+
+				// function to toggle loading secure/unsecure app
+				var _loadApp = function(appAssets) {
+					if (app.isSecure) {
+						F2.loadSecureApp(app, appAssets);
+					} else {
+						F2.loadApp(app, appAssets);	
+					}
+				};
+
+				// fetch the app assets if they weren't already available
+				if (appAssets) {
+					_loadApp(appAssets);
+				} else {
+					$.ajax({
+						url:app.url,
+						data:{ app:F2.stringify(app) },
+						dataType:"jsonp",
+						success:_loadApp
+					});
+				}
+			},
+			/**
+			 * Removes an App from the Container
+			 * @param {string} instanceId The App's instanceId
+			 */
+			removeApp:function(instanceId) {
+				if (_apps[instanceId]) {
+					delete _apps[instanceId];
+					$("#" + instanceId).fadeOut(function() {
+						$(this).remove();
+					});
+				}
+			}
+		};
+	})()
+);
