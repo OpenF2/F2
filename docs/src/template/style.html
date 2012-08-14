@@ -1,0 +1,160 @@
+
+<style type="text/css" media="all">
+	* {
+	    font-family: helvetica;
+	    color: #333;
+	}
+
+	html {
+		padding: 0;
+	}
+
+	p {
+		margin: 15px 10px;
+	}
+
+	p, li {
+		font-size: 14px;
+		line-height: 22px;
+	}
+
+	a {
+		color: #3A77BF;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	section {
+		margin-top: 30px;
+	}
+
+	h2 { 
+		border-bottom: 1px solid #ccc;
+		padding-bottom: 6px;
+		font-size: 20px;
+	}
+
+	h3 {
+		font-size: 17px;
+	}
+
+	pre.sourceCode { 
+		margin: 20px 40px;
+	    line-height: 16px;
+	    
+	    /* cant figure out why i need this */
+	    text-indent: -2px;
+	}
+
+	.mac pre.sourceCode {
+		line-height: 18px;
+	}
+
+	pre.sourceCode *, code {
+		font-weight: normal !important;
+		font-family: consolas, lucida console, courier;
+		font-size: 13px;
+	}
+
+	.mac pre.sourceCode *, .mac code {
+		font-family: monaco, courier;
+		font-size: 12px;
+	}
+
+	code {
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		background: #f8f8f8;
+	}
+
+	pre.sourceCode code {
+		border: none;
+		background: none;
+	}
+
+	code {
+		/*background: #f8f8f8;*/
+		padding: 2px;
+	}
+
+	a code {
+		background: #F3F9FE;
+		color: #3A77BF;
+	}
+
+	/* table of contents */
+
+	#toc {
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 225px;
+		border-right: 1px solid #ccc;
+		margin-top: 0;
+		background: #f8f8f8;
+		
+		box-shadow: 0px 0px 8px #ccc;
+		padding-bottom: 30px;
+	}
+
+	#toc div {
+		overflow-y: auto;
+		overflow-x: hidden;
+		height: 95%;
+		padding: 10px 10px 20px 15px;
+	}
+
+	#toc h1 a {
+		text-decoration: none;
+		color: #333;
+	}
+
+	#toc h2 {
+		border-bottom: 1px solid #ccc;
+		font-size: 14px;
+		margin: 20px 0 0 0;
+	}
+
+	#toc ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	#toc ul li {
+		margin-left: 10px;
+		margin-top: 5px;
+	}
+
+	#toc ul li a {
+		color: #333;
+		text-decoration: none;
+	}
+
+	#toc ul li.selected > a {
+		font-weight: bold;
+	}
+
+	#toc ul.sub-menu li {
+		line-height: 14px;
+	}
+
+	#toc ul.sub-menu li a {
+		font-size: 12px;
+	}
+
+	#docs {
+		margin-left: 250px;
+		max-width: 700px;
+	}
+</style>
+
+<style type="text/css" media="print">
+	#toc {
+		display: none;
+	}
+	#docs {
+		margin-left: 0;
+	}
+</style>
