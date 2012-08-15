@@ -1,5 +1,3 @@
-# Developing an App Using the Open Financial Framework
-
 ## Overview
 
 An App is a web page or microsite, written by an App developer that includes its own (entitled) data. Further, an App can be purchased (or entitled) from the App Store, and is displayed on the desktop or “Container”. The App developer is the person or company that designs, develops, and hosts the app.
@@ -11,7 +9,7 @@ Simplistically, an App is one of two things:
 
 ## Relationship Between Container and App
 
-Refer to “Together At Last: Containers and Apps”.
+Refer to [Together At Last: Containers and Apps](creating-F2.html).
 
 ## Development Requirements 
 
@@ -23,7 +21,7 @@ Each App must have a digital signature or unique identifier in the format of a G
 
 Beyond a unique ID, Apps have other characteristics that define them within the Framework. The following are required attributes App developers must include in their Apps. The following data points should be represented within the presentation or data App:
 
-```javascript
+```metafont
 AppID – long (guid)
 Name - string
 Title - string
@@ -62,3 +60,162 @@ Container.loadApp({
 	DeveloperCompanyName: “Acme, Inc”
 });
 ```
+
+## Context
+
+Each Container Provider shall be responsible for hosting the Container JavaScript API. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.
+
+While Apps can have Context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals and likewise Apps can listen for events sent by the Container. 
+
+This is a sample of a Container sending Context to Apps. Firstly, the Container fires a “ContextUpdate” event.
+
+```javascript
+Container.on(“ContextUpdate”, { Symbol: “MSFT” }, function(ev,callback){
+	console.log(“Context updated!”);
+});
+```
+
+Apps are responsible for listening to the broadcasted “ContextUpdate” event. App developers can bind custom event handlers based on the emitted event. Using jQuery, a sample to refresh an app with a new symbol:
+
+```javascript
+$(“.myApp”).bind(“ContextUpdate”, function(ev,data){
+	myApp.refresh(data.Symbol);
+});
+````
+
+Likewise, Apps can send Context to the Container.
+
+```javascript
+App.on(“ContextUpdateToContainer”, { FullScreen: true }, function(ev, callback){
+	console.log(“Context sent to Container!”);
+});
+```
+
+The Container can then listen for App-emitted events.
+
+```javascript
+$(“#Container”).bind(“ContextUpdateToContainer”, function(ev,data){
+	Container.showFullScreen();
+});
+```
+
+Apps can also pass Context between Apps. If there are two or more Apps on a Container with similar Context and the ability to receive messages (yes, this is opt-out), Apps can communicate with each other.
+
+For example, on your Container you have “App 1” which is a watch list app alongside “App 2” which is a snap quote app. Embedded within the Content in App 2 could be a button labeled “send to watch list”. Pressing that button would transmit the symbol of the stock currently being viewed in App 1 across to App 2 to be added to the watch list. Achieving that looks programmatically like this:
+
+First, find the App you want to find the apps to which to send the Context to:
+
+```javascript
+var $apps = Container.getApps(bool canAcceptContext(true));
+```
+
+Secondly, emit an event from App 1:
+
+```javascript
+$apps.find(“App1”).on(
+	“ContextToApp”, 
+	{ Symbol”: “MSFT”, Action”: “ADD” }, 
+	function(ev,data){
+		myApp.refresh(data);
+		}	
+	);
+```
+
+And finally listen for that event within App 2:
+
+```javascript
+$apps.find(“App2”).bind(“ContextToApp”, function(ev,data){
+	console.log(“Context received in App2!”);
+});
+```
+
+## App Formats
+
+Below is a sample request for an App named "Sample" in JSON format.
+
+```metafont
+http://www.domain.com/App/Factory/json?params=[{Id:"App1",Width:200,Name:"Value"}]
+```
+
+The "/json" format specifier in the above request could be safely omitted, as JSON is the default format. The widgets can be returned in a variety of formats as shown in the table below. Inclusion of a widget into an existing site varies based on the format requested.
+
+The following output formats are required of any App:
+
+-------------------------------------------------------------
+Name 	Description
+----	-----------
+iframe  An inline JavaScript tag is inserted into the site. When the script is executed, an Iframe is written out to the page. The Iframe output format can be used for complex widgets or widgets that need to be self-contained.
+
+json 	A JSON object containing the javascript, css, and widgets is inserted into the site via javascript already on the site.
+
+jsonp 	Same as JSON but output is wrapped in a Callback function. Used for cross-domain communication and callbacks.
+
+script 	An inline JavaScript tag tag is inserted into the site. Wen the script is executed, the javascript, css, and html for the widgets is written out to the page.
+-------------------------------------------------------------
+
+The JSON response format does not include type information. A description of the JSON format can be found at http://json.org. It will not be described in this Spec. A sample JSON response is shown below:
+
+```javascript
+{
+	"InlineScripts" : [],	 
+	"Scripts" : [],	 
+	"Styles" : [],	 
+	"Apps" : [
+		{
+			"Html" : "\u003cdiv\u003eHello World!\u003c/div\u003e",
+			"Data" : 
+				{
+					"Symbol" : "AAPL"
+				},				
+			"Id" : "Sample",				
+			"Status" : "SUCCESS"
+		}]
+}
+```
+
+The JSONP response format is similar, with the addition of a callback method name.
+
+```javascript
+mySampleCallbackName({
+	"InlineScripts" : [],	 
+	"Scripts" : [],	 
+	"Styles" : [],	 
+	"Apps" : [
+		{
+			"Html" : "\u003cdiv\u003eHello World!\u003c/div\u003e",
+			"Data" : 
+				{
+					"Symbol" : "MSFT"
+				},				
+			"Id" : "Sample",				
+			"Status" : "SUCCESS"
+		}]
+})
+```
+
+## Hosting an App
+
+Since the Framework is web-based and it is a primary requirement of this Framework to simultaneously support multiple Apps from different providers, the following are truths:
+
+* Anyone can technically host a Container provided they are willing to develop the infrastructure capable of supporting an app ecosystem which includes authentication, entitlements, the app store, cross-container communication (targeting version 1.3 spec), etc. See How to Develop a Container for details.
+* Similarly, anyone can host an App. By definition, an App is simply a web page or web site which has a Container-accessible domain name.
+
+The App Developer or App Provider needs to host their App on a publicly accessible Internet domain. The App should follow the "REST" model for web services. In simple terms, REST is a formal description of the HTTP protocol. Accessing a "REST" App is merely a matter of making a standard HTTP request to a defined resource.
+
+An App can be accessed by an HTTP GET or HTTP POST request. Each request consists of a URI, and a URL encoded list of parameters in JSON. The URI consists of a hostname and base path, a method name, and an optional format specifier. The parameters are appended to the URI on the querystring.
+
+## App Content
+
+App Providers can determine which content they wish to make available within their App. It is recommended that content is focused on financial information; however, there is no limitation as such. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.
+
+If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.
+
+## Single Sign-On
+
+Providers participating in the Markit App Framework must modify their web sites' authentication mechanism to accept a customer’s authentication from a Container Provider without requiring the user to retype their Username and Password. With an authentication methodology in place between the Container Provider and App Provider, when a customer authenticates to a Provider’s App, the authentication credentials are passed to the Container Provider.  The authentication methodology is also suitable for the reverse, for authenticating a customer requesting content from an App Provider after selecting content from the App within the Container. Authentication information will be passed between App Providers and Container Providers in the form of encrypted URLs.
+
+## Entitlements
+
+User Entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This would include apps like research aggregation, news filtering, streaming market data, etc. In order to enable an App to retrieve data from multiple, entitled, content providers in real-time, there will need to be an explicit and trusted mechanism of passing entitlements information between the Store, the data vendors, and the app developers.
+
+Further details around entitlements will be forthcoming as this specification evolves.
