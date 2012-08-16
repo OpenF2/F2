@@ -1,15 +1,18 @@
-
 /*!
  * F2 License Goes Here
  */
 if (!window.F2) {
 	/**
 	 * Open F2
-	 * @namespace
+	 * @module f2
+	 * @main f2
 	 */
 	F2 = {
 		/** 
 		 * Generates a somewhat random id
+		 * @method guid
+		 * @return {string} A random id
+		 * @for F2
 		 */
 		guid:function() {
 			var S4 = function() {
@@ -19,6 +22,8 @@ if (!window.F2) {
 		},
 		/**
 		 * Wrapper logging function.
+		 * @method log
+		 * @param {Object} args The object to be logged to the console
 		 */
 		log:function(args) {
 			if (window.console && window.console.log) {
@@ -27,8 +32,9 @@ if (!window.F2) {
 		},
 		/**
 		 * Search for a value within an array.
-		 * @param {object} The value to search for
-		 * @param {Array} The array to search
+		 * @method inArray
+		 * @param {object} value The value to search for
+		 * @param {Array} array The array to search
 		 */
 		inArray:function(value, array) {
 			return $.inArray(value, array) > -1;
@@ -37,6 +43,7 @@ if (!window.F2) {
 		/**
 		 * Creates a namespace on F2 and copies the contents of an object into
 		 * that namespace optionally overwriting existing properties.
+		 * @method extend
 		 * @param {string} ns The namespace to create. Pass a falsy value to 
 		 * add properties to the F2 namespace directly.
 		 * @param {object} obj The object to copy into the namespace.
@@ -73,6 +80,7 @@ if (!window.F2) {
 
 		/**
 		 * Wrapper to convert a JSON string to an object
+		 * @method parse
 		 * @param {string} str The JSON string to convert
 		 * @returns {object} The parsed object
 		 */
@@ -81,6 +89,7 @@ if (!window.F2) {
 		},
 		/**
 		 * Wrapper to convert an object to JSON
+		 * @method stringify
 		 * @param {object} obj The object to convert
 		 * @returns {string} The JSON string
 		 */

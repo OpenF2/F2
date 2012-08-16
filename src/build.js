@@ -4,27 +4,43 @@ var EOL = '\n';
 var fs = require("fs");
 var jsp = require("uglify-js").parser;
 var pro = require("uglify-js").uglify;
+var Y = require("yuidocjs");
 
-var files = [
+// files to be packaged
+var packageFiles = [
 	"third-party/json3.js",
 	"third-party/eventemitter2.js",
 	"third-party/easyXDM/easyXDM.min.js",
+	"f2.js" // this file is created by the build process
+];
+
+// only the files that represent f2
+var coreFiles = [
 	"core/preamble.js",
+	"core/classes.js",
 	"core/constants.js",
 	"core/container.js"
 ];
 
 
-console.log("Compiling Debug Package...");
-var contents = files.map(function(f) {
+console.log("Building f2.js...");
+var contents = coreFiles.map(function(f) {
+	return fs.readFileSync(f, ENCODING);
+});
+fs.writeFileSync("f2.js", contents.join(EOL), ENCODING);
+console.log("COMPLETE");
+
+
+console.log("Building Debug Package...");
+var contents = packageFiles.map(function(f) {
 	return fs.readFileSync(f, ENCODING);
 });
 fs.writeFileSync("f2.debug.js", contents.join(EOL), ENCODING);
 console.log("COMPLETE");
 
 
-console.log("Compiling Minified Package...");
-var contents = files.map(function(f) {
+console.log("Building Minified Package...");
+var contents = packageFiles.map(function(f) {
 
 	var code = fs.readFileSync(f, ENCODING);
 	var comments = [];
@@ -48,4 +64,16 @@ var contents = files.map(function(f) {
 	return code;
 });
 fs.writeFileSync("f2.min.js", contents.join(EOL), ENCODING);
+console.log("COMPLETE");
+
+
+console.log("Generating YUIDoc...");
+var docOptions = {
+	quiet:true,
+	paths:["./core"],
+	outdir:"./doc"
+};
+var json = (new Y.YUIDoc(docOptions)).run();
+docOptions = Y.Project.mix(json, docOptions);
+(new Y.DocBuilder(docOptions, json)).compile();
 console.log("COMPLETE");

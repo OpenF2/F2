@@ -1,0 +1,895 @@
+{
+    "project": {},
+    "files": {
+        "core\\classes.js": {
+            "name": "core\\classes.js",
+            "modules": {},
+            "classes": {
+                "F2.App": 1,
+                "F2.AppAssets": 1,
+                "F2.ContainerConfiguration": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "core\\constants.js": {
+            "name": "core\\constants.js",
+            "modules": {},
+            "classes": {
+                "F2.Constants": 1,
+                "F2.Constants.Css": 1,
+                "F2.Constants.Events": 1,
+                "F2.Constants.Views": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "core\\container.js": {
+            "name": "core\\container.js",
+            "modules": {},
+            "classes": {
+                "F2": 1,
+                "F2.Events": 1
+            },
+            "fors": {
+                "F2": 1
+            },
+            "namespaces": {}
+        },
+        "core\\preamble.js": {
+            "name": "core\\preamble.js",
+            "modules": {
+                "f2": 1
+            },
+            "classes": {},
+            "fors": {
+                "F2": 1
+            },
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "f2": {
+            "name": "f2",
+            "submodules": {},
+            "classes": {
+                "F2.App": 1,
+                "F2.AppAssets": 1,
+                "F2.ContainerConfiguration": 1,
+                "F2.Constants": 1,
+                "F2.Constants.Css": 1,
+                "F2.Constants.Events": 1,
+                "F2.Constants.Views": 1,
+                "F2": 1,
+                "F2.Events": 1
+            },
+            "fors": {
+                "F2": 1
+            },
+            "namespaces": {},
+            "tag": "main",
+            "file": "core\\container.js",
+            "line": 190,
+            "description": "Open F2",
+            "itemtype": "main"
+        }
+    },
+    "classes": {
+        "F2.App": {
+            "name": "F2.App",
+            "shortname": "F2.App",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "core\\classes.js",
+            "line": 6,
+            "description": "The App object represents an App's meta data"
+        },
+        "F2.AppAssets": {
+            "name": "F2.AppAssets",
+            "shortname": "F2.AppAssets",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "core\\classes.js",
+            "line": 95,
+            "description": "The assets needed to render an App on the page",
+            "itemtype": "property",
+            "type": "Array"
+        },
+        "F2.ContainerConfiguration": {
+            "name": "F2.ContainerConfiguration",
+            "shortname": "F2.ContainerConfiguration",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "core\\classes.js",
+            "line": 130,
+            "description": "An object containing configuration information for the Container"
+        },
+        "F2.Constants": {
+            "name": "F2.Constants",
+            "shortname": "F2.Constants",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "core\\constants.js",
+            "line": 1,
+            "description": "Constants used throughout the Open Financial Framework",
+            "static": 1
+        },
+        "F2.Constants.Css": {
+            "name": "F2.Constants.Css",
+            "shortname": "F2.Constants.Css",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "core\\constants.js",
+            "line": 7,
+            "description": "CSS class constants"
+        },
+        "F2.Constants.Events": {
+            "name": "F2.Constants.Events",
+            "shortname": "F2.Constants.Events",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "core\\constants.js",
+            "line": 70,
+            "description": "Events constants"
+        },
+        "F2.Constants.Views": {
+            "name": "F2.Constants.Views",
+            "shortname": "F2.Constants.Views",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "core\\constants.js",
+            "line": 159,
+            "description": "The available view types to Apps. The view should be specified by applying\nthe {@link F2.Constants.Css.APP_VIEW} class to thecontaining DOM Element. A \nDATA_ATTRIBUTE attribute should be added to the Element as well which defines\nwhat view type is represented."
+        },
+        "F2": {
+            "name": "F2",
+            "shortname": "F2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "namespace": "",
+            "file": "core\\container.js",
+            "line": 1,
+            "description": "Core Container functionality"
+        },
+        "F2.Events": {
+            "name": "F2.Events",
+            "shortname": "F2.Events",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "namespace": "",
+            "file": "core\\container.js",
+            "line": 190,
+            "description": "Description of Events goes here",
+            "see": [
+                "The <a href=\"https://github.com/hij1nx/EventEmitter2\" target=\"_blank\">EventEmitter2</a> project."
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "core\\classes.js",
+            "line": 1,
+            "description": "Class stubs for documentation purposes",
+            "mainName": "F2",
+            "tag": "main",
+            "itemtype": "main",
+            "_main": true,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 11,
+            "description": "The unique ID of the App",
+            "itemtype": "property",
+            "name": "appId",
+            "type": "string",
+            "required": 1,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 18,
+            "description": "The description of the App",
+            "itemtype": "property",
+            "name": "description",
+            "type": "string",
+            "required": 1,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 25,
+            "description": "The company of the developer",
+            "itemtype": "property",
+            "name": "developerCompany",
+            "type": "string",
+            "required": 1,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 32,
+            "description": "The name of the developer",
+            "itemtype": "property",
+            "name": "developerName",
+            "type": "string",
+            "required": 1,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 39,
+            "description": "The url of the developer",
+            "itemtype": "property",
+            "name": "developerUrl",
+            "type": "string",
+            "required": 1,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 46,
+            "description": "The height of the App. The initial height will be pulled from\nthe {@link F2.App} object, but later modified by firing an \n{@link F2.Constants.Events.APP_HEIGHT_CHANGE} event.",
+            "itemtype": "property",
+            "name": "height",
+            "type": "int",
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 54,
+            "description": "The unique runtime ID of the App",
+            "itemtype": "property",
+            "name": "instanceId",
+            "type": "string",
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 60,
+            "description": "True if the App will be loaded in an iframe. This property\nwill be true if the {@link F2.App} object sets isSecure = true. It will \nalso be true if the Container has decided to run Apps in iframes.",
+            "itemtype": "property",
+            "name": "isSecure",
+            "type": "bool",
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 68,
+            "description": "The name of the App",
+            "itemtype": "property",
+            "name": "name",
+            "type": "string",
+            "required": 1,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 75,
+            "description": "The url of the App",
+            "itemtype": "property",
+            "name": "url",
+            "type": "string",
+            "required": 1,
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 82,
+            "description": "The views that this App supports. Available views\nare defined in {@link F2.Constants.Views}. The presence of a view can be checked\nvia {@link F2.inArray}:\n\n    F2.inArray(F2.Constants.Views.SETTINGS, app.views)\n\nThe {@link F2.Constants.Views}.HOME view should always be present.",
+            "itemtype": "property",
+            "name": "views",
+            "type": "Array",
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 104,
+            "description": "Urls to javascript files required by the App",
+            "itemtype": "property",
+            "name": "Scripts",
+            "type": "Array",
+            "class": "F2.AppAssets"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 110,
+            "description": "Urls to CSS files required by the App",
+            "itemtype": "property",
+            "name": "Styles",
+            "type": "Array",
+            "class": "F2.AppAssets"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 116,
+            "description": "Any inline javascript tha should initially be run",
+            "itemtype": "property",
+            "name": "InlineScripts",
+            "type": "Array",
+            "class": "F2.AppAssets"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 122,
+            "description": "The html of the App",
+            "itemtype": "property",
+            "name": "Html",
+            "type": "string",
+            "required": 1,
+            "class": "F2.AppAssets"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 135,
+            "description": "Allows the Container to wrap an App in extra html. The\nfunction should accept an {@link F2.App} object and also a string of html.\nThe extra html can provide links to edit app settings and remove an app from the\nContainer. See {@link F2.Constants.Css} for CSS classes that should be applied to elements.",
+            "itemtype": "property",
+            "name": "appWrapper",
+            "type": "function",
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 144,
+            "description": "Allows the Container to override how an App's html is \ninserted into the page. The function should accept an {@link F2.App} object\nand also a string of html",
+            "itemtype": "property",
+            "name": "appWriter",
+            "type": "function",
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 152,
+            "description": "Tells the Container that it is currently running within\na secure app page",
+            "itemtype": "property",
+            "name": "isSecureAppPage",
+            "type": "bool",
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 159,
+            "description": "Allows the Container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the Container",
+            "itemtype": "property",
+            "name": "secureAppPagePath",
+            "type": "string",
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 166,
+            "description": "Specifies what views a Container will provide buttons\nor liks to. Generally, the views will be switched via buttons or links in the App's\nheader. The {@link F2.Constants.Views}.HOME view should always be present.",
+            "itemtype": "property",
+            "name": "supportedViews",
+            "type": "Array",
+            "required": 1,
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 13,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 17,
+            "description": "The APP class should be applied to the DOM Element that surrounds the entire App,\nincluding any extra html that surrounds the APP_CONTAINER that is inserted \nby the Container. See appWrapper property in the {@link F2.ContainerConfiguration}\nobject.",
+            "itemtype": "property",
+            "name": "APP",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 28,
+            "description": "The APP_CONTAINER class should be applied to the outermost DOM Element\nof the App.",
+            "itemtype": "property",
+            "name": "APP_CONTAINER",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 37,
+            "description": "The APP_REMOVE_BUTTON class should be applied to the DOM Element that\nwill remove an App.",
+            "itemtype": "property",
+            "name": "APP_REMOVE_BUTTON",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 46,
+            "description": "The APP_VIEW class should be applied to the DOM Element that contains\na view for an App. The DOM Element should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE}\nattribute that specifies which {@link F2.Constants.Views} it is.",
+            "itemtype": "property",
+            "name": "APP_VIEW",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 56,
+            "description": "APP_VIEW_TRIGGER class shuld be applied to the DOM Elements that\ntrigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element\nshould also have a {@link F2.Constants.Views.DATA_ATTRIBUTE} attribute that\nspecifies which {@link F2.Constants.Views} it will trigger.",
+            "itemtype": "property",
+            "name": "APP_VIEW_TRIGGER",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 75,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 77,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 81,
+            "description": "The APPLICATION_LOAD event is fired once an App's Styles, Scripts, Inline \nScripts, and HTML have been inserted into the DOM. The App's instanceId should\nbe concatenated to this constant.\n\n    F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {\n      var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);\n      HelloWorldApp.init();\n    });",
+            "itemtype": "property",
+            "name": "APPLICATION_LOAD",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 97,
+            "description": "The APP_HEIGHT_CHANGE event should be fired by an App when the height of the\nApp is changed.\n\n    { instanceId:\"73603967-5f59-9fba-b611-e311d9fc7ee4\", height:200 }",
+            "itemtype": "property",
+            "name": "APP_HEIGHT_CHANGE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 109,
+            "description": "The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an App. It \nis up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NAZDAQ)\" }",
+            "itemtype": "property",
+            "name": "APP_SYMBOL_CHANGE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 122,
+            "description": "The APP_VIEW_CHANGE event will be fired by the Container when a user clicks\nto switch the view for an App. The App's instanceId should be concatenated\nto this constant.",
+            "itemtype": "property",
+            "name": "APP_VIEW_CHANGE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 132,
+            "description": "The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed at the Container\nlevel. This event should only be fired by the Container or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NAZDAQ)\" }",
+            "itemtype": "property",
+            "name": "CONTAINER_SYMBOL_CHANGE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 145,
+            "description": "The SOCKET_LOAD event is fired when an iframe socket initially loads. It is only\nused with easyXDM and not with EventEmitter2\nReturns a JSON string that represents an {@link F2.App}\nobject and an {@link F2.AppAssets} object",
+            "itemtype": "property",
+            "name": "SOCKET_LOAD",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 167,
+            "itemtype": "property",
+            "name": "DATA_ATTRIBUTE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Views"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 175,
+            "description": "The ABOUT view gives details about the App.",
+            "itemtype": "property",
+            "name": "ABOUT",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Views"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 183,
+            "description": "The HELP view provides users with help information for using an App.",
+            "itemtype": "property",
+            "name": "HELP",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Views"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 191,
+            "description": "The HOME view is the main view for an App. This view should always\nbe provided by an App.",
+            "itemtype": "property",
+            "name": "HOME",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Views"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 200,
+            "description": "The REMOVE view is a special view that handles the removal of an App\nfrom the Container.",
+            "itemtype": "property",
+            "name": "REMOVE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Views"
+        },
+        {
+            "file": "core\\constants.js",
+            "line": 209,
+            "description": "The SETTINGS view provides users the ability to modify advanced settings\nfor an App.",
+            "itemtype": "property",
+            "name": "SETTINGS",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Views"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 39,
+            "description": "Attach App events",
+            "itemtype": "method",
+            "name": "_attachAppEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 70,
+            "description": "Creates a socket connection from the App to the Container",
+            "itemtype": "method",
+            "name": "_createAppToContainerSocket",
+            "access": "private",
+            "tagname": "",
+            "see": [
+                "The <a href=\"http://easyxdm.net\" target=\"_blank\">easyXDM</a> project."
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 115,
+            "description": "Creates a socket connection from the Container to the App using easyXDM",
+            "itemtype": "method",
+            "name": "_createContainerToAppSocket",
+            "access": "private",
+            "tagname": "",
+            "see": [
+                "The <a href=\"http://easyxdm.net\" target=\"_blank\">easyXDM</a> project."
+            ],
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "app",
+                    "description": "The AppAssets object",
+                    "type": "F2.AppAssets"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 154,
+            "description": "Function to render the html for an App.",
+            "itemtype": "method",
+            "name": "_getAppHtml",
+            "access": "private",
+            "tagname": "",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 177,
+            "description": "Appends the App's html to the DOM",
+            "itemtype": "method",
+            "name": "_writeAppHtml",
+            "access": "private",
+            "tagname": "",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 196,
+            "description": "Initializes the Container. This method must be called before performing any other\nactions in the Container.",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "The configuration object",
+                    "type": "F2.ContainerConfiguration"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 212,
+            "description": "Loads the App's html/css/javascript",
+            "itemtype": "method",
+            "name": "loadApp",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App's context object.",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "appAssets",
+                    "description": "The App's html/css/js to be loaded into the page.",
+                    "type": "F2.AppAssets"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 280,
+            "description": "Loads the App's html/css/javascript into an iframe",
+            "itemtype": "method",
+            "name": "loadSecureApp",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App's context object.",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "appAssets",
+                    "description": "The App's html/css/js to be loaded into the page.",
+                    "type": "F2.AppAssets"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 300,
+            "description": "Loads the App's jsonp data to begin the App loading process. The App will\nbe passed the {@link F2.App} object which will contain the App's unique\ninstanceId within the Container.",
+            "itemtype": "method",
+            "name": "registerApp",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App's meta data object containing\nthe url to be loaded.",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "appAssets",
+                    "description": "The AppAssets object. This can \nbe useful if Apps are loaded on the server-side and passed down to the\nclient.",
+                    "type": "F2.AppAssets",
+                    "optional": true
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 357,
+            "description": "Removes an App from the Container",
+            "itemtype": "method",
+            "name": "removeApp",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The App's instanceId",
+                    "type": "String"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\preamble.js",
+            "line": 11,
+            "description": "Generates a somewhat random id",
+            "itemtype": "method",
+            "name": "guid",
+            "return": {
+                "description": "A random id",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\preamble.js",
+            "line": 23,
+            "description": "Wrapper logging function.",
+            "itemtype": "method",
+            "name": "log",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "The object to be logged to the console",
+                    "type": "Object"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\preamble.js",
+            "line": 33,
+            "description": "Search for a value within an array.",
+            "itemtype": "method",
+            "name": "inArray",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The value to search for",
+                    "type": "Object"
+                },
+                {
+                    "name": "array",
+                    "description": "The array to search",
+                    "type": "Array"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\preamble.js",
+            "line": 43,
+            "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
+            "itemtype": "method",
+            "name": "extend",
+            "params": [
+                {
+                    "name": "ns",
+                    "description": "The namespace to create. Pass a falsy value to \nadd properties to the F2 namespace directly.",
+                    "type": "String"
+                },
+                {
+                    "name": "obj",
+                    "description": "The object to copy into the namespace.",
+                    "type": "Object"
+                },
+                {
+                    "name": "overwrite",
+                    "description": "True if object properties should be overwritten",
+                    "type": "Bool"
+                }
+            ],
+            "return": {
+                "description": "The created object",
+                "type": "Object"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\preamble.js",
+            "line": 81,
+            "description": "Wrapper to convert a JSON string to an object",
+            "itemtype": "method",
+            "name": "parse",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "The JSON string to convert",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The parsed object",
+                "type": "Object"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\preamble.js",
+            "line": 90,
+            "description": "Wrapper to convert an object to JSON",
+            "itemtype": "method",
+            "name": "stringify",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "The object to convert",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The JSON string",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        }
+    ]
+}
