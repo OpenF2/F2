@@ -1696,7 +1696,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW: "app-view",
+			APP_VIEW:_PREFIX + "app-view",
 			/**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
 			 * trigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element
@@ -1707,7 +1707,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW_TRIGGER: "app-view-trigger"
+			APP_VIEW_TRIGGER:_PREFIX + "app-view-trigger"
 		};
 	})(),
 	
