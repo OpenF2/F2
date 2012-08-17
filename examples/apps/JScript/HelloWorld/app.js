@@ -1,11 +1,11 @@
-App_Class = function (appContext, appAssets) {
-	this._appContext = appContext;
+App_Class = function (app, appAssets) {
+	this._app = app;
 	this._appAssets = appAssets;
 };
 
 App_Class.prototype.init = function () {
 
-	this._container = $("#" + this._appContext.instanceId);
+	this._container = $("#" + this._app.instanceId);
 	this._updateHeight();
 	
 	// bind symbol change event
@@ -17,7 +17,7 @@ App_Class.prototype.init = function () {
 	});
 
 	// bind settings change event
-	F2.Events.on(F2.Constants.Events.APP_SETTINGS_LOAD + this._appContext.instanceId, $.proxy(this._handleSettingsView, this));
+	F2.Events.on(F2.Constants.Events.APP_SETTINGS_LOAD + this._app.instanceId, $.proxy(this._handleSettingsView, this));
 
 	$("button.cancel").on("click", $.proxy(function() {
 		$("div.body-content", this._container).removeClass("hide");
@@ -57,6 +57,6 @@ App_Class.prototype._renderSymbolAlert = function() {
 };
 
 App_Class.prototype._updateHeight = function() {
-	this._appContext.height = $(this._container).outerHeight();
-	F2.Events.emit(F2.Constants.Events.APP_HEIGHT_CHANGE, this._appContext);
+	this._app.height = $(this._container).outerHeight();
+	F2.Events.emit(F2.Constants.Events.APP_HEIGHT_CHANGE, this._app);
 };
