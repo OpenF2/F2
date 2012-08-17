@@ -134,7 +134,7 @@ F2.extend("", (function(){
 		}
 
 		// apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER));
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + " " + app.appId));
 
 		// optionally apply wrapper html
 		if (_config.appWrapper) {
