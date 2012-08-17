@@ -63,8 +63,25 @@ F2.extend("", {
 		 * also be true if the Container has decided to run Apps in iframes.
 		 * @property isSecure
 		 * @type bool
+		 * @default false
 	 	 */
 	 	isSecure:false,
+	 	/**
+	 	 * The recommended minimum grid size that this app should be run. This
+	 	 * value corresponds to the 12-grid system that is used by the Container.
+	 	 * @property minGridSize
+	 	 * @type int
+	 	 * @default 4
+	 	 */
+	 	minGridSize:4,
+	 	/**
+	 	 * The recommended minimum width in pixels that this app should be 
+	 	 * run.
+	 	 * @property minWidth
+	 	 * @type int
+	 	 * @default 300
+	 	 */
+	 	minWidth:300,
 	 	/**
 	 	 * The name of the App
 	 	 * @property name

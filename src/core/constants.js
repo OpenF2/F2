@@ -16,7 +16,7 @@ F2.extend("Constants", {
 		return {
 			/**
 			 * The APP class should be applied to the DOM Element that surrounds the entire App,
-			 * including any extra html that surrounds the APP_CONTAINER that is inserted 
+			 * including any extra html that surrounds the APP\_CONTAINER that is inserted 
 			 * by the Container. See appWrapper property in the {@link F2.ContainerConfiguration}
 			 * object.
 			 * @property APP
@@ -26,7 +26,7 @@ F2.extend("Constants", {
 			 */
 			APP:_PREFIX + "app",
 			/**
-			 * The APP_CONTAINER class should be applied to the outermost DOM Element
+			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
 			 * of the App.
 			 * @property APP_CONTAINER
 			 * @type string
@@ -35,16 +35,7 @@ F2.extend("Constants", {
 			 */
 			APP_CONTAINER:_PREFIX + "app-container",
 			/**
-			 * The APP_REMOVE_BUTTON class should be applied to the DOM Element that
-			 * will remove an App.
-			 * @property APP_REMOVE_BUTTON
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_REMOVE_BUTTON:_PREFIX + "btn-remove",
-			/**
-			 * The APP_VIEW class should be applied to the DOM Element that contains
+			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE}
 			 * attribute that specifies which {@link F2.Constants.Views} it is. 
 			 * @property APP_VIEW
@@ -54,7 +45,7 @@ F2.extend("Constants", {
 			 */
 			APP_VIEW: "app-view",
 			/**
-			 * APP_VIEW_TRIGGER class shuld be applied to the DOM Elements that
+			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
 			 * trigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element
 			 * should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE} attribute that
 			 * specifies which {@link F2.Constants.Views} it will trigger.
@@ -79,7 +70,7 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APPLICATION_LOAD event is fired once an App's Styles, Scripts, Inline 
+			 * The APPLICATION\_LOAD event is fired once an App's Styles, Scripts, Inline 
 			 * Scripts, and HTML have been inserted into the DOM. The App's instanceId should
 			 * be concatenated to this constant.
 			 *
@@ -95,7 +86,7 @@ F2.extend("Constants", {
 			 */
 			APPLICATION_LOAD:"appLoad.",
 			/**
-			 * The APP_HEIGHT_CHANGE event should be fired by an App when the height of the
+			 * The APP\_HEIGHT\_CHANGE event should be fired by an App when the height of the
 			 * App is changed.
 			 *
 			 *     { instanceId:"73603967-5f59-9fba-b611-e311d9fc7ee4", height:200 }
@@ -107,7 +98,21 @@ F2.extend("Constants", {
 			 */
 			APP_HEIGHT_CHANGE:_APP_EVENT_PREFIX + "heightChange",
 			/**
-			 * The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an App. It 
+			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the width
+			 * of an App is changed. The App's instanceId should be concatenated to this
+			 * constant.
+			 * Returns an object with the gridSize and width in pixels:
+			 *
+			 *     { gridSize:8, width:620 }
+			 *
+			 * @property APP_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + "widthChange.",
+			/**
+			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an App. It 
 			 * is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
@@ -120,7 +125,7 @@ F2.extend("Constants", {
 			 */
 			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The APP_VIEW_CHANGE event will be fired by the Container when a user clicks
+			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user clicks
 			 * to switch the view for an App. The App's instanceId should be concatenated
 			 * to this constant.
 			 * @property APP_VIEW_CHANGE
@@ -130,7 +135,7 @@ F2.extend("Constants", {
 			 */
 			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + "viewChange.",
 			/**
-			 * The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed at the Container
+			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed at the Container
 			 * level. This event should only be fired by the Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
@@ -143,7 +148,16 @@ F2.extend("Constants", {
 			 */
 			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The SOCKET_LOAD event is fired when an iframe socket initially loads. It is only
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when the width
+			 * of the Container has changed.
+			 * @property CONTAINER_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + "widthChange",
+			/**
+			 * The SOCKET\_LOAD event is fired when an iframe socket initially loads. It is only
 			 * used with easyXDM and not with EventEmitter2
 			 * Returns a JSON string that represents an {@link F2.App}
 			 * object and an {@link F2.AppAssets} object

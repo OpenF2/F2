@@ -152,13 +152,6 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method private">
-                                <a href="#method__attachAppEvents">_attachAppEvents</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
                                 <a href="#method__createAppToContainerSocket">_createAppToContainerSocket</a>
 
                                 
@@ -174,6 +167,20 @@
                         
                             <li class="index-item method private">
                                 <a href="#method__getAppHtml">_getAppHtml</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__initAppEvents">_initAppEvents</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__initContainerEvents">_initContainerEvents</a>
 
                                 
                                 
@@ -279,8 +286,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__attachAppEvents" class="method item private">
-    <h3 class="name"><code>_attachAppEvents</code></h3>
+                    <div id="method__createAppToContainerSocket" class="method item private">
+    <h3 class="name"><code>_createAppToContainerSocket</code></h3>
 
     
         <span class="paren">()</span>
@@ -324,62 +331,6 @@
     </div>
 
     <div class="description">
-        <p>Attach App events</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__createAppToContainerSocket" class="method item private">
-    <h3 class="name"><code>_createAppToContainerSocket</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l70"><code>core\container.js:70</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
         <p>Creates a socket connection from the App to the Container</p>
     </div>
 
@@ -406,7 +357,7 @@
             
                 <li class="arg">
                     
-                        <code>app</code>
+                        <code>appAssets</code>
                     
                 </li>
             
@@ -441,7 +392,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l115"><code>core\container.js:115</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l84"><code>core\container.js:84</code></a>
         
         </p>
 
@@ -478,7 +429,7 @@
             
                 <li class="param">
                     
-                        <code class="param-name">app</code>
+                        <code class="param-name">appAssets</code>
                         <span class="type"><a href="..\classes\F2.AppAssets.html" class="crosslink">F2.AppAssets</a></span>
                     
 
@@ -505,7 +456,23 @@
     <h3 class="name"><code>_getAppHtml</code></h3>
 
     
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>html</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
     
 
     
@@ -535,7 +502,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l154"><code>core\container.js:154</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l123"><code>core\container.js:123</code></a>
         
         </p>
 
@@ -550,6 +517,44 @@
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The App object</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">html</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The string of html</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
 
     
 
@@ -557,8 +562,8 @@
 </div>
 
                 
-                    <div id="method__writeAppHtml" class="method item private">
-    <h3 class="name"><code>_writeAppHtml</code></h3>
+                    <div id="method__initAppEvents" class="method item private">
+    <h3 class="name"><code>_initAppEvents</code></h3>
 
     
         <span class="paren">()</span>
@@ -591,7 +596,135 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l177"><code>core\container.js:177</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l148"><code>core\container.js:148</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Attach App events</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__initContainerEvents" class="method item private">
+    <h3 class="name"><code>_initContainerEvents</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l179"><code>core\container.js:179</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Attach Container Events</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__writeAppHtml" class="method item private">
+    <h3 class="name"><code>_writeAppHtml</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>html</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l197"><code>core\container.js:197</code></a>
         
         </p>
 
@@ -605,6 +738,44 @@
         <p>Appends the App's html to the DOM</p>
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The App object</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">html</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The string of html</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
@@ -982,7 +1153,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l196"><code>core\container.js:196</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l218"><code>core\container.js:218</code></a>
         
         </p>
 
@@ -1076,7 +1247,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l212"><code>core\container.js:212</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l236"><code>core\container.js:236</code></a>
         
         </p>
 
@@ -1184,7 +1355,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l280"><code>core\container.js:280</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l304"><code>core\container.js:304</code></a>
         
         </p>
 
@@ -1483,7 +1654,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l300"><code>core\container.js:300</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l324"><code>core\container.js:324</code></a>
         
         </p>
 
@@ -1591,7 +1762,7 @@ client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l357"><code>core\container.js:357</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l381"><code>core\container.js:381</code></a>
         
         </p>
 

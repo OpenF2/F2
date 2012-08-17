@@ -21,7 +21,7 @@ F2.extend("", (function(){
 
 	// handle APP_HEIGHT_CHANGE event
 	_events.on(F2.Constants.Events.APP_HEIGHT_CHANGE, function(obj) {
-		F2.log("Updating height for " + obj.instanceId + " (" + obj.height + ")");
+		//F2.log("Updating height for " + obj.instanceId + " (" + obj.height + ")");
 		$("#" + obj.instanceId).find("iframe").height(obj.height);
 	});
 
@@ -34,37 +34,6 @@ F2.extend("", (function(){
 		}
 		//F2.log([_hasSocketConnections, location.href, arguments]);
 		EventEmitter2.prototype.emit.apply(this, arguments);
-	};
-
-	/**
-	 * Attach App events
-	 * @method _attachAppEvents
-	 * @private
-	 */
-	var _attachAppEvents = function (app) {
-
-		var appContainer = $("#" + app.instanceId);
-
-		// these events should only be attached outside of the secure app
-		if (!_config.isSecureAppPage) {
-
-			// it is assumed that all containers will at least have F2.Constants.Views.HOME
-			if (_config.supportedViews.length > 1) {
-				$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
-
-					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
-
-					// handle the special REMOVE view
-					if (view == F2.Constants.Views.REMOVE) {
-						F2.removeApp(app.instanceId);
-
-					// make sure the app supports this type of view
-					} else if (F2.inArray(view, app.views)) {
-						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
-					}
-				});
-			}
-		}
 	};
 
 	/**
@@ -89,7 +58,7 @@ F2.extend("", (function(){
 						var app = appParts[0];
 						var appAssets = appParts[1];
 
-						// save app and appAssets
+						// save app
 						_apps[app.instanceId] = {
 							app:app
 						};
@@ -118,7 +87,7 @@ F2.extend("", (function(){
 	 * @private
 	 * @see The <a href="http://easyxdm.net" target="_blank">easyXDM</a> project.
 	 * @param {F2.App} app The App object
-	 * @param {F2.AppAssets} app The AppAssets object
+	 * @param {F2.AppAssets} appAssets The AppAssets object
 	 */
 	var _createContainerToAppSocket = function(app, appAssets) {
 
@@ -155,6 +124,8 @@ F2.extend("", (function(){
 	 * Function to render the html for an App.
 	 * @method _getAppHtml
 	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
 	 */
 	var _getAppHtml = function(app, html) {
 
@@ -175,9 +146,60 @@ F2.extend("", (function(){
 	};
 
 	/**
+	 * Attach App events
+	 * @method _initAppEvents
+	 * @private
+	 */
+	var _initAppEvents = function (app) {
+
+		var appContainer = $("#" + app.instanceId);
+
+		// these events should only be attached outside of the secure app
+		if (!_config.isSecureAppPage) {
+
+			// it is assumed that all containers will at least have F2.Constants.Views.HOME
+			if (_config.supportedViews.length > 1) {
+				$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
+
+					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
+
+					// handle the special REMOVE view
+					if (view == F2.Constants.Views.REMOVE) {
+						F2.removeApp(app.instanceId);
+
+					// make sure the app supports this type of view
+					} else if (F2.inArray(view, app.views)) {
+						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
+					}
+				});
+			}
+		}
+	};
+
+	/**
+	 * Attach Container Events
+	 * @method _initContainerEvents
+	 * @private
+	 */
+	var _initContainerEvents = function() {
+
+		var _resizeTimeout = false;
+		var _resizeHandler = function() {
+			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
+		};
+
+		$(window).on("resize", function() {
+			clearTimeout(_resizeTimeout);
+			_resizeTimeout(_resizeHandler, 100);
+		});
+	};
+
+	/**
 	 * Appends the App's html to the DOM
 	 * @method _writeAppHtml
 	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
 	 */
 	var _writeAppHtml = function(app, html) {
 		var handler = _config.appWriter || function(app, html) {
@@ -205,6 +227,8 @@ F2.extend("", (function(){
 
 			if (_config.isSecureAppPage) {
 				_createAppToContainerSocket();
+			} else {
+				_initContainerEvents();
 			}
 
 			_isInit = true;
@@ -270,7 +294,7 @@ F2.extend("", (function(){
 			_writeAppHtml(app, _getAppHtml(app, appAssets.Widgets[0].Html));
 
 			// init events
-			_attachAppEvents(app);
+			_initAppEvents(app);
 
 			// if no scripts were to be processed, fire the appLoad event
 			if (!scriptCount) {
@@ -290,7 +314,7 @@ F2.extend("", (function(){
 				// create the html container for the iframe
 				_writeAppHtml(app, _getAppHtml(app, "<div></div>"));
 				// init events
-				_attachAppEvents(app);
+				_initAppEvents(app);
 				// setup the iframe/socket connection
 				_apps[app.instanceId].socket = _createContainerToAppSocket(app, appAssets);
 			} else {

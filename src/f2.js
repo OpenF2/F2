@@ -163,8 +163,25 @@ F2.extend("", {
 		 * also be true if the Container has decided to run Apps in iframes.
 		 * @property isSecure
 		 * @type bool
+		 * @default false
 	 	 */
 	 	isSecure:false,
+	 	/**
+	 	 * The recommended minimum grid size that this app should be run. This
+	 	 * value corresponds to the 12-grid system that is used by the Container.
+	 	 * @property minGridSize
+	 	 * @type int
+	 	 * @default 4
+	 	 */
+	 	minGridSize:4,
+	 	/**
+	 	 * The recommended minimum width in pixels that this app should be 
+	 	 * run.
+	 	 * @property minWidth
+	 	 * @type int
+	 	 * @default 300
+	 	 */
+	 	minWidth:300,
 	 	/**
 	 	 * The name of the App
 	 	 * @property name
@@ -292,7 +309,7 @@ F2.extend("Constants", {
 		return {
 			/**
 			 * The APP class should be applied to the DOM Element that surrounds the entire App,
-			 * including any extra html that surrounds the APP_CONTAINER that is inserted 
+			 * including any extra html that surrounds the APP\_CONTAINER that is inserted 
 			 * by the Container. See appWrapper property in the {@link F2.ContainerConfiguration}
 			 * object.
 			 * @property APP
@@ -302,7 +319,7 @@ F2.extend("Constants", {
 			 */
 			APP:_PREFIX + "app",
 			/**
-			 * The APP_CONTAINER class should be applied to the outermost DOM Element
+			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
 			 * of the App.
 			 * @property APP_CONTAINER
 			 * @type string
@@ -311,16 +328,7 @@ F2.extend("Constants", {
 			 */
 			APP_CONTAINER:_PREFIX + "app-container",
 			/**
-			 * The APP_REMOVE_BUTTON class should be applied to the DOM Element that
-			 * will remove an App.
-			 * @property APP_REMOVE_BUTTON
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_REMOVE_BUTTON:_PREFIX + "btn-remove",
-			/**
-			 * The APP_VIEW class should be applied to the DOM Element that contains
+			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE}
 			 * attribute that specifies which {@link F2.Constants.Views} it is. 
 			 * @property APP_VIEW
@@ -330,7 +338,7 @@ F2.extend("Constants", {
 			 */
 			APP_VIEW: "app-view",
 			/**
-			 * APP_VIEW_TRIGGER class shuld be applied to the DOM Elements that
+			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
 			 * trigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element
 			 * should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE} attribute that
 			 * specifies which {@link F2.Constants.Views} it will trigger.
@@ -355,7 +363,7 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APPLICATION_LOAD event is fired once an App's Styles, Scripts, Inline 
+			 * The APPLICATION\_LOAD event is fired once an App's Styles, Scripts, Inline 
 			 * Scripts, and HTML have been inserted into the DOM. The App's instanceId should
 			 * be concatenated to this constant.
 			 *
@@ -371,7 +379,7 @@ F2.extend("Constants", {
 			 */
 			APPLICATION_LOAD:"appLoad.",
 			/**
-			 * The APP_HEIGHT_CHANGE event should be fired by an App when the height of the
+			 * The APP\_HEIGHT\_CHANGE event should be fired by an App when the height of the
 			 * App is changed.
 			 *
 			 *     { instanceId:"73603967-5f59-9fba-b611-e311d9fc7ee4", height:200 }
@@ -383,7 +391,21 @@ F2.extend("Constants", {
 			 */
 			APP_HEIGHT_CHANGE:_APP_EVENT_PREFIX + "heightChange",
 			/**
-			 * The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an App. It 
+			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the width
+			 * of an App is changed. The App's instanceId should be concatenated to this
+			 * constant.
+			 * Returns an object with the gridSize and width in pixels:
+			 *
+			 *     { gridSize:8, width:620 }
+			 *
+			 * @property APP_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + "widthChange.",
+			/**
+			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an App. It 
 			 * is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
@@ -396,7 +418,7 @@ F2.extend("Constants", {
 			 */
 			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The APP_VIEW_CHANGE event will be fired by the Container when a user clicks
+			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user clicks
 			 * to switch the view for an App. The App's instanceId should be concatenated
 			 * to this constant.
 			 * @property APP_VIEW_CHANGE
@@ -406,7 +428,7 @@ F2.extend("Constants", {
 			 */
 			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + "viewChange.",
 			/**
-			 * The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed at the Container
+			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed at the Container
 			 * level. This event should only be fired by the Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
@@ -419,7 +441,16 @@ F2.extend("Constants", {
 			 */
 			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The SOCKET_LOAD event is fired when an iframe socket initially loads. It is only
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when the width
+			 * of the Container has changed.
+			 * @property CONTAINER_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + "widthChange",
+			/**
+			 * The SOCKET\_LOAD event is fired when an iframe socket initially loads. It is only
 			 * used with easyXDM and not with EventEmitter2
 			 * Returns a JSON string that represents an {@link F2.App}
 			 * object and an {@link F2.AppAssets} object
@@ -516,7 +547,7 @@ F2.extend("", (function(){
 
 	// handle APP_HEIGHT_CHANGE event
 	_events.on(F2.Constants.Events.APP_HEIGHT_CHANGE, function(obj) {
-		F2.log("Updating height for " + obj.instanceId + " (" + obj.height + ")");
+		//F2.log("Updating height for " + obj.instanceId + " (" + obj.height + ")");
 		$("#" + obj.instanceId).find("iframe").height(obj.height);
 	});
 
@@ -529,37 +560,6 @@ F2.extend("", (function(){
 		}
 		//F2.log([_hasSocketConnections, location.href, arguments]);
 		EventEmitter2.prototype.emit.apply(this, arguments);
-	};
-
-	/**
-	 * Attach App events
-	 * @method _attachAppEvents
-	 * @private
-	 */
-	var _attachAppEvents = function (app) {
-
-		var appContainer = $("#" + app.instanceId);
-
-		// these events should only be attached outside of the secure app
-		if (!_config.isSecureAppPage) {
-
-			// it is assumed that all containers will at least have F2.Constants.Views.HOME
-			if (_config.supportedViews.length > 1) {
-				$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
-
-					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
-
-					// handle the special REMOVE view
-					if (view == F2.Constants.Views.REMOVE) {
-						F2.removeApp(app.instanceId);
-
-					// make sure the app supports this type of view
-					} else if (F2.inArray(view, app.views)) {
-						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
-					}
-				});
-			}
-		}
 	};
 
 	/**
@@ -584,7 +584,7 @@ F2.extend("", (function(){
 						var app = appParts[0];
 						var appAssets = appParts[1];
 
-						// save app and appAssets
+						// save app
 						_apps[app.instanceId] = {
 							app:app
 						};
@@ -613,7 +613,7 @@ F2.extend("", (function(){
 	 * @private
 	 * @see The <a href="http://easyxdm.net" target="_blank">easyXDM</a> project.
 	 * @param {F2.App} app The App object
-	 * @param {F2.AppAssets} app The AppAssets object
+	 * @param {F2.AppAssets} appAssets The AppAssets object
 	 */
 	var _createContainerToAppSocket = function(app, appAssets) {
 
@@ -650,6 +650,8 @@ F2.extend("", (function(){
 	 * Function to render the html for an App.
 	 * @method _getAppHtml
 	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
 	 */
 	var _getAppHtml = function(app, html) {
 
@@ -670,9 +672,60 @@ F2.extend("", (function(){
 	};
 
 	/**
+	 * Attach App events
+	 * @method _initAppEvents
+	 * @private
+	 */
+	var _initAppEvents = function (app) {
+
+		var appContainer = $("#" + app.instanceId);
+
+		// these events should only be attached outside of the secure app
+		if (!_config.isSecureAppPage) {
+
+			// it is assumed that all containers will at least have F2.Constants.Views.HOME
+			if (_config.supportedViews.length > 1) {
+				$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
+
+					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
+
+					// handle the special REMOVE view
+					if (view == F2.Constants.Views.REMOVE) {
+						F2.removeApp(app.instanceId);
+
+					// make sure the app supports this type of view
+					} else if (F2.inArray(view, app.views)) {
+						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
+					}
+				});
+			}
+		}
+	};
+
+	/**
+	 * Attach Container Events
+	 * @method _initContainerEvents
+	 * @private
+	 */
+	var _initContainerEvents = function() {
+
+		var _resizeTimeout = false;
+		var _resizeHandler = function() {
+			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
+		};
+
+		$(window).on("resize", function() {
+			clearTimeout(_resizeTimeout);
+			_resizeTimeout(_resizeHandler, 100);
+		});
+	};
+
+	/**
 	 * Appends the App's html to the DOM
 	 * @method _writeAppHtml
 	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
 	 */
 	var _writeAppHtml = function(app, html) {
 		var handler = _config.appWriter || function(app, html) {
@@ -700,6 +753,8 @@ F2.extend("", (function(){
 
 			if (_config.isSecureAppPage) {
 				_createAppToContainerSocket();
+			} else {
+				_initContainerEvents();
 			}
 
 			_isInit = true;
@@ -765,7 +820,7 @@ F2.extend("", (function(){
 			_writeAppHtml(app, _getAppHtml(app, appAssets.Widgets[0].Html));
 
 			// init events
-			_attachAppEvents(app);
+			_initAppEvents(app);
 
 			// if no scripts were to be processed, fire the appLoad event
 			if (!scriptCount) {
@@ -785,7 +840,7 @@ F2.extend("", (function(){
 				// create the html container for the iframe
 				_writeAppHtml(app, _getAppHtml(app, "<div></div>"));
 				// init events
-				_attachAppEvents(app);
+				_initAppEvents(app);
 				// setup the iframe/socket connection
 				_apps[app.instanceId].socket = _createContainerToAppSocket(app, appAssets);
 			} else {

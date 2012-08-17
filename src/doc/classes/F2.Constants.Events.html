@@ -108,7 +108,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;core_constants.js.html#l70"><code>core\constants.js:70</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;core_constants.js.html#l61"><code>core\constants.js:61</code></a>
         </div>
     
 
@@ -181,6 +181,15 @@
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_APP_WIDTH_CHANGE">APP_WIDTH_CHANGE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_APPLICATION_LOAD">APPLICATION_LOAD</a>
 
                                 
@@ -191,6 +200,15 @@
                         
                             <li class="index-item property">
                                 <a href="#property_CONTAINER_SYMBOL_CHANGE">CONTAINER_SYMBOL_CHANGE</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_CONTAINER_WIDTH_CHANGE">CONTAINER_WIDTH_CHANGE</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -250,7 +268,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;core_constants.js.html#l97"><code>core\constants.js:97</code></a>
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l88"><code>core\constants.js:88</code></a>
         
         </p>
 
@@ -260,7 +278,7 @@
     </div>
 
     <div class="description">
-        <p>The APP<em>HEIGHT</em>CHANGE event should be fired by an App when the height of the
+        <p>The APP_HEIGHT_CHANGE event should be fired by an App when the height of the
 App is changed.</p>
 
 <pre class="code"><code class="prettyprint">{ instanceId:"73603967-5f59-9fba-b611-e311d9fc7ee4", height:200 }
@@ -302,7 +320,7 @@ App is changed.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_constants.js.html#l109"><code>core\constants.js:109</code></a>
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l114"><code>core\constants.js:114</code></a>
         
         </p>
 
@@ -312,7 +330,7 @@ App is changed.</p>
     </div>
 
     <div class="description">
-        <p>The APP<em>SYMBOL</em>CHANGE event is fired when the symbol is changed in an App. It 
+        <p>The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an App. It 
 is up to the App developer to fire this event.
 Returns an object with the symbol and company name:</p>
 
@@ -355,7 +373,7 @@ Returns an object with the symbol and company name:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_constants.js.html#l122"><code>core\constants.js:122</code></a>
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l127"><code>core\constants.js:127</code></a>
         
         </p>
 
@@ -365,9 +383,63 @@ Returns an object with the symbol and company name:</p>
     </div>
 
     <div class="description">
-        <p>The APP<em>VIEW</em>CHANGE event will be fired by the Container when a user clicks
+        <p>The APP_VIEW_CHANGE event will be fired by the Container when a user clicks
 to switch the view for an App. The App's instanceId should be concatenated
 to this constant.</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_APP_WIDTH_CHANGE" class="property item">
+    <h3 class="name"><code>APP_WIDTH_CHANGE</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l100"><code>core\constants.js:100</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The APP_WIDTH_CHANGE event will be fired by the Container when the width
+of an App is changed. The App's instanceId should be concatenated to this
+constant.
+Returns an object with the gridSize and width in pixels:</p>
+
+<pre class="code"><code class="prettyprint">{ gridSize:8, width:620 }
+</code></pre>
     </div>
 
     
@@ -405,7 +477,7 @@ to this constant.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_constants.js.html#l81"><code>core\constants.js:81</code></a>
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l72"><code>core\constants.js:72</code></a>
         
         </p>
 
@@ -461,7 +533,7 @@ be concatenated to this constant.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_constants.js.html#l132"><code>core\constants.js:132</code></a>
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l137"><code>core\constants.js:137</code></a>
         
         </p>
 
@@ -471,12 +543,61 @@ be concatenated to this constant.</p>
     </div>
 
     <div class="description">
-        <p>The CONTAINER<em>SYMBOL</em>CHANGE event is fired when the symbol is changed at the Container
+        <p>The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed at the Container
 level. This event should only be fired by the Container or Container Provider.
 Returns an object with the symbol and company name:</p>
 
 <pre class="code"><code class="prettyprint">{ symbol: "MSFT", name: "Microsoft Corp (NAZDAQ)" }
 </code></pre>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_CONTAINER_WIDTH_CHANGE" class="property item">
+    <h3 class="name"><code>CONTAINER_WIDTH_CHANGE</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l150"><code>core\constants.js:150</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The CONTAINER_WIDTH_CHANGE event will be fired by the Container when the width
+of the Container has changed.</p>
     </div>
 
     
@@ -514,7 +635,7 @@ Returns an object with the symbol and company name:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_constants.js.html#l145"><code>core\constants.js:145</code></a>
+        <a href="..&#x2F;files&#x2F;core_constants.js.html#l159"><code>core\constants.js:159</code></a>
         
         </p>
 
