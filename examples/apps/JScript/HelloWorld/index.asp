@@ -6,10 +6,18 @@ var callback = Request.QueryString("callback");
 var appRaw = decodeURIComponent(Request.QueryString("app"));
 var app = JSON.parse(appRaw);
 
+var serverPath = [
+	String(Request.ServerVariables("HTTPS")).toLowerCase() == "on" ? "https://" : "http://",
+	Request.ServerVariables("SERVER_NAME"),
+	String(Request.ServerVariables("SCRIPT_NAME")).replace("index.asp", "")
+].join('');
+
 if (callback && app) {
 	Response.ContentType = "application/json";
 	Response.Write(callback + "(" + JSON.stringify({
-		Scripts:["http://dev2.dev.local/Playground/BrianBaker/OFF/app.js"],
+		Scripts:[
+			serverPath + "app.js"
+		],
 		Styles:[],
 		InlineScripts:[
 			[

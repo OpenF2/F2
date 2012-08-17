@@ -1,5 +1,35 @@
 <?php
 
+	$callback = $_REQUEST["callback"];
+	$appRaw = $_REQUEST["app"];
+	$app = json_decode($appRaw);
+
+	// read in the news
+	$doc = new DOMDocument();
+	$doc->load('http://www.google.com/finance/company_news?q=FB&output=rss');
+	$newsItems = array();
+	foreach ($doc->getElementsByTagName('item') as $node) {
+		$item = array ( 
+			'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+			'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
+			'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
+			'date' => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
+		);
+    array_push($newsItems, $item);
+  }
+
+	// create a new AppAssets object
+	$a = new AppAssets();
+
+	// populate the scripts and styles
+
+	// generate the html
+	$a->Widgets[] = array("Html" => renderAppHtml($newsItems));
+
+	// output the jsonp
+	header("Content-type: application/json");
+	echo $callback . "(" . json_encode($a, JSON_HEX_TAG) . ")";
+
 	/**
 	 *
 	 */
@@ -12,25 +42,30 @@
 	 * @class AppAssets
 	 */
 	class AppAssets {
-		public $scripts = array();
-		public $styles = array();
-		public $inlineScripts = array();
-		public $html = "";
+		public $Scripts = array();
+		public $Styles = array();
+		public $InlineScripts = array();
+		// temporary
+		public $Widgets = array();
 	}
 
-	$callback = $_REQUEST["callback"];
-	$appRaw = $_REQUEST["app"];
-	$app = json_decode($appRaw);
+	/**
+	 * Renders the news articles
+	 * @method renderAppHtml
+	 * @param {Array} $newsItems The list of articles
+	 * @return {string} The HTML for the App
+	 */
+	function renderAppHtml($newsItems) {
+		$html = array();
 
-	// create a new AppAssets object
-	$a = new AppAssets();
+		$html[] = '<div class="well"><ul>';
 
-	// populate the scripts and styles
+		foreach ($newsItems as $item) {
+			$html[] = '<li>' . $item['title'] . '</li>';
+		}
 
-	// generate the html
-	$a->html = $app->{"instanceId"};
+		$html[] = '</ul></div>';
 
-	// output the jsonp
-	header("Content-type: application/json");
-	echo json_encode($a);
+		return join("", $html);
+	}
 ?>

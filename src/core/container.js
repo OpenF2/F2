@@ -183,14 +183,14 @@ F2.extend("", (function(){
 	 */
 	var _initContainerEvents = function() {
 
-		var _resizeTimeout = false;
-		var _resizeHandler = function() {
+		var resizeTimeout;
+		var resizeHandler = function() {
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
 		$(window).on("resize", function() {
-			clearTimeout(_resizeTimeout);
-			_resizeTimeout(_resizeHandler, 100);
+			clearTimeout(resizeTimeout);
+			setTimeout(resizeHandler, 100);
 		});
 	};
 

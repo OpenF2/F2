@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>F2 - HTML Container Example</title>
+	<!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href="./assets/css/smoothness/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet" />
+	<link href="./assets/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<link href="./assets/bootstrap/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
+	<style type="text/css">
+		body {
+			margin:0;
+			padding:0;
+		}
+	</style>
+</head>
+<body>
+	<div id="mainContent" class="securePage container">
+		<div class="row">
+			<div class="column span4"></div>
+			<div class="column span4"></div>
+			<div class="column span4"></div>
+		</div>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="./assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../../../src/f2.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function() {
+			// init Container
+			F2.init({
+				appWrapper:function(appContext, html) {
+					return [
+						'<div class="span4">',
+							html,
+						'</div>'
+					].join('');
+				},
+				appWriter:function(appContext, html) {
+					$("#mainContent div.row:first").append(html);
+				},
+				isSecureAppPage:true,
+				supportedViews:[F2.Constants.Views.HOME]
+			});
+		});
+	</script>
+</body>
+</html>

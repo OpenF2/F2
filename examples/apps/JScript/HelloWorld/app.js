@@ -49,7 +49,7 @@ App_Class.prototype._renderSymbolAlert = function() {
 
 	return $([
 			'<div class="alert alert-success symbolAlert">',
-				'<button type="button" class="close" data-dismiss="alert">×</button>',
+				'<button type="button" class="close" data-dismiss="alert">&#215;</button>',
 				'<span></span>',
 			'</div>'
 		].join(''))
