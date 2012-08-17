@@ -207,7 +207,7 @@ F2.extend(&quot;&quot;, (function(){
 		var socket = new easyXDM.Socket({
 			remote: _config.secureAppPagePath,
 			container: container.get(0),
-			props:{ scrolling: &quot;no&quot; },
+			props:{ scrolling: &quot;no&quot;, style:{width:&quot;100%&quot;} },
 			onMessage: function(message, origin) {
 				var eventArgs = JSON.parse(message);
 				&#x2F;&#x2F; do not call F2.Events.emit here, otherwise a circular message will occur

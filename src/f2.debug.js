@@ -1812,8 +1812,10 @@ F2.extend("Constants", {
 			/**
 			 * The SOCKET\_LOAD event is fired when an iframe socket initially loads. It is only
 			 * used with easyXDM and not with EventEmitter2
-			 * Returns a JSON string that represents an {@link F2.App}
-			 * object and an {@link F2.AppAssets} object
+			 * Returns a JSON string that represents:
+			 *
+			 *     [ App, AppAssets]
+			 * 
 			 * @property SOCKET_LOAD
 			 * @type string
 			 * @static
@@ -1987,7 +1989,7 @@ F2.extend("", (function(){
 		var socket = new easyXDM.Socket({
 			remote: _config.secureAppPagePath,
 			container: container.get(0),
-			props:{ scrolling: "no" },
+			props:{ scrolling: "no", style:{width:"100%"} },
 			onMessage: function(message, origin) {
 				var eventArgs = JSON.parse(message);
 				// do not call F2.Events.emit here, otherwise a circular message will occur

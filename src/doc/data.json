@@ -166,7 +166,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "core\\constants.js",
-            "line": 173,
+            "line": 175,
             "description": "The available view types to Apps. The view should be specified by applying\nthe {@link F2.Constants.Css.APP_VIEW} class to thecontaining DOM Element. A \nDATA_ATTRIBUTE attribute should be added to the Element as well which defines\nwhat view type is represented."
         },
         "F2": {
@@ -561,7 +561,7 @@
         {
             "file": "core\\constants.js",
             "line": 159,
-            "description": "The SOCKET\\_LOAD event is fired when an iframe socket initially loads. It is only\nused with easyXDM and not with EventEmitter2\nReturns a JSON string that represents an {@link F2.App}\nobject and an {@link F2.AppAssets} object",
+            "description": "The SOCKET\\_LOAD event is fired when an iframe socket initially loads. It is only\nused with easyXDM and not with EventEmitter2\nReturns a JSON string that represents:\n\n    [ App, AppAssets]",
             "itemtype": "property",
             "name": "SOCKET_LOAD",
             "type": "string",
@@ -571,7 +571,7 @@
         },
         {
             "file": "core\\constants.js",
-            "line": 181,
+            "line": 183,
             "itemtype": "property",
             "name": "DATA_ATTRIBUTE",
             "type": "string",
@@ -581,7 +581,7 @@
         },
         {
             "file": "core\\constants.js",
-            "line": 189,
+            "line": 191,
             "description": "The ABOUT view gives details about the App.",
             "itemtype": "property",
             "name": "ABOUT",
@@ -592,7 +592,7 @@
         },
         {
             "file": "core\\constants.js",
-            "line": 197,
+            "line": 199,
             "description": "The HELP view provides users with help information for using an App.",
             "itemtype": "property",
             "name": "HELP",
@@ -603,7 +603,7 @@
         },
         {
             "file": "core\\constants.js",
-            "line": 205,
+            "line": 207,
             "description": "The HOME view is the main view for an App. This view should always\nbe provided by an App.",
             "itemtype": "property",
             "name": "HOME",
@@ -614,7 +614,7 @@
         },
         {
             "file": "core\\constants.js",
-            "line": 214,
+            "line": 216,
             "description": "The REMOVE view is a special view that handles the removal of an App\nfrom the Container.",
             "itemtype": "property",
             "name": "REMOVE",
@@ -625,7 +625,7 @@
         },
         {
             "file": "core\\constants.js",
-            "line": 223,
+            "line": 225,
             "description": "The SETTINGS view provides users the ability to modify advanced settings\nfor an App.",
             "itemtype": "property",
             "name": "SETTINGS",

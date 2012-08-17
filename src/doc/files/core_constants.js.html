@@ -265,8 +265,10 @@ F2.extend(&quot;Constants&quot;, {
 			&#x2F;**
 			 * The SOCKET\_LOAD event is fired when an iframe socket initially loads. It is only
 			 * used with easyXDM and not with EventEmitter2
-			 * Returns a JSON string that represents an {@link F2.App}
-			 * object and an {@link F2.AppAssets} object
+			 * Returns a JSON string that represents:
+			 *
+			 *     [ App, AppAssets]
+			 * 
 			 * @property SOCKET_LOAD
 			 * @type string
 			 * @static
