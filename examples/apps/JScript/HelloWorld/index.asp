@@ -32,7 +32,7 @@ if (callback && app) {
 				Html:[
 					'<div class="well">',
 						'<div class="f2-app-view" data-f2-view="home">',
-							'Non-Framework ' + (app.isSecure ? 'Secure' : '') + ' Hello World!',
+							'JScript ' + (app.isSecure ? 'Secure' : '') + ' Hello World!',
 						'</div>',
 						'<form class="f2-app-view hide" data-f2-view="settings">',
 							'<span class="help-block">Some explanatory text of the options below.</span>',

@@ -11,25 +11,19 @@ App_Class.prototype.init = function () {
 	// bind symbol change event
 	F2.Events.on(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, $.proxy(this._handleSymbolChange, this));
 
-	// bind container width event
-	F2.Events.on(F2.Constants.Events.CONTAINER_WIDTH_CHANGE, function() {
-		F2.log("Woot! The width changed!");
-	});
-
 	// bind settings change event
-	F2.Events.on(F2.Constants.Events.APP_SETTINGS_LOAD + this._app.instanceId, $.proxy(this._handleSettingsView, this));
+	F2.Events.on(F2.Constants.Events.APP_VIEW_CHANGE + this._app.instanceId, $.proxy(this._handleViewChange, this));
 
 	$("button.cancel").on("click", $.proxy(function() {
-		$("div.body-content", this._container).removeClass("hide");
-		$("form", this._container).addClass("hide");
+		$("div." + F2.Constants.Css.APP_VIEW, this._container).removeClass("hide");
+		$("form." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
 		this._updateHeight();
 	}, this));
 };
 
-App_Class.prototype._handleSettingsView = function() {
-	
-	$("div.f2-app-home-view", this._container).addClass("hide");
-	$("form.f2-app-settings-view", this._container).removeClass("hide");
+App_Class.prototype._handleViewChange = function() {
+	$("div." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
+	$("form." + F2.Constants.Css.APP_VIEW, this._container).removeClass("hide");
 	this._updateHeight();
 };
 
