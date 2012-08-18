@@ -1,11 +1,13 @@
 <?php
+	date_default_timezone_set("America/New_York");
 
 	$callback = $_REQUEST["callback"];
 	$appRaw = $_REQUEST["app"];
+	$appRaw = get_magic_quotes_gpc() ? stripslashes($appRaw) : $appRaw;
 	$app = json_decode($appRaw);
 
 	$serverPath = 
-		(empty($_SERVER["HTTPS"]) ? "https://" : "http://") .
+		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
 		$_SERVER["SERVER_NAME"] .
 		str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
 
@@ -43,6 +45,7 @@ INLINES;
 	// output the jsonp
 	header("Content-type: application/json");
 	echo $callback . "(" . json_encode($a, JSON_HEX_TAG) . ")";
+
 
 	/**
 	 * A class representing the assets (html, css, js) for an App
