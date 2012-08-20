@@ -151,8 +151,8 @@ F2.extend(&quot;&quot;, {
 	 	developerUrl:&quot;&quot;,
 	 	&#x2F;**
 	 	 * The height of the App. The initial height will be pulled from
-	 	 * the {@link F2.App} object, but later modified by firing an 
-	 	 * {@link F2.Constants.Events.APP_HEIGHT_CHANGE} event.
+	 	 * the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object, but later modified by firing an 
+	 	 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{&#x2F;crossLink}}.APP_HEIGHT_CHANGE event.
 	 	 * @property height
 	 	 * @type int
 	 	 *&#x2F;
@@ -165,7 +165,7 @@ F2.extend(&quot;&quot;, {
 	 	instanceId:&quot;&quot;,
 	 	&#x2F;**
 	 	 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {@link F2.App} object sets isSecure = true. It will 
+		 * will be true if the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object sets isSecure = true. It will 
 		 * also be true if the Container has decided to run Apps in iframes.
 		 * @property isSecure
 		 * @type bool
@@ -173,8 +173,18 @@ F2.extend(&quot;&quot;, {
 	 	 *&#x2F;
 	 	isSecure:false,
 	 	&#x2F;**
+	 	 * The recommended maximum width in pixels that this app should be run.
+	 	 * It is up to the Container to implement the logic to prevent an App
+	 	 * from being run when the maxWidth requirements are not met.
+	 	 * @property maxWidth
+	 	 * @type int
+	 	 *&#x2F;
+	 	maxWidth:0,
+	 	&#x2F;**
 	 	 * The recommended minimum grid size that this app should be run. This
 	 	 * value corresponds to the 12-grid system that is used by the Container.
+	 	 * This property should be set by Apps that require a certain number of 
+	 	 * columns in their layout.
 	 	 * @property minGridSize
 	 	 * @type int
 	 	 * @default 4
@@ -182,7 +192,8 @@ F2.extend(&quot;&quot;, {
 	 	minGridSize:4,
 	 	&#x2F;**
 	 	 * The recommended minimum width in pixels that this app should be 
-	 	 * run.
+	 	 * run. It is up to the Container to implement the logic to prevent
+	 	 * an App from being run when the minWidth requirements are not met.
 	 	 * @property minWidth
 	 	 * @type int
 	 	 * @default 300
@@ -204,12 +215,12 @@ F2.extend(&quot;&quot;, {
 	 	url:&quot;&quot;,
 	 	&#x2F;**
 	 	 * The views that this App supports. Available views
-		 * are defined in {@link F2.Constants.Views}. The presence of a view can be checked
-		 * via {@link F2.inArray}:
+		 * are defined in {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}. The presence of a view can be checked
+		 * via F2.{{#crossLink &quot;F2&#x2F;inArray&quot;}}{{&#x2F;crossLink}}:
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {@link F2.Constants.Views}.HOME view should always be present.
+		 * The {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should always be present.
 		 * @property views
 		 * @type Array
 	 	 *&#x2F;
@@ -257,16 +268,16 @@ F2.extend(&quot;&quot;, {
 	ContainerConfiguration:{
 		&#x2F;**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {@link F2.App} object and also a string of html.
+		 * function should accept an {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object and also a string of html.
 		 * The extra html can provide links to edit app settings and remove an app from the
-		 * Container. See {@link F2.Constants.Css} for CSS classes that should be applied to elements.
+		 * Container. See {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}} for CSS classes that should be applied to elements.
 		 * @property appWrapper
 		 * @type function
 		 *&#x2F;
 		appWrapper:function() {},
 		&#x2F;**
 		 * Allows the Container to override how an App&#x27;s html is 
-		 * inserted into the page. The function should accept an {@link F2.App} object
+		 * inserted into the page. The function should accept an {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object
 		 * and also a string of html
 		 * @property appWriter
 		 * @type function
@@ -289,7 +300,7 @@ F2.extend(&quot;&quot;, {
 		&#x2F;**
 		 * Specifies what views a Container will provide buttons
 		 * or liks to. Generally, the views will be switched via buttons or links in the App&#x27;s
-		 * header. The {@link F2.Constants.Views}.HOME view should always be present.
+		 * header. The {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should always be present.
 		 * @property supportedViews
 		 * @type Array
 		 * @required

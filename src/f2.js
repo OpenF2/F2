@@ -145,8 +145,8 @@ F2.extend("", {
 	 	developerUrl:"",
 	 	/**
 	 	 * The height of the App. The initial height will be pulled from
-	 	 * the {@link F2.App} object, but later modified by firing an 
-	 	 * {@link F2.Constants.Events.APP_HEIGHT_CHANGE} event.
+	 	 * the {{#crossLink "F2.App"}}{{/crossLink}} object, but later modified by firing an 
+	 	 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_HEIGHT_CHANGE event.
 	 	 * @property height
 	 	 * @type int
 	 	 */
@@ -159,7 +159,7 @@ F2.extend("", {
 	 	instanceId:"",
 	 	/**
 	 	 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {@link F2.App} object sets isSecure = true. It will 
+		 * will be true if the {{#crossLink "F2.App"}}{{/crossLink}} object sets isSecure = true. It will 
 		 * also be true if the Container has decided to run Apps in iframes.
 		 * @property isSecure
 		 * @type bool
@@ -167,8 +167,18 @@ F2.extend("", {
 	 	 */
 	 	isSecure:false,
 	 	/**
+	 	 * The recommended maximum width in pixels that this app should be run.
+	 	 * It is up to the Container to implement the logic to prevent an App
+	 	 * from being run when the maxWidth requirements are not met.
+	 	 * @property maxWidth
+	 	 * @type int
+	 	 */
+	 	maxWidth:0,
+	 	/**
 	 	 * The recommended minimum grid size that this app should be run. This
 	 	 * value corresponds to the 12-grid system that is used by the Container.
+	 	 * This property should be set by Apps that require a certain number of 
+	 	 * columns in their layout.
 	 	 * @property minGridSize
 	 	 * @type int
 	 	 * @default 4
@@ -176,7 +186,8 @@ F2.extend("", {
 	 	minGridSize:4,
 	 	/**
 	 	 * The recommended minimum width in pixels that this app should be 
-	 	 * run.
+	 	 * run. It is up to the Container to implement the logic to prevent
+	 	 * an App from being run when the minWidth requirements are not met.
 	 	 * @property minWidth
 	 	 * @type int
 	 	 * @default 300
@@ -198,12 +209,12 @@ F2.extend("", {
 	 	url:"",
 	 	/**
 	 	 * The views that this App supports. Available views
-		 * are defined in {@link F2.Constants.Views}. The presence of a view can be checked
-		 * via {@link F2.inArray}:
+		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The presence of a view can be checked
+		 * via F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {@link F2.Constants.Views}.HOME view should always be present.
+		 * The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always be present.
 		 * @property views
 		 * @type Array
 	 	 */
@@ -251,16 +262,16 @@ F2.extend("", {
 	ContainerConfiguration:{
 		/**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {@link F2.App} object and also a string of html.
+		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html.
 		 * The extra html can provide links to edit app settings and remove an app from the
-		 * Container. See {@link F2.Constants.Css} for CSS classes that should be applied to elements.
+		 * Container. See {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that should be applied to elements.
 		 * @property appWrapper
 		 * @type function
 		 */
 		appWrapper:function() {},
 		/**
 		 * Allows the Container to override how an App's html is 
-		 * inserted into the page. The function should accept an {@link F2.App} object
+		 * inserted into the page. The function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
 		 * and also a string of html
 		 * @property appWriter
 		 * @type function
@@ -283,7 +294,7 @@ F2.extend("", {
 		/**
 		 * Specifies what views a Container will provide buttons
 		 * or liks to. Generally, the views will be switched via buttons or links in the App's
-		 * header. The {@link F2.Constants.Views}.HOME view should always be present.
+		 * header. The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always be present.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
@@ -310,7 +321,7 @@ F2.extend("Constants", {
 			/**
 			 * The APP class should be applied to the DOM Element that surrounds the entire App,
 			 * including any extra html that surrounds the APP\_CONTAINER that is inserted 
-			 * by the Container. See appWrapper property in the {@link F2.ContainerConfiguration}
+			 * by the Container. See appWrapper property in the {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}
 			 * object.
 			 * @property APP
 			 * @type string
@@ -329,8 +340,8 @@ F2.extend("Constants", {
 			APP_CONTAINER:_PREFIX + "app-container",
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an App. The DOM Element should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE}
-			 * attribute that specifies which {@link F2.Constants.Views} it is. 
+			 * a view for an App. The DOM Element should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
 			 * @property APP_VIEW
 			 * @type string
 			 * @static
@@ -339,9 +350,9 @@ F2.extend("Constants", {
 			APP_VIEW:_PREFIX + "app-view",
 			/**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
-			 * trigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element
-			 * should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE} attribute that
-			 * specifies which {@link F2.Constants.Views} it will trigger.
+			 * trigger an {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE event. The DOM Element
+			 * should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE attribute that
+			 * specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it will trigger.
 			 * @property APP_VIEW_TRIGGER
 			 * @type string
 			 * @static
@@ -409,7 +420,7 @@ F2.extend("Constants", {
 			 * is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NAZDAQ)" }
+			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
 			 *
 			 * @property APP_SYMBOL_CHANGE
 			 * @type string
@@ -432,7 +443,7 @@ F2.extend("Constants", {
 			 * level. This event should only be fired by the Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NAZDAQ)" }
+			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
 			 *
 			 * @property CONTAINER_SYMBOL_CHANGE
 			 * @type string
@@ -467,7 +478,7 @@ F2.extend("Constants", {
 
 	/**
 	 * The available view types to Apps. The view should be specified by applying
-	 * the {@link F2.Constants.Css.APP_VIEW} class to thecontaining DOM Element. A 
+	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to thecontaining DOM Element. A 
 	 * DATA_ATTRIBUTE attribute should be added to the Element as well which defines
 	 * what view type is represented.
 	 * @class F2.Constants.Views
@@ -626,10 +637,21 @@ F2.extend("", (function(){
 			return;
 		}
 
+		var iframeProps = {
+			scrolling:"no",
+			style:{
+				width:"100%"
+			}
+		};
+
+		if (app.height) {
+			iframeProps.style.height = app.height + "px";
+		}
+
 		var socket = new easyXDM.Socket({
 			remote: _config.secureAppPagePath,
 			container: container.get(0),
-			props:{ scrolling: "no", style:{width:"100%"} },
+			props:iframeProps,
 			onMessage: function(message, origin) {
 				var eventArgs = JSON.parse(message);
 				// do not call F2.Events.emit here, otherwise a circular message will occur
@@ -851,7 +873,7 @@ F2.extend("", (function(){
 		},
 		/**
 		 * Loads the App's jsonp data to begin the App loading process. The App will
-		 * be passed the {@link F2.App} object which will contain the App's unique
+		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will contain the App's unique
 		 * instanceId within the Container.
 		 * @method registerApp
 		 * @param {F2.App} app The App's meta data object containing

@@ -204,10 +204,21 @@ F2.extend(&quot;&quot;, (function(){
 			return;
 		}
 
+		var iframeProps = {
+			scrolling:&quot;no&quot;,
+			style:{
+				width:&quot;100%&quot;
+			}
+		};
+
+		if (app.height) {
+			iframeProps.style.height = app.height + &quot;px&quot;;
+		}
+
 		var socket = new easyXDM.Socket({
 			remote: _config.secureAppPagePath,
 			container: container.get(0),
-			props:{ scrolling: &quot;no&quot;, style:{width:&quot;100%&quot;} },
+			props:iframeProps,
 			onMessage: function(message, origin) {
 				var eventArgs = JSON.parse(message);
 				&#x2F;&#x2F; do not call F2.Events.emit here, otherwise a circular message will occur
@@ -429,7 +440,7 @@ F2.extend(&quot;&quot;, (function(){
 		},
 		&#x2F;**
 		 * Loads the App&#x27;s jsonp data to begin the App loading process. The App will
-		 * be passed the {@link F2.App} object which will contain the App&#x27;s unique
+		 * be passed the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object which will contain the App&#x27;s unique
 		 * instanceId within the Container.
 		 * @method registerApp
 		 * @param {F2.App} app The App&#x27;s meta data object containing

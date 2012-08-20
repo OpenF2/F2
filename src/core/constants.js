@@ -17,7 +17,7 @@ F2.extend("Constants", {
 			/**
 			 * The APP class should be applied to the DOM Element that surrounds the entire App,
 			 * including any extra html that surrounds the APP\_CONTAINER that is inserted 
-			 * by the Container. See appWrapper property in the {@link F2.ContainerConfiguration}
+			 * by the Container. See appWrapper property in the {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}
 			 * object.
 			 * @property APP
 			 * @type string
@@ -36,8 +36,8 @@ F2.extend("Constants", {
 			APP_CONTAINER:_PREFIX + "app-container",
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an App. The DOM Element should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE}
-			 * attribute that specifies which {@link F2.Constants.Views} it is. 
+			 * a view for an App. The DOM Element should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
 			 * @property APP_VIEW
 			 * @type string
 			 * @static
@@ -46,9 +46,9 @@ F2.extend("Constants", {
 			APP_VIEW:_PREFIX + "app-view",
 			/**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
-			 * trigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element
-			 * should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE} attribute that
-			 * specifies which {@link F2.Constants.Views} it will trigger.
+			 * trigger an {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE event. The DOM Element
+			 * should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE attribute that
+			 * specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it will trigger.
 			 * @property APP_VIEW_TRIGGER
 			 * @type string
 			 * @static
@@ -116,7 +116,7 @@ F2.extend("Constants", {
 			 * is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NAZDAQ)" }
+			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
 			 *
 			 * @property APP_SYMBOL_CHANGE
 			 * @type string
@@ -139,7 +139,7 @@ F2.extend("Constants", {
 			 * level. This event should only be fired by the Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NAZDAQ)" }
+			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
 			 *
 			 * @property CONTAINER_SYMBOL_CHANGE
 			 * @type string
@@ -174,7 +174,7 @@ F2.extend("Constants", {
 
 	/**
 	 * The available view types to Apps. The view should be specified by applying
-	 * the {@link F2.Constants.Css.APP_VIEW} class to thecontaining DOM Element. A 
+	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to thecontaining DOM Element. A 
 	 * DATA_ATTRIBUTE attribute should be added to the Element as well which defines
 	 * what view type is represented.
 	 * @class F2.Constants.Views

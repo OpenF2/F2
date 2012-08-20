@@ -69,7 +69,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "core\\container.js",
-            "line": 212,
+            "line": 223,
             "description": "Open F2",
             "itemtype": "main"
         }
@@ -98,7 +98,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "core\\classes.js",
-            "line": 112,
+            "line": 123,
             "description": "The assets needed to render an App on the page",
             "itemtype": "property",
             "type": "Array"
@@ -113,7 +113,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "core\\classes.js",
-            "line": 147,
+            "line": 158,
             "description": "An object containing configuration information for the Container"
         },
         "F2.Constants": {
@@ -167,7 +167,7 @@
             "module": "f2",
             "file": "core\\constants.js",
             "line": 175,
-            "description": "The available view types to Apps. The view should be specified by applying\nthe {@link F2.Constants.Css.APP_VIEW} class to thecontaining DOM Element. A \nDATA_ATTRIBUTE attribute should be added to the Element as well which defines\nwhat view type is represented."
+            "description": "The available view types to Apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP_VIEW class to thecontaining DOM Element. A \nDATA_ATTRIBUTE attribute should be added to the Element as well which defines\nwhat view type is represented."
         },
         "F2": {
             "name": "F2",
@@ -194,7 +194,7 @@
             "module": "f2",
             "namespace": "",
             "file": "core\\container.js",
-            "line": 212,
+            "line": 223,
             "description": "Description of Events goes here",
             "see": [
                 "The <a href=\"https://github.com/hij1nx/EventEmitter2\" target=\"_blank\">EventEmitter2</a> project."
@@ -265,7 +265,7 @@
         {
             "file": "core\\classes.js",
             "line": 46,
-            "description": "The height of the App. The initial height will be pulled from\nthe {@link F2.App} object, but later modified by firing an \n{@link F2.Constants.Events.APP_HEIGHT_CHANGE} event.",
+            "description": "The height of the App. The initial height will be pulled from\nthe {{#crossLink \"F2.App\"}}{{/crossLink}} object, but later modified by firing an \n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_HEIGHT_CHANGE event.",
             "itemtype": "property",
             "name": "height",
             "type": "int",
@@ -283,7 +283,7 @@
         {
             "file": "core\\classes.js",
             "line": 60,
-            "description": "True if the App will be loaded in an iframe. This property\nwill be true if the {@link F2.App} object sets isSecure = true. It will \nalso be true if the Container has decided to run Apps in iframes.",
+            "description": "True if the App will be loaded in an iframe. This property\nwill be true if the {{#crossLink \"F2.App\"}}{{/crossLink}} object sets isSecure = true. It will \nalso be true if the Container has decided to run Apps in iframes.",
             "itemtype": "property",
             "name": "isSecure",
             "type": "bool",
@@ -293,7 +293,16 @@
         {
             "file": "core\\classes.js",
             "line": 69,
-            "description": "The recommended minimum grid size that this app should be run. This\nvalue corresponds to the 12-grid system that is used by the Container.",
+            "description": "The recommended maximum width in pixels that this app should be run.\nIt is up to the Container to implement the logic to prevent an App\nfrom being run when the maxWidth requirements are not met.",
+            "itemtype": "property",
+            "name": "maxWidth",
+            "type": "int",
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 77,
+            "description": "The recommended minimum grid size that this app should be run. This\nvalue corresponds to the 12-grid system that is used by the Container.\nThis property should be set by Apps that require a certain number of \ncolumns in their layout.",
             "itemtype": "property",
             "name": "minGridSize",
             "type": "int",
@@ -302,8 +311,8 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 77,
-            "description": "The recommended minimum width in pixels that this app should be \nrun.",
+            "line": 87,
+            "description": "The recommended minimum width in pixels that this app should be \nrun. It is up to the Container to implement the logic to prevent\nan App from being run when the minWidth requirements are not met.",
             "itemtype": "property",
             "name": "minWidth",
             "type": "int",
@@ -312,7 +321,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 85,
+            "line": 96,
             "description": "The name of the App",
             "itemtype": "property",
             "name": "name",
@@ -322,7 +331,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 92,
+            "line": 103,
             "description": "The url of the App",
             "itemtype": "property",
             "name": "url",
@@ -332,8 +341,8 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 99,
-            "description": "The views that this App supports. Available views\nare defined in {@link F2.Constants.Views}. The presence of a view can be checked\nvia {@link F2.inArray}:\n\n    F2.inArray(F2.Constants.Views.SETTINGS, app.views)\n\nThe {@link F2.Constants.Views}.HOME view should always be present.",
+            "line": 110,
+            "description": "The views that this App supports. Available views\nare defined in {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}. The presence of a view can be checked\nvia F2.{{#crossLink \"F2/inArray\"}}{{/crossLink}}:\n\n    F2.inArray(F2.Constants.Views.SETTINGS, app.views)\n\nThe {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.HOME view should always be present.",
             "itemtype": "property",
             "name": "views",
             "type": "Array",
@@ -341,7 +350,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 121,
+            "line": 132,
             "description": "Urls to javascript files required by the App",
             "itemtype": "property",
             "name": "Scripts",
@@ -350,7 +359,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 127,
+            "line": 138,
             "description": "Urls to CSS files required by the App",
             "itemtype": "property",
             "name": "Styles",
@@ -359,7 +368,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 133,
+            "line": 144,
             "description": "Any inline javascript tha should initially be run",
             "itemtype": "property",
             "name": "InlineScripts",
@@ -368,7 +377,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 139,
+            "line": 150,
             "description": "The html of the App",
             "itemtype": "property",
             "name": "Html",
@@ -378,8 +387,8 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 152,
-            "description": "Allows the Container to wrap an App in extra html. The\nfunction should accept an {@link F2.App} object and also a string of html.\nThe extra html can provide links to edit app settings and remove an app from the\nContainer. See {@link F2.Constants.Css} for CSS classes that should be applied to elements.",
+            "line": 163,
+            "description": "Allows the Container to wrap an App in extra html. The\nfunction should accept an {{#crossLink \"F2.App\"}}{{/crossLink}} object and also a string of html.\nThe extra html can provide links to edit app settings and remove an app from the\nContainer. See {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that should be applied to elements.",
             "itemtype": "property",
             "name": "appWrapper",
             "type": "function",
@@ -387,8 +396,8 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 161,
-            "description": "Allows the Container to override how an App's html is \ninserted into the page. The function should accept an {@link F2.App} object\nand also a string of html",
+            "line": 172,
+            "description": "Allows the Container to override how an App's html is \ninserted into the page. The function should accept an {{#crossLink \"F2.App\"}}{{/crossLink}} object\nand also a string of html",
             "itemtype": "property",
             "name": "appWriter",
             "type": "function",
@@ -396,7 +405,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 169,
+            "line": 180,
             "description": "Tells the Container that it is currently running within\na secure app page",
             "itemtype": "property",
             "name": "isSecureAppPage",
@@ -405,7 +414,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 176,
+            "line": 187,
             "description": "Allows the Container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the Container",
             "itemtype": "property",
             "name": "secureAppPagePath",
@@ -414,8 +423,8 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 183,
-            "description": "Specifies what views a Container will provide buttons\nor liks to. Generally, the views will be switched via buttons or links in the App's\nheader. The {@link F2.Constants.Views}.HOME view should always be present.",
+            "line": 194,
+            "description": "Specifies what views a Container will provide buttons\nor liks to. Generally, the views will be switched via buttons or links in the App's\nheader. The {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.HOME view should always be present.",
             "itemtype": "property",
             "name": "supportedViews",
             "type": "Array",
@@ -430,7 +439,7 @@
         {
             "file": "core\\constants.js",
             "line": 17,
-            "description": "The APP class should be applied to the DOM Element that surrounds the entire App,\nincluding any extra html that surrounds the APP\\_CONTAINER that is inserted \nby the Container. See appWrapper property in the {@link F2.ContainerConfiguration}\nobject.",
+            "description": "The APP class should be applied to the DOM Element that surrounds the entire App,\nincluding any extra html that surrounds the APP\\_CONTAINER that is inserted \nby the Container. See appWrapper property in the {{#crossLink \"F2.ContainerConfiguration\"}}{{/crossLink}}\nobject.",
             "itemtype": "property",
             "name": "APP",
             "type": "string",
@@ -452,7 +461,7 @@
         {
             "file": "core\\constants.js",
             "line": 37,
-            "description": "The APP\\_VIEW class should be applied to the DOM Element that contains\na view for an App. The DOM Element should also have a {@link F2.Constants.Views.DATA_ATTRIBUTE}\nattribute that specifies which {@link F2.Constants.Views} it is.",
+            "description": "The APP\\_VIEW class should be applied to the DOM Element that contains\na view for an App. The DOM Element should also have a {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE\nattribute that specifies which {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it is.",
             "itemtype": "property",
             "name": "APP_VIEW",
             "type": "string",
@@ -463,7 +472,7 @@
         {
             "file": "core\\constants.js",
             "line": 47,
-            "description": "APP\\_VIEW\\_TRIGGER class shuld be applied to the DOM Elements that\ntrigger an {@link F2.Constants.Events}.APP_VIEW_CHANGE event. The DOM Element\nshould also have a {@link F2.Constants.Views.DATA_ATTRIBUTE} attribute that\nspecifies which {@link F2.Constants.Views} it will trigger.",
+            "description": "APP\\_VIEW\\_TRIGGER class shuld be applied to the DOM Elements that\ntrigger an {{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_VIEW_CHANGE event. The DOM Element\nshould also have a {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE attribute that\nspecifies which {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it will trigger.",
             "itemtype": "property",
             "name": "APP_VIEW_TRIGGER",
             "type": "string",
@@ -517,7 +526,7 @@
         {
             "file": "core\\constants.js",
             "line": 114,
-            "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an App. It \nis up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NAZDAQ)\" }",
+            "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an App. It \nis up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NASDAQ)\" }",
             "itemtype": "property",
             "name": "APP_SYMBOL_CHANGE",
             "type": "string",
@@ -539,7 +548,7 @@
         {
             "file": "core\\constants.js",
             "line": 137,
-            "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed at the Container\nlevel. This event should only be fired by the Container or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NAZDAQ)\" }",
+            "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed at the Container\nlevel. This event should only be fired by the Container or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NASDAQ)\" }",
             "itemtype": "property",
             "name": "CONTAINER_SYMBOL_CHANGE",
             "type": "string",
@@ -676,7 +685,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 123,
+            "line": 134,
             "description": "Function to render the html for an App.",
             "itemtype": "method",
             "name": "_getAppHtml",
@@ -699,7 +708,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 148,
+            "line": 159,
             "description": "Attach App events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -710,7 +719,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 179,
+            "line": 190,
             "description": "Attach Container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -721,7 +730,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 197,
+            "line": 208,
             "description": "Appends the App's html to the DOM",
             "itemtype": "method",
             "name": "_writeAppHtml",
@@ -744,7 +753,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 218,
+            "line": 229,
             "description": "Initializes the Container. This method must be called before performing any other\nactions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -760,7 +769,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 236,
+            "line": 247,
             "description": "Loads the App's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -781,7 +790,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 304,
+            "line": 315,
             "description": "Loads the App's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -802,8 +811,8 @@
         },
         {
             "file": "core\\container.js",
-            "line": 324,
-            "description": "Loads the App's jsonp data to begin the App loading process. The App will\nbe passed the {@link F2.App} object which will contain the App's unique\ninstanceId within the Container.",
+            "line": 335,
+            "description": "Loads the App's jsonp data to begin the App loading process. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will contain the App's unique\ninstanceId within the Container.",
             "itemtype": "method",
             "name": "registerApp",
             "params": [
@@ -824,7 +833,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 381,
+            "line": 392,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",

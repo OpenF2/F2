@@ -210,6 +210,13 @@
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_maxWidth">maxWidth</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_minGridSize">minGridSize</a>
 
                                 
@@ -514,8 +521,8 @@
 
     <div class="description">
         <p>The height of the App. The initial height will be pulled from
-the {@link F2.App} object, but later modified by firing an 
-{@link F2.Constants.Events.APP<em>HEIGHT</em>CHANGE} event.</p>
+the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object, but later modified by firing an 
+<a href="..\classes\F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP<em>HEIGHT</em>CHANGE event.</p>
     </div>
 
     
@@ -604,7 +611,7 @@ the {@link F2.App} object, but later modified by firing an
 
     <div class="description">
         <p>True if the App will be loaded in an iframe. This property
-will be true if the {@link F2.App} object sets isSecure = true. It will 
+will be true if the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object sets isSecure = true. It will 
 also be true if the Container has decided to run Apps in iframes.</p>
     </div>
 
@@ -618,8 +625,8 @@ also be true if the Container has decided to run Apps in iframes.</p>
 </div>
 
                 
-                    <div id="property_minGridSize" class="property item">
-    <h3 class="name"><code>minGridSize</code></h3>
+                    <div id="property_maxWidth" class="property item">
+    <h3 class="name"><code>maxWidth</code></h3>
     <span class="type">Int</span>
 
     
@@ -651,8 +658,56 @@ also be true if the Container has decided to run Apps in iframes.</p>
     </div>
 
     <div class="description">
+        <p>The recommended maximum width in pixels that this app should be run.
+It is up to the Container to implement the logic to prevent an App
+from being run when the maxWidth requirements are not met.</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_minGridSize" class="property item">
+    <h3 class="name"><code>minGridSize</code></h3>
+    <span class="type">Int</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;core_classes.js.html#l77"><code>core\classes.js:77</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
         <p>The recommended minimum grid size that this app should be run. This
-value corresponds to the 12-grid system that is used by the Container.</p>
+value corresponds to the 12-grid system that is used by the Container.
+This property should be set by Apps that require a certain number of 
+columns in their layout.</p>
     </div>
 
     
@@ -688,7 +743,7 @@ value corresponds to the 12-grid system that is used by the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_classes.js.html#l77"><code>core\classes.js:77</code></a>
+        <a href="..&#x2F;files&#x2F;core_classes.js.html#l87"><code>core\classes.js:87</code></a>
         
         </p>
 
@@ -699,7 +754,8 @@ value corresponds to the 12-grid system that is used by the Container.</p>
 
     <div class="description">
         <p>The recommended minimum width in pixels that this app should be 
-run.</p>
+run. It is up to the Container to implement the logic to prevent
+an App from being run when the minWidth requirements are not met.</p>
     </div>
 
     
@@ -735,7 +791,7 @@ run.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_classes.js.html#l85"><code>core\classes.js:85</code></a>
+        <a href="..&#x2F;files&#x2F;core_classes.js.html#l96"><code>core\classes.js:96</code></a>
         
         </p>
 
@@ -779,7 +835,7 @@ run.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_classes.js.html#l92"><code>core\classes.js:92</code></a>
+        <a href="..&#x2F;files&#x2F;core_classes.js.html#l103"><code>core\classes.js:103</code></a>
         
         </p>
 
@@ -823,7 +879,7 @@ run.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_classes.js.html#l99"><code>core\classes.js:99</code></a>
+        <a href="..&#x2F;files&#x2F;core_classes.js.html#l110"><code>core\classes.js:110</code></a>
         
         </p>
 
@@ -834,13 +890,13 @@ run.</p>
 
     <div class="description">
         <p>The views that this App supports. Available views
-are defined in {@link F2.Constants.Views}. The presence of a view can be checked
-via {@link F2.inArray}:</p>
+are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The presence of a view can be checked
+via F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
 
 <pre class="code"><code class="prettyprint">F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 </code></pre>
 
-<p>The {@link F2.Constants.Views}.HOME view should always be present.</p>
+<p>The <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.HOME view should always be present.</p>
     </div>
 
     

@@ -45,8 +45,8 @@ F2.extend("", {
 	 	developerUrl:"",
 	 	/**
 	 	 * The height of the App. The initial height will be pulled from
-	 	 * the {@link F2.App} object, but later modified by firing an 
-	 	 * {@link F2.Constants.Events.APP_HEIGHT_CHANGE} event.
+	 	 * the {{#crossLink "F2.App"}}{{/crossLink}} object, but later modified by firing an 
+	 	 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_HEIGHT_CHANGE event.
 	 	 * @property height
 	 	 * @type int
 	 	 */
@@ -59,7 +59,7 @@ F2.extend("", {
 	 	instanceId:"",
 	 	/**
 	 	 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {@link F2.App} object sets isSecure = true. It will 
+		 * will be true if the {{#crossLink "F2.App"}}{{/crossLink}} object sets isSecure = true. It will 
 		 * also be true if the Container has decided to run Apps in iframes.
 		 * @property isSecure
 		 * @type bool
@@ -67,8 +67,18 @@ F2.extend("", {
 	 	 */
 	 	isSecure:false,
 	 	/**
+	 	 * The recommended maximum width in pixels that this app should be run.
+	 	 * It is up to the Container to implement the logic to prevent an App
+	 	 * from being run when the maxWidth requirements are not met.
+	 	 * @property maxWidth
+	 	 * @type int
+	 	 */
+	 	maxWidth:0,
+	 	/**
 	 	 * The recommended minimum grid size that this app should be run. This
 	 	 * value corresponds to the 12-grid system that is used by the Container.
+	 	 * This property should be set by Apps that require a certain number of 
+	 	 * columns in their layout.
 	 	 * @property minGridSize
 	 	 * @type int
 	 	 * @default 4
@@ -76,7 +86,8 @@ F2.extend("", {
 	 	minGridSize:4,
 	 	/**
 	 	 * The recommended minimum width in pixels that this app should be 
-	 	 * run.
+	 	 * run. It is up to the Container to implement the logic to prevent
+	 	 * an App from being run when the minWidth requirements are not met.
 	 	 * @property minWidth
 	 	 * @type int
 	 	 * @default 300
@@ -98,12 +109,12 @@ F2.extend("", {
 	 	url:"",
 	 	/**
 	 	 * The views that this App supports. Available views
-		 * are defined in {@link F2.Constants.Views}. The presence of a view can be checked
-		 * via {@link F2.inArray}:
+		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The presence of a view can be checked
+		 * via F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {@link F2.Constants.Views}.HOME view should always be present.
+		 * The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always be present.
 		 * @property views
 		 * @type Array
 	 	 */
@@ -151,16 +162,16 @@ F2.extend("", {
 	ContainerConfiguration:{
 		/**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {@link F2.App} object and also a string of html.
+		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html.
 		 * The extra html can provide links to edit app settings and remove an app from the
-		 * Container. See {@link F2.Constants.Css} for CSS classes that should be applied to elements.
+		 * Container. See {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that should be applied to elements.
 		 * @property appWrapper
 		 * @type function
 		 */
 		appWrapper:function() {},
 		/**
 		 * Allows the Container to override how an App's html is 
-		 * inserted into the page. The function should accept an {@link F2.App} object
+		 * inserted into the page. The function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
 		 * and also a string of html
 		 * @property appWriter
 		 * @type function
@@ -183,7 +194,7 @@ F2.extend("", {
 		/**
 		 * Specifies what views a Container will provide buttons
 		 * or liks to. Generally, the views will be switched via buttons or links in the App's
-		 * header. The {@link F2.Constants.Views}.HOME view should always be present.
+		 * header. The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always be present.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
