@@ -1,4 +1,4 @@
-# The Components of the Framework
+% The Components of the Framework
 
 * The Container
 * The App
