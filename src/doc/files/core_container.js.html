@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
+            <em>F2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
             
                 <li><a href="..&#x2F;classes/F2.AppAssets.html">F2.AppAssets</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.AppAssets.AppContent.html">F2.AppAssets.AppContent</a></li>
             
                 <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
             
@@ -381,8 +383,12 @@ F2.extend(&quot;&quot;, (function(){
 
 			&#x2F;&#x2F; load scripts and eval inlines once complete
 			$.each(scripts, function(i, e) {
-				$.getScript(e)
-					.done(function() {
+				$.ajax({
+					url:e,
+					async:false,
+					dataType:&quot;script&quot;,
+					type:&quot;GET&quot;,
+					success:function() {
 						if (++scriptsLoaded == scriptCount) {
 							$.each(inlines, function(i, e) {
 								&#x2F;&#x2F;TODO: Remove this temporary work-around for working with the WidgetApi
@@ -394,16 +400,17 @@ F2.extend(&quot;&quot;, (function(){
 								try {
 									eval(e);
 								} catch (exception) {
-									F2.log(&quot;Error loading inline script (&quot; + e + &quot;)&quot;);
+									F2.log(&quot;Error loading inline script: &quot; + exception + &quot;\n\n&quot; + e);
 								}
 							});
 							&#x2F;&#x2F; fire the load event to tell the App it can proceed
 							loadEvent();
 						}
-					})
-					.fail(function(jqxhr, settings, exception) {
+					},
+					error:function(jqxhr, settings, exception) {
 						F2.log([&quot;Failed to load script (&quot; + e +&quot;)&quot;, exception.toString()]);
-					});
+					}
+				});
 			});
 
 			&#x2F;&#x2F;TODO: Remove the Widgets[0].Html as its a work-around for working with the WidgetApi

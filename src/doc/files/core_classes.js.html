@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
+            <em>F2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,8 @@
                 <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
             
                 <li><a href="..&#x2F;classes/F2.AppAssets.html">F2.AppAssets</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.AppAssets.AppContent.html">F2.AppAssets.AppContent</a></li>
             
                 <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
             
@@ -229,10 +231,6 @@ F2.extend(&quot;&quot;, {
 	&#x2F;**
 	 * The assets needed to render an App on the page
 	 * @class F2.AppAssets
-	 * @property {Array} Scripts Urls to javascript files required by the App
-	 * @property {Array} Styles Urls to CSS files required by the App
-	 * @property {Array} InlineScripts Any inline javascript tha should initially be run
-	 * @property {string} Html The html of the App
 	 *&#x2F;
 	AppAssets:{
 		&#x2F;**
@@ -254,12 +252,44 @@ F2.extend(&quot;&quot;, {
 		 *&#x2F;
 		InlineScripts:[],
 		&#x2F;**
-		 * The html of the App
-		 * @property Html
+		 * The array of {{#crossLink &quot;F2.AppAssets.AppContent&quot;}}{{&#x2F;crossLink}} objects
+		 * @property Apps
+		 * @type Array
+		 * @required
+		 *&#x2F;
+		Apps:[]
+	},
+	&#x2F;**
+	 * The AppContent object
+	 * @class F2.AppAssets.AppContent
+	 **&#x2F;
+	AppContent:{
+		&#x2F;**
+		 * Arbitrary data to be passed along with the App
+		 * @property data
+		 * @type object
+		 *&#x2F;
+		data:{},
+		&#x2F;**
+		 * The string of HTML representing the App
+		 * @property html
 		 * @type string
 		 * @required
 		 *&#x2F;
-		Html:&quot;&quot;
+		html:&quot;&quot;,
+		&#x2F;**
+	 	 * The unique runtime ID of the App
+	 	 * @property instanceId
+	 	 * @type string
+	 	 * @required
+	 	 *&#x2F;
+	 	instanceId:&quot;&quot;,
+		&#x2F;**
+		 * A status message
+		 * @property status
+		 * @type string
+		 *&#x2F;
+		status:&quot;&quot;
 	},
 	&#x2F;**
 	 * An object containing configuration information for the Container

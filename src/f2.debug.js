@@ -1583,10 +1583,6 @@ F2.extend("", {
 	/**
 	 * The assets needed to render an App on the page
 	 * @class F2.AppAssets
-	 * @property {Array} Scripts Urls to javascript files required by the App
-	 * @property {Array} Styles Urls to CSS files required by the App
-	 * @property {Array} InlineScripts Any inline javascript tha should initially be run
-	 * @property {string} Html The html of the App
 	 */
 	AppAssets:{
 		/**
@@ -1608,12 +1604,44 @@ F2.extend("", {
 		 */
 		InlineScripts:[],
 		/**
-		 * The html of the App
-		 * @property Html
+		 * The array of {{#crossLink "F2.AppAssets.AppContent"}}{{/crossLink}} objects
+		 * @property Apps
+		 * @type Array
+		 * @required
+		 */
+		Apps:[]
+	},
+	/**
+	 * The AppContent object
+	 * @class F2.AppAssets.AppContent
+	 **/
+	AppContent:{
+		/**
+		 * Arbitrary data to be passed along with the App
+		 * @property data
+		 * @type object
+		 */
+		data:{},
+		/**
+		 * The string of HTML representing the App
+		 * @property html
 		 * @type string
 		 * @required
 		 */
-		Html:""
+		html:"",
+		/**
+	 	 * The unique runtime ID of the App
+	 	 * @property instanceId
+	 	 * @type string
+	 	 * @required
+	 	 */
+	 	instanceId:"",
+		/**
+		 * A status message
+		 * @property status
+		 * @type string
+		 */
+		status:""
 	},
 	/**
 	 * An object containing configuration information for the Container
@@ -2174,8 +2202,12 @@ F2.extend("", (function(){
 
 			// load scripts and eval inlines once complete
 			$.each(scripts, function(i, e) {
-				$.getScript(e)
-					.done(function() {
+				$.ajax({
+					url:e,
+					async:false,
+					dataType:"script",
+					type:"GET",
+					success:function() {
 						if (++scriptsLoaded == scriptCount) {
 							$.each(inlines, function(i, e) {
 								//TODO: Remove this temporary work-around for working with the WidgetApi
@@ -2187,16 +2219,17 @@ F2.extend("", (function(){
 								try {
 									eval(e);
 								} catch (exception) {
-									F2.log("Error loading inline script (" + e + ")");
+									F2.log("Error loading inline script: " + exception + "\n\n" + e);
 								}
 							});
 							// fire the load event to tell the App it can proceed
 							loadEvent();
 						}
-					})
-					.fail(function(jqxhr, settings, exception) {
+					},
+					error:function(jqxhr, settings, exception) {
 						F2.log(["Failed to load script (" + e +")", exception.toString()]);
-					});
+					}
+				});
 			});
 
 			//TODO: Remove the Widgets[0].Html as its a work-around for working with the WidgetApi
