@@ -116,6 +116,13 @@ F2.extend("", {
 	 	 */
 	 	appId:"",
 	 	/**
+	 	 * A JSON string of data that will be passed to the
+	 	 * server when an App request is made.
+	 	 * @property data
+	 	 * @type string
+	 	 */
+	 	data:"",
+	 	/**
 	 	 * The description of the App
 	 	 * @property description
 	 	 * @type string
@@ -143,6 +150,14 @@ F2.extend("", {
 	 	 * @required
 	 	 */
 	 	developerUrl:"",
+	 	/**
+	 	 * True if the App should be requested in a single request with other Apps. The
+	 	 * App must have isSecure = false.
+	 	 * @property enableBatchRequests
+	 	 * @type bool
+	 	 * @default false
+	 	 */
+	 	enableBatchRequests:false,
 	 	/**
 	 	 * The height of the App. The initial height will be pulled from
 	 	 * the {{#crossLink "F2.App"}}{{/crossLink}} object, but later modified by firing an 
@@ -226,6 +241,19 @@ F2.extend("", {
 	 */
 	AppAssets:{
 		/**
+		 * The array of {{#crossLink "F2.AppAssets.AppContent"}}{{/crossLink}} objects
+		 * @property Apps
+		 * @type Array
+		 * @required
+		 */
+		Apps:[],
+		/**
+		 * Any inline javascript tha should initially be run
+		 * @property InlineScripts
+		 * @type Array
+		 */
+		InlineScripts:[],
+		/**
 		 * Urls to javascript files required by the App
 		 * @property Scripts
 		 * @type Array
@@ -236,20 +264,7 @@ F2.extend("", {
 		 * @property Styles
 		 * @type Array
 		 */
-		Styles:[],
-		/**
-		 * Any inline javascript tha should initially be run
-		 * @property InlineScripts
-		 * @type Array
-		 */
-		InlineScripts:[],
-		/**
-		 * The array of {{#crossLink "F2.AppAssets.AppContent"}}{{/crossLink}} objects
-		 * @property Apps
-		 * @type Array
-		 * @required
-		 */
-		Apps:[]
+		Styles:[]
 	},
 	/**
 	 * The AppContent object
@@ -258,30 +273,30 @@ F2.extend("", {
 	AppContent:{
 		/**
 		 * Arbitrary data to be passed along with the App
-		 * @property data
+		 * @property Data
 		 * @type object
 		 */
-		data:{},
+		Data:{},
 		/**
 		 * The string of HTML representing the App
-		 * @property html
+		 * @property Html
 		 * @type string
 		 * @required
 		 */
-		html:"",
+		Html:"",
 		/**
 	 	 * The unique runtime ID of the App
-	 	 * @property instanceId
+	 	 * @property InstanceId
 	 	 * @type string
 	 	 * @required
 	 	 */
-	 	instanceId:"",
+	 	InstanceId:"",
 		/**
 		 * A status message
-		 * @property status
+		 * @property Status
 		 * @type string
 		 */
-		status:""
+		Status:""
 	},
 	/**
 	 * An object containing configuration information for the Container
@@ -630,7 +645,7 @@ F2.extend("", (function(){
 							app:app
 						};
 
-						F2.loadApp(app, appAssets);
+						_loadApps(app, appAssets);
 						isLoaded = true;
 					}
 				} else {
@@ -773,6 +788,105 @@ F2.extend("", (function(){
 	};
 
 	/**
+	 * Loads the App's html/css/javascript
+	 * @method loadApp
+	 * @private
+	 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}} objects
+	 * @param {F2.AppAssets} [appAssets] The AppAssets object
+	 */
+	var _loadApps = function(apps, appAssets) {
+
+		// check for secure app
+		if (apps.length == 1 && apps[0].isSecure) {
+			_loadSecureApp(apps[0], appAssets);
+			return;
+		}
+
+		var scripts = appAssets.Scripts || [];
+		var styles = appAssets.Styles || [];
+		var inlines = appAssets.InlineScripts || [];
+		var scriptCount = scripts.length;
+		var scriptsLoaded = 0;
+		var loadEvent = function() {
+			$.each(apps, function(i, a) {
+				_events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appAssets);
+			});
+		};
+
+		// load styles
+		var stylesFragment = [];
+		$.each(styles, function(i, e) {
+			stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
+		});
+		$("head").append(stylesFragment.join(''));
+
+		// load html
+		$.each(appAssets.Apps, function(i, a) {
+			if (a.InstanceId && _apps[a.InstanceId]) {
+				// load html
+				_writeAppHtml(_apps[a.InstanceId].app, _getAppHtml(_apps[a.InstanceId].app, a.Html));
+				// init events
+				_initAppEvents(_apps[a.InstanceId].app);
+			} else {
+				F2.log(["Unable to load App.  Missing or invalid \"InstanceId\"\n\n", a]);
+			}
+		});
+
+		// load scripts and eval inlines once complete
+		$.each(scripts, function(i, e) {
+			$.ajax({
+				url:e,
+				async:false,
+				dataType:"script",
+				type:"GET",
+				success:function() {
+					if (++scriptsLoaded == scriptCount) {
+						$.each(inlines, function(i, e) {
+							try {
+								eval(e);
+							} catch (exception) {
+								F2.log("Error loading inline script: " + exception + "\n\n" + e);
+							}
+						});
+						// fire the load event to tell the App it can proceed
+						loadEvent();
+					}
+				},
+				error:function(jqxhr, settings, exception) {
+					F2.log(["Failed to load script (" + e +")", exception.toString()]);
+				}
+			});
+		});
+
+		// if no scripts were to be processed, fire the appLoad event
+		if (!scriptCount) {
+			loadEvent();
+		}
+	};
+
+	/**
+	 * Loads the App's html/css/javascript into an iframe
+	 * @method loadSecureApp
+	 * @private
+	 * @param {F2.App} app The App's context object.
+	 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the page.
+	 */
+	var _loadSecureApp = function(app, appAssets) {
+
+		// make sure the Container is configured for secure apps
+		if (_config.secureAppPagePath) {
+			// create the html container for the iframe
+			_writeAppHtml(app, _getAppHtml(app, "<div></div>"));
+			// init events
+			_initAppEvents(app);
+			// setup the iframe/socket connection
+			_apps[app.instanceId].socket = _createContainerToAppSocket(app, appAssets);
+		} else {
+			F2.log("Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.");
+		}
+	};
+
+	/**
 	 * Appends the App's html to the DOM
 	 * @method _writeAppHtml
 	 * @private
@@ -812,152 +926,92 @@ F2.extend("", (function(){
 			_isInit = true;
 		},
 		/**
-		 * Loads the App's html/css/javascript
-		 * @method loadApp
-		 * @param {F2.App} app The App's context object.
-		 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the page.
-		 */
-		loadApp:function(app, appAssets) {
-
-			if (!app.instanceId || !_apps[app.instanceId]) {
-				F2.log("\"F2.registerApp\" must be called before \"F2.loadApp\"");
-				return;
-			}
-
-			var scripts = appAssets.Scripts || [];
-			var styles = appAssets.Styles || [];
-			var inlines = appAssets.InlineScripts || [];
-			var scriptCount = scripts.length;
-			var scriptsLoaded = 0;
-			var loadEvent = function() {
-				_events.emit(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, app, appAssets);
-			};
-
-			// load styles
-			var stylesFragment = [];
-			$.each(styles, function(i, e) {
-				stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
-			});
-			$("head").append(stylesFragment.join(''));
-
-			// load scripts and eval inlines once complete
-			$.each(scripts, function(i, e) {
-				$.ajax({
-					url:e,
-					async:false,
-					dataType:"script",
-					type:"GET",
-					success:function() {
-						if (++scriptsLoaded == scriptCount) {
-							$.each(inlines, function(i, e) {
-								//TODO: Remove this temporary work-around for working with the WidgetApi
-								//remove outer function call b/c it overwrites itself
-								e = e.replace('window["__modWidgetInit__"] = function() {','');
-								//remove final "}" in string
-								e = e.slice(0, -1);
-
-								try {
-									eval(e);
-								} catch (exception) {
-									F2.log("Error loading inline script: " + exception + "\n\n" + e);
-								}
-							});
-							// fire the load event to tell the App it can proceed
-							loadEvent();
-						}
-					},
-					error:function(jqxhr, settings, exception) {
-						F2.log(["Failed to load script (" + e +")", exception.toString()]);
-					}
-				});
-			});
-
-			//TODO: Remove the Widgets[0].Html as its a work-around for working with the WidgetApi
-			// load html
-			_writeAppHtml(app, _getAppHtml(app, appAssets.Widgets[0].Html));
-
-			// init events
-			_initAppEvents(app);
-
-			// if no scripts were to be processed, fire the appLoad event
-			if (!scriptCount) {
-				loadEvent();
-			}
-		},
-		/**
-		 * Loads the App's html/css/javascript into an iframe
-		 * @method loadSecureApp
-		 * @param {F2.App} app The App's context object.
-		 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the page.
-		 */
-		loadSecureApp:function(app, appAssets) {
-
-			// make sure the Container is configured for secure apps
-			if (_config.secureAppPagePath) {
-				// create the html container for the iframe
-				_writeAppHtml(app, _getAppHtml(app, "<div></div>"));
-				// init events
-				_initAppEvents(app);
-				// setup the iframe/socket connection
-				_apps[app.instanceId].socket = _createContainerToAppSocket(app, appAssets);
-			} else {
-				F2.log("Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.");
-			}
-		},
-		/**
-		 * Loads the App's jsonp data to begin the App loading process. The App will
+		 * Begins the loading process for all Apps. The App will
 		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will contain the App's unique
-		 * instanceId within the Container.
-		 * @method registerApp
-		 * @param {F2.App} app The App's meta data object containing
-		 * the url to be loaded.
-		 * @param {F2.AppAssets} [appAssets] The AppAssets object. This can 
-		 * be useful if Apps are loaded on the server-side and passed down to the
+		 * instanceId within the Container. Optionally, the {{#crossLink "F2.AppAssets"}}{{/crossLink}}
+		 * can be passed in and those assets will be used instead of making a request.
+		 * @method registerApps
+		 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}} objects
+		 * @param {Array} [appAssets] An array of {{#crossLink "F2.AppAssets"}}{{/crossLink}}
+		 * objects. This array must be the same length as the apps array that is passed in.
+		 * This can be useful if Apps are loaded on the server-side and passed down to the
 		 * client.
 		 */
-		registerApp:function(app, appAssets) {
+		registerApps:function(apps, appAssets) {
 
-				// check for valid App configurations
-			if (!app) {
-				F2.log("\"app\" is a required parameter");
-				return;
-			} else if (!app.appId) {
-				F2.log("\"appId\" missing from App object");
-				return;
-			} else if (!app.url) {
-				F2.log("\"url\" missing from App object");
-				return;
-			} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
-				F2.log("\"views\" not defined or missing \"F2.Constants.Views.HOME\" view.");
+			var queue = [];
+			var batches = {};
+			var hasAssets = typeof appAssets !== "undefined";
+			appAssets = appAssets || [];
+			apps = [].concat(apps);
+
+			// ensure that if appAssets is passed in, we get a full array of assets
+			if (apps.length && appAssets.length && app.length != appAssets.length) {
+				F2.log("The length of \"apps\" does not equal the length of \"appAssets\"");
 				return;
 			}
 
-			// create the instanceId for the App
-			app.instanceId = F2.guid();
+			// validate each app and assign it an instanceId
+			// then determine which apps can be batched together
+			$.each(apps, function(i, a) {
 
-			// save app and appAssets
-			_apps[app.instanceId] = {
-				app:app
-			};
-
-			// function to toggle loading secure/unsecure app
-			var _loadApp = function(appAssets) {
-				if (app.isSecure) {
-					F2.loadSecureApp(app, appAssets);
-				} else {
-					F2.loadApp(app, appAssets);	
+				// check for valid App configurations
+				if (!a.appId) {
+					F2.log("\"appId\" missing from App object");
+					return;
+				} else if (!a.url) {
+					F2.log("\"url\" missing from App object");
+					return;
+				} else if (!a.views || !F2.inArray(F2.Constants.Views.HOME, a.views)) {
+					F2.log("\"views\" not defined or missing \"F2.Constants.Views.HOME\" view.");
+					return;
 				}
-			};
 
-			// fetch the app assets if they weren't already available
-			if (appAssets) {
-				_loadApp(appAssets);
+				// create the instanceId for the App
+				a.instanceId = F2.guid();
+
+				// save app
+				_apps[a.instanceId] = { app:a };
+
+				if (!hasAssets) {
+					// check if this app can be batched
+					if (a.enableBatchRequests && !a.isSecure) {
+						batches[a.url.toLowerCase()] = batches[a.url.toLowerCase()] || [];
+						batches[a.url.toLowerCase()].push(a);
+					} else {
+						queue.push({
+							url:a.url,
+							apps:[a]
+						});
+					}
+				}
+			});
+
+			// if we have the assets already, load the apps
+			if (hasAssets) {
+				$.each(apps, function(i, a) {
+					_loadApps(a, appAssets[i]);
+				});
+
+			// else fetch the apps
 			} else {
-				$.ajax({
-					url:app.url,
-					data:{ app:F2.stringify(app) },
-					dataType:"jsonp",
-					success:_loadApp
+				// add the batches to the queue
+				$.each(batches, function(i, b) {
+					queue.push({ url:i, apps:b })
+				});
+
+				// form and make the requests
+				$.each(queue, function(i, req) {
+					$.ajax({
+						url:req.url,
+						data:{
+							params:F2.stringify(req.apps)
+						},
+						dataType:"jsonp",
+						success:function(appAssets) {
+							_loadApps(req.apps, appAssets);
+						}
+					});
 				});
 			}
 		},

@@ -71,7 +71,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "core\\container.js",
-            "line": 223,
+            "line": 322,
             "description": "Open F2",
             "itemtype": "main"
         }
@@ -100,7 +100,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "core\\classes.js",
-            "line": 123,
+            "line": 138,
             "description": "The assets needed to render an App on the page"
         },
         "F2.AppAssets.AppContent": {
@@ -113,7 +113,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "core\\classes.js",
-            "line": 154,
+            "line": 169,
             "description": "The AppContent object"
         },
         "F2.ContainerConfiguration": {
@@ -126,7 +126,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "core\\classes.js",
-            "line": 186,
+            "line": 201,
             "description": "An object containing configuration information for the Container"
         },
         "F2.Constants": {
@@ -207,7 +207,7 @@
             "module": "f2",
             "namespace": "",
             "file": "core\\container.js",
-            "line": 223,
+            "line": 322,
             "description": "Description of Events goes here",
             "see": [
                 "The <a href=\"https://github.com/hij1nx/EventEmitter2\" target=\"_blank\">EventEmitter2</a> project."
@@ -238,6 +238,15 @@
         {
             "file": "core\\classes.js",
             "line": 18,
+            "description": "A JSON string of data that will be passed to the\nserver when an App request is made.",
+            "itemtype": "property",
+            "name": "data",
+            "type": "string",
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 25,
             "description": "The description of the App",
             "itemtype": "property",
             "name": "description",
@@ -247,7 +256,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 25,
+            "line": 32,
             "description": "The company of the developer",
             "itemtype": "property",
             "name": "developerCompany",
@@ -257,7 +266,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 32,
+            "line": 39,
             "description": "The name of the developer",
             "itemtype": "property",
             "name": "developerName",
@@ -267,7 +276,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 39,
+            "line": 46,
             "description": "The url of the developer",
             "itemtype": "property",
             "name": "developerUrl",
@@ -277,7 +286,17 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 46,
+            "line": 53,
+            "description": "True if the App should be requested in a single request with other Apps. The\nApp must have isSecure = false.",
+            "itemtype": "property",
+            "name": "enableBatchRequests",
+            "type": "bool",
+            "default": "false",
+            "class": "F2.App"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 61,
             "description": "The height of the App. The initial height will be pulled from\nthe {{#crossLink \"F2.App\"}}{{/crossLink}} object, but later modified by firing an \n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_HEIGHT_CHANGE event.",
             "itemtype": "property",
             "name": "height",
@@ -286,7 +305,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 54,
+            "line": 69,
             "description": "The unique runtime ID of the App",
             "itemtype": "property",
             "name": "instanceId",
@@ -295,7 +314,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 60,
+            "line": 75,
             "description": "True if the App will be loaded in an iframe. This property\nwill be true if the {{#crossLink \"F2.App\"}}{{/crossLink}} object sets isSecure = true. It will \nalso be true if the Container has decided to run Apps in iframes.",
             "itemtype": "property",
             "name": "isSecure",
@@ -305,7 +324,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 69,
+            "line": 84,
             "description": "The recommended maximum width in pixels that this app should be run.\nIt is up to the Container to implement the logic to prevent an App\nfrom being run when the maxWidth requirements are not met.",
             "itemtype": "property",
             "name": "maxWidth",
@@ -314,7 +333,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 77,
+            "line": 92,
             "description": "The recommended minimum grid size that this app should be run. This\nvalue corresponds to the 12-grid system that is used by the Container.\nThis property should be set by Apps that require a certain number of \ncolumns in their layout.",
             "itemtype": "property",
             "name": "minGridSize",
@@ -324,7 +343,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 87,
+            "line": 102,
             "description": "The recommended minimum width in pixels that this app should be \nrun. It is up to the Container to implement the logic to prevent\nan App from being run when the minWidth requirements are not met.",
             "itemtype": "property",
             "name": "minWidth",
@@ -334,7 +353,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 96,
+            "line": 111,
             "description": "The name of the App",
             "itemtype": "property",
             "name": "name",
@@ -344,7 +363,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 103,
+            "line": 118,
             "description": "The url of the App",
             "itemtype": "property",
             "name": "url",
@@ -354,7 +373,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 110,
+            "line": 125,
             "description": "The views that this App supports. Available views\nare defined in {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}. The presence of a view can be checked\nvia F2.{{#crossLink \"F2/inArray\"}}{{/crossLink}}:\n\n    F2.inArray(F2.Constants.Views.SETTINGS, app.views)\n\nThe {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.HOME view should always be present.",
             "itemtype": "property",
             "name": "views",
@@ -363,34 +382,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 128,
-            "description": "Urls to javascript files required by the App",
-            "itemtype": "property",
-            "name": "Scripts",
-            "type": "Array",
-            "class": "F2.AppAssets"
-        },
-        {
-            "file": "core\\classes.js",
-            "line": 134,
-            "description": "Urls to CSS files required by the App",
-            "itemtype": "property",
-            "name": "Styles",
-            "type": "Array",
-            "class": "F2.AppAssets"
-        },
-        {
-            "file": "core\\classes.js",
-            "line": 140,
-            "description": "Any inline javascript tha should initially be run",
-            "itemtype": "property",
-            "name": "InlineScripts",
-            "type": "Array",
-            "class": "F2.AppAssets"
-        },
-        {
-            "file": "core\\classes.js",
-            "line": 146,
+            "line": 143,
             "description": "The array of {{#crossLink \"F2.AppAssets.AppContent\"}}{{/crossLink}} objects",
             "itemtype": "property",
             "name": "Apps",
@@ -400,45 +392,72 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 159,
+            "line": 150,
+            "description": "Any inline javascript tha should initially be run",
+            "itemtype": "property",
+            "name": "InlineScripts",
+            "type": "Array",
+            "class": "F2.AppAssets"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 156,
+            "description": "Urls to javascript files required by the App",
+            "itemtype": "property",
+            "name": "Scripts",
+            "type": "Array",
+            "class": "F2.AppAssets"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 162,
+            "description": "Urls to CSS files required by the App",
+            "itemtype": "property",
+            "name": "Styles",
+            "type": "Array",
+            "class": "F2.AppAssets"
+        },
+        {
+            "file": "core\\classes.js",
+            "line": 174,
             "description": "Arbitrary data to be passed along with the App",
             "itemtype": "property",
-            "name": "data",
+            "name": "Data",
             "type": "object",
             "class": "F2.AppAssets.AppContent"
         },
         {
             "file": "core\\classes.js",
-            "line": 165,
+            "line": 180,
             "description": "The string of HTML representing the App",
             "itemtype": "property",
-            "name": "html",
+            "name": "Html",
             "type": "string",
             "required": 1,
             "class": "F2.AppAssets.AppContent"
         },
         {
             "file": "core\\classes.js",
-            "line": 172,
+            "line": 187,
             "description": "The unique runtime ID of the App",
             "itemtype": "property",
-            "name": "instanceId",
+            "name": "InstanceId",
             "type": "string",
             "required": 1,
             "class": "F2.AppAssets.AppContent"
         },
         {
             "file": "core\\classes.js",
-            "line": 179,
+            "line": 194,
             "description": "A status message",
             "itemtype": "property",
-            "name": "status",
+            "name": "Status",
             "type": "string",
             "class": "F2.AppAssets.AppContent"
         },
         {
             "file": "core\\classes.js",
-            "line": 191,
+            "line": 206,
             "description": "Allows the Container to wrap an App in extra html. The\nfunction should accept an {{#crossLink \"F2.App\"}}{{/crossLink}} object and also a string of html.\nThe extra html can provide links to edit app settings and remove an app from the\nContainer. See {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that should be applied to elements.",
             "itemtype": "property",
             "name": "appWrapper",
@@ -447,7 +466,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 200,
+            "line": 215,
             "description": "Allows the Container to override how an App's html is \ninserted into the page. The function should accept an {{#crossLink \"F2.App\"}}{{/crossLink}} object\nand also a string of html",
             "itemtype": "property",
             "name": "appWriter",
@@ -456,7 +475,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 208,
+            "line": 223,
             "description": "Tells the Container that it is currently running within\na secure app page",
             "itemtype": "property",
             "name": "isSecureAppPage",
@@ -465,7 +484,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 215,
+            "line": 230,
             "description": "Allows the Container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the Container",
             "itemtype": "property",
             "name": "secureAppPagePath",
@@ -474,7 +493,7 @@
         },
         {
             "file": "core\\classes.js",
-            "line": 222,
+            "line": 237,
             "description": "Specifies what views a Container will provide buttons\nor liks to. Generally, the views will be switched via buttons or links in the App's\nheader. The {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.HOME view should always be present.",
             "itemtype": "property",
             "name": "supportedViews",
@@ -782,6 +801,53 @@
         {
             "file": "core\\container.js",
             "line": 208,
+            "description": "Loads the App's html/css/javascript",
+            "itemtype": "method",
+            "name": "loadApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "apps",
+                    "description": "An array of {{#crossLink \"F2.App\"}}{{/crossLink}} objects",
+                    "type": "Array"
+                },
+                {
+                    "name": "appAssets",
+                    "description": "The AppAssets object",
+                    "type": "F2.AppAssets",
+                    "optional": true
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 285,
+            "description": "Loads the App's html/css/javascript into an iframe",
+            "itemtype": "method",
+            "name": "loadSecureApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App's context object.",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "appAssets",
+                    "description": "The App's html/css/js to be loaded into the page.",
+                    "type": "F2.AppAssets"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "core\\container.js",
+            "line": 307,
             "description": "Appends the App's html to the DOM",
             "itemtype": "method",
             "name": "_writeAppHtml",
@@ -804,7 +870,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 229,
+            "line": 328,
             "description": "Initializes the Container. This method must be called before performing any other\nactions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -820,62 +886,20 @@
         },
         {
             "file": "core\\container.js",
-            "line": 247,
-            "description": "Loads the App's html/css/javascript",
+            "line": 346,
+            "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will contain the App's unique\ninstanceId within the Container. Optionally, the {{#crossLink \"F2.AppAssets\"}}{{/crossLink}}\ncan be passed in and those assets will be used instead of making a request.",
             "itemtype": "method",
-            "name": "loadApp",
+            "name": "registerApps",
             "params": [
                 {
-                    "name": "app",
-                    "description": "The App's context object.",
-                    "type": "F2.App"
+                    "name": "apps",
+                    "description": "An array of {{#crossLink \"F2.App\"}}{{/crossLink}} objects",
+                    "type": "Array"
                 },
                 {
                     "name": "appAssets",
-                    "description": "The App's html/css/js to be loaded into the page.",
-                    "type": "F2.AppAssets"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "core\\container.js",
-            "line": 320,
-            "description": "Loads the App's html/css/javascript into an iframe",
-            "itemtype": "method",
-            "name": "loadSecureApp",
-            "params": [
-                {
-                    "name": "app",
-                    "description": "The App's context object.",
-                    "type": "F2.App"
-                },
-                {
-                    "name": "appAssets",
-                    "description": "The App's html/css/js to be loaded into the page.",
-                    "type": "F2.AppAssets"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "core\\container.js",
-            "line": 340,
-            "description": "Loads the App's jsonp data to begin the App loading process. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will contain the App's unique\ninstanceId within the Container.",
-            "itemtype": "method",
-            "name": "registerApp",
-            "params": [
-                {
-                    "name": "app",
-                    "description": "The App's meta data object containing\nthe url to be loaded.",
-                    "type": "F2.App"
-                },
-                {
-                    "name": "appAssets",
-                    "description": "The AppAssets object. This can \nbe useful if Apps are loaded on the server-side and passed down to the\nclient.",
-                    "type": "F2.AppAssets",
+                    "description": "An array of {{#crossLink \"F2.AppAssets\"}}{{/crossLink}}\nobjects. This array must be the same length as the apps array that is passed in.\nThis can be useful if Apps are loaded on the server-side and passed down to the\nclient.",
+                    "type": "Array",
                     "optional": true
                 }
             ],
@@ -884,7 +908,7 @@
         },
         {
             "file": "core\\container.js",
-            "line": 397,
+            "line": 436,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",

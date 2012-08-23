@@ -124,6 +124,13 @@ F2.extend(&quot;&quot;, {
 	 	 *&#x2F;
 	 	appId:&quot;&quot;,
 	 	&#x2F;**
+	 	 * A JSON string of data that will be passed to the
+	 	 * server when an App request is made.
+	 	 * @property data
+	 	 * @type string
+	 	 *&#x2F;
+	 	data:&quot;&quot;,
+	 	&#x2F;**
 	 	 * The description of the App
 	 	 * @property description
 	 	 * @type string
@@ -151,6 +158,14 @@ F2.extend(&quot;&quot;, {
 	 	 * @required
 	 	 *&#x2F;
 	 	developerUrl:&quot;&quot;,
+	 	&#x2F;**
+	 	 * True if the App should be requested in a single request with other Apps. The
+	 	 * App must have isSecure = false.
+	 	 * @property enableBatchRequests
+	 	 * @type bool
+	 	 * @default false
+	 	 *&#x2F;
+	 	enableBatchRequests:false,
 	 	&#x2F;**
 	 	 * The height of the App. The initial height will be pulled from
 	 	 * the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object, but later modified by firing an 
@@ -234,6 +249,19 @@ F2.extend(&quot;&quot;, {
 	 *&#x2F;
 	AppAssets:{
 		&#x2F;**
+		 * The array of {{#crossLink &quot;F2.AppAssets.AppContent&quot;}}{{&#x2F;crossLink}} objects
+		 * @property Apps
+		 * @type Array
+		 * @required
+		 *&#x2F;
+		Apps:[],
+		&#x2F;**
+		 * Any inline javascript tha should initially be run
+		 * @property InlineScripts
+		 * @type Array
+		 *&#x2F;
+		InlineScripts:[],
+		&#x2F;**
 		 * Urls to javascript files required by the App
 		 * @property Scripts
 		 * @type Array
@@ -244,20 +272,7 @@ F2.extend(&quot;&quot;, {
 		 * @property Styles
 		 * @type Array
 		 *&#x2F;
-		Styles:[],
-		&#x2F;**
-		 * Any inline javascript tha should initially be run
-		 * @property InlineScripts
-		 * @type Array
-		 *&#x2F;
-		InlineScripts:[],
-		&#x2F;**
-		 * The array of {{#crossLink &quot;F2.AppAssets.AppContent&quot;}}{{&#x2F;crossLink}} objects
-		 * @property Apps
-		 * @type Array
-		 * @required
-		 *&#x2F;
-		Apps:[]
+		Styles:[]
 	},
 	&#x2F;**
 	 * The AppContent object
@@ -266,30 +281,30 @@ F2.extend(&quot;&quot;, {
 	AppContent:{
 		&#x2F;**
 		 * Arbitrary data to be passed along with the App
-		 * @property data
+		 * @property Data
 		 * @type object
 		 *&#x2F;
-		data:{},
+		Data:{},
 		&#x2F;**
 		 * The string of HTML representing the App
-		 * @property html
+		 * @property Html
 		 * @type string
 		 * @required
 		 *&#x2F;
-		html:&quot;&quot;,
+		Html:&quot;&quot;,
 		&#x2F;**
 	 	 * The unique runtime ID of the App
-	 	 * @property instanceId
+	 	 * @property InstanceId
 	 	 * @type string
 	 	 * @required
 	 	 *&#x2F;
-	 	instanceId:&quot;&quot;,
+	 	InstanceId:&quot;&quot;,
 		&#x2F;**
 		 * A status message
-		 * @property status
+		 * @property Status
 		 * @type string
 		 *&#x2F;
-		status:&quot;&quot;
+		Status:&quot;&quot;
 	},
 	&#x2F;**
 	 * An object containing configuration information for the Container

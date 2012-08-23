@@ -2,9 +2,10 @@
 	date_default_timezone_set("America/New_York");
 
 	$callback = $_REQUEST["callback"];
-	$appRaw = $_REQUEST["app"];
-	$appRaw = get_magic_quotes_gpc() ? stripslashes($appRaw) : $appRaw;
-	$app = json_decode($appRaw);
+	$apps = $_REQUEST["params"];
+	$apps = get_magic_quotes_gpc() ? stripslashes($apps) : $apps;
+	$app = json_decode($apps);  
+	$app = $app[0]; // this App doesn't support batchedRequests
 
 	$serverPath = 
 		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
@@ -34,7 +35,7 @@
 	// populate the scripts, styles, inlines, html
 	$a->Scripts[] = $serverPath . "app.js";
 	$a->Styles[] = $serverPath . "style.css";
-	$a->Widgets[] = array("Html" => renderAppHtml($newsItems));
+	$a->Apps[] = array("InstanceId" => $app->instanceId, "Html" => renderAppHtml($newsItems));
 	$a->InlineScripts[] = <<<INLINES
 F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + "{$app->instanceId}", function (app, appAssets) {
 	var a = new App_Class(app, appAssets, {baseUrl:'{$serverPath}'});
@@ -56,7 +57,7 @@ INLINES;
 		public $Styles = array();
 		public $InlineScripts = array();
 		// temporary
-		public $Widgets = array();
+		public $Apps = array();
 	}
 
 	/**

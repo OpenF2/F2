@@ -49,7 +49,7 @@ var contents = packageFiles.map(function(f) {
 	// borrowed from enter-js
 	code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
 		comments.push(comment)
-		return ';' + token + ';'
+		return ';' + token + ';';
 	});
 
 	var ast = jsp.parse(code); // parse code and get the initial AST

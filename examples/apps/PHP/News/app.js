@@ -21,12 +21,12 @@ App_Class.prototype._handleSymbolChange = function (data) {
 	$.ajax({
 		url: this._config.baseUrl,
 		data: {
-			app: JSON.stringify(this._app)
+			params: JSON.stringify([this._app])
 		},
 		type: "post",
 		dataType: "jsonp",
 		success: $.proxy(function (data) {
-			$("div.f2-app-view ul:first", this._container).replaceWith($(data.Widgets[0].Html).find("ul:first"));
+			$("div.f2-app-view ul:first", this._container).replaceWith($(data.Apps[0].Html).find("ul:first"));
 			this._updateHeight();
 		}, this)
 	})

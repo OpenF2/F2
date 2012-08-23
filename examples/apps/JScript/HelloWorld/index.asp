@@ -3,8 +3,8 @@
 <%
 
 var callback = Request.QueryString("callback");
-var appRaw = decodeURIComponent(Request.QueryString("app"));
-var app = JSON.parse(appRaw);
+var apps = decodeURIComponent(Request.QueryString("params"));
+var app = JSON.parse(apps)[0];  // this App doesn't support batchedRequests
 
 var serverPath = [
 	String(Request.ServerVariables("HTTPS")).toLowerCase() == "on" ? "https://" : "http://",
@@ -27,8 +27,9 @@ if (callback && app) {
 				"});"
 			].join('')
 		],
-		Widgets:[
+		Apps:[
 			{
+				InstanceId:app.instanceId,
 				Html:[
 					'<div class="well">',
 						'<div class="f2-app-view" data-f2-view="home">',

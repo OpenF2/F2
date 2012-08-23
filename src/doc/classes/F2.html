@@ -223,14 +223,14 @@
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method_loadApp">loadApp</a>
 
                                 
                                 
                             </li>
                         
-                            <li class="index-item method">
+                            <li class="index-item method private">
                                 <a href="#method_loadSecureApp">loadSecureApp</a>
 
                                 
@@ -252,7 +252,7 @@
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_registerApp">registerApp</a>
+                                <a href="#method_registerApps">registerApps</a>
 
                                 
                                 
@@ -726,7 +726,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l208"><code>core\container.js:208</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l307"><code>core\container.js:307</code></a>
         
         </p>
 
@@ -1155,7 +1155,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l229"><code>core\container.js:229</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l328"><code>core\container.js:328</code></a>
         
         </p>
 
@@ -1201,7 +1201,7 @@ actions in the Container.</p>
 </div>
 
                 
-                    <div id="method_loadApp" class="method item">
+                    <div id="method_loadApp" class="method item private">
     <h3 class="name"><code>loadApp</code></h3>
 
     
@@ -1210,13 +1210,13 @@ actions in the Container.</p>
             
                 <li class="arg">
                     
-                        <code>app</code>
+                        <code>apps</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>appAssets</code>
+                        <code class="optional">[appAssets]</code>
                     
                 </li>
             
@@ -1228,6 +1228,8 @@ actions in the Container.</p>
 
     
 
+    
+        <span class="flag private">private</span>
     
 
     
@@ -1249,7 +1251,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l247"><code>core\container.js:247</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l208"><code>core\container.js:208</code></a>
         
         </p>
 
@@ -1271,14 +1273,14 @@ actions in the Container.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                        <code class="param-name">apps</code>
+                        <span class="type">Array</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The App's context object.</p>
+                        <p>An array of <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> objects</p>
                     </div>
 
                     
@@ -1286,14 +1288,15 @@ actions in the Container.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">appAssets</code>
+                        <code class="param-name optional">[appAssets]</code>
                         <span class="type"><a href="..\classes\F2.AppAssets.html" class="crosslink">F2.AppAssets</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The App's html/css/js to be loaded into the page.</p>
+                        <p>The AppAssets object</p>
                     </div>
 
                     
@@ -1309,7 +1312,7 @@ actions in the Container.</p>
 </div>
 
                 
-                    <div id="method_loadSecureApp" class="method item">
+                    <div id="method_loadSecureApp" class="method item private">
     <h3 class="name"><code>loadSecureApp</code></h3>
 
     
@@ -1337,6 +1340,8 @@ actions in the Container.</p>
     
 
     
+        <span class="flag private">private</span>
+    
 
     
 
@@ -1357,7 +1362,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l320"><code>core\container.js:320</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l285"><code>core\container.js:285</code></a>
         
         </p>
 
@@ -1608,8 +1613,8 @@ actions in the Container.</p>
 </div>
 
                 
-                    <div id="method_registerApp" class="method item">
-    <h3 class="name"><code>registerApp</code></h3>
+                    <div id="method_registerApps" class="method item">
+    <h3 class="name"><code>registerApps</code></h3>
 
     
         <div class="args">
@@ -1617,7 +1622,7 @@ actions in the Container.</p>
             
                 <li class="arg">
                     
-                        <code>app</code>
+                        <code>apps</code>
                     
                 </li>
             
@@ -1656,7 +1661,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l340"><code>core\container.js:340</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l346"><code>core\container.js:346</code></a>
         
         </p>
 
@@ -1667,9 +1672,10 @@ actions in the Container.</p>
     </div>
 
     <div class="description">
-        <p>Loads the App's jsonp data to begin the App loading process. The App will
+        <p>Begins the loading process for all Apps. The App will
 be passed the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object which will contain the App's unique
-instanceId within the Container.</p>
+instanceId within the Container. Optionally, the <a href="..\classes\F2.AppAssets.html" class="crosslink">F2.AppAssets</a>
+can be passed in and those assets will be used instead of making a request.</p>
     </div>
 
     
@@ -1680,15 +1686,14 @@ instanceId within the Container.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                        <code class="param-name">apps</code>
+                        <span class="type">Array</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The App's meta data object containing
-the url to be loaded.</p>
+                        <p>An array of <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> objects</p>
                     </div>
 
                     
@@ -1697,15 +1702,16 @@ the url to be loaded.</p>
                 <li class="param">
                     
                         <code class="param-name optional">[appAssets]</code>
-                        <span class="type"><a href="..\classes\F2.AppAssets.html" class="crosslink">F2.AppAssets</a></span>
+                        <span class="type">Array</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The AppAssets object. This can 
-be useful if Apps are loaded on the server-side and passed down to the
+                        <p>An array of <a href="..\classes\F2.AppAssets.html" class="crosslink">F2.AppAssets</a>
+objects. This array must be the same length as the apps array that is passed in.
+This can be useful if Apps are loaded on the server-side and passed down to the
 client.</p>
                     </div>
 
@@ -1764,7 +1770,7 @@ client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;core_container.js.html#l397"><code>core\container.js:397</code></a>
+        <a href="..&#x2F;files&#x2F;core_container.js.html#l436"><code>core\container.js:436</code></a>
         
         </p>
 
