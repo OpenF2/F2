@@ -71,7 +71,8 @@ console.log("Generating YUIDoc...");
 var docOptions = {
 	quiet:true,
 	paths:["./core"],
-	outdir:"./doc"
+	outdir:"./doc",
+	themedir:"./doc_theme"
 };
 var json = (new Y.YUIDoc(docOptions)).run();
 docOptions = Y.Project.mix(json, docOptions);
