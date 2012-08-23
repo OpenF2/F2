@@ -275,8 +275,12 @@ F2.extend("", (function(){
 
 			// load scripts and eval inlines once complete
 			$.each(scripts, function(i, e) {
-				$.getScript(e)
-					.done(function() {
+				$.ajax({
+					url:e,
+					async:false,
+					dataType:"script",
+					type:"GET",
+					success:function() {
 						if (++scriptsLoaded == scriptCount) {
 							$.each(inlines, function(i, e) {
 								//TODO: Remove this temporary work-around for working with the WidgetApi
@@ -288,16 +292,17 @@ F2.extend("", (function(){
 								try {
 									eval(e);
 								} catch (exception) {
-									F2.log("Error loading inline script (" + e + ")");
+									F2.log("Error loading inline script: " + exception + "\n\n" + e);
 								}
 							});
 							// fire the load event to tell the App it can proceed
 							loadEvent();
 						}
-					})
-					.fail(function(jqxhr, settings, exception) {
+					},
+					error:function(jqxhr, settings, exception) {
 						F2.log(["Failed to load script (" + e +")", exception.toString()]);
-					});
+					}
+				});
 			});
 
 			//TODO: Remove the Widgets[0].Html as its a work-around for working with the WidgetApi
