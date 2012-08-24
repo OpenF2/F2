@@ -71,7 +71,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "src\\container.js",
-            "line": 322,
+            "line": 325,
             "description": "Open F2",
             "itemtype": "main"
         }
@@ -207,7 +207,7 @@
             "module": "f2",
             "namespace": "",
             "file": "src\\container.js",
-            "line": 322,
+            "line": 325,
             "description": "Description of Events goes here",
             "see": [
                 "The <a href=\"https://github.com/hij1nx/EventEmitter2\" target=\"_blank\">EventEmitter2</a> project."
@@ -715,7 +715,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 39,
+            "line": 42,
             "description": "Creates a socket connection from the App to the Container",
             "itemtype": "method",
             "name": "_createAppToContainerSocket",
@@ -729,7 +729,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 84,
+            "line": 87,
             "description": "Creates a socket connection from the Container to the App using easyXDM",
             "itemtype": "method",
             "name": "_createContainerToAppSocket",
@@ -755,7 +755,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 134,
+            "line": 137,
             "description": "Function to render the html for an App.",
             "itemtype": "method",
             "name": "_getAppHtml",
@@ -778,7 +778,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 159,
+            "line": 162,
             "description": "Attach App events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -789,7 +789,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 190,
+            "line": 193,
             "description": "Attach Container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -800,7 +800,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 208,
+            "line": 211,
             "description": "Loads the App's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -824,7 +824,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 285,
+            "line": 288,
             "description": "Loads the App's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -847,7 +847,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 307,
+            "line": 310,
             "description": "Appends the App's html to the DOM",
             "itemtype": "method",
             "name": "_writeAppHtml",
@@ -870,7 +870,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 328,
+            "line": 331,
             "description": "Initializes the Container. This method must be called before performing any other\nactions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -886,7 +886,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 346,
+            "line": 349,
             "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will contain the App's unique\ninstanceId within the Container. Optionally, the {{#crossLink \"F2.AppAssets\"}}{{/crossLink}}\ncan be passed in and those assets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -908,7 +908,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 436,
+            "line": 439,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",

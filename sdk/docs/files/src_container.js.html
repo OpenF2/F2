@@ -133,7 +133,7 @@ F2.extend(&quot;&quot;, (function(){
 		$(&quot;#&quot; + obj.instanceId).find(&quot;iframe&quot;).height(obj.height);
 	});
 
-	&#x2F;&#x2F; Override the emit function so that events can be passed down into iframes
+	&#x2F;&#x2F; override the emit function so that events can be passed down into iframes
 	_events.emit = function() {
 		if (_hasSocketConnections) {
 			for (var i = 0, len = _sockets.length; i &lt; len; i++) {
@@ -143,6 +143,9 @@ F2.extend(&quot;&quot;, (function(){
 		&#x2F;&#x2F;F2.log([_hasSocketConnections, location.href, arguments]);
 		EventEmitter2.prototype.emit.apply(this, arguments);
 	};
+
+	&#x2F;&#x2F; disable methods we don&#x27;t want
+	_events.onAny = _events.offAny = $.noop;
 
 	&#x2F;**
 	 * Creates a socket connection from the App to the Container
