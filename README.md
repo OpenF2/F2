@@ -11,7 +11,7 @@ To get started or to learn more, visit [OpenF2.com](http://www.openF2.com). Foll
 
 ### Quick Start
 
-Clone the repo, `git clone https://github.com/markitondemand/OpenF2.git`, or [download the latest version](https://github.com/markitgroup/f2/zipball/master).
+Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the latest version](https://github.com/markitgroup/f2/zipball/master).
 
 ### Versioning
 
@@ -35,7 +35,7 @@ Have a question? Ask it on our forum.
 
 To track bugs or issues, we are using Issues here on GitHub. Please search across open issues before submitting new ones to prevent any duplicates.
 
-<https://github.com/markitgroup/F2/issues>
+<https://github.com/OpenF2/F2/issues>
 
 ### Copyright and license
 
