@@ -8,26 +8,26 @@ var Y = require("yuidocjs");
 
 // files to be packaged
 var packageFiles = [
-	"third-party/json3.js",
-	"third-party/eventemitter2.js",
-	"third-party/easyXDM/easyXDM.min.js",
-	"f2.js" // this file is created by the build process
+	"src/third-party/json3.js",
+	"src/third-party/eventemitter2.js",
+	"src/third-party/easyXDM/easyXDM.min.js",
+	"f2.no-third-party.js" // this file is created by the build process
 ];
 
 // only the files that represent f2
 var coreFiles = [
-	"core/preamble.js",
-	"core/classes.js",
-	"core/constants.js",
-	"core/container.js"
+	"src/preamble.js",
+	"src/classes.js",
+	"src/constants.js",
+	"src/container.js"
 ];
 
 
-console.log("Building f2.js...");
+console.log("Building f2.no-third-party.js...");
 var contents = coreFiles.map(function(f) {
 	return fs.readFileSync(f, ENCODING);
 });
-fs.writeFileSync("f2.js", contents.join(EOL), ENCODING);
+fs.writeFileSync("f2.no-third-party.js", contents.join(EOL), ENCODING);
 console.log("COMPLETE");
 
 
@@ -70,9 +70,10 @@ console.log("COMPLETE");
 console.log("Generating YUIDoc...");
 var docOptions = {
 	quiet:true,
-	paths:["./core"],
-	outdir:"./doc",
-	themedir:"./doc_theme"
+	norecurse:true,
+	paths:["./src"],
+	outdir:"./docs",
+	themedir:"./doc-theme"
 };
 var json = (new Y.YUIDoc(docOptions)).run();
 docOptions = Y.Project.mix(json, docOptions);
