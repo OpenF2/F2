@@ -23,11 +23,12 @@ if (!window.F2) {
 		/**
 		 * Wrapper logging function.
 		 * @method log
-		 * @param {Object} args The object to be logged to the console
+		 * @param {object} obj An object to be logged
+		 * @param {object} [obj2]* An object to be logged
 		 */
-		log:function(args) {
+		log:function() {
 			if (window.console && window.console.log) {
-				console.log(args);
+				console.log([].slice.call(arguments));
 			}
 		},
 		/**

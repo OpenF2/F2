@@ -21,7 +21,8 @@ if (callback && app) {
 		Styles:[],
 		InlineScripts:[
 			[
-				"F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + \"" + app.instanceId + "\", function (app, appAssets) {",
+				"F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + \"", app.instanceId, "\", function (app, appAssets) {",
+					"app.setTitle('", (app.isSecure ? 'Secure' : '')," Hello World');",
 					"var a = new App_Class(app, appAssets);",
 					"a.init();",
 				"});"

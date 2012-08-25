@@ -55,6 +55,8 @@
             
                 <li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
             
                 <li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
@@ -143,6 +145,16 @@ F2.extend(&quot;Constants&quot;, {
 			 *&#x2F;
 			APP_CONTAINER:_PREFIX + &quot;app-container&quot;,
 			&#x2F;**
+			 * The APP\_TITLE class should be applied to the DOM Element that contains
+			 * the title for an App.  If this class is not present, the {{#crossLink &quot;F2.App&#x2F;setTitle&quot;}}{{&#x2F;crossLink}}
+			 * will not function.
+			 * @property APP_TITLE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_TITLE:_PREFIX + &quot;app-title&quot;,
+			&#x2F;**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.DATA_ATTRIBUTE
 			 * attribute that specifies which {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}} it is. 
@@ -193,18 +205,6 @@ F2.extend(&quot;Constants&quot;, {
 			 * @final
 			 *&#x2F;
 			APPLICATION_LOAD:&quot;appLoad.&quot;,
-			&#x2F;**
-			 * The APP\_HEIGHT\_CHANGE event should be fired by an App when the height of the
-			 * App is changed.
-			 *
-			 *     { instanceId:&quot;73603967-5f59-9fba-b611-e311d9fc7ee4&quot;, height:200 }
-			 *
-			 * @property APP_HEIGHT_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 *&#x2F;
-			APP_HEIGHT_CHANGE:_APP_EVENT_PREFIX + &quot;heightChange&quot;,
 			&#x2F;**
 			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the width
 			 * of an App is changed. The App&#x27;s instanceId should be concatenated to this
@@ -263,22 +263,37 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + &quot;widthChange&quot;,
-			&#x2F;**
-			 * The SOCKET\_LOAD event is fired when an iframe socket initially loads. It is only
-			 * used with easyXDM and not with EventEmitter2
-			 * Returns a JSON string that represents:
-			 *
-			 *     [ App, AppAssets]
-			 * 
-			 * @property SOCKET_LOAD
-			 * @type string
-			 * @static
-			 * @final
-			 *&#x2F;
-			SOCKET_LOAD:&quot;__socketLoad__&quot;
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + &quot;widthChange&quot;
 		};
 	})(),
+
+	&#x2F;**
+	 * Constants for use with cross-domain sockets
+	 * @class F2.Constants.Sockets
+	 * @protected
+	 *&#x2F;
+	Sockets:{
+		&#x2F;**
+		 * The APP\_RPC message is sent when a method on an App object is called.
+		 * @property APP_RPC
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		APP_RPC:&quot;__appRpc__&quot;,
+		&#x2F;**
+		 * The LOAD message is sent when an iframe socket initially loads.
+		 * Returns a JSON string that represents:
+		 *
+		 *     [ App, AppAssets]
+		 * 
+		 * @property LOAD
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		LOAD:&quot;__socketLoad__&quot;
+	},
 
 	&#x2F;**
 	 * The available view types to Apps. The view should be specified by applying

@@ -35,6 +35,16 @@ F2.extend("Constants", {
 			 */
 			APP_CONTAINER:_PREFIX + "app-container",
 			/**
+			 * The APP\_TITLE class should be applied to the DOM Element that contains
+			 * the title for an App.  If this class is not present, the {{#crossLink "F2.App/setTitle"}}{{/crossLink}}
+			 * will not function.
+			 * @property APP_TITLE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_TITLE:_PREFIX + "app-title",
+			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
 			 * attribute that specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
@@ -85,18 +95,6 @@ F2.extend("Constants", {
 			 * @final
 			 */
 			APPLICATION_LOAD:"appLoad.",
-			/**
-			 * The APP\_HEIGHT\_CHANGE event should be fired by an App when the height of the
-			 * App is changed.
-			 *
-			 *     { instanceId:"73603967-5f59-9fba-b611-e311d9fc7ee4", height:200 }
-			 *
-			 * @property APP_HEIGHT_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_HEIGHT_CHANGE:_APP_EVENT_PREFIX + "heightChange",
 			/**
 			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the width
 			 * of an App is changed. The App's instanceId should be concatenated to this
@@ -155,22 +153,37 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + "widthChange",
-			/**
-			 * The SOCKET\_LOAD event is fired when an iframe socket initially loads. It is only
-			 * used with easyXDM and not with EventEmitter2
-			 * Returns a JSON string that represents:
-			 *
-			 *     [ App, AppAssets]
-			 * 
-			 * @property SOCKET_LOAD
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			SOCKET_LOAD:"__socketLoad__"
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + "widthChange"
 		};
 	})(),
+
+	/**
+	 * Constants for use with cross-domain sockets
+	 * @class F2.Constants.Sockets
+	 * @protected
+	 */
+	Sockets:{
+		/**
+		 * The APP\_RPC message is sent when a method on an App object is called.
+		 * @property APP_RPC
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_RPC:"__appRpc__",
+		/**
+		 * The LOAD message is sent when an iframe socket initially loads.
+		 * Returns a JSON string that represents:
+		 *
+		 *     [ App, AppAssets]
+		 * 
+		 * @property LOAD
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		LOAD:"__socketLoad__"
+	},
 
 	/**
 	 * The available view types to Apps. The view should be specified by applying

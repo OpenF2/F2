@@ -11,34 +11,6 @@ F2.extend("", (function(){
 	var _isInit = false;
 	var _sockets = [];
 
-	// init EventEmitter
-	var _events = new EventEmitter2({
-		wildcard:true
-	});
-
-	// unlimited listeners, set to > 0 for debugging
-	_events.setMaxListeners(0);
-
-	// handle APP_HEIGHT_CHANGE event
-	_events.on(F2.Constants.Events.APP_HEIGHT_CHANGE, function(obj) {
-		//F2.log("Updating height for " + obj.instanceId + " (" + obj.height + ")");
-		$("#" + obj.instanceId).find("iframe").height(obj.height);
-	});
-
-	// override the emit function so that events can be passed down into iframes
-	_events.emit = function() {
-		if (_hasSocketConnections) {
-			for (var i = 0, len = _sockets.length; i < len; i++) {
-				_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
-			}
-		}
-		//F2.log([_hasSocketConnections, location.href, arguments]);
-		EventEmitter2.prototype.emit.apply(this, arguments);
-	};
-
-	// disable methods we don't want
-	_events.onAny = _events.offAny = $.noop;
-
 	/**
 	 * Creates a socket connection from the App to the Container
 	 * @method _createAppToContainerSocket
@@ -47,14 +19,16 @@ F2.extend("", (function(){
 	 */
 	var _createAppToContainerSocket = function() {
 
-		var socketLoad = new RegExp("^" + F2.Constants.Events.SOCKET_LOAD);
+		var socketLoad = new RegExp("^" + F2.Constants.Sockets.LOAD);
+		var appCall = new RegExp("^" + F2.Constants.Sockets.APP_RPC);
 		var isLoaded = false;
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
 
+				// handle Socket Load
 				if (!isLoaded && socketLoad.test(message)) {
 					message = message.replace(socketLoad, "");
-					var appParts = JSON.parse(message);
+					var appParts = F2.parse(message);
 
 					// make sure we have the App and AppAssets
 					if (appParts.length == 2) {
@@ -62,16 +36,23 @@ F2.extend("", (function(){
 						var appAssets = appParts[1];
 
 						// save app
-						_apps[app.instanceId] = {
-							app:app
-						};
+						_apps[app.instanceId] = { app:app };
 
-						_loadApps(app, appAssets);
+						// add properties and methods
+						_hydrateApp(app);
+
+						// load the app
+						_loadApps([app], appAssets);
 						isLoaded = true;
 					}
+				// handle App Call
+				} else if (appCall.test(message)) {
+					message = message.replace(appCall, "");
+					var obj = F2.parse(message);
+					_apps[obj.instanceId].app["_" + obj.fnName](obj.args);
+				// handle Events
 				} else {
-					var eventArgs = JSON.parse(message);
-					//F2.log(eventArgs);
+					var eventArgs = F2.parse(message);
 					// do not call F2.Events.emit here, otherwise a circular message will occur
 					EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
 				}
@@ -117,12 +98,20 @@ F2.extend("", (function(){
 			container: container.get(0),
 			props:iframeProps,
 			onMessage: function(message, origin) {
-				var eventArgs = JSON.parse(message);
-				// do not call F2.Events.emit here, otherwise a circular message will occur
-				EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+				var appCall = new RegExp("^" + F2.Constants.Sockets.APP_RPC);
+
+				if (appCall.test(message)) {
+					message = message.replace(appCall, "");
+					var obj = F2.parse(message);
+					_apps[obj.instanceId].app["_" + obj.fnName](obj.args);
+				} else {
+					var eventArgs = F2.parse(message);
+					// do not call F2.Events.emit here, otherwise a circular message will occur
+					EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+				}
 			},
 			onReady: function() {
-				socket.postMessage(F2.Constants.Events.SOCKET_LOAD + F2.stringify([app, appAssets]));
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appAssets]));
 			}
 		});
 
@@ -157,6 +146,80 @@ F2.extend("", (function(){
 
 		// apply APP class and instanceId
 		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr("id", app.instanceId));
+	};
+
+	/**
+	 * Adds properties and methods to the App object
+	 * @method _hydrateApp
+	 * @private
+	 * @param {F2.App} app The App object
+	 */
+	var _hydrateApp = function(app) {
+
+		
+		/**
+		 * creates two functions on the App from the function
+		 * passed in if the app is secure. the 'incoming' function
+		 * will be called when a message is received via the 
+		 * socket connection
+		 * @method rpc
+		 * @private
+		 * @param {string} fnName The function name
+		 * @param {function} fn The main function
+		 * @param {function} [fnRemote] The remote function which will be
+		 * called first and its return value passed across the socket
+	   * into the main function ('fn')
+		 */
+		var rpc = function(fnName, fn, fnRemote) {
+			
+			if (app.isSecure) {
+				// incoming function
+				app["_" + fnName] = fn;	
+				// outgoing function - pass arguments through socket
+				app[fnName] = function() {
+					// if we're inside a secure app page, there is only one socket connection
+					var socket = _config.isSecureAppPage ? _sockets[0] : _apps[app.instanceId].socket;
+					var args = [].slice.call(arguments);
+
+					// optionally call remote function
+					args = fnRemote ? fnRemote.apply(app, args) : args;
+
+					// send message over socket
+					socket.postMessage(F2.Constants.Sockets.APP_RPC +
+						F2.stringify({
+							instanceId:app.instanceId,
+							fnName:fnName,
+							args:args
+						})
+					);
+				}
+			} else {
+				app[fnName] = fn;
+			}
+		};
+
+		// create the instanceId for the App
+		app.instanceId = app.instanceId || F2.guid();
+
+		// add setTitle method
+		rpc('setTitle', function(title) {
+			//F2.log("setting title");
+			$("#" + this.instanceId).find("." + F2.Constants.Css.APP_TITLE).text(title);
+		});
+
+		// add updateHeight method
+		rpc(
+			'updateHeight',
+			function(height) {
+				this.height = height;
+				$("#" + this.instanceId).find("iframe").height(this.height);
+				//F2.log("setting height - ", this.height, this.instanceId);
+			},
+			function(height) {
+				//F2.log("getting height - ", this.instanceId);
+				return height || $("#" + this.instanceId).outerHeight();
+			}
+		);
 	};
 
 	/**
@@ -217,8 +280,10 @@ F2.extend("", (function(){
 	 */
 	var _loadApps = function(apps, appAssets) {
 
+		apps = [].concat(apps);
+
 		// check for secure app
-		if (apps.length == 1 && apps[0].isSecure) {
+		if (apps.length == 1 && apps[0].isSecure && !_config.isSecureAppPage) {
 			_loadSecureApp(apps[0], appAssets);
 			return;
 		}
@@ -230,7 +295,7 @@ F2.extend("", (function(){
 		var scriptsLoaded = 0;
 		var loadEvent = function() {
 			$.each(apps, function(i, a) {
-				_events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appAssets);
+				F2.Events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appAssets);
 			});
 		};
 
@@ -308,6 +373,30 @@ F2.extend("", (function(){
 	};
 
 	/**
+	 * Checks if the App is valid
+	 * @method _validateApp
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @returns {bool} True if the App is valid
+	 */
+	var _validateApp = function(app) {
+
+		// check for valid App configurations
+		if (!app.appId) {
+			F2.log("\"appId\" missing from App object");
+			return false;
+		} else if (!app.url) {
+			F2.log("\"url\" missing from App object");
+			return false;
+		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
+			F2.log("\"views\" not defined or missing \"F2.Constants.Views.HOME\" view.");
+			return false;
+		}
+
+		return true;
+	};
+
+	/**
 	 * Appends the App's html to the DOM
 	 * @method _writeAppHtml
 	 * @private
@@ -327,7 +416,31 @@ F2.extend("", (function(){
 		 * @class F2.Events
 		 * @see The <a href="https://github.com/hij1nx/EventEmitter2" target="_blank">EventEmitter2</a> project.
 		 */
-		Events:_events,
+		Events:(function() {
+			// init EventEmitter
+			var events = new EventEmitter2({
+				wildcard:true
+			});
+
+			// unlimited listeners, set to > 0 for debugging
+			events.setMaxListeners(0);
+
+			// override the emit function so that events can be passed down into iframes
+			events.emit = function() {
+				if (_hasSocketConnections) {
+					for (var i = 0, len = _sockets.length; i < len; i++) {
+						_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
+					}
+				}
+				//F2.log([_hasSocketConnections, location.href, arguments]);
+				EventEmitter2.prototype.emit.apply(this, [].slice.call(arguments));
+			};
+
+			// disable methods we don't want
+			events.onAny = events.offAny = $.noop;
+
+			return events;
+		})(),
 		/**
 		 * Initializes the Container. This method must be called before performing any other
 		 * actions in the Container.
@@ -376,20 +489,12 @@ F2.extend("", (function(){
 			// then determine which apps can be batched together
 			$.each(apps, function(i, a) {
 
-				// check for valid App configurations
-				if (!a.appId) {
-					F2.log("\"appId\" missing from App object");
-					return;
-				} else if (!a.url) {
-					F2.log("\"url\" missing from App object");
-					return;
-				} else if (!a.views || !F2.inArray(F2.Constants.Views.HOME, a.views)) {
-					F2.log("\"views\" not defined or missing \"F2.Constants.Views.HOME\" view.");
-					return;
+				if (!_validateApp(a)) {
+					return; // move to the next app
 				}
 
-				// create the instanceId for the App
-				a.instanceId = F2.guid();
+				// add properties and methods
+				_hydrateApp(a);
 
 				// save app
 				_apps[a.instanceId] = { app:a };
@@ -435,6 +540,15 @@ F2.extend("", (function(){
 					});
 				});
 			}
+		},
+		/**
+		 * Removes all Apps from the Container
+		 * @method removeAllApps
+		 */
+		removeAllApps:function() {
+			$.each(_apps, function(i, a) {
+				F2.removeApp(a.instanceId);
+			});
 		},
 		/**
 		 * Removes an App from the Container

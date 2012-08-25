@@ -116,6 +116,21 @@ F2.extend("", {
 	 	 */
 	 	name:"",
 	 	/**
+	 	 * Sets the title of the App as shown in the browser. Depending on the Container
+	 	 * HTML, this method may do nothing if the Container has not been configured 
+	 	 * properly or else the Container Provider does not allow Title's to be set.
+	 	 * @method setTitle
+	 	 * @params {string} title The title of the App
+	 	 */
+	 	setTitle:function(title) {},
+	 	/**
+	 	 * For secure apps, this method updates the size of the iframe that contains
+	 	 * the App
+	 	 * @method updateHeight
+	 	 * @params {int} height The height of the App
+	 	 */
+	 	updateHeight:function(height) {},
+	 	/**
 	 	 * The url of the App
 	 	 * @property url
 	 	 * @type string

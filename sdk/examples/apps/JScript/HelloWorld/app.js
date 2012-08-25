@@ -6,7 +6,7 @@ App_Class = function (app, appAssets) {
 App_Class.prototype.init = function () {
 
 	this._container = $("#" + this._app.instanceId);
-	this._updateHeight();
+	this._app.updateHeight();
 	
 	// bind symbol change event
 	F2.Events.on(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, $.proxy(this._handleSymbolChange, this));
@@ -17,14 +17,14 @@ App_Class.prototype.init = function () {
 	$("button.cancel").on("click", $.proxy(function() {
 		$("div." + F2.Constants.Css.APP_VIEW, this._container).removeClass("hide");
 		$("form." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
-		this._updateHeight();
+		this._app.updateHeight();
 	}, this));
 };
 
 App_Class.prototype._handleViewChange = function() {
 	$("div." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
 	$("form." + F2.Constants.Css.APP_VIEW, this._container).removeClass("hide");
-	this._updateHeight();
+	this._app.updateHeight();
 };
 
 App_Class.prototype._handleSymbolChange = function (data) {
@@ -36,7 +36,7 @@ App_Class.prototype._handleSymbolChange = function (data) {
 
 	$("span:first", symbolAlert).text("The symbol has been changed to " + data.symbol);
 
-	this._updateHeight();
+	this._app.updateHeight();
 };
 
 App_Class.prototype._renderSymbolAlert = function() {
@@ -48,9 +48,4 @@ App_Class.prototype._renderSymbolAlert = function() {
 			'</div>'
 		].join(''))
 		.prependTo($("." + F2.Constants.Css.APP_CONTAINER,this._container));
-};
-
-App_Class.prototype._updateHeight = function() {
-	this._app.height = $(this._container).outerHeight();
-	F2.Events.emit(F2.Constants.Events.APP_HEIGHT_CHANGE, this._app);
 };

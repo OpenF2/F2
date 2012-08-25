@@ -55,6 +55,8 @@
             
                 <li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
             
                 <li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
@@ -175,6 +177,13 @@
                             </li>
                         
                             <li class="index-item method private">
+                                <a href="#method__hydrateApp">_hydrateApp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__initAppEvents">_initAppEvents</a>
 
                                 
@@ -183,6 +192,13 @@
                         
                             <li class="index-item method private">
                                 <a href="#method__initContainerEvents">_initContainerEvents</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__validateApp">_validateApp</a>
 
                                 
                                 
@@ -259,7 +275,21 @@
                             </li>
                         
                             <li class="index-item method">
+                                <a href="#method_removeAllApps">removeAllApps</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
                                 <a href="#method_removeApp">removeApp</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method_rpc">rpc</a>
 
                                 
                                 
@@ -322,7 +352,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l42"><code>src\container.js:42</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l14"><code>src\container.js:14</code></a>
         
         </p>
 
@@ -394,7 +424,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l87"><code>src\container.js:87</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l68"><code>src\container.js:68</code></a>
         
         </p>
 
@@ -504,7 +534,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l137"><code>src\container.js:137</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l126"><code>src\container.js:126</code></a>
         
         </p>
 
@@ -564,6 +594,95 @@
 </div>
 
                 
+                    <div id="method__hydrateApp" class="method item private">
+    <h3 class="name"><code>_hydrateApp</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l151"><code>src\container.js:151</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Adds properties and methods to the App object</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The App object</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method__initAppEvents" class="method item private">
     <h3 class="name"><code>_initAppEvents</code></h3>
 
@@ -598,7 +717,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l162"><code>src\container.js:162</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l225"><code>src\container.js:225</code></a>
         
         </p>
 
@@ -654,7 +773,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l193"><code>src\container.js:193</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l256"><code>src\container.js:256</code></a>
         
         </p>
 
@@ -670,6 +789,112 @@
 
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method__validateApp" class="method item private">
+    <h3 class="name"><code>_validateApp</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Bool</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l375"><code>src\container.js:375</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks if the App is valid</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The App object</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Bool</span>:
+                    
+                    True if the App is valid
+                
+            </div>
+        </div>
     
 
     
@@ -726,7 +951,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l310"><code>src\container.js:310</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l399"><code>src\container.js:399</code></a>
         
         </p>
 
@@ -844,7 +1069,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l43"><code>src\preamble.js:43</code></a>
+        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l44"><code>src\preamble.js:44</code></a>
         
         </p>
 
@@ -1053,7 +1278,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l33"><code>src\preamble.js:33</code></a>
+        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l34"><code>src\preamble.js:34</code></a>
         
         </p>
 
@@ -1155,7 +1380,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l331"><code>src\container.js:331</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l444"><code>src\container.js:444</code></a>
         
         </p>
 
@@ -1251,7 +1476,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l211"><code>src\container.js:211</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l274"><code>src\container.js:274</code></a>
         
         </p>
 
@@ -1362,7 +1587,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l288"><code>src\container.js:288</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l353"><code>src\container.js:353</code></a>
         
         </p>
 
@@ -1431,7 +1656,13 @@ actions in the Container.</p>
             
                 <li class="arg">
                     
-                        <code>args</code>
+                        <code>obj</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[obj2]</code>
                     
                 </li>
             
@@ -1486,14 +1717,32 @@ actions in the Container.</p>
             
                 <li class="param">
                     
-                        <code class="param-name">args</code>
+                        <code class="param-name">obj</code>
                         <span class="type">Object</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The object to be logged to the console</p>
+                        <p>An object to be logged</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[obj2]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+                        <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>
+                    
+
+                    <div class="param-description">
+                        <p>An object to be logged</p>
                     </div>
 
                     
@@ -1555,7 +1804,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l81"><code>src\preamble.js:81</code></a>
+        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l82"><code>src\preamble.js:82</code></a>
         
         </p>
 
@@ -1661,7 +1910,7 @@ actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l349"><code>src\container.js:349</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l462"><code>src\container.js:462</code></a>
         
         </p>
 
@@ -1728,6 +1977,60 @@ client.</p>
 </div>
 
                 
+                    <div id="method_removeAllApps" class="method item">
+    <h3 class="name"><code>removeAllApps</code></h3>
+
+    
+        <span class="paren">()</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l544"><code>src\container.js:544</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Removes all Apps from the Container</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_removeApp" class="method item">
     <h3 class="name"><code>removeApp</code></h3>
 
@@ -1770,7 +2073,7 @@ client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_container.js.html#l439"><code>src\container.js:439</code></a>
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l553"><code>src\container.js:553</code></a>
         
         </p>
 
@@ -1800,6 +2103,143 @@ client.</p>
 
                     <div class="param-description">
                         <p>The App's instanceId</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_rpc" class="method item private">
+    <h3 class="name"><code>rpc</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>fnName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>fn</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[fnRemote]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;src_container.js.html#l160"><code>src\container.js:160</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>creates two functions on the App from the function
+passed in if the app is secure. the 'incoming' function
+will be called when a message is received via the 
+socket connection</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">fnName</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function name</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">fn</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The main function</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[fnRemote]</code>
+                        <span class="type">Function</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The remote function which will be
+called first and its return value passed across the socket
+into the main function ('fn')</p>
                     </div>
 
                     
@@ -1861,7 +2301,7 @@ client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l90"><code>src\preamble.js:90</code></a>
+        <a href="..&#x2F;files&#x2F;src_preamble.js.html#l91"><code>src\preamble.js:91</code></a>
         
         </p>
 
