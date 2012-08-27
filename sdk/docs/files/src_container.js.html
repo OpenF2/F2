@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\container.js</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.5.1&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/F2.html">F2</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.AppAssets.html">F2.AppAssets</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.AppAssets.AppContent.html">F2.AppAssets.AppContent</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/f2.html">f2</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src\container.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ * Core Container functionality
+ * @module f2
+ * @class F2
+ *&#x2F;
+F2.extend(&quot;&quot;, (function(){
+
+	var _apps = {};
+	var _config = {};
+	var _hasSocketConnections = false;
+	var _isInit = false;
+	var _sockets = [];
+
+	&#x2F;**
+	 * Creates a socket connection from the App to the Container
+	 * @method _createAppToContainerSocket
+	 * @private
+	 * @see The &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt; project.
+	 *&#x2F;
+	var _createAppToContainerSocket = function() {
+
+		var socketLoad = new RegExp(&quot;^&quot; + F2.Constants.Sockets.LOAD);
+		var appCall = new RegExp(&quot;^&quot; + F2.Constants.Sockets.APP_RPC);
+		var isLoaded = false;
+		var socket = new easyXDM.Socket({
+			onMessage: function(message, origin){
+
+				&#x2F;&#x2F; handle Socket Load
+				if (!isLoaded &amp;&amp; socketLoad.test(message)) {
+					message = message.replace(socketLoad, &quot;&quot;);
+					var appParts = F2.parse(message);
+
+					&#x2F;&#x2F; make sure we have the App and AppAssets
+					if (appParts.length == 2) {
+						var app = appParts[0];
+						var appAssets = appParts[1];
+
+						&#x2F;&#x2F; save app
+						_apps[app.instanceId] = { app:app };
+
+						&#x2F;&#x2F; add properties and methods
+						_hydrateApp(app);
+
+						&#x2F;&#x2F; load the app
+						_loadApps([app], appAssets);
+						isLoaded = true;
+					}
+				&#x2F;&#x2F; handle App Call
+				} else if (appCall.test(message)) {
+					message = message.replace(appCall, &quot;&quot;);
+					var obj = F2.parse(message);
+					_apps[obj.instanceId].app[&quot;_&quot; + obj.fnName](obj.args);
+				&#x2F;&#x2F; handle Events
+				} else {
+					var eventArgs = F2.parse(message);
+					F2.Events._socketEmit.apply(F2.Events, eventArgs);
+				}
+			}
+		});
+
+		if (socket != null) {
+			_sockets.push(socket);
+			_hasSocketConnections = true;
+		}
+	};
+
+	&#x2F;**
+	 * Creates a socket connection from the Container to the App using easyXDM
+	 * @method _createContainerToAppSocket
+	 * @private
+	 * @see The &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt; project.
+	 * @param {F2.App} app The App object
+	 * @param {F2.AppAssets} appAssets The AppAssets object
+	 *&#x2F;
+	var _createContainerToAppSocket = function(app, appAssets) {
+
+		var container = $(&quot;#&quot; + app.instanceId).find(&quot;.&quot; + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.length) {
+			F2.log(&quot;Unable to locate app in order to establish secure connection.&quot;);
+			return;
+		}
+
+		var iframeProps = {
+			scrolling:&quot;no&quot;,
+			style:{
+				width:&quot;100%&quot;
+			}
+		};
+
+		if (app.height) {
+			iframeProps.style.height = app.height + &quot;px&quot;;
+		}
+
+		var socket = new easyXDM.Socket({
+			remote: _config.secureAppPagePath,
+			container: container.get(0),
+			props:iframeProps,
+			onMessage: function(message, origin) {
+				var appCall = new RegExp(&quot;^&quot; + F2.Constants.Sockets.APP_RPC);
+
+				if (appCall.test(message)) {
+					message = message.replace(appCall, &quot;&quot;);
+					var obj = F2.parse(message);
+					_apps[obj.instanceId].app[&quot;_&quot; + obj.fnName](obj.args);
+				} else {
+					var eventArgs = F2.parse(message);
+					F2.Events._socketEmit.apply(F2.Events, eventArgs);
+				}
+			},
+			onReady: function() {
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appAssets]));
+			}
+		});
+
+		if (socket != null) {
+			_sockets.push(socket);
+			_hasSocketConnections = true;
+		}
+
+		return socket;
+	};
+
+	&#x2F;**
+	 * Function to render the html for an App.
+	 * @method _getAppHtml
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
+	 *&#x2F;
+	var _getAppHtml = function(app, html) {
+
+		function outerHtml(html) {
+			return $(&quot;&lt;div&gt;&lt;&#x2F;div&gt;&quot;).append(html).html();
+		}
+
+		&#x2F;&#x2F; apply APP_CONTAINER class
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &quot; app&quot; + app.appId));
+
+		&#x2F;&#x2F; optionally apply wrapper html
+		if (_config.appWrapper) {
+			html = _config.appWrapper(app, html);
+		}
+
+		&#x2F;&#x2F; apply APP class and instanceId
+		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr(&quot;id&quot;, app.instanceId));
+	};
+
+	&#x2F;**
+	 * Adds properties and methods to the App object
+	 * @method _hydrateApp
+	 * @private
+	 * @param {F2.App} app The App object
+	 *&#x2F;
+	var _hydrateApp = function(app) {
+
+		
+		&#x2F;**
+		 * creates two functions on the App from the function
+		 * passed in if the app is secure. the &#x27;incoming&#x27; function
+		 * will be called when a message is received via the 
+		 * socket connection
+		 * @method rpc
+		 * @private
+		 * @param {string} fnName The function name
+		 * @param {function} fn The main function
+		 * @param {function} [fnRemote] The remote function which will be
+		 * called first and its return value passed across the socket
+	   * into the main function (&#x27;fn&#x27;)
+		 *&#x2F;
+		var rpc = function(fnName, fn, fnRemote) {
+			
+			if (app.isSecure) {
+				&#x2F;&#x2F; incoming function
+				app[&quot;_&quot; + fnName] = fn;	
+				&#x2F;&#x2F; outgoing function - pass arguments through socket
+				app[fnName] = function() {
+					&#x2F;&#x2F; if we&#x27;re inside a secure app page, there is only one socket
+					&#x2F;&#x2F; connection
+					var socket = _config.isSecureAppPage ? _sockets[0] : _apps[app.instanceId].socket;
+					var args = [].slice.call(arguments);
+
+					&#x2F;&#x2F; optionally call remote function
+					args = fnRemote ? fnRemote.apply(app, args) : args;
+
+					&#x2F;&#x2F; send message over socket
+					socket.postMessage(F2.Constants.Sockets.APP_RPC +
+						F2.stringify({
+							instanceId:app.instanceId,
+							fnName:fnName,
+							args:args
+						})
+					);
+				}
+			} else {
+				app[fnName] = fn;
+			}
+		};
+
+		&#x2F;&#x2F; create the instanceId for the App
+		app.instanceId = app.instanceId || F2.guid();
+
+		&#x2F;&#x2F; add setTitle method
+		rpc(&#x27;setTitle&#x27;, function(title) {
+			&#x2F;&#x2F;F2.log(&quot;setting title&quot;);
+			$(&quot;#&quot; + this.instanceId).find(&quot;.&quot; + F2.Constants.Css.APP_TITLE).text(title);
+		});
+
+		&#x2F;&#x2F; add updateHeight method
+		rpc(
+			&#x27;updateHeight&#x27;,
+			function(height) {
+				this.height = height;
+				$(&quot;#&quot; + this.instanceId).find(&quot;iframe&quot;).height(this.height);
+				&#x2F;&#x2F;F2.log(&quot;setting height - &quot;, this.height, this.instanceId);
+			},
+			function(height) {
+				&#x2F;&#x2F;F2.log(&quot;getting height - &quot;, this.instanceId);
+				return height || $(&quot;#&quot; + this.instanceId).outerHeight();
+			}
+		);
+	};
+
+	&#x2F;**
+	 * Attach App events
+	 * @method _initAppEvents
+	 * @private
+	 *&#x2F;
+	var _initAppEvents = function (app) {
+
+		var appContainer = $(&quot;#&quot; + app.instanceId);
+
+		&#x2F;&#x2F; these events should only be attached outside of the secure app
+		if (!_config.isSecureAppPage) {
+
+			&#x2F;&#x2F; it is assumed that all containers will at least have
+			&#x2F;&#x2F; F2.Constants.Views.HOME
+			if (_config.supportedViews.length &gt; 1) {
+				$(appContainer).on(&quot;click&quot;, &quot;.&quot; + F2.Constants.Css.APP_VIEW_TRIGGER + &quot;[&quot; + F2.Constants.Views.DATA_ATTRIBUTE + &quot;]&quot;, function(event) {
+
+					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
+
+					&#x2F;&#x2F; handle the special REMOVE view
+					if (view == F2.Constants.Views.REMOVE) {
+						F2.removeApp(app.instanceId);
+
+					&#x2F;&#x2F; make sure the app supports this type of view
+					} else if (F2.inArray(view, app.views)) {
+						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
+					}
+				});
+			}
+		}
+	};
+
+	&#x2F;**
+	 * Attach Container Events
+	 * @method _initContainerEvents
+	 * @private
+	 *&#x2F;
+	var _initContainerEvents = function() {
+
+		var resizeTimeout;
+		var resizeHandler = function() {
+			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
+		};
+
+		$(window).on(&quot;resize&quot;, function() {
+			clearTimeout(resizeTimeout);
+			setTimeout(resizeHandler, 100);
+		});
+	};
+
+	&#x2F;**
+	 * Loads the App&#x27;s html&#x2F;css&#x2F;javascript
+	 * @method loadApp
+	 * @private
+	 * @param {Array} apps An array of {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}
+	 * objects
+	 * @param {F2.AppAssets} [appAssets] The AppAssets object
+	 *&#x2F;
+	var _loadApps = function(apps, appAssets) {
+
+		apps = [].concat(apps);
+
+		&#x2F;&#x2F; check for secure app
+		if (apps.length == 1 &amp;&amp; apps[0].isSecure &amp;&amp; !_config.isSecureAppPage) {
+			_loadSecureApp(apps[0], appAssets);
+			return;
+		}
+
+		var scripts = appAssets.Scripts || [];
+		var styles = appAssets.Styles || [];
+		var inlines = appAssets.InlineScripts || [];
+		var scriptCount = scripts.length;
+		var scriptsLoaded = 0;
+		var loadEvent = function() {
+			$.each(apps, function(i, a) {
+				F2.Events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appAssets);
+			});
+		};
+
+		&#x2F;&#x2F; load styles
+		var stylesFragment = [];
+		$.each(styles, function(i, e) {
+			stylesFragment.push(&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text&#x2F;css&quot; href=&quot;&#x27; + e + &#x27;&quot;&#x2F;&gt;&#x27;);
+		});
+		$(&quot;head&quot;).append(stylesFragment.join(&#x27;&#x27;));
+
+		&#x2F;&#x2F; load html
+		$.each(appAssets.Apps, function(i, a) {
+			if (a.InstanceId &amp;&amp; _apps[a.InstanceId]) {
+				&#x2F;&#x2F; load html
+				_writeAppHtml(_apps[a.InstanceId].app, _getAppHtml(_apps[a.InstanceId].app, a.Html));
+				&#x2F;&#x2F; init events
+				_initAppEvents(_apps[a.InstanceId].app);
+			} else {
+				F2.log([&quot;Unable to load App.  Missing or invalid \&quot;InstanceId\&quot;\n\n&quot;, a]);
+			}
+		});
+
+		&#x2F;&#x2F; load scripts and eval inlines once complete
+		$.each(scripts, function(i, e) {
+			$.ajax({
+				url:e,
+				async:false,
+				dataType:&quot;script&quot;,
+				type:&quot;GET&quot;,
+				success:function() {
+					if (++scriptsLoaded == scriptCount) {
+						$.each(inlines, function(i, e) {
+							try {
+								eval(e);
+							} catch (exception) {
+								F2.log(&quot;Error loading inline script: &quot; + exception + &quot;\n\n&quot; + e);
+							}
+						});
+						&#x2F;&#x2F; fire the load event to tell the App it can proceed
+						loadEvent();
+					}
+				},
+				error:function(jqxhr, settings, exception) {
+					F2.log([&quot;Failed to load script (&quot; + e +&quot;)&quot;, exception.toString()]);
+				}
+			});
+		});
+
+		&#x2F;&#x2F; if no scripts were to be processed, fire the appLoad event
+		if (!scriptCount) {
+			loadEvent();
+		}
+	};
+
+	&#x2F;**
+	 * Loads the App&#x27;s html&#x2F;css&#x2F;javascript into an iframe
+	 * @method loadSecureApp
+	 * @private
+	 * @param {F2.App} app The App&#x27;s context object.
+	 * @param {F2.AppAssets} appAssets The App&#x27;s html&#x2F;css&#x2F;js to be loaded into the
+	 * page.
+	 *&#x2F;
+	var _loadSecureApp = function(app, appAssets) {
+
+		&#x2F;&#x2F; make sure the Container is configured for secure apps
+		if (_config.secureAppPagePath) {
+			&#x2F;&#x2F; create the html container for the iframe
+			_writeAppHtml(app, _getAppHtml(app, &quot;&lt;div&gt;&lt;&#x2F;div&gt;&quot;));
+			&#x2F;&#x2F; init events
+			_initAppEvents(app);
+			&#x2F;&#x2F; setup the iframe&#x2F;socket connection
+			_apps[app.instanceId].socket = _createContainerToAppSocket(app, appAssets);
+		} else {
+			F2.log(&quot;Unable to load secure app: \&quot;secureAppPagePath\&quot; is not defined in ContainerConfiguration.&quot;);
+		}
+	};
+
+	&#x2F;**
+	 * Checks if the App is valid
+	 * @method _validateApp
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @returns {bool} True if the App is valid
+	 *&#x2F;
+	var _validateApp = function(app) {
+
+		&#x2F;&#x2F; check for valid App configurations
+		if (!app.appId) {
+			F2.log(&quot;\&quot;appId\&quot; missing from App object&quot;);
+			return false;
+		} else if (!app.url) {
+			F2.log(&quot;\&quot;url\&quot; missing from App object&quot;);
+			return false;
+		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
+			F2.log(&quot;\&quot;views\&quot; not defined or missing \&quot;F2.Constants.Views.HOME\&quot; view.&quot;);
+			return false;
+		}
+
+		return true;
+	};
+
+	&#x2F;**
+	 * Appends the App&#x27;s html to the DOM
+	 * @method _writeAppHtml
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
+	 *&#x2F;
+	var _writeAppHtml = function(app, html) {
+		var handler = _config.appWriter || function(app, html) {
+			$(&quot;body&quot;).append(html);
+		};
+		handler(app, html);
+	};
+
+	return {
+		&#x2F;**
+		 * Description of Events goes here
+		 * @class F2.Events
+		 * @method
+		 *&#x2F;
+		Events:(function() {
+			&#x2F;&#x2F; init EventEmitter
+			var events = new EventEmitter2({
+				wildcard:true
+			});
+
+			&#x2F;&#x2F; unlimited listeners, set to &gt; 0 for debugging
+			events.setMaxListeners(0);
+
+			return {
+				&#x2F;**
+				 * Same as F2.Events.emit except that it will not send the event
+				 * to all sockets.
+				 * @method _socketEmit
+				 * @private
+				 * @param {string} event The event name
+				 * @param {object} [arg]* The arguments to be passed
+				 *&#x2F;
+				_socketEmit:function() {
+					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
+				},
+				&#x2F;**
+				 * Execute each of the listeners tha may be listening for the specified
+				 * event name in order with the list of arguments
+				 * @method emit
+				 * @param {string} event The event name
+				 * @param {object} [arg]* The arguments to be passed
+				 *&#x2F;
+				emit:function() {
+					if (_hasSocketConnections) {
+						for (var i = 0, len = _sockets.length; i &lt; len; i++) {
+							_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
+						}
+					}
+					&#x2F;&#x2F;F2.log([_hasSocketConnections, location.href, arguments]);
+					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
+				},
+				&#x2F;**
+				 * Adds a listener that will execute n times for the event before being 
+				 * removed. The listener is invoked only the first time the event is 
+				 * fired, after which it is removed.
+				 * @method many
+				 * @param {string} event The event name
+				 * @param {int} timesToListen The number of times to execute the event
+				 * before being removed
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 *&#x2F;
+				many:function(event, timesToListen, listener) {
+					return events.many(event, timesToListen, listener);
+				},
+				&#x2F;**
+				 * Remove a listener for the specified event.
+				 * @method off
+				 * @param {string} event The event name
+				 * @param {function} listener The function that will be removed
+				 *&#x2F;
+				off:function(event, listener) {
+					return events.off(event, listener);
+				},
+				&#x2F;**
+				 * Adds a listener for the specified event
+				 * @method on
+				 * @param {string} event The event name
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 *&#x2F;
+				on:function(event, listener){
+					return events.on(event, listener);
+				},
+				&#x2F;**
+				 * Adds a one time listener for the event. The listener is invoked only
+				 * the first time the event is fired, after which it is removed.
+				 * @method once
+				 * @param {string} event The event name
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 *&#x2F;
+				once:function(event, listener) {
+					return events.once(event, listener);
+				}
+			};
+		})(),
+		&#x2F;**
+		 * Initializes the Container. This method must be called before performing
+		 * any other actions in the Container.
+		 * @method init
+		 * @param {F2.ContainerConfiguration} config The configuration object
+		 * @for F2
+		 *&#x2F;
+		init:function(config) {
+			_config = config;
+
+			if (_config.isSecureAppPage) {
+				_createAppToContainerSocket();
+			} else {
+				_initContainerEvents();
+			}
+
+			_isInit = true;
+		},
+		&#x2F;**
+		 * Begins the loading process for all Apps. The App will
+		 * be passed the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object which will
+		 * contain the App&#x27;s unique instanceId within the Container. Optionally, the
+		 * {{#crossLink &quot;F2.AppAssets&quot;}}{{&#x2F;crossLink}} can be passed in and those
+		 * assets will be used instead of making a request.
+		 * @method registerApps
+		 * @param {Array} apps An array of {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}
+		 * objects
+		 * @param {Array} [appAssets] An array of
+		 * {{#crossLink &quot;F2.AppAssets&quot;}}{{&#x2F;crossLink}}
+		 * objects. This array must be the same length as the apps array that is
+		 * objects. This array must be the same length as the apps array that is
+		 * passed in. This can be useful if Apps are loaded on the server-side and
+		 * passed down to the client.
+		 *&#x2F;
+		registerApps:function(apps, appAssets) {
+
+			var queue = [];
+			var batches = {};
+			var hasAssets = typeof appAssets !== &quot;undefined&quot;;
+			appAssets = appAssets || [];
+			apps = [].concat(apps);
+
+			&#x2F;&#x2F; ensure that if appAssets is passed in, we get a full array of assets
+			if (apps.length &amp;&amp; appAssets.length &amp;&amp; app.length != appAssets.length) {
+				F2.log(&quot;The length of \&quot;apps\&quot; does not equal the length of \&quot;appAssets\&quot;&quot;);
+				return;
+			}
+
+			&#x2F;&#x2F; validate each app and assign it an instanceId
+			&#x2F;&#x2F; then determine which apps can be batched together
+			$.each(apps, function(i, a) {
+
+				if (!_validateApp(a)) {
+					return; &#x2F;&#x2F; move to the next app
+				}
+
+				&#x2F;&#x2F; add properties and methods
+				_hydrateApp(a);
+
+				&#x2F;&#x2F; save app
+				_apps[a.instanceId] = { app:a };
+
+				if (!hasAssets) {
+					&#x2F;&#x2F; check if this app can be batched
+					if (a.enableBatchRequests &amp;&amp; !a.isSecure) {
+						batches[a.url.toLowerCase()] = batches[a.url.toLowerCase()] || [];
+						batches[a.url.toLowerCase()].push(a);
+					} else {
+						queue.push({
+							url:a.url,
+							apps:[a]
+						});
+					}
+				}
+			});
+
+			&#x2F;&#x2F; if we have the assets already, load the apps
+			if (hasAssets) {
+				$.each(apps, function(i, a) {
+					_loadApps(a, appAssets[i]);
+				});
+
+			&#x2F;&#x2F; else fetch the apps
+			} else {
+				&#x2F;&#x2F; add the batches to the queue
+				$.each(batches, function(i, b) {
+					queue.push({ url:i, apps:b })
+				});
+
+				&#x2F;&#x2F; form and make the requests
+				$.each(queue, function(i, req) {
+					$.ajax({
+						url:req.url,
+						data:{
+							params:F2.stringify(req.apps)
+						},
+						dataType:&quot;jsonp&quot;,
+						success:function(appAssets) {
+							_loadApps(req.apps, appAssets);
+						}
+					});
+				});
+			}
+		},
+		&#x2F;**
+		 * Removes all Apps from the Container
+		 * @method removeAllApps
+		 *&#x2F;
+		removeAllApps:function() {
+			$.each(_apps, function(i, a) {
+				F2.removeApp(a.instanceId);
+			});
+		},
+		&#x2F;**
+		 * Removes an App from the Container
+		 * @method removeApp
+		 * @param {string} instanceId The App&#x27;s instanceId
+		 *&#x2F;
+		removeApp:function(instanceId) {
+			if (_apps[instanceId]) {
+				delete _apps[instanceId];
+				$(&quot;#&quot; + instanceId).fadeOut(function() {
+					$(this).remove();
+				});
+			}
+		}
+	};
+})());
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>
