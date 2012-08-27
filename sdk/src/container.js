@@ -502,6 +502,17 @@ F2.extend("", (function(){
 			};
 		})(),
 		/**
+		 * Gets the current list of Apps in the container
+		 * @method getContainerState
+		 * @returns {Array} An array of objects containing the appId and...
+		 * @for F2
+		 */
+		getContainerState:function() {
+			return $.map(_apps, function(e, i) {
+				return { appId: e.app.appId };
+			});
+		},
+		/**
 		 * Initializes the Container. This method must be called before performing
 		 * any other actions in the Container.
 		 * @method init

@@ -1181,6 +1181,19 @@
         {
             "file": "src\\container.js",
             "line": 504,
+            "description": "Gets the current list of Apps in the container",
+            "itemtype": "method",
+            "name": "getContainerState",
+            "return": {
+                "description": "An array of objects containing the appId and...",
+                "type": "Array"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "src\\container.js",
+            "line": 515,
             "description": "Initializes the Container. This method must be called before performing\nany other actions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -1196,7 +1209,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 522,
+            "line": 533,
             "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppAssets\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1218,7 +1231,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 608,
+            "line": 619,
             "description": "Removes all Apps from the Container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1227,7 +1240,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 617,
+            "line": 628,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",
