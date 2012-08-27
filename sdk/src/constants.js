@@ -15,10 +15,10 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APP class should be applied to the DOM Element that surrounds the entire App,
-			 * including any extra html that surrounds the APP\_CONTAINER that is inserted 
-			 * by the Container. See appWrapper property in the {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}
-			 * object.
+			 * The APP class should be applied to the DOM Element that surrounds the
+			 * entire App, including any extra html that surrounds the APP\_CONTAINER
+			 * that is inserted by the Container. See appWrapper property in the
+			 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}} object.
 			 * @property APP
 			 * @type string
 			 * @static
@@ -36,8 +36,8 @@ F2.extend("Constants", {
 			APP_CONTAINER:_PREFIX + "app-container",
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
-			 * the title for an App.  If this class is not present, the {{#crossLink "F2.App/setTitle"}}{{/crossLink}}
-			 * will not function.
+			 * the title for an App.  If this class is not present, then
+			 * {{#crossLink "F2.App/setTitle"}}{{/crossLink}} will not function.
 			 * @property APP_TITLE
 			 * @type string
 			 * @static
@@ -46,8 +46,10 @@ F2.extend("Constants", {
 			APP_TITLE:_PREFIX + "app-title",
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an App. The DOM Element should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
-			 * attribute that specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
+			 * a view for an App. The DOM Element should also have a
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
 			 * @property APP_VIEW
 			 * @type string
 			 * @static
@@ -56,9 +58,12 @@ F2.extend("Constants", {
 			APP_VIEW:_PREFIX + "app-view",
 			/**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
-			 * trigger an {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE event. The DOM Element
-			 * should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE attribute that
-			 * specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it will trigger.
+			 * trigger an
+			 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE
+			 * event. The DOM Element should also have a
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it will trigger.
 			 * @property APP_VIEW_TRIGGER
 			 * @type string
 			 * @static
@@ -80,9 +85,9 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APPLICATION\_LOAD event is fired once an App's Styles, Scripts, Inline 
-			 * Scripts, and HTML have been inserted into the DOM. The App's instanceId should
-			 * be concatenated to this constant.
+			 * The APPLICATION\_LOAD event is fired once an App's Styles, Scripts,
+			 * Inline Scripts, and HTML have been inserted into the DOM. The App's
+			 * instanceId should be concatenated to this constant.
 			 *
 			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {
 			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);
@@ -96,9 +101,9 @@ F2.extend("Constants", {
 			 */
 			APPLICATION_LOAD:"appLoad.",
 			/**
-			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the width
-			 * of an App is changed. The App's instanceId should be concatenated to this
-			 * constant.
+			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
+			 * width of an App is changed. The App's instanceId should be concatenated
+			 * to this constant.
 			 * Returns an object with the gridSize and width in pixels:
 			 *
 			 *     { gridSize:8, width:620 }
@@ -110,8 +115,8 @@ F2.extend("Constants", {
 			 */
 			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + "widthChange.",
 			/**
-			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an App. It 
-			 * is up to the App developer to fire this event.
+			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
+			 * App. It is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
@@ -123,9 +128,9 @@ F2.extend("Constants", {
 			 */
 			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user clicks
-			 * to switch the view for an App. The App's instanceId should be concatenated
-			 * to this constant.
+			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user
+			 * clicks to switch the view for an App. The App's instanceId should be
+			 * concatenated to this constant.
 			 * @property APP_VIEW_CHANGE
 			 * @type string
 			 * @static
@@ -133,8 +138,9 @@ F2.extend("Constants", {
 			 */
 			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + "viewChange.",
 			/**
-			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed at the Container
-			 * level. This event should only be fired by the Container or Container Provider.
+			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
+			 * at the Container level. This event should only be fired by the
+			 * Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
@@ -146,8 +152,8 @@ F2.extend("Constants", {
 			 */
 			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when the width
-			 * of the Container has changed.
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
+			 * the width of the Container has changed.
 			 * @property CONTAINER_WIDTH_CHANGE
 			 * @type string
 			 * @static
@@ -187,9 +193,9 @@ F2.extend("Constants", {
 
 	/**
 	 * The available view types to Apps. The view should be specified by applying
-	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to thecontaining DOM Element. A 
-	 * DATA_ATTRIBUTE attribute should be added to the Element as well which defines
-	 * what view type is represented.
+	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to the
+	 * containing DOM Element. A DATA_ATTRIBUTE attribute should be added to the
+	 * Element as well which defines what view type is represented.
 	 * @class F2.Constants.Views
 	 */
 	Views:{

@@ -63,6 +63,10 @@
             
                 <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -349,7 +353,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l118"><code>src\classes.js:118</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l121"><code>src\classes.js:121</code></a>
         
         </p>
 
@@ -360,9 +364,10 @@
     </div>
 
     <div class="description">
-        <p>Sets the title of the App as shown in the browser. Depending on the Container
-HTML, this method may do nothing if the Container has not been configured 
-properly or else the Container Provider does not allow Title's to be set.</p>
+        <p>Sets the title of the App as shown in the browser. Depending on the
+Container HTML, this method may do nothing if the Container has not been
+configured properly or else the Container Provider does not allow Title's
+to be set.</p>
     </div>
 
     
@@ -438,7 +443,7 @@ properly or else the Container Provider does not allow Title's to be set.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l126"><code>src\classes.js:126</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l130"><code>src\classes.js:130</code></a>
         
         </p>
 
@@ -450,7 +455,9 @@ properly or else the Container Provider does not allow Title's to be set.</p>
 
     <div class="description">
         <p>For secure apps, this method updates the size of the iframe that contains
-the App</p>
+the App. <strong>Note: It is recommended that App developers get into the habit
+of calling this method anytime Elements are added or removed from the
+DOM</strong></p>
     </div>
 
     
@@ -790,8 +797,8 @@ server when an App request is made.</p>
     </div>
 
     <div class="description">
-        <p>True if the App should be requested in a single request with other Apps. The
-App must have isSecure = false.</p>
+        <p>True if the App should be requested in a single request with other Apps.
+The App must have isSecure = false.</p>
     </div>
 
     
@@ -838,8 +845,10 @@ App must have isSecure = false.</p>
 
     <div class="description">
         <p>The height of the App. The initial height will be pulled from
-the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object, but later modified by firing an 
-<a href="..\classes\F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP<em>HEIGHT</em>CHANGE event.</p>
+the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object, but later modified by
+firing an
+<a href="..\classes\F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP<em>HEIGHT</em>CHANGE
+event.</p>
     </div>
 
     
@@ -873,7 +882,7 @@ the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object, but la
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l69"><code>src\classes.js:69</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l71"><code>src\classes.js:71</code></a>
         
         </p>
 
@@ -917,7 +926,7 @@ the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object, but la
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l75"><code>src\classes.js:75</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l77"><code>src\classes.js:77</code></a>
         
         </p>
 
@@ -928,8 +937,9 @@ the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object, but la
 
     <div class="description">
         <p>True if the App will be loaded in an iframe. This property
-will be true if the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object sets isSecure = true. It will 
-also be true if the Container has decided to run Apps in iframes.</p>
+will be true if the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object sets
+isSecure = true. It will also be true if the Container has decided to run
+Apps in iframes.</p>
     </div>
 
     
@@ -965,7 +975,7 @@ also be true if the Container has decided to run Apps in iframes.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l84"><code>src\classes.js:84</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l87"><code>src\classes.js:87</code></a>
         
         </p>
 
@@ -1011,7 +1021,7 @@ from being run when the maxWidth requirements are not met.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l92"><code>src\classes.js:92</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l95"><code>src\classes.js:95</code></a>
         
         </p>
 
@@ -1060,7 +1070,7 @@ columns in their layout.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l102"><code>src\classes.js:102</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l105"><code>src\classes.js:105</code></a>
         
         </p>
 
@@ -1108,7 +1118,7 @@ an App from being run when the minWidth requirements are not met.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l111"><code>src\classes.js:111</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l114"><code>src\classes.js:114</code></a>
         
         </p>
 
@@ -1152,7 +1162,7 @@ an App from being run when the minWidth requirements are not met.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l133"><code>src\classes.js:133</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l139"><code>src\classes.js:139</code></a>
         
         </p>
 
@@ -1196,7 +1206,7 @@ an App from being run when the minWidth requirements are not met.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l140"><code>src\classes.js:140</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l146"><code>src\classes.js:146</code></a>
         
         </p>
 
@@ -1207,13 +1217,15 @@ an App from being run when the minWidth requirements are not met.</p>
 
     <div class="description">
         <p>The views that this App supports. Available views
-are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The presence of a view can be checked
-via F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
+presence of a view can be checked via
+F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
 
 <pre class="code"><code class="prettyprint">F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 </code></pre>
 
-<p>The <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.HOME view should always be present.</p>
+<p>The <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.HOME view should
+always be present.</p>
     </div>
 
     

@@ -11,7 +11,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "F2.Constants.Sockets",
         "F2.Constants.Views",
         "F2.ContainerConfiguration",
-        "F2.Events"
+        "F2.Events",
+        "F2.UI",
+        "F2.UI.Dialogs"
     ],
     "modules": [
         "f2"

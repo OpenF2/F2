@@ -53,8 +53,7 @@ F2.extend("", (function(){
 				// handle Events
 				} else {
 					var eventArgs = F2.parse(message);
-					// do not call F2.Events.emit here, otherwise a circular message will occur
-					EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+					F2.Events._socketEmit.apply(F2.Events, eventArgs);
 				}
 			}
 		});
@@ -106,8 +105,7 @@ F2.extend("", (function(){
 					_apps[obj.instanceId].app["_" + obj.fnName](obj.args);
 				} else {
 					var eventArgs = F2.parse(message);
-					// do not call F2.Events.emit here, otherwise a circular message will occur
-					EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+					F2.Events._socketEmit.apply(F2.Events, eventArgs);
 				}
 			},
 			onReady: function() {
@@ -177,7 +175,8 @@ F2.extend("", (function(){
 				app["_" + fnName] = fn;	
 				// outgoing function - pass arguments through socket
 				app[fnName] = function() {
-					// if we're inside a secure app page, there is only one socket connection
+					// if we're inside a secure app page, there is only one socket
+					// connection
 					var socket = _config.isSecureAppPage ? _sockets[0] : _apps[app.instanceId].socket;
 					var args = [].slice.call(arguments);
 
@@ -234,7 +233,8 @@ F2.extend("", (function(){
 		// these events should only be attached outside of the secure app
 		if (!_config.isSecureAppPage) {
 
-			// it is assumed that all containers will at least have F2.Constants.Views.HOME
+			// it is assumed that all containers will at least have
+			// F2.Constants.Views.HOME
 			if (_config.supportedViews.length > 1) {
 				$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
 
@@ -275,7 +275,8 @@ F2.extend("", (function(){
 	 * Loads the App's html/css/javascript
 	 * @method loadApp
 	 * @private
-	 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}} objects
+	 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}}
+	 * objects
 	 * @param {F2.AppAssets} [appAssets] The AppAssets object
 	 */
 	var _loadApps = function(apps, appAssets) {
@@ -355,7 +356,8 @@ F2.extend("", (function(){
 	 * @method loadSecureApp
 	 * @private
 	 * @param {F2.App} app The App's context object.
-	 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the page.
+	 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the
+	 * page.
 	 */
 	var _loadSecureApp = function(app, appAssets) {
 
@@ -414,7 +416,7 @@ F2.extend("", (function(){
 		/**
 		 * Description of Events goes here
 		 * @class F2.Events
-		 * @see The <a href="https://github.com/hij1nx/EventEmitter2" target="_blank">EventEmitter2</a> project.
+		 * @method
 		 */
 		Events:(function() {
 			// init EventEmitter
@@ -425,25 +427,83 @@ F2.extend("", (function(){
 			// unlimited listeners, set to > 0 for debugging
 			events.setMaxListeners(0);
 
-			// override the emit function so that events can be passed down into iframes
-			events.emit = function() {
-				if (_hasSocketConnections) {
-					for (var i = 0, len = _sockets.length; i < len; i++) {
-						_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
+			return {
+				/**
+				 * Same as F2.Events.emit except that it will not send the event
+				 * to all sockets.
+				 * @method _socketEmit
+				 * @private
+				 * @param {string} event The event name
+				 * @param {object} [arg]* The arguments to be passed
+				 */
+				_socketEmit:function() {
+					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
+				},
+				/**
+				 * Execute each of the listeners tha may be listening for the specified
+				 * event name in order with the list of arguments
+				 * @method emit
+				 * @param {string} event The event name
+				 * @param {object} [arg]* The arguments to be passed
+				 */
+				emit:function() {
+					if (_hasSocketConnections) {
+						for (var i = 0, len = _sockets.length; i < len; i++) {
+							_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
+						}
 					}
+					//F2.log([_hasSocketConnections, location.href, arguments]);
+					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
+				},
+				/**
+				 * Adds a listener that will execute n times for the event before being 
+				 * removed. The listener is invoked only the first time the event is 
+				 * fired, after which it is removed.
+				 * @method many
+				 * @param {string} event The event name
+				 * @param {int} timesToListen The number of times to execute the event
+				 * before being removed
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 */
+				many:function(event, timesToListen, listener) {
+					return events.many(event, timesToListen, listener);
+				},
+				/**
+				 * Remove a listener for the specified event.
+				 * @method off
+				 * @param {string} event The event name
+				 * @param {function} listener The function that will be removed
+				 */
+				off:function(event, listener) {
+					return events.off(event, listener);
+				},
+				/**
+				 * Adds a listener for the specified event
+				 * @method on
+				 * @param {string} event The event name
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 */
+				on:function(event, listener){
+					return events.on(event, listener);
+				},
+				/**
+				 * Adds a one time listener for the event. The listener is invoked only
+				 * the first time the event is fired, after which it is removed.
+				 * @method once
+				 * @param {string} event The event name
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 */
+				once:function(event, listener) {
+					return events.once(event, listener);
 				}
-				//F2.log([_hasSocketConnections, location.href, arguments]);
-				EventEmitter2.prototype.emit.apply(this, [].slice.call(arguments));
 			};
-
-			// disable methods we don't want
-			events.onAny = events.offAny = $.noop;
-
-			return events;
 		})(),
 		/**
-		 * Initializes the Container. This method must be called before performing any other
-		 * actions in the Container.
+		 * Initializes the Container. This method must be called before performing
+		 * any other actions in the Container.
 		 * @method init
 		 * @param {F2.ContainerConfiguration} config The configuration object
 		 * @for F2
@@ -461,15 +521,19 @@ F2.extend("", (function(){
 		},
 		/**
 		 * Begins the loading process for all Apps. The App will
-		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will contain the App's unique
-		 * instanceId within the Container. Optionally, the {{#crossLink "F2.AppAssets"}}{{/crossLink}}
-		 * can be passed in and those assets will be used instead of making a request.
+		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will
+		 * contain the App's unique instanceId within the Container. Optionally, the
+		 * {{#crossLink "F2.AppAssets"}}{{/crossLink}} can be passed in and those
+		 * assets will be used instead of making a request.
 		 * @method registerApps
-		 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}} objects
-		 * @param {Array} [appAssets] An array of {{#crossLink "F2.AppAssets"}}{{/crossLink}}
-		 * objects. This array must be the same length as the apps array that is passed in.
-		 * This can be useful if Apps are loaded on the server-side and passed down to the
-		 * client.
+		 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}}
+		 * objects
+		 * @param {Array} [appAssets] An array of
+		 * {{#crossLink "F2.AppAssets"}}{{/crossLink}}
+		 * objects. This array must be the same length as the apps array that is
+		 * objects. This array must be the same length as the apps array that is
+		 * passed in. This can be useful if Apps are loaded on the server-side and
+		 * passed down to the client.
 		 */
 		registerApps:function(apps, appAssets) {
 

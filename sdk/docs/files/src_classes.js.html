@@ -63,6 +63,10 @@
             
                 <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -118,147 +122,155 @@ F2.extend(&quot;&quot;, {
 	 * @class F2.App
 	 *&#x2F;
 	 App:{
-	 	&#x2F;**
-	 	 * The unique ID of the App
-	 	 * @property appId
-	 	 * @type string
-	 	 * @required
-	 	 *&#x2F;
-	 	appId:&quot;&quot;,
-	 	&#x2F;**
-	 	 * A JSON string of data that will be passed to the
-	 	 * server when an App request is made.
-	 	 * @property data
-	 	 * @type string
-	 	 *&#x2F;
-	 	data:&quot;&quot;,
-	 	&#x2F;**
-	 	 * The description of the App
-	 	 * @property description
-	 	 * @type string
-	 	 * @required
-	 	 *&#x2F;
-	 	description:&quot;&quot;,
+		&#x2F;**
+		 * The unique ID of the App
+		 * @property appId
+		 * @type string
+		 * @required
+		 *&#x2F;
+		appId:&quot;&quot;,
+		&#x2F;**
+		 * A JSON string of data that will be passed to the
+		 * server when an App request is made.
+		 * @property data
+		 * @type string
+		 *&#x2F;
+		data:&quot;&quot;,
+		&#x2F;**
+		 * The description of the App
+		 * @property description
+		 * @type string
+		 * @required
+		 *&#x2F;
+		description:&quot;&quot;,
 		&#x2F;**
 		 * The company of the developer
 		 * @property developerCompany
 		 * @type string
 		 * @required
 		 *&#x2F;
-	 	developerCompany:&quot;&quot;,
-	 	&#x2F;**
-	 	 * The name of the developer
-	   * @property developerName
-	   * @type string
+		developerCompany:&quot;&quot;,
+		&#x2F;**
+		 * The name of the developer
+		 * @property developerName
+		 * @type string
 		 * @required
-	 	 *&#x2F;
-	 	developerName:&quot;&quot;,
-	 	&#x2F;**
-	 	 * The url of the developer
-	 	 * @property developerUrl
-	 	 * @type string
-	 	 * @required
-	 	 *&#x2F;
-	 	developerUrl:&quot;&quot;,
-	 	&#x2F;**
-	 	 * True if the App should be requested in a single request with other Apps. The
-	 	 * App must have isSecure = false.
-	 	 * @property enableBatchRequests
-	 	 * @type bool
-	 	 * @default false
-	 	 *&#x2F;
-	 	enableBatchRequests:false,
-	 	&#x2F;**
-	 	 * The height of the App. The initial height will be pulled from
-	 	 * the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object, but later modified by firing an 
-	 	 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{&#x2F;crossLink}}.APP_HEIGHT_CHANGE event.
-	 	 * @property height
-	 	 * @type int
-	 	 *&#x2F;
-	 	height:0,
-	 	&#x2F;**
-	 	 * The unique runtime ID of the App
-	 	 * @property instanceId
-	 	 * @type string
-	 	 *&#x2F;
-	 	instanceId:&quot;&quot;,
-	 	&#x2F;**
-	 	 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object sets isSecure = true. It will 
-		 * also be true if the Container has decided to run Apps in iframes.
+		 *&#x2F;
+		developerName:&quot;&quot;,
+		&#x2F;**
+		 * The url of the developer
+		 * @property developerUrl
+		 * @type string
+		 * @required
+		 *&#x2F;
+		developerUrl:&quot;&quot;,
+		&#x2F;**
+		 * True if the App should be requested in a single request with other Apps.
+		 * The App must have isSecure = false.
+		 * @property enableBatchRequests
+		 * @type bool
+		 * @default false
+		 *&#x2F;
+		enableBatchRequests:false,
+		&#x2F;**
+		 * The height of the App. The initial height will be pulled from
+		 * the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object, but later modified by
+		 * firing an
+		 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{&#x2F;crossLink}}.APP_HEIGHT_CHANGE
+		 * event.
+		 * @property height
+		 * @type int
+		 *&#x2F;
+		height:0,
+		&#x2F;**
+		 * The unique runtime ID of the App
+		 * @property instanceId
+		 * @type string
+		 *&#x2F;
+		instanceId:&quot;&quot;,
+		&#x2F;**
+		 * True if the App will be loaded in an iframe. This property
+		 * will be true if the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object sets
+		 * isSecure = true. It will also be true if the Container has decided to run
+		 * Apps in iframes.
 		 * @property isSecure
 		 * @type bool
 		 * @default false
-	 	 *&#x2F;
-	 	isSecure:false,
-	 	&#x2F;**
-	 	 * The recommended maximum width in pixels that this app should be run.
-	 	 * It is up to the Container to implement the logic to prevent an App
-	 	 * from being run when the maxWidth requirements are not met.
-	 	 * @property maxWidth
-	 	 * @type int
-	 	 *&#x2F;
-	 	maxWidth:0,
-	 	&#x2F;**
-	 	 * The recommended minimum grid size that this app should be run. This
-	 	 * value corresponds to the 12-grid system that is used by the Container.
-	 	 * This property should be set by Apps that require a certain number of 
-	 	 * columns in their layout.
-	 	 * @property minGridSize
-	 	 * @type int
-	 	 * @default 4
-	 	 *&#x2F;
-	 	minGridSize:4,
-	 	&#x2F;**
-	 	 * The recommended minimum width in pixels that this app should be 
-	 	 * run. It is up to the Container to implement the logic to prevent
-	 	 * an App from being run when the minWidth requirements are not met.
-	 	 * @property minWidth
-	 	 * @type int
-	 	 * @default 300
-	 	 *&#x2F;
-	 	minWidth:300,
-	 	&#x2F;**
-	 	 * The name of the App
-	 	 * @property name
-	 	 * @type string
-	 	 * @required
-	 	 *&#x2F;
-	 	name:&quot;&quot;,
-	 	&#x2F;**
-	 	 * Sets the title of the App as shown in the browser. Depending on the Container
-	 	 * HTML, this method may do nothing if the Container has not been configured 
-	 	 * properly or else the Container Provider does not allow Title&#x27;s to be set.
-	 	 * @method setTitle
-	 	 * @params {string} title The title of the App
-	 	 *&#x2F;
-	 	setTitle:function(title) {},
-	 	&#x2F;**
-	 	 * For secure apps, this method updates the size of the iframe that contains
-	 	 * the App
-	 	 * @method updateHeight
-	 	 * @params {int} height The height of the App
-	 	 *&#x2F;
-	 	updateHeight:function(height) {},
-	 	&#x2F;**
-	 	 * The url of the App
-	 	 * @property url
-	 	 * @type string
-	 	 * @required
-	 	 *&#x2F;
-	 	url:&quot;&quot;,
-	 	&#x2F;**
-	 	 * The views that this App supports. Available views
-		 * are defined in {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}. The presence of a view can be checked
-		 * via F2.{{#crossLink &quot;F2&#x2F;inArray&quot;}}{{&#x2F;crossLink}}:
+		 *&#x2F;
+		isSecure:false,
+		&#x2F;**
+		 * The recommended maximum width in pixels that this app should be run.
+		 * It is up to the Container to implement the logic to prevent an App
+		 * from being run when the maxWidth requirements are not met.
+		 * @property maxWidth
+		 * @type int
+		 *&#x2F;
+		maxWidth:0,
+		&#x2F;**
+		 * The recommended minimum grid size that this app should be run. This
+		 * value corresponds to the 12-grid system that is used by the Container.
+		 * This property should be set by Apps that require a certain number of 
+		 * columns in their layout.
+		 * @property minGridSize
+		 * @type int
+		 * @default 4
+		 *&#x2F;
+		minGridSize:4,
+		&#x2F;**
+		 * The recommended minimum width in pixels that this app should be 
+		 * run. It is up to the Container to implement the logic to prevent
+		 * an App from being run when the minWidth requirements are not met.
+		 * @property minWidth
+		 * @type int
+		 * @default 300
+		 *&#x2F;
+		minWidth:300,
+		&#x2F;**
+		 * The name of the App
+		 * @property name
+		 * @type string
+		 * @required
+		 *&#x2F;
+		name:&quot;&quot;,
+		&#x2F;**
+		 * Sets the title of the App as shown in the browser. Depending on the
+		 * Container HTML, this method may do nothing if the Container has not been
+		 * configured properly or else the Container Provider does not allow Title&#x27;s
+		 * to be set.
+		 * @method setTitle
+		 * @params {string} title The title of the App
+		 *&#x2F;
+		setTitle:function(title) {},
+		&#x2F;**
+		 * For secure apps, this method updates the size of the iframe that contains
+		 * the App. **Note: It is recommended that App developers get into the habit
+		 * of calling this method anytime Elements are added or removed from the
+		 * DOM**
+		 * @method updateHeight
+		 * @params {int} height The height of the App
+		 *&#x2F;
+		updateHeight:function(height) {},
+		&#x2F;**
+		 * The url of the App
+		 * @property url
+		 * @type string
+		 * @required
+		 *&#x2F;
+		url:&quot;&quot;,
+		&#x2F;**
+		 * The views that this App supports. Available views
+		 * are defined in {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}. The
+		 * presence of a view can be checked via
+		 * F2.{{#crossLink &quot;F2&#x2F;inArray&quot;}}{{&#x2F;crossLink}}:
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should always be present.
+		 * The {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should
+		 * always be present.
 		 * @property views
 		 * @type Array
-	 	 *&#x2F;
-	 	views:[]
+		 *&#x2F;
+		views:[]
 	},
 	&#x2F;**
 	 * The assets needed to render an App on the page
@@ -266,7 +278,8 @@ F2.extend(&quot;&quot;, {
 	 *&#x2F;
 	AppAssets:{
 		&#x2F;**
-		 * The array of {{#crossLink &quot;F2.AppAssets.AppContent&quot;}}{{&#x2F;crossLink}} objects
+		 * The array of {{#crossLink &quot;F2.AppAssets.AppContent&quot;}}{{&#x2F;crossLink}}
+		 * objects
 		 * @property Apps
 		 * @type Array
 		 * @required
@@ -310,12 +323,12 @@ F2.extend(&quot;&quot;, {
 		 *&#x2F;
 		Html:&quot;&quot;,
 		&#x2F;**
-	 	 * The unique runtime ID of the App
-	 	 * @property InstanceId
-	 	 * @type string
-	 	 * @required
-	 	 *&#x2F;
-	 	InstanceId:&quot;&quot;,
+		 * The unique runtime ID of the App
+		 * @property InstanceId
+		 * @type string
+		 * @required
+		 *&#x2F;
+		InstanceId:&quot;&quot;,
 		&#x2F;**
 		 * A status message
 		 * @property Status
@@ -330,17 +343,19 @@ F2.extend(&quot;&quot;, {
 	ContainerConfiguration:{
 		&#x2F;**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object and also a string of html.
-		 * The extra html can provide links to edit app settings and remove an app from the
-		 * Container. See {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}} for CSS classes that should be applied to elements.
+		 * function should accept an {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object
+		 * and also a string of html. The extra html can provide links to edit app
+		 * settings and remove an app from the Container. See
+		 * {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}} for CSS classes that
+		 * should be applied to elements.
 		 * @property appWrapper
 		 * @type function
 		 *&#x2F;
 		appWrapper:function() {},
 		&#x2F;**
 		 * Allows the Container to override how an App&#x27;s html is 
-		 * inserted into the page. The function should accept an {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object
-		 * and also a string of html
+		 * inserted into the page. The function should accept an
+		 * {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object and also a string of html
 		 * @property appWriter
 		 * @type function
 		 *&#x2F;
@@ -354,15 +369,18 @@ F2.extend(&quot;&quot;, {
 		isSecureAppPage:false,
 		&#x2F;**
 		 * Allows the Container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the Container
+		 * loading a secure app. The page must reside on a different domain than the
+		 * Container
 		 * @property secureAppPagePath
 		 * @type string
 		 *&#x2F;
 		secureAppPagePath:&quot;&quot;,
 		&#x2F;**
 		 * Specifies what views a Container will provide buttons
-		 * or liks to. Generally, the views will be switched via buttons or links in the App&#x27;s
-		 * header. The {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should always be present.
+		 * or liks to. Generally, the views will be switched via buttons or links in
+		 * the App&#x27;s header. The
+		 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should always
+		 * be present.
 		 * @property supportedViews
 		 * @type Array
 		 * @required

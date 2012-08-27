@@ -1469,147 +1469,155 @@ F2.extend("", {
 	 * @class F2.App
 	 */
 	 App:{
-	 	/**
-	 	 * The unique ID of the App
-	 	 * @property appId
-	 	 * @type string
-	 	 * @required
-	 	 */
-	 	appId:"",
-	 	/**
-	 	 * A JSON string of data that will be passed to the
-	 	 * server when an App request is made.
-	 	 * @property data
-	 	 * @type string
-	 	 */
-	 	data:"",
-	 	/**
-	 	 * The description of the App
-	 	 * @property description
-	 	 * @type string
-	 	 * @required
-	 	 */
-	 	description:"",
+		/**
+		 * The unique ID of the App
+		 * @property appId
+		 * @type string
+		 * @required
+		 */
+		appId:"",
+		/**
+		 * A JSON string of data that will be passed to the
+		 * server when an App request is made.
+		 * @property data
+		 * @type string
+		 */
+		data:"",
+		/**
+		 * The description of the App
+		 * @property description
+		 * @type string
+		 * @required
+		 */
+		description:"",
 		/**
 		 * The company of the developer
 		 * @property developerCompany
 		 * @type string
 		 * @required
 		 */
-	 	developerCompany:"",
-	 	/**
-	 	 * The name of the developer
-	   * @property developerName
-	   * @type string
+		developerCompany:"",
+		/**
+		 * The name of the developer
+		 * @property developerName
+		 * @type string
 		 * @required
-	 	 */
-	 	developerName:"",
-	 	/**
-	 	 * The url of the developer
-	 	 * @property developerUrl
-	 	 * @type string
-	 	 * @required
-	 	 */
-	 	developerUrl:"",
-	 	/**
-	 	 * True if the App should be requested in a single request with other Apps. The
-	 	 * App must have isSecure = false.
-	 	 * @property enableBatchRequests
-	 	 * @type bool
-	 	 * @default false
-	 	 */
-	 	enableBatchRequests:false,
-	 	/**
-	 	 * The height of the App. The initial height will be pulled from
-	 	 * the {{#crossLink "F2.App"}}{{/crossLink}} object, but later modified by firing an 
-	 	 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_HEIGHT_CHANGE event.
-	 	 * @property height
-	 	 * @type int
-	 	 */
-	 	height:0,
-	 	/**
-	 	 * The unique runtime ID of the App
-	 	 * @property instanceId
-	 	 * @type string
-	 	 */
-	 	instanceId:"",
-	 	/**
-	 	 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink "F2.App"}}{{/crossLink}} object sets isSecure = true. It will 
-		 * also be true if the Container has decided to run Apps in iframes.
+		 */
+		developerName:"",
+		/**
+		 * The url of the developer
+		 * @property developerUrl
+		 * @type string
+		 * @required
+		 */
+		developerUrl:"",
+		/**
+		 * True if the App should be requested in a single request with other Apps.
+		 * The App must have isSecure = false.
+		 * @property enableBatchRequests
+		 * @type bool
+		 * @default false
+		 */
+		enableBatchRequests:false,
+		/**
+		 * The height of the App. The initial height will be pulled from
+		 * the {{#crossLink "F2.App"}}{{/crossLink}} object, but later modified by
+		 * firing an
+		 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_HEIGHT_CHANGE
+		 * event.
+		 * @property height
+		 * @type int
+		 */
+		height:0,
+		/**
+		 * The unique runtime ID of the App
+		 * @property instanceId
+		 * @type string
+		 */
+		instanceId:"",
+		/**
+		 * True if the App will be loaded in an iframe. This property
+		 * will be true if the {{#crossLink "F2.App"}}{{/crossLink}} object sets
+		 * isSecure = true. It will also be true if the Container has decided to run
+		 * Apps in iframes.
 		 * @property isSecure
 		 * @type bool
 		 * @default false
-	 	 */
-	 	isSecure:false,
-	 	/**
-	 	 * The recommended maximum width in pixels that this app should be run.
-	 	 * It is up to the Container to implement the logic to prevent an App
-	 	 * from being run when the maxWidth requirements are not met.
-	 	 * @property maxWidth
-	 	 * @type int
-	 	 */
-	 	maxWidth:0,
-	 	/**
-	 	 * The recommended minimum grid size that this app should be run. This
-	 	 * value corresponds to the 12-grid system that is used by the Container.
-	 	 * This property should be set by Apps that require a certain number of 
-	 	 * columns in their layout.
-	 	 * @property minGridSize
-	 	 * @type int
-	 	 * @default 4
-	 	 */
-	 	minGridSize:4,
-	 	/**
-	 	 * The recommended minimum width in pixels that this app should be 
-	 	 * run. It is up to the Container to implement the logic to prevent
-	 	 * an App from being run when the minWidth requirements are not met.
-	 	 * @property minWidth
-	 	 * @type int
-	 	 * @default 300
-	 	 */
-	 	minWidth:300,
-	 	/**
-	 	 * The name of the App
-	 	 * @property name
-	 	 * @type string
-	 	 * @required
-	 	 */
-	 	name:"",
-	 	/**
-	 	 * Sets the title of the App as shown in the browser. Depending on the Container
-	 	 * HTML, this method may do nothing if the Container has not been configured 
-	 	 * properly or else the Container Provider does not allow Title's to be set.
-	 	 * @method setTitle
-	 	 * @params {string} title The title of the App
-	 	 */
-	 	setTitle:function(title) {},
-	 	/**
-	 	 * For secure apps, this method updates the size of the iframe that contains
-	 	 * the App
-	 	 * @method updateHeight
-	 	 * @params {int} height The height of the App
-	 	 */
-	 	updateHeight:function(height) {},
-	 	/**
-	 	 * The url of the App
-	 	 * @property url
-	 	 * @type string
-	 	 * @required
-	 	 */
-	 	url:"",
-	 	/**
-	 	 * The views that this App supports. Available views
-		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The presence of a view can be checked
-		 * via F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
+		 */
+		isSecure:false,
+		/**
+		 * The recommended maximum width in pixels that this app should be run.
+		 * It is up to the Container to implement the logic to prevent an App
+		 * from being run when the maxWidth requirements are not met.
+		 * @property maxWidth
+		 * @type int
+		 */
+		maxWidth:0,
+		/**
+		 * The recommended minimum grid size that this app should be run. This
+		 * value corresponds to the 12-grid system that is used by the Container.
+		 * This property should be set by Apps that require a certain number of 
+		 * columns in their layout.
+		 * @property minGridSize
+		 * @type int
+		 * @default 4
+		 */
+		minGridSize:4,
+		/**
+		 * The recommended minimum width in pixels that this app should be 
+		 * run. It is up to the Container to implement the logic to prevent
+		 * an App from being run when the minWidth requirements are not met.
+		 * @property minWidth
+		 * @type int
+		 * @default 300
+		 */
+		minWidth:300,
+		/**
+		 * The name of the App
+		 * @property name
+		 * @type string
+		 * @required
+		 */
+		name:"",
+		/**
+		 * Sets the title of the App as shown in the browser. Depending on the
+		 * Container HTML, this method may do nothing if the Container has not been
+		 * configured properly or else the Container Provider does not allow Title's
+		 * to be set.
+		 * @method setTitle
+		 * @params {string} title The title of the App
+		 */
+		setTitle:function(title) {},
+		/**
+		 * For secure apps, this method updates the size of the iframe that contains
+		 * the App. **Note: It is recommended that App developers get into the habit
+		 * of calling this method anytime Elements are added or removed from the
+		 * DOM**
+		 * @method updateHeight
+		 * @params {int} height The height of the App
+		 */
+		updateHeight:function(height) {},
+		/**
+		 * The url of the App
+		 * @property url
+		 * @type string
+		 * @required
+		 */
+		url:"",
+		/**
+		 * The views that this App supports. Available views
+		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
+		 * presence of a view can be checked via
+		 * F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always be present.
+		 * The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should
+		 * always be present.
 		 * @property views
 		 * @type Array
-	 	 */
-	 	views:[]
+		 */
+		views:[]
 	},
 	/**
 	 * The assets needed to render an App on the page
@@ -1617,7 +1625,8 @@ F2.extend("", {
 	 */
 	AppAssets:{
 		/**
-		 * The array of {{#crossLink "F2.AppAssets.AppContent"}}{{/crossLink}} objects
+		 * The array of {{#crossLink "F2.AppAssets.AppContent"}}{{/crossLink}}
+		 * objects
 		 * @property Apps
 		 * @type Array
 		 * @required
@@ -1661,12 +1670,12 @@ F2.extend("", {
 		 */
 		Html:"",
 		/**
-	 	 * The unique runtime ID of the App
-	 	 * @property InstanceId
-	 	 * @type string
-	 	 * @required
-	 	 */
-	 	InstanceId:"",
+		 * The unique runtime ID of the App
+		 * @property InstanceId
+		 * @type string
+		 * @required
+		 */
+		InstanceId:"",
 		/**
 		 * A status message
 		 * @property Status
@@ -1681,17 +1690,19 @@ F2.extend("", {
 	ContainerConfiguration:{
 		/**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html.
-		 * The extra html can provide links to edit app settings and remove an app from the
-		 * Container. See {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that should be applied to elements.
+		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
+		 * and also a string of html. The extra html can provide links to edit app
+		 * settings and remove an app from the Container. See
+		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
+		 * should be applied to elements.
 		 * @property appWrapper
 		 * @type function
 		 */
 		appWrapper:function() {},
 		/**
 		 * Allows the Container to override how an App's html is 
-		 * inserted into the page. The function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
-		 * and also a string of html
+		 * inserted into the page. The function should accept an
+		 * {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html
 		 * @property appWriter
 		 * @type function
 		 */
@@ -1705,15 +1716,18 @@ F2.extend("", {
 		isSecureAppPage:false,
 		/**
 		 * Allows the Container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the Container
+		 * loading a secure app. The page must reside on a different domain than the
+		 * Container
 		 * @property secureAppPagePath
 		 * @type string
 		 */
 		secureAppPagePath:"",
 		/**
 		 * Specifies what views a Container will provide buttons
-		 * or liks to. Generally, the views will be switched via buttons or links in the App's
-		 * header. The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always be present.
+		 * or liks to. Generally, the views will be switched via buttons or links in
+		 * the App's header. The
+		 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always
+		 * be present.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
@@ -1738,10 +1752,10 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APP class should be applied to the DOM Element that surrounds the entire App,
-			 * including any extra html that surrounds the APP\_CONTAINER that is inserted 
-			 * by the Container. See appWrapper property in the {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}
-			 * object.
+			 * The APP class should be applied to the DOM Element that surrounds the
+			 * entire App, including any extra html that surrounds the APP\_CONTAINER
+			 * that is inserted by the Container. See appWrapper property in the
+			 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}} object.
 			 * @property APP
 			 * @type string
 			 * @static
@@ -1759,8 +1773,8 @@ F2.extend("Constants", {
 			APP_CONTAINER:_PREFIX + "app-container",
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
-			 * the title for an App.  If this class is not present, the {{#crossLink "F2.App/setTitle"}}{{/crossLink}}
-			 * will not function.
+			 * the title for an App.  If this class is not present, then
+			 * {{#crossLink "F2.App/setTitle"}}{{/crossLink}} will not function.
 			 * @property APP_TITLE
 			 * @type string
 			 * @static
@@ -1769,8 +1783,10 @@ F2.extend("Constants", {
 			APP_TITLE:_PREFIX + "app-title",
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an App. The DOM Element should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
-			 * attribute that specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
+			 * a view for an App. The DOM Element should also have a
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
 			 * @property APP_VIEW
 			 * @type string
 			 * @static
@@ -1779,9 +1795,12 @@ F2.extend("Constants", {
 			APP_VIEW:_PREFIX + "app-view",
 			/**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
-			 * trigger an {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE event. The DOM Element
-			 * should also have a {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE attribute that
-			 * specifies which {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it will trigger.
+			 * trigger an
+			 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE
+			 * event. The DOM Element should also have a
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it will trigger.
 			 * @property APP_VIEW_TRIGGER
 			 * @type string
 			 * @static
@@ -1803,9 +1822,9 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APPLICATION\_LOAD event is fired once an App's Styles, Scripts, Inline 
-			 * Scripts, and HTML have been inserted into the DOM. The App's instanceId should
-			 * be concatenated to this constant.
+			 * The APPLICATION\_LOAD event is fired once an App's Styles, Scripts,
+			 * Inline Scripts, and HTML have been inserted into the DOM. The App's
+			 * instanceId should be concatenated to this constant.
 			 *
 			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {
 			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);
@@ -1819,9 +1838,9 @@ F2.extend("Constants", {
 			 */
 			APPLICATION_LOAD:"appLoad.",
 			/**
-			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the width
-			 * of an App is changed. The App's instanceId should be concatenated to this
-			 * constant.
+			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
+			 * width of an App is changed. The App's instanceId should be concatenated
+			 * to this constant.
 			 * Returns an object with the gridSize and width in pixels:
 			 *
 			 *     { gridSize:8, width:620 }
@@ -1833,8 +1852,8 @@ F2.extend("Constants", {
 			 */
 			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + "widthChange.",
 			/**
-			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an App. It 
-			 * is up to the App developer to fire this event.
+			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
+			 * App. It is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
@@ -1846,9 +1865,9 @@ F2.extend("Constants", {
 			 */
 			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user clicks
-			 * to switch the view for an App. The App's instanceId should be concatenated
-			 * to this constant.
+			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user
+			 * clicks to switch the view for an App. The App's instanceId should be
+			 * concatenated to this constant.
 			 * @property APP_VIEW_CHANGE
 			 * @type string
 			 * @static
@@ -1856,8 +1875,9 @@ F2.extend("Constants", {
 			 */
 			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + "viewChange.",
 			/**
-			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed at the Container
-			 * level. This event should only be fired by the Container or Container Provider.
+			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
+			 * at the Container level. This event should only be fired by the
+			 * Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
@@ -1869,8 +1889,8 @@ F2.extend("Constants", {
 			 */
 			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + "symbolChange",
 			/**
-			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when the width
-			 * of the Container has changed.
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
+			 * the width of the Container has changed.
 			 * @property CONTAINER_WIDTH_CHANGE
 			 * @type string
 			 * @static
@@ -1910,9 +1930,9 @@ F2.extend("Constants", {
 
 	/**
 	 * The available view types to Apps. The view should be specified by applying
-	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to thecontaining DOM Element. A 
-	 * DATA_ATTRIBUTE attribute should be added to the Element as well which defines
-	 * what view type is represented.
+	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to the
+	 * containing DOM Element. A DATA_ATTRIBUTE attribute should be added to the
+	 * Element as well which defines what view type is represented.
 	 * @class F2.Constants.Views
 	 */
 	Views:{
@@ -2024,8 +2044,7 @@ F2.extend("", (function(){
 				// handle Events
 				} else {
 					var eventArgs = F2.parse(message);
-					// do not call F2.Events.emit here, otherwise a circular message will occur
-					EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+					F2.Events._socketEmit.apply(F2.Events, eventArgs);
 				}
 			}
 		});
@@ -2077,8 +2096,7 @@ F2.extend("", (function(){
 					_apps[obj.instanceId].app["_" + obj.fnName](obj.args);
 				} else {
 					var eventArgs = F2.parse(message);
-					// do not call F2.Events.emit here, otherwise a circular message will occur
-					EventEmitter2.prototype.emit.apply(F2.Events, eventArgs);
+					F2.Events._socketEmit.apply(F2.Events, eventArgs);
 				}
 			},
 			onReady: function() {
@@ -2148,7 +2166,8 @@ F2.extend("", (function(){
 				app["_" + fnName] = fn;	
 				// outgoing function - pass arguments through socket
 				app[fnName] = function() {
-					// if we're inside a secure app page, there is only one socket connection
+					// if we're inside a secure app page, there is only one socket
+					// connection
 					var socket = _config.isSecureAppPage ? _sockets[0] : _apps[app.instanceId].socket;
 					var args = [].slice.call(arguments);
 
@@ -2205,7 +2224,8 @@ F2.extend("", (function(){
 		// these events should only be attached outside of the secure app
 		if (!_config.isSecureAppPage) {
 
-			// it is assumed that all containers will at least have F2.Constants.Views.HOME
+			// it is assumed that all containers will at least have
+			// F2.Constants.Views.HOME
 			if (_config.supportedViews.length > 1) {
 				$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
 
@@ -2246,7 +2266,8 @@ F2.extend("", (function(){
 	 * Loads the App's html/css/javascript
 	 * @method loadApp
 	 * @private
-	 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}} objects
+	 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}}
+	 * objects
 	 * @param {F2.AppAssets} [appAssets] The AppAssets object
 	 */
 	var _loadApps = function(apps, appAssets) {
@@ -2326,7 +2347,8 @@ F2.extend("", (function(){
 	 * @method loadSecureApp
 	 * @private
 	 * @param {F2.App} app The App's context object.
-	 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the page.
+	 * @param {F2.AppAssets} appAssets The App's html/css/js to be loaded into the
+	 * page.
 	 */
 	var _loadSecureApp = function(app, appAssets) {
 
@@ -2385,7 +2407,7 @@ F2.extend("", (function(){
 		/**
 		 * Description of Events goes here
 		 * @class F2.Events
-		 * @see The <a href="https://github.com/hij1nx/EventEmitter2" target="_blank">EventEmitter2</a> project.
+		 * @method
 		 */
 		Events:(function() {
 			// init EventEmitter
@@ -2396,25 +2418,83 @@ F2.extend("", (function(){
 			// unlimited listeners, set to > 0 for debugging
 			events.setMaxListeners(0);
 
-			// override the emit function so that events can be passed down into iframes
-			events.emit = function() {
-				if (_hasSocketConnections) {
-					for (var i = 0, len = _sockets.length; i < len; i++) {
-						_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
+			return {
+				/**
+				 * Same as F2.Events.emit except that it will not send the event
+				 * to all sockets.
+				 * @method _socketEmit
+				 * @private
+				 * @param {string} event The event name
+				 * @param {object} [arg]* The arguments to be passed
+				 */
+				_socketEmit:function() {
+					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
+				},
+				/**
+				 * Execute each of the listeners tha may be listening for the specified
+				 * event name in order with the list of arguments
+				 * @method emit
+				 * @param {string} event The event name
+				 * @param {object} [arg]* The arguments to be passed
+				 */
+				emit:function() {
+					if (_hasSocketConnections) {
+						for (var i = 0, len = _sockets.length; i < len; i++) {
+							_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
+						}
 					}
+					//F2.log([_hasSocketConnections, location.href, arguments]);
+					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
+				},
+				/**
+				 * Adds a listener that will execute n times for the event before being 
+				 * removed. The listener is invoked only the first time the event is 
+				 * fired, after which it is removed.
+				 * @method many
+				 * @param {string} event The event name
+				 * @param {int} timesToListen The number of times to execute the event
+				 * before being removed
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 */
+				many:function(event, timesToListen, listener) {
+					return events.many(event, timesToListen, listener);
+				},
+				/**
+				 * Remove a listener for the specified event.
+				 * @method off
+				 * @param {string} event The event name
+				 * @param {function} listener The function that will be removed
+				 */
+				off:function(event, listener) {
+					return events.off(event, listener);
+				},
+				/**
+				 * Adds a listener for the specified event
+				 * @method on
+				 * @param {string} event The event name
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 */
+				on:function(event, listener){
+					return events.on(event, listener);
+				},
+				/**
+				 * Adds a one time listener for the event. The listener is invoked only
+				 * the first time the event is fired, after which it is removed.
+				 * @method once
+				 * @param {string} event The event name
+				 * @param {function} listener The function to be fired when the event is
+				 * emitted
+				 */
+				once:function(event, listener) {
+					return events.once(event, listener);
 				}
-				//F2.log([_hasSocketConnections, location.href, arguments]);
-				EventEmitter2.prototype.emit.apply(this, [].slice.call(arguments));
 			};
-
-			// disable methods we don't want
-			events.onAny = events.offAny = $.noop;
-
-			return events;
 		})(),
 		/**
-		 * Initializes the Container. This method must be called before performing any other
-		 * actions in the Container.
+		 * Initializes the Container. This method must be called before performing
+		 * any other actions in the Container.
 		 * @method init
 		 * @param {F2.ContainerConfiguration} config The configuration object
 		 * @for F2
@@ -2432,15 +2512,19 @@ F2.extend("", (function(){
 		},
 		/**
 		 * Begins the loading process for all Apps. The App will
-		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will contain the App's unique
-		 * instanceId within the Container. Optionally, the {{#crossLink "F2.AppAssets"}}{{/crossLink}}
-		 * can be passed in and those assets will be used instead of making a request.
+		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will
+		 * contain the App's unique instanceId within the Container. Optionally, the
+		 * {{#crossLink "F2.AppAssets"}}{{/crossLink}} can be passed in and those
+		 * assets will be used instead of making a request.
 		 * @method registerApps
-		 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}} objects
-		 * @param {Array} [appAssets] An array of {{#crossLink "F2.AppAssets"}}{{/crossLink}}
-		 * objects. This array must be the same length as the apps array that is passed in.
-		 * This can be useful if Apps are loaded on the server-side and passed down to the
-		 * client.
+		 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}}
+		 * objects
+		 * @param {Array} [appAssets] An array of
+		 * {{#crossLink "F2.AppAssets"}}{{/crossLink}}
+		 * objects. This array must be the same length as the apps array that is
+		 * objects. This array must be the same length as the apps array that is
+		 * passed in. This can be useful if Apps are loaded on the server-side and
+		 * passed down to the client.
 		 */
 		registerApps:function(apps, appAssets) {
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\preamble.js</title>
+    <title>src\ui.js</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -108,111 +108,19 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src\preamble.js</h1>
+                        <h1 class="file-heading">File: src\ui.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;*!
- * F2 License Goes Here
+&#x2F;**
+ * UI helper methods
+ * @class F2.UI
  *&#x2F;
-if (!window.F2) {
-	&#x2F;**
-	 * Open F2
-	 * @module f2
-	 * @main f2
-	 *&#x2F;
-	F2 = {
-		&#x2F;** 
-		 * Generates a somewhat random id
-		 * @method guid
-		 * @return {string} A random id
-		 * @for F2
-		 *&#x2F;
-		guid:function() {
-			var S4 = function() {
-				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-			};
-			return (S4()+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+S4()+S4());
-		},
-		&#x2F;**
-		 * Wrapper logging function.
-		 * @method log
-		 * @param {object} obj An object to be logged
-		 * @param {object} [obj2]* An object to be logged
-		 *&#x2F;
-		log:function() {
-			if (window.console &amp;&amp; window.console.log) {
-				console.log([].slice.call(arguments));
-			}
-		},
-		&#x2F;**
-		 * Search for a value within an array.
-		 * @method inArray
-		 * @param {object} value The value to search for
-		 * @param {Array} array The array to search
-		 *&#x2F;
-		inArray:function(value, array) {
-			return $.inArray(value, array) &gt; -1;
-		},
+F2.extend(&quot;UI&quot;, (function(){
 
-		&#x2F;**
-		 * Creates a namespace on F2 and copies the contents of an object into
-		 * that namespace optionally overwriting existing properties.
-		 * @method extend
-		 * @param {string} ns The namespace to create. Pass a falsy value to 
-		 * add properties to the F2 namespace directly.
-		 * @param {object} obj The object to copy into the namespace.
-		 * @param {bool} overwrite True if object properties should be overwritten
-		 * @returns {object} The created object
-		 *&#x2F;
-		extend:function (ns, obj, overwrite) {
-			var parts = ns ? ns.split(&#x27;.&#x27;) : [];
-			var parent = window.F2;
-			obj = obj || {};
-			
-			&#x2F;&#x2F; ignore leading global
-			if (parts[0] === &quot;F2&quot;) {
-				parts = parts.slice(1);
-			}
-			
-			&#x2F;&#x2F; create namespaces
-			for (var i = 0; i &lt; parts.length; i++) {
-				if (typeof parent[parts[i]] === &quot;undefined&quot;) {
-					parent[parts[i]] = {};
-				}
-				parent = parent[parts[i]];
-			}
-			
-			&#x2F;&#x2F; copy object into namespace
-			for (var prop in obj) {
-				if (typeof parent[prop] === &quot;undefined&quot; || overwrite) {
-					parent[prop] = obj[prop];
-				} 
-			}
-
-			return parent;
-		},
-
-		&#x2F;**
-		 * Wrapper to convert a JSON string to an object
-		 * @method parse
-		 * @param {string} str The JSON string to convert
-		 * @returns {object} The parsed object
-		 *&#x2F;
-		parse:function(str) {
-			return JSON.parse(str);
-		},
-		&#x2F;**
-		 * Wrapper to convert an object to JSON
-		 * @method stringify
-		 * @param {object} obj The object to convert
-		 * @returns {string} The JSON string
-		 *&#x2F;
-		stringify:function(obj) {
-			return JSON.stringify(obj);
-		}
+	return {
 	};
-}
+})());
     </pre>
 </div>
 

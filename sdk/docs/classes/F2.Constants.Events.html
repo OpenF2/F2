@@ -63,6 +63,10 @@
             
                 <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+            
+                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+            
             </ul>
 
             <ul id="api-modules" class="apis modules">
@@ -112,7 +116,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;src_constants.js.html#l71"><code>src\constants.js:71</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;src_constants.js.html#l76"><code>src\constants.js:76</code></a>
         </div>
     
 
@@ -254,7 +258,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_constants.js.html#l112"><code>src\constants.js:112</code></a>
+        <a href="..&#x2F;files&#x2F;src_constants.js.html#l117"><code>src\constants.js:117</code></a>
         
         </p>
 
@@ -264,8 +268,8 @@
     </div>
 
     <div class="description">
-        <p>The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an App. It 
-is up to the App developer to fire this event.
+        <p>The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an
+App. It is up to the App developer to fire this event.
 Returns an object with the symbol and company name:</p>
 
 <pre class="code"><code class="prettyprint">{ symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
@@ -307,7 +311,7 @@ Returns an object with the symbol and company name:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_constants.js.html#l125"><code>src\constants.js:125</code></a>
+        <a href="..&#x2F;files&#x2F;src_constants.js.html#l130"><code>src\constants.js:130</code></a>
         
         </p>
 
@@ -317,9 +321,9 @@ Returns an object with the symbol and company name:</p>
     </div>
 
     <div class="description">
-        <p>The APP_VIEW_CHANGE event will be fired by the Container when a user clicks
-to switch the view for an App. The App's instanceId should be concatenated
-to this constant.</p>
+        <p>The APP_VIEW_CHANGE event will be fired by the Container when a user
+clicks to switch the view for an App. The App's instanceId should be
+concatenated to this constant.</p>
     </div>
 
     
@@ -357,7 +361,7 @@ to this constant.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_constants.js.html#l98"><code>src\constants.js:98</code></a>
+        <a href="..&#x2F;files&#x2F;src_constants.js.html#l103"><code>src\constants.js:103</code></a>
         
         </p>
 
@@ -367,9 +371,9 @@ to this constant.</p>
     </div>
 
     <div class="description">
-        <p>The APP_WIDTH_CHANGE event will be fired by the Container when the width
-of an App is changed. The App's instanceId should be concatenated to this
-constant.
+        <p>The APP_WIDTH_CHANGE event will be fired by the Container when the
+width of an App is changed. The App's instanceId should be concatenated
+to this constant.
 Returns an object with the gridSize and width in pixels:</p>
 
 <pre class="code"><code class="prettyprint">{ gridSize:8, width:620 }
@@ -411,7 +415,7 @@ Returns an object with the gridSize and width in pixels:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_constants.js.html#l82"><code>src\constants.js:82</code></a>
+        <a href="..&#x2F;files&#x2F;src_constants.js.html#l87"><code>src\constants.js:87</code></a>
         
         </p>
 
@@ -421,9 +425,9 @@ Returns an object with the gridSize and width in pixels:</p>
     </div>
 
     <div class="description">
-        <p>The APPLICATION_LOAD event is fired once an App's Styles, Scripts, Inline 
-Scripts, and HTML have been inserted into the DOM. The App's instanceId should
-be concatenated to this constant.</p>
+        <p>The APPLICATION_LOAD event is fired once an App's Styles, Scripts,
+Inline Scripts, and HTML have been inserted into the DOM. The App's
+instanceId should be concatenated to this constant.</p>
 
 <pre class="code"><code class="prettyprint">F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {
   var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);
@@ -467,7 +471,7 @@ be concatenated to this constant.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_constants.js.html#l135"><code>src\constants.js:135</code></a>
+        <a href="..&#x2F;files&#x2F;src_constants.js.html#l140"><code>src\constants.js:140</code></a>
         
         </p>
 
@@ -477,8 +481,9 @@ be concatenated to this constant.</p>
     </div>
 
     <div class="description">
-        <p>The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed at the Container
-level. This event should only be fired by the Container or Container Provider.
+        <p>The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed
+at the Container level. This event should only be fired by the
+Container or Container Provider.
 Returns an object with the symbol and company name:</p>
 
 <pre class="code"><code class="prettyprint">{ symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
@@ -520,7 +525,7 @@ Returns an object with the symbol and company name:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;src_constants.js.html#l148"><code>src\constants.js:148</code></a>
+        <a href="..&#x2F;files&#x2F;src_constants.js.html#l154"><code>src\constants.js:154</code></a>
         
         </p>
 
@@ -530,8 +535,8 @@ Returns an object with the symbol and company name:</p>
     </div>
 
     <div class="description">
-        <p>The CONTAINER_WIDTH_CHANGE event will be fired by the Container when the width
-of the Container has changed.</p>
+        <p>The CONTAINER_WIDTH_CHANGE event will be fired by the Container when
+the width of the Container has changed.</p>
     </div>
 
     
