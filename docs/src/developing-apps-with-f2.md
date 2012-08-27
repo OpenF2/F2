@@ -1,3 +1,5 @@
+% Developing Apps with F2
+
 ## Overview
 
 An App is a web page or microsite, written by an App developer that includes its own (entitled) data. Further, an App can be purchased (or entitled) from the App Store, and is displayed on the desktop or “Container”. The App developer is the person or company that designs, develops, and hosts the app.
@@ -12,10 +14,6 @@ Simplistically, an App is one of two things:
 Refer to [Together At Last: Containers and Apps](creating-F2.html).
 
 ## Development Requirements 
-
-**Editor’s note:** Marry with jsdocs temporarily located at: 
-
-<http://wksbbakerw7.wsod.local/internal/openfinancialframework/SDK/jsdoc/symbols/F2.Container.AppContext.html>
 
 Each App must have a digital signature or unique identifier in the format of a GUID. This allows App Providers to register their App with the App Store and in turn the App Store can provide reporting metrics on App usage, purchases, etc. Additionally, having a unique ID allows the Container to interact with specific modules on the desktop using Context or in more simple cases using JavaScript’s document.getElementById() method.
 

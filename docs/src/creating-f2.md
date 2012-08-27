@@ -1,4 +1,4 @@
-# Creating the Open Financial Framework
+% Creating the Open Financial Framework
 
 ## Phased Approach
 

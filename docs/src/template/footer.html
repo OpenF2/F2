@@ -1,17 +1,17 @@
-</section>
+			</section>
+		</div><!--/span9-->
+	</div><!--/row-->
+
+  <hr>
+
+  <footer>
+    <p>&copy; Company 2012</p>
+  </footer>
+
+</div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<!--[if lt IE 9]>
-<script>
-document.createElement('header');
-document.createElement('nav');
-document.createElement('section');
-document.createElement('article');
-document.createElement('aside');
-document.createElement('footer');
-document.createElement('hgroup');
-</script>
-<![endif]-->
+<script src="http://markitondemand.github.com/OpenF2/js/bootstrap.min.js"></script>
 
 <script>
 	if (navigator.userAgent.indexOf('Mac OS') != -1) {
@@ -20,18 +20,22 @@ document.createElement('hgroup');
 
 	$(function() {
 		var toc = $('#toc');
-		var tocInner = $('div', toc);
 		var docs = $('#docs');
 		var file = location.pathname.split('/').pop();
 
-		function tocHeight() {
-			tocInner.height(toc.height());
+		var tocHeight = function(){
+			return toc.outerHeight();
 		}
-		
 
-		$(window).resize(tocHeight);
-		tocHeight();
+		var pageHeight = function(){
+			return docs.outerHeight();
+		}
 
+		if (pageHeight() < tocHeight()){
+			docs.parent().height(tocHeight() + 200);
+		}
+
+		//build individual nav items
 		function tocItem(item, group) {
 			var label = item.children().first().text();
 			var el = $('<li><a href="#' + item.attr('id') + '">' + label + '</a></li>');
@@ -40,28 +44,29 @@ document.createElement('hgroup');
 			el.append(buildToc(item));
 
 			$('a', el).click(function() {
-				$('ul.sub-menu li.selected').removeClass('selected');
-				$(this).parent().addClass('selected');
+				$('ul.nav-list li.active').removeClass('active');
+				$(this).parent().addClass('active');
 			});
 		}
 
+		//build table of contents based on sections within generated markdown file
 		function buildToc(root) {
-			var sections = $('> section', root);
+			var sections = $('> section', root);//find <section> elements in main content area
 
 			if (!sections.length) {
 				return;
 			}
 
-			var group = $('<ul class="sub-menu"></ul>');
+			var group = $('<ul class="nav nav-list"></ul>');
 
 			sections.each(function(idx, item) {
 				tocItem($(item), group);
 			});
 
 			return group;
-
 		}
 
+		//build sub-menu nav list for each main/parent nav
 		$('li a', toc).each(function(idx, item) {
 			item = $(item);
 			var url = $(item).attr('href');
@@ -71,11 +76,9 @@ document.createElement('hgroup');
 				subMenu = buildToc(docs);
 
 				item.parent()
-					.addClass('selected')
+					.addClass('active')
 					.append(subMenu)
 				;
-
-				// subMenu.show(500);
 				return false;
 			}
 		});

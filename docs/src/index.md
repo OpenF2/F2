@@ -1,4 +1,4 @@
-# F2: The Open Financial Framework #
+% F2: The Open Financial Framework
 
 The Open Financial Framework, designed and developed by Markit, is an open standard for a web application framework that is specifically designed for the financial markets. This specification enables multiple information providers to entitle both apps and content to be combined in a seamless experience. 
 
