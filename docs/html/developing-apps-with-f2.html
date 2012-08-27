@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>F2 Documentation - Developing Apps with F2</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  
+  <!-- Le styles -->
+  <link href="http://markitondemand.github.com/OpenF2/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+    }
+    .sidebar-nav {
+      padding: 9px 0;
+    }
+  </style>
+  
+  
+  
+  
+  <style type="text/css" media="all">
+  
+  	pre.sourceCode { 
+  		margin: 20px 40px;
+  	    line-height: 16px;
+  	    
+  	    /* cant figure out why i need this */
+  	    text-indent: -2px;
+  	}
+  
+  	.mac pre.sourceCode {
+  		line-height: 18px;
+  	}
+  
+  	pre.sourceCode *, code {
+  		font-weight: normal !important;
+  		font-family: consolas, lucida console, courier;
+  		font-size: 13px;
+  	}
+  
+  	.mac pre.sourceCode *, .mac code {
+  		font-family: monaco, courier;
+  		font-size: 12px;
+  	}
+  
+  	pre.sourceCode code {
+  		border: none;
+  		background: none;
+  	}
+  
+  	#toc > ul { width:240px; }
+  	.row .span9 { margin-left:300px;}
+  
+  	#toc > ul { margin-bottom:30px; }
+  
+  	#toc ul ul { font-size: 90%; }
+  
+  
+  	/* table of contents 
+  
+  	#toc {
+  		position: fixed;
+  		left: 0;
+  		top: 0;
+  		bottom: 0;
+  		width: 225px;
+  		border-right: 1px solid #ccc;
+  		margin-top: 0;
+  		background: #f8f8f8;
+  		
+  		box-shadow: 0px 0px 8px #ccc;
+  		padding-bottom: 30px;
+  	}
+  
+  	#toc div {
+  		overflow-y: auto;
+  		overflow-x: hidden;
+  		height: 95%;
+  		padding: 10px 10px 20px 15px;
+  	}
+  
+  	#toc h1 a {
+  		text-decoration: none;
+  		color: #333;
+  	}
+  
+  	#toc h2 {
+  		border-bottom: 1px solid #ccc;
+  		font-size: 14px;
+  		margin: 20px 0 0 0;
+  	}
+  
+  	#toc ul {
+  		list-style: none;
+  		margin: 0;
+  		padding: 0;
+  	}
+  
+  	#toc ul li {
+  		margin-left: 10px;
+  		margin-top: 5px;
+  	}
+  
+  	#toc ul li a {
+  		color: #333;
+  		text-decoration: none;
+  	}
+  
+  	#toc ul li.selected > a {
+  		font-weight: bold;
+  	}
+  
+  	#toc ul.sub-menu li {
+  		line-height: 14px;
+  	}
+  
+  	#toc ul.sub-menu li a {
+  		font-size: 12px;
+  	}
+  
+  	#docs {
+  		margin-left: 250px;
+  		max-width: 700px;
+  	}
+  
+  	td { font-size: 90%; vertical-align:top; }
+  	tr:first-child { width:100px; }
+  </style>
+  
+  <style type="text/css" media="print">
+  	#toc {
+  		display: none;
+  	}
+  	#docs {
+  		margin-left: 0;
+  	}
+  	*/
+  </style>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="index.html">F2: Financial Framework</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href="#">Home</a></li>
+          <li class="active"><a href="index.html">Documentation</a></li>
+          <li><a href="http://www.github.com/markitondemand/OpenF2">On GitHub</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="span3" id="toc">
+      
+        <ul class="nav nav-pills nav-stacked" data-spy="affix">
+          <li class="nav-header">F2 Documentation</li>
+          <li class="xactive"><a href="index.html"><i class="icon-arrow-right"></i> Overview</a></li>
+          <li><a href="components-of-the-framework.html"><i class="icon-arrow-right"></i> Components of F2</a></li>
+		  <li><a href="containers-and-apps.html"><i class="icon-arrow-right"></i> Containers &amp; Apps</a></li>
+		  <li><a href="creating-F2.html"><i class="icon-arrow-right"></i> Creating F2</a></li>
+          <li class="nav-header">Getting Started</li>
+          <li><a href="developing-apps-with-f2.html"><i class="icon-arrow-right"></i> Developing Apps</a></li>
+		  <li><a href="single-sign-on.html"><i class="icon-arrow-right"></i> Single Sign On (SSO)</a></li>
+		  <li><a href="developing-the-container.html"><i class="icon-arrow-right"></i> Developing the Container</a></li>
+          <li class="nav-header">API Reference</li>
+          <li><a href="http://dev2.dev.local/OpenF2/docs/api/latest/" target="_blank"><i class="icon-arrow-right"></i> F2.js</a></li>
+          <li class="nav-header">The Vision</li>
+          <li><a href="container-features.html"><i class="icon-arrow-right"></i> Container Features</a></li>
+		  <li><a href="the-app-store.html"><i class="icon-arrow-right"></i> The App Store</a></li>
+        </ul>
+
+    </div><!--/span-->
+
+	<div class="span9">
+
+		<section id="docs">
+<header>
+<h1 class="title">Developing Apps with F2</h1>
+</header>
+<section class="level2" id="overview">
+<h2>Overview</h2>
+<p>An App is a web page or microsite, written by an App developer that includes its own (entitled) data. Further, an App can be purchased (or entitled) from the App Store, and is displayed on the desktop or “Container”. The App developer is the person or company that designs, develops, and hosts the app.</p>
+<p>Simplistically, an App is one of two things:</p>
+<ul>
+<li>Presentation App -- A presentation App is an HTML document and contains JavaScript, CSS, images and other objects. It displays data to users in a manner determined by the App designer and must adhere to this specification.</li>
+<li>Data App -- A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or App developer-designed XML.</li>
+</ul>
+</section>
+<section class="level2" id="relationship-between-container-and-app">
+<h2>Relationship Between Container and App</h2>
+<p>Refer to <a href="creating-F2.html">Together At Last: Containers and Apps</a>.</p>
+</section>
+<section class="level2" id="development-requirements">
+<h2>Development Requirements</h2>
+<p>Each App must have a digital signature or unique identifier in the format of a GUID. This allows App Providers to register their App with the App Store and in turn the App Store can provide reporting metrics on App usage, purchases, etc. Additionally, having a unique ID allows the Container to interact with specific modules on the desktop using Context or in more simple cases using JavaScript’s document.getElementById() method.</p>
+<p>Beyond a unique ID, Apps have other characteristics that define them within the Framework. The following are required attributes App developers must include in their Apps. The following data points should be represented within the presentation or data App:</p>
+<pre class="sourceCode metafont"><code class="sourceCode metafont">AppID – long (guid)
+Name <span class="kw">-</span> <span class="dt">string</span>
+Title <span class="kw">-</span> <span class="dt">string</span>
+Context – object 
+AcceptsContext – bool
+DeveloperEmail <span class="kw">-</span> <span class="dt">string</span>
+DeveloperURL – <span class="dt">string</span>
+DeveloperCompanyName <span class="kw">-</span> <span class="dt">string</span></code></pre>
+<p>Since Apps are comprised of mainly HTML, JavaScript and CSS, App development can be as complex as the App developer wishes with one significant limitation: an App cannot be allowed to negatively impact other Apps on the desktop. To prevent accidental impact, Apps are developed inside of JavaScript closure which means an App will not have any public methods and therefore is a closed cell.</p>
+</section>
+<section class="level2" id="designing-the-app-to-look-integrated-with-the-container">
+<h2>Designing the App to Look Integrated with the Container</h2>
+<p>Design is an important first step in creating a new App. Using the Open Financial Framework’s upcoming design guidelines and App API, App Designers and Developers can take advantage of these available resources to develop Apps on their own schedules. The design guidelines will provide a common theme and offer a baseline for consistency between all Apps on the Container.</p>
+<p>There is customization available and it will be imperative for App developers to follow Container-provided guidelines for consistency on a case-by-case basis. The ‘common theme’ provided by this Framework is not a template per se but rather a mechanism to facilitate faster development between numerous App developers.</p>
+</section>
+<section class="level2" id="loading-an-app-on-the-container">
+<h2>Loading an App on the Container</h2>
+<p>Each App must “load” itself by calling a JavaScript method available in the SDK which will be hosted by the Container Provider. The arguments sent to “loadApp” are the App characteristics and any additional name/value data App Developers wish to include as part of their App’s Context.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Container</span>.<span class="fu">loadApp</span>({
+    <span class="dt">AppId</span>: “1234<span class="dv">-5678-9101-1121-3141-5161</span>”,
+    <span class="dt">Name</span>: “Acme Financials”,
+    <span class="dt">Title</span>: “Acme Financials Module”,
+    <span class="dt">Context</span>: {
+        <span class="dt">Symbol</span>: “MSFT”,
+        <span class="dt">Name</span>: “value”,
+        <span class="dt">List</span>: [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]
+    },
+    <span class="dt">AcceptsContext</span>: <span class="kw">true</span>,
+    <span class="dt">DeveloperEmail</span>: “dev@<span class="kw">domain</span>.<span class="fu">com</span>”,
+    <span class="dt">DeveloperURL</span>: “http:<span class="co">//domain.com”,</span>
+    <span class="dt">DeveloperCompanyName</span>: “Acme, Inc”
+});</code></pre>
+</section>
+<section class="level2" id="context">
+<h2>Context</h2>
+<p>Each Container Provider shall be responsible for hosting the Container JavaScript API. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.</p>
+<p>While Apps can have Context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals and likewise Apps can listen for events sent by the Container.</p>
+<p>This is a sample of a Container sending Context to Apps. Firstly, the Container fires a “ContextUpdate” event.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Container</span>.<span class="fu">on</span>(“ContextUpdate”, { <span class="dt">Symbol</span>: “MSFT” }, <span class="kw">function</span>(ev,callback){
+    <span class="kw">console</span>.<span class="fu">log</span>(“Context updated!”);
+});</code></pre>
+<p>Apps are responsible for listening to the broadcasted “ContextUpdate” event. App developers can bind custom event handlers based on the emitted event. Using jQuery, a sample to refresh an app with a new symbol:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“.<span class="fu">myApp</span>”).<span class="fu">bind</span>(“ContextUpdate”, <span class="kw">function</span>(ev,data){
+    <span class="kw">myApp</span>.<span class="fu">refresh</span>(<span class="kw">data</span>.<span class="fu">Symbol</span>);
+});</code></pre>
+<p>Likewise, Apps can send Context to the Container.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">App</span>.<span class="fu">on</span>(“ContextUpdateToContainer”, { <span class="dt">FullScreen</span>: <span class="kw">true</span> }, <span class="kw">function</span>(ev, callback){
+    <span class="kw">console</span>.<span class="fu">log</span>(“Context sent to Container!”);
+});</code></pre>
+<p>The Container can then listen for App-emitted events.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“#Container”).<span class="fu">bind</span>(“ContextUpdateToContainer”, <span class="kw">function</span>(ev,data){
+    <span class="kw">Container</span>.<span class="fu">showFullScreen</span>();
+});</code></pre>
+<p>Apps can also pass Context between Apps. If there are two or more Apps on a Container with similar Context and the ability to receive messages (yes, this is opt-out), Apps can communicate with each other.</p>
+<p>For example, on your Container you have “App 1” which is a watch list app alongside “App 2” which is a snap quote app. Embedded within the Content in App 2 could be a button labeled “send to watch list”. Pressing that button would transmit the symbol of the stock currently being viewed in App 1 across to App 2 to be added to the watch list. Achieving that looks programmatically like this:</p>
+<p>First, find the App you want to find the apps to which to send the Context to:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> $apps = <span class="kw">Container</span>.<span class="fu">getApps</span>(bool canAcceptContext(<span class="kw">true</span>));</code></pre>
+<p>Secondly, emit an event from App 1:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$<span class="kw">apps</span>.<span class="fu">find</span>(“App1”).<span class="fu">on</span>(
+    “ContextToApp”, 
+    { Symbol”: “MSFT”, Action”: “ADD” }, 
+    <span class="kw">function</span>(ev,data){
+        <span class="kw">myApp</span>.<span class="fu">refresh</span>(data);
+        }   
+    );</code></pre>
+<p>And finally listen for that event within App 2:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$<span class="kw">apps</span>.<span class="fu">find</span>(“App2”).<span class="fu">bind</span>(“ContextToApp”, <span class="kw">function</span>(ev,data){
+    <span class="kw">console</span>.<span class="fu">log</span>(“Context received <span class="kw">in</span> App2!”);
+});</code></pre>
+</section>
+<section class="level2" id="app-formats">
+<h2>App Formats</h2>
+<p>Below is a sample request for an App named &quot;Sample&quot; in JSON format.</p>
+<pre class="sourceCode metafont"><code class="sourceCode metafont">http:<span class="kw">//</span>www.domain.com<span class="kw">/</span>App<span class="kw">/</span>Factory<span class="kw">/</span>json?params<span class="kw">=</span>[{Id:<span class="st">&quot;App1&quot;</span>,Width:<span class="dv">200</span>,Name:<span class="st">&quot;Value&quot;</span>}]</code></pre>
+<p>The &quot;/json&quot; format specifier in the above request could be safely omitted, as JSON is the default format. The widgets can be returned in a variety of formats as shown in the table below. Inclusion of a widget into an existing site varies based on the format requested.</p>
+<p>The following output formats are required of any App:</p>
+<table>
+<col style="width: 11%" /><col style="width: 15%" /><thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">iframe</td>
+<td style="text-align: left;">An inline JavaScript tag is inserted into the site. When the script is executed, an Iframe is written out to the page. The Iframe output format can be used for complex widgets or widgets that need to be self-contained.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">json</td>
+<td style="text-align: left;">A JSON object containing the javascript, css, and widgets is inserted into the site via javascript already on the site.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">jsonp</td>
+<td style="text-align: left;">Same as JSON but output is wrapped in a Callback function. Used for cross-domain communication and callbacks.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">script</td>
+<td style="text-align: left;">An inline JavaScript tag tag is inserted into the site. Wen the script is executed, the javascript, css, and html for the widgets is written out to the page.</td>
+</tr>
+</tbody>
+</table>
+<p>The JSON response format does not include type information. A description of the JSON format can be found at http://json.org. It will not be described in this Spec. A sample JSON response is shown below:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    <span class="st">&quot;InlineScripts&quot;</span> : [],    
+    <span class="st">&quot;Scripts&quot;</span> : [],  
+    <span class="st">&quot;Styles&quot;</span> : [],   
+    <span class="st">&quot;Apps&quot;</span> : [
+        {
+            <span class="st">&quot;Html&quot;</span> : <span class="st">&quot;\u003cdiv\u003eHello World!\u003c/div\u003e&quot;</span>,
+            <span class="st">&quot;Data&quot;</span> : 
+                {
+                    <span class="st">&quot;Symbol&quot;</span> : <span class="st">&quot;AAPL&quot;</span>
+                },              
+            <span class="st">&quot;Id&quot;</span> : <span class="st">&quot;Sample&quot;</span>,                
+            <span class="st">&quot;Status&quot;</span> : <span class="st">&quot;SUCCESS&quot;</span>
+        }]
+}</code></pre>
+<p>The JSONP response format is similar, with the addition of a callback method name.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">mySampleCallbackName({
+    <span class="st">&quot;InlineScripts&quot;</span> : [],    
+    <span class="st">&quot;Scripts&quot;</span> : [],  
+    <span class="st">&quot;Styles&quot;</span> : [],   
+    <span class="st">&quot;Apps&quot;</span> : [
+        {
+            <span class="st">&quot;Html&quot;</span> : <span class="st">&quot;\u003cdiv\u003eHello World!\u003c/div\u003e&quot;</span>,
+            <span class="st">&quot;Data&quot;</span> : 
+                {
+                    <span class="st">&quot;Symbol&quot;</span> : <span class="st">&quot;MSFT&quot;</span>
+                },              
+            <span class="st">&quot;Id&quot;</span> : <span class="st">&quot;Sample&quot;</span>,                
+            <span class="st">&quot;Status&quot;</span> : <span class="st">&quot;SUCCESS&quot;</span>
+        }]
+})</code></pre>
+</section>
+<section class="level2" id="hosting-an-app">
+<h2>Hosting an App</h2>
+<p>Since the Framework is web-based and it is a primary requirement of this Framework to simultaneously support multiple Apps from different providers, the following are truths:</p>
+<ul>
+<li>Anyone can technically host a Container provided they are willing to develop the infrastructure capable of supporting an app ecosystem which includes authentication, entitlements, the app store, cross-container communication (targeting version 1.3 spec), etc. See How to Develop a Container for details.</li>
+<li>Similarly, anyone can host an App. By definition, an App is simply a web page or web site which has a Container-accessible domain name.</li>
+</ul>
+<p>The App Developer or App Provider needs to host their App on a publicly accessible Internet domain. The App should follow the &quot;REST&quot; model for web services. In simple terms, REST is a formal description of the HTTP protocol. Accessing a &quot;REST&quot; App is merely a matter of making a standard HTTP request to a defined resource.</p>
+<p>An App can be accessed by an HTTP GET or HTTP POST request. Each request consists of a URI, and a URL encoded list of parameters in JSON. The URI consists of a hostname and base path, a method name, and an optional format specifier. The parameters are appended to the URI on the querystring.</p>
+</section>
+<section class="level2" id="app-content">
+<h2>App Content</h2>
+<p>App Providers can determine which content they wish to make available within their App. It is recommended that content is focused on financial information; however, there is no limitation as such. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.</p>
+<p>If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.</p>
+</section>
+<section class="level2" id="single-sign-on">
+<h2>Single Sign-On</h2>
+<p>Providers participating in the Markit App Framework must modify their web sites' authentication mechanism to accept a customer’s authentication from a Container Provider without requiring the user to retype their Username and Password. With an authentication methodology in place between the Container Provider and App Provider, when a customer authenticates to a Provider’s App, the authentication credentials are passed to the Container Provider. The authentication methodology is also suitable for the reverse, for authenticating a customer requesting content from an App Provider after selecting content from the App within the Container. Authentication information will be passed between App Providers and Container Providers in the form of encrypted URLs.</p>
+</section>
+<section class="level2" id="entitlements">
+<h2>Entitlements</h2>
+<p>User Entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This would include apps like research aggregation, news filtering, streaming market data, etc. In order to enable an App to retrieve data from multiple, entitled, content providers in real-time, there will need to be an explicit and trusted mechanism of passing entitlements information between the Store, the data vendors, and the app developers.</p>
+<p>Further details around entitlements will be forthcoming as this specification evolves.</p>
+</section>
+			</section>
+		</div><!--/span9-->
+	</div><!--/row-->
+
+  <hr>
+
+  <footer>
+    <p>&copy; Company 2012</p>
+  </footer>
+
+</div><!--/.container-->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://markitondemand.github.com/OpenF2/js/bootstrap.min.js"></script>
+
+<script>
+	if (navigator.userAgent.indexOf('Mac OS') != -1) {
+		$('body').addClass('mac');
+	}
+
+	$(function() {
+		var toc = $('#toc');
+		var docs = $('#docs');
+		var file = location.pathname.split('/').pop();
+
+		var tocHeight = function(){
+			return toc.outerHeight();
+		}
+
+		var pageHeight = function(){
+			return docs.outerHeight();
+		}
+
+		if (pageHeight() < tocHeight()){
+			docs.parent().height(tocHeight() + 200);
+		}
+
+		//build individual nav items
+		function tocItem(item, group) {
+			var label = item.children().first().text();
+			var el = $('<li><a href="#' + item.attr('id') + '">' + label + '</a></li>');
+
+			el.appendTo(group);
+			el.append(buildToc(item));
+
+			$('a', el).click(function() {
+				$('ul.nav-list li.active').removeClass('active');
+				$(this).parent().addClass('active');
+			});
+		}
+
+		//build table of contents based on sections within generated markdown file
+		function buildToc(root) {
+			var sections = $('> section', root);//find <section> elements in main content area
+
+			if (!sections.length) {
+				return;
+			}
+
+			var group = $('<ul class="nav nav-list"></ul>');
+
+			sections.each(function(idx, item) {
+				tocItem($(item), group);
+			});
+
+			return group;
+		}
+
+		//build sub-menu nav list for each main/parent nav
+		$('li a', toc).each(function(idx, item) {
+			item = $(item);
+			var url = $(item).attr('href');
+			var subMenu;
+
+			if (file == url || (!file && url == 'index.html')) {
+				subMenu = buildToc(docs);
+
+				item.parent()
+					.addClass('active')
+					.append(subMenu)
+				;
+				return false;
+			}
+		});
+	});
+</script>
+</body>
+</html>

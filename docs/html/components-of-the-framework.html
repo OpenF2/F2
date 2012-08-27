@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>F2 Documentation - The Components of the Framework</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  
+  <!-- Le styles -->
+  <link href="http://markitondemand.github.com/OpenF2/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+    }
+    .sidebar-nav {
+      padding: 9px 0;
+    }
+  </style>
+  
+  
+  
+  
+  <style type="text/css" media="all">
+  
+  	pre.sourceCode { 
+  		margin: 20px 40px;
+  	    line-height: 16px;
+  	    
+  	    /* cant figure out why i need this */
+  	    text-indent: -2px;
+  	}
+  
+  	.mac pre.sourceCode {
+  		line-height: 18px;
+  	}
+  
+  	pre.sourceCode *, code {
+  		font-weight: normal !important;
+  		font-family: consolas, lucida console, courier;
+  		font-size: 13px;
+  	}
+  
+  	.mac pre.sourceCode *, .mac code {
+  		font-family: monaco, courier;
+  		font-size: 12px;
+  	}
+  
+  	pre.sourceCode code {
+  		border: none;
+  		background: none;
+  	}
+  
+  	#toc > ul { width:240px; }
+  	.row .span9 { margin-left:300px;}
+  
+  	#toc > ul { margin-bottom:30px; }
+  
+  	#toc ul ul { font-size: 90%; }
+  
+  
+  	/* table of contents 
+  
+  	#toc {
+  		position: fixed;
+  		left: 0;
+  		top: 0;
+  		bottom: 0;
+  		width: 225px;
+  		border-right: 1px solid #ccc;
+  		margin-top: 0;
+  		background: #f8f8f8;
+  		
+  		box-shadow: 0px 0px 8px #ccc;
+  		padding-bottom: 30px;
+  	}
+  
+  	#toc div {
+  		overflow-y: auto;
+  		overflow-x: hidden;
+  		height: 95%;
+  		padding: 10px 10px 20px 15px;
+  	}
+  
+  	#toc h1 a {
+  		text-decoration: none;
+  		color: #333;
+  	}
+  
+  	#toc h2 {
+  		border-bottom: 1px solid #ccc;
+  		font-size: 14px;
+  		margin: 20px 0 0 0;
+  	}
+  
+  	#toc ul {
+  		list-style: none;
+  		margin: 0;
+  		padding: 0;
+  	}
+  
+  	#toc ul li {
+  		margin-left: 10px;
+  		margin-top: 5px;
+  	}
+  
+  	#toc ul li a {
+  		color: #333;
+  		text-decoration: none;
+  	}
+  
+  	#toc ul li.selected > a {
+  		font-weight: bold;
+  	}
+  
+  	#toc ul.sub-menu li {
+  		line-height: 14px;
+  	}
+  
+  	#toc ul.sub-menu li a {
+  		font-size: 12px;
+  	}
+  
+  	#docs {
+  		margin-left: 250px;
+  		max-width: 700px;
+  	}
+  
+  	td { font-size: 90%; vertical-align:top; }
+  	tr:first-child { width:100px; }
+  </style>
+  
+  <style type="text/css" media="print">
+  	#toc {
+  		display: none;
+  	}
+  	#docs {
+  		margin-left: 0;
+  	}
+  	*/
+  </style>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="index.html">F2: Financial Framework</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href="#">Home</a></li>
+          <li class="active"><a href="index.html">Documentation</a></li>
+          <li><a href="http://www.github.com/markitondemand/OpenF2">On GitHub</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="span3" id="toc">
+      
+        <ul class="nav nav-pills nav-stacked" data-spy="affix">
+          <li class="nav-header">F2 Documentation</li>
+          <li class="xactive"><a href="index.html"><i class="icon-arrow-right"></i> Overview</a></li>
+          <li><a href="components-of-the-framework.html"><i class="icon-arrow-right"></i> Components of F2</a></li>
+		  <li><a href="containers-and-apps.html"><i class="icon-arrow-right"></i> Containers &amp; Apps</a></li>
+		  <li><a href="creating-F2.html"><i class="icon-arrow-right"></i> Creating F2</a></li>
+          <li class="nav-header">Getting Started</li>
+          <li><a href="developing-apps-with-f2.html"><i class="icon-arrow-right"></i> Developing Apps</a></li>
+		  <li><a href="single-sign-on.html"><i class="icon-arrow-right"></i> Single Sign On (SSO)</a></li>
+		  <li><a href="developing-the-container.html"><i class="icon-arrow-right"></i> Developing the Container</a></li>
+          <li class="nav-header">API Reference</li>
+          <li><a href="http://dev2.dev.local/OpenF2/docs/api/latest/" target="_blank"><i class="icon-arrow-right"></i> F2.js</a></li>
+          <li class="nav-header">The Vision</li>
+          <li><a href="container-features.html"><i class="icon-arrow-right"></i> Container Features</a></li>
+		  <li><a href="the-app-store.html"><i class="icon-arrow-right"></i> The App Store</a></li>
+        </ul>
+
+    </div><!--/span-->
+
+	<div class="span9">
+
+		<section id="docs">
+<header>
+<h1 class="title">The Components of the Framework</h1>
+</header>
+<ul>
+<li>The Container</li>
+<li>The App</li>
+<li>The App Store</li>
+<li>The Developer Site</li>
+</ul>
+<section class="level3" id="the-container">
+<h3>The Container</h3>
+<p>The Container is most simply described as the user interface and the location where all Apps reside. More specifically, the Container is a web page which is “aware” of its contents (the Apps) and plays the role of a traffic cop managing Context passing between Apps. Further, the Container can have any variation of intelligence on a wide spectrum.</p>
+<p>Markit’s intention in standardizing the Container concept is to keep the Container as “thin” as possible (not unlike a traditional thin client).</p>
+</section>
+<section class="level3" id="the-grid">
+<h3>The Grid</h3>
+<p>Apps will be loaded onto the Container and confirm to the desktop’s Grid. The Grid is a HTML document based on a 16-column fluid layout. Users can resize their browser windows and therefore their desktops to any dimension their devices’ display supports.</p>
+<p>There is only one limitation when designing in App: Apps should be designed to be no narrower than 320 pixels in width (the screen width of the most popular smartphones). The Container itself will not support a resolution narrower than 320 pixels on either desktop or mobile displays. (The optimal Container resolution is 1280 pixels and ‘full screen’ is one better.) Except in the case of when an iframe is used to load an App on the Container, Apps can determine their own height on the desktop and automatically “stretch” until all content in the App is visible to the user.</p>
+</section>
+<section class="level3" id="interactions">
+<h3>Interactions</h3>
+<p>Apps have Context. Context can be shared between other Apps (children) and the Container (parent). The Container is responsible for managing the Context passing; see “Context” for more information.</p>
+<p>As for interactions and user experience, the design guidelines and App API will contain information on how to provide users with a consistent presentation layer. When it comes to in-app menus or settings panes, this is crucial.</p>
+</section>
+<section class="level3" id="the-app">
+<h3>The App</h3>
+<p>The App is a web page or microsite, written by an App developer that includes its own (entitled) data. Further, an App can be purchased (or entitled) from the App Store, and is displayed on the desktop or “Container”. The App developer is the person or company that designs, develops, and hosts the app.</p>
+<p>Simplistically, an App is one of two things:</p>
+<ul>
+<li>Presentation App A presentation App is an HTML document and contains JavaScript, cascading style sheets, images and other objects. It displays data to users in a manner determined by the App designer and must adhere to this specification.</li>
+<li>Data App A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or App-defined XML.</li>
+</ul>
+</section>
+<section class="level3" id="app-context">
+<h3>App Context</h3>
+<p>Regardless of type of app, a presentation or data App has “context” – that is to say an App “knows” about who is viewing it and its content. It is aware of a specific user’s data entitlements as well as information about the user (name, email, company, etc). Additionally, the App is capable of sharing Context with the Container and nearby Apps. This means if Susan wants to create a ticker-focused workspace so she can watch her Apple stock decline in value during Apple’s next product event, the Container can send “symbol context” to Apps and the Apps will be smart enough to refresh focusing on AAPL.</p>
+</section>
+<section class="level3" id="creating-a-common-look-and-feel">
+<h3>Creating a Common Look and Feel</h3>
+<p>In designing an App, app designers and developers should follow the Responsive Web Design Methodology. At a high level, this allows Apps to be flexible on both desktop and mobile workspaces. Wikipedia defines Responsive Web Design (RWD) as “a web site [that] is crafted to use CSS3 media queries, an extension of the @media rule, with fluid proportion-based grids, to adapt the layout to the viewing environment, and probably also use flexible images. As a result, users across a broad range of devices and browsers will have access to a single source of content, laid out so as to be easy to read and navigate with a minimum of resizing, panning, and scrolling.”</p>
+<p>Further, when considering App design, “’Mobile First’ and ‘Progressive Enhancement/Unobtrusive JavaScript’ are related concepts that predated RWD: browsers of basic mobile phones do not understand media queries or JavaScript, and it is wise to create a basic web site then enhance it for smart phones and PCs — rather than attempt &quot;graceful degradation&quot; to try to degrade a complex, image-heavy site to work on the most basic mobile phones.”</p>
+<p>Using the Open Financial Framework’s upcoming design guidelines and App API, App Designers and Developers can take advantage of these available resources to develop Apps on their own schedules. The design guidelines will provide a common theme and offer a baseline for consistency between all Apps on the Container.</p>
+</section>
+<section class="level3" id="the-app-api">
+<h3>The App API</h3>
+<p>Markit is developing App APIs, to provide App design and development teams (as well as Container providers) the tools, concepts and best practices needed to produce high-quality Apps.</p>
+<p>In releasing the open App API, the goal is to provide:</p>
+<ul>
+<li>Technical documentation on how to build and deploy Apps, how Apps are consumed by Containers, how to build and host Containers, and more.</li>
+<li>Design standards and recommendations for App and Container designers.</li>
+<li>Articles highlighting best practices and concepts for App and Container developers</li>
+<li>Getting-started references and sample code</li>
+</ul>
+</section>
+<section class="level3" id="the-app-store">
+<h3>The App Store</h3>
+<p>The App Store is the place where a user selects (or purchases) either a presentation or data App. Customers will be able to buy an app by using an electronic payment mechanism, like a credit card, but they will also be able to charge their company, or be entitled by a vendor or through another business relationship. Since the App Store is where it all begins, the term is usually used as a substitute for “App Community”.</p>
+</section>
+<section class="level3" id="the-developer-center">
+<h3>The Developer Center</h3>
+<p>The Open Financial Framework specification will be published on a website featuring Framework documentation, App developer resources and sample Apps. This site, known as the Developer Center, will be a web site where all of the resources for App and Container developers can be found. This includes the App APIs which will provide App design and development teams (as well as Container providers) the tools, concepts and best practices needed to produce high-quality Apps.</p>
+<p>In addition, a key part of the Developer Center will be the ability for App developers to manage their Apps, register their Apps with Container Providers, issue App updates, and more.</p>
+</section>
+			</section>
+		</div><!--/span9-->
+	</div><!--/row-->
+
+  <hr>
+
+  <footer>
+    <p>&copy; Company 2012</p>
+  </footer>
+
+</div><!--/.container-->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://markitondemand.github.com/OpenF2/js/bootstrap.min.js"></script>
+
+<script>
+	if (navigator.userAgent.indexOf('Mac OS') != -1) {
+		$('body').addClass('mac');
+	}
+
+	$(function() {
+		var toc = $('#toc');
+		var docs = $('#docs');
+		var file = location.pathname.split('/').pop();
+
+		var tocHeight = function(){
+			return toc.outerHeight();
+		}
+
+		var pageHeight = function(){
+			return docs.outerHeight();
+		}
+
+		if (pageHeight() < tocHeight()){
+			docs.parent().height(tocHeight() + 200);
+		}
+
+		//build individual nav items
+		function tocItem(item, group) {
+			var label = item.children().first().text();
+			var el = $('<li><a href="#' + item.attr('id') + '">' + label + '</a></li>');
+
+			el.appendTo(group);
+			el.append(buildToc(item));
+
+			$('a', el).click(function() {
+				$('ul.nav-list li.active').removeClass('active');
+				$(this).parent().addClass('active');
+			});
+		}
+
+		//build table of contents based on sections within generated markdown file
+		function buildToc(root) {
+			var sections = $('> section', root);//find <section> elements in main content area
+
+			if (!sections.length) {
+				return;
+			}
+
+			var group = $('<ul class="nav nav-list"></ul>');
+
+			sections.each(function(idx, item) {
+				tocItem($(item), group);
+			});
+
+			return group;
+		}
+
+		//build sub-menu nav list for each main/parent nav
+		$('li a', toc).each(function(idx, item) {
+			item = $(item);
+			var url = $(item).attr('href');
+			var subMenu;
+
+			if (file == url || (!file && url == 'index.html')) {
+				subMenu = buildToc(docs);
+
+				item.parent()
+					.addClass('active')
+					.append(subMenu)
+				;
+				return false;
+			}
+		});
+	});
+</script>
+</body>
+</html>
