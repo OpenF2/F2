@@ -178,7 +178,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="index.html">F2: Financial Framework</a>
+      <a class="brand" href="index.html">F2: Financial Framework v0.8 &mdash; DRAFT</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
           <li><a href="#">Home</a></li>
@@ -263,7 +263,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p>Let's break the App Assets object down and look at each property. Or <a href="#basic-app">jump down to the basic app</a>.</p>
 <section class="level3" id="apps">
 <h3>Apps</h3>
-<p>The <code>Apps</code> property is an array of objects, each containing two properties: <code>Html</code> and <code>InstanceId</code>.</p>
+<p>The <code>Apps</code> property is an array of <code>app</code> objects. Each <code>app</code> contains two properties: <code>Html</code> and <code>InstanceId</code>.</p>
 <p><strong>Html</strong></p>
 <p>The <code>Html</code> property contains the view of your app represented in <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/encodeURIComponent">encoded</a> HTML. While you can modify the way your app appears or functions within the container, the <code>Html</code> property is what the container will show when it <a href="../../sdk/docs/classes/F2.html#method_registerApps">registers your app</a> and displays its contents for the first time.</p>
 <p>Example:</p>
@@ -271,9 +271,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p>The <em>decoded</em> version of the <code>Html</code> example above is:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sunrise&quot;</span><span class="kw">&gt;</span>Hello world.<span class="kw">&lt;/div&gt;</span></code></pre>
 <p><strong>InstanceId</strong></p>
-<p>The <code>InstanceId</code> property defines the unique runtime ID of the App. This can be an alpha-numeric reference number like a <a href="http://en.wikipedia.org/wiki/Globally_unique_identifier">GUID</a> and is defined by the app developer.</p>
+<p>The <code>InstanceId</code> property defines the unique runtime ID of the App. This can be an alpha-numeric reference number like a <a href="http://en.wikipedia.org/wiki/Globally_unique_identifier">GUID</a> and is defined by the app developer. The main purpose of the <code>InstanceId</code> is to allow an app to exist on a single container multiple times.</p>
+<p>The <code>InstanceId</code> will be assigned by the container provider and passed to the app developer in the initial request for the AppAssets. This is how the App developer is able to use the <code>InstanceId</code> when binding to the <a href="../../sdk/docs/classes/F2.Constants.Events.html#property_APPLICATION_LOAD"><code>APPLICATION_LOAD</code></a> event.</p>
 <p>Example:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;InstanceId&quot;</span>: <span class="st">&quot;b29ab39b-013a-45bc-b856-f058850f4b1e&quot;</span></code></pre>
+<p>The <code>InstanceId</code> is also set as the ID of the outermost DOM element wrapping the app on the container.</p>
+<p>Example <code>section</code> element wrapping a F2 app with the <code>InstanceId</code> set as the value of the <code>id</code> attribute:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;section</span><span class="ot"> class=</span><span class="st">&quot;f2-app&quot;</span><span class="ot"> id=</span><span class="st">&quot;b29ab39b-013a-45bc-b856-f058850f4b1e&quot;</span><span class="kw">&gt;</span>
+    ...
+<span class="kw">&lt;/section&gt;</span></code></pre>
 </section>
 <section class="level3" id="styles">
 <h3>Styles</h3>
@@ -325,8 +331,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <hr>
 </section>
 </section>
-<section class="level2" id="drop.">
-<h2>drop.</h2>
+<section class="level2" id="stop-reading-here-for-now.">
+<h2>Stop reading here for now.</h2>
 <p>Each App must have a digital signature or unique identifier in the format of a GUID. This allows App Providers to register their App with the App Store and in turn the App Store can provide reporting metrics on App usage, purchases, etc. Additionally, having a unique ID allows the Container to interact with specific modules on the desktop using Context or in more simple cases using JavaScript’s document.getElementById() method.</p>
 <p>Beyond a unique ID, Apps have other characteristics that define them within the Framework. The following are required attributes App developers must include in their Apps. The following data points should be represented within the presentation or data App:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">AppID – long (guid)

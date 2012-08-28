@@ -54,7 +54,7 @@ Let's break the App Assets object down and look at each property. Or [jump down 
 
 ### Apps
 
-The `Apps` property is an array of objects, each containing two properties: `Html` and `InstanceId`. 
+The `Apps` property is an array of `app` objects. Each `app` contains two properties: `Html` and `InstanceId`. 
 
 **Html**
 
@@ -74,12 +74,24 @@ The _decoded_ version of the `Html` example above is:
 
 **InstanceId**
 
-The `InstanceId` property defines the unique runtime ID of the App. This can be an alpha-numeric reference number like a [GUID](http://en.wikipedia.org/wiki/Globally_unique_identifier) and is defined by the app developer.
+The `InstanceId` property defines the unique runtime ID of the App. This can be an alpha-numeric reference number like a [GUID](http://en.wikipedia.org/wiki/Globally_unique_identifier) and is defined by the app developer. The main purpose of the `InstanceId` is to allow an app to exist on a single container multiple times. 
+
+The `InstanceId` will be assigned by the container provider and passed to the app developer in the initial request for the AppAssets. This is how the App developer is able to use the `InstanceId` when binding to the [`APPLICATION_LOAD`](../../sdk/docs/classes/F2.Constants.Events.html#property_APPLICATION_LOAD) event.
 
 Example:
 
 ```javascript
 "InstanceId": "b29ab39b-013a-45bc-b856-f058850f4b1e"
+```
+
+The `InstanceId` is also set as the ID of the outermost DOM element wrapping the app on the container.
+
+Example `section` element wrapping a F2 app with the `InstanceId` set as the value of the `id` attribute:
+
+```html
+<section class="f2-app" id="b29ab39b-013a-45bc-b856-f058850f4b1e">
+	...
+</section>
 ```
 
 ### Styles
@@ -150,7 +162,7 @@ If we use the examples above, our app would look like this:
 
 * * * *
 
-## drop.
+## Stop reading here for now.
 
 Each App must have a digital signature or unique identifier in the format of a GUID. This allows App Providers to register their App with the App Store and in turn the App Store can provide reporting metrics on App usage, purchases, etc. Additionally, having a unique ID allows the Container to interact with specific modules on the desktop using Context or in more simple cases using JavaScript’s document.getElementById() method.
 
