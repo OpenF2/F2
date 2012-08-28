@@ -31,7 +31,7 @@ App_Class.prototype._handleViewChange = function(view) {
 
 	$("div." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
 	$("div." + F2.Constants.Css.APP_VIEW + "[data-f2-view='"+view+"']", this._container).removeClass("hide");
-	
+
 	this._app.updateHeight();
 };
 
@@ -46,7 +46,7 @@ App_Class.prototype.getPhotos = function(){
 		//F2.log(jqxhr)
 		this.loadPhoto(jqxhr.photos.photo[0]);
 	}).fail(function(jqxhr,txtStatus){
-		$("div.imgPlaceholder", this._container.selector).html("Booof! Flickr or something failed.");
+		$("div.imgPlaceholder", this._container).html("Booof! Flickr or something failed.");
 	});
 }
 
