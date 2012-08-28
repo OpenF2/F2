@@ -2594,12 +2594,14 @@ F2.extend("", (function(){
 
 				// form and make the requests
 				$.each(queue, function(i, req) {
+          var sCallback = "containerToApp_" + req.apps[0].appId;
 					$.ajax({
 						url:req.url,
 						data:{
 							params:F2.stringify(req.apps)
 						},
 						dataType:"jsonp",
+            jsonpCallback: sCallback, /* Unique function name */
 						success:function(appAssets) {
 							_loadApps(req.apps, appAssets);
 						}
