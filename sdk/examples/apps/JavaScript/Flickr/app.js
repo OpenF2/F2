@@ -4,7 +4,7 @@ App_Class = function (app, appAssets) {
 };
 
 App_Class.prototype.init = function () {
-	F2.log(this)
+
 	this._container = $("#" + this._app.instanceId);
 	this._app.updateHeight();
 	
