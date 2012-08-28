@@ -21,7 +21,7 @@ Help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/
 
 To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.
 
-Releases will be numbered with the follow format:
+Releases will be numbered with the following format:
 
 `<major>.<minor>.<patch>`
 
