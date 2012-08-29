@@ -1,3 +1,12 @@
+/**
+ * Build script for F2
+ *
+ * This script requires that the following node packages be installed:
+ *   - uglify-js
+ *   - yuidocjs
+ *
+ * Usage: node build.js
+ */
 var ENCODING = "utf-8";
 var EOL = '\n';
 

@@ -603,13 +603,16 @@ F2.extend("", (function(){
 
 				// form and make the requests
 				$.each(queue, function(i, req) {
-					var sCallback = "containerToApp_" + req.apps[0].appId;
+					// define the callback function based on the first app's App ID
+					var jsonpCallback = "F2_jsonpCallback_" + req.apps[0].appId;
+
 					$.ajax({
 						url:req.url,
 						data:{
 							params:F2.stringify(req.apps)
 						},
-						jsonpCallback: sCallback, /* Unique function name */
+						jsonp:false, /* do not put 'callback=' in the query string */
+						jsonpCallback:jsonpCallback, /* Unique function name */
 						dataType:"jsonp",
 						success:function(appAssets) {
 							_loadApps(req.apps, appAssets);

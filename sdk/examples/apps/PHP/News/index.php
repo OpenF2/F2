@@ -1,7 +1,6 @@
 <?php
 	date_default_timezone_set("America/New_York");
 
-	$callback = $_REQUEST["callback"];
 	$apps = $_REQUEST["params"];
 	$apps = get_magic_quotes_gpc() ? stripslashes($apps) : $apps;
 	$app = json_decode($apps);  
@@ -45,7 +44,7 @@ INLINES;
 
 	// output the jsonp
 	header("Content-type: application/json");
-	echo $callback . "(" . json_encode($a, JSON_HEX_TAG) . ")";
+	echo "F2_jsonpCallback_" . $app->appId . "(" . json_encode($a, JSON_HEX_TAG) . ")";
 
 
 	/**

@@ -717,11 +717,16 @@ F2.extend(&quot;&quot;, (function(){
 
 				&#x2F;&#x2F; form and make the requests
 				$.each(queue, function(i, req) {
+					&#x2F;&#x2F; define the callback function based on the first app&#x27;s App ID
+					var jsonpCallback = &quot;F2_jsonpCallback_&quot; + req.apps[0].appId;
+
 					$.ajax({
 						url:req.url,
 						data:{
 							params:F2.stringify(req.apps)
 						},
+						jsonp:false, &#x2F;* do not put &#x27;callback=&#x27; in the query string *&#x2F;
+						jsonpCallback:jsonpCallback, &#x2F;* Unique function name *&#x2F;
 						dataType:&quot;jsonp&quot;,
 						success:function(appAssets) {
 							_loadApps(req.apps, appAssets);

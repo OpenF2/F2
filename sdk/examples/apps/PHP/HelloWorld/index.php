@@ -1,8 +1,8 @@
 <?php
-	$callback = $_REQUEST["callback"];
-	$appRaw = $_REQUEST["app"];
-	$appRaw = get_magic_quotes_gpc() ? stripslashes($appRaw) : $appRaw;
-	$app = json_decode($appRaw);
+	$apps = $_REQUEST["params"];
+	$apps = get_magic_quotes_gpc() ? stripslashes($apps) : $apps;
+	$app = json_decode($apps);  
+	$app = $app[0]; // this App doesn't support batchedRequests
 
 	$serverPath = 
 		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
@@ -13,7 +13,7 @@
 	$a = array(
 		"Scripts" => array($serverPath . "app.js"),
 		"Styles" => array(),
-		"Widgets" => array(array("Html" => renderAppHtml($app))),
+		"Apps" => array(array("InstanceId" => $app->instanceId, "Html" => renderAppHtml($app))),
 		"InlineScripts" => array(<<<INLINES
 F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + "{$app->instanceId}", function (app, appAssets) {
 	var a = new App_Class(app, appAssets);
@@ -39,5 +39,5 @@ HTML;
 
 	// output the jsonp
 	header("Content-type: application/json");
-	echo $callback . "(" . json_encode($a, JSON_HEX_TAG) . ")";
+	echo "F2_jsonpCallback_" . $app->appId . "(" . json_encode($a, JSON_HEX_TAG) . ")";
 ?>

@@ -1231,7 +1231,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 619,
+            "line": 624,
             "description": "Removes all Apps from the Container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1240,7 +1240,7 @@
         },
         {
             "file": "src\\container.js",
-            "line": 628,
+            "line": 633,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",
@@ -1256,7 +1256,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 11,
+            "line": 29,
             "description": "Generates a somewhat random id",
             "itemtype": "method",
             "name": "guid",
@@ -1269,7 +1269,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 23,
+            "line": 41,
             "description": "Wrapper logging function.",
             "itemtype": "method",
             "name": "log",
@@ -1292,7 +1292,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 34,
+            "line": 52,
             "description": "Search for a value within an array.",
             "itemtype": "method",
             "name": "inArray",
@@ -1313,7 +1313,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 44,
+            "line": 62,
             "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
             "itemtype": "method",
             "name": "extend",
@@ -1343,7 +1343,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 82,
+            "line": 100,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -1363,7 +1363,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 91,
+            "line": 109,
             "description": "Wrapper to convert an object to JSON",
             "itemtype": "method",
             "name": "stringify",

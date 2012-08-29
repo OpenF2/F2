@@ -2,7 +2,6 @@
 <!-- #include file="json.asp" -->
 <%
 
-var callback = Request.QueryString("callback");
 var apps = decodeURIComponent(Request.QueryString("params"));
 var app = JSON.parse(apps)[0];  // this App doesn't support batchedRequests
 
@@ -12,9 +11,9 @@ var serverPath = [
 	String(Request.ServerVariables("SCRIPT_NAME")).replace("index.asp", "")
 ].join('');
 
-if (callback && app) {
+if (app) {
 	Response.ContentType = "application/json";
-	Response.Write(callback + "(" + JSON.stringify({
+	Response.Write("F2_jsonpCallback_" + app.appId + "(" + JSON.stringify({
 		Scripts:[
 			serverPath + "app.js"
 		],
