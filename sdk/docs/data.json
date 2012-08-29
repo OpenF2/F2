@@ -6,8 +6,8 @@
             "modules": {},
             "classes": {
                 "F2.App": 1,
-                "F2.AppAssets": 1,
-                "F2.AppAssets.AppContent": 1,
+                "F2.AppManifest": 1,
+                "F2.AppManifest.AppContent": 1,
                 "F2.ContainerConfiguration": 1
             },
             "fors": {},
@@ -74,8 +74,8 @@
             "submodules": {},
             "classes": {
                 "F2.App": 1,
-                "F2.AppAssets": 1,
-                "F2.AppAssets.AppContent": 1,
+                "F2.AppManifest": 1,
+                "F2.AppManifest.AppContent": 1,
                 "F2.ContainerConfiguration": 1,
                 "F2.Constants": 1,
                 "F2.Constants.Css": 1,
@@ -112,9 +112,9 @@
             "line": 6,
             "description": "The App object represents an App's meta data"
         },
-        "F2.AppAssets": {
-            "name": "F2.AppAssets",
-            "shortname": "F2.AppAssets",
+        "F2.AppManifest": {
+            "name": "F2.AppManifest",
+            "shortname": "F2.AppManifest",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -125,9 +125,9 @@
             "line": 161,
             "description": "The assets needed to render an App on the page"
         },
-        "F2.AppAssets.AppContent": {
-            "name": "F2.AppAssets.AppContent",
-            "shortname": "F2.AppAssets.AppContent",
+        "F2.AppManifest.AppContent": {
+            "name": "F2.AppManifest.AppContent",
+            "shortname": "F2.AppManifest.AppContent",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -476,77 +476,77 @@
         {
             "file": "src\\classes.js",
             "line": 166,
-            "description": "The array of {{#crossLink \"F2.AppAssets.AppContent\"}}{{/crossLink}}\nobjects",
+            "description": "The array of {{#crossLink \"F2.AppManifest.AppContent\"}}{{/crossLink}}\nobjects",
             "itemtype": "property",
-            "name": "Apps",
+            "name": "apps",
             "type": "Array",
             "required": 1,
-            "class": "F2.AppAssets"
+            "class": "F2.AppManifest"
         },
         {
             "file": "src\\classes.js",
             "line": 174,
             "description": "Any inline javascript tha should initially be run",
             "itemtype": "property",
-            "name": "InlineScripts",
+            "name": "inlineScripts",
             "type": "Array",
-            "class": "F2.AppAssets"
+            "class": "F2.AppManifest"
         },
         {
             "file": "src\\classes.js",
             "line": 180,
             "description": "Urls to javascript files required by the App",
             "itemtype": "property",
-            "name": "Scripts",
+            "name": "scripts",
             "type": "Array",
-            "class": "F2.AppAssets"
+            "class": "F2.AppManifest"
         },
         {
             "file": "src\\classes.js",
             "line": 186,
             "description": "Urls to CSS files required by the App",
             "itemtype": "property",
-            "name": "Styles",
+            "name": "styles",
             "type": "Array",
-            "class": "F2.AppAssets"
+            "class": "F2.AppManifest"
         },
         {
             "file": "src\\classes.js",
             "line": 198,
             "description": "Arbitrary data to be passed along with the App",
             "itemtype": "property",
-            "name": "Data",
+            "name": "data",
             "type": "object",
-            "class": "F2.AppAssets.AppContent"
+            "class": "F2.AppManifest.AppContent"
         },
         {
             "file": "src\\classes.js",
             "line": 204,
             "description": "The string of HTML representing the App",
             "itemtype": "property",
-            "name": "Html",
+            "name": "html",
             "type": "string",
             "required": 1,
-            "class": "F2.AppAssets.AppContent"
+            "class": "F2.AppManifest.AppContent"
         },
         {
             "file": "src\\classes.js",
             "line": 211,
             "description": "The unique runtime ID of the App",
             "itemtype": "property",
-            "name": "InstanceId",
+            "name": "instanceId",
             "type": "string",
             "required": 1,
-            "class": "F2.AppAssets.AppContent"
+            "class": "F2.AppManifest.AppContent"
         },
         {
             "file": "src\\classes.js",
             "line": 218,
             "description": "A status message",
             "itemtype": "property",
-            "name": "Status",
+            "name": "status",
             "type": "string",
-            "class": "F2.AppAssets.AppContent"
+            "class": "F2.AppManifest.AppContent"
         },
         {
             "file": "src\\classes.js",
@@ -667,7 +667,7 @@
         {
             "file": "src\\constants.js",
             "line": 87,
-            "description": "The APPLICATION\\_LOAD event is fired once an App's Styles, Scripts,\nInline Scripts, and HTML have been inserted into the DOM. The App's\ninstanceId should be concatenated to this constant.\n\n    F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {\n      var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);\n      HelloWorldApp.init();\n    });",
+            "description": "The APPLICATION\\_LOAD event is fired once an App's styles, scripts,\ninline scripts, and html have been inserted into the DOM. The App's\ninstanceId should be concatenated to this constant.\n\n    F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appManifest) {\n      var HelloWorldApp = new HelloWorldApp_Class(app, appManifest);\n      HelloWorldApp.init();\n    });",
             "itemtype": "property",
             "name": "APPLICATION_LOAD",
             "type": "string",
@@ -744,7 +744,7 @@
         {
             "file": "src\\constants.js",
             "line": 180,
-            "description": "The LOAD message is sent when an iframe socket initially loads.\nReturns a JSON string that represents:\n\n    [ App, AppAssets]",
+            "description": "The LOAD message is sent when an iframe socket initially loads.\nReturns a JSON string that represents:\n\n    [ App, AppManifest]",
             "itemtype": "property",
             "name": "LOAD",
             "type": "string",
@@ -849,9 +849,9 @@
                     "type": "F2.App"
                 },
                 {
-                    "name": "appAssets",
-                    "description": "The AppAssets object",
-                    "type": "F2.AppAssets"
+                    "name": "appManifest",
+                    "description": "The AppManifest object",
+                    "type": "F2.AppManifest"
                 }
             ],
             "class": "F2",
@@ -964,9 +964,9 @@
                     "type": "Array"
                 },
                 {
-                    "name": "appAssets",
-                    "description": "The AppAssets object",
-                    "type": "F2.AppAssets",
+                    "name": "appManifest",
+                    "description": "The AppManifest object",
+                    "type": "F2.AppManifest",
                     "optional": true
                 }
             ],
@@ -988,9 +988,9 @@
                     "type": "F2.App"
                 },
                 {
-                    "name": "appAssets",
+                    "name": "appManifest",
                     "description": "The App's html/css/js to be loaded into the\npage.",
-                    "type": "F2.AppAssets"
+                    "type": "F2.AppManifest"
                 }
             ],
             "class": "F2",
@@ -1210,7 +1210,7 @@
         {
             "file": "src\\container.js",
             "line": 533,
-            "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppAssets\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
+            "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
             "params": [
@@ -1220,8 +1220,8 @@
                     "type": "Array"
                 },
                 {
-                    "name": "appAssets",
-                    "description": "An array of\n{{#crossLink \"F2.AppAssets\"}}{{/crossLink}}\nobjects. This array must be the same length as the apps array that is\nobjects. This array must be the same length as the apps array that is\npassed in. This can be useful if Apps are loaded on the server-side and\npassed down to the client.",
+                    "name": "appManifest",
+                    "description": "An array of\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}}\nobjects. This array must be the same length as the apps array that is\nobjects. This array must be the same length as the apps array that is\npassed in. This can be useful if Apps are loaded on the server-side and\npassed down to the client.",
                     "type": "Array",
                     "optional": true
                 }
@@ -1256,7 +1256,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 29,
+            "line": 30,
             "description": "Generates a somewhat random id",
             "itemtype": "method",
             "name": "guid",
@@ -1269,7 +1269,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 41,
+            "line": 42,
             "description": "Wrapper logging function.",
             "itemtype": "method",
             "name": "log",
@@ -1292,7 +1292,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 52,
+            "line": 53,
             "description": "Search for a value within an array.",
             "itemtype": "method",
             "name": "inArray",
@@ -1313,7 +1313,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 62,
+            "line": 63,
             "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
             "itemtype": "method",
             "name": "extend",
@@ -1343,7 +1343,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 100,
+            "line": 101,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -1363,7 +1363,7 @@
         },
         {
             "file": "src\\preamble.js",
-            "line": 109,
+            "line": 110,
             "description": "Wrapper to convert an object to JSON",
             "itemtype": "method",
             "name": "stringify",

@@ -160,67 +160,67 @@ F2.extend("", {
 	},
 	/**
 	 * The assets needed to render an App on the page
-	 * @class F2.AppAssets
+	 * @class F2.AppManifest
 	 */
-	AppAssets:{
+	AppManifest:{
 		/**
-		 * The array of {{#crossLink "F2.AppAssets.AppContent"}}{{/crossLink}}
+		 * The array of {{#crossLink "F2.AppManifest.AppContent"}}{{/crossLink}}
 		 * objects
-		 * @property Apps
+		 * @property apps
 		 * @type Array
 		 * @required
 		 */
-		Apps:[],
+		apps:[],
 		/**
 		 * Any inline javascript tha should initially be run
-		 * @property InlineScripts
+		 * @property inlineScripts
 		 * @type Array
 		 */
-		InlineScripts:[],
+		inlineScripts:[],
 		/**
 		 * Urls to javascript files required by the App
-		 * @property Scripts
+		 * @property scripts
 		 * @type Array
 		 */
-		Scripts:[],
+		scripts:[],
 		/**
 		 * Urls to CSS files required by the App
-		 * @property Styles
+		 * @property styles
 		 * @type Array
 		 */
-		Styles:[]
+		styles:[]
 	},
 	/**
 	 * The AppContent object
-	 * @class F2.AppAssets.AppContent
+	 * @class F2.AppManifest.AppContent
 	 **/
 	AppContent:{
 		/**
 		 * Arbitrary data to be passed along with the App
-		 * @property Data
+		 * @property data
 		 * @type object
 		 */
-		Data:{},
+		data:{},
 		/**
 		 * The string of HTML representing the App
-		 * @property Html
+		 * @property html
 		 * @type string
 		 * @required
 		 */
-		Html:"",
+		html:"",
 		/**
 		 * The unique runtime ID of the App
-		 * @property InstanceId
+		 * @property instanceId
 		 * @type string
 		 * @required
 		 */
-		InstanceId:"",
+		instanceId:"",
 		/**
 		 * A status message
-		 * @property Status
+		 * @property status
 		 * @type string
 		 */
-		Status:""
+		status:""
 	},
 	/**
 	 * An object containing configuration information for the Container

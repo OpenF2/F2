@@ -14,11 +14,11 @@ var serverPath = [
 if (app) {
 	Response.ContentType = "application/json";
 	Response.Write("F2_jsonpCallback_" + app.appId + "(" + JSON.stringify({
-		Scripts:[
+		scripts:[
 			serverPath + "app.js"
 		],
-		Styles:[],
-		InlineScripts:[
+		styles:[],
+		inlineScripts:[
 			[
 				"F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + \"", app.instanceId, "\", function (app, appAssets) {",
 					"app.setTitle('", (app.isSecure ? 'Secure' : '')," Hello World');",
@@ -27,10 +27,10 @@ if (app) {
 				"});"
 			].join('')
 		],
-		Apps:[
+		apps:[
 			{
-				InstanceId:app.instanceId,
-				Html:[
+				instanceId:app.instanceId,
+				html:[
 					'<div class="well">',
 						'<div class="f2-app-view" data-f2-view="home">',
 							'JScript ' + (app.isSecure ? 'Secure' : '') + ' Hello World!',

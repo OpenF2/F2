@@ -45,9 +45,9 @@
             
                 <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.html">F2.AppAssets</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.AppContent.html">F2.AppAssets.AppContent</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
             
                 <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
             
@@ -274,67 +274,67 @@ F2.extend(&quot;&quot;, {
 	},
 	&#x2F;**
 	 * The assets needed to render an App on the page
-	 * @class F2.AppAssets
+	 * @class F2.AppManifest
 	 *&#x2F;
-	AppAssets:{
+	AppManifest:{
 		&#x2F;**
-		 * The array of {{#crossLink &quot;F2.AppAssets.AppContent&quot;}}{{&#x2F;crossLink}}
+		 * The array of {{#crossLink &quot;F2.AppManifest.AppContent&quot;}}{{&#x2F;crossLink}}
 		 * objects
-		 * @property Apps
+		 * @property apps
 		 * @type Array
 		 * @required
 		 *&#x2F;
-		Apps:[],
+		apps:[],
 		&#x2F;**
 		 * Any inline javascript tha should initially be run
-		 * @property InlineScripts
+		 * @property inlineScripts
 		 * @type Array
 		 *&#x2F;
-		InlineScripts:[],
+		inlineScripts:[],
 		&#x2F;**
 		 * Urls to javascript files required by the App
-		 * @property Scripts
+		 * @property scripts
 		 * @type Array
 		 *&#x2F;
-		Scripts:[],
+		scripts:[],
 		&#x2F;**
 		 * Urls to CSS files required by the App
-		 * @property Styles
+		 * @property styles
 		 * @type Array
 		 *&#x2F;
-		Styles:[]
+		styles:[]
 	},
 	&#x2F;**
 	 * The AppContent object
-	 * @class F2.AppAssets.AppContent
+	 * @class F2.AppManifest.AppContent
 	 **&#x2F;
 	AppContent:{
 		&#x2F;**
 		 * Arbitrary data to be passed along with the App
-		 * @property Data
+		 * @property data
 		 * @type object
 		 *&#x2F;
-		Data:{},
+		data:{},
 		&#x2F;**
 		 * The string of HTML representing the App
-		 * @property Html
+		 * @property html
 		 * @type string
 		 * @required
 		 *&#x2F;
-		Html:&quot;&quot;,
+		html:&quot;&quot;,
 		&#x2F;**
 		 * The unique runtime ID of the App
-		 * @property InstanceId
+		 * @property instanceId
 		 * @type string
 		 * @required
 		 *&#x2F;
-		InstanceId:&quot;&quot;,
+		instanceId:&quot;&quot;,
 		&#x2F;**
 		 * A status message
-		 * @property Status
+		 * @property status
 		 * @type string
 		 *&#x2F;
-		Status:&quot;&quot;
+		status:&quot;&quot;
 	},
 	&#x2F;**
 	 * An object containing configuration information for the Container

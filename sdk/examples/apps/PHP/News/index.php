@@ -32,10 +32,10 @@
 	$a = new AppAssets();
 
 	// populate the scripts, styles, inlines, html
-	$a->Scripts[] = $serverPath . "app.js";
-	$a->Styles[] = $serverPath . "style.css";
-	$a->Apps[] = array("InstanceId" => $app->instanceId, "Html" => renderAppHtml($newsItems));
-	$a->InlineScripts[] = <<<INLINES
+	$a->scripts[] = $serverPath . "app.js";
+	$a->styles[] = $serverPath . "style.css";
+	$a->apps[] = array("instanceId" => $app->instanceId, "html" => renderAppHtml($newsItems));
+	$a->inlineScripts[] = <<<INLINES
 F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + "{$app->instanceId}", function (app, appAssets) {
 	var a = new App_Class(app, appAssets, {baseUrl:'{$serverPath}'});
 	a.init();
@@ -52,11 +52,11 @@ INLINES;
 	 * @class AppAssets
 	 */
 	class AppAssets {
-		public $Scripts = array();
-		public $Styles = array();
-		public $InlineScripts = array();
+		public $scripts = array();
+		public $styles = array();
+		public $inlineScripts = array();
 		// temporary
-		public $Apps = array();
+		public $apps = array();
 	}
 
 	/**

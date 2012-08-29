@@ -45,9 +45,9 @@
             
                 <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.html">F2.AppAssets</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.AppContent.html">F2.AppAssets.AppContent</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
             
                 <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
             
@@ -144,10 +144,10 @@ F2.extend(&quot;&quot;, (function(){
 					message = message.replace(socketLoad, &quot;&quot;);
 					var appParts = F2.parse(message);
 
-					&#x2F;&#x2F; make sure we have the App and AppAssets
+					&#x2F;&#x2F; make sure we have the App and AppManifest
 					if (appParts.length == 2) {
 						var app = appParts[0];
-						var appAssets = appParts[1];
+						var appManifest = appParts[1];
 
 						&#x2F;&#x2F; save app
 						_apps[app.instanceId] = { app:app };
@@ -156,7 +156,7 @@ F2.extend(&quot;&quot;, (function(){
 						_hydrateApp(app);
 
 						&#x2F;&#x2F; load the app
-						_loadApps([app], appAssets);
+						_loadApps([app], appManifest);
 						isLoaded = true;
 					}
 				&#x2F;&#x2F; handle App Call
@@ -184,9 +184,9 @@ F2.extend(&quot;&quot;, (function(){
 	 * @private
 	 * @see The &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt; project.
 	 * @param {F2.App} app The App object
-	 * @param {F2.AppAssets} appAssets The AppAssets object
+	 * @param {F2.AppManifest} appManifest The AppManifest object
 	 *&#x2F;
-	var _createContainerToAppSocket = function(app, appAssets) {
+	var _createContainerToAppSocket = function(app, appManifest) {
 
 		var container = $(&quot;#&quot; + app.instanceId).find(&quot;.&quot; + F2.Constants.Css.APP_CONTAINER);
 
@@ -223,7 +223,7 @@ F2.extend(&quot;&quot;, (function(){
 				}
 			},
 			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appAssets]));
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appManifest]));
 			}
 		});
 
@@ -391,26 +391,26 @@ F2.extend(&quot;&quot;, (function(){
 	 * @private
 	 * @param {Array} apps An array of {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}
 	 * objects
-	 * @param {F2.AppAssets} [appAssets] The AppAssets object
+	 * @param {F2.AppManifest} [appManifest] The AppManifest object
 	 *&#x2F;
-	var _loadApps = function(apps, appAssets) {
+	var _loadApps = function(apps, appManifest) {
 
 		apps = [].concat(apps);
 
 		&#x2F;&#x2F; check for secure app
 		if (apps.length == 1 &amp;&amp; apps[0].isSecure &amp;&amp; !_config.isSecureAppPage) {
-			_loadSecureApp(apps[0], appAssets);
+			_loadSecureApp(apps[0], appManifest);
 			return;
 		}
 
-		var scripts = appAssets.Scripts || [];
-		var styles = appAssets.Styles || [];
-		var inlines = appAssets.InlineScripts || [];
+		var scripts = appManifest.scripts || [];
+		var styles = appManifest.styles || [];
+		var inlines = appManifest.inlineScripts || [];
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
 		var loadEvent = function() {
 			$.each(apps, function(i, a) {
-				F2.Events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appAssets);
+				F2.Events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appManifest);
 			});
 		};
 
@@ -422,14 +422,14 @@ F2.extend(&quot;&quot;, (function(){
 		$(&quot;head&quot;).append(stylesFragment.join(&#x27;&#x27;));
 
 		&#x2F;&#x2F; load html
-		$.each(appAssets.Apps, function(i, a) {
-			if (a.InstanceId &amp;&amp; _apps[a.InstanceId]) {
+		$.each(appManifest.apps, function(i, a) {
+			if (a.instanceId &amp;&amp; _apps[a.instanceId]) {
 				&#x2F;&#x2F; load html
-				_writeAppHtml(_apps[a.InstanceId].app, _getAppHtml(_apps[a.InstanceId].app, a.Html));
+				_writeAppHtml(_apps[a.instanceId].app, _getAppHtml(_apps[a.instanceId].app, a.html));
 				&#x2F;&#x2F; init events
-				_initAppEvents(_apps[a.InstanceId].app);
+				_initAppEvents(_apps[a.instanceId].app);
 			} else {
-				F2.log([&quot;Unable to load App.  Missing or invalid \&quot;InstanceId\&quot;\n\n&quot;, a]);
+				F2.log([&quot;Unable to load App.  Missing or invalid \&quot;instanceId\&quot;\n\n&quot;, a]);
 			}
 		});
 
@@ -470,10 +470,10 @@ F2.extend(&quot;&quot;, (function(){
 	 * @method loadSecureApp
 	 * @private
 	 * @param {F2.App} app The App&#x27;s context object.
-	 * @param {F2.AppAssets} appAssets The App&#x27;s html&#x2F;css&#x2F;js to be loaded into the
+	 * @param {F2.AppManifest} appManifest The App&#x27;s html&#x2F;css&#x2F;js to be loaded into the
 	 * page.
 	 *&#x2F;
-	var _loadSecureApp = function(app, appAssets) {
+	var _loadSecureApp = function(app, appManifest) {
 
 		&#x2F;&#x2F; make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
@@ -482,7 +482,7 @@ F2.extend(&quot;&quot;, (function(){
 			&#x2F;&#x2F; init events
 			_initAppEvents(app);
 			&#x2F;&#x2F; setup the iframe&#x2F;socket connection
-			_apps[app.instanceId].socket = _createContainerToAppSocket(app, appAssets);
+			_apps[app.instanceId].socket = _createContainerToAppSocket(app, appManifest);
 		} else {
 			F2.log(&quot;Unable to load secure app: \&quot;secureAppPagePath\&quot; is not defined in ContainerConfiguration.&quot;);
 		}
@@ -648,29 +648,29 @@ F2.extend(&quot;&quot;, (function(){
 		 * Begins the loading process for all Apps. The App will
 		 * be passed the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object which will
 		 * contain the App&#x27;s unique instanceId within the Container. Optionally, the
-		 * {{#crossLink &quot;F2.AppAssets&quot;}}{{&#x2F;crossLink}} can be passed in and those
+		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}} can be passed in and those
 		 * assets will be used instead of making a request.
 		 * @method registerApps
 		 * @param {Array} apps An array of {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}
 		 * objects
-		 * @param {Array} [appAssets] An array of
-		 * {{#crossLink &quot;F2.AppAssets&quot;}}{{&#x2F;crossLink}}
+		 * @param {Array} [appManifest] An array of
+		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}}
 		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
 		 * passed in. This can be useful if Apps are loaded on the server-side and
 		 * passed down to the client.
 		 *&#x2F;
-		registerApps:function(apps, appAssets) {
+		registerApps:function(apps, appManifest) {
 
 			var queue = [];
 			var batches = {};
-			var hasAssets = typeof appAssets !== &quot;undefined&quot;;
-			appAssets = appAssets || [];
+			var hasAssets = typeof appManifest !== &quot;undefined&quot;;
+			appManifest = appManifest || [];
 			apps = [].concat(apps);
 
-			&#x2F;&#x2F; ensure that if appAssets is passed in, we get a full array of assets
-			if (apps.length &amp;&amp; appAssets.length &amp;&amp; app.length != appAssets.length) {
-				F2.log(&quot;The length of \&quot;apps\&quot; does not equal the length of \&quot;appAssets\&quot;&quot;);
+			&#x2F;&#x2F; ensure that if appManifest is passed in, we get a full array of assets
+			if (apps.length &amp;&amp; appManifest.length &amp;&amp; app.length != appManifest.length) {
+				F2.log(&quot;The length of \&quot;apps\&quot; does not equal the length of \&quot;appManifest\&quot;&quot;);
 				return;
 			}
 
@@ -705,7 +705,7 @@ F2.extend(&quot;&quot;, (function(){
 			&#x2F;&#x2F; if we have the assets already, load the apps
 			if (hasAssets) {
 				$.each(apps, function(i, a) {
-					_loadApps(a, appAssets[i]);
+					_loadApps(a, appManifest[i]);
 				});
 
 			&#x2F;&#x2F; else fetch the apps
@@ -728,8 +728,8 @@ F2.extend(&quot;&quot;, (function(){
 						jsonp:false, &#x2F;* do not put &#x27;callback=&#x27; in the query string *&#x2F;
 						jsonpCallback:jsonpCallback, &#x2F;* Unique function name *&#x2F;
 						dataType:&quot;jsonp&quot;,
-						success:function(appAssets) {
-							_loadApps(req.apps, appAssets);
+						success:function(appManifest) {
+							_loadApps(req.apps, appManifest);
 						}
 					});
 				});

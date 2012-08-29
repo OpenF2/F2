@@ -11,10 +11,10 @@
 
 	// create a new AppAssets object
 	$a = array(
-		"Scripts" => array($serverPath . "app.js"),
-		"Styles" => array(),
-		"Apps" => array(array("InstanceId" => $app->instanceId, "Html" => renderAppHtml($app))),
-		"InlineScripts" => array(<<<INLINES
+		"scripts" => array($serverPath . "app.js"),
+		"styles" => array(),
+		"apps" => array(array("instanceId" => $app->instanceId, "html" => renderAppHtml($app))),
+		"inlineScripts" => array(<<<INLINES
 F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + "{$app->instanceId}", function (app, appAssets) {
 	var a = new App_Class(app, appAssets);
 	a.init();

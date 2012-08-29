@@ -85,12 +85,12 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APPLICATION\_LOAD event is fired once an App's Styles, Scripts,
-			 * Inline Scripts, and HTML have been inserted into the DOM. The App's
+			 * The APPLICATION\_LOAD event is fired once an App's styles, scripts,
+			 * inline scripts, and html have been inserted into the DOM. The App's
 			 * instanceId should be concatenated to this constant.
 			 *
-			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {
-			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);
+			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appManifest) {
+			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appManifest);
 			 *       HelloWorldApp.init();
 			 *     });
 			 *
@@ -181,7 +181,7 @@ F2.extend("Constants", {
 		 * The LOAD message is sent when an iframe socket initially loads.
 		 * Returns a JSON string that represents:
 		 *
-		 *     [ App, AppAssets]
+		 *     [ App, AppManifest]
 		 * 
 		 * @property LOAD
 		 * @type string

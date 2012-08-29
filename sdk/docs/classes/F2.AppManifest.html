@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>F2.AppAssets.AppContent</title>
+    <title>F2.AppManifest</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -45,9 +45,9 @@
             
                 <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.html">F2.AppAssets</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.AppContent.html">F2.AppAssets.AppContent</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
             
                 <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
             
@@ -108,7 +108,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>F2.AppAssets.AppContent Class</h1>
+                        <h1>F2.AppManifest Class</h1>
 <div class="box meta">
     
 
@@ -116,7 +116,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;src_classes.js.html#l193"><code>src\classes.js:193</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;src_classes.js.html#l161"><code>src\classes.js:161</code></a>
         </div>
     
 
@@ -132,7 +132,7 @@
 
 
 <div class="box intro">
-    <p>The AppContent object</p>
+    <p>The assets needed to render an App on the page</p>
 </div>
 
 
@@ -162,28 +162,28 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_Data">Data</a>
+                                <a href="#property_apps">apps</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_Html">Html</a>
+                                <a href="#property_inlineScripts">inlineScripts</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_InstanceId">InstanceId</a>
+                                <a href="#property_scripts">scripts</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_Status">Status</a>
+                                <a href="#property_styles">styles</a>
 
                                 
                                 
@@ -205,9 +205,9 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_Data" class="property item">
-    <h3 class="name"><code>Data</code></h3>
-    <span class="type">Object</span>
+                    <div id="property_apps" class="property item">
+    <h3 class="name"><code>apps</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -228,7 +228,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l198"><code>src\classes.js:198</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l166"><code>src\classes.js:166</code></a>
         
         </p>
 
@@ -238,7 +238,8 @@
     </div>
 
     <div class="description">
-        <p>Arbitrary data to be passed along with the App</p>
+        <p>The array of <a href="..\classes\F2.AppManifest.AppContent.html" class="crosslink">F2.AppManifest.AppContent</a>
+objects</p>
     </div>
 
     
@@ -249,9 +250,9 @@
 </div>
 
                 
-                    <div id="property_Html" class="property item">
-    <h3 class="name"><code>Html</code></h3>
-    <span class="type">String</span>
+                    <div id="property_inlineScripts" class="property item">
+    <h3 class="name"><code>inlineScripts</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -272,7 +273,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l204"><code>src\classes.js:204</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l174"><code>src\classes.js:174</code></a>
         
         </p>
 
@@ -282,7 +283,7 @@
     </div>
 
     <div class="description">
-        <p>The string of HTML representing the App</p>
+        <p>Any inline javascript tha should initially be run</p>
     </div>
 
     
@@ -293,9 +294,9 @@
 </div>
 
                 
-                    <div id="property_InstanceId" class="property item">
-    <h3 class="name"><code>InstanceId</code></h3>
-    <span class="type">String</span>
+                    <div id="property_scripts" class="property item">
+    <h3 class="name"><code>scripts</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -316,7 +317,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l211"><code>src\classes.js:211</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l180"><code>src\classes.js:180</code></a>
         
         </p>
 
@@ -326,7 +327,7 @@
     </div>
 
     <div class="description">
-        <p>The unique runtime ID of the App</p>
+        <p>Urls to javascript files required by the App</p>
     </div>
 
     
@@ -337,9 +338,9 @@
 </div>
 
                 
-                    <div id="property_Status" class="property item">
-    <h3 class="name"><code>Status</code></h3>
-    <span class="type">String</span>
+                    <div id="property_styles" class="property item">
+    <h3 class="name"><code>styles</code></h3>
+    <span class="type">Array</span>
 
     
 
@@ -360,7 +361,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;src_classes.js.html#l218"><code>src\classes.js:218</code></a>
+        <a href="..&#x2F;files&#x2F;src_classes.js.html#l186"><code>src\classes.js:186</code></a>
         
         </p>
 
@@ -370,7 +371,7 @@
     </div>
 
     <div class="description">
-        <p>A status message</p>
+        <p>Urls to CSS files required by the App</p>
     </div>
 
     

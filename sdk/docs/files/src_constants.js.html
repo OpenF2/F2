@@ -45,9 +45,9 @@
             
                 <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.html">F2.AppAssets</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
             
-                <li><a href="..&#x2F;classes/F2.AppAssets.AppContent.html">F2.AppAssets.AppContent</a></li>
+                <li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
             
                 <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
             
@@ -199,12 +199,12 @@ F2.extend(&quot;Constants&quot;, {
 
 		return {
 			&#x2F;**
-			 * The APPLICATION\_LOAD event is fired once an App&#x27;s Styles, Scripts,
-			 * Inline Scripts, and HTML have been inserted into the DOM. The App&#x27;s
+			 * The APPLICATION\_LOAD event is fired once an App&#x27;s styles, scripts,
+			 * inline scripts, and html have been inserted into the DOM. The App&#x27;s
 			 * instanceId should be concatenated to this constant.
 			 *
-			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appAssets) {
-			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appAssets);
+			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appManifest) {
+			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appManifest);
 			 *       HelloWorldApp.init();
 			 *     });
 			 *
@@ -295,7 +295,7 @@ F2.extend(&quot;Constants&quot;, {
 		 * The LOAD message is sent when an iframe socket initially loads.
 		 * Returns a JSON string that represents:
 		 *
-		 *     [ App, AppAssets]
+		 *     [ App, AppManifest]
 		 * 
 		 * @property LOAD
 		 * @type string
