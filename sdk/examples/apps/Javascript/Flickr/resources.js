@@ -9,7 +9,7 @@
  */
 F2_jsonpCallback_3493749374339473947394397439473972018({
    "Scripts":[
-      "http://localhost/github/OpenF2/sdk/examples/apps/JavaScript/Flickr/app.js"
+      "../../apps/JavaScript/Flickr/app.js"
    ],
    "Styles":[
 

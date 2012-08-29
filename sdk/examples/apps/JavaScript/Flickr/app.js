@@ -37,7 +37,7 @@ App_Class.prototype._handleViewChange = function(view) {
 
 App_Class.prototype.getPhotos = function(){
 	$.ajax({
-		url: "http://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=aae088e057aaa1113de507d578453073&per_page=1&page=1&format=json",
+		url: "http://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=40a949bcac34140aaf6321f9c384f4bd&per_page=1&page=1&format=json",
 		data: {},
 		jsonpCallback: "jsonFlickrApi",
 		dataType: "jsonp",
