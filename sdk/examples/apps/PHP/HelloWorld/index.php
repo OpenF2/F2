@@ -9,18 +9,10 @@
 		$_SERVER["SERVER_NAME"] .
 		str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
 
-	// create a new AppAssets object
+	// create the AppManifest object
 	$a = array(
 		"scripts" => array($serverPath . "app.js"),
-		"styles" => array(),
-		"apps" => array(array("instanceId" => $app->instanceId, "html" => renderAppHtml($app))),
-		"inlineScripts" => array(<<<INLINES
-F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + "{$app->instanceId}", function (app, appAssets) {
-	var a = new App_Class(app, appAssets);
-	a.init();
-});
-INLINES
-		)
+		"apps" => array(array("html" => renderAppHtml($app)))
 	);
 
 	function renderAppHtml($app) {
@@ -31,13 +23,13 @@ INLINES
 		return <<<HTML
 <div class="well">
 	<div class="f2-app-view" data-f2-view="home">
-		$isSecure Hello World!
+		PHP $isSecure Hello World!
 	</div>
 </div>
 HTML;
 	}
 
 	// output the jsonp
-	header("Content-type: application/json");
+	header("Content-type: application/javascript");
 	echo "F2_jsonpCallback_" . $app->appId . "(" . json_encode($a, JSON_HEX_TAG) . ")";
 ?>

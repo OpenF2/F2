@@ -1,5 +1,5 @@
 /*!
- * F2 v0.9.0
+ * F2 v0.10.0
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +27,41 @@ if (!window.F2) {
 	 * @main f2
 	 */
 	F2 = {
+		/**
+		 * The Apps class is a namespace for App developers to place the javascript
+		 * class that is used to initialize their App. The javascript classes should
+		 * be namepaced with the {{#crossLink "F2.App"}}{{/crossLink}}.appId. It is recommended
+		 * that the code be placed in a closure to help keep the global namespace
+		 * clean.
+		 *
+		 * If the class has an 'init' function, that function will be called 
+		 * automatically.
+		 * @property Apps
+		 * @type object
+		 * @example
+		 *     F2.Apps["712521f7737666e1489f681817376592"] = (function() {
+		 *         var App_Class = function(app, appContent) {
+		 *             this._app = app; // the F2.App object
+		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
+	   *         }
+	   *
+	   *         App_Class.prototype.init = function() {
+	   *             // perform init actions
+	   *         }
+	   *
+	   *         return App_Class;
+	   *     })();
+		 * @example
+		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(app, appContent) {
+		 *        return {
+	   *            init:function() {
+		 *                // perform init actions
+	   *            }
+		 *        };
+	   *     };
+		 * @for F2
+		 */
+		Apps:{},
 		/** 
 		 * Generates a somewhat random id
 		 * @method guid
@@ -205,6 +240,13 @@ F2.extend("", {
 		 */
 		isSecure:false,
 		/**
+		 * The url to retrieve the {{#crossLink "F2.AppManifest"}}{{/crossLink}} object.
+		 * @property manifestUrl
+		 * @type string
+		 * @required
+		 */
+		manifestUrl:"",
+		/**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * It is up to the Container to implement the logic to prevent an App
 		 * from being run when the maxWidth requirements are not met.
@@ -256,13 +298,6 @@ F2.extend("", {
 		 * @params {int} height The height of the App
 		 */
 		updateHeight:function(height) {},
-		/**
-		 * The url of the App
-		 * @property url
-		 * @type string
-		 * @required
-		 */
-		url:"",
 		/**
 		 * The views that this App supports. Available views
 		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
@@ -328,13 +363,6 @@ F2.extend("", {
 		 * @required
 		 */
 		html:"",
-		/**
-		 * The unique runtime ID of the App
-		 * @property instanceId
-		 * @type string
-		 * @required
-		 */
-		instanceId:"",
 		/**
 		 * A status message
 		 * @property status
@@ -481,22 +509,6 @@ F2.extend("Constants", {
 
 		return {
 			/**
-			 * The APPLICATION\_LOAD event is fired once an App's styles, scripts,
-			 * inline scripts, and html have been inserted into the DOM. The App's
-			 * instanceId should be concatenated to this constant.
-			 *
-			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appManifest) {
-			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appManifest);
-			 *       HelloWorldApp.init();
-			 *     });
-			 *
-			 * @property APPLICATION_LOAD
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APPLICATION_LOAD:"appLoad.",
-			/**
 			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
 			 * width of an App is changed. The App's instanceId should be concatenated
 			 * to this constant.
@@ -559,6 +571,8 @@ F2.extend("Constants", {
 		};
 	})(),
 
+	JSONP_CALLBACK:"F2_jsonpCallback_",
+
 	/**
 	 * Constants for use with cross-domain sockets
 	 * @class F2.Constants.Sockets
@@ -592,6 +606,7 @@ F2.extend("Constants", {
 	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to the
 	 * containing DOM Element. A DATA_ATTRIBUTE attribute should be added to the
 	 * Element as well which defines what view type is represented.
+	 * The `hide` class can be applied to views that should be hidden by default.
 	 * @class F2.Constants.Views
 	 */
 	Views:{
@@ -752,7 +767,7 @@ F2.extend("", (function(){
 				if (appCall.test(message)) {
 					message = message.replace(appCall, "");
 					var obj = F2.parse(message);
-					_apps[obj.instanceId].app["_" + obj.fnName](obj.args);
+					app["_" + obj.fnName](obj.args);
 				} else {
 					var eventArgs = F2.parse(message);
 					F2.Events._socketEmit.apply(F2.Events, eventArgs);
@@ -772,7 +787,7 @@ F2.extend("", (function(){
 	};
 
 	/**
-	 * Function to render the html for an App.
+	 * Renders the html for an App.
 	 * @method _getAppHtml
 	 * @private
 	 * @param {F2.App} app The App object
@@ -804,7 +819,6 @@ F2.extend("", (function(){
 	 */
 	var _hydrateApp = function(app) {
 
-		
 		/**
 		 * creates two functions on the App from the function
 		 * passed in if the app is secure. the 'incoming' function
@@ -896,6 +910,7 @@ F2.extend("", (function(){
 
 					// make sure the app supports this type of view
 					} else if (F2.inArray(view, app.views)) {
+						// tell the app that the view has changed
 						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
 					}
 				});
@@ -917,7 +932,7 @@ F2.extend("", (function(){
 
 		$(window).on("resize", function() {
 			clearTimeout(resizeTimeout);
-			setTimeout(resizeHandler, 100);
+			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
 	};
 
@@ -939,14 +954,28 @@ F2.extend("", (function(){
 			return;
 		}
 
+		// check that the number of apps in manifest matches the number requested
+		if (apps.length != appManifest.apps.length) {
+			F2.log("The number of Apps defined in the AppManifest do not match the number requested.", appManifest);
+		}
+
 		var scripts = appManifest.scripts || [];
 		var styles = appManifest.styles || [];
 		var inlines = appManifest.inlineScripts || [];
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
-		var loadEvent = function() {
+		var appInit = function() {
 			$.each(apps, function(i, a) {
-				F2.Events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appManifest);
+				if (F2.Apps[a.appId] !== undefined) {
+					if (typeof F2.Apps[a.appId] === "function") {
+						F2.Apps[a.appId].appClass = new F2.Apps[a.appId](a, appManifest.apps[i]);
+						if (F2.Apps[a.appId].appClass["init"] !== undefined) {
+							F2.Apps[a.appId].appClass.init();
+						}
+					} else {
+						F2.log("App initialization class is defined but not a function. (" + a.appId + ")");
+					}
+				}
 			});
 		};
 
@@ -959,14 +988,10 @@ F2.extend("", (function(){
 
 		// load html
 		$.each(appManifest.apps, function(i, a) {
-			if (a.instanceId && _apps[a.instanceId]) {
-				// load html
-				_writeAppHtml(_apps[a.instanceId].app, _getAppHtml(_apps[a.instanceId].app, a.html));
-				// init events
-				_initAppEvents(_apps[a.instanceId].app);
-			} else {
-				F2.log(["Unable to load App.  Missing or invalid \"instanceId\"\n\n", a]);
-			}
+			// load html
+			_writeAppHtml(apps[i], _getAppHtml(apps[i], a.html));
+			// init events
+			_initAppEvents(apps[i]);
 		});
 
 		// load scripts and eval inlines once complete
@@ -986,7 +1011,7 @@ F2.extend("", (function(){
 							}
 						});
 						// fire the load event to tell the App it can proceed
-						loadEvent();
+						appInit();
 					}
 				},
 				error:function(jqxhr, settings, exception) {
@@ -997,7 +1022,7 @@ F2.extend("", (function(){
 
 		// if no scripts were to be processed, fire the appLoad event
 		if (!scriptCount) {
-			loadEvent();
+			appInit();
 		}
 	};
 
@@ -1037,8 +1062,8 @@ F2.extend("", (function(){
 		if (!app.appId) {
 			F2.log("\"appId\" missing from App object");
 			return false;
-		} else if (!app.url) {
-			F2.log("\"url\" missing from App object");
+		} else if (!app.manifestUrl) {
+			F2.log("\"manifestUrl\" missing from App object");
 			return false;
 		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
 			F2.log("\"views\" not defined or missing \"F2.Constants.Views.HOME\" view.");
@@ -1054,12 +1079,15 @@ F2.extend("", (function(){
 	 * @private
 	 * @param {F2.App} app The App object
 	 * @param {string} html The string of html
+	 * @return {Element} The DOM Element that contains the App
 	 */
 	var _writeAppHtml = function(app, html) {
 		var handler = _config.appWriter || function(app, html) {
 			$("body").append(html);
 		};
 		handler(app, html);
+
+		return $('#' + app.instanceId).get(0);
 	};
 
 	return {
@@ -1189,24 +1217,26 @@ F2.extend("", (function(){
 		 * @method registerApps
 		 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}}
 		 * objects
-		 * @param {Array} [appManifest] An array of
+		 * @param {Array} [appManifests] An array of
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
 		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
 		 * passed in. This can be useful if Apps are loaded on the server-side and
 		 * passed down to the client.
 		 */
-		registerApps:function(apps, appManifest) {
+		registerApps:function(apps, appManifests) {
 
-			var queue = [];
+			var appStack = [];
 			var batches = {};
-			var hasAssets = typeof appManifest !== "undefined";
-			appManifest = appManifest || [];
+			var callbackStack = {};
+			var haveManifests = false;
 			apps = [].concat(apps);
+			appManifests = appManifests || [];
+			haveManifests = !!appManifests.length;
 
-			// ensure that if appManifest is passed in, we get a full array of assets
-			if (apps.length && appManifest.length && app.length != appManifest.length) {
-				F2.log("The length of \"apps\" does not equal the length of \"appManifest\"");
+			// ensure that the array of apps and manifests are qual
+			if (apps.length && haveManifests && apps.length != appManifests.length) {
+				F2.log("The length of \"apps\" does not equal the length of \"appManifests\"");
 				return;
 			}
 
@@ -1224,50 +1254,69 @@ F2.extend("", (function(){
 				// save app
 				_apps[a.instanceId] = { app:a };
 
-				if (!hasAssets) {
+				// if we have the manifest, go ahead and load the app
+				if (haveManifests) {
+					_loadApps(a, appManifests[i]);
+				} else {
 					// check if this app can be batched
 					if (a.enableBatchRequests && !a.isSecure) {
-						batches[a.url.toLowerCase()] = batches[a.url.toLowerCase()] || [];
-						batches[a.url.toLowerCase()].push(a);
+						batches[a.manifestUrl.toLowerCase()] = batches[a.manifestUrl.toLowerCase()] || [];
+						batches[a.manifestUrl.toLowerCase()].push(a);
 					} else {
-						queue.push({
-							url:a.url,
-							apps:[a]
+						appStack.push({
+							apps:[a],
+							url:a.manifestUrl
 						});
 					}
 				}
 			});
 
-			// if we have the assets already, load the apps
-			if (hasAssets) {
-				$.each(apps, function(i, a) {
-					_loadApps(a, appManifest[i]);
-				});
-
-			// else fetch the apps
-			} else {
-				// add the batches to the queue
+			// we don't have the manifests, go ahead and load them
+			if (!haveManifests) {
+				// add the batches to the appStack
 				$.each(batches, function(i, b) {
-					queue.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b })
 				});
 
-				// form and make the requests
-				$.each(queue, function(i, req) {
+				// if an App is being loaded more than once on the page, there is the
+				// potential that the jsonp callback will be clobbered if the request
+				// for the AppManifest for the app comes back at the same time as
+				// another request for the same app.  We'll create a callbackStack
+				// that will ensure that requests for the same app are loaded in order
+				// rather than at the same time
+				$.each(appStack, function(i, req) {
 					// define the callback function based on the first app's App ID
-					var jsonpCallback = "F2_jsonpCallback_" + req.apps[0].appId;
+					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
+					callbackStack[jsonpCallback] = callbackStack[jsonpCallback] || [];
+					callbackStack[jsonpCallback].push(req);
+				});
 
-					$.ajax({
-						url:req.url,
-						data:{
-							params:F2.stringify(req.apps)
-						},
-						jsonp:false, /* do not put 'callback=' in the query string */
-						jsonpCallback:jsonpCallback, /* Unique function name */
-						dataType:"jsonp",
-						success:function(appManifest) {
-							_loadApps(req.apps, appManifest);
-						}
-					});
+				// loop through each item in the callback queue and 
+				$.each(callbackStack, function(i, requests) {
+
+					var manifestRequest = function(jsonpCallback, req) {
+						if (!req) { return; }
+
+						$.ajax({
+							url:req.url,
+							data:{
+								params:F2.stringify(req.apps)
+							},
+							jsonp:false, /* do not put 'callback=' in the query string */
+							jsonpCallback:jsonpCallback, /* Unique function name */
+							dataType:"jsonp",
+							success:function(appManifest) {
+								_loadApps(req.apps, appManifest);
+							},
+							error:function(jqxhr, settings, exception) {
+								F2.log("Failed to load app(s)", exception.toString(), req.apps);
+							},
+							complete:function() {
+								manifestRequest(i, requests.pop());
+							}
+						});
+					};
+					manifestRequest(i, requests.pop());
 				});
 			}
 		},

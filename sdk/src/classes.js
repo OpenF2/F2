@@ -85,6 +85,13 @@ F2.extend("", {
 		 */
 		isSecure:false,
 		/**
+		 * The url to retrieve the {{#crossLink "F2.AppManifest"}}{{/crossLink}} object.
+		 * @property manifestUrl
+		 * @type string
+		 * @required
+		 */
+		manifestUrl:"",
+		/**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * It is up to the Container to implement the logic to prevent an App
 		 * from being run when the maxWidth requirements are not met.
@@ -136,13 +143,6 @@ F2.extend("", {
 		 * @params {int} height The height of the App
 		 */
 		updateHeight:function(height) {},
-		/**
-		 * The url of the App
-		 * @property url
-		 * @type string
-		 * @required
-		 */
-		url:"",
 		/**
 		 * The views that this App supports. Available views
 		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
@@ -208,13 +208,6 @@ F2.extend("", {
 		 * @required
 		 */
 		html:"",
-		/**
-		 * The unique runtime ID of the App
-		 * @property instanceId
-		 * @type string
-		 * @required
-		 */
-		instanceId:"",
 		/**
 		 * A status message
 		 * @property status

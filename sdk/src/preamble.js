@@ -1,5 +1,5 @@
 /*!
- * F2 v0.9.0
+ * F2 v0.10.0
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +27,41 @@ if (!window.F2) {
 	 * @main f2
 	 */
 	F2 = {
+		/**
+		 * The Apps class is a namespace for App developers to place the javascript
+		 * class that is used to initialize their App. The javascript classes should
+		 * be namepaced with the {{#crossLink "F2.App"}}{{/crossLink}}.appId. It is recommended
+		 * that the code be placed in a closure to help keep the global namespace
+		 * clean.
+		 *
+		 * If the class has an 'init' function, that function will be called 
+		 * automatically.
+		 * @property Apps
+		 * @type object
+		 * @example
+		 *     F2.Apps["712521f7737666e1489f681817376592"] = (function() {
+		 *         var App_Class = function(app, appContent) {
+		 *             this._app = app; // the F2.App object
+		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
+	   *         }
+	   *
+	   *         App_Class.prototype.init = function() {
+	   *             // perform init actions
+	   *         }
+	   *
+	   *         return App_Class;
+	   *     })();
+		 * @example
+		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(app, appContent) {
+		 *        return {
+	   *            init:function() {
+		 *                // perform init actions
+	   *            }
+		 *        };
+	   *     };
+		 * @for F2
+		 */
+		Apps:{},
 		/** 
 		 * Generates a somewhat random id
 		 * @method guid

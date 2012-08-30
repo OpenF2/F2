@@ -199,22 +199,6 @@ F2.extend(&quot;Constants&quot;, {
 
 		return {
 			&#x2F;**
-			 * The APPLICATION\_LOAD event is fired once an App&#x27;s styles, scripts,
-			 * inline scripts, and html have been inserted into the DOM. The App&#x27;s
-			 * instanceId should be concatenated to this constant.
-			 *
-			 *     F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + app.instanceId, function (app, appManifest) {
-			 *       var HelloWorldApp = new HelloWorldApp_Class(app, appManifest);
-			 *       HelloWorldApp.init();
-			 *     });
-			 *
-			 * @property APPLICATION_LOAD
-			 * @type string
-			 * @static
-			 * @final
-			 *&#x2F;
-			APPLICATION_LOAD:&quot;appLoad.&quot;,
-			&#x2F;**
 			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
 			 * width of an App is changed. The App&#x27;s instanceId should be concatenated
 			 * to this constant.
@@ -277,6 +261,8 @@ F2.extend(&quot;Constants&quot;, {
 		};
 	})(),
 
+	JSONP_CALLBACK:&quot;F2_jsonpCallback_&quot;,
+
 	&#x2F;**
 	 * Constants for use with cross-domain sockets
 	 * @class F2.Constants.Sockets
@@ -310,6 +296,7 @@ F2.extend(&quot;Constants&quot;, {
 	 * the {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}}.APP_VIEW class to the
 	 * containing DOM Element. A DATA_ATTRIBUTE attribute should be added to the
 	 * Element as well which defines what view type is represented.
+	 * The &#x60;hide&#x60; class can be applied to views that should be hidden by default.
 	 * @class F2.Constants.Views
 	 *&#x2F;
 	Views:{

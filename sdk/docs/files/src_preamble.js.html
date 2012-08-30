@@ -113,7 +113,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 &#x2F;*!
- * F2 v0.9.0
+ * F2 v0.10.0
  * Copyright (c) 2012 Markit Group Limited http:&#x2F;&#x2F;www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -141,6 +141,41 @@ if (!window.F2) {
 	 * @main f2
 	 *&#x2F;
 	F2 = {
+		&#x2F;**
+		 * The Apps class is a namespace for App developers to place the javascript
+		 * class that is used to initialize their App. The javascript classes should
+		 * be namepaced with the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}.appId. It is recommended
+		 * that the code be placed in a closure to help keep the global namespace
+		 * clean.
+		 *
+		 * If the class has an &#x27;init&#x27; function, that function will be called 
+		 * automatically.
+		 * @property Apps
+		 * @type object
+		 * @example
+		 *     F2.Apps[&quot;712521f7737666e1489f681817376592&quot;] = (function() {
+		 *         var App_Class = function(app, appContent) {
+		 *             this._app = app; &#x2F;&#x2F; the F2.App object
+		 *             this._appContent = appContent &#x2F;&#x2F; the F2.AppManifest.AppContent object
+	   *         }
+	   *
+	   *         App_Class.prototype.init = function() {
+	   *             &#x2F;&#x2F; perform init actions
+	   *         }
+	   *
+	   *         return App_Class;
+	   *     })();
+		 * @example
+		 *     F2.Apps[&quot;712521f7737666e1489f681817376592&quot;] = function(app, appContent) {
+		 *        return {
+	   *            init:function() {
+		 *                &#x2F;&#x2F; perform init actions
+	   *            }
+		 *        };
+	   *     };
+		 * @for F2
+		 *&#x2F;
+		Apps:{},
 		&#x2F;** 
 		 * Generates a somewhat random id
 		 * @method guid

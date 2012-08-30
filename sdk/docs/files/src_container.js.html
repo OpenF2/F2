@@ -216,7 +216,7 @@ F2.extend(&quot;&quot;, (function(){
 				if (appCall.test(message)) {
 					message = message.replace(appCall, &quot;&quot;);
 					var obj = F2.parse(message);
-					_apps[obj.instanceId].app[&quot;_&quot; + obj.fnName](obj.args);
+					app[&quot;_&quot; + obj.fnName](obj.args);
 				} else {
 					var eventArgs = F2.parse(message);
 					F2.Events._socketEmit.apply(F2.Events, eventArgs);
@@ -236,7 +236,7 @@ F2.extend(&quot;&quot;, (function(){
 	};
 
 	&#x2F;**
-	 * Function to render the html for an App.
+	 * Renders the html for an App.
 	 * @method _getAppHtml
 	 * @private
 	 * @param {F2.App} app The App object
@@ -268,7 +268,6 @@ F2.extend(&quot;&quot;, (function(){
 	 *&#x2F;
 	var _hydrateApp = function(app) {
 
-		
 		&#x2F;**
 		 * creates two functions on the App from the function
 		 * passed in if the app is secure. the &#x27;incoming&#x27; function
@@ -360,6 +359,7 @@ F2.extend(&quot;&quot;, (function(){
 
 					&#x2F;&#x2F; make sure the app supports this type of view
 					} else if (F2.inArray(view, app.views)) {
+						&#x2F;&#x2F; tell the app that the view has changed
 						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
 					}
 				});
@@ -381,7 +381,7 @@ F2.extend(&quot;&quot;, (function(){
 
 		$(window).on(&quot;resize&quot;, function() {
 			clearTimeout(resizeTimeout);
-			setTimeout(resizeHandler, 100);
+			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
 	};
 
@@ -403,14 +403,28 @@ F2.extend(&quot;&quot;, (function(){
 			return;
 		}
 
+		&#x2F;&#x2F; check that the number of apps in manifest matches the number requested
+		if (apps.length != appManifest.apps.length) {
+			F2.log(&quot;The number of Apps defined in the AppManifest do not match the number requested.&quot;, appManifest);
+		}
+
 		var scripts = appManifest.scripts || [];
 		var styles = appManifest.styles || [];
 		var inlines = appManifest.inlineScripts || [];
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
-		var loadEvent = function() {
+		var appInit = function() {
 			$.each(apps, function(i, a) {
-				F2.Events.emit(F2.Constants.Events.APPLICATION_LOAD + a.instanceId, a, appManifest);
+				if (F2.Apps[a.appId] !== undefined) {
+					if (typeof F2.Apps[a.appId] === &quot;function&quot;) {
+						F2.Apps[a.appId].appClass = new F2.Apps[a.appId](a, appManifest.apps[i]);
+						if (F2.Apps[a.appId].appClass[&quot;init&quot;] !== undefined) {
+							F2.Apps[a.appId].appClass.init();
+						}
+					} else {
+						F2.log(&quot;App initialization class is defined but not a function. (&quot; + a.appId + &quot;)&quot;);
+					}
+				}
 			});
 		};
 
@@ -423,14 +437,10 @@ F2.extend(&quot;&quot;, (function(){
 
 		&#x2F;&#x2F; load html
 		$.each(appManifest.apps, function(i, a) {
-			if (a.instanceId &amp;&amp; _apps[a.instanceId]) {
-				&#x2F;&#x2F; load html
-				_writeAppHtml(_apps[a.instanceId].app, _getAppHtml(_apps[a.instanceId].app, a.html));
-				&#x2F;&#x2F; init events
-				_initAppEvents(_apps[a.instanceId].app);
-			} else {
-				F2.log([&quot;Unable to load App.  Missing or invalid \&quot;instanceId\&quot;\n\n&quot;, a]);
-			}
+			&#x2F;&#x2F; load html
+			_writeAppHtml(apps[i], _getAppHtml(apps[i], a.html));
+			&#x2F;&#x2F; init events
+			_initAppEvents(apps[i]);
 		});
 
 		&#x2F;&#x2F; load scripts and eval inlines once complete
@@ -450,7 +460,7 @@ F2.extend(&quot;&quot;, (function(){
 							}
 						});
 						&#x2F;&#x2F; fire the load event to tell the App it can proceed
-						loadEvent();
+						appInit();
 					}
 				},
 				error:function(jqxhr, settings, exception) {
@@ -461,7 +471,7 @@ F2.extend(&quot;&quot;, (function(){
 
 		&#x2F;&#x2F; if no scripts were to be processed, fire the appLoad event
 		if (!scriptCount) {
-			loadEvent();
+			appInit();
 		}
 	};
 
@@ -501,8 +511,8 @@ F2.extend(&quot;&quot;, (function(){
 		if (!app.appId) {
 			F2.log(&quot;\&quot;appId\&quot; missing from App object&quot;);
 			return false;
-		} else if (!app.url) {
-			F2.log(&quot;\&quot;url\&quot; missing from App object&quot;);
+		} else if (!app.manifestUrl) {
+			F2.log(&quot;\&quot;manifestUrl\&quot; missing from App object&quot;);
 			return false;
 		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
 			F2.log(&quot;\&quot;views\&quot; not defined or missing \&quot;F2.Constants.Views.HOME\&quot; view.&quot;);
@@ -518,12 +528,15 @@ F2.extend(&quot;&quot;, (function(){
 	 * @private
 	 * @param {F2.App} app The App object
 	 * @param {string} html The string of html
+	 * @return {Element} The DOM Element that contains the App
 	 *&#x2F;
 	var _writeAppHtml = function(app, html) {
 		var handler = _config.appWriter || function(app, html) {
 			$(&quot;body&quot;).append(html);
 		};
 		handler(app, html);
+
+		return $(&#x27;#&#x27; + app.instanceId).get(0);
 	};
 
 	return {
@@ -653,24 +666,26 @@ F2.extend(&quot;&quot;, (function(){
 		 * @method registerApps
 		 * @param {Array} apps An array of {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}
 		 * objects
-		 * @param {Array} [appManifest] An array of
+		 * @param {Array} [appManifests] An array of
 		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}}
 		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
 		 * passed in. This can be useful if Apps are loaded on the server-side and
 		 * passed down to the client.
 		 *&#x2F;
-		registerApps:function(apps, appManifest) {
+		registerApps:function(apps, appManifests) {
 
-			var queue = [];
+			var appStack = [];
 			var batches = {};
-			var hasAssets = typeof appManifest !== &quot;undefined&quot;;
-			appManifest = appManifest || [];
+			var callbackStack = {};
+			var haveManifests = false;
 			apps = [].concat(apps);
+			appManifests = appManifests || [];
+			haveManifests = !!appManifests.length;
 
-			&#x2F;&#x2F; ensure that if appManifest is passed in, we get a full array of assets
-			if (apps.length &amp;&amp; appManifest.length &amp;&amp; app.length != appManifest.length) {
-				F2.log(&quot;The length of \&quot;apps\&quot; does not equal the length of \&quot;appManifest\&quot;&quot;);
+			&#x2F;&#x2F; ensure that the array of apps and manifests are qual
+			if (apps.length &amp;&amp; haveManifests &amp;&amp; apps.length != appManifests.length) {
+				F2.log(&quot;The length of \&quot;apps\&quot; does not equal the length of \&quot;appManifests\&quot;&quot;);
 				return;
 			}
 
@@ -688,50 +703,69 @@ F2.extend(&quot;&quot;, (function(){
 				&#x2F;&#x2F; save app
 				_apps[a.instanceId] = { app:a };
 
-				if (!hasAssets) {
+				&#x2F;&#x2F; if we have the manifest, go ahead and load the app
+				if (haveManifests) {
+					_loadApps(a, appManifests[i]);
+				} else {
 					&#x2F;&#x2F; check if this app can be batched
 					if (a.enableBatchRequests &amp;&amp; !a.isSecure) {
-						batches[a.url.toLowerCase()] = batches[a.url.toLowerCase()] || [];
-						batches[a.url.toLowerCase()].push(a);
+						batches[a.manifestUrl.toLowerCase()] = batches[a.manifestUrl.toLowerCase()] || [];
+						batches[a.manifestUrl.toLowerCase()].push(a);
 					} else {
-						queue.push({
-							url:a.url,
-							apps:[a]
+						appStack.push({
+							apps:[a],
+							url:a.manifestUrl
 						});
 					}
 				}
 			});
 
-			&#x2F;&#x2F; if we have the assets already, load the apps
-			if (hasAssets) {
-				$.each(apps, function(i, a) {
-					_loadApps(a, appManifest[i]);
-				});
-
-			&#x2F;&#x2F; else fetch the apps
-			} else {
-				&#x2F;&#x2F; add the batches to the queue
+			&#x2F;&#x2F; we don&#x27;t have the manifests, go ahead and load them
+			if (!haveManifests) {
+				&#x2F;&#x2F; add the batches to the appStack
 				$.each(batches, function(i, b) {
-					queue.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b })
 				});
 
-				&#x2F;&#x2F; form and make the requests
-				$.each(queue, function(i, req) {
+				&#x2F;&#x2F; if an App is being loaded more than once on the page, there is the
+				&#x2F;&#x2F; potential that the jsonp callback will be clobbered if the request
+				&#x2F;&#x2F; for the AppManifest for the app comes back at the same time as
+				&#x2F;&#x2F; another request for the same app.  We&#x27;ll create a callbackStack
+				&#x2F;&#x2F; that will ensure that requests for the same app are loaded in order
+				&#x2F;&#x2F; rather than at the same time
+				$.each(appStack, function(i, req) {
 					&#x2F;&#x2F; define the callback function based on the first app&#x27;s App ID
-					var jsonpCallback = &quot;F2_jsonpCallback_&quot; + req.apps[0].appId;
+					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
+					callbackStack[jsonpCallback] = callbackStack[jsonpCallback] || [];
+					callbackStack[jsonpCallback].push(req);
+				});
 
-					$.ajax({
-						url:req.url,
-						data:{
-							params:F2.stringify(req.apps)
-						},
-						jsonp:false, &#x2F;* do not put &#x27;callback=&#x27; in the query string *&#x2F;
-						jsonpCallback:jsonpCallback, &#x2F;* Unique function name *&#x2F;
-						dataType:&quot;jsonp&quot;,
-						success:function(appManifest) {
-							_loadApps(req.apps, appManifest);
-						}
-					});
+				&#x2F;&#x2F; loop through each item in the callback queue and 
+				$.each(callbackStack, function(i, requests) {
+
+					var manifestRequest = function(jsonpCallback, req) {
+						if (!req) { return; }
+
+						$.ajax({
+							url:req.url,
+							data:{
+								params:F2.stringify(req.apps)
+							},
+							jsonp:false, &#x2F;* do not put &#x27;callback=&#x27; in the query string *&#x2F;
+							jsonpCallback:jsonpCallback, &#x2F;* Unique function name *&#x2F;
+							dataType:&quot;jsonp&quot;,
+							success:function(appManifest) {
+								_loadApps(req.apps, appManifest);
+							},
+							error:function(jqxhr, settings, exception) {
+								F2.log(&quot;Failed to load app(s)&quot;, exception.toString(), req.apps);
+							},
+							complete:function() {
+								manifestRequest(i, requests.pop());
+							}
+						});
+					};
+					manifestRequest(i, requests.pop());
 				});
 			}
 		},

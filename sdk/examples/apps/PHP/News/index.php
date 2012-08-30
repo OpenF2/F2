@@ -28,36 +28,21 @@
 		);
   }
 
-	// create a new AppAssets object
-	$a = new AppAssets();
-
-	// populate the scripts, styles, inlines, html
-	$a->scripts[] = $serverPath . "app.js";
-	$a->styles[] = $serverPath . "style.css";
-	$a->apps[] = array("instanceId" => $app->instanceId, "html" => renderAppHtml($newsItems));
-	$a->inlineScripts[] = <<<INLINES
-F2.Events.once(F2.Constants.Events.APPLICATION_LOAD + "{$app->instanceId}", function (app, appAssets) {
-	var a = new App_Class(app, appAssets, {baseUrl:'{$serverPath}'});
-	a.init();
-});
-INLINES;
+	// create the AppManifest object
+	$a = array(
+		"scripts" => array($serverPath . "app.js"),
+		"styles" => array($serverPath . "style.css"),
+		"apps" => array(
+			array(
+				"html" => renderAppHtml($newsItems),
+				"data" => array("baseUrl" => $serverPath)
+			)
+		)
+	);
 
 	// output the jsonp
-	header("Content-type: application/json");
+	header("Content-type: application/javascript");
 	echo "F2_jsonpCallback_" . $app->appId . "(" . json_encode($a, JSON_HEX_TAG) . ")";
-
-
-	/**
-	 * A class representing the assets (html, css, js) for an App
-	 * @class AppAssets
-	 */
-	class AppAssets {
-		public $scripts = array();
-		public $styles = array();
-		public $inlineScripts = array();
-		// temporary
-		public $apps = array();
-	}
 
 	/**
 	 * Renders the news articles
