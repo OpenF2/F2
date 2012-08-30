@@ -1,24 +1,81 @@
-			</section>
+			</div><!--/#docs-->
 		</div><!--/span9-->
 	</div><!--/row-->
 
   <hr>
 
-  <footer>
-    <p>&copy; Company 2012</p>
-  </footer>
+	<footer>
+		<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+		<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+	</footer>
 
 </div><!--/.container-->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://markitondemand.github.com/OpenF2/js/bootstrap.min.js"></script>
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="//openf2.github.com/F2/js/bootstrap.min.js"></script>
+<script src="//openf2.github.com/F2/js/prettify.js"></script>
 <script>
+	
+	/**
+	 * This code is only for the documentation site. Don't use it anywhere else.
+	 *
+	 */
+
+
 	if (navigator.userAgent.indexOf('Mac OS') != -1) {
 		$('body').addClass('mac');
 	}
 
-	$(function() {
+	/**
+	 * Finds and sets active navigation element based on hash, if one exists
+	 *
+	 */
+	function setActiveNav(){
+		var hash = location.hash;
+		if (!hash) { 
+			return; 
+		}
+		var $lis = $("li ul li", "#toc");//get all <li> elements that are visible children of current page's nav
+		$lis.each(function(idx,item){
+			var $item = $(item);
+			if (hash == $item.find("a").attr("href") && !$item.hasClass("active")){//if hash value is found in links but not yet set to active, highlight it and remove active class from parent element.
+				$item.addClass("active");
+				$item.parents("li.active").removeClass("active");//removes from parent LI
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Takes <pre><code>something();</code></pre> and converts to <pre>something();</pre>
+	 * Removes unneeded CSS classnames, adds correct ones for prettify.js
+	 * Calls prettyPrint()
+	 *
+	 */
+	function formatSourceCodeElements(){
+		$("pre")
+			.removeClass("sourceCode")
+			.addClass("prettyprint")
+			.find("code").replaceWith(function() {
+				return $(this).contents();
+			})
+			.end()
+			.filter(".javascript")
+			.removeClass("javascript")
+			.addClass("lang-js")
+			.end()
+			.filter(".html")
+			.removeClass("html")
+			.addClass("lang-html")
+		;
+		prettyPrint();
+	}
+
+	/**
+	 * Build TOC based on markitdown-generated section elements in DOM
+	 *
+	 */
+	function buildTableOfContents(){
 		var toc = $('#toc');
 		var docs = $('#docs');
 		var file = location.pathname.split('/').pop();
@@ -51,7 +108,7 @@
 
 		//build table of contents based on sections within generated markdown file
 		function buildToc(root) {
-			var sections = $('> section', root);//find <section> elements in main content area
+			var sections = $('> section.level2', root);//find <section> elements in main content area
 
 			if (!sections.length) {
 				return;
@@ -82,5 +139,15 @@
 				return false;
 			}
 		});
+	}
+
+	/**
+	 * Let's do this.
+	 *
+	 */
+	$(function() {
+		buildTableOfContents();
+		setActiveNav();
+		formatSourceCodeElements();
 	});
 </script>

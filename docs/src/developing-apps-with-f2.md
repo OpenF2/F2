@@ -1,92 +1,140 @@
 % Developing Apps with F2
 
+<p class="lead">To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start instructions](https://github.com/OpenF2/F2#quick-start).</p>
+
 ## Overview
 
-Very simply a F2-capable app is a `javascript` file containing [app assets](../../sdk/docs/classes/F2.AppAssets.html). Check out the [example apps on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/apps) to gain a high-level understanding of the composition of an app.
+Defined very simply, a F2-capable app is a `javascript` file which defines your [app manifest](../../sdk/docs/classes/F2.AppManifest.html). Check out the [example apps on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/apps) to see some apps in action.
 
 Technically speaking, a F2 app is one of two things:
 
-* Presentation App - A presentation app displays information to users in visible fashion (using HTML, CSS, and JavaScript).
-* Data App - A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.
+<dl class="dl-horizontal">
+	<dt>Presentation App</dt>
+	<dd>A presentation app displays information to users in visible fashion (using HTML, CSS, and JavaScript).</dd>
+	<dt>Data App</dt>
+	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
+</dl>
 
-To get started, we'll focus on developing presentation apps.
+For the purposes of this documentation and to get started, we'll focus on developing **presentation apps**. If you want to build a data app, [browse to data apps](#).
 
-## Understanding Apps ##
+<div class="well well-small">
+<h4>About Apps</h4>
+<p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p>
+</div>
 
-To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise Containers aren't much to look at without apps. There are many [components of F2](components-of-the-framework.html), and apps and containers are only scratching the surface in terms of what is available to app developers today. From the concept of [app context](components-of-the-framework.html#app-context) to [creating a common look and feel](components-of-the-framework.html#creating-a-common-look-and-feel), you'll be on your way to integrating multi-party web applications into a single seamless desktop or mobile experience.
+### Understanding F2 Apps
 
-To help you get started, you will find a basic container in the [GitHub repository](https://github.com/OpenF2/F2/zipball/master) (zip). Once you download and extract the archive, point your browser at:
+To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many [components of F2](components-of-the-framework.html), and apps and containers are only scratching the surface in terms of what is available to app developers today. From the concept of [app context](components-of-the-framework.html#app-context) to [creating a common look and feel](components-of-the-framework.html#creating-a-common-look-and-feel) across apps, apps are the cornerstone of F2-enabled multi-party web applications.
+
+To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML). Once you download and extract the archive, point your browser at:
 
 `http://localhost/<your_extract_location>/OpenF2/sdk/examples/containers/HTML/`
 
-## Apps vs. Containers
+<div class="alert alert-info"><strong>Note:</strong> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, ASP, JavaScript). While it is not a requirement you have a web server configured on your computer, it will certainly enhance your F2 development experience.</div>
+
+* * * *
+
+## Apps and Containers
 
 To understand F2 and the role of apps, you need to understand the role of the **container**.
 
-### Container
+![](../src/img/wwp_devices.png "Containers and Apps on desktop and mobile")
 
-The container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is "aware" of its contents (the apps) and plays the role of a traffic cop managing context passing between apps. Further, the Container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the container JavaScript API.
+The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is "aware" of its contents (the apps) and plays the role of a traffic cop managing context passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2 JavaScript SDK.
 
-Each container provider, or individual person or company hosting a container, shall be responsible for including the [F2 JavaScript API](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). F2 provides a consistent means for all app developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
+Each container provider, or individual person or company hosting a container, shall be responsible for including the [F2 JavaScript SDK](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). Through the SDK, F2.js provides a consistent means for all app developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
 
 To get started working with or developing containers, browse to the [documentation for developing the container](developing-the-container.html).
 
-## App Development Requirements 
+* * * *
 
-For an app to work with F2, it must have this basic structure represented in [JSON](http://json.org):
+## F2 Apps
+
+For an app to work with F2, it must have this basic structure&mdash;called the **App Manifest**&mdash;represented in [JSON](http://json.org):
 
 ```javascript
 {
-	"InlineScripts" : [],	 
-	"Scripts" : [],	 
-	"Styles" : [],	 
-	"Apps" : [
-		{
-			"Html" : "",			
-			"InstanceId" : ""
-		}]
+	"inlineScripts":[],	 
+	"scripts":[],	 
+	"styles":[],	 
+	"apps":[{
+			"data":{},
+			"html":"",			
+			"instanceId":"",
+			"status":""
+	}]
 }
 ```
 
-This basic object stucture -- called **[App Assets](../../../sdk/docs/classes/F2.AppAssets.html)** -- can be generated by the server-side code of your choice. In the [GitHub repository](http://www.github.com/OpenF2/F2), there are examples in JavaScript, PHP, Python and Classic ASP (JScript) to get you started.
+The App Manifest can be generated by the server-side code of your choice or be written-by-hand in your favorite text editor. In the [GitHub repository](http://www.github.com/OpenF2/F2), there are examples in JavaScript, PHP, Python and Classic ASP (JScript) to get you started.
 
-Let's break the App Assets object down and look at each property. Or [jump down to the basic app](#basic-app).
+When it's complete (using our examples below), the App Manifest looks like this:
+
+```javascript
+{
+	"inlineScripts":["var foo = bar; doSomething();"], //discouraged, we'll explain later.
+	"scripts":[
+		"http://www.domain.com/js/app-logic.js",
+		"http://www.domain.com/js/app-helper.js"
+	],	 
+	"styles":[
+		"http://www.domain.com/css/base.css",
+		"http://www.domain.com/css/ie7.css"
+	],	 
+	"apps":[{
+			"data":{ 
+				foo: "bar",
+				value: 12345
+			},
+			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",		
+			"instanceId":"b29ab39b-013a-45bc-b856-f058850f4b1e",
+			"status":"good"
+	}]
+}
+```
+
+Let's break the App Manifest object down and look at each property (in reverse order to keep it fun).
 
 ### Apps
 
-The `Apps` property is an array of `app` objects. Each `app` contains two properties: `Html` and `InstanceId`. 
+The `apps` property is an array of `AppContent` objects. Each `AppContent` object contains four properties: 
 
-**Html**
+1. `html` 
+2. `instanceId`
+3. `data`
+4. `status`
 
-The `Html` property contains the view of your app represented in [encoded](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/encodeURIComponent) HTML. While you can modify the way your app appears or functions within the container, the `Html` property is what the container will show when it [registers your app](../../sdk/docs/classes/F2.html#method_registerApps) and displays its contents for the first time.
+#### html
+
+The `html` property contains the view of your app represented in [encoded](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/encodeURIComponent) HTML. While you can modify the way your app appears or functions within the container, the `html` property is what the container will show when it [registers your app](../../sdk/docs/classes/F2.html#method_registerApps) and displays its contents for the first time.
 
 Example:
 
 ```javascript
-"Html": "%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E"
+"html": "%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E"
 ```
 
-The _decoded_ version of the `Html` example above is:
+The _decoded_ version of the `html` example above is:
 
 ```html
 <div class="sunrise">Hello world.</div>
 ```
 
-**InstanceId**
+#### instanceId
 
-The `InstanceId` property defines the unique runtime ID of the App. This can be an alpha-numeric reference number like a [GUID](http://en.wikipedia.org/wiki/Globally_unique_identifier) and is defined by the app developer. The main purpose of the `InstanceId` is to allow an app to exist on a single container multiple times. 
+The `instanceId` property defines the unique runtime ID of the app. This can be an alpha-numeric reference number like a [GUID](http://en.wikipedia.org/wiki/Globally_unique_identifier) and is defined by the app developer. The main purpose of the `instanceId` is to allow an app to exist on a single container multiple times. 
 
-The `InstanceId` will be assigned by the container provider and passed to the app developer in the initial request for the AppAssets. This is how the App developer is able to use the `InstanceId` when binding to the [`APPLICATION_LOAD`](../../sdk/docs/classes/F2.Constants.Events.html#property_APPLICATION_LOAD) event.
+The `instanceId` will be assigned by the container provider and passed to the app developer in the initial request for the App Manifest. This is how the app developer is able to use the `instanceId` when binding to the [`APPLICATION_LOAD`](../../sdk/docs/classes/F2.Constants.Events.html#property_APPLICATION_LOAD) event.
 
 Example:
 
 ```javascript
-"InstanceId": "b29ab39b-013a-45bc-b856-f058850f4b1e"
+"instanceId": "b29ab39b-013a-45bc-b856-f058850f4b1e"
 ```
 
-The `InstanceId` is also set as the ID of the outermost DOM element wrapping the app on the container.
+The `instanceId` is also set as the ID of the outermost DOM element wrapping the app when it appears on the container.
 
-Example `section` element wrapping a F2 app with the `InstanceId` set as the value of the `id` attribute:
+Example `section` element wrapping a F2 app with the `instanceId` set as the value of the `id` attribute:
 
 ```html
 <section class="f2-app" id="b29ab39b-013a-45bc-b856-f058850f4b1e">
@@ -94,14 +142,22 @@ Example `section` element wrapping a F2 app with the `InstanceId` set as the val
 </section>
 ```
 
+#### data
+
+The `data` property is there to support the placement of arbitrary data needing to be passed along with the app. _This field is optional._
+
+#### status
+
+The `status` property allows app developers to communicate a server-side arbitrary status code to itself or to the container. _This field is optional._
+
 ### Styles
 
-The `Styles` property is an array of URLs represented as strings. The `Styles` array includes any CSS files needed by the app so it be displayed correctly on the container. The externally-referenced CSS files should be fully-qualified. [Read more about CSS and namespacing](#).
+The `styles` property is an array of URLs represented as strings. The `styles` array refers to any CSS files needed by the app so it be displayed correctly on the container. The externally-referenced CSS files should be fully-qualified. [Read more about CSS and namespacing](#).
 
 Example:
 
 ```javascript
-"Styles": [
+"styles": [
 	"http://www.domain.com/css/base.css",
 	"http://www.domain.com/css/ie7.css"
 ]
@@ -109,60 +165,153 @@ Example:
 
 ### Scripts
 
-The `Scripts` property is an array of URLs represented as strings. The `Scripts` array includes any JavaScript files needed by the app so it be function correctly on the container. The externally-referenced JS files should be fully-qualified. [Read more about JavaScript and namespacing](#).
+The `scripts` property is an array of URLs represented as strings. The `scripts` array refers to any JavaScript files needed by the app so it be function correctly on the container. The externally-referenced JS files should be fully-qualified. [Read more about JavaScript and namespacing](#).
 
 Example:
 
 ```javascript
-"Scripts": [
-	"http://www.domain.com/js/app.js",
+"scripts": [
+	"http://www.domain.com/js/app-logic.js",
 	"http://www.domain.com/js/app-helper.js"
 ]
 ```
 
 ### Inline Scripts
 
-The `InlineScripts` property is an array of strings. The `InlineScripts` array includes any JavaScript code needed by the app so it be function correctly on the container. The contents of the `InlineScripts` array will be evaluated as JavaScript when all `Scripts` have finished loading. [Read more about JavaScript and namespacing](#).
+The `inlineScripts` property is an array of strings. The `inlineScripts` array includes any JavaScript code needed by the app so it be function correctly on the container. The contents of the `inlineScripts` array will be evaluated as JavaScript when all `scripts` have finished loading. [Read more about JavaScript and namespacing](#).
 
 Example:
 
 ```javascript
-"InlineScripts": [
-	"var foo = bar; function alphabet(){ var x = y; z(); } alphabet();"
+"inlineScripts": [
+	"var foo = bar; doSomething();"
 ]
 ```
 
-
-### Basic App
+### Sample App Manifest
 
 If we use the examples above, our app would look like this:
 
 ```javascript
 {
-	"InlineScripts" : ["var foo = bar; function alphabet(){ var x = y; z(); } alphabet();"],	 
-	"Scripts" : [
-		"http://www.domain.com/js/app.js",
+	"inlineScripts":["var foo = bar; doSomething();"], //discouraged, we'll explain later.
+	"scripts":[
+		"http://www.domain.com/js/app-logic.js",
 		"http://www.domain.com/js/app-helper.js"
 	],	 
-	"Styles" : [
+	"styles":[
 		"http://www.domain.com/css/base.css",
 		"http://www.domain.com/css/ie7.css"
 	],	 
-	"Apps" : [
-		{
-			"Html" : "%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",			
-			"InstanceId" : "b29ab39b-013a-45bc-b856-f058850f4b1e"
-		}]
+	"apps":[{
+			"data":{ 
+				foo: "bar",
+				value: 12345
+			},
+			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",		
+			"instanceId":"b29ab39b-013a-45bc-b856-f058850f4b1e",
+			"status":"good"
+	}]
 }
 ```
 
+## Developing Your F2 App 
+
+Now that we've detailed the [F2 app](#f2-apps) and defined the [App Manifest](#sample-app-manifest), let's take a closer look at how to build _your_ app. We'll explain how to get a F2 AppId, what output format your app needs to support, how the contents of `AppContent.html` work, and the two hooks for adding form and function to your app: `scripts` and `styles`.
+
+### F2 AppId
+
+To develop a F2 app, you need a unique identifier called an **AppId**. This AppId will be unique to _your app_ in the entire open financial framework ecosystem. To guarantee uniqueness, we have provided an AppId generation service.
+
+<a href="#" class="btn btn-large btn-primary">Get Your F2 AppId Now &raquo;</a>
+
+### App HTML
+
+Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather _passed to the container_ via the App's AppManifest. But that's not a problem because we've [provided examples](https://github.com/OpenF2/F2/tree/master/sdk/examples/apps) to show you the way. Here are the steps for getting your app HTML into your `AppContent.html` property:
+
+1. Develop the web page or module or widget or component or portlet that will be your app.
+2. Take all the contents of it&mdash;that is, the HTML&mdash;and [encode it](http://opinionatedgeek.com/DotNet/Tools/HTMLEncode/Encode.aspx).
+3. Put the encoded result in the `html` property of your `AppContent` object within your App Manifest file's `App` object.
+
+**Huh?** Check out this example:
+
+Step 1.
+
+```html
+<div class="sunrise">Hello world.</div>
+```
+
+Step 2. Encoded HTML.
+
+```html
+%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E
+```
+
+Step 3. App Manifest file. 
+
+```javascript
+{
+	...
+	"apps":[{
+		"html": "%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E"
+		...
+	}]
+}
+```
+
+### Scripts & Styles
+
+Once your app is on the container, chances are you'll want it to actually do something. As an app developer, it is entirely up to you to write your own stylesheets and javascript code to add form and function to your app. F2's standardized App Manifest provides hooks for your CSS and scripts to get onto the container&mdash;just use the `scripts` and `styles` arrays detailed above in the [App Manifest](#sample-app-manifest).
+
+<div class="alert alert-info"><i class="icon-warning-sign"></i> For details about CSS conflicts or javascript collisions once your app is on a container, read all about properly [namespacing your code in F2](#namespacing).</div>
+
+### App Manifest Response
+
+OK, so you know about F2 apps and you've got your own App Manifest file written. There's one final piece&mdash;the App Manifest response format. As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. **This means F2 App Manifest files must provide a JSONP callback function.** (If you don't know what JSONP is or how it works, we recommend [reading what Remy Sharp has to say](http://remysharp.com/2007/10/08/what-is-jsonp/) about it.)
+
+For security reasons, the App Manifest JSONP callback function must be a specific format. We have defined that using a combination of a stirng and your unique F2 AppId. The JSONP callback function name looks like this:
+
+`F2_jsonpCallback_<AppID>`
+
+When applied, the final App Manifest file looks like this example (where `123456789` is your AppId):
+
+```javascript
+F2_jsonpCallback_123456789({
+	"inlineScripts":["var foo = bar; doSomething();"], //discouraged, we'll explain later.
+	"scripts":[
+		"http://www.domain.com/js/app-logic.js",
+		"http://www.domain.com/js/app-helper.js"
+	],	 
+	"styles":[
+		"http://www.domain.com/css/base.css",
+		"http://www.domain.com/css/ie7.css"
+	],	 
+	"apps":[{
+			"data":{ 
+				foo: "bar",
+				value: 12345
+			},
+			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",		
+			"instanceId":"b29ab39b-013a-45bc-b856-f058850f4b1e",
+			"status":"good"
+	}]
+})
+```
+
+<div class="alert">**Note:** the JSONP callback function name will _not_ be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container.</div>
+
+## Namespacing
+
+
 * * * *
+
+
 
 * * * *
 
 * * * *
 
-## Stop reading here for now.
+## Stop reading here... ##
 
 Each App must have a digital signature or unique identifier in the format of a GUID. This allows App Providers to register their App with the App Store and in turn the App Store can provide reporting metrics on App usage, purchases, etc. Additionally, having a unique ID allows the Container to interact with specific modules on the desktop using Context or in more simple cases using JavaScript’s document.getElementById() method.
 
@@ -210,7 +359,7 @@ Container.loadApp({
 
 ## Context
 
-Each Container Provider shall be responsible for hosting the Container JavaScript API. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.
+Each Container Provider shall be responsible for hosting the Container JavaScript SDK. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.
 
 While Apps can have Context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals and likewise Apps can listen for events sent by the Container. 
 
@@ -304,18 +453,18 @@ The JSON response format does not include type information. A description of the
 
 ```javascript
 {
-	"InlineScripts" : [],	 
-	"Scripts" : [],	 
-	"Styles" : [],	 
-	"Apps" : [
+	"InlineScripts":[],	 
+	"Scripts":[],	 
+	"Styles":[],	 
+	"Apps":[
 		{
-			"Html" : "\u003cdiv\u003eHello World!\u003c/div\u003e",
-			"Data" : 
+			"Html":"\u003cdiv\u003eHello World!\u003c/div\u003e",
+			"Data":
 				{
-					"Symbol" : "AAPL"
+					"Symbol":"AAPL"
 				},				
-			"Id" : "Sample",				
-			"Status" : "SUCCESS"
+			"Id":"Sample",				
+			"Status":"SUCCESS"
 		}]
 }
 ```
@@ -324,18 +473,18 @@ The JSONP response format is similar, with the addition of a callback method nam
 
 ```javascript
 mySampleCallbackName({
-	"InlineScripts" : [],	 
-	"Scripts" : [],	 
-	"Styles" : [],	 
-	"Apps" : [
+	"InlineScripts":[],	 
+	"Scripts":[],	 
+	"Styles":[],	 
+	"Apps":[
 		{
-			"Html" : "\u003cdiv\u003eHello World!\u003c/div\u003e",
-			"Data" : 
+			"Html":"\u003cdiv\u003eHello World!\u003c/div\u003e",
+			"Data":
 				{
-					"Symbol" : "MSFT"
+					"Symbol":"MSFT"
 				},				
-			"Id" : "Sample",				
-			"Status" : "SUCCESS"
+			"Id":"Sample",				
+			"Status":"SUCCESS"
 		}]
 })
 ```

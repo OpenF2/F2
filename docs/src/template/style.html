@@ -1,142 +1,82 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
+<meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+<meta name="author" content="Markit">
 
-<!-- Le styles -->
-<link href="http://markitondemand.github.com/OpenF2/css/bootstrap.min.css" rel="stylesheet">
+<link href="//openf2.github.com/F2/css/bootstrap.min.css" rel="stylesheet">
+<link href="//openf2.github.com/F2/css/prettify.css" rel="stylesheet">
+
+
 <style type="text/css">
-  body {
-    padding-top: 60px;
-    padding-bottom: 40px;
-  }
-  
-  .level3, .level2 { padding-top:40px; }
-  .level3 h3 { margin-top:0; }
-
-  .sidebar-nav {
-    padding: 9px 0;
-  }
-</style>
-
-
-
-
-<style type="text/css" media="all">
-
-	pre.sourceCode { 
-		margin: 20px 40px;
-	    line-height: 16px;
-	    
-	    /* cant figure out why i need this */
-	    text-indent: -2px;
+	body {
+		padding-top: 60px;
+		padding-bottom: 40px;
 	}
 
-	.mac pre.sourceCode {
-		line-height: 18px;
-	}
-
-	pre.sourceCode *, code {
-		font-weight: normal !important;
-		font-family: consolas, lucida console, courier;
-		font-size: 13px;
-	}
-
-	.mac pre.sourceCode *, .mac code {
-		font-family: monaco, courier;
-		font-size: 12px;
-	}
-
-	pre.sourceCode code {
-		border: none;
-		background: none;
-	}
-
-	#toc > ul { width:240px; }
-	.row .span9 { margin-left:300px;}
-
-	#toc > ul { margin-bottom:30px; }
-
-	#toc ul ul { font-size: 90%; }
-
-
-	/* table of contents 
-
-	#toc {
-		position: fixed;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		width: 225px;
-		border-right: 1px solid #ccc;
+	/*sections*/
+	h1.title { 
 		margin-top: 0;
-		background: #f8f8f8;
-		
-		box-shadow: 0px 0px 8px #ccc;
-		padding-bottom: 30px;
 	}
 
-	#toc div {
-		overflow-y: auto;
-		overflow-x: hidden;
-		height: 95%;
-		padding: 10px 10px 20px 15px;
+	.level2 { 
+		padding-top:30px;
 	}
 
-	#toc h1 a {
-		text-decoration: none;
-		color: #333;
+	.level2 h2 {
+		margin-top:20px;
 	}
 
-	#toc h2 {
-		border-bottom: 1px solid #ccc;
-		font-size: 14px;
-		margin: 20px 0 0 0;
+	p.lead { 
+		margin-bottom: 0;
 	}
 
-	#toc ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
+	section > hr {
+		margin:40px 0 0;
 	}
 
-	#toc ul li {
-		margin-left: 10px;
-		margin-top: 5px;
+	/*left rail/table of contents*/
+	#toc > ul { 
+		width:240px; 
 	}
 
-	#toc ul li a {
-		color: #333;
-		text-decoration: none;
+	#toc > ul { 
+		margin-bottom:30px; 
 	}
 
-	#toc ul li.selected > a {
-		font-weight: bold;
+	#toc ul ul { 
+		font-size: 85%; 
+	}
+	
+	/*main content*/
+	.row .span9 { 
+		margin-left:300px;
 	}
 
-	#toc ul.sub-menu li {
-		line-height: 14px;
+	.container .row {
+		margin-bottom: 20px;
 	}
 
-	#toc ul.sub-menu li a {
-		font-size: 12px;
+	pre {
+		font-size:12px;
+	}
+	pre.prettyprint {
+		padding: 8px;
+		background-color: #F7F7F9;
+		border: 1px solid #E1E1E8;
 	}
 
-	#docs {
-		margin-left: 250px;
-		max-width: 700px;
+	/*footer*/
+	footer .pull-right {
+		text-align: right;
 	}
-
-	td { font-size: 90%; vertical-align:top; }
-	tr:first-child { width:100px; }
 </style>
 
 <style type="text/css" media="print">
 	#toc {
 		display: none;
 	}
-	#docs {
+
+	.row .span9 {
 		margin-left: 0;
 	}
-	*/
 </style>
