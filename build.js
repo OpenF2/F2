@@ -2,53 +2,56 @@
  * Build script for F2
  *
  * This script requires that the following node packages be installed:
- *   - uglify-js
- *   - yuidocjs
+ *   - uglify-js (npm install uglify-js)
+ *   - yuidocjs (npm install yuidocjs)
+ *   - markitdown (npm install -g markitdown)
+ *     also requires pandoc: http://johnmacfarlane.net/pandoc/installing.html
  *
  * Usage: node build.js
  */
-var ENCODING = "utf-8";
+var ENCODING = 'utf-8';
 var EOL = '\n';
 
-var fs = require("fs");
-var jsp = require("uglify-js").parser;
-var pro = require("uglify-js").uglify;
-var Y = require("yuidocjs");
+var exec = require('child_process').exec;
+var fs = require('fs');
+var jsp = require('uglify-js').parser;
+var pro = require('uglify-js').uglify;
+var Y = require('yuidocjs');
 
 // files to be packaged
 var packageFiles = [
-	"src/third-party/json3.js",
-	"src/third-party/eventemitter2.js",
-	"src/third-party/easyXDM/easyXDM.min.js",
-	"f2.no-third-party.js" // this file is created by the build process
+	'sdk/src/third-party/json3.js',
+	'sdk/src/third-party/eventemitter2.js',
+	'sdk/src/third-party/easyXDM/easyXDM.min.js',
+	'sdk/f2.no-third-party.js' // this file is created by the build process
 ];
 
 // only the files that represent f2
 var coreFiles = [
-	"src/preamble.js",
-	"src/classes.js",
-	"src/constants.js",
-	"src/container.js"
+	'sdk/src/preamble.js',
+	'sdk/src/classes.js',
+	'sdk/src/constants.js',
+	'sdk/src/container.js'
 ];
 
 
-console.log("Building f2.no-third-party.js...");
+console.log('Building f2.no-third-party.js...');
 var contents = coreFiles.map(function(f) {
 	return fs.readFileSync(f, ENCODING);
 });
-fs.writeFileSync("f2.no-third-party.js", contents.join(EOL), ENCODING);
-console.log("COMPLETE");
+fs.writeFileSync('./sdk/f2.no-third-party.js', contents.join(EOL), ENCODING);
+console.log('COMPLETE');
 
 
-console.log("Building Debug Package...");
+console.log('Building Debug Package...');
 var contents = packageFiles.map(function(f) {
 	return fs.readFileSync(f, ENCODING);
 });
-fs.writeFileSync("f2.debug.js", contents.join(EOL), ENCODING);
-console.log("COMPLETE");
+fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
+console.log('COMPLETE');
 
 
-console.log("Building Minified Package...");
+console.log('Building Minified Package...');
 var contents = packageFiles.map(function(f) {
 
 	var code = fs.readFileSync(f, ENCODING);
@@ -72,19 +75,34 @@ var contents = packageFiles.map(function(f) {
 
 	return code;
 });
-fs.writeFileSync("f2.min.js", contents.join(EOL), ENCODING);
-console.log("COMPLETE");
+fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
+console.log('COMPLETE');
 
 
-console.log("Generating YUIDoc...");
+console.log('Generating YUIDoc...');
 var docOptions = {
 	quiet:true,
 	norecurse:true,
-	paths:["./src"],
-	outdir:"./docs",
-	themedir:"./doc-theme"
+	paths:['./sdk/src'],
+	outdir:'./sdk/docs',
+	themedir:'./sdk/doc-theme'
 };
 var json = (new Y.YUIDoc(docOptions)).run();
 docOptions = Y.Project.mix(json, docOptions);
 (new Y.DocBuilder(docOptions, json)).compile();
-console.log("COMPLETE");
+console.log('COMPLETE');
+
+
+console.log('Generating Docs...');
+exec(
+	'markitdown ./ --output-path ../html --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
+	{ cwd:'./docs/src' },
+	function(error, stdout, stderr) {
+		if (error) {
+			console.log(stderr);
+		} else {
+			//console.log(stdout);
+			console.log('COMPLETE');
+		}
+	}
+);
