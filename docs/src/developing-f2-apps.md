@@ -1,4 +1,4 @@
-% Developing Apps with F2
+% Developing F2 Apps
 
 <p class="lead">To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start instructions](https://github.com/OpenF2/F2#quick-start).</p>
 
@@ -21,6 +21,8 @@ For the purposes of this documentation and to get started, we'll focus on develo
 <h4>About Apps</h4>
 <p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p>
 </div>
+
+* * * *
 
 ### Understanding F2 Apps
 
@@ -215,6 +217,8 @@ If we use the examples above, our app would look like this:
 }
 ```
 
+* * * *
+
 ## Developing Your F2 App 
 
 Now that we've detailed the [F2 app](#f2-apps) and defined the [App Manifest](#sample-app-manifest), let's take a closer look at how to build _your_ app. We'll explain how to get a F2 AppId, what output format your app needs to support, how the contents of `AppContent.html` work, and the two hooks for adding form and function to your app: `scripts` and `styles`.
@@ -230,7 +234,7 @@ To develop a F2 app, you need a unique identifier called an **AppId**. This AppI
 Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather _passed to the container_ via the App's AppManifest. But that's not a problem because we've [provided examples](https://github.com/OpenF2/F2/tree/master/sdk/examples/apps) to show you the way. Here are the steps for getting your app HTML into your `AppContent.html` property:
 
 1. Develop the web page or module or widget or component or portlet that will be your app.
-2. Take all the contents of it&mdash;that is, the HTML&mdash;and [encode it](http://opinionatedgeek.com/DotNet/Tools/HTMLEncode/Encode.aspx).
+2. Take all the contents of it&mdash;that is, the HTML&mdash;and encode it.
 3. Put the encoded result in the `html` property of your `AppContent` object within your App Manifest file's `App` object.
 
 **Huh?** Check out this example:
@@ -258,6 +262,8 @@ Step 3. App Manifest file.
 	}]
 }
 ```
+
+<p><span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding part.</p>
 
 ### Scripts & Styles
 
@@ -300,8 +306,23 @@ F2_jsonpCallback_123456789({
 
 <div class="alert">**Note:** the JSONP callback function name will _not_ be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container.</div>
 
+<p><span class="label label-important">Required</span> Don't forget you need an AppId before you can run your app on a container. [Get your AppId now &raquo;](#)</p>
+
+* * * *
+
 ## Namespacing
 
+Humm...
+
+* * * *
+
+## Your App on a Container 
+
+Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and having a working app, you're pretty much done.
+
+If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-the-container.html).
+
+<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about to contact a container provider here.</p>
 
 * * * *
 
@@ -313,49 +334,25 @@ F2_jsonpCallback_123456789({
 
 ## Stop reading here... ##
 
-Each App must have a digital signature or unique identifier in the format of a GUID. This allows App Providers to register their App with the App Store and in turn the App Store can provide reporting metrics on App usage, purchases, etc. Additionally, having a unique ID allows the Container to interact with specific modules on the desktop using Context or in more simple cases using JavaScript’s document.getElementById() method.
+Everything above is good. Everything below is not good...yet.
 
-Beyond a unique ID, Apps have other characteristics that define them within the Framework. The following are required attributes App developers must include in their Apps. The following data points should be represented within the display or data App:
+* * * *
 
-```javascript
-AppID – long (guid)
-Name - string
-Title - string
-Context – object 
-AcceptsContext – bool
-DeveloperEmail - string
-DeveloperURL – string
-DeveloperCompanyName - string
-```
+* * * *
+
+* * * *
+
+* * * *
 
 Since Apps are comprised of mainly HTML, JavaScript and CSS, App development can be as complex as the App developer wishes with one significant limitation: an App cannot be allowed to negatively impact other Apps on the desktop. To prevent accidental impact, Apps are developed inside of JavaScript closure which means an App will not have any public methods and therefore is a closed cell. 
 
-## Designing the App to Look Integrated with the Container
+## Designing Your App
 
 Design is an important first step in creating a new App. Using the Open Financial Framework’s upcoming design guidelines and App API, App Designers and Developers can take advantage of these available resources to develop Apps on their own schedules. The design guidelines will provide a common theme and offer a baseline for consistency between all Apps on the Container.
 
 There is customization available and it will be imperative for App developers to follow Container-provided guidelines for consistency on a case-by-case basis. The ‘common theme’ provided by this Framework is not a template per se but rather a mechanism to facilitate faster development between numerous App developers.
 
-## Loading an App on the Container 
-
-Each App must “load” itself by calling a JavaScript method available in the SDK which will be hosted by the Container Provider. The arguments sent to “loadApp” are the App characteristics and any additional name/value data App Developers wish to include as part of their App’s Context.
-
-```javascript
-Container.loadApp({
-	AppId: “1234-5678-9101-1121-3141-5161”,
-	Name: “Acme Financials”,
-	Title: “Acme Financials Module”,
-	Context: {
-		Symbol: “MSFT”,
-		Name: “value”,
-		List: [1,2,3,4]
-	},
-	AcceptsContext: true,
-	DeveloperEmail: “dev@domain.com”,
-	DeveloperURL: “http://domain.com”,
-	DeveloperCompanyName: “Acme, Inc”
-});
-```
+* * * *
 
 ## Context
 
@@ -425,69 +422,7 @@ $apps.find(“App2”).bind(“ContextToApp”, function(ev,data){
 });
 ```
 
-## App Formats
-
-Below is a sample request for an App named "Sample" in JSON format.
-
-```metafont
-http://www.domain.com/App/Factory/json?params=[{Id:"App1",Width:200,Name:"Value"}]
-```
-
-The "/json" format specifier in the above request could be safely omitted, as JSON is the default format. The widgets can be returned in a variety of formats as shown in the table below. Inclusion of a widget into an existing site varies based on the format requested.
-
-The following output formats are required of any App:
-
--------------------------------------------------------------
-Name 	Description
-----	-----------
-iframe  An inline JavaScript tag is inserted into the site. When the script is executed, an Iframe is written out to the page. The Iframe output format can be used for complex widgets or widgets that need to be self-contained.
-
-json 	A JSON object containing the javascript, css, and widgets is inserted into the site via javascript already on the site.
-
-jsonp 	Same as JSON but output is wrapped in a Callback function. Used for cross-domain communication and callbacks.
-
-script 	An inline JavaScript tag tag is inserted into the site. Wen the script is executed, the javascript, css, and html for the widgets is written out to the page.
--------------------------------------------------------------
-
-The JSON response format does not include type information. A description of the JSON format can be found at http://json.org. It will not be described in this Spec. A sample JSON response is shown below:
-
-```javascript
-{
-	"InlineScripts":[],	 
-	"Scripts":[],	 
-	"Styles":[],	 
-	"Apps":[
-		{
-			"Html":"\u003cdiv\u003eHello World!\u003c/div\u003e",
-			"Data":
-				{
-					"Symbol":"AAPL"
-				},				
-			"Id":"Sample",				
-			"Status":"SUCCESS"
-		}]
-}
-```
-
-The JSONP response format is similar, with the addition of a callback method name.
-
-```javascript
-mySampleCallbackName({
-	"InlineScripts":[],	 
-	"Scripts":[],	 
-	"Styles":[],	 
-	"Apps":[
-		{
-			"Html":"\u003cdiv\u003eHello World!\u003c/div\u003e",
-			"Data":
-				{
-					"Symbol":"MSFT"
-				},				
-			"Id":"Sample",				
-			"Status":"SUCCESS"
-		}]
-})
-```
+* * * *
 
 ## Hosting an App
 
@@ -500,15 +435,21 @@ The App Developer or App Provider needs to host their App on a publicly accessib
 
 An App can be accessed by an HTTP GET or HTTP POST request. Each request consists of a URI, and a URL encoded list of parameters in JSON. The URI consists of a hostname and base path, a method name, and an optional format specifier. The parameters are appended to the URI on the querystring.
 
+* * * *
+
 ## App Content
 
 App Providers can determine which content they wish to make available within their App. It is recommended that content is focused on financial information; however, there is no limitation as such. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.
 
 If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.
 
+* * * *
+
 ## Single Sign-On
 
 Providers participating in the Markit App Framework must modify their web sites' authentication mechanism to accept a customer’s authentication from a Container Provider without requiring the user to retype their Username and Password. With an authentication methodology in place between the Container Provider and App Provider, when a customer authenticates to a Provider’s App, the authentication credentials are passed to the Container Provider.  The authentication methodology is also suitable for the reverse, for authenticating a customer requesting content from an App Provider after selecting content from the App within the Container. Authentication information will be passed between App Providers and Container Providers in the form of encrypted URLs.
+
+* * * *
 
 ## Entitlements
 
