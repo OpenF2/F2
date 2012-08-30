@@ -1403,22 +1403,22 @@ if (!window.F2) {
 		 *         var App_Class = function(app, appContent) {
 		 *             this._app = app; // the F2.App object
 		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
-	   *         }
-	   *
-	   *         App_Class.prototype.init = function() {
-	   *             // perform init actions
-	   *         }
-	   *
-	   *         return App_Class;
-	   *     })();
+		 *         }
+		 *
+		 *         App_Class.prototype.init = function() {
+		 *             // perform init actions
+		 *         }
+		 *
+		 *         return App_Class;
+		 *     })();
 		 * @example
 		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(app, appContent) {
 		 *        return {
-	   *            init:function() {
+		 *            init:function() {
 		 *                // perform init actions
-	   *            }
+		 *            }
 		 *        };
-	   *     };
+		 *     };
 		 * @for F2
 		 */
 		Apps:{},
@@ -2647,11 +2647,15 @@ F2.extend("", (function(){
 				$.each(appStack, function(i, req) {
 					// define the callback function based on the first app's App ID
 					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
+
+					// push the request onto the callback stack
 					callbackStack[jsonpCallback] = callbackStack[jsonpCallback] || [];
 					callbackStack[jsonpCallback].push(req);
 				});
 
-				// loop through each item in the callback queue and 
+				// loop through each item in the callback stack and make the request
+				// for the AppManifest. When the request is complete, pop the next 
+				// request off the stack and make the request.
 				$.each(callbackStack, function(i, requests) {
 
 					var manifestRequest = function(jsonpCallback, req) {

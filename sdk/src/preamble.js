@@ -43,22 +43,22 @@ if (!window.F2) {
 		 *         var App_Class = function(app, appContent) {
 		 *             this._app = app; // the F2.App object
 		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
-	   *         }
-	   *
-	   *         App_Class.prototype.init = function() {
-	   *             // perform init actions
-	   *         }
-	   *
-	   *         return App_Class;
-	   *     })();
+		 *         }
+		 *
+		 *         App_Class.prototype.init = function() {
+		 *             // perform init actions
+		 *         }
+		 *
+		 *         return App_Class;
+		 *     })();
 		 * @example
 		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(app, appContent) {
 		 *        return {
-	   *            init:function() {
+		 *            init:function() {
 		 *                // perform init actions
-	   *            }
+		 *            }
 		 *        };
-	   *     };
+		 *     };
 		 * @for F2
 		 */
 		Apps:{},
