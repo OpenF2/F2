@@ -57,7 +57,7 @@ The simplest implementation of a Container looks like this:
 
 In developing an advanced Container, the HTML document’s body element would contain additional markup and allow for specific positioning or placement of Apps. Such an example might look like this:
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 	<head>
@@ -90,9 +90,9 @@ In developing an advanced Container, the HTML document’s body element would co
 
 You may notice the App embedded in the above example has querystring “params”. The decoded params value is:
 
-```metafont
+`
 ?params=[{"Id":"Hello World","DestinationElement":"destinationApp1"}]
-```
+`
 
 This params object only demonstrates an example for a Container. For a full explanation on Params and all their possible values, refer to “How to Develop an App” in this specification.
 
@@ -101,4 +101,26 @@ This params object only demonstrates an example for a Container. For a full expl
 A Container developer only needs to be concerned with developing and hosting a Container. Through the Container and App APIs, Containers will consume Apps automatically. The consumption of an App onto the Container is managed either by individual users (in the configurable Container) or by a Container administrator (in the non-configurable Container). 
 
 Depending on the Container design, users are typically shown a menu of Apps from which to choose as they are customizing their workspace(s). When a user chooses to add an App, the App will “load” itself (per the section titled “Loading an App on the Container”) on the Container. 
+
+## Other Possible Container Features
+
+### Search
+
+Each Container Provider shall be responsible for implementing search functionality. Users should be able to search content specific to either a Content provider itself or the Apps as part of the Container. Taking the example of Context, Containers need to be able to allow users to search for financial content – usually starting with the symbol of an instrument.
+
+Financial users will usually be dealing with lists of issues or individual entities. In order to share Context between apps, there will need to be a protocol for specifying the individual entities, issues, or products, as an individual item, or as a list of similar items. In order to do this, both data providers and app providers will need to use a standard and shared identification system. 
+
+Markit’s reference data technology, or “XRef" (for symbol cross-reference), can be leveraged for this use. Web services can be made available to both App and Container developers to ensure all parties can (technically) converse about the same entities.
+
+### Directory
+
+A directory of financial users would be necessary in order to organize and share app store entitlements. Access to this directory could also be an App. 
+
+Markit Directory is a centralized, cloud-based service that creates and manages a “golden record” unique ID for an individual’s profile details. The processing of profiles, administration interfaces to managing exceptions, reference data, auditing, security, privacy and extensible APIs are all components of the Directory. The Directory enables portability of identity information across security domains and will be the single source for all industry participants for profile information.
+
+Both App and Container developers could leverage Markit Directory to share user information (as part of Context) between Apps and Containers.
+
+### Messaging
+
+Federated Messaging is an app that only Markit can provide by virtue of its exclusive license with NextPlane. Markit’s federated messaging App will enable any user, regardless of their firm’s instant messaging system, to monitor presence and send message to anyone else, regardless of messaging system.
 

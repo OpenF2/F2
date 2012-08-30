@@ -136,8 +136,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <ul class="nav nav-list nav-pills nav-stacked" data-spy="affix">
           <li><a href="index.html">Overview</a></li>
           <li><a href="components-of-the-framework.html">Components of F2</a></li>
+          <li><a href="creating-F2.html">Creating F2</a></li>
 		      <li><a href="f2-requirements.html">Requirements</a></li>
-		      <li><a href="creating-F2.html">Creating F2</a></li>
           <li class="divider"></li>
           <li><a href="developing-apps-with-f2.html">Developing Apps</a></li>
 		      <li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>
@@ -145,7 +145,6 @@ code > span.er { color: #ff0000; font-weight: bold; }
           <li class="divider"></li>
           <li><a href="../../sdk/docs/">F2.js SDK Reference</a></li>
           <li class="divider"></li>
-          <li><a href="container-features.html">Container Features</a></li>
 		      <li><a href="the-app-store.html">The App Store</a></li>
           <li class="divider"></li>
         </ul>
@@ -196,42 +195,61 @@ code > span.er { color: #ff0000; font-weight: bold; }
     <span class="kw">&lt;/body&gt;</span>
 <span class="kw">&lt;/html&gt;</span></code></pre>
 <p>In developing an advanced Container, the HTML document’s body element would contain additional markup and allow for specific positioning or placement of Apps. Such an example might look like this:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;Markit Container&lt;/title&gt;
-        &lt;meta name=<span class="st">&quot;X-UA-Compatible&quot;</span> content=<span class="st">&quot;IE=edge,chrome=1&quot;</span> /&gt;
-        &lt;meta name=<span class="st">&quot;viewport&quot;</span> content=<span class="st">&quot;device-width&quot;</span> /&gt;
-        &lt;script src=<span class="st">&quot;http://dev.domain.com/ResourceManager/modernizr.js&quot;</span>&gt;&lt;/script&gt;
-        &lt;!--[<span class="kw">if</span> IE]&gt;
-        &lt;script src=<span class="st">&quot;http://dev.domain.com/ResourceManager/html5shiv.js&quot;</span>&gt;&lt;/script&gt;
-        &lt;![endif]--&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;header&gt;
-            &lt;nav&gt;
-                &lt;a href=”<span class="ot">/</span><span class="fl">home”&gt;Home&lt;</span><span class="ot">/</span>a&gt;
-            &lt;/nav&gt;
-        &lt;/header&gt;
-        &lt;section&gt;
-            &lt;h1&gt;Markets Overview&lt;/h1&gt;
-            &lt;div id=”destinationApp1”&gt;&lt;/div&gt;
-        &lt;/section&gt;
-        &lt;footer&gt;
-            &amp;copy; <span class="dv">2012</span> <span class="kw">Markit</span>.
-        &lt;/footer&gt;
-        &lt;script src=<span class="st">&quot;http://dev.domain.com/Container.js?1.0&quot;</span>&gt;&lt;/script&gt;
-        &lt;script src=<span class="ch">&#39;http://app.provider.com/App/Factory/script?params=%5B%7B%22Id%22%3A%22Hello%20World%22%2C%22DestinationElement%22%3A%22destinationApp1%22%7D%5D&#39;</span>&gt;&lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+    <span class="kw">&lt;head&gt;</span>
+        <span class="kw">&lt;title&gt;</span>Markit Container<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/ResourceManager/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--[if IE]&gt;</span>
+<span class="co">        &lt;script src=&quot;http://dev.domain.com/ResourceManager/html5shiv.js&quot;&gt;&lt;/script&gt;</span>
+<span class="co">        &lt;![endif]--&gt;</span>
+    <span class="kw">&lt;/head&gt;</span>
+    <span class="kw">&lt;body&gt;</span>
+        <span class="kw">&lt;header&gt;</span>
+            <span class="kw">&lt;nav&gt;</span>
+                <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">”/home”&gt;Home</span><span class="er">&lt;</span><span class="st">/a</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;/nav&gt;</span>
+        <span class="kw">&lt;/header&gt;</span>
+        <span class="kw">&lt;section&gt;</span>
+            <span class="kw">&lt;h1&gt;</span>Markets Overview<span class="kw">&lt;/h1&gt;</span>
+            <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">”destinationApp1”&gt;</span><span class="er">&lt;</span><span class="st">/div</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;/section&gt;</span>
+        <span class="kw">&lt;footer&gt;</span>
+            <span class="dv">&amp;copy;</span> 2012 Markit.
+        <span class="kw">&lt;/footer&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/Container.js?1.0&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&#39;http://app.provider.com/App/Factory/script?params=%5B%7B%22Id%22%3A%22Hello%20World%22%2C%22DestinationElement%22%3A%22destinationApp1%22%7D%5D&#39;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
 <p>You may notice the App embedded in the above example has querystring “params”. The decoded params value is:</p>
-<pre class="sourceCode metafont"><code class="sourceCode metafont">?params<span class="kw">=</span>[{<span class="st">&quot;Id&quot;</span>:<span class="st">&quot;Hello World&quot;</span>,<span class="st">&quot;DestinationElement&quot;</span>:<span class="st">&quot;destinationApp1&quot;</span>}]</code></pre>
+<p><code>?params=[{&quot;Id&quot;:&quot;Hello World&quot;,&quot;DestinationElement&quot;:&quot;destinationApp1&quot;}]</code></p>
 <p>This params object only demonstrates an example for a Container. For a full explanation on Params and all their possible values, refer to “How to Develop an App” in this specification.</p>
 </section>
 <section class="level2" id="how-to-consume-an-app">
 <h2>How to Consume an App</h2>
 <p>A Container developer only needs to be concerned with developing and hosting a Container. Through the Container and App APIs, Containers will consume Apps automatically. The consumption of an App onto the Container is managed either by individual users (in the configurable Container) or by a Container administrator (in the non-configurable Container).</p>
 <p>Depending on the Container design, users are typically shown a menu of Apps from which to choose as they are customizing their workspace(s). When a user chooses to add an App, the App will “load” itself (per the section titled “Loading an App on the Container”) on the Container.</p>
+</section>
+<section class="level2" id="other-possible-container-features">
+<h2>Other Possible Container Features</h2>
+<section class="level3" id="search">
+<h3>Search</h3>
+<p>Each Container Provider shall be responsible for implementing search functionality. Users should be able to search content specific to either a Content provider itself or the Apps as part of the Container. Taking the example of Context, Containers need to be able to allow users to search for financial content – usually starting with the symbol of an instrument.</p>
+<p>Financial users will usually be dealing with lists of issues or individual entities. In order to share Context between apps, there will need to be a protocol for specifying the individual entities, issues, or products, as an individual item, or as a list of similar items. In order to do this, both data providers and app providers will need to use a standard and shared identification system.</p>
+<p>Markit’s reference data technology, or “XRef&quot; (for symbol cross-reference), can be leveraged for this use. Web services can be made available to both App and Container developers to ensure all parties can (technically) converse about the same entities.</p>
+</section>
+<section class="level3" id="directory">
+<h3>Directory</h3>
+<p>A directory of financial users would be necessary in order to organize and share app store entitlements. Access to this directory could also be an App.</p>
+<p>Markit Directory is a centralized, cloud-based service that creates and manages a “golden record” unique ID for an individual’s profile details. The processing of profiles, administration interfaces to managing exceptions, reference data, auditing, security, privacy and extensible APIs are all components of the Directory. The Directory enables portability of identity information across security domains and will be the single source for all industry participants for profile information.</p>
+<p>Both App and Container developers could leverage Markit Directory to share user information (as part of Context) between Apps and Containers.</p>
+</section>
+<section class="level3" id="messaging">
+<h3>Messaging</h3>
+<p>Federated Messaging is an app that only Markit can provide by virtue of its exclusive license with NextPlane. Markit’s federated messaging App will enable any user, regardless of their firm’s instant messaging system, to monitor presence and send message to anyone else, regardless of messaging system.</p>
+</section>
 </section>
 			</div><!--/#docs-->
 		</div><!--/span9-->

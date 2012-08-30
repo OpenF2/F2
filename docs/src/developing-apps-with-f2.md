@@ -9,13 +9,13 @@ Defined very simply, a F2-capable app is a `javascript` file which defines your 
 Technically speaking, a F2 app is one of two things:
 
 <dl class="dl-horizontal">
-	<dt>Presentation App</dt>
-	<dd>A presentation app displays information to users in visible fashion (using HTML, CSS, and JavaScript).</dd>
+	<dt>Display App</dt>
+	<dd>A display app displays information to users in visible fashion (using HTML, CSS, and JavaScript).</dd>
 	<dt>Data App</dt>
 	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
 </dl>
 
-For the purposes of this documentation and to get started, we'll focus on developing **presentation apps**. If you want to build a data app, [browse to data apps](#).
+For the purposes of this documentation and to get started, we'll focus on developing **display apps**. If you want to build a data app, [browse to data apps](#).
 
 <div class="well well-small">
 <h4>About Apps</h4>
@@ -38,7 +38,7 @@ To help you get started, you will find a basic container in the [project repo on
 
 To understand F2 and the role of apps, you need to understand the role of the **container**.
 
-![](../src/img/wwp_devices.png "Containers and Apps on desktop and mobile")
+![](./img/wwp_devices.png "Containers and Apps on desktop and mobile")
 
 The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is "aware" of its contents (the apps) and plays the role of a traffic cop managing context passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2 JavaScript SDK.
 
@@ -315,7 +315,7 @@ F2_jsonpCallback_123456789({
 
 Each App must have a digital signature or unique identifier in the format of a GUID. This allows App Providers to register their App with the App Store and in turn the App Store can provide reporting metrics on App usage, purchases, etc. Additionally, having a unique ID allows the Container to interact with specific modules on the desktop using Context or in more simple cases using JavaScript’s document.getElementById() method.
 
-Beyond a unique ID, Apps have other characteristics that define them within the Framework. The following are required attributes App developers must include in their Apps. The following data points should be represented within the presentation or data App:
+Beyond a unique ID, Apps have other characteristics that define them within the Framework. The following are required attributes App developers must include in their Apps. The following data points should be represented within the display or data App:
 
 ```javascript
 AppID – long (guid)
