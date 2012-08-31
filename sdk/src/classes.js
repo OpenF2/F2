@@ -16,12 +16,11 @@ F2.extend("", {
 		 */
 		appId:"",
 		/**
-		 * A JSON string of data that will be passed to the
-		 * server when an App request is made.
-		 * @property data
-		 * @type string
+		 * An object that represents the context of an App
+		 * @property context
+		 * @type object
 		 */
-		data:"",
+		context:"",
 		/**
 		 * The description of the App
 		 * @property description

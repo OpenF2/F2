@@ -1,8 +1,8 @@
 {
     "project": {},
     "files": {
-        "src\\classes.js": {
-            "name": "src\\classes.js",
+        "sdk\\src\\classes.js": {
+            "name": "sdk\\src\\classes.js",
             "modules": {},
             "classes": {
                 "F2.App": 1,
@@ -13,8 +13,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\constants.js": {
-            "name": "src\\constants.js",
+        "sdk\\src\\constants.js": {
+            "name": "sdk\\src\\constants.js",
             "modules": {},
             "classes": {
                 "F2.Constants": 1,
@@ -26,8 +26,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\container.js": {
-            "name": "src\\container.js",
+        "sdk\\src\\container.js": {
+            "name": "sdk\\src\\container.js",
             "modules": {},
             "classes": {
                 "F2": 1,
@@ -38,8 +38,8 @@
             },
             "namespaces": {}
         },
-        "src\\preamble.js": {
-            "name": "src\\preamble.js",
+        "sdk\\src\\preamble.js": {
+            "name": "sdk\\src\\preamble.js",
             "modules": {
                 "f2": 1
             },
@@ -49,8 +49,8 @@
             },
             "namespaces": {}
         },
-        "src\\ui-dialogs.js": {
-            "name": "src\\ui-dialogs.js",
+        "sdk\\src\\ui-dialogs.js": {
+            "name": "sdk\\src\\ui-dialogs.js",
             "modules": {},
             "classes": {
                 "F2.UI.Dialogs": 1
@@ -58,8 +58,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\ui.js": {
-            "name": "src\\ui.js",
+        "sdk\\src\\ui.js": {
+            "name": "sdk\\src\\ui.js",
             "modules": {},
             "classes": {
                 "F2.UI": 1
@@ -92,7 +92,7 @@
             },
             "namespaces": {},
             "tag": "main",
-            "file": "src\\ui.js",
+            "file": "sdk\\src\\ui.js",
             "line": 1,
             "description": "Open F2",
             "itemtype": "main"
@@ -108,7 +108,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\classes.js",
+            "file": "sdk\\src\\classes.js",
             "line": 6,
             "description": "The App object represents an App's meta data"
         },
@@ -121,8 +121,8 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\classes.js",
-            "line": 161,
+            "file": "sdk\\src\\classes.js",
+            "line": 160,
             "description": "The assets needed to render an App on the page"
         },
         "F2.AppManifest.AppContent": {
@@ -134,8 +134,8 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\classes.js",
-            "line": 193,
+            "file": "sdk\\src\\classes.js",
+            "line": 192,
             "description": "The AppContent object"
         },
         "F2.ContainerConfiguration": {
@@ -147,8 +147,8 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\classes.js",
-            "line": 218,
+            "file": "sdk\\src\\classes.js",
+            "line": 217,
             "description": "An object containing configuration information for the Container"
         },
         "F2.Constants": {
@@ -160,7 +160,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 1,
             "description": "Constants used throughout the Open Financial Framework",
             "static": 1
@@ -174,7 +174,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 7,
             "description": "CSS class constants"
         },
@@ -187,7 +187,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 76,
             "description": "Events constants"
         },
@@ -200,7 +200,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 152,
             "description": "Constants for use with cross-domain sockets",
             "access": "protected",
@@ -215,7 +215,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 180,
             "description": "The available view types to Apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP_VIEW class to the\ncontaining DOM Element. A DATA_ATTRIBUTE attribute should be added to the\nElement as well which defines what view type is represented.\nThe `hide` class can be applied to views that should be hidden by default."
         },
@@ -229,7 +229,7 @@
             "extension_for": [],
             "module": "f2",
             "namespace": "",
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 1,
             "description": "Core Container functionality"
         },
@@ -243,7 +243,7 @@
             "extension_for": [],
             "module": "f2",
             "namespace": "",
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 429,
             "description": "Description of Events goes here",
             "itemtype": "method"
@@ -258,7 +258,7 @@
             "extension_for": [],
             "module": "f2",
             "namespace": "",
-            "file": "src\\ui-dialogs.js",
+            "file": "sdk\\src\\ui-dialogs.js",
             "line": 1,
             "description": "Helper methods for creating and using Dialogs"
         },
@@ -272,14 +272,14 @@
             "extension_for": [],
             "module": "f2",
             "namespace": "",
-            "file": "src\\ui.js",
+            "file": "sdk\\src\\ui.js",
             "line": 1,
             "description": "UI helper methods"
         }
     },
     "classitems": [
         {
-            "file": "src\\classes.js",
+            "file": "sdk\\src\\classes.js",
             "line": 1,
             "description": "Class stubs for documentation purposes",
             "mainName": "F2",
@@ -289,7 +289,7 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
+            "file": "sdk\\src\\classes.js",
             "line": 11,
             "description": "The unique ID of the App",
             "itemtype": "property",
@@ -299,17 +299,17 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
+            "file": "sdk\\src\\classes.js",
             "line": 18,
-            "description": "A JSON string of data that will be passed to the\nserver when an App request is made.",
+            "description": "An object that represents the context of an App",
             "itemtype": "property",
-            "name": "data",
-            "type": "string",
+            "name": "context",
+            "type": "object",
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 25,
+            "file": "sdk\\src\\classes.js",
+            "line": 24,
             "description": "The description of the App",
             "itemtype": "property",
             "name": "description",
@@ -318,8 +318,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 32,
+            "file": "sdk\\src\\classes.js",
+            "line": 31,
             "description": "The company of the developer",
             "itemtype": "property",
             "name": "developerCompany",
@@ -328,8 +328,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 39,
+            "file": "sdk\\src\\classes.js",
+            "line": 38,
             "description": "The name of the developer",
             "itemtype": "property",
             "name": "developerName",
@@ -338,8 +338,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 46,
+            "file": "sdk\\src\\classes.js",
+            "line": 45,
             "description": "The url of the developer",
             "itemtype": "property",
             "name": "developerUrl",
@@ -348,8 +348,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 53,
+            "file": "sdk\\src\\classes.js",
+            "line": 52,
             "description": "True if the App should be requested in a single request with other Apps.\nThe App must have isSecure = false.",
             "itemtype": "property",
             "name": "enableBatchRequests",
@@ -358,8 +358,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 61,
+            "file": "sdk\\src\\classes.js",
+            "line": 60,
             "description": "The height of the App. The initial height will be pulled from\nthe {{#crossLink \"F2.App\"}}{{/crossLink}} object, but later modified by\nfiring an\n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_HEIGHT_CHANGE\nevent.",
             "itemtype": "property",
             "name": "height",
@@ -367,8 +367,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 71,
+            "file": "sdk\\src\\classes.js",
+            "line": 70,
             "description": "The unique runtime ID of the App",
             "itemtype": "property",
             "name": "instanceId",
@@ -376,8 +376,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 77,
+            "file": "sdk\\src\\classes.js",
+            "line": 76,
             "description": "True if the App will be loaded in an iframe. This property\nwill be true if the {{#crossLink \"F2.App\"}}{{/crossLink}} object sets\nisSecure = true. It will also be true if the Container has decided to run\nApps in iframes.",
             "itemtype": "property",
             "name": "isSecure",
@@ -386,8 +386,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 87,
+            "file": "sdk\\src\\classes.js",
+            "line": 86,
             "description": "The url to retrieve the {{#crossLink \"F2.AppManifest\"}}{{/crossLink}} object.",
             "itemtype": "property",
             "name": "manifestUrl",
@@ -396,8 +396,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 94,
+            "file": "sdk\\src\\classes.js",
+            "line": 93,
             "description": "The recommended maximum width in pixels that this app should be run.\nIt is up to the Container to implement the logic to prevent an App\nfrom being run when the maxWidth requirements are not met.",
             "itemtype": "property",
             "name": "maxWidth",
@@ -405,8 +405,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 102,
+            "file": "sdk\\src\\classes.js",
+            "line": 101,
             "description": "The recommended minimum grid size that this app should be run. This\nvalue corresponds to the 12-grid system that is used by the Container.\nThis property should be set by Apps that require a certain number of \ncolumns in their layout.",
             "itemtype": "property",
             "name": "minGridSize",
@@ -415,8 +415,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 112,
+            "file": "sdk\\src\\classes.js",
+            "line": 111,
             "description": "The recommended minimum width in pixels that this app should be \nrun. It is up to the Container to implement the logic to prevent\nan App from being run when the minWidth requirements are not met.",
             "itemtype": "property",
             "name": "minWidth",
@@ -425,8 +425,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 121,
+            "file": "sdk\\src\\classes.js",
+            "line": 120,
             "description": "The name of the App",
             "itemtype": "property",
             "name": "name",
@@ -435,8 +435,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 128,
+            "file": "sdk\\src\\classes.js",
+            "line": 127,
             "description": "Sets the title of the App as shown in the browser. Depending on the\nContainer HTML, this method may do nothing if the Container has not been\nconfigured properly or else the Container Provider does not allow Title's\nto be set.",
             "itemtype": "method",
             "name": "setTitle",
@@ -450,8 +450,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 137,
+            "file": "sdk\\src\\classes.js",
+            "line": 136,
             "description": "For secure apps, this method updates the size of the iframe that contains\nthe App. **Note: It is recommended that App developers get into the habit\nof calling this method anytime Elements are added or removed from the\nDOM**",
             "itemtype": "method",
             "name": "updateHeight",
@@ -465,8 +465,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 146,
+            "file": "sdk\\src\\classes.js",
+            "line": 145,
             "description": "The views that this App supports. Available views\nare defined in {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}. The\npresence of a view can be checked via\nF2.{{#crossLink \"F2/inArray\"}}{{/crossLink}}:\n\n    F2.inArray(F2.Constants.Views.SETTINGS, app.views)\n\nThe {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.HOME view should\nalways be present.",
             "itemtype": "property",
             "name": "views",
@@ -474,8 +474,8 @@
             "class": "F2.App"
         },
         {
-            "file": "src\\classes.js",
-            "line": 166,
+            "file": "sdk\\src\\classes.js",
+            "line": 165,
             "description": "The array of {{#crossLink \"F2.AppManifest.AppContent\"}}{{/crossLink}}\nobjects",
             "itemtype": "property",
             "name": "apps",
@@ -484,8 +484,8 @@
             "class": "F2.AppManifest"
         },
         {
-            "file": "src\\classes.js",
-            "line": 174,
+            "file": "sdk\\src\\classes.js",
+            "line": 173,
             "description": "Any inline javascript tha should initially be run",
             "itemtype": "property",
             "name": "inlineScripts",
@@ -493,8 +493,8 @@
             "class": "F2.AppManifest"
         },
         {
-            "file": "src\\classes.js",
-            "line": 180,
+            "file": "sdk\\src\\classes.js",
+            "line": 179,
             "description": "Urls to javascript files required by the App",
             "itemtype": "property",
             "name": "scripts",
@@ -502,8 +502,8 @@
             "class": "F2.AppManifest"
         },
         {
-            "file": "src\\classes.js",
-            "line": 186,
+            "file": "sdk\\src\\classes.js",
+            "line": 185,
             "description": "Urls to CSS files required by the App",
             "itemtype": "property",
             "name": "styles",
@@ -511,8 +511,8 @@
             "class": "F2.AppManifest"
         },
         {
-            "file": "src\\classes.js",
-            "line": 198,
+            "file": "sdk\\src\\classes.js",
+            "line": 197,
             "description": "Arbitrary data to be passed along with the App",
             "itemtype": "property",
             "name": "data",
@@ -520,8 +520,8 @@
             "class": "F2.AppManifest.AppContent"
         },
         {
-            "file": "src\\classes.js",
-            "line": 204,
+            "file": "sdk\\src\\classes.js",
+            "line": 203,
             "description": "The string of HTML representing the App",
             "itemtype": "property",
             "name": "html",
@@ -530,8 +530,8 @@
             "class": "F2.AppManifest.AppContent"
         },
         {
-            "file": "src\\classes.js",
-            "line": 211,
+            "file": "sdk\\src\\classes.js",
+            "line": 210,
             "description": "A status message",
             "itemtype": "property",
             "name": "status",
@@ -539,8 +539,8 @@
             "class": "F2.AppManifest.AppContent"
         },
         {
-            "file": "src\\classes.js",
-            "line": 223,
+            "file": "sdk\\src\\classes.js",
+            "line": 222,
             "description": "Allows the Container to wrap an App in extra html. The\nfunction should accept an {{#crossLink \"F2.App\"}}{{/crossLink}} object\nand also a string of html. The extra html can provide links to edit app\nsettings and remove an app from the Container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
             "itemtype": "property",
             "name": "appWrapper",
@@ -548,8 +548,8 @@
             "class": "F2.ContainerConfiguration"
         },
         {
-            "file": "src\\classes.js",
-            "line": 234,
+            "file": "sdk\\src\\classes.js",
+            "line": 233,
             "description": "Allows the Container to override how an App's html is \ninserted into the page. The function should accept an\n{{#crossLink \"F2.App\"}}{{/crossLink}} object and also a string of html",
             "itemtype": "property",
             "name": "appWriter",
@@ -557,8 +557,8 @@
             "class": "F2.ContainerConfiguration"
         },
         {
-            "file": "src\\classes.js",
-            "line": 242,
+            "file": "sdk\\src\\classes.js",
+            "line": 241,
             "description": "Tells the Container that it is currently running within\na secure app page",
             "itemtype": "property",
             "name": "isSecureAppPage",
@@ -566,8 +566,8 @@
             "class": "F2.ContainerConfiguration"
         },
         {
-            "file": "src\\classes.js",
-            "line": 249,
+            "file": "sdk\\src\\classes.js",
+            "line": 248,
             "description": "Allows the Container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the\nContainer",
             "itemtype": "property",
             "name": "secureAppPagePath",
@@ -575,8 +575,8 @@
             "class": "F2.ContainerConfiguration"
         },
         {
-            "file": "src\\classes.js",
-            "line": 257,
+            "file": "sdk\\src\\classes.js",
+            "line": 256,
             "description": "Specifies what views a Container will provide buttons\nor liks to. Generally, the views will be switched via buttons or links in\nthe App's header. The\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.HOME view should always\nbe present.",
             "itemtype": "property",
             "name": "supportedViews",
@@ -585,12 +585,12 @@
             "class": "F2.ContainerConfiguration"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 13,
             "class": "F2.Constants.Css"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 17,
             "description": "The APP class should be applied to the DOM Element that surrounds the\nentire App, including any extra html that surrounds the APP\\_CONTAINER\nthat is inserted by the Container. See appWrapper property in the\n{{#crossLink \"F2.ContainerConfiguration\"}}{{/crossLink}} object.",
             "itemtype": "property",
@@ -601,7 +601,7 @@
             "class": "F2.Constants.Css"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 28,
             "description": "The APP\\_CONTAINER class should be applied to the outermost DOM Element\nof the App.",
             "itemtype": "property",
@@ -612,7 +612,7 @@
             "class": "F2.Constants.Css"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 37,
             "description": "The APP\\_TITLE class should be applied to the DOM Element that contains\nthe title for an App.  If this class is not present, then\n{{#crossLink \"F2.App/setTitle\"}}{{/crossLink}} will not function.",
             "itemtype": "property",
@@ -623,7 +623,7 @@
             "class": "F2.Constants.Css"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 47,
             "description": "The APP\\_VIEW class should be applied to the DOM Element that contains\na view for an App. The DOM Element should also have a\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE\nattribute that specifies which\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it is.",
             "itemtype": "property",
@@ -634,7 +634,7 @@
             "class": "F2.Constants.Css"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 59,
             "description": "APP\\_VIEW\\_TRIGGER class shuld be applied to the DOM Elements that\ntrigger an\n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_VIEW_CHANGE\nevent. The DOM Element should also have a\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE\nattribute that specifies which\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it will trigger.",
             "itemtype": "property",
@@ -645,17 +645,17 @@
             "class": "F2.Constants.Css"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 81,
             "class": "F2.Constants.Events"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 83,
             "class": "F2.Constants.Events"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 87,
             "description": "The APP\\_WIDTH\\_CHANGE event will be fired by the Container when the\nwidth of an App is changed. The App's instanceId should be concatenated\nto this constant.\nReturns an object with the gridSize and width in pixels:\n\n    { gridSize:8, width:620 }",
             "itemtype": "property",
@@ -666,7 +666,7 @@
             "class": "F2.Constants.Events"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 101,
             "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an\nApp. It is up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NASDAQ)\" }",
             "itemtype": "property",
@@ -677,7 +677,7 @@
             "class": "F2.Constants.Events"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 114,
             "description": "The APP\\_VIEW\\_CHANGE event will be fired by the Container when a user\nclicks to switch the view for an App. The App's instanceId should be\nconcatenated to this constant.",
             "itemtype": "property",
@@ -688,7 +688,7 @@
             "class": "F2.Constants.Events"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 124,
             "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed\nat the Container level. This event should only be fired by the\nContainer or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NASDAQ)\" }",
             "itemtype": "property",
@@ -699,7 +699,7 @@
             "class": "F2.Constants.Events"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 138,
             "description": "The CONTAINER\\_WIDTH\\_CHANGE event will be fired by the Container when\nthe width of the Container has changed.",
             "itemtype": "property",
@@ -710,7 +710,7 @@
             "class": "F2.Constants.Events"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 158,
             "description": "The APP\\_RPC message is sent when a method on an App object is called.",
             "itemtype": "property",
@@ -721,7 +721,7 @@
             "class": "F2.Constants.Sockets"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 166,
             "description": "The LOAD message is sent when an iframe socket initially loads.\nReturns a JSON string that represents:\n\n    [ App, AppManifest]",
             "itemtype": "property",
@@ -732,7 +732,7 @@
             "class": "F2.Constants.Sockets"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 189,
             "itemtype": "property",
             "name": "DATA_ATTRIBUTE",
@@ -742,7 +742,7 @@
             "class": "F2.Constants.Views"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 197,
             "description": "The ABOUT view gives details about the App.",
             "itemtype": "property",
@@ -753,7 +753,7 @@
             "class": "F2.Constants.Views"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 205,
             "description": "The HELP view provides users with help information for using an App.",
             "itemtype": "property",
@@ -764,7 +764,7 @@
             "class": "F2.Constants.Views"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 213,
             "description": "The HOME view is the main view for an App. This view should always\nbe provided by an App.",
             "itemtype": "property",
@@ -775,7 +775,7 @@
             "class": "F2.Constants.Views"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 222,
             "description": "The REMOVE view is a special view that handles the removal of an App\nfrom the Container.",
             "itemtype": "property",
@@ -786,7 +786,7 @@
             "class": "F2.Constants.Views"
         },
         {
-            "file": "src\\constants.js",
+            "file": "sdk\\src\\constants.js",
             "line": 231,
             "description": "The SETTINGS view provides users the ability to modify advanced settings\nfor an App.",
             "itemtype": "property",
@@ -797,7 +797,7 @@
             "class": "F2.Constants.Views"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 14,
             "description": "Creates a socket connection from the App to the Container",
             "itemtype": "method",
@@ -811,7 +811,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 67,
             "description": "Creates a socket connection from the Container to the App using easyXDM",
             "itemtype": "method",
@@ -837,7 +837,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 124,
             "description": "Renders the html for an App.",
             "itemtype": "method",
@@ -860,7 +860,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 149,
             "description": "Adds properties and methods to the App object",
             "itemtype": "method",
@@ -878,7 +878,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 157,
             "description": "creates two functions on the App from the function\npassed in if the app is secure. the 'incoming' function\nwill be called when a message is received via the \nsocket connection",
             "itemtype": "method",
@@ -907,7 +907,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 223,
             "description": "Attach App events",
             "itemtype": "method",
@@ -918,7 +918,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 256,
             "description": "Attach Container Events",
             "itemtype": "method",
@@ -929,7 +929,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 274,
             "description": "Loads the App's html/css/javascript",
             "itemtype": "method",
@@ -953,7 +953,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 364,
             "description": "Loads the App's html/css/javascript into an iframe",
             "itemtype": "method",
@@ -976,7 +976,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 387,
             "description": "Checks if the App is valid",
             "itemtype": "method",
@@ -998,7 +998,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 411,
             "description": "Appends the App's html to the DOM",
             "itemtype": "method",
@@ -1025,7 +1025,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 444,
             "description": "Same as F2.Events.emit except that it will not send the event\nto all sockets.",
             "itemtype": "method",
@@ -1050,7 +1050,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 455,
             "description": "Execute each of the listeners tha may be listening for the specified\nevent name in order with the list of arguments",
             "itemtype": "method",
@@ -1073,7 +1073,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 471,
             "description": "Adds a listener that will execute n times for the event before being \nremoved. The listener is invoked only the first time the event is \nfired, after which it is removed.",
             "itemtype": "method",
@@ -1099,7 +1099,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 485,
             "description": "Remove a listener for the specified event.",
             "itemtype": "method",
@@ -1120,7 +1120,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 494,
             "description": "Adds a listener for the specified event",
             "itemtype": "method",
@@ -1141,7 +1141,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 504,
             "description": "Adds a one time listener for the event. The listener is invoked only\nthe first time the event is fired, after which it is removed.",
             "itemtype": "method",
@@ -1162,7 +1162,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 517,
             "description": "Gets the current list of Apps in the container",
             "itemtype": "method",
@@ -1175,7 +1175,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 528,
             "description": "Initializes the Container. This method must be called before performing\nany other actions in the Container.",
             "itemtype": "method",
@@ -1191,7 +1191,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
+            "file": "sdk\\src\\container.js",
             "line": 546,
             "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
@@ -1213,8 +1213,8 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
-            "line": 658,
+            "file": "sdk\\src\\container.js",
+            "line": 662,
             "description": "Removes all Apps from the Container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1222,8 +1222,8 @@
             "module": "f2"
         },
         {
-            "file": "src\\container.js",
-            "line": 667,
+            "file": "sdk\\src\\container.js",
+            "line": 671,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",
@@ -1238,7 +1238,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\preamble.js",
+            "file": "sdk\\src\\preamble.js",
             "line": 30,
             "description": "The Apps class is a namespace for App developers to place the javascript\nclass that is used to initialize their App. The javascript classes should\nbe namepaced with the {{#crossLink \"F2.App\"}}{{/crossLink}}.appId. It is recommended\nthat the code be placed in a closure to help keep the global namespace\nclean.\n\nIf the class has an 'init' function, that function will be called \nautomatically.",
             "itemtype": "property",
@@ -1252,7 +1252,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\preamble.js",
+            "file": "sdk\\src\\preamble.js",
             "line": 65,
             "description": "Generates a somewhat random id",
             "itemtype": "method",
@@ -1265,7 +1265,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\preamble.js",
+            "file": "sdk\\src\\preamble.js",
             "line": 77,
             "description": "Wrapper logging function.",
             "itemtype": "method",
@@ -1288,7 +1288,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\preamble.js",
+            "file": "sdk\\src\\preamble.js",
             "line": 88,
             "description": "Search for a value within an array.",
             "itemtype": "method",
@@ -1309,7 +1309,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\preamble.js",
+            "file": "sdk\\src\\preamble.js",
             "line": 98,
             "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
             "itemtype": "method",
@@ -1339,7 +1339,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\preamble.js",
+            "file": "sdk\\src\\preamble.js",
             "line": 136,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
@@ -1359,7 +1359,7 @@
             "module": "f2"
         },
         {
-            "file": "src\\preamble.js",
+            "file": "sdk\\src\\preamble.js",
             "line": 145,
             "description": "Wrapper to convert an object to JSON",
             "itemtype": "method",

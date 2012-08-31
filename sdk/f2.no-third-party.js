@@ -1,5 +1,5 @@
 /*!
- * F2 v0.10.0
+ * F2 v0.10.1
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -171,12 +171,11 @@ F2.extend("", {
 		 */
 		appId:"",
 		/**
-		 * A JSON string of data that will be passed to the
-		 * server when an App request is made.
-		 * @property data
-		 * @type string
+		 * An object that represents the context of an App
+		 * @property context
+		 * @type object
 		 */
-		data:"",
+		context:"",
 		/**
 		 * The description of the App
 		 * @property description
