@@ -30,7 +30,7 @@ To develop an app for F2, there are a few things you need to first understand ab
 
 To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML). Once you download and extract the archive, point your browser at:
 
-`http://localhost/<your_extract_location>/OpenF2/sdk/examples/containers/HTML/`
+`http://localhost/<your_extract_location>/F2/sdk/examples/containers/HTML/`
 
 <div class="alert alert-info"><strong>Note:</strong> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, ASP, JavaScript). While it is not a requirement you have a web server configured on your computer, it will certainly enhance your F2 development experience.</div>
 
@@ -61,8 +61,7 @@ For an app to work with F2, it must have this basic structure&mdash;called the *
 	"styles":[],	 
 	"apps":[{
 			"data":{},
-			"html":"",			
-			"instanceId":"",
+			"html":"",
 			"status":""
 	}]
 }
@@ -88,8 +87,7 @@ When it's complete (using our examples below), the App Manifest looks like this:
 				foo: "bar",
 				value: 12345
 			},
-			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",		
-			"instanceId":"b29ab39b-013a-45bc-b856-f058850f4b1e",
+			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E"
 			"status":"good"
 	}]
 }
@@ -99,12 +97,11 @@ Let's break the App Manifest object down and look at each property (in reverse o
 
 ### Apps
 
-The `apps` property is an array of `AppContent` objects. Each `AppContent` object contains four properties: 
+The `apps` property is an array of `AppContent` objects. Each `AppContent` object contains three properties: 
 
 1. `html` 
-2. `instanceId`
-3. `data`
-4. `status`
+2. `data`
+3. `status`
 
 #### html
 
@@ -120,28 +117,6 @@ The _decoded_ version of the `html` example above is:
 
 ```html
 <div class="sunrise">Hello world.</div>
-```
-
-#### instanceId
-
-The `instanceId` property defines the unique runtime ID of the app. This can be an alpha-numeric reference number like a [GUID](http://en.wikipedia.org/wiki/Globally_unique_identifier) and is defined by the app developer. The main purpose of the `instanceId` is to allow an app to exist on a single container multiple times. 
-
-The `instanceId` will be assigned by the container provider and passed to the app developer in the initial request for the App Manifest. This is how the app developer is able to use the `instanceId` when binding to the [`APPLICATION_LOAD`](../../sdk/docs/classes/F2.Constants.Events.html#property_APPLICATION_LOAD) event.
-
-Example:
-
-```javascript
-"instanceId": "b29ab39b-013a-45bc-b856-f058850f4b1e"
-```
-
-The `instanceId` is also set as the ID of the outermost DOM element wrapping the app when it appears on the container.
-
-Example `section` element wrapping a F2 app with the `instanceId` set as the value of the `id` attribute:
-
-```html
-<section class="f2-app" id="b29ab39b-013a-45bc-b856-f058850f4b1e">
-	...
-</section>
 ```
 
 #### data
@@ -210,8 +185,7 @@ If we use the examples above, our app would look like this:
 				foo: "bar",
 				value: 12345
 			},
-			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",		
-			"instanceId":"b29ab39b-013a-45bc-b856-f058850f4b1e",
+			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",
 			"status":"good"
 	}]
 }
@@ -297,8 +271,7 @@ F2_jsonpCallback_123456789({
 				foo: "bar",
 				value: 12345
 			},
-			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",		
-			"instanceId":"b29ab39b-013a-45bc-b856-f058850f4b1e",
+			"html":"%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E",
 			"status":"good"
 	}]
 })
@@ -322,7 +295,7 @@ Good news! The container is responsible for loading its apps, and as long as you
 
 If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-the-container.html).
 
-<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about to contact a container provider here.</p>
+<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
 
 * * * *
 

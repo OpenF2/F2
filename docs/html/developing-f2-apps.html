@@ -118,7 +118,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="index.html">F2: Financial Framework (v0.9.2)</a>
+      <a class="brand" href="index.html">F2: Financial Framework (v0.9.3)</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
           <li><a href="#">OpenF2.com</a></li>
@@ -192,7 +192,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <h3>Understanding F2 Apps</h3>
 <p>To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many <a href="components-of-the-framework.html">components of F2</a>, and apps and containers are only scratching the surface in terms of what is available to app developers today. From the concept of <a href="components-of-the-framework.html#app-context">app context</a> to <a href="components-of-the-framework.html#creating-a-common-look-and-feel">creating a common look and feel</a> across apps, apps are the cornerstone of F2-enabled multi-party web applications.</p>
 <p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML">project repo on GitHub</a>. Once you download and extract the archive, point your browser at:</p>
-<p><code>http://localhost/&lt;your_extract_location&gt;/OpenF2/sdk/examples/containers/HTML/</code></p>
+<p><code>http://localhost/&lt;your_extract_location&gt;/F2/sdk/examples/containers/HTML/</code></p>
 <div class="alert alert-info">
 <strong>Note:</strong> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, ASP, JavaScript). While it is not a requirement you have a web server configured on your computer, it will certainly enhance your F2 development experience.
 </div>
@@ -220,8 +220,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
     <span class="st">&quot;styles&quot;</span>:[],     
     <span class="st">&quot;apps&quot;</span>:[{
             <span class="st">&quot;data&quot;</span>:{},
-            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&quot;</span>,          
-            <span class="st">&quot;instanceId&quot;</span>:<span class="st">&quot;&quot;</span>,
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&quot;</span>,
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;&quot;</span>
     }]
 }</code></pre>
@@ -242,18 +241,16 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
                 <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
                 <span class="dt">value</span>: <span class="dv">12345</span>
             },
-            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>,       
-            <span class="st">&quot;instanceId&quot;</span>:<span class="st">&quot;b29ab39b-013a-45bc-b856-f058850f4b1e&quot;</span>,
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
     }]
 }</code></pre>
 <p>Let's break the App Manifest object down and look at each property (in reverse order to keep it fun).</p>
 <section class="level3" id="apps">
 <h3>Apps</h3>
-<p>The <code>apps</code> property is an array of <code>AppContent</code> objects. Each <code>AppContent</code> object contains four properties:</p>
+<p>The <code>apps</code> property is an array of <code>AppContent</code> objects. Each <code>AppContent</code> object contains three properties:</p>
 <ol type="1">
 <li><code>html</code></li>
-<li><code>instanceId</code></li>
 <li><code>data</code></li>
 <li><code>status</code></li>
 </ol>
@@ -264,18 +261,6 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;html&quot;</span>: <span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span></code></pre>
 <p>The <em>decoded</em> version of the <code>html</code> example above is:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sunrise&quot;</span><span class="kw">&gt;</span>Hello world.<span class="kw">&lt;/div&gt;</span></code></pre>
-</section>
-<section class="level4" id="instanceid">
-<h4>instanceId</h4>
-<p>The <code>instanceId</code> property defines the unique runtime ID of the app. This can be an alpha-numeric reference number like a <a href="http://en.wikipedia.org/wiki/Globally_unique_identifier">GUID</a> and is defined by the app developer. The main purpose of the <code>instanceId</code> is to allow an app to exist on a single container multiple times.</p>
-<p>The <code>instanceId</code> will be assigned by the container provider and passed to the app developer in the initial request for the App Manifest. This is how the app developer is able to use the <code>instanceId</code> when binding to the <a href="../../sdk/docs/classes/F2.Constants.Events.html#property_APPLICATION_LOAD"><code>APPLICATION_LOAD</code></a> event.</p>
-<p>Example:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;instanceId&quot;</span>: <span class="st">&quot;b29ab39b-013a-45bc-b856-f058850f4b1e&quot;</span></code></pre>
-<p>The <code>instanceId</code> is also set as the ID of the outermost DOM element wrapping the app when it appears on the container.</p>
-<p>Example <code>section</code> element wrapping a F2 app with the <code>instanceId</code> set as the value of the <code>id</code> attribute:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;section</span><span class="ot"> class=</span><span class="st">&quot;f2-app&quot;</span><span class="ot"> id=</span><span class="st">&quot;b29ab39b-013a-45bc-b856-f058850f4b1e&quot;</span><span class="kw">&gt;</span>
-    ...
-<span class="kw">&lt;/section&gt;</span></code></pre>
 </section>
 <section class="level4" id="data">
 <h4>data</h4>
@@ -330,8 +315,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
                 <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
                 <span class="dt">value</span>: <span class="dv">12345</span>
             },
-            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>,       
-            <span class="st">&quot;instanceId&quot;</span>:<span class="st">&quot;b29ab39b-013a-45bc-b856-f058850f4b1e&quot;</span>,
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>,
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
     }]
 }</code></pre>
@@ -401,8 +385,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
                 <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
                 <span class="dt">value</span>: <span class="dv">12345</span>
             },
-            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>,       
-            <span class="st">&quot;instanceId&quot;</span>:<span class="st">&quot;b29ab39b-013a-45bc-b856-f058850f4b1e&quot;</span>,
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>,
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
     }]
 })</code></pre>
@@ -427,7 +410,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and having a working app, you're pretty much done.</p>
 <p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../sdk/docs/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-the-container.html">read the container documentation</a>.</p>
 <p>
-<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about to contact a container provider here.
+<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
 </p>
 
 <hr>
