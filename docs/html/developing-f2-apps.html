@@ -118,7 +118,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="index.html">F2: Financial Framework (v0.9.3)</a>
+      <a class="brand" href="index.html">F2: Financial Framework (v0.9.4)</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
           <li><a href="#">OpenF2.com</a></li>
@@ -402,12 +402,21 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 </section>
 <section class="level2" id="namespacing">
 <h2>Namespacing</h2>
-<p>Humm...</p>
+<p>F2 is a <em>web</em> integration framework which means are apps are inherently insecure—at least the non-secure apps. Following these guidelines, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
+<section class="level3" id="namespacing-your-css">
+<h3>Namespacing Your CSS</h3>
+<p>AppId...</p>
+<p><code>div.&lt;AppId&gt;</code></p>
+</section>
+<section class="level3" id="protecting-your-javascript">
+<h3>Protecting Your JavaScript</h3>
+<p>Closures and the global namespace...</p>
 <hr>
+</section>
 </section>
 <section class="level2" id="your-app-on-a-container">
 <h2>Your App on a Container</h2>
-<p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and having a working app, you're pretty much done.</p>
+<p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working app, you're pretty much done.</p>
 <p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../sdk/docs/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-the-container.html">read the container documentation</a>.</p>
 <p>
 <span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.

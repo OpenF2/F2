@@ -285,13 +285,23 @@ F2_jsonpCallback_123456789({
 
 ## Namespacing
 
-Humm...
+F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least the non-secure apps. Following these guidelines, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+
+### Namespacing Your CSS
+
+AppId...
+
+`div.<AppId>` 
+
+### Protecting Your JavaScript
+
+Closures and the global namespace...
 
 * * * *
 
 ## Your App on a Container 
 
-Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and having a working app, you're pretty much done.
+Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working app, you're pretty much done.
 
 If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-the-container.html).
 
