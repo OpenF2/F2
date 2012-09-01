@@ -21,7 +21,7 @@ var argv = optimist
 	.usage('Build script for F2\nUsage: $0 [options]')
 	.boolean('a').alias('a', 'all').describe('a', 'Build all')
 	.boolean('d').alias('d', 'docs').describe('d', 'Build the docs')
-	.boolean('g').alias('g', 'gh-pages').describe('g', 'Build docs and YUIDoc and copy to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
+	.boolean('g').alias('g', 'gh-pages').describe('g', 'Copy docs to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
 	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
 	.boolean('j').alias('j', 'js-sdk').describe('j', 'Build just the JS SDK')
 	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
@@ -47,17 +47,19 @@ var coreFiles = [
 	'sdk/src/container.js'
 ];
 
-if (argv.h) {
+if (!argv.length || argv.h) {
 	optimist.wrap(80).showHelp();
 } else if (argv.a) {
 	js();
-	docs(yuidoc, ghp);
+	docs(function() {
+		yuidoc(ghp);
+	});
 } else {
 	if (argv.d) {
 		docs();
 	}
 	if (argv.g) {
-		docs(yuidoc, ghp);
+		ghp();
 	}
 	if (argv.j) {
 		js();
@@ -88,12 +90,7 @@ function docs() {
 			} else {
 				//console.log(stdout);
 				console.log('COMPLETE');
-
-				if (callbacks.length) {
-					for (var i = 0; i < callbacks.length; i++) {
-						callbacks[i]();
-					}
-				}
+				runCallbacks(callbacks);
 			}
 		}
 	);
@@ -164,11 +161,27 @@ function js() {
 };
 
 /**
+ * Run a list of callbacks
+ * @method runCallbacks
+ * @param {function} [callback]* Functions to be executed after doc generation
+ * is complete
+ */
+function runCallbacks(callbacks) {
+	if (callbacks.length) {
+		for (var i = 0; i < callbacks.length; i++) {
+			callbacks[i]();
+		}
+	}
+};
+
+/**
  * Build the YUIDoc for the sdk
  * @method yuidoc
+ * @param {function} [callback]* Functions to be executed after doc generation
+ * is complete
  */
 function yuidoc() {
-	console.log('Generating YUIDoc...');
+	var callbacks = arguments;
 	var docOptions = {
 		quiet:true,
 		norecurse:true,
@@ -176,8 +189,12 @@ function yuidoc() {
 		outdir:'./sdk/docs',
 		themedir:'./sdk/doc-theme'
 	};
+
+	console.log('Generating YUIDoc...');
 	var json = (new Y.YUIDoc(docOptions)).run();
 	docOptions = Y.Project.mix(json, docOptions);
-	(new Y.DocBuilder(docOptions, json)).compile();
-	console.log('COMPLETE');
+	(new Y.DocBuilder(docOptions, json)).compile(function() {
+		console.log('COMPLETE');
+		runCallbacks(callbacks);
+	});
 };
