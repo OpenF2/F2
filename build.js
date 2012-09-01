@@ -1,22 +1,33 @@
+#!/usr/bin/env node
 /**
  * Build script for F2
  *
  * This script requires that the following node packages be installed:
+ *   - markitdown (npm install -g markitdown)
+ *   - optimist (npm install optimist)
  *   - uglify-js (npm install uglify-js)
  *   - yuidocjs (npm install yuidocjs)
- *   - markitdown (npm install -g markitdown)
  *     also requires pandoc: http://johnmacfarlane.net/pandoc/installing.html
- *
- * Usage: node build.js
  */
-var ENCODING = 'utf-8';
-var EOL = '\n';
-
 var exec = require('child_process').exec;
 var fs = require('fs');
 var jsp = require('uglify-js').parser;
 var pro = require('uglify-js').uglify;
 var Y = require('yuidocjs');
+var optimist = require('optimist');
+var argv = optimist
+	.usage('Build script for F2\nUsage: $0 [options]')
+	.boolean('a').alias('a', 'all').describe('a', 'Build all files and docs')
+	.boolean('d').alias('d', 'docs').describe('d', 'Build the gh-pages and YUIDoc')
+	.boolean('g').alias('g', 'gh-pages').describe('g', 'Build just the GitHub Pages')
+	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
+	.boolean('j').alias('j', 'js-sdk').describe('j', 'Build just the JS SDK')
+	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
+	.argv;
+
+// constants
+var ENCODING = 'utf-8';
+var EOL = '\n';
 
 // files to be packaged
 var packageFiles = [
@@ -34,75 +45,112 @@ var coreFiles = [
 	'sdk/src/container.js'
 ];
 
-
-console.log('Building f2.no-third-party.js...');
-var contents = coreFiles.map(function(f) {
-	return fs.readFileSync(f, ENCODING);
-});
-fs.writeFileSync('./sdk/f2.no-third-party.js', contents.join(EOL), ENCODING);
-console.log('COMPLETE');
-
-
-console.log('Building Debug Package...');
-var contents = packageFiles.map(function(f) {
-	return fs.readFileSync(f, ENCODING);
-});
-fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
-console.log('COMPLETE');
-
-
-console.log('Building Minified Package...');
-var contents = packageFiles.map(function(f) {
-
-	var code = fs.readFileSync(f, ENCODING);
-	var comments = [];
-	var token = '"F2: preserved commment block"';
-
-	// borrowed from enter-js
-	code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
-		comments.push(comment)
-		return ';' + token + ';';
-	});
-
-	var ast = jsp.parse(code); // parse code and get the initial AST
-	ast = pro.ast_mangle(ast); // get a new AST with mangled names
-	ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
-	code = pro.gen_code(ast); // compressed code here
-
-	code = code.replace(RegExp(token, 'g'), function() {
-		return EOL + comments.shift() + EOL;
-	});
-
-	return code;
-});
-fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
-console.log('COMPLETE');
-
-
-console.log('Generating YUIDoc...');
-var docOptions = {
-	quiet:true,
-	norecurse:true,
-	paths:['./sdk/src'],
-	outdir:'./sdk/docs',
-	themedir:'./sdk/doc-theme'
-};
-var json = (new Y.YUIDoc(docOptions)).run();
-docOptions = Y.Project.mix(json, docOptions);
-(new Y.DocBuilder(docOptions, json)).compile();
-console.log('COMPLETE');
-
-
-console.log('Generating Docs...');
-exec(
-	'markitdown ./ --output-path ../html --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
-	{ cwd:'./docs/src' },
-	function(error, stdout, stderr) {
-		if (error) {
-			console.log(stderr);
-		} else {
-			//console.log(stdout);
-			console.log('COMPLETE');
-		}
+if (argv.h) {
+	optimist.showHelp();
+} else if (argv.a) {
+	js();
+	yuidoc();
+	ghp();
+} else {
+	if (argv.d) {
+		yuidoc();
+		ghp();
 	}
-);
+	if (argv.g) {
+		ghp();
+	}
+	if (argv.j) {
+		js();
+	}
+	if (argv.y) {
+		yuidoc();
+	}
+}
+
+/**
+ * Build the GitHub Pages
+ * @method ghp
+ */
+function ghp() {
+	console.log('Generating Docs...');
+	exec(
+		'markitdown ./ --output-path ../html --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
+		{ cwd:'./docs/src' },
+		function(error, stdout, stderr) {
+			if (error) {
+				console.log(stderr);
+			} else {
+				//console.log(stdout);
+				console.log('COMPLETE');
+			}
+		}
+	);
+}
+
+/**
+ * Build the debug, minified, and no-third-party sdk files
+ * @method js
+ */
+function js() {
+	console.log('Building f2.no-third-party.js...');
+	var contents = coreFiles.map(function(f) {
+		return fs.readFileSync(f, ENCODING);
+	});
+	fs.writeFileSync('./sdk/f2.no-third-party.js', contents.join(EOL), ENCODING);
+	console.log('COMPLETE');
+
+
+	console.log('Building Debug Package...');
+	var contents = packageFiles.map(function(f) {
+		return fs.readFileSync(f, ENCODING);
+	});
+	fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
+	console.log('COMPLETE');
+
+
+	console.log('Building Minified Package...');
+	var contents = packageFiles.map(function(f) {
+
+		var code = fs.readFileSync(f, ENCODING);
+		var comments = [];
+		var token = '"F2: preserved commment block"';
+
+		// borrowed from enter-js
+		code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
+			comments.push(comment)
+			return ';' + token + ';';
+		});
+
+		var ast = jsp.parse(code); // parse code and get the initial AST
+		ast = pro.ast_mangle(ast); // get a new AST with mangled names
+		ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
+		code = pro.gen_code(ast); // compressed code here
+
+		code = code.replace(RegExp(token, 'g'), function() {
+			return EOL + comments.shift() + EOL;
+		});
+
+		return code;
+	});
+	fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
+	console.log('COMPLETE');
+}
+
+/**
+ * Build the YUIDoc for the sdk
+ * @method yuidoc
+ */
+function yuidoc() {
+	console.log('Generating YUIDoc...');
+	var docOptions = {
+		quiet:true,
+		norecurse:true,
+		paths:['./sdk/src'],
+		outdir:'./sdk/docs',
+		themedir:'./sdk/doc-theme'
+	};
+	var json = (new Y.YUIDoc(docOptions)).run();
+	docOptions = Y.Project.mix(json, docOptions);
+	(new Y.DocBuilder(docOptions, json)).compile();
+	console.log('COMPLETE');
+}
