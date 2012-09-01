@@ -19,7 +19,7 @@ var Y = require('yuidocjs');
 var optimist = require('optimist');
 var argv = optimist
 	.usage('Build script for F2\nUsage: $0 [options]')
-	.boolean('a').alias('a', 'all').describe('a', 'Build all ')
+	.boolean('a').alias('a', 'all').describe('a', 'Build all')
 	.boolean('d').alias('d', 'docs').describe('d', 'Build the docs')
 	.boolean('g').alias('g', 'gh-pages').describe('g', 'Build docs and YUIDoc and copy to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
 	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
@@ -51,15 +51,13 @@ if (argv.h) {
 	optimist.wrap(80).showHelp();
 } else if (argv.a) {
 	js();
-	docs();
-	yuidoc();
-	ghp();
+	docs(yuidoc, ghp);
 } else {
 	if (argv.d) {
 		docs();
 	}
 	if (argv.g) {
-		ghp();
+		docs(yuidoc, ghp);
 	}
 	if (argv.j) {
 		js();
@@ -70,11 +68,17 @@ if (argv.h) {
 }
 
 /**
- * Build the GitHub Pages
+ * Build the documentation for GitHub Pages. The documentation generation is
+ * asynchronous, so if anything needs to execute after the generation is
+ * complete, those functions can be passed as parameters.
  * @method docs
+ * @param {function} [callback]* Functions to be executed after doc generation
+ * is complete
  */
 function docs() {
 	console.log('Generating Docs...');
+	var callbacks = arguments;
+
 	exec(
 		'markitdown ./ --output-path ../html --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
 		{ cwd:'./docs/src' },
@@ -84,6 +88,12 @@ function docs() {
 			} else {
 				//console.log(stdout);
 				console.log('COMPLETE');
+
+				if (callbacks.length) {
+					for (var i = 0; i < callbacks.length; i++) {
+						callbacks[i]();
+					}
+				}
 			}
 		}
 	);
