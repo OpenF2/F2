@@ -6,6 +6,7 @@
  *   - markitdown (npm install -g markitdown)
  *   - optimist (npm install optimist)
  *   - uglify-js (npm install uglify-js)
+ *   - wrench-js (npm install wrench)
  *   - yuidocjs (npm install yuidocjs)
  *     also requires pandoc: http://johnmacfarlane.net/pandoc/installing.html
  */
@@ -13,13 +14,14 @@ var exec = require('child_process').exec;
 var fs = require('fs');
 var jsp = require('uglify-js').parser;
 var pro = require('uglify-js').uglify;
+var wrench = require('wrench');
 var Y = require('yuidocjs');
 var optimist = require('optimist');
 var argv = optimist
 	.usage('Build script for F2\nUsage: $0 [options]')
-	.boolean('a').alias('a', 'all').describe('a', 'Build all files and docs')
-	.boolean('d').alias('d', 'docs').describe('d', 'Build the gh-pages and YUIDoc')
-	.boolean('g').alias('g', 'gh-pages').describe('g', 'Build just the GitHub Pages')
+	.boolean('a').alias('a', 'all').describe('a', 'Build all ')
+	.boolean('d').alias('d', 'docs').describe('d', 'Build the docs')
+	.boolean('g').alias('g', 'gh-pages').describe('g', 'Build docs and YUIDoc and copy to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
 	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
 	.boolean('j').alias('j', 'js-sdk').describe('j', 'Build just the JS SDK')
 	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
@@ -46,15 +48,15 @@ var coreFiles = [
 ];
 
 if (argv.h) {
-	optimist.showHelp();
+	optimist.wrap(80).showHelp();
 } else if (argv.a) {
 	js();
+	docs();
 	yuidoc();
 	ghp();
 } else {
 	if (argv.d) {
-		yuidoc();
-		ghp();
+		docs();
 	}
 	if (argv.g) {
 		ghp();
@@ -69,9 +71,9 @@ if (argv.h) {
 
 /**
  * Build the GitHub Pages
- * @method ghp
+ * @method docs
  */
-function ghp() {
+function docs() {
 	console.log('Generating Docs...');
 	exec(
 		'markitdown ./ --output-path ../html --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
@@ -85,7 +87,22 @@ function ghp() {
 			}
 		}
 	);
-}
+};
+
+/**
+ * Copies all documentation to the gh-pages folder
+ * @method ghp
+ */
+function ghp() {
+	console.log('Copying documentation to gh-pages...');
+	// temporary - do not overwrite the gh-pages index.html until launch
+	fs.renameSync('./docs/html/index.html', './docs/html/index-temp.html');
+	wrench.copyDirSyncRecursive('./docs/html', '../gh-pages', { preserve:true });
+	// temporary - put index.html back to normal
+	fs.renameSync('./docs/html/index-temp.html', './docs/html/index.html');
+	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk');
+	console.log('COMPLETE');
+};
 
 /**
  * Build the debug, minified, and no-third-party sdk files
@@ -134,7 +151,7 @@ function js() {
 	});
 	fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
 	console.log('COMPLETE');
-}
+};
 
 /**
  * Build the YUIDoc for the sdk
@@ -153,4 +170,4 @@ function yuidoc() {
 	docOptions = Y.Project.mix(json, docOptions);
 	(new Y.DocBuilder(docOptions, json)).compile();
 	console.log('COMPLETE');
-}
+};
