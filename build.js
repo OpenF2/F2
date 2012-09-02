@@ -44,38 +44,38 @@ var coreFiles = [
 	'sdk/src/preamble.js',
 	'sdk/src/classes.js',
 	'sdk/src/constants.js',
-	'sdk/src/container.js'
+	'sdk/src/container.js',
+	'sdk/src/ui.js'
 ];
 
-if (!argv.length || argv.h) {
-	optimist.wrap(80).showHelp();
-} else if (argv.a) {
-	js();
-	docs(function() {
-		yuidoc(ghp);
-	});
-} else {
-	if (argv.d) {
-		docs();
-	}
-	if (argv.g) {
-		ghp();
-	}
-	if (argv.j) {
-		js();
-	}
-	if (argv.y) {
-		yuidoc();
+// a list of options that maps an argument to a function
+var options = [
+	{ arg: 'h', f: help },
+	{ arg: 'j', f: js },
+	{ arg: 'd', f: docs },
+	{ arg: 'y', f: yuidoc },
+	{ arg: 'g', f: ghp }
+];
+
+// process the list of options
+function processNext() {
+	var option = options.shift();
+
+	if (!option) { return; }
+	
+	if (argv[option.arg] || argv.a) {
+		option.f();
+	} else {
+		processNext();
 	}
 }
+processNext();
 
 /**
  * Build the documentation for GitHub Pages. The documentation generation is
  * asynchronous, so if anything needs to execute after the generation is
  * complete, those functions can be passed as parameters.
  * @method docs
- * @param {function} [callback]* Functions to be executed after doc generation
- * is complete
  */
 function docs() {
 	console.log('Generating Docs...');
@@ -90,7 +90,7 @@ function docs() {
 			} else {
 				//console.log(stdout);
 				console.log('COMPLETE');
-				runCallbacks(callbacks);
+				processNext();
 			}
 		}
 	);
@@ -109,6 +109,16 @@ function ghp() {
 	fs.renameSync('./docs/html/index-temp.html', './docs/html/index.html');
 	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk');
 	console.log('COMPLETE');
+
+	processNext();
+};
+
+/**
+ * Display the help information
+ * @method help
+ */
+function help() {
+	optimist.wrap(80).showHelp();
 };
 
 /**
@@ -158,27 +168,13 @@ function js() {
 	});
 	fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
 	console.log('COMPLETE');
-};
 
-/**
- * Run a list of callbacks
- * @method runCallbacks
- * @param {function} [callback]* Functions to be executed after doc generation
- * is complete
- */
-function runCallbacks(callbacks) {
-	if (callbacks.length) {
-		for (var i = 0; i < callbacks.length; i++) {
-			callbacks[i]();
-		}
-	}
+	processNext();
 };
 
 /**
  * Build the YUIDoc for the sdk
  * @method yuidoc
- * @param {function} [callback]* Functions to be executed after doc generation
- * is complete
  */
 function yuidoc() {
 	var callbacks = arguments;
@@ -195,6 +191,6 @@ function yuidoc() {
 	docOptions = Y.Project.mix(json, docOptions);
 	(new Y.DocBuilder(docOptions, json)).compile(function() {
 		console.log('COMPLETE');
-		runCallbacks(callbacks);
+		processNext();
 	});
 };
