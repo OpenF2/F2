@@ -54,7 +54,6 @@ var coreFiles = [
 // a list of options that maps an argument to a function. the options need to be
 // in order of dependency, in case the user specifies -a
 var options = [
-	{ arg: 'h', f: help },
 	{ arg: 'j', f: js },
 	{ arg: 'd', f: docs },
 	{ arg: 'l', f: less },
@@ -74,7 +73,12 @@ function processNext() {
 		processNext();
 	}
 }
-processNext();
+
+if (argv.h) {
+	help();
+} else {
+	processNext();
+}
 
 /**
  * Build the documentation for GitHub Pages. The documentation generation is
