@@ -19,6 +19,18 @@ If you've cloned the repo and are ready to start building a F2 app, [read the do
 
 Help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
 
+We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on Node.js, and has a few dependencies. To install, `cd` to your `F2` folder, and run the following command in npm:
+
+`$> npm install markitdown uglify-js wrench yuidocjs optimist -g`
+
+To **build F2**, run:
+
+`$> node build`
+
+For help, run:
+
+`$> node build -h`
+
 ### Versioning
 
 To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.
