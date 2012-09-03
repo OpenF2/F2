@@ -49,11 +49,20 @@
             },
             "namespaces": {}
         },
+        "sdk/src/rpc.js": {
+            "name": "sdk/src/rpc.js",
+            "modules": {},
+            "classes": {
+                "F2.Rpc": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "sdk/src/ui-dialogs.js": {
             "name": "sdk/src/ui-dialogs.js",
             "modules": {},
             "classes": {
-                "F2.UI.Dialogs": 1
+                "F2.UI.Modals": 1
             },
             "fors": {},
             "namespaces": {}
@@ -84,7 +93,8 @@
                 "F2.Constants.Views": 1,
                 "F2": 1,
                 "F2.Events": 1,
-                "F2.UI.Dialogs": 1,
+                "F2.Rpc": 1,
+                "F2.UI.Modals": 1,
                 "F2.UI": 1
             },
             "fors": {
@@ -216,7 +226,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/constants.js",
-            "line": 180,
+            "line": 207,
             "description": "The available view types to Apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP_VIEW class to the\ncontaining DOM Element. A DATA_ATTRIBUTE attribute should be added to the\nElement as well which defines what view type is represented.\nThe `hide` class can be applied to views that should be hidden by default."
         },
         "F2": {
@@ -244,13 +254,26 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/container.js",
-            "line": 429,
-            "description": "Description of Events goes here",
-            "itemtype": "method"
+            "line": 289,
+            "description": "Description of Events goes here"
         },
-        "F2.UI.Dialogs": {
-            "name": "F2.UI.Dialogs",
-            "shortname": "F2.UI.Dialogs",
+        "F2.Rpc": {
+            "name": "F2.Rpc",
+            "shortname": "F2.Rpc",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "namespace": "",
+            "file": "sdk/src/rpc.js",
+            "line": 1,
+            "description": "Handles socket communication between the Container and secure Apps"
+        },
+        "F2.UI.Modals": {
+            "name": "F2.UI.Modals",
+            "shortname": "F2.UI.Modals",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -260,7 +283,7 @@
             "namespace": "",
             "file": "sdk/src/ui-dialogs.js",
             "line": 1,
-            "description": "Helper methods for creating and using Dialogs"
+            "description": "Helper methods for creating and using Modals"
         },
         "F2.UI": {
             "name": "F2.UI",
@@ -668,7 +691,7 @@
         {
             "file": "sdk/src/constants.js",
             "line": 101,
-            "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an\nApp. It is up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NASDAQ)\" }",
+            "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an\nApp. It is up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "APP_SYMBOL_CHANGE",
             "type": "string",
@@ -690,7 +713,7 @@
         {
             "file": "sdk/src/constants.js",
             "line": 124,
-            "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed\nat the Container level. This event should only be fired by the\nContainer or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: \"MSFT\", name: \"Microsoft Corp (NASDAQ)\" }",
+            "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed\nat the Container level. This event should only be fired by the\nContainer or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "CONTAINER_SYMBOL_CHANGE",
             "type": "string",
@@ -723,6 +746,17 @@
         {
             "file": "sdk/src/constants.js",
             "line": 166,
+            "description": "The EVENT message is sent whenever\n{{#crossLink \"F2.Events\\emit\"}}{{/crossLink}} is fired",
+            "itemtype": "property",
+            "name": "EVENT",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Sockets"
+        },
+        {
+            "file": "sdk/src/constants.js",
+            "line": 175,
             "description": "The LOAD message is sent when an iframe socket initially loads.\nReturns a JSON string that represents:\n\n    [ App, AppManifest]",
             "itemtype": "property",
             "name": "LOAD",
@@ -733,7 +767,29 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 189,
+            "line": 187,
+            "description": "The RPC message is sent when a method is passed up from within a secure\napp page.",
+            "itemtype": "property",
+            "name": "RPC",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Sockets"
+        },
+        {
+            "file": "sdk/src/constants.js",
+            "line": 196,
+            "description": "The RPC\\_CALLBACK message is sent when a call back from an RPC method is\nfired.",
+            "itemtype": "property",
+            "name": "RPC_CALLBACK",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Sockets"
+        },
+        {
+            "file": "sdk/src/constants.js",
+            "line": 216,
             "itemtype": "property",
             "name": "DATA_ATTRIBUTE",
             "type": "string",
@@ -743,7 +799,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 197,
+            "line": 224,
             "description": "The ABOUT view gives details about the App.",
             "itemtype": "property",
             "name": "ABOUT",
@@ -754,7 +810,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 205,
+            "line": 232,
             "description": "The HELP view provides users with help information for using an App.",
             "itemtype": "property",
             "name": "HELP",
@@ -765,7 +821,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 213,
+            "line": 240,
             "description": "The HOME view is the main view for an App. This view should always\nbe provided by an App.",
             "itemtype": "property",
             "name": "HOME",
@@ -776,7 +832,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 222,
+            "line": 249,
             "description": "The REMOVE view is a special view that handles the removal of an App\nfrom the Container.",
             "itemtype": "property",
             "name": "REMOVE",
@@ -787,7 +843,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 231,
+            "line": 258,
             "description": "The SETTINGS view provides users the ability to modify advanced settings\nfor an App.",
             "itemtype": "property",
             "name": "SETTINGS",
@@ -798,47 +854,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 14,
-            "description": "Creates a socket connection from the App to the Container",
-            "itemtype": "method",
-            "name": "_createAppToContainerSocket",
-            "access": "private",
-            "tagname": "",
-            "see": [
-                "The <a href=\"http://easyxdm.net\" target=\"_blank\">easyXDM</a> project."
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 67,
-            "description": "Creates a socket connection from the Container to the App using easyXDM",
-            "itemtype": "method",
-            "name": "_createContainerToAppSocket",
-            "access": "private",
-            "tagname": "",
-            "see": [
-                "The <a href=\"http://easyxdm.net\" target=\"_blank\">easyXDM</a> project."
-            ],
-            "params": [
-                {
-                    "name": "app",
-                    "description": "The App object",
-                    "type": "F2.App"
-                },
-                {
-                    "name": "appManifest",
-                    "description": "The AppManifest object",
-                    "type": "F2.AppManifest"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 124,
+            "line": 11,
             "description": "Renders the html for an App.",
             "itemtype": "method",
             "name": "_getAppHtml",
@@ -861,7 +877,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 149,
+            "line": 36,
             "description": "Adds properties and methods to the App object",
             "itemtype": "method",
             "name": "_hydrateApp",
@@ -879,36 +895,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 157,
-            "description": "creates two functions on the App from the function\npassed in if the app is secure. the 'incoming' function\nwill be called when a message is received via the \nsocket connection",
-            "itemtype": "method",
-            "name": "rpc",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "fnName",
-                    "description": "The function name",
-                    "type": "String"
-                },
-                {
-                    "name": "fn",
-                    "description": "The main function",
-                    "type": "Function"
-                },
-                {
-                    "name": "fnRemote",
-                    "description": "The remote function which will be\ncalled first and its return value passed across the socket\ninto the main function ('fn')",
-                    "type": "Function",
-                    "optional": true
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 223,
+            "line": 83,
             "description": "Attach App events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -919,7 +906,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 256,
+            "line": 116,
             "description": "Attach Container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -930,7 +917,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 274,
+            "line": 134,
             "description": "Loads the App's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -954,7 +941,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 364,
+            "line": 224,
             "description": "Loads the App's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -977,7 +964,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 387,
+            "line": 247,
             "description": "Checks if the App is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -999,7 +986,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 411,
+            "line": 271,
             "description": "Appends the App's html to the DOM",
             "itemtype": "method",
             "name": "_writeAppHtml",
@@ -1026,7 +1013,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 444,
+            "line": 303,
             "description": "Same as F2.Events.emit except that it will not send the event\nto all sockets.",
             "itemtype": "method",
             "name": "_socketEmit",
@@ -1051,7 +1038,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 455,
+            "line": 314,
             "description": "Execute each of the listeners tha may be listening for the specified\nevent name in order with the list of arguments",
             "itemtype": "method",
             "name": "emit",
@@ -1074,7 +1061,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 471,
+            "line": 325,
             "description": "Adds a listener that will execute n times for the event before being \nremoved. The listener is invoked only the first time the event is \nfired, after which it is removed.",
             "itemtype": "method",
             "name": "many",
@@ -1100,7 +1087,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 485,
+            "line": 339,
             "description": "Remove a listener for the specified event.",
             "itemtype": "method",
             "name": "off",
@@ -1121,7 +1108,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 494,
+            "line": 348,
             "description": "Adds a listener for the specified event",
             "itemtype": "method",
             "name": "on",
@@ -1142,7 +1129,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 504,
+            "line": 358,
             "description": "Adds a one time listener for the event. The listener is invoked only\nthe first time the event is fired, after which it is removed.",
             "itemtype": "method",
             "name": "once",
@@ -1163,7 +1150,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 517,
+            "line": 371,
             "description": "Gets the current list of Apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1176,7 +1163,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 528,
+            "line": 382,
             "description": "Initializes the Container. This method must be called before performing\nany other actions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -1192,7 +1179,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 546,
+            "line": 398,
             "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1214,7 +1201,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 662,
+            "line": 514,
             "description": "Removes all Apps from the Container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1223,7 +1210,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 671,
+            "line": 523,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",
@@ -1376,6 +1363,320 @@
                 "type": "String"
             },
             "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 16,
+            "description": "Creates a socket connection from the App to the Container using \n<a href=\"http://easyxdm.net\" target=\"_blank\">easyXDM</a>.",
+            "itemtype": "method",
+            "name": "_createAppToContainerSocket",
+            "access": "private",
+            "tagname": "",
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 58,
+            "description": "Creates a socket connection from the Container to the App using \n<a href=\"http://easyxdm.net\" target=\"_blank\">easyXDM</a>.",
+            "itemtype": "method",
+            "name": "_createContainerToAppSocket",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "appManifest",
+                    "description": "The AppManifest object",
+                    "type": "F2.AppManifest"
+                }
+            ],
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 102,
+            "itemtype": "method",
+            "name": "_createRpcCallback",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The App's Instance ID",
+                    "type": "String"
+                },
+                {
+                    "name": "callbackId",
+                    "description": "The callback ID",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "A function to make the RPC call",
+                "type": "Function"
+            },
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 120,
+            "description": "Handles messages that come across the sockets",
+            "itemtype": "method",
+            "name": "_onMessage",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "message",
+                    "description": "The socket message",
+                    "type": "String"
+                },
+                {
+                    "name": "origin",
+                    "description": "The originator",
+                    "type": "String"
+                }
+            ],
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 191,
+            "description": "Registers a callback function",
+            "itemtype": "method",
+            "name": "_registerCallback",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "The callback function",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "The callback ID",
+                "type": "String"
+            },
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 204,
+            "description": "Broadcast an RPC function to all sockets",
+            "itemtype": "method",
+            "name": "broadcast",
+            "params": [
+                {
+                    "name": "messageType",
+                    "description": "The message type",
+                    "type": "String"
+                },
+                {
+                    "name": "params",
+                    "description": "The parameters to broadcast",
+                    "type": "Array"
+                }
+            ],
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 217,
+            "description": "Calls a remote function",
+            "itemtype": "method",
+            "name": "call",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The App's Instance ID",
+                    "type": "String"
+                },
+                {
+                    "name": "messageType",
+                    "description": "The message type",
+                    "type": "String"
+                },
+                {
+                    "name": "functionName",
+                    "description": "The name of the remote function",
+                    "type": "String"
+                },
+                {
+                    "name": "params",
+                    "description": "An array of parameters to pass to the remote\nfunction. Any functions found within the params will be treated as a\ncallback function.",
+                    "type": "Array"
+                }
+            ],
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 247,
+            "description": "Init function which tells F2.Rpc whether it is running at the Container-\nlevel or the App-level. This method is generally called by\n{{#crossLink \"F2/init\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "secureAppPagePath",
+                    "description": "The\n{{#crossLink \"F2.ContainerConfiguration\"}}{{/crossLink}}.secureAppPagePath\nproperty",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 263,
+            "description": "Determines whether the Instance ID is considered to be 'remote'. This is\ndetermined by checking if 1) the App has an open socket, 2) where the\ninstance of RPC is running (Container or App) and 3) where the App is\nrelative to where this RPC is.",
+            "itemtype": "method",
+            "name": "isRemote",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The Instance ID",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "True if there is an open socket",
+                "type": "Bool"
+            },
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/rpc.js",
+            "line": 283,
+            "description": "Creates a Container-to-App or App-to-Container socket for communication",
+            "itemtype": "method",
+            "name": "register",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App",
+                    "optional": true
+                }
+            ],
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/ui-dialogs.js",
+            "line": 45,
+            "description": "Display an alert message on the page",
+            "itemtype": "method",
+            "name": "alert",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The Instance ID of the App",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": "The message to be displayed",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "The callback to be fired when the user\ncloses the dialog",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "F2.UI.Modals",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/ui-dialogs.js",
+            "line": 78,
+            "description": "Display a confirm message on the page",
+            "itemtype": "method",
+            "name": "confirm",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The Instance ID of the App",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": "The message to be displayed",
+                    "type": "String"
+                },
+                {
+                    "name": "okCallback",
+                    "description": "The function that will be called when the OK\nbutton is pressed",
+                    "type": "Function"
+                },
+                {
+                    "name": "cancelCallback",
+                    "description": "The function that will be called when\nthe Cancel button is pressed",
+                    "type": "Function"
+                }
+            ],
+            "class": "F2.UI.Modals",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/ui.js",
+            "line": 8,
+            "description": "Removes a loading icon/overlay from an Element on the page",
+            "itemtype": "method",
+            "name": "hideLoader",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The Instance ID of the App",
+                    "type": "String"
+                },
+                {
+                    "name": "selector",
+                    "description": "The Element or selector to an Element\nthat currently contains the loader",
+                    "type": "String|Element"
+                }
+            ],
+            "class": "F2.UI",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/ui.js",
+            "line": 31,
+            "description": "Display a loading icon/ovarlay over an Element on the page",
+            "itemtype": "method",
+            "name": "showLoader",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The Instance ID of the App",
+                    "type": "String"
+                },
+                {
+                    "name": "selector",
+                    "description": "The Element or selector to an Element\nover which to display the loader",
+                    "type": "String|Element"
+                }
+            ],
+            "class": "F2.UI",
             "module": "f2"
         }
     ]

@@ -63,9 +63,11 @@
             
                 <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
-                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+                <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
 
@@ -171,7 +173,34 @@
                             </li>
                         
                             <li class="index-item property">
+                                <a href="#property_EVENT">EVENT</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
                                 <a href="#property_LOAD">LOAD</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_RPC">RPC</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_RPC_CALLBACK">RPC_CALLBACK</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -243,8 +272,8 @@
 </div>
 
                 
-                    <div id="property_LOAD" class="property item">
-    <h3 class="name"><code>LOAD</code></h3>
+                    <div id="property_EVENT" class="property item">
+    <h3 class="name"><code>EVENT</code></h3>
     <span class="type">String</span>
 
     
@@ -280,11 +309,158 @@
     </div>
 
     <div class="description">
+        <p>The EVENT message is sent whenever
+F2.Events\emit is fired</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_LOAD" class="property item">
+    <h3 class="name"><code>LOAD</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l175"><code>sdk&#x2F;src&#x2F;constants.js:175</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
         <p>The LOAD message is sent when an iframe socket initially loads.
 Returns a JSON string that represents:</p>
 
 <pre class="code"><code class="prettyprint">[ App, AppManifest]
 </code></pre>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_RPC" class="property item">
+    <h3 class="name"><code>RPC</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l187"><code>sdk&#x2F;src&#x2F;constants.js:187</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The RPC message is sent when a method is passed up from within a secure
+app page.</p>
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_RPC_CALLBACK" class="property item">
+    <h3 class="name"><code>RPC_CALLBACK</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+        <span class="flag final">final</span>
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l196"><code>sdk&#x2F;src&#x2F;constants.js:196</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The RPC_CALLBACK message is sent when a call back from an RPC method is
+fired.</p>
     </div>
 
     

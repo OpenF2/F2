@@ -23,7 +23,11 @@
 		return <<<HTML
 <div class="well">
 	<div class="f2-app-view" data-f2-view="home">
-		PHP $isSecure Hello World!
+		<p>PHP $isSecure Hello World!</p>
+		<ul>
+			<li><a href="#" class="testAlert">Test Alert</a></li>
+			<li><a href="#" class="testConfirm">Test Confirm</a></li>
+		</ul>
 	</div>
 </div>
 HTML;

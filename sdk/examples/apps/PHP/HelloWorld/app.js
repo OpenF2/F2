@@ -8,6 +8,27 @@ F2.Apps["c63380f4340ea1be65d10d38a69bb343"] = (function() {
 	App_Class.prototype.init = function () {
 
 		this._container = $("#" + this._app.instanceId);
+
+		$('a.testAlert', this._container).on('click', $.proxy(function() {
+			F2.UI.Modals.alert(this._app.instanceId, "Hello World!", function() {
+				F2.log('callback fired!');	
+			});
+		}, this));
+
+		$('a.testConfirm', this._container).on('click', $.proxy(function() {
+			F2.UI.Modals.confirm(
+				this._app.instanceId,
+				"Hello World!",
+				function() {
+					F2.log('ok callback fired!');	
+				},
+				function() {
+					F2.log('cancel callback fired!');
+				}
+			); 
+		}, this));
+
+		this._app.setTitle('PHP ' + (this._app.isSecure ? 'Secure' : '') + ' Hello World');
 		this._app.updateHeight();
 		
 		// bind symbol change event

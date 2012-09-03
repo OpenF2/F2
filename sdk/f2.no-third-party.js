@@ -426,7 +426,7 @@ F2.extend("", {
  * @class F2.Constants
  * @static
  */
-F2.extend("Constants", {
+F2.extend('Constants', {
 	/**
 	 * CSS class constants
 	 * @class F2.Constants.Css
@@ -434,7 +434,7 @@ F2.extend("Constants", {
 	Css:(function() {
 
 		/** @private */
-		var _PREFIX = "f2-";
+		var _PREFIX = 'f2-';
 
 		return {
 			/**
@@ -447,7 +447,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP:_PREFIX + "app",
+			APP:_PREFIX + 'app',
 			/**
 			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
 			 * of the App.
@@ -456,7 +456,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_CONTAINER:_PREFIX + "app-container",
+			APP_CONTAINER:_PREFIX + 'app-container',
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
 			 * the title for an App.  If this class is not present, then
@@ -466,7 +466,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_TITLE:_PREFIX + "app-title",
+			APP_TITLE:_PREFIX + 'app-title',
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a
@@ -478,7 +478,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW:_PREFIX + "app-view",
+			APP_VIEW:_PREFIX + 'app-view',
 			/**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
 			 * trigger an
@@ -492,7 +492,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW_TRIGGER:_PREFIX + "app-view-trigger"
+			APP_VIEW_TRIGGER:_PREFIX + 'app-view-trigger'
 		};
 	})(),
 	
@@ -502,9 +502,9 @@ F2.extend("Constants", {
 	 */
 	Events:(function() {
 		/** @private */
-		var _APP_EVENT_PREFIX = "App.";
+		var _APP_EVENT_PREFIX = 'App.';
 		/** @private */
-		var _CONTAINER_EVENT_PREFIX = "Container.";
+		var _CONTAINER_EVENT_PREFIX = 'Container.';
 
 		return {
 			/**
@@ -520,20 +520,20 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + "widthChange.",
+			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + 'widthChange.',
 			/**
 			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
 			 * App. It is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
+			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
 			 *
 			 * @property APP_SYMBOL_CHANGE
 			 * @type string
 			 * @static
 			 * @final
 			 */
-			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + "symbolChange",
+			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + 'symbolChange',
 			/**
 			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user
 			 * clicks to switch the view for an App. The App's instanceId should be
@@ -543,21 +543,21 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + "viewChange.",
+			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + 'viewChange.',
 			/**
 			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
 			 * at the Container level. This event should only be fired by the
 			 * Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
+			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
 			 *
 			 * @property CONTAINER_SYMBOL_CHANGE
 			 * @type string
 			 * @static
 			 * @final
 			 */
-			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + "symbolChange",
+			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + 'symbolChange',
 			/**
 			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
 			 * the width of the Container has changed.
@@ -566,11 +566,11 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + "widthChange"
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + 'widthChange'
 		};
 	})(),
 
-	JSONP_CALLBACK:"F2_jsonpCallback_",
+	JSONP_CALLBACK:'F2_jsonpCallback_',
 
 	/**
 	 * Constants for use with cross-domain sockets
@@ -585,7 +585,16 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		APP_RPC:"__appRpc__",
+		APP_RPC:'__appRpc__',
+		/**
+		 * The EVENT message is sent whenever
+		 * {{#crossLink "F2.Events\emit"}}{{/crossLink}} is fired
+		 * @property EVENT
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		EVENT:'__event__',
 		/**
 		 * The LOAD message is sent when an iframe socket initially loads.
 		 * Returns a JSON string that represents:
@@ -597,7 +606,25 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		LOAD:"__socketLoad__"
+		LOAD:'__socketLoad__',
+		/**
+		 * The RPC message is sent when a method is passed up from within a secure
+		 * app page.
+		 * @property RPC
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		RPC:'__rpc__',
+		/**
+		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
+		 * fired.
+		 * @property RPC_CALLBACK
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		RPC_CALLBACK:'__rpcCallback__'
 	},
 
 	/**
@@ -616,7 +643,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		DATA_ATTRIBUTE:"data-f2-view",
+		DATA_ATTRIBUTE:'data-f2-view',
 		/**
 		 * The ABOUT view gives details about the App.
 		 * @property ABOUT
@@ -624,7 +651,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		ABOUT:"about",
+		ABOUT:'about',
 		/**
 		 * The HELP view provides users with help information for using an App.
 		 * @property HELP
@@ -632,7 +659,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		HELP:"help",
+		HELP:'help',
 		/**
 		 * The HOME view is the main view for an App. This view should always
 		 * be provided by an App.
@@ -641,7 +668,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		HOME:"home",
+		HOME:'home',
 		/**
 		 * The REMOVE view is a special view that handles the removal of an App
 		 * from the Container.
@@ -650,7 +677,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		REMOVE:"remove",
+		REMOVE:'remove',
 		/**
 		 * The SETTINGS view provides users the ability to modify advanced settings
 		 * for an App.
@@ -659,7 +686,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		SETTINGS:"settings"
+		SETTINGS:'settings'
 	}
 });
 /**
@@ -667,123 +694,10 @@ F2.extend("Constants", {
  * @module f2
  * @class F2
  */
-F2.extend("", (function(){
+F2.extend('', (function(){
 
 	var _apps = {};
 	var _config = {};
-	var _hasSocketConnections = false;
-	var _isInit = false;
-	var _sockets = [];
-
-	/**
-	 * Creates a socket connection from the App to the Container
-	 * @method _createAppToContainerSocket
-	 * @private
-	 * @see The <a href="http://easyxdm.net" target="_blank">easyXDM</a> project.
-	 */
-	var _createAppToContainerSocket = function() {
-
-		var socketLoad = new RegExp("^" + F2.Constants.Sockets.LOAD);
-		var appCall = new RegExp("^" + F2.Constants.Sockets.APP_RPC);
-		var isLoaded = false;
-		var socket = new easyXDM.Socket({
-			onMessage: function(message, origin){
-
-				// handle Socket Load
-				if (!isLoaded && socketLoad.test(message)) {
-					message = message.replace(socketLoad, "");
-					var appParts = F2.parse(message);
-
-					// make sure we have the App and AppManifest
-					if (appParts.length == 2) {
-						var app = appParts[0];
-						var appManifest = appParts[1];
-
-						// save app
-						_apps[app.instanceId] = { app:app };
-
-						// add properties and methods
-						_hydrateApp(app);
-
-						// load the app
-						_loadApps([app], appManifest);
-						isLoaded = true;
-					}
-				// handle App Call
-				} else if (appCall.test(message)) {
-					message = message.replace(appCall, "");
-					var obj = F2.parse(message);
-					_apps[obj.instanceId].app["_" + obj.fnName](obj.args);
-				// handle Events
-				} else {
-					var eventArgs = F2.parse(message);
-					F2.Events._socketEmit.apply(F2.Events, eventArgs);
-				}
-			}
-		});
-
-		if (socket != null) {
-			_sockets.push(socket);
-			_hasSocketConnections = true;
-		}
-	};
-
-	/**
-	 * Creates a socket connection from the Container to the App using easyXDM
-	 * @method _createContainerToAppSocket
-	 * @private
-	 * @see The <a href="http://easyxdm.net" target="_blank">easyXDM</a> project.
-	 * @param {F2.App} app The App object
-	 * @param {F2.AppManifest} appManifest The AppManifest object
-	 */
-	var _createContainerToAppSocket = function(app, appManifest) {
-
-		var container = $("#" + app.instanceId).find("." + F2.Constants.Css.APP_CONTAINER);
-
-		if (!container.length) {
-			F2.log("Unable to locate app in order to establish secure connection.");
-			return;
-		}
-
-		var iframeProps = {
-			scrolling:"no",
-			style:{
-				width:"100%"
-			}
-		};
-
-		if (app.height) {
-			iframeProps.style.height = app.height + "px";
-		}
-
-		var socket = new easyXDM.Socket({
-			remote: _config.secureAppPagePath,
-			container: container.get(0),
-			props:iframeProps,
-			onMessage: function(message, origin) {
-				var appCall = new RegExp("^" + F2.Constants.Sockets.APP_RPC);
-
-				if (appCall.test(message)) {
-					message = message.replace(appCall, "");
-					var obj = F2.parse(message);
-					app["_" + obj.fnName](obj.args);
-				} else {
-					var eventArgs = F2.parse(message);
-					F2.Events._socketEmit.apply(F2.Events, eventArgs);
-				}
-			},
-			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appManifest]));
-			}
-		});
-
-		if (socket != null) {
-			_sockets.push(socket);
-			_hasSocketConnections = true;
-		}
-
-		return socket;
-	};
 
 	/**
 	 * Renders the html for an App.
@@ -795,11 +709,11 @@ F2.extend("", (function(){
 	var _getAppHtml = function(app, html) {
 
 		function outerHtml(html) {
-			return $("<div></div>").append(html).html();
+			return $('<div></div>').append(html).html();
 		}
 
 		// apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + " app" + app.appId));
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' app' + app.appId));
 
 		// optionally apply wrapper html
 		if (_config.appWrapper) {
@@ -807,7 +721,7 @@ F2.extend("", (function(){
 		}
 
 		// apply APP class and instanceId
-		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr("id", app.instanceId));
+		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr('id', app.instanceId));
 	};
 
 	/**
@@ -818,70 +732,43 @@ F2.extend("", (function(){
 	 */
 	var _hydrateApp = function(app) {
 
-		/**
-		 * creates two functions on the App from the function
-		 * passed in if the app is secure. the 'incoming' function
-		 * will be called when a message is received via the 
-		 * socket connection
-		 * @method rpc
-		 * @private
-		 * @param {string} fnName The function name
-		 * @param {function} fn The main function
-		 * @param {function} [fnRemote] The remote function which will be
-		 * called first and its return value passed across the socket
-	   * into the main function ('fn')
-		 */
-		var rpc = function(fnName, fn, fnRemote) {
-			
-			if (app.isSecure) {
-				// incoming function
-				app["_" + fnName] = fn;	
-				// outgoing function - pass arguments through socket
-				app[fnName] = function() {
-					// if we're inside a secure app page, there is only one socket
-					// connection
-					var socket = _config.isSecureAppPage ? _sockets[0] : _apps[app.instanceId].socket;
-					var args = [].slice.call(arguments);
-
-					// optionally call remote function
-					args = fnRemote ? fnRemote.apply(app, args) : args;
-
-					// send message over socket
-					socket.postMessage(F2.Constants.Sockets.APP_RPC +
-						F2.stringify({
-							instanceId:app.instanceId,
-							fnName:fnName,
-							args:args
-						})
-					);
-				}
-			} else {
-				app[fnName] = fn;
-			}
-		};
-
 		// create the instanceId for the App
 		app.instanceId = app.instanceId || F2.guid();
 
-		// add setTitle method
-		rpc('setTitle', function(title) {
-			//F2.log("setting title");
-			$("#" + this.instanceId).find("." + F2.Constants.Css.APP_TITLE).text(title);
-		});
+		app.setTitle = function(title) {
 
-		// add updateHeight method
-		rpc(
-			'updateHeight',
-			function(height) {
-				this.height = height;
-				$("#" + this.instanceId).find("iframe").height(this.height);
-				//F2.log("setting height - ", this.height, this.instanceId);
-			},
-			function(height) {
-				//F2.log("getting height - ", this.instanceId);
-				return height || $("#" + this.instanceId).outerHeight();
+			if (F2.Rpc.isRemote(this.instanceId)) {
+				F2.Rpc.call(
+					this.instanceId,
+					F2.Constants.Sockets.APP_RPC,
+					'setTitle',
+					[
+						title
+					]
+				);
+			} else {
+				$('#' + this.instanceId).find('.' + F2.Constants.Css.APP_TITLE).text(title);
 			}
-		);
+		};
+
+		app.updateHeight = function(height) {
+
+			height = height || $('#' + this.instanceId).outerHeight();
+
+			if (F2.Rpc.isRemote(this.instanceId)) {
+				F2.Rpc.call(
+					this.instanceId,
+					F2.Constants.Sockets.APP_RPC,
+					'updateHeight',
+					[
+						height
+					]
+				);
+			} else {
+				this.height = height;
+				$('#' + this.instanceId).find('iframe').height(this.height);
+			}
+		};
 	};
 
 	/**
@@ -891,7 +778,7 @@ F2.extend("", (function(){
 	 */
 	var _initAppEvents = function (app) {
 
-		var appContainer = $("#" + app.instanceId);
+		var appContainer = $('#' + app.instanceId);
 
 		// these events should only be attached outside of the secure app
 		if (!_config.isSecureAppPage) {
@@ -899,7 +786,7 @@ F2.extend("", (function(){
 			// it is assumed that all containers will at least have
 			// F2.Constants.Views.HOME
 			if (_config.supportedViews.length > 1) {
-				$(appContainer).on("click", "." + F2.Constants.Css.APP_VIEW_TRIGGER + "[" + F2.Constants.Views.DATA_ATTRIBUTE + "]", function(event) {
+				$(appContainer).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
 
 					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
 
@@ -929,7 +816,7 @@ F2.extend("", (function(){
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
-		$(window).on("resize", function() {
+		$(window).on('resize', function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
@@ -955,7 +842,7 @@ F2.extend("", (function(){
 
 		// check that the number of apps in manifest matches the number requested
 		if (apps.length != appManifest.apps.length) {
-			F2.log("The number of Apps defined in the AppManifest do not match the number requested.", appManifest);
+			F2.log('The number of Apps defined in the AppManifest do not match the number requested.', appManifest);
 		}
 
 		var scripts = appManifest.scripts || [];
@@ -966,13 +853,13 @@ F2.extend("", (function(){
 		var appInit = function() {
 			$.each(apps, function(i, a) {
 				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === "function") {
+					if (typeof F2.Apps[a.appId] === 'function') {
 						F2.Apps[a.appId].appClass = new F2.Apps[a.appId](a, appManifest.apps[i]);
-						if (F2.Apps[a.appId].appClass["init"] !== undefined) {
+						if (F2.Apps[a.appId].appClass['init'] !== undefined) {
 							F2.Apps[a.appId].appClass.init();
 						}
 					} else {
-						F2.log("App initialization class is defined but not a function. (" + a.appId + ")");
+						F2.log('App initialization class is defined but not a function. (' + a.appId + ')');
 					}
 				}
 			});
@@ -983,7 +870,7 @@ F2.extend("", (function(){
 		$.each(styles, function(i, e) {
 			stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
 		});
-		$("head").append(stylesFragment.join(''));
+		$('head').append(stylesFragment.join(''));
 
 		// load html
 		$.each(appManifest.apps, function(i, a) {
@@ -998,15 +885,15 @@ F2.extend("", (function(){
 			$.ajax({
 				url:e,
 				async:false,
-				dataType:"script",
-				type:"GET",
+				dataType:'script',
+				type:'GET',
 				success:function() {
 					if (++scriptsLoaded == scriptCount) {
 						$.each(inlines, function(i, e) {
 							try {
 								eval(e);
 							} catch (exception) {
-								F2.log("Error loading inline script: " + exception + "\n\n" + e);
+								F2.log('Error loading inline script: ' + exception + '\n\n' + e);
 							}
 						});
 						// fire the load event to tell the App it can proceed
@@ -1014,7 +901,7 @@ F2.extend("", (function(){
 					}
 				},
 				error:function(jqxhr, settings, exception) {
-					F2.log(["Failed to load script (" + e +")", exception.toString()]);
+					F2.log(['Failed to load script (' + e +')', exception.toString()]);
 				}
 			});
 		});
@@ -1038,13 +925,13 @@ F2.extend("", (function(){
 		// make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
-			_writeAppHtml(app, _getAppHtml(app, "<div></div>"));
+			_writeAppHtml(app, _getAppHtml(app, '<div></div>'));
 			// init events
 			_initAppEvents(app);
-			// setup the iframe/socket connection
-			_apps[app.instanceId].socket = _createContainerToAppSocket(app, appManifest);
+			// create RPC socket
+			F2.Rpc.register(app, appManifest);
 		} else {
-			F2.log("Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.");
+			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.');
 		}
 	};
 
@@ -1059,13 +946,13 @@ F2.extend("", (function(){
 
 		// check for valid App configurations
 		if (!app.appId) {
-			F2.log("\"appId\" missing from App object");
+			F2.log('"appId" missing from App object');
 			return false;
 		} else if (!app.manifestUrl) {
-			F2.log("\"manifestUrl\" missing from App object");
+			F2.log('manifestUrl" missing from App object');
 			return false;
 		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
-			F2.log("\"views\" not defined or missing \"F2.Constants.Views.HOME\" view.");
+			F2.log('views" not defined or missing "F2.Constants.Views.HOME" view.');
 			return false;
 		}
 
@@ -1082,7 +969,7 @@ F2.extend("", (function(){
 	 */
 	var _writeAppHtml = function(app, html) {
 		var handler = _config.appWriter || function(app, html) {
-			$("body").append(html);
+			$('body').append(html);
 		};
 		handler(app, html);
 
@@ -1093,7 +980,6 @@ F2.extend("", (function(){
 		/**
 		 * Description of Events goes here
 		 * @class F2.Events
-		 * @method
 		 */
 		Events:(function() {
 			// init EventEmitter
@@ -1124,12 +1010,7 @@ F2.extend("", (function(){
 				 * @param {object} [arg]* The arguments to be passed
 				 */
 				emit:function() {
-					if (_hasSocketConnections) {
-						for (var i = 0, len = _sockets.length; i < len; i++) {
-							_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
-						}
-					}
-					//F2.log([_hasSocketConnections, location.href, arguments]);
+					F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
 					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
 				},
 				/**
@@ -1199,13 +1080,11 @@ F2.extend("", (function(){
 		init:function(config) {
 			_config = config;
 
-			if (_config.isSecureAppPage) {
-				_createAppToContainerSocket();
-			} else {
+			F2.Rpc.init(_config.secureAppPagePath);
+
+			if (!_config.isSecureAppPage) {
 				_initContainerEvents();
 			}
-
-			_isInit = true;
 		},
 		/**
 		 * Begins the loading process for all Apps. The App will
@@ -1235,7 +1114,7 @@ F2.extend("", (function(){
 
 			// ensure that the array of apps and manifests are qual
 			if (apps.length && haveManifests && apps.length != appManifests.length) {
-				F2.log("The length of \"apps\" does not equal the length of \"appManifests\"");
+				F2.log('The length of "apps" does not equal the length of "appManifests"');
 				return;
 			}
 
@@ -1307,12 +1186,12 @@ F2.extend("", (function(){
 							},
 							jsonp:false, /* do not put 'callback=' in the query string */
 							jsonpCallback:jsonpCallback, /* Unique function name */
-							dataType:"jsonp",
+							dataType:'jsonp',
 							success:function(appManifest) {
 								_loadApps(req.apps, appManifest);
 							},
 							error:function(jqxhr, settings, exception) {
-								F2.log("Failed to load app(s)", exception.toString(), req.apps);
+								F2.log('Failed to load app(s)', exception.toString(), req.apps);
 							},
 							complete:function() {
 								manifestRequest(i, requests.pop());
@@ -1340,9 +1219,308 @@ F2.extend("", (function(){
 		removeApp:function(instanceId) {
 			if (_apps[instanceId]) {
 				delete _apps[instanceId];
-				$("#" + instanceId).fadeOut(function() {
+				$('#' + instanceId).fadeOut(function() {
 					$(this).remove();
 				});
+			}
+		}
+	};
+})());
+/**
+ * Handles socket communication between the Container and secure Apps
+ * @class F2.Rpc
+ */
+F2.extend('Rpc', (function(){
+	
+	var _apps = {};
+	var _callbacks = {};
+	var _secureAppPagePath = '';
+	var _rAppCall = new RegExp('^' + F2.Constants.Sockets.APP_RPC);
+	var _rEvents = new RegExp('^' + F2.Constants.Sockets.EVENT);
+	var _rRpc = new RegExp('^' + F2.Constants.Sockets.RPC);
+	var _rRpcCallback = new RegExp('^' + F2.Constants.Sockets.RPC_CALLBACK);
+	var _rSocketLoad = new RegExp('^' + F2.Constants.Sockets.LOAD);
+
+	/**
+	 * Creates a socket connection from the App to the Container using 
+	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
+	 * @method _createAppToContainerSocket
+	 * @private
+	 */
+	var _createAppToContainerSocket = function() {
+
+		var isLoaded = false;
+		var app = false;
+
+		var socket = new easyXDM.Socket({
+			onMessage: function(message, origin){
+
+				// handle Socket Load
+				if (!isLoaded && _rSocketLoad.test(message)) {
+					message = message.replace(_rSocketLoad, '');
+					var appParts = F2.parse(message);
+
+					// make sure we have the App and AppManifest
+					if (appParts.length == 2) {
+						app = appParts[0]; // assigning app object to closure
+						var appManifest = appParts[1];
+
+						// save app locally
+						_apps[app.instanceId] = {
+							app:app,
+							socket:socket
+						};
+
+						F2.registerApps([app], [appManifest]);
+						isLoaded = true;
+					}
+
+				// pass everyting else to _onMessage
+				} else {
+					_onMessage(app, message, origin);
+				}
+			}
+		});
+	};
+
+	/**
+	 * Creates a socket connection from the Container to the App using 
+	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
+	 * @method _createContainerToAppSocket
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {F2.AppManifest} appManifest The AppManifest object
+	 */
+	var _createContainerToAppSocket = function(app, appManifest) {
+
+		var container = $('#' + app.instanceId).find("." + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.length) {
+			F2.log('Unable to locate app in order to establish secure connection.');
+			return;
+		}
+
+		var iframeProps = {
+			scrolling:'no',
+			style:{
+				width:'100%'
+			}
+		};
+
+		if (app.height) {
+			iframeProps.style.height = app.height + 'px';
+		}
+
+		var socket = new easyXDM.Socket({
+			remote: _secureAppPagePath,
+			container: container.get(0),
+			props:iframeProps,
+			onMessage: function(message, origin) {
+				// pass everything to _onMessage
+				_onMessage(app, message, origin);
+			},
+			onReady: function() {
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appManifest]));
+			}
+		});
+
+		return socket;
+	};
+
+	/**
+	 * @method _createRpcCallback
+	 * @private
+	 * @param {string} instanceId The App's Instance ID
+	 * @param {function} callbackId The callback ID
+	 * @return {function} A function to make the RPC call
+	 */
+	var _createRpcCallback = function(instanceId, callbackId) {
+		return function() {
+			F2.Rpc.call(
+				instanceId,
+				F2.Constants.Sockets.RPC_CALLBACK,
+				callbackId,
+				[].slice.call(arguments).slice(2)
+			);
+		};
+	};
+
+	/**
+	 * Handles messages that come across the sockets
+	 * @method _onMessage
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} message The socket message
+	 * @param {string} origin The originator
+	 */
+	var _onMessage = function(app, message, origin) {
+
+		var obj;
+
+		function parse(regEx, message) {
+			return F2.parse(message.replace(regEx, ''));
+		}
+
+		// handle App Call
+		if (_rAppCall.test(message)) {
+			obj = parse(_rAppCall, message);
+			app[obj.functionName].apply(app, obj.params);
+
+		// handle RPC
+		} else if (_rRpc.test(message)) {
+			obj = parse(_rRpc, message);
+
+			// if obj.callbacks
+			//   for each callback
+			//     for each params
+			//       if callback matches param
+			//        replace param with _createRpcCallback(app.instanceId, callback)
+			if (obj.params && obj.params.length && obj.callbacks && obj.callbacks.length) {
+				$.each(obj.callbacks, function(i, c) {
+					$.each(obj.params, function(i, p) {
+						if (c == p) {
+							obj.params[i] = _createRpcCallback(app.instanceId, c);
+						}
+					});
+				});
+			}
+			// parse function path
+			var path = String(obj.functionName).split('.');
+			var func = window;
+			for (var i = 0; i < path.length; i++) {
+				if (func[path[i]] === undefined) {
+					func = undefined;
+					break;
+				}
+				func = func[path[i]];
+			}
+			// if we found the function, call it
+			if (func !== undefined) {
+				func.apply(func, obj.params);
+			} else {
+				F2.log('Unable to locate RPC function: ' + obj.functionName);
+			}
+
+		// handle RPC Callback
+		} else if (_rRpcCallback.test(message)) {
+			obj = parse(_rRpcCallback, message);
+			if (_callbacks[obj.functionName] !== undefined) {
+				_callbacks[obj.functionName].apply(_callbacks[obj.functionName], obj.params);
+				delete _callbacks[obj.functionName];
+			}
+
+		// handle Events
+		} else if (_rEvents.test(message)) {
+			obj = parse(_rEvents, message);
+			F2.Events._socketEmit.apply(F2.Events, obj);
+		}
+	};
+
+	/**
+	 * Registers a callback function
+	 * @method _registerCallback
+	 * @param {function} callback The callback function
+	 * @return {string} The callback ID
+	 */
+	var _registerCallback = function(callback) {
+		var callbackId = F2.guid();
+		_callbacks[callbackId] = callback;
+		return callbackId;
+	};
+
+	return {
+		/**
+		 * Broadcast an RPC function to all sockets
+		 * @method broadcast
+		 * @param {string} messageType The message type
+		 * @param {Array} params The parameters to broadcast
+		 */
+		broadcast:function(messageType, params) {
+			// check valid messageType
+			var message = messageType + F2.stringify(params);
+			$.each(_apps, function(i, a) {
+				a.socket.postMessage(message);
+			});
+		},
+		/**
+		 * Calls a remote function
+		 * @method call
+		 * @param {string} instanceId The App's Instance ID
+		 * @param {string} messageType The message type
+		 * @param {string} functionName The name of the remote function
+		 * @param {Array} params An array of parameters to pass to the remote
+		 * function. Any functions found within the params will be treated as a
+		 * callback function.
+		 */
+		call:function(instanceId, messageType, functionName, params) {
+			// loop through params and find functions and convert them to callbacks
+			var callbacks = [];
+			$.each(params, function(i, e) {
+				if (typeof e === "function") {
+					var cid = _registerCallback(e);
+					params[i] = cid;
+					callbacks.push(cid);
+				}
+			});
+			// check valid messageType
+			_apps[instanceId].socket.postMessage(
+				messageType + F2.stringify({
+					functionName:functionName,
+					params:params,
+					callbacks:callbacks
+				})
+			);
+		},
+
+		/**
+		 * Init function which tells F2.Rpc whether it is running at the Container-
+		 * level or the App-level. This method is generally called by
+		 * {{#crossLink "F2/init"}}{{/crossLink}}
+		 * @method init
+		 * @param {string} [secureAppPagePath] The
+		 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}.secureAppPagePath
+		 * property
+		 */
+		init:function(secureAppPagePath) {
+			_secureAppPagePath = secureAppPagePath;
+			if (!_secureAppPagePath) {
+				_createAppToContainerSocket();
+			}
+		},
+
+		/**
+		 * Determines whether the Instance ID is considered to be 'remote'. This is
+		 * determined by checking if 1) the App has an open socket, 2) where the
+		 * instance of RPC is running (Container or App) and 3) where the App is
+		 * relative to where this RPC is.
+		 * @method isRemote
+		 * @param {string} instanceId The Instance ID
+		 * @return {bool} True if there is an open socket
+		 */
+		isRemote:function(instanceId) {
+			return (
+				// we have an App
+				_apps[instanceId] !== undefined && 
+				// the App is secure
+				_apps[instanceId].app.isSecure &&
+				// we can't access the iframe
+				$('#' + instanceId).find('iframe').length == 0
+			);
+		},
+
+		/**
+		 * Creates a Container-to-App or App-to-Container socket for communication
+		 * @method register
+		 * @param {F2.App} [app] The App object
+		 */
+		register:function(app, appManifest) {
+			if (app) {
+				_apps[app.instanceId] = {
+					app:app,
+					socket:_createContainerToAppSocket(app, appManifest)
+				};
+			} else {
+				F2.log("Unable to register socket connection. Please check container configuration.");
 			}
 		}
 	};
@@ -1351,8 +1529,175 @@ F2.extend("", (function(){
  * UI helper methods
  * @class F2.UI
  */
-F2.extend("UI", (function(){
+F2.extend('UI', (function(){
 
 	return {
+		/**
+		 * Removes a loading icon/overlay from an Element on the page
+		 * @method hideLoader
+		 * @param {string} instanceId The Instance ID of the App
+		 * @param {string|Element} selector The Element or selector to an Element
+		 * that currently contains the loader
+		 */
+		hideLoader:function(instanceId, selector) {
+			if (F2.Rpc.isRemote(instanceId) && !$(selector).is('.' + F2.Constants.Css.APP)) {
+				F2.Rpc.call(
+					instanceId,
+					F2.Constants.Sockets.RPC,
+					'F2.UI.hideLoader',
+					[
+						// must only pass the selector argument. if we pass an Element there
+						// will be F2.stringify() errors
+						$(selector).selector
+					]
+				);
+			} else {
+				F2.log('hideLoader called');
+			}
+		},
+		/**
+		 * Display a loading icon/ovarlay over an Element on the page
+		 * @method showLoader
+		 * @param {string} instanceId The Instance ID of the App
+		 * @param {string|Element} selector The Element or selector to an Element
+		 * over which to display the loader
+		 */
+		showLoader:function(instanceId, selector) {
+			if (F2.Rpc.isRemote(instanceId) && !$(selector).is('.' + F2.Constants.Css.APP)) {
+				F2.Rpc.call(
+					instanceId,
+					F2.Constants.Sockets.RPC,
+					'F2.UI.showLoader',
+					[
+						// must only pass the selector argument. if we pass an Element there
+						// will be F2.stringify() errors
+						$(selector).selector
+					]
+				);
+			} else {
+				F2.log('showLoader called');
+			}
+		}
+	};
+})());
+/**
+ * Helper methods for creating and using Modals
+ * @class F2.UI.Modals
+ */
+F2.extend("UI.Modals", (function(){
+
+	var _renderAlert = function(message) {
+		return [
+			'<div class="modal">',
+				'<header class="modal-header">',
+					'<h3>Alert!</h3>',
+				'</header>',
+				'<div class="modal-body">',
+					'<p>',
+						message,
+					'</p>',
+				'</div>',
+				'<div class="modal-footer">',
+					'<button class="btn btn-primary btn-ok">OK</button>',
+				'</div>',
+			'</div>'
+		].join('');
+	};
+
+	var _renderConfirm = function(message) {
+		return [
+			'<div class="modal">',
+				'<header class="modal-header">',
+					'<h3>Confirm</h3>',
+				'</header>',
+				'<div class="modal-body">',
+					'<p>',
+						message,
+					'</p>',
+				'</div>',
+				'<div class="modal-footer">',
+					'<button type="button" class="btn btn-primary btn-ok">OK</button>',
+					'<button type="button" class="btn btn-cancel">Cancel</button">',
+				'</div>',
+			'</div>'
+		].join('');
+	};
+
+	return {
+		/**
+		 * Display an alert message on the page
+		 * @method alert
+		 * @param {string} instanceId The Instance ID of the App
+		 * @param {string} message The message to be displayed
+		 * @param {function} [callback] The callback to be fired when the user
+		 * closes the dialog
+		 */
+		alert: function(instanceId, message, callback) {
+			if (F2.Rpc.isRemote(instanceId)) {
+				F2.Rpc.call(
+					instanceId,
+					F2.Constants.Sockets.RPC,
+					'F2.UI.Modals.alert',
+					[
+						instanceId,
+						message,
+						callback
+					]
+				);
+			} else {
+				// display the alert
+				$(_renderAlert(message))
+					.on('show', function() {
+						var modal = this;
+						$(modal).find('.btn-primary').on('click', function() {
+							$(modal).modal('hide').remove();
+							(callback || $.noop)();
+						});
+					})
+					.modal({backdrop:true});
+			}
+		},
+		/**
+		 * Display a confirm message on the page
+		 * @method confirm
+		 * @param {string} instanceId The Instance ID of the App
+		 * @param {string} message The message to be displayed
+		 * @param {function} okCallback The function that will be called when the OK
+		 * button is pressed
+		 * @param {function} cancelCallback The function that will be called when
+		 * the Cancel button is pressed
+		 */
+		confirm:function(instanceId, message, okCallback, cancelCallback) {
+			if (F2.Rpc.isRemote(instanceId)) {
+				F2.Rpc.call(
+					instanceId,
+					F2.Constants.Sockets.RPC,
+					'F2.UI.Modals.confirm',
+					[
+						instanceId,
+						message,
+						okCallback,
+						cancelCallback
+					]
+				);
+			} else {
+				// display the alert
+				$(_renderConfirm(message))
+					.on('show', function() {
+						var modal = this;
+
+						$(modal).find('.btn-ok').on('click', function() {
+							$(modal).modal('hide').remove();
+							(okCallback || $.noop)();
+						});
+
+						$(modal).find('.btn-cancel').on('click', function() {
+							$(modal).modal('hide').remove();
+							(cancelCallback || $.noop)();
+						});
+					})
+					.modal({backdrop:true});
+			}
+		}
 	};
 })());

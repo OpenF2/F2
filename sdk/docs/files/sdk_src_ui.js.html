@@ -63,9 +63,11 @@
             
                 <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
-                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+                <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
 
@@ -116,9 +118,55 @@
  * UI helper methods
  * @class F2.UI
  *&#x2F;
-F2.extend(&quot;UI&quot;, (function(){
+F2.extend(&#x27;UI&#x27;, (function(){
 
 	return {
+		&#x2F;**
+		 * Removes a loading icon&#x2F;overlay from an Element on the page
+		 * @method hideLoader
+		 * @param {string} instanceId The Instance ID of the App
+		 * @param {string|Element} selector The Element or selector to an Element
+		 * that currently contains the loader
+		 *&#x2F;
+		hideLoader:function(instanceId, selector) {
+			if (F2.Rpc.isRemote(instanceId) &amp;&amp; !$(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
+				F2.Rpc.call(
+					instanceId,
+					F2.Constants.Sockets.RPC,
+					&#x27;F2.UI.hideLoader&#x27;,
+					[
+						&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
+						&#x2F;&#x2F; will be F2.stringify() errors
+						$(selector).selector
+					]
+				);
+			} else {
+				F2.log(&#x27;hideLoader called&#x27;);
+			}
+		},
+		&#x2F;**
+		 * Display a loading icon&#x2F;ovarlay over an Element on the page
+		 * @method showLoader
+		 * @param {string} instanceId The Instance ID of the App
+		 * @param {string|Element} selector The Element or selector to an Element
+		 * over which to display the loader
+		 *&#x2F;
+		showLoader:function(instanceId, selector) {
+			if (F2.Rpc.isRemote(instanceId) &amp;&amp; !$(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
+				F2.Rpc.call(
+					instanceId,
+					F2.Constants.Sockets.RPC,
+					&#x27;F2.UI.showLoader&#x27;,
+					[
+						&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
+						&#x2F;&#x2F; will be F2.stringify() errors
+						$(selector).selector
+					]
+				);
+			} else {
+				F2.log(&#x27;showLoader called&#x27;);
+			}
+		}
 	};
 })());
     </pre>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>F2.UI</title>
+    <title>F2.UI.Modals</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -110,7 +110,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>F2.UI Class</h1>
+                        <h1>F2.UI.Modals Class</h1>
 <div class="box meta">
     
 
@@ -118,7 +118,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l1"><code>sdk&#x2F;src&#x2F;ui.js:1</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_ui-dialogs.js.html#l1"><code>sdk&#x2F;src&#x2F;ui-dialogs.js:1</code></a>
         </div>
     
 
@@ -134,7 +134,7 @@
 
 
 <div class="box intro">
-    <p>UI helper methods</p>
+    <p>Helper methods for creating and using Modals</p>
 </div>
 
 
@@ -162,14 +162,14 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_hideLoader">hideLoader</a>
+                                <a href="#method_alert">alert</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_showLoader">showLoader</a>
+                                <a href="#method_confirm">confirm</a>
 
                                 
                                 
@@ -191,8 +191,8 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_hideLoader" class="method item">
-    <h3 class="name"><code>hideLoader</code></h3>
+                    <div id="method_alert" class="method item">
+    <h3 class="name"><code>alert</code></h3>
 
     
         <div class="args">
@@ -206,7 +206,13 @@
             
                 <li class="arg">
                     
-                        <code>selector</code>
+                        <code>message</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback]</code>
                     
                 </li>
             
@@ -239,7 +245,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l8"><code>sdk&#x2F;src&#x2F;ui.js:8</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_ui-dialogs.js.html#l45"><code>sdk&#x2F;src&#x2F;ui-dialogs.js:45</code></a>
         
         </p>
 
@@ -250,7 +256,7 @@
     </div>
 
     <div class="description">
-        <p>Removes a loading icon/overlay from an Element on the page</p>
+        <p>Display an alert message on the page</p>
     </div>
 
     
@@ -276,15 +282,31 @@
             
                 <li class="param">
                     
-                        <code class="param-name">selector</code>
-                        <span class="type">String | Element</span>
+                        <code class="param-name">message</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The Element or selector to an Element
-that currently contains the loader</p>
+                        <p>The message to be displayed</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type">Function</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The callback to be fired when the user
+closes the dialog</p>
                     </div>
 
                     
@@ -300,8 +322,8 @@ that currently contains the loader</p>
 </div>
 
                 
-                    <div id="method_showLoader" class="method item">
-    <h3 class="name"><code>showLoader</code></h3>
+                    <div id="method_confirm" class="method item">
+    <h3 class="name"><code>confirm</code></h3>
 
     
         <div class="args">
@@ -315,7 +337,19 @@ that currently contains the loader</p>
             
                 <li class="arg">
                     
-                        <code>selector</code>
+                        <code>message</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>okCallback</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>cancelCallback</code>
                     
                 </li>
             
@@ -348,7 +382,7 @@ that currently contains the loader</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l31"><code>sdk&#x2F;src&#x2F;ui.js:31</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_ui-dialogs.js.html#l78"><code>sdk&#x2F;src&#x2F;ui-dialogs.js:78</code></a>
         
         </p>
 
@@ -359,7 +393,7 @@ that currently contains the loader</p>
     </div>
 
     <div class="description">
-        <p>Display a loading icon/ovarlay over an Element on the page</p>
+        <p>Display a confirm message on the page</p>
     </div>
 
     
@@ -385,15 +419,46 @@ that currently contains the loader</p>
             
                 <li class="param">
                     
-                        <code class="param-name">selector</code>
-                        <span class="type">String | Element</span>
+                        <code class="param-name">message</code>
+                        <span class="type">String</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>The Element or selector to an Element
-over which to display the loader</p>
+                        <p>The message to be displayed</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">okCallback</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function that will be called when the OK
+button is pressed</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">cancelCallback</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function that will be called when
+the Cancel button is pressed</p>
                     </div>
 
                     

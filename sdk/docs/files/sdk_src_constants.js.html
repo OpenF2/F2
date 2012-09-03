@@ -63,9 +63,11 @@
             
                 <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
-                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+                <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
 
@@ -117,7 +119,7 @@
  * @class F2.Constants
  * @static
  *&#x2F;
-F2.extend(&quot;Constants&quot;, {
+F2.extend(&#x27;Constants&#x27;, {
 	&#x2F;**
 	 * CSS class constants
 	 * @class F2.Constants.Css
@@ -125,7 +127,7 @@ F2.extend(&quot;Constants&quot;, {
 	Css:(function() {
 
 		&#x2F;** @private *&#x2F;
-		var _PREFIX = &quot;f2-&quot;;
+		var _PREFIX = &#x27;f2-&#x27;;
 
 		return {
 			&#x2F;**
@@ -138,7 +140,7 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP:_PREFIX + &quot;app&quot;,
+			APP:_PREFIX + &#x27;app&#x27;,
 			&#x2F;**
 			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
 			 * of the App.
@@ -147,7 +149,7 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_CONTAINER:_PREFIX + &quot;app-container&quot;,
+			APP_CONTAINER:_PREFIX + &#x27;app-container&#x27;,
 			&#x2F;**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
 			 * the title for an App.  If this class is not present, then
@@ -157,7 +159,7 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_TITLE:_PREFIX + &quot;app-title&quot;,
+			APP_TITLE:_PREFIX + &#x27;app-title&#x27;,
 			&#x2F;**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a
@@ -169,7 +171,7 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_VIEW:_PREFIX + &quot;app-view&quot;,
+			APP_VIEW:_PREFIX + &#x27;app-view&#x27;,
 			&#x2F;**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
 			 * trigger an
@@ -183,7 +185,7 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_VIEW_TRIGGER:_PREFIX + &quot;app-view-trigger&quot;
+			APP_VIEW_TRIGGER:_PREFIX + &#x27;app-view-trigger&#x27;
 		};
 	})(),
 	
@@ -193,9 +195,9 @@ F2.extend(&quot;Constants&quot;, {
 	 *&#x2F;
 	Events:(function() {
 		&#x2F;** @private *&#x2F;
-		var _APP_EVENT_PREFIX = &quot;App.&quot;;
+		var _APP_EVENT_PREFIX = &#x27;App.&#x27;;
 		&#x2F;** @private *&#x2F;
-		var _CONTAINER_EVENT_PREFIX = &quot;Container.&quot;;
+		var _CONTAINER_EVENT_PREFIX = &#x27;Container.&#x27;;
 
 		return {
 			&#x2F;**
@@ -211,20 +213,20 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + &quot;widthChange.&quot;,
+			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + &#x27;widthChange.&#x27;,
 			&#x2F;**
 			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
 			 * App. It is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: &quot;MSFT&quot;, name: &quot;Microsoft Corp (NASDAQ)&quot; }
+			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
 			 *
 			 * @property APP_SYMBOL_CHANGE
 			 * @type string
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + &quot;symbolChange&quot;,
+			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + &#x27;symbolChange&#x27;,
 			&#x2F;**
 			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user
 			 * clicks to switch the view for an App. The App&#x27;s instanceId should be
@@ -234,21 +236,21 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + &quot;viewChange.&quot;,
+			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + &#x27;viewChange.&#x27;,
 			&#x2F;**
 			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
 			 * at the Container level. This event should only be fired by the
 			 * Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: &quot;MSFT&quot;, name: &quot;Microsoft Corp (NASDAQ)&quot; }
+			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
 			 *
 			 * @property CONTAINER_SYMBOL_CHANGE
 			 * @type string
 			 * @static
 			 * @final
 			 *&#x2F;
-			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + &quot;symbolChange&quot;,
+			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + &#x27;symbolChange&#x27;,
 			&#x2F;**
 			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
 			 * the width of the Container has changed.
@@ -257,11 +259,11 @@ F2.extend(&quot;Constants&quot;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + &quot;widthChange&quot;
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + &#x27;widthChange&#x27;
 		};
 	})(),
 
-	JSONP_CALLBACK:&quot;F2_jsonpCallback_&quot;,
+	JSONP_CALLBACK:&#x27;F2_jsonpCallback_&#x27;,
 
 	&#x2F;**
 	 * Constants for use with cross-domain sockets
@@ -276,7 +278,16 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		APP_RPC:&quot;__appRpc__&quot;,
+		APP_RPC:&#x27;__appRpc__&#x27;,
+		&#x2F;**
+		 * The EVENT message is sent whenever
+		 * {{#crossLink &quot;F2.Events\emit&quot;}}{{&#x2F;crossLink}} is fired
+		 * @property EVENT
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		EVENT:&#x27;__event__&#x27;,
 		&#x2F;**
 		 * The LOAD message is sent when an iframe socket initially loads.
 		 * Returns a JSON string that represents:
@@ -288,7 +299,25 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		LOAD:&quot;__socketLoad__&quot;
+		LOAD:&#x27;__socketLoad__&#x27;,
+		&#x2F;**
+		 * The RPC message is sent when a method is passed up from within a secure
+		 * app page.
+		 * @property RPC
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		RPC:&#x27;__rpc__&#x27;,
+		&#x2F;**
+		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
+		 * fired.
+		 * @property RPC_CALLBACK
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		RPC_CALLBACK:&#x27;__rpcCallback__&#x27;
 	},
 
 	&#x2F;**
@@ -307,7 +336,7 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		DATA_ATTRIBUTE:&quot;data-f2-view&quot;,
+		DATA_ATTRIBUTE:&#x27;data-f2-view&#x27;,
 		&#x2F;**
 		 * The ABOUT view gives details about the App.
 		 * @property ABOUT
@@ -315,7 +344,7 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		ABOUT:&quot;about&quot;,
+		ABOUT:&#x27;about&#x27;,
 		&#x2F;**
 		 * The HELP view provides users with help information for using an App.
 		 * @property HELP
@@ -323,7 +352,7 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		HELP:&quot;help&quot;,
+		HELP:&#x27;help&#x27;,
 		&#x2F;**
 		 * The HOME view is the main view for an App. This view should always
 		 * be provided by an App.
@@ -332,7 +361,7 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		HOME:&quot;home&quot;,
+		HOME:&#x27;home&#x27;,
 		&#x2F;**
 		 * The REMOVE view is a special view that handles the removal of an App
 		 * from the Container.
@@ -341,7 +370,7 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		REMOVE:&quot;remove&quot;,
+		REMOVE:&#x27;remove&#x27;,
 		&#x2F;**
 		 * The SETTINGS view provides users the ability to modify advanced settings
 		 * for an App.
@@ -350,7 +379,7 @@ F2.extend(&quot;Constants&quot;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		SETTINGS:&quot;settings&quot;
+		SETTINGS:&#x27;settings&#x27;
 	}
 });
     </pre>

@@ -46,7 +46,9 @@ var coreFiles = [
 	'sdk/src/classes.js',
 	'sdk/src/constants.js',
 	'sdk/src/container.js',
-	'sdk/src/ui.js'
+	'sdk/src/rpc.js',
+	'sdk/src/ui.js',
+	'sdk/src/ui-dialogs.js'
 ];
 
 // a list of options that maps an argument to a function
@@ -64,7 +66,7 @@ function processNext() {
 	var option = options.shift();
 
 	if (!option) { return; }
-	
+
 	if (argv[option.arg] || argv.a) {
 		option.f();
 	} else {

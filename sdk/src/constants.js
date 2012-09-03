@@ -3,7 +3,7 @@
  * @class F2.Constants
  * @static
  */
-F2.extend("Constants", {
+F2.extend('Constants', {
 	/**
 	 * CSS class constants
 	 * @class F2.Constants.Css
@@ -11,7 +11,7 @@ F2.extend("Constants", {
 	Css:(function() {
 
 		/** @private */
-		var _PREFIX = "f2-";
+		var _PREFIX = 'f2-';
 
 		return {
 			/**
@@ -24,7 +24,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP:_PREFIX + "app",
+			APP:_PREFIX + 'app',
 			/**
 			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
 			 * of the App.
@@ -33,7 +33,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_CONTAINER:_PREFIX + "app-container",
+			APP_CONTAINER:_PREFIX + 'app-container',
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
 			 * the title for an App.  If this class is not present, then
@@ -43,7 +43,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_TITLE:_PREFIX + "app-title",
+			APP_TITLE:_PREFIX + 'app-title',
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a
@@ -55,7 +55,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW:_PREFIX + "app-view",
+			APP_VIEW:_PREFIX + 'app-view',
 			/**
 			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
 			 * trigger an
@@ -69,7 +69,7 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW_TRIGGER:_PREFIX + "app-view-trigger"
+			APP_VIEW_TRIGGER:_PREFIX + 'app-view-trigger'
 		};
 	})(),
 	
@@ -79,9 +79,9 @@ F2.extend("Constants", {
 	 */
 	Events:(function() {
 		/** @private */
-		var _APP_EVENT_PREFIX = "App.";
+		var _APP_EVENT_PREFIX = 'App.';
 		/** @private */
-		var _CONTAINER_EVENT_PREFIX = "Container.";
+		var _CONTAINER_EVENT_PREFIX = 'Container.';
 
 		return {
 			/**
@@ -97,20 +97,20 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + "widthChange.",
+			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + 'widthChange.',
 			/**
 			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
 			 * App. It is up to the App developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
+			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
 			 *
 			 * @property APP_SYMBOL_CHANGE
 			 * @type string
 			 * @static
 			 * @final
 			 */
-			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + "symbolChange",
+			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + 'symbolChange',
 			/**
 			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user
 			 * clicks to switch the view for an App. The App's instanceId should be
@@ -120,21 +120,21 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + "viewChange.",
+			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + 'viewChange.',
 			/**
 			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
 			 * at the Container level. This event should only be fired by the
 			 * Container or Container Provider.
 			 * Returns an object with the symbol and company name:
 			 *
-			 *     { symbol: "MSFT", name: "Microsoft Corp (NASDAQ)" }
+			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
 			 *
 			 * @property CONTAINER_SYMBOL_CHANGE
 			 * @type string
 			 * @static
 			 * @final
 			 */
-			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + "symbolChange",
+			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + 'symbolChange',
 			/**
 			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
 			 * the width of the Container has changed.
@@ -143,11 +143,11 @@ F2.extend("Constants", {
 			 * @static
 			 * @final
 			 */
-			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + "widthChange"
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + 'widthChange'
 		};
 	})(),
 
-	JSONP_CALLBACK:"F2_jsonpCallback_",
+	JSONP_CALLBACK:'F2_jsonpCallback_',
 
 	/**
 	 * Constants for use with cross-domain sockets
@@ -162,7 +162,16 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		APP_RPC:"__appRpc__",
+		APP_RPC:'__appRpc__',
+		/**
+		 * The EVENT message is sent whenever
+		 * {{#crossLink "F2.Events\emit"}}{{/crossLink}} is fired
+		 * @property EVENT
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		EVENT:'__event__',
 		/**
 		 * The LOAD message is sent when an iframe socket initially loads.
 		 * Returns a JSON string that represents:
@@ -174,7 +183,25 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		LOAD:"__socketLoad__"
+		LOAD:'__socketLoad__',
+		/**
+		 * The RPC message is sent when a method is passed up from within a secure
+		 * app page.
+		 * @property RPC
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		RPC:'__rpc__',
+		/**
+		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
+		 * fired.
+		 * @property RPC_CALLBACK
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		RPC_CALLBACK:'__rpcCallback__'
 	},
 
 	/**
@@ -193,7 +220,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		DATA_ATTRIBUTE:"data-f2-view",
+		DATA_ATTRIBUTE:'data-f2-view',
 		/**
 		 * The ABOUT view gives details about the App.
 		 * @property ABOUT
@@ -201,7 +228,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		ABOUT:"about",
+		ABOUT:'about',
 		/**
 		 * The HELP view provides users with help information for using an App.
 		 * @property HELP
@@ -209,7 +236,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		HELP:"help",
+		HELP:'help',
 		/**
 		 * The HOME view is the main view for an App. This view should always
 		 * be provided by an App.
@@ -218,7 +245,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		HOME:"home",
+		HOME:'home',
 		/**
 		 * The REMOVE view is a special view that handles the removal of an App
 		 * from the Container.
@@ -227,7 +254,7 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		REMOVE:"remove",
+		REMOVE:'remove',
 		/**
 		 * The SETTINGS view provides users the ability to modify advanced settings
 		 * for an App.
@@ -236,6 +263,6 @@ F2.extend("Constants", {
 		 * @static
 		 * @final
 		 */
-		SETTINGS:"settings"
+		SETTINGS:'settings'
 	}
 });

@@ -63,9 +63,11 @@
             
                 <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
             
+                <li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
-                <li><a href="..&#x2F;classes/F2.UI.Dialogs.html">F2.UI.Dialogs</a></li>
+                <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
 
@@ -117,123 +119,10 @@
  * @module f2
  * @class F2
  *&#x2F;
-F2.extend(&quot;&quot;, (function(){
+F2.extend(&#x27;&#x27;, (function(){
 
 	var _apps = {};
 	var _config = {};
-	var _hasSocketConnections = false;
-	var _isInit = false;
-	var _sockets = [];
-
-	&#x2F;**
-	 * Creates a socket connection from the App to the Container
-	 * @method _createAppToContainerSocket
-	 * @private
-	 * @see The &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt; project.
-	 *&#x2F;
-	var _createAppToContainerSocket = function() {
-
-		var socketLoad = new RegExp(&quot;^&quot; + F2.Constants.Sockets.LOAD);
-		var appCall = new RegExp(&quot;^&quot; + F2.Constants.Sockets.APP_RPC);
-		var isLoaded = false;
-		var socket = new easyXDM.Socket({
-			onMessage: function(message, origin){
-
-				&#x2F;&#x2F; handle Socket Load
-				if (!isLoaded &amp;&amp; socketLoad.test(message)) {
-					message = message.replace(socketLoad, &quot;&quot;);
-					var appParts = F2.parse(message);
-
-					&#x2F;&#x2F; make sure we have the App and AppManifest
-					if (appParts.length == 2) {
-						var app = appParts[0];
-						var appManifest = appParts[1];
-
-						&#x2F;&#x2F; save app
-						_apps[app.instanceId] = { app:app };
-
-						&#x2F;&#x2F; add properties and methods
-						_hydrateApp(app);
-
-						&#x2F;&#x2F; load the app
-						_loadApps([app], appManifest);
-						isLoaded = true;
-					}
-				&#x2F;&#x2F; handle App Call
-				} else if (appCall.test(message)) {
-					message = message.replace(appCall, &quot;&quot;);
-					var obj = F2.parse(message);
-					_apps[obj.instanceId].app[&quot;_&quot; + obj.fnName](obj.args);
-				&#x2F;&#x2F; handle Events
-				} else {
-					var eventArgs = F2.parse(message);
-					F2.Events._socketEmit.apply(F2.Events, eventArgs);
-				}
-			}
-		});
-
-		if (socket != null) {
-			_sockets.push(socket);
-			_hasSocketConnections = true;
-		}
-	};
-
-	&#x2F;**
-	 * Creates a socket connection from the Container to the App using easyXDM
-	 * @method _createContainerToAppSocket
-	 * @private
-	 * @see The &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt; project.
-	 * @param {F2.App} app The App object
-	 * @param {F2.AppManifest} appManifest The AppManifest object
-	 *&#x2F;
-	var _createContainerToAppSocket = function(app, appManifest) {
-
-		var container = $(&quot;#&quot; + app.instanceId).find(&quot;.&quot; + F2.Constants.Css.APP_CONTAINER);
-
-		if (!container.length) {
-			F2.log(&quot;Unable to locate app in order to establish secure connection.&quot;);
-			return;
-		}
-
-		var iframeProps = {
-			scrolling:&quot;no&quot;,
-			style:{
-				width:&quot;100%&quot;
-			}
-		};
-
-		if (app.height) {
-			iframeProps.style.height = app.height + &quot;px&quot;;
-		}
-
-		var socket = new easyXDM.Socket({
-			remote: _config.secureAppPagePath,
-			container: container.get(0),
-			props:iframeProps,
-			onMessage: function(message, origin) {
-				var appCall = new RegExp(&quot;^&quot; + F2.Constants.Sockets.APP_RPC);
-
-				if (appCall.test(message)) {
-					message = message.replace(appCall, &quot;&quot;);
-					var obj = F2.parse(message);
-					app[&quot;_&quot; + obj.fnName](obj.args);
-				} else {
-					var eventArgs = F2.parse(message);
-					F2.Events._socketEmit.apply(F2.Events, eventArgs);
-				}
-			},
-			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appManifest]));
-			}
-		});
-
-		if (socket != null) {
-			_sockets.push(socket);
-			_hasSocketConnections = true;
-		}
-
-		return socket;
-	};
 
 	&#x2F;**
 	 * Renders the html for an App.
@@ -245,11 +134,11 @@ F2.extend(&quot;&quot;, (function(){
 	var _getAppHtml = function(app, html) {
 
 		function outerHtml(html) {
-			return $(&quot;&lt;div&gt;&lt;&#x2F;div&gt;&quot;).append(html).html();
+			return $(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
 		}
 
 		&#x2F;&#x2F; apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &quot; app&quot; + app.appId));
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; app&#x27; + app.appId));
 
 		&#x2F;&#x2F; optionally apply wrapper html
 		if (_config.appWrapper) {
@@ -257,7 +146,7 @@ F2.extend(&quot;&quot;, (function(){
 		}
 
 		&#x2F;&#x2F; apply APP class and instanceId
-		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr(&quot;id&quot;, app.instanceId));
+		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr(&#x27;id&#x27;, app.instanceId));
 	};
 
 	&#x2F;**
@@ -268,70 +157,43 @@ F2.extend(&quot;&quot;, (function(){
 	 *&#x2F;
 	var _hydrateApp = function(app) {
 
-		&#x2F;**
-		 * creates two functions on the App from the function
-		 * passed in if the app is secure. the &#x27;incoming&#x27; function
-		 * will be called when a message is received via the 
-		 * socket connection
-		 * @method rpc
-		 * @private
-		 * @param {string} fnName The function name
-		 * @param {function} fn The main function
-		 * @param {function} [fnRemote] The remote function which will be
-		 * called first and its return value passed across the socket
-	   * into the main function (&#x27;fn&#x27;)
-		 *&#x2F;
-		var rpc = function(fnName, fn, fnRemote) {
-			
-			if (app.isSecure) {
-				&#x2F;&#x2F; incoming function
-				app[&quot;_&quot; + fnName] = fn;	
-				&#x2F;&#x2F; outgoing function - pass arguments through socket
-				app[fnName] = function() {
-					&#x2F;&#x2F; if we&#x27;re inside a secure app page, there is only one socket
-					&#x2F;&#x2F; connection
-					var socket = _config.isSecureAppPage ? _sockets[0] : _apps[app.instanceId].socket;
-					var args = [].slice.call(arguments);
-
-					&#x2F;&#x2F; optionally call remote function
-					args = fnRemote ? fnRemote.apply(app, args) : args;
-
-					&#x2F;&#x2F; send message over socket
-					socket.postMessage(F2.Constants.Sockets.APP_RPC +
-						F2.stringify({
-							instanceId:app.instanceId,
-							fnName:fnName,
-							args:args
-						})
-					);
-				}
-			} else {
-				app[fnName] = fn;
-			}
-		};
-
 		&#x2F;&#x2F; create the instanceId for the App
 		app.instanceId = app.instanceId || F2.guid();
 
-		&#x2F;&#x2F; add setTitle method
-		rpc(&#x27;setTitle&#x27;, function(title) {
-			&#x2F;&#x2F;F2.log(&quot;setting title&quot;);
-			$(&quot;#&quot; + this.instanceId).find(&quot;.&quot; + F2.Constants.Css.APP_TITLE).text(title);
-		});
+		app.setTitle = function(title) {
 
-		&#x2F;&#x2F; add updateHeight method
-		rpc(
-			&#x27;updateHeight&#x27;,
-			function(height) {
-				this.height = height;
-				$(&quot;#&quot; + this.instanceId).find(&quot;iframe&quot;).height(this.height);
-				&#x2F;&#x2F;F2.log(&quot;setting height - &quot;, this.height, this.instanceId);
-			},
-			function(height) {
-				&#x2F;&#x2F;F2.log(&quot;getting height - &quot;, this.instanceId);
-				return height || $(&quot;#&quot; + this.instanceId).outerHeight();
+			if (F2.Rpc.isRemote(this.instanceId)) {
+				F2.Rpc.call(
+					this.instanceId,
+					F2.Constants.Sockets.APP_RPC,
+					&#x27;setTitle&#x27;,
+					[
+						title
+					]
+				);
+			} else {
+				$(&#x27;#&#x27; + this.instanceId).find(&#x27;.&#x27; + F2.Constants.Css.APP_TITLE).text(title);
 			}
-		);
+		};
+
+		app.updateHeight = function(height) {
+
+			height = height || $(&#x27;#&#x27; + this.instanceId).outerHeight();
+
+			if (F2.Rpc.isRemote(this.instanceId)) {
+				F2.Rpc.call(
+					this.instanceId,
+					F2.Constants.Sockets.APP_RPC,
+					&#x27;updateHeight&#x27;,
+					[
+						height
+					]
+				);
+			} else {
+				this.height = height;
+				$(&#x27;#&#x27; + this.instanceId).find(&#x27;iframe&#x27;).height(this.height);
+			}
+		};
 	};
 
 	&#x2F;**
@@ -341,7 +203,7 @@ F2.extend(&quot;&quot;, (function(){
 	 *&#x2F;
 	var _initAppEvents = function (app) {
 
-		var appContainer = $(&quot;#&quot; + app.instanceId);
+		var appContainer = $(&#x27;#&#x27; + app.instanceId);
 
 		&#x2F;&#x2F; these events should only be attached outside of the secure app
 		if (!_config.isSecureAppPage) {
@@ -349,7 +211,7 @@ F2.extend(&quot;&quot;, (function(){
 			&#x2F;&#x2F; it is assumed that all containers will at least have
 			&#x2F;&#x2F; F2.Constants.Views.HOME
 			if (_config.supportedViews.length &gt; 1) {
-				$(appContainer).on(&quot;click&quot;, &quot;.&quot; + F2.Constants.Css.APP_VIEW_TRIGGER + &quot;[&quot; + F2.Constants.Views.DATA_ATTRIBUTE + &quot;]&quot;, function(event) {
+				$(appContainer).on(&#x27;click&#x27;, &#x27;.&#x27; + F2.Constants.Css.APP_VIEW_TRIGGER + &#x27;[&#x27; + F2.Constants.Views.DATA_ATTRIBUTE + &#x27;]&#x27;, function(event) {
 
 					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
 
@@ -379,7 +241,7 @@ F2.extend(&quot;&quot;, (function(){
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
-		$(window).on(&quot;resize&quot;, function() {
+		$(window).on(&#x27;resize&#x27;, function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
@@ -405,7 +267,7 @@ F2.extend(&quot;&quot;, (function(){
 
 		&#x2F;&#x2F; check that the number of apps in manifest matches the number requested
 		if (apps.length != appManifest.apps.length) {
-			F2.log(&quot;The number of Apps defined in the AppManifest do not match the number requested.&quot;, appManifest);
+			F2.log(&#x27;The number of Apps defined in the AppManifest do not match the number requested.&#x27;, appManifest);
 		}
 
 		var scripts = appManifest.scripts || [];
@@ -416,13 +278,13 @@ F2.extend(&quot;&quot;, (function(){
 		var appInit = function() {
 			$.each(apps, function(i, a) {
 				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === &quot;function&quot;) {
+					if (typeof F2.Apps[a.appId] === &#x27;function&#x27;) {
 						F2.Apps[a.appId].appClass = new F2.Apps[a.appId](a, appManifest.apps[i]);
-						if (F2.Apps[a.appId].appClass[&quot;init&quot;] !== undefined) {
+						if (F2.Apps[a.appId].appClass[&#x27;init&#x27;] !== undefined) {
 							F2.Apps[a.appId].appClass.init();
 						}
 					} else {
-						F2.log(&quot;App initialization class is defined but not a function. (&quot; + a.appId + &quot;)&quot;);
+						F2.log(&#x27;App initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
 					}
 				}
 			});
@@ -433,7 +295,7 @@ F2.extend(&quot;&quot;, (function(){
 		$.each(styles, function(i, e) {
 			stylesFragment.push(&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text&#x2F;css&quot; href=&quot;&#x27; + e + &#x27;&quot;&#x2F;&gt;&#x27;);
 		});
-		$(&quot;head&quot;).append(stylesFragment.join(&#x27;&#x27;));
+		$(&#x27;head&#x27;).append(stylesFragment.join(&#x27;&#x27;));
 
 		&#x2F;&#x2F; load html
 		$.each(appManifest.apps, function(i, a) {
@@ -448,15 +310,15 @@ F2.extend(&quot;&quot;, (function(){
 			$.ajax({
 				url:e,
 				async:false,
-				dataType:&quot;script&quot;,
-				type:&quot;GET&quot;,
+				dataType:&#x27;script&#x27;,
+				type:&#x27;GET&#x27;,
 				success:function() {
 					if (++scriptsLoaded == scriptCount) {
 						$.each(inlines, function(i, e) {
 							try {
 								eval(e);
 							} catch (exception) {
-								F2.log(&quot;Error loading inline script: &quot; + exception + &quot;\n\n&quot; + e);
+								F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + e);
 							}
 						});
 						&#x2F;&#x2F; fire the load event to tell the App it can proceed
@@ -464,7 +326,7 @@ F2.extend(&quot;&quot;, (function(){
 					}
 				},
 				error:function(jqxhr, settings, exception) {
-					F2.log([&quot;Failed to load script (&quot; + e +&quot;)&quot;, exception.toString()]);
+					F2.log([&#x27;Failed to load script (&#x27; + e +&#x27;)&#x27;, exception.toString()]);
 				}
 			});
 		});
@@ -488,13 +350,13 @@ F2.extend(&quot;&quot;, (function(){
 		&#x2F;&#x2F; make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			&#x2F;&#x2F; create the html container for the iframe
-			_writeAppHtml(app, _getAppHtml(app, &quot;&lt;div&gt;&lt;&#x2F;div&gt;&quot;));
+			_writeAppHtml(app, _getAppHtml(app, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
 			&#x2F;&#x2F; init events
 			_initAppEvents(app);
-			&#x2F;&#x2F; setup the iframe&#x2F;socket connection
-			_apps[app.instanceId].socket = _createContainerToAppSocket(app, appManifest);
+			&#x2F;&#x2F; create RPC socket
+			F2.Rpc.register(app, appManifest);
 		} else {
-			F2.log(&quot;Unable to load secure app: \&quot;secureAppPagePath\&quot; is not defined in ContainerConfiguration.&quot;);
+			F2.log(&#x27;Unable to load secure app: \&quot;secureAppPagePath\&quot; is not defined in ContainerConfiguration.&#x27;);
 		}
 	};
 
@@ -509,13 +371,13 @@ F2.extend(&quot;&quot;, (function(){
 
 		&#x2F;&#x2F; check for valid App configurations
 		if (!app.appId) {
-			F2.log(&quot;\&quot;appId\&quot; missing from App object&quot;);
+			F2.log(&#x27;&quot;appId&quot; missing from App object&#x27;);
 			return false;
 		} else if (!app.manifestUrl) {
-			F2.log(&quot;\&quot;manifestUrl\&quot; missing from App object&quot;);
+			F2.log(&#x27;manifestUrl&quot; missing from App object&#x27;);
 			return false;
 		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
-			F2.log(&quot;\&quot;views\&quot; not defined or missing \&quot;F2.Constants.Views.HOME\&quot; view.&quot;);
+			F2.log(&#x27;views&quot; not defined or missing &quot;F2.Constants.Views.HOME&quot; view.&#x27;);
 			return false;
 		}
 
@@ -532,7 +394,7 @@ F2.extend(&quot;&quot;, (function(){
 	 *&#x2F;
 	var _writeAppHtml = function(app, html) {
 		var handler = _config.appWriter || function(app, html) {
-			$(&quot;body&quot;).append(html);
+			$(&#x27;body&#x27;).append(html);
 		};
 		handler(app, html);
 
@@ -543,7 +405,6 @@ F2.extend(&quot;&quot;, (function(){
 		&#x2F;**
 		 * Description of Events goes here
 		 * @class F2.Events
-		 * @method
 		 *&#x2F;
 		Events:(function() {
 			&#x2F;&#x2F; init EventEmitter
@@ -574,12 +435,7 @@ F2.extend(&quot;&quot;, (function(){
 				 * @param {object} [arg]* The arguments to be passed
 				 *&#x2F;
 				emit:function() {
-					if (_hasSocketConnections) {
-						for (var i = 0, len = _sockets.length; i &lt; len; i++) {
-							_sockets[i].postMessage(F2.stringify([].slice.call(arguments)));
-						}
-					}
-					&#x2F;&#x2F;F2.log([_hasSocketConnections, location.href, arguments]);
+					F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
 					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
 				},
 				&#x2F;**
@@ -649,13 +505,11 @@ F2.extend(&quot;&quot;, (function(){
 		init:function(config) {
 			_config = config;
 
-			if (_config.isSecureAppPage) {
-				_createAppToContainerSocket();
-			} else {
+			F2.Rpc.init(_config.secureAppPagePath);
+
+			if (!_config.isSecureAppPage) {
 				_initContainerEvents();
 			}
-
-			_isInit = true;
 		},
 		&#x2F;**
 		 * Begins the loading process for all Apps. The App will
@@ -685,7 +539,7 @@ F2.extend(&quot;&quot;, (function(){
 
 			&#x2F;&#x2F; ensure that the array of apps and manifests are qual
 			if (apps.length &amp;&amp; haveManifests &amp;&amp; apps.length != appManifests.length) {
-				F2.log(&quot;The length of \&quot;apps\&quot; does not equal the length of \&quot;appManifests\&quot;&quot;);
+				F2.log(&#x27;The length of &quot;apps&quot; does not equal the length of &quot;appManifests&quot;&#x27;);
 				return;
 			}
 
@@ -757,12 +611,12 @@ F2.extend(&quot;&quot;, (function(){
 							},
 							jsonp:false, &#x2F;* do not put &#x27;callback=&#x27; in the query string *&#x2F;
 							jsonpCallback:jsonpCallback, &#x2F;* Unique function name *&#x2F;
-							dataType:&quot;jsonp&quot;,
+							dataType:&#x27;jsonp&#x27;,
 							success:function(appManifest) {
 								_loadApps(req.apps, appManifest);
 							},
 							error:function(jqxhr, settings, exception) {
-								F2.log(&quot;Failed to load app(s)&quot;, exception.toString(), req.apps);
+								F2.log(&#x27;Failed to load app(s)&#x27;, exception.toString(), req.apps);
 							},
 							complete:function() {
 								manifestRequest(i, requests.pop());
@@ -790,7 +644,7 @@ F2.extend(&quot;&quot;, (function(){
 		removeApp:function(instanceId) {
 			if (_apps[instanceId]) {
 				delete _apps[instanceId];
-				$(&quot;#&quot; + instanceId).fadeOut(function() {
+				$(&#x27;#&#x27; + instanceId).fadeOut(function() {
 					$(this).remove();
 				});
 			}
