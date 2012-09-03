@@ -21,6 +21,7 @@ var argv = optimist
 	.usage('Build script for F2\nUsage: $0 [options]')
 	.boolean('a').alias('a', 'all').describe('a', 'Build all')
 	.boolean('d').alias('d', 'docs').describe('d', 'Build the docs')
+	.boolean('l').alias('l', 'less').describe('l', 'Compile LESS')
 	.boolean('g').alias('g', 'gh-pages').describe('g', 'Copy docs to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
 	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
 	.boolean('j').alias('j', 'js-sdk').describe('j', 'Build just the JS SDK')
@@ -53,6 +54,7 @@ var options = [
 	{ arg: 'h', f: help },
 	{ arg: 'j', f: js },
 	{ arg: 'd', f: docs },
+	{ arg: 'l', f: less },
 	{ arg: 'y', f: yuidoc },
 	{ arg: 'g', f: ghp }
 ];
@@ -88,13 +90,33 @@ function docs() {
 			if (error) {
 				console.log(stderr);
 			} else {
-				//console.log(stdout);
 				console.log('COMPLETE');
+				less();//compile LESS before we're done.
 				processNext();
 			}
 		}
 	);
 };
+
+/**
+ * Compile LESS into f2.css
+ * @method less
+ */
+function less(){
+	console.log('Compiling LESS...');
+	exec(
+		'lessc ./template/less/bootstrap.less > ../html/css/F2.css', //--compress
+		{ cwd: './docs/src' },
+		function(error, stdout, stderr){
+			if (error){
+				console.log(stderr);
+			} else {
+				console.log("COMPLETE");
+				processNext();
+			}
+		}
+	);
+}
 
 /**
  * Copies all documentation to the gh-pages folder
