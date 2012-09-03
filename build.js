@@ -51,7 +51,8 @@ var coreFiles = [
 	'sdk/src/ui-dialogs.js'
 ];
 
-// a list of options that maps an argument to a function
+// a list of options that maps an argument to a function. the options need to be
+// in order of dependency, in case the user specifies -a
 var options = [
 	{ arg: 'h', f: help },
 	{ arg: 'j', f: js },
