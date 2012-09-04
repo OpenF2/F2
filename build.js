@@ -29,19 +29,8 @@ var argv = optimist
 	.argv;
 
 // constants
-var ENCODING = 'utf-8';
-var EOL = '\n';
-
-// files to be packaged
-var packageFiles = [
-	'sdk/src/third-party/json3.js',
-	'sdk/src/third-party/eventemitter2.js',
-	'sdk/src/third-party/easyXDM/easyXDM.min.js',
-	'sdk/f2.no-third-party.js' // this file is created by the build process
-];
-
 // only the files that represent f2
-var coreFiles = [
+var CORE_FILES = [
 	'sdk/src/preamble.js',
 	'sdk/src/classes.js',
 	'sdk/src/constants.js',
@@ -50,10 +39,18 @@ var coreFiles = [
 	'sdk/src/ui.js',
 	'sdk/src/ui-dialogs.js'
 ];
-
+var ENCODING = 'utf-8';
+var EOL = '\n';
+// files to be packaged
+var PACKAGE_FILES = [
+	'sdk/src/third-party/json3.js',
+	'sdk/src/third-party/eventemitter2.js',
+	'sdk/src/third-party/easyXDM/easyXDM.min.js',
+	'sdk/f2.no-third-party.js' // this file is created by the build process
+];
 // a list of options that maps an argument to a function. the options need to be
 // in order of dependency, in case the user specifies -a
-var options = [
+var OPTIONS = [
 	{ arg: 'j', f: js },
 	{ arg: 'd', f: docs },
 	{ arg: 'l', f: less },
@@ -61,23 +58,34 @@ var options = [
 	{ arg: 'g', f: ghp }
 ];
 
-// process the list of options
-function processNext() {
-	var option = options.shift();
+// build all if no args are passed
+argv.a = argv.a || process.argv.length == 2;
+// process -l if -d is passed
+argv.l = argv.l || argv.d;
+
+// if help option was passed, only display help
+if (argv.h) {
+	help();
+// else process all options
+} else {
+	processOptionQueue();
+}
+
+/**
+ * Process the list of options that were passed. We have to use a queue because
+ * of sync issues when running external processes.
+ * @method processOptionQueue
+ */
+function processOptionQueue() {
+	var option = OPTIONS.shift();
 
 	if (!option) { return; }
 
 	if (argv[option.arg] || argv.a) {
 		option.f();
 	} else {
-		processNext();
+		processOptionQueue();
 	}
-}
-
-if (argv.h) {
-	help();
-} else {
-	processNext();
 }
 
 /**
@@ -98,8 +106,7 @@ function docs() {
 				console.log(stderr);
 			} else {
 				console.log('COMPLETE');
-				less();//compile LESS before we're done.
-				processNext();
+				processOptionQueue();
 			}
 		}
 	);
@@ -119,7 +126,7 @@ function less(){
 				console.log(stderr);
 			} else {
 				console.log("COMPLETE");
-				processNext();
+				processOptionQueue();
 			}
 		}
 	);
@@ -139,7 +146,7 @@ function ghp() {
 	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk');
 	console.log('COMPLETE');
 
-	processNext();
+	processOptionQueue();
 };
 
 /**
@@ -156,7 +163,7 @@ function help() {
  */
 function js() {
 	console.log('Building f2.no-third-party.js...');
-	var contents = coreFiles.map(function(f) {
+	var contents = CORE_FILES.map(function(f) {
 		return fs.readFileSync(f, ENCODING);
 	});
 	fs.writeFileSync('./sdk/f2.no-third-party.js', contents.join(EOL), ENCODING);
@@ -164,7 +171,7 @@ function js() {
 
 
 	console.log('Building Debug Package...');
-	var contents = packageFiles.map(function(f) {
+	var contents = PACKAGE_FILES.map(function(f) {
 		return fs.readFileSync(f, ENCODING);
 	});
 	fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
@@ -172,7 +179,7 @@ function js() {
 
 
 	console.log('Building Minified Package...');
-	var contents = packageFiles.map(function(f) {
+	var contents = PACKAGE_FILES.map(function(f) {
 
 		var code = fs.readFileSync(f, ENCODING);
 		var comments = [];
@@ -198,7 +205,7 @@ function js() {
 	fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
 	console.log('COMPLETE');
 
-	processNext();
+	processOptionQueue();
 };
 
 /**
@@ -220,6 +227,6 @@ function yuidoc() {
 	docOptions = Y.Project.mix(json, docOptions);
 	(new Y.DocBuilder(docOptions, json)).compile(function() {
 		console.log('COMPLETE');
-		processNext();
+		processOptionQueue();
 	});
 };
