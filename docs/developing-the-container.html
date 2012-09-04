@@ -34,9 +34,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
   <link href="./css/F2.css" rel="stylesheet">
   <link href="./css/F2-docs.css" rel="stylesheet">
-  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
-  
-  
+  <link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
   
   <style type="text/css" media="print">
   	#toc {
@@ -64,7 +62,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.7</a></li>
       </ul>
     </div>
   </div>
@@ -202,17 +200,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 </div><!--/.container-->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
-<script src="//docs.openf2.com/js/prettify.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
 <script>
 	
 	/**
 	 * This code is only for the documentation site. Don't use it anywhere else.
 	 *
 	 */
-
-
 	if (navigator.userAgent.indexOf('Mac OS') != -1) {
 		$('body').addClass('mac');
 	}
@@ -340,6 +336,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 		buildTableOfContents();
 		setActiveNav();
 		formatSourceCodeElements();
+		$("a[rel=tooltip]","#docs").tooltip();
 	});
 </script>
 </body>
