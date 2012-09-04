@@ -57,7 +57,7 @@ F2.extend('Constants', {
 			 */
 			APP_VIEW:_PREFIX + 'app-view',
 			/**
-			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
+			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
 			 * trigger an
 			 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE
 			 * event. The DOM Element should also have a
@@ -69,7 +69,25 @@ F2.extend('Constants', {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW_TRIGGER:_PREFIX + 'app-view-trigger'
+			APP_VIEW_TRIGGER:_PREFIX + 'app-view-trigger',
+			/**
+			 * The MASK class is applied to the overlay element that is created
+			 * when the {{#crossLink "F2.UI\showMask"}}{{/crossLink}} method is fired.
+			 * @property MASK
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			MASK:_PREFIX + 'mask',
+			/**
+			 * The MASK_CONTAINER class is applied to the Element that is passed into
+			 * the {{#crossLink "F2.UI\showMask"}}{{/crossLink}} method.
+			 * @property MASK_CONTAINER
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			MASK_CONTAINER:_PREFIX + 'mask-container'
 		};
 	})(),
 	

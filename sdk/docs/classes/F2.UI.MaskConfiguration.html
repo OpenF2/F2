@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>F2.Constants.Sockets</title>
+    <title>F2.UI.MaskConfiguration</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -112,7 +112,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>F2.Constants.Sockets Class</h1>
+                        <h1>F2.UI.MaskConfiguration Class</h1>
 <div class="box meta">
     
 
@@ -120,7 +120,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l170"><code>sdk\src\constants.js:170</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l274"><code>sdk\src\classes.js:274</code></a>
         </div>
     
 
@@ -136,7 +136,9 @@
 
 
 <div class="box intro">
-    <p>Constants for use with cross-domain sockets</p>
+    <p>An object containing configuration information for the 
+F2.UI\showMask and
+F2.UI\hideMask methods.</p>
 </div>
 
 
@@ -166,46 +168,36 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_APP_RPC">APP_RPC</a>
+                                <a href="#property_backgroundColor">backgroundColor</a>
 
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_EVENT">EVENT</a>
+                                <a href="#property_loadingIcon">loadingIcon</a>
 
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_LOAD">LOAD</a>
+                                <a href="#property_opacity">opacity</a>
 
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_RPC">RPC</a>
+                                <a href="#property_useClasses">useClasses</a>
 
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_RPC_CALLBACK">RPC_CALLBACK</a>
+                                <a href="#property_zIndex">zIndex</a>
 
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -226,8 +218,8 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_APP_RPC" class="property item">
-    <h3 class="name"><code>APP_RPC</code></h3>
+                    <div id="property_backgroundColor" class="property item">
+    <h3 class="name"><code>backgroundColor</code></h3>
     <span class="type">String</span>
 
     
@@ -235,11 +227,7 @@
     
 
     
-        <span class="flag final">final</span>
-    
 
-    
-        <span class="flag static">static</span>
     
 
     <div class="meta">
@@ -253,7 +241,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l176"><code>sdk\src\constants.js:176</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l281"><code>sdk\src\classes.js:281</code></a>
         
         </p>
 
@@ -263,7 +251,53 @@
     </div>
 
     <div class="description">
-        <p>The APP_RPC message is sent when a method on an App object is called.</p>
+        <p>The backround color of the overlay</p>
+    </div>
+
+    
+        <p><strong>Default:</strong> #FFFFFF</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_loadingIcon" class="property item">
+    <h3 class="name"><code>loadingIcon</code></h3>
+    <span class="type">String</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l288"><code>sdk\src\classes.js:288</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The path to the loading icon</p>
     </div>
 
     
@@ -274,20 +308,16 @@
 </div>
 
                 
-                    <div id="property_EVENT" class="property item">
-    <h3 class="name"><code>EVENT</code></h3>
-    <span class="type">String</span>
+                    <div id="property_opacity" class="property item">
+    <h3 class="name"><code>opacity</code></h3>
+    <span class="type">Int</span>
 
     
 
     
 
     
-        <span class="flag final">final</span>
-    
 
-    
-        <span class="flag static">static</span>
     
 
     <div class="meta">
@@ -301,7 +331,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l184"><code>sdk\src\constants.js:184</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l294"><code>sdk\src\classes.js:294</code></a>
         
         </p>
 
@@ -311,10 +341,11 @@
     </div>
 
     <div class="description">
-        <p>The EVENT message is sent whenever
-F2.Events\emit is fired</p>
+        <p>The opacity of the background overlay</p>
     </div>
 
+    
+        <p><strong>Default:</strong> .6</p>
     
 
     
@@ -323,20 +354,16 @@ F2.Events\emit is fired</p>
 </div>
 
                 
-                    <div id="property_LOAD" class="property item">
-    <h3 class="name"><code>LOAD</code></h3>
-    <span class="type">String</span>
+                    <div id="property_useClasses" class="property item">
+    <h3 class="name"><code>useClasses</code></h3>
+    <span class="type">Bool</span>
 
     
 
     
 
     
-        <span class="flag final">final</span>
-    
 
-    
-        <span class="flag static">static</span>
     
 
     <div class="meta">
@@ -350,7 +377,7 @@ F2.Events\emit is fired</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l193"><code>sdk\src\constants.js:193</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l301"><code>sdk\src\classes.js:301</code></a>
         
         </p>
 
@@ -360,13 +387,13 @@ F2.Events\emit is fired</p>
     </div>
 
     <div class="description">
-        <p>The LOAD message is sent when an iframe socket initially loads.
-Returns a JSON string that represents:</p>
-
-<pre class="code"><code class="prettyprint">[ App, AppManifest]
-</code></pre>
+        <p>Do not use inline styles for mask functinality. Instead classes will be
+applied to the elements and it is up to the Container provider to
+implement the class definitions.</p>
     </div>
 
+    
+        <p><strong>Default:</strong> false</p>
     
 
     
@@ -375,20 +402,16 @@ Returns a JSON string that represents:</p>
 </div>
 
                 
-                    <div id="property_RPC" class="property item">
-    <h3 class="name"><code>RPC</code></h3>
-    <span class="type">String</span>
+                    <div id="property_zIndex" class="property item">
+    <h3 class="name"><code>zIndex</code></h3>
+    <span class="type">Int</span>
 
     
 
     
 
     
-        <span class="flag final">final</span>
-    
 
-    
-        <span class="flag static">static</span>
     
 
     <div class="meta">
@@ -402,7 +425,7 @@ Returns a JSON string that represents:</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l205"><code>sdk\src\constants.js:205</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l310"><code>sdk\src\classes.js:310</code></a>
         
         </p>
 
@@ -412,59 +435,11 @@ Returns a JSON string that represents:</p>
     </div>
 
     <div class="description">
-        <p>The RPC message is sent when a method is passed up from within a secure
-app page.</p>
+        <p>The z-index to use for the overlay</p>
     </div>
 
     
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_RPC_CALLBACK" class="property item">
-    <h3 class="name"><code>RPC_CALLBACK</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-        <span class="flag final">final</span>
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l214"><code>sdk\src\constants.js:214</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The RPC_CALLBACK message is sent when a call back from an RPC method is
-fired.</p>
-    </div>
-
+        <p><strong>Default:</strong> 2</p>
     
 
     

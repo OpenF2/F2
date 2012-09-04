@@ -266,3 +266,53 @@ F2.extend("", {
 		supportedViews:[]
 	}
 });
+
+/**
+ * @main F2
+ */
+F2.extend("F2.UI", {
+	/**
+	 * An object containing configuration information for the 
+	 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
+	 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods.
+	 * @class F2.UI.MaskConfiguration
+	 */
+	MaskConfiguration:{
+		/**
+		 * The backround color of the overlay
+		 * @property backgroundColor
+		 * @type string
+		 * @default #FFFFFF
+		 */
+		backgroundColor:'#FFFFFF',
+		/**
+		 * The path to the loading icon
+		 * @property loadingIcon
+		 * @type string
+		 */
+		loadingIcon:'',
+		/**
+		 * The opacity of the background overlay
+		 * @property opacity
+		 * @type int
+		 * @default .6
+		 */
+		opacity:.6,
+		/**
+		 * Do not use inline styles for mask functinality. Instead classes will be
+		 * applied to the elements and it is up to the Container provider to
+		 * implement the class definitions.
+		 * @property useClasses
+		 * @type bool
+		 * @default false
+		 */
+		useClasses:false,
+		/**
+		 * The z-index to use for the overlay
+		 * @property zIndex
+		 * @type int
+		 * @default 2
+		 */
+		zIndex:2
+	}
+});

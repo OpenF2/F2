@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>sdk&#x2F;src&#x2F;ui-dialogs.js</title>
+    <title>sdk\src\ui-dialogs.js</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -67,6 +67,8 @@
             
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
@@ -110,7 +112,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: sdk&#x2F;src&#x2F;ui-dialogs.js</h1>
+                        <h1 class="file-heading">File: sdk\src\ui-dialogs.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -167,16 +169,18 @@ F2.extend(&quot;UI.Modals&quot;, (function(){
 		 * closes the dialog
 		 *&#x2F;
 		alert: function(instanceId, message, callback) {
+
+			if (!F2.isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.UI.Modals.alert()&#x27;);
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
 					&#x27;F2.UI.Modals.alert&#x27;,
-					[
-						instanceId,
-						message,
-						callback
-					]
+					[].slice.call(arguments)
 				);
 			} else {
 				&#x2F;&#x2F; display the alert
@@ -202,17 +206,18 @@ F2.extend(&quot;UI.Modals&quot;, (function(){
 		 * the Cancel button is pressed
 		 *&#x2F;
 		confirm:function(instanceId, message, okCallback, cancelCallback) {
+
+			if (!F2.isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.UI.Modals.confirm()&#x27;);
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
 					&#x27;F2.UI.Modals.confirm&#x27;,
-					[
-						instanceId,
-						message,
-						okCallback,
-						cancelCallback
-					]
+					[].slice.call(arguments)
 				);
 			} else {
 				&#x2F;&#x2F; display the alert

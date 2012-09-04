@@ -14,6 +14,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "F2.Events",
         "F2.Rpc",
         "F2.UI",
+        "F2.UI.MaskConfiguration",
         "F2.UI.Modals"
     ],
     "modules": [
