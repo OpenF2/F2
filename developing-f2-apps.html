@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>F2 Documentation - Developing F2 Apps</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+  <meta name="author" content="Markit">
+  
+  <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
+  <link href="./css/F2.css" rel="stylesheet">
+  <link href="./css/F2-docs.css" rel="stylesheet">
+  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
+  
+  
+  
+  <style type="text/css" media="print">
+  	#toc {
+  		display: none;
+  	}
+  
+  	.row .span9 {
+  		margin-left: 0;
+  	}
+  </style>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="index.html">F2: Financial Framework</a>
+      <div class="tagline-divider"></div>
+      <div class="tagline">Helping you build smarter financial apps</div>
+      <ul class="nav pull-right">
+        <li><a href="http://www.openF2.com">OpenF2.com</a></li>
+        <li class="divider-vertical"></li>
+        <li class="active"><a href="index.html">Documentation</a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/">Project on GitHub</a></li>
+        <li class="divider-vertical"></li>
+        <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="span3" id="toc">
+        <ul class="nav nav-list nav-pills nav-stacked" data-spy="affix">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="components-of-the-framework.html">Components of F2</a></li>
+          <li><a href="creating-F2.html">Creating F2</a></li>
+		      <li><a href="f2-requirements.html">Requirements</a></li>
+          <li class="divider"></li>
+          <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
+		      <li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>
+		      <li><a href="developing-the-container.html">Developing the F2 Container</a></li>
+          <li class="divider"></li>
+          <li><a href="../../sdk/docs/">F2.js SDK Reference</a></li>
+          <li class="divider"></li>
+        </ul>
+
+    </div><!--/span3-->
+
+	<div class="span9">
+		<div id="docs">
+<header>
+<h1 class="title">Developing F2 Apps</h1>
+</header>
+<p class="lead">
+To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the <a href="https://github.com/OpenF2/F2#quick-start">quick start instructions</a>.
+</p>
+
+<section class="level2" id="overview">
+<h2>Overview</h2>
+<p>Defined very simply, a F2-capable app is a <code>javascript</code> file which defines your <a href="../../sdk/docs/classes/F2.AppManifest.html">app manifest</a>. Check out the <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/apps">example apps on GitHub</a> to see some apps in action.</p>
+<p>Technically speaking, a F2 app is one of two things:</p>
+<dl class="dl-horizontal">
+    <dt>
+Display App
+</dt>
+    <dd>
+A display app displays information to users in visible fashion (using HTML, CSS, and JavaScript).
+</dd>
+    <dt>
+Data App
+</dt>
+    <dd>
+A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.
+</dd>
+</dl>
+
+<p>For the purposes of this documentation and to get started, we'll focus on developing <strong>display apps</strong>. If you want to build a data app, <a href="#">browse to data apps</a>.</p>
+<div class="well well-small">
+<h4>
+About Apps
+</h4>
+<p>
+The term &quot;app&quot;, in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are <em>not</em> smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.
+</p>
+</div>
+
+<hr>
+<section class="level3" id="understanding-f2-apps">
+<h3>Understanding F2 Apps</h3>
+<p>To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many <a href="components-of-the-framework.html">components of F2</a>, and apps and containers are only scratching the surface in terms of what is available to app developers today. From the concept of <a href="components-of-the-framework.html#app-context">app context</a> to <a href="components-of-the-framework.html#creating-a-common-look-and-feel">creating a common look and feel</a> across apps, apps are the cornerstone of F2-enabled multi-party web applications.</p>
+<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML">project repo on GitHub</a>. Once you download and extract the archive, point your browser at:</p>
+<p><code>http://localhost/&lt;your_extract_location&gt;/F2/sdk/examples/containers/HTML/</code></p>
+<div class="alert alert-info">
+<strong>Note:</strong> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, ASP, JavaScript). While it is not a requirement you have a web server configured on your computer, it will certainly enhance your F2 development experience.
+</div>
+
+<hr>
+</section>
+</section>
+<section class="level2" id="apps-and-containers">
+<h2>Apps and Containers</h2>
+<p>To understand F2 and the role of apps, you need to understand the role of the <strong>container</strong>.</p>
+<figure>
+<img src="./img/wwp_devices.png" title="Containers and Apps on desktop and mobile"><figcaption></figcaption>
+</figure>
+<p>The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is &quot;aware&quot; of its contents (the apps) and plays the role of a traffic cop managing context passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2 JavaScript SDK.</p>
+<p>Each container provider, or individual person or company hosting a container, shall be responsible for including the <a href="https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js">F2 JavaScript SDK</a>. Through the SDK, F2.js provides a consistent means for all app developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.</p>
+<p>To get started working with or developing containers, browse to the <a href="developing-the-container.html">documentation for developing the container</a>.</p>
+<hr>
+</section>
+<section class="level2" id="f2-apps">
+<h2>F2 Apps</h2>
+<p>For an app to work with F2, it must have this basic structure—called the <strong>App Manifest</strong>—represented in <a href="http://json.org">JSON</a>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    <span class="st">&quot;inlineScripts&quot;</span>:[],  
+    <span class="st">&quot;scripts&quot;</span>:[],    
+    <span class="st">&quot;styles&quot;</span>:[],     
+    <span class="st">&quot;apps&quot;</span>:[{
+            <span class="st">&quot;data&quot;</span>:{},
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&quot;</span>,
+            <span class="st">&quot;status&quot;</span>:<span class="st">&quot;&quot;</span>
+    }]
+}</code></pre>
+<p>The App Manifest can be generated by the server-side code of your choice or be written-by-hand in your favorite text editor. In the <a href="http://www.github.com/OpenF2/F2">GitHub repository</a>, there are examples in JavaScript, PHP, Python and Classic ASP (JScript) to get you started.</p>
+<p>When it's complete (using our examples below), the App Manifest looks like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    <span class="st">&quot;inlineScripts&quot;</span>:[<span class="st">&quot;var foo = bar; doSomething();&quot;</span>], <span class="co">//discouraged, we&#39;ll explain later.</span>
+    <span class="st">&quot;scripts&quot;</span>:[
+        <span class="st">&quot;http://www.domain.com/js/app-logic.js&quot;</span>,
+        <span class="st">&quot;http://www.domain.com/js/app-helper.js&quot;</span>
+    ],   
+    <span class="st">&quot;styles&quot;</span>:[
+        <span class="st">&quot;http://www.domain.com/css/base.css&quot;</span>,
+        <span class="st">&quot;http://www.domain.com/css/ie7.css&quot;</span>
+    ],   
+    <span class="st">&quot;apps&quot;</span>:[{
+            <span class="st">&quot;data&quot;</span>:{ 
+                <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
+                <span class="dt">value</span>: <span class="dv">12345</span>
+            },
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>
+            <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
+    }]
+}</code></pre>
+<p>Let's break the App Manifest object down and look at each property (in reverse order to keep it fun).</p>
+<section class="level3" id="apps">
+<h3>Apps</h3>
+<p>The <code>apps</code> property is an array of <code>AppContent</code> objects. Each <code>AppContent</code> object contains three properties:</p>
+<ol type="1">
+<li><code>html</code></li>
+<li><code>data</code></li>
+<li><code>status</code></li>
+</ol>
+<section class="level4" id="html">
+<h4>html</h4>
+<p>The <code>html</code> property contains the view of your app represented in <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/encodeURIComponent">encoded</a> HTML. While you can modify the way your app appears or functions within the container, the <code>html</code> property is what the container will show when it <a href="../../sdk/docs/classes/F2.html#method_registerApps">registers your app</a> and displays its contents for the first time.</p>
+<p>Example:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;html&quot;</span>: <span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span></code></pre>
+<p>The <em>decoded</em> version of the <code>html</code> example above is:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sunrise&quot;</span><span class="kw">&gt;</span>Hello world.<span class="kw">&lt;/div&gt;</span></code></pre>
+</section>
+<section class="level4" id="data">
+<h4>data</h4>
+<p>The <code>data</code> property is there to support the placement of arbitrary data needing to be passed along with the app. <em>This field is optional.</em></p>
+</section>
+<section class="level4" id="status">
+<h4>status</h4>
+<p>The <code>status</code> property allows app developers to communicate a server-side arbitrary status code to itself or to the container. <em>This field is optional.</em></p>
+</section>
+</section>
+<section class="level3" id="styles">
+<h3>Styles</h3>
+<p>The <code>styles</code> property is an array of URLs represented as strings. The <code>styles</code> array refers to any CSS files needed by the app so it be displayed correctly on the container. The externally-referenced CSS files should be fully-qualified. <a href="#">Read more about CSS and namespacing</a>.</p>
+<p>Example:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;styles&quot;</span>: [
+    <span class="st">&quot;http://www.domain.com/css/base.css&quot;</span>,
+    <span class="st">&quot;http://www.domain.com/css/ie7.css&quot;</span>
+]</code></pre>
+</section>
+<section class="level3" id="scripts">
+<h3>Scripts</h3>
+<p>The <code>scripts</code> property is an array of URLs represented as strings. The <code>scripts</code> array refers to any JavaScript files needed by the app so it be function correctly on the container. The externally-referenced JS files should be fully-qualified. <a href="#">Read more about JavaScript and namespacing</a>.</p>
+<p>Example:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;scripts&quot;</span>: [
+    <span class="st">&quot;http://www.domain.com/js/app-logic.js&quot;</span>,
+    <span class="st">&quot;http://www.domain.com/js/app-helper.js&quot;</span>
+]</code></pre>
+</section>
+<section class="level3" id="inline-scripts">
+<h3>Inline Scripts</h3>
+<p>The <code>inlineScripts</code> property is an array of strings. The <code>inlineScripts</code> array includes any JavaScript code needed by the app so it be function correctly on the container. The contents of the <code>inlineScripts</code> array will be evaluated as JavaScript when all <code>scripts</code> have finished loading. <a href="#">Read more about JavaScript and namespacing</a>.</p>
+<p>Example:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;inlineScripts&quot;</span>: [
+    <span class="st">&quot;var foo = bar; doSomething();&quot;</span>
+]</code></pre>
+</section>
+<section class="level3" id="sample-app-manifest">
+<h3>Sample App Manifest</h3>
+<p>If we use the examples above, our app would look like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    <span class="st">&quot;inlineScripts&quot;</span>:[<span class="st">&quot;var foo = bar; doSomething();&quot;</span>], <span class="co">//discouraged, we&#39;ll explain later.</span>
+    <span class="st">&quot;scripts&quot;</span>:[
+        <span class="st">&quot;http://www.domain.com/js/app-logic.js&quot;</span>,
+        <span class="st">&quot;http://www.domain.com/js/app-helper.js&quot;</span>
+    ],   
+    <span class="st">&quot;styles&quot;</span>:[
+        <span class="st">&quot;http://www.domain.com/css/base.css&quot;</span>,
+        <span class="st">&quot;http://www.domain.com/css/ie7.css&quot;</span>
+    ],   
+    <span class="st">&quot;apps&quot;</span>:[{
+            <span class="st">&quot;data&quot;</span>:{ 
+                <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
+                <span class="dt">value</span>: <span class="dv">12345</span>
+            },
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>,
+            <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
+    }]
+}</code></pre>
+<hr>
+</section>
+</section>
+<section class="level2" id="developing-your-f2-app">
+<h2>Developing Your F2 App</h2>
+<p>Now that we've detailed the <a href="#f2-apps">F2 app</a> and defined the <a href="#sample-app-manifest">App Manifest</a>, let's take a closer look at how to build <em>your</em> app. We'll explain how to get a F2 AppId, what output format your app needs to support, how the contents of <code>AppContent.html</code> work, and the two hooks for adding form and function to your app: <code>scripts</code> and <code>styles</code>.</p>
+<section class="level3" id="f2-appid">
+<h3>F2 AppId</h3>
+<p>To develop a F2 app, you need a unique identifier called an <strong>AppId</strong>. This AppId will be unique to <em>your app</em> in the entire open financial framework ecosystem. To guarantee uniqueness, we have provided an AppId generation service.</p>
+<p><a href="#" class="btn btn-large btn-primary">Get Your F2 AppId Now »</a></p>
+</section>
+<section class="level3" id="app-html">
+<h3>App HTML</h3>
+<p>Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather <em>passed to the container</em> via the App's AppManifest. But that's not a problem because we've <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/apps">provided examples</a> to show you the way. Here are the steps for getting your app HTML into your <code>AppContent.html</code> property:</p>
+<ol type="1">
+<li>Develop the web page or module or widget or component or portlet that will be your app.</li>
+<li>Take all the contents of it—that is, the HTML—and encode it.</li>
+<li>Put the encoded result in the <code>html</code> property of your <code>AppContent</code> object within your App Manifest file's <code>App</code> object.</li>
+</ol>
+<p><strong>Huh?</strong> Check out this example:</p>
+<p>Step 1.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sunrise&quot;</span><span class="kw">&gt;</span>Hello world.<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>Step 2. Encoded HTML.</p>
+<pre class="sourceCode html"><code class="sourceCode html">%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E</code></pre>
+<p>Step 3. App Manifest file.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    ...
+    <span class="st">&quot;apps&quot;</span>:[{
+        <span class="st">&quot;html&quot;</span>: <span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>
+        ...
+    }]
+}</code></pre>
+<p>
+<span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding part.
+</p>
+
+</section>
+<section class="level3" id="scripts-styles">
+<h3>Scripts &amp; Styles</h3>
+<p>Once your app is on the container, chances are you'll want it to actually do something. As an app developer, it is entirely up to you to write your own stylesheets and javascript code to add form and function to your app. F2's standardized App Manifest provides hooks for your CSS and scripts to get onto the container—just use the <code>scripts</code> and <code>styles</code> arrays detailed above in the <a href="#sample-app-manifest">App Manifest</a>.</p>
+<div class="alert alert-info">
+<i class="icon-warning-sign"></i> For details about CSS conflicts or javascript collisions once your app is on a container, read all about properly <a href="#namespacing">namespacing your code in F2</a>.
+</div>
+
+</section>
+<section class="level3" id="app-manifest-response">
+<h3>App Manifest Response</h3>
+<p>OK, so you know about F2 apps and you've got your own App Manifest file written. There's one final piece—the App Manifest response format. As part of F2, containers register apps—typically hosted on different domains—using JSONP. <strong>This means F2 App Manifest files must provide a JSONP callback function.</strong> (If you don't know what JSONP is or how it works, we recommend <a href="http://remysharp.com/2007/10/08/what-is-jsonp/">reading what Remy Sharp has to say</a> about it.)</p>
+<p>For security reasons, the App Manifest JSONP callback function must be a specific format. We have defined that using a combination of a stirng and your unique F2 AppId. The JSONP callback function name looks like this:</p>
+<p><code>F2_jsonpCallback_&lt;AppID&gt;</code></p>
+<p>When applied, the final App Manifest file looks like this example (where <code>123456789</code> is your AppId):</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">F2_jsonpCallback_123456789({
+    <span class="st">&quot;inlineScripts&quot;</span>:[<span class="st">&quot;var foo = bar; doSomething();&quot;</span>], <span class="co">//discouraged, we&#39;ll explain later.</span>
+    <span class="st">&quot;scripts&quot;</span>:[
+        <span class="st">&quot;http://www.domain.com/js/app-logic.js&quot;</span>,
+        <span class="st">&quot;http://www.domain.com/js/app-helper.js&quot;</span>
+    ],   
+    <span class="st">&quot;styles&quot;</span>:[
+        <span class="st">&quot;http://www.domain.com/css/base.css&quot;</span>,
+        <span class="st">&quot;http://www.domain.com/css/ie7.css&quot;</span>
+    ],   
+    <span class="st">&quot;apps&quot;</span>:[{
+            <span class="st">&quot;data&quot;</span>:{ 
+                <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
+                <span class="dt">value</span>: <span class="dv">12345</span>
+            },
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E&quot;</span>,
+            <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
+    }]
+})</code></pre>
+<div class="alert">
+<strong>Note:</strong> the JSONP callback function name will <em>not</em> be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container.
+</div>
+
+<p>
+<span class="label label-important">Required</span> Don't forget you need an AppId before you can run your app on a container. <a href="#">Get your AppId now »</a>
+</p>
+
+<hr>
+</section>
+</section>
+<section class="level2" id="namespacing">
+<h2>Namespacing</h2>
+<p>F2 is a <em>web</em> integration framework which means are apps are inherently insecure—at least the non-secure apps. Following these guidelines, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
+<section class="level3" id="namespacing-your-css">
+<h3>Namespacing Your CSS</h3>
+<p>AppId...</p>
+<p><code>div.&lt;AppId&gt;</code></p>
+</section>
+<section class="level3" id="protecting-your-javascript">
+<h3>Protecting Your JavaScript</h3>
+<p>Closures and the global namespace...</p>
+<hr>
+</section>
+</section>
+<section class="level2" id="your-app-on-a-container">
+<h2>Your App on a Container</h2>
+<p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working app, you're pretty much done.</p>
+<p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../sdk/docs/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-the-container.html">read the container documentation</a>.</p>
+<p>
+<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
+</p>
+
+<hr>
+<hr>
+<hr>
+</section>
+<section class="level2" id="stop-reading-here...">
+<h2>Stop reading here...</h2>
+<p>Everything above is good. Everything below is not good...yet.</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<p>Since Apps are comprised of mainly HTML, JavaScript and CSS, App development can be as complex as the App developer wishes with one significant limitation: an App cannot be allowed to negatively impact other Apps on the desktop. To prevent accidental impact, Apps are developed inside of JavaScript closure which means an App will not have any public methods and therefore is a closed cell.</p>
+</section>
+<section class="level2" id="designing-your-app">
+<h2>Designing Your App</h2>
+<p>Design is an important first step in creating a new App. Using the Open Financial Framework’s upcoming design guidelines and App API, App Designers and Developers can take advantage of these available resources to develop Apps on their own schedules. The design guidelines will provide a common theme and offer a baseline for consistency between all Apps on the Container.</p>
+<p>There is customization available and it will be imperative for App developers to follow Container-provided guidelines for consistency on a case-by-case basis. The ‘common theme’ provided by this Framework is not a template per se but rather a mechanism to facilitate faster development between numerous App developers.</p>
+<hr>
+</section>
+<section class="level2" id="context">
+<h2>Context</h2>
+<p>Each Container Provider shall be responsible for hosting the Container JavaScript SDK. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.</p>
+<p>While Apps can have Context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals and likewise Apps can listen for events sent by the Container.</p>
+<p>This is a sample of a Container sending Context to Apps. Firstly, the Container fires a “ContextUpdate” event.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Container</span>.<span class="fu">on</span>(“ContextUpdate”, { <span class="dt">Symbol</span>: “MSFT” }, <span class="kw">function</span>(ev,callback){
+    <span class="kw">console</span>.<span class="fu">log</span>(“Context updated!”);
+});</code></pre>
+<p>Apps are responsible for listening to the broadcasted “ContextUpdate” event. App developers can bind custom event handlers based on the emitted event. Using jQuery, a sample to refresh an app with a new symbol:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“.<span class="fu">myApp</span>”).<span class="fu">bind</span>(“ContextUpdate”, <span class="kw">function</span>(ev,data){
+    <span class="kw">myApp</span>.<span class="fu">refresh</span>(<span class="kw">data</span>.<span class="fu">Symbol</span>);
+});</code></pre>
+<p>Likewise, Apps can send Context to the Container.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">App</span>.<span class="fu">on</span>(“ContextUpdateToContainer”, { <span class="dt">FullScreen</span>: <span class="kw">true</span> }, <span class="kw">function</span>(ev, callback){
+    <span class="kw">console</span>.<span class="fu">log</span>(“Context sent to Container!”);
+});</code></pre>
+<p>The Container can then listen for App-emitted events.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“#Container”).<span class="fu">bind</span>(“ContextUpdateToContainer”, <span class="kw">function</span>(ev,data){
+    <span class="kw">Container</span>.<span class="fu">showFullScreen</span>();
+});</code></pre>
+<p>Apps can also pass Context between Apps. If there are two or more Apps on a Container with similar Context and the ability to receive messages (yes, this is opt-out), Apps can communicate with each other.</p>
+<p>For example, on your Container you have “App 1” which is a watch list app alongside “App 2” which is a snap quote app. Embedded within the Content in App 2 could be a button labeled “send to watch list”. Pressing that button would transmit the symbol of the stock currently being viewed in App 1 across to App 2 to be added to the watch list. Achieving that looks programmatically like this:</p>
+<p>First, find the App you want to find the apps to which to send the Context to:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> $apps = <span class="kw">Container</span>.<span class="fu">getApps</span>(bool canAcceptContext(<span class="kw">true</span>));</code></pre>
+<p>Secondly, emit an event from App 1:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$<span class="kw">apps</span>.<span class="fu">find</span>(“App1”).<span class="fu">on</span>(
+    “ContextToApp”, 
+    { Symbol”: “MSFT”, Action”: “ADD” }, 
+    <span class="kw">function</span>(ev,data){
+        <span class="kw">myApp</span>.<span class="fu">refresh</span>(data);
+        }   
+    );</code></pre>
+<p>And finally listen for that event within App 2:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$<span class="kw">apps</span>.<span class="fu">find</span>(“App2”).<span class="fu">bind</span>(“ContextToApp”, <span class="kw">function</span>(ev,data){
+    <span class="kw">console</span>.<span class="fu">log</span>(“Context received <span class="kw">in</span> App2!”);
+});</code></pre>
+<hr>
+</section>
+<section class="level2" id="hosting-an-app">
+<h2>Hosting an App</h2>
+<p>Since the Framework is web-based and it is a primary requirement of this Framework to simultaneously support multiple Apps from different providers, the following are truths:</p>
+<ul>
+<li>Anyone can technically host a Container provided they are willing to develop the infrastructure capable of supporting an app ecosystem which includes authentication, entitlements, the app store, cross-container communication (targeting version 1.3 spec), etc. See How to Develop a Container for details.</li>
+<li>Similarly, anyone can host an App. By definition, an App is simply a web page or web site which has a Container-accessible domain name.</li>
+</ul>
+<p>The App Developer or App Provider needs to host their App on a publicly accessible Internet domain. The App should follow the &quot;REST&quot; model for web services. In simple terms, REST is a formal description of the HTTP protocol. Accessing a &quot;REST&quot; App is merely a matter of making a standard HTTP request to a defined resource.</p>
+<p>An App can be accessed by an HTTP GET or HTTP POST request. Each request consists of a URI, and a URL encoded list of parameters in JSON. The URI consists of a hostname and base path, a method name, and an optional format specifier. The parameters are appended to the URI on the querystring.</p>
+<hr>
+</section>
+<section class="level2" id="app-content">
+<h2>App Content</h2>
+<p>App Providers can determine which content they wish to make available within their App. It is recommended that content is focused on financial information; however, there is no limitation as such. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.</p>
+<p>If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.</p>
+<hr>
+</section>
+<section class="level2" id="single-sign-on">
+<h2>Single Sign-On</h2>
+<p>Providers participating in the Markit App Framework must modify their web sites' authentication mechanism to accept a customer’s authentication from a Container Provider without requiring the user to retype their Username and Password. With an authentication methodology in place between the Container Provider and App Provider, when a customer authenticates to a Provider’s App, the authentication credentials are passed to the Container Provider. The authentication methodology is also suitable for the reverse, for authenticating a customer requesting content from an App Provider after selecting content from the App within the Container. Authentication information will be passed between App Providers and Container Providers in the form of encrypted URLs.</p>
+<hr>
+</section>
+<section class="level2" id="entitlements">
+<h2>Entitlements</h2>
+<p>User Entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This would include apps like research aggregation, news filtering, streaming market data, etc. In order to enable an App to retrieve data from multiple, entitled, content providers in real-time, there will need to be an explicit and trusted mechanism of passing entitlements information between the Store, the data vendors, and the app developers.</p>
+<p>Further details around entitlements will be forthcoming as this specification evolves.</p>
+</section>
+			</div><!--/#docs-->
+		</div><!--/span9-->
+	</div><!--/row-->
+
+  <hr>
+
+	<footer>
+		<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+		<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+	</footer>
+
+</div><!--/.container-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="//docs.openf2.com/js/prettify.js"></script>
+<script>
+	
+	/**
+	 * This code is only for the documentation site. Don't use it anywhere else.
+	 *
+	 */
+
+
+	if (navigator.userAgent.indexOf('Mac OS') != -1) {
+		$('body').addClass('mac');
+	}
+
+	/**
+	 * Finds and sets active navigation element based on hash, if one exists
+	 *
+	 */
+	function setActiveNav(){
+		var hash = location.hash;
+		if (!hash) { 
+			return; 
+		}
+		var $lis = $("li ul li", "#toc");//get all <li> elements that are visible children of current page's nav
+		$lis.each(function(idx,item){
+			var $item = $(item);
+			if (hash == $item.find("a").attr("href") && !$item.hasClass("active")){//if hash value is found in links but not yet set to active, highlight it and remove active class from parent element.
+				$item.addClass("active");
+				$item.parents("li.active").removeClass("active");//removes from parent LI
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Takes <pre><code>something();</code></pre> and converts to <pre>something();</pre>
+	 * Removes unneeded CSS classnames, adds correct ones for prettify.js
+	 * Calls prettyPrint()
+	 *
+	 */
+	function formatSourceCodeElements(){
+		$("pre")
+			.removeClass("sourceCode")
+			.addClass("prettyprint")
+			.find("code").replaceWith(function() {
+				return $(this).contents();
+			})
+			.end()
+			.filter(".javascript")
+			.removeClass("javascript")
+			.addClass("lang-js")
+			.end()
+			.filter(".html")
+			.removeClass("html")
+			.addClass("lang-html")
+		;
+		prettyPrint();
+	}
+
+	/**
+	 * Build TOC based on markitdown-generated section elements in DOM
+	 *
+	 */
+	function buildTableOfContents(){
+		var toc = $('#toc');
+		var docs = $('#docs');
+		var file = location.pathname.split('/').pop();
+
+		var tocHeight = function(){
+			return toc.outerHeight();
+		}
+
+		var pageHeight = function(){
+			return docs.outerHeight();
+		}
+
+		if (pageHeight() < tocHeight()){
+			docs.parent().height(tocHeight() + 200);
+		}
+
+		//build individual nav items
+		function tocItem(item, group) {
+			var label = item.children().first().text();
+			var el = $('<li><a href="#' + item.attr('id') + '">' + label + '</a></li>');
+
+			el.appendTo(group);
+			el.append(buildToc(item));
+
+			$('a', el).click(function() {
+				$('ul.nav-list li.active').removeClass('active');
+				$(this).parent().addClass('active');
+			});
+		}
+
+		//build table of contents based on sections within generated markdown file
+		function buildToc(root) {
+			var sections = $('> section.level2', root);//find <section> elements in main content area
+
+			if (!sections.length) {
+				return;
+			}
+
+			var group = $('<ul class="nav nav-list"></ul>');
+
+			sections.each(function(idx, item) {
+				tocItem($(item), group);
+			});
+
+			return group;
+		}
+
+		//build sub-menu nav list for each main/parent nav
+		$('li a', toc).each(function(idx, item) {
+			item = $(item);
+			var url = $(item).attr('href');
+			var subMenu;
+
+			if (file == url || (!file && url == 'index.html')) {
+				subMenu = buildToc(docs);
+
+				item.parent()
+					.addClass('active')
+					.append(subMenu)
+				;
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Let's do this.
+	 *
+	 */
+	$(function() {
+		buildTableOfContents();
+		setActiveNav();
+		formatSourceCodeElements();
+	});
+</script>
+</body>
+</html>

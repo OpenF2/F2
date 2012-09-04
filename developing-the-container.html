@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>F2 Documentation - Developing the Container</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+  <meta name="author" content="Markit">
+  
+  <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
+  <link href="./css/F2.css" rel="stylesheet">
+  <link href="./css/F2-docs.css" rel="stylesheet">
+  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
+  
+  
+  
+  <style type="text/css" media="print">
+  	#toc {
+  		display: none;
+  	}
+  
+  	.row .span9 {
+  		margin-left: 0;
+  	}
+  </style>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="index.html">F2: Financial Framework</a>
+      <div class="tagline-divider"></div>
+      <div class="tagline">Helping you build smarter financial apps</div>
+      <ul class="nav pull-right">
+        <li><a href="http://www.openF2.com">OpenF2.com</a></li>
+        <li class="divider-vertical"></li>
+        <li class="active"><a href="index.html">Documentation</a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/">Project on GitHub</a></li>
+        <li class="divider-vertical"></li>
+        <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="span3" id="toc">
+        <ul class="nav nav-list nav-pills nav-stacked" data-spy="affix">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="components-of-the-framework.html">Components of F2</a></li>
+          <li><a href="creating-F2.html">Creating F2</a></li>
+		      <li><a href="f2-requirements.html">Requirements</a></li>
+          <li class="divider"></li>
+          <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
+		      <li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>
+		      <li><a href="developing-the-container.html">Developing the F2 Container</a></li>
+          <li class="divider"></li>
+          <li><a href="../../sdk/docs/">F2.js SDK Reference</a></li>
+          <li class="divider"></li>
+        </ul>
+
+    </div><!--/span3-->
+
+	<div class="span9">
+		<div id="docs">
+<header>
+<h1 class="title">Developing the Container</h1>
+</header>
+<section class="level2" id="the-container">
+<h2>The Container</h2>
+<p>The Container is most simply described as the user interface and the location where all Apps reside. More specifically, the Container is a web page which is “aware” of its contents (the Apps) and plays the role of a traffic cop managing Context between Apps. Further, the Container can have any variation of intelligence on a wide spectrum.</p>
+<p>Markit’s intention in standardizing the Container concept is to keep the Container as “thin” as possible not unlike a traditional thin client. Wikipedia describes a “thin client” as “a computer or a computer program which depends heavily on some other computer (its server) to fulfill its traditional computational roles. This stands in contrast to the traditional fat client, a computer designed to take on these roles by itself. The exact roles assumed by the server may vary, from providing data persistence to actual information processing on the client's behalf.</p>
+<p>“Thin clients occur as components of a broader computer infrastructure, where many clients share their computations with the same server. As such, thin client infrastructures can be viewed as the providing of some computing service via several user-interfaces. This is desirable in contexts where individual fat clients have much more functionality or power than the infrastructure either requires or uses.”</p>
+</section>
+<section class="level2" id="context">
+<h2>Context</h2>
+<p>Each Container Provider shall be responsible for hosting the Container JavaScript API. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.</p>
+<p>While Apps can have context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals.</p>
+<p>This is a sample of a Container sending Context to Apps.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Container</span>.<span class="fu">on</span>(“SendContext”, { <span class="dt">Symbol</span>: “MSFT” });</code></pre>
+<p>Apps on the Container can optionally listen for broadcasted messages or events and respond accordingly.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“myApp”).<span class="fu">bind</span>(“SendContext”, <span class="kw">function</span>(ev,data){
+    <span class="kw">myApp</span>.<span class="fu">refresh</span>();
+});</code></pre>
+<p>Container developers do not need to worry about how to “receive” Context sent from Apps; this logic is handled as part of the Markit-provided Container API.</p>
+</section>
+<section class="level2" id="how-to-develop-a-container">
+<h2>How to Develop a Container</h2>
+<p>A Container is most simply described as a web page; therefore developing Containers can be as simple or complex as the Container developer chooses. Markit is developing a Container API which will manage Context on the workspace. Additionally, it will provide App developers an Application Programming Interface, or API, for advanced Container features such as a drag-and-drop, app management (add new apps, remove existing apps), etc.</p>
+<p>The simplest implementation of a Container looks like this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+    <span class="kw">&lt;head&gt;</span>
+        <span class="kw">&lt;title&gt;</span>Markit Container<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/ResourceManager/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--[if IE]&gt;</span>
+<span class="co">        &lt;script src=&quot;http://dev.domain.com/ResourceManager/html5shiv.js&quot;&gt;&lt;/script&gt;</span>
+<span class="co">        &lt;![endif]--&gt;</span>
+    <span class="kw">&lt;/head&gt;</span>
+    <span class="kw">&lt;body&gt;</span>
+        
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/Container.js?1.0&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+<p>In developing an advanced Container, the HTML document’s body element would contain additional markup and allow for specific positioning or placement of Apps. Such an example might look like this:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+    <span class="kw">&lt;head&gt;</span>
+        <span class="kw">&lt;title&gt;</span>Markit Container<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/ResourceManager/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--[if IE]&gt;</span>
+<span class="co">        &lt;script src=&quot;http://dev.domain.com/ResourceManager/html5shiv.js&quot;&gt;&lt;/script&gt;</span>
+<span class="co">        &lt;![endif]--&gt;</span>
+    <span class="kw">&lt;/head&gt;</span>
+    <span class="kw">&lt;body&gt;</span>
+        <span class="kw">&lt;header&gt;</span>
+            <span class="kw">&lt;nav&gt;</span>
+                <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">”/home”&gt;Home</span><span class="er">&lt;</span><span class="st">/a</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;/nav&gt;</span>
+        <span class="kw">&lt;/header&gt;</span>
+        <span class="kw">&lt;section&gt;</span>
+            <span class="kw">&lt;h1&gt;</span>Markets Overview<span class="kw">&lt;/h1&gt;</span>
+            <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">”destinationApp1”&gt;</span><span class="er">&lt;</span><span class="st">/div</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;/section&gt;</span>
+        <span class="kw">&lt;footer&gt;</span>
+            <span class="dv">&amp;copy;</span> 2012 Markit.
+        <span class="kw">&lt;/footer&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/Container.js?1.0&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&#39;http://app.provider.com/App/Factory/script?params=%5B%7B%22Id%22%3A%22Hello%20World%22%2C%22DestinationElement%22%3A%22destinationApp1%22%7D%5D&#39;</span><span class="kw">&gt;&lt;/script&gt;</span>
+    <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+<p>You may notice the App embedded in the above example has querystring “params”. The decoded params value is:</p>
+<p><code>?params=[{&quot;Id&quot;:&quot;Hello World&quot;,&quot;DestinationElement&quot;:&quot;destinationApp1&quot;}]</code></p>
+<p>This params object only demonstrates an example for a Container. For a full explanation on Params and all their possible values, refer to “How to Develop an App” in this specification.</p>
+</section>
+<section class="level2" id="how-to-consume-an-app">
+<h2>How to Consume an App</h2>
+<p>A Container developer only needs to be concerned with developing and hosting a Container. Through the Container and App APIs, Containers will consume Apps automatically. The consumption of an App onto the Container is managed either by individual users (in the configurable Container) or by a Container administrator (in the non-configurable Container).</p>
+<p>Depending on the Container design, users are typically shown a menu of Apps from which to choose as they are customizing their workspace(s). When a user chooses to add an App, the App will “load” itself (per the section titled “Loading an App on the Container”) on the Container.</p>
+</section>
+<section class="level2" id="other-possible-container-features">
+<h2>Other Possible Container Features</h2>
+<section class="level3" id="search">
+<h3>Search</h3>
+<p>Each Container Provider shall be responsible for implementing search functionality. Users should be able to search content specific to either a Content provider itself or the Apps as part of the Container. Taking the example of Context, Containers need to be able to allow users to search for financial content – usually starting with the symbol of an instrument.</p>
+<p>Financial users will usually be dealing with lists of issues or individual entities. In order to share Context between apps, there will need to be a protocol for specifying the individual entities, issues, or products, as an individual item, or as a list of similar items. In order to do this, both data providers and app providers will need to use a standard and shared identification system.</p>
+<p>Markit’s reference data technology, or “XRef&quot; (for symbol cross-reference), can be leveraged for this use. Web services can be made available to both App and Container developers to ensure all parties can (technically) converse about the same entities.</p>
+</section>
+<section class="level3" id="directory">
+<h3>Directory</h3>
+<p>A directory of financial users would be necessary in order to organize and share app store entitlements. Access to this directory could also be an App.</p>
+<p>Markit Directory is a centralized, cloud-based service that creates and manages a “golden record” unique ID for an individual’s profile details. The processing of profiles, administration interfaces to managing exceptions, reference data, auditing, security, privacy and extensible APIs are all components of the Directory. The Directory enables portability of identity information across security domains and will be the single source for all industry participants for profile information.</p>
+<p>Both App and Container developers could leverage Markit Directory to share user information (as part of Context) between Apps and Containers.</p>
+</section>
+<section class="level3" id="messaging">
+<h3>Messaging</h3>
+<p>Federated Messaging is an app that only Markit can provide by virtue of its exclusive license with NextPlane. Markit’s federated messaging App will enable any user, regardless of their firm’s instant messaging system, to monitor presence and send message to anyone else, regardless of messaging system.</p>
+</section>
+</section>
+			</div><!--/#docs-->
+		</div><!--/span9-->
+	</div><!--/row-->
+
+  <hr>
+
+	<footer>
+		<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+		<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+	</footer>
+
+</div><!--/.container-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="//docs.openf2.com/js/prettify.js"></script>
+<script>
+	
+	/**
+	 * This code is only for the documentation site. Don't use it anywhere else.
+	 *
+	 */
+
+
+	if (navigator.userAgent.indexOf('Mac OS') != -1) {
+		$('body').addClass('mac');
+	}
+
+	/**
+	 * Finds and sets active navigation element based on hash, if one exists
+	 *
+	 */
+	function setActiveNav(){
+		var hash = location.hash;
+		if (!hash) { 
+			return; 
+		}
+		var $lis = $("li ul li", "#toc");//get all <li> elements that are visible children of current page's nav
+		$lis.each(function(idx,item){
+			var $item = $(item);
+			if (hash == $item.find("a").attr("href") && !$item.hasClass("active")){//if hash value is found in links but not yet set to active, highlight it and remove active class from parent element.
+				$item.addClass("active");
+				$item.parents("li.active").removeClass("active");//removes from parent LI
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Takes <pre><code>something();</code></pre> and converts to <pre>something();</pre>
+	 * Removes unneeded CSS classnames, adds correct ones for prettify.js
+	 * Calls prettyPrint()
+	 *
+	 */
+	function formatSourceCodeElements(){
+		$("pre")
+			.removeClass("sourceCode")
+			.addClass("prettyprint")
+			.find("code").replaceWith(function() {
+				return $(this).contents();
+			})
+			.end()
+			.filter(".javascript")
+			.removeClass("javascript")
+			.addClass("lang-js")
+			.end()
+			.filter(".html")
+			.removeClass("html")
+			.addClass("lang-html")
+		;
+		prettyPrint();
+	}
+
+	/**
+	 * Build TOC based on markitdown-generated section elements in DOM
+	 *
+	 */
+	function buildTableOfContents(){
+		var toc = $('#toc');
+		var docs = $('#docs');
+		var file = location.pathname.split('/').pop();
+
+		var tocHeight = function(){
+			return toc.outerHeight();
+		}
+
+		var pageHeight = function(){
+			return docs.outerHeight();
+		}
+
+		if (pageHeight() < tocHeight()){
+			docs.parent().height(tocHeight() + 200);
+		}
+
+		//build individual nav items
+		function tocItem(item, group) {
+			var label = item.children().first().text();
+			var el = $('<li><a href="#' + item.attr('id') + '">' + label + '</a></li>');
+
+			el.appendTo(group);
+			el.append(buildToc(item));
+
+			$('a', el).click(function() {
+				$('ul.nav-list li.active').removeClass('active');
+				$(this).parent().addClass('active');
+			});
+		}
+
+		//build table of contents based on sections within generated markdown file
+		function buildToc(root) {
+			var sections = $('> section.level2', root);//find <section> elements in main content area
+
+			if (!sections.length) {
+				return;
+			}
+
+			var group = $('<ul class="nav nav-list"></ul>');
+
+			sections.each(function(idx, item) {
+				tocItem($(item), group);
+			});
+
+			return group;
+		}
+
+		//build sub-menu nav list for each main/parent nav
+		$('li a', toc).each(function(idx, item) {
+			item = $(item);
+			var url = $(item).attr('href');
+			var subMenu;
+
+			if (file == url || (!file && url == 'index.html')) {
+				subMenu = buildToc(docs);
+
+				item.parent()
+					.addClass('active')
+					.append(subMenu)
+				;
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Let's do this.
+	 *
+	 */
+	$(function() {
+		buildTableOfContents();
+		setActiveNav();
+		formatSourceCodeElements();
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>F2 Documentation - F2: The Open Financial Framework</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+  <meta name="author" content="Markit">
+  
+  <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
+  <link href="./css/F2.css" rel="stylesheet">
+  <link href="./css/F2-docs.css" rel="stylesheet">
+  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
+  
+  
+  
+  <style type="text/css" media="print">
+  	#toc {
+  		display: none;
+  	}
+  
+  	.row .span9 {
+  		margin-left: 0;
+  	}
+  </style>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="index.html">F2: Financial Framework</a>
+      <div class="tagline-divider"></div>
+      <div class="tagline">Helping you build smarter financial apps</div>
+      <ul class="nav pull-right">
+        <li><a href="http://www.openF2.com">OpenF2.com</a></li>
+        <li class="divider-vertical"></li>
+        <li class="active"><a href="index.html">Documentation</a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/">Project on GitHub</a></li>
+        <li class="divider-vertical"></li>
+        <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="span3" id="toc">
+        <ul class="nav nav-list nav-pills nav-stacked" data-spy="affix">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="components-of-the-framework.html">Components of F2</a></li>
+          <li><a href="creating-F2.html">Creating F2</a></li>
+		      <li><a href="f2-requirements.html">Requirements</a></li>
+          <li class="divider"></li>
+          <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
+		      <li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>
+		      <li><a href="developing-the-container.html">Developing the F2 Container</a></li>
+          <li class="divider"></li>
+          <li><a href="../../sdk/docs/">F2.js SDK Reference</a></li>
+          <li class="divider"></li>
+        </ul>
+
+    </div><!--/span3-->
+
+	<div class="span9">
+		<div id="docs">
+<header>
+<h1 class="title">F2: The Open Financial Framework</h1>
+</header>
+<p class="lead">
+F2 is a web integration framework designed specifically for the financial markets. Its primary use is for integrating multi-party web applications into a single seamless desktop or mobile experience. It was created and is maintained by <a href="http://www.markit.com">Markit</a>. Visit <a href="http://www.openf2.com">OpenF2.com</a> for more information or continue reading.
+</p>
+
+<section class="level2" id="get-started">
+<h2>Get Started</h2>
+<p>F2 is an open framework meaning anyone can build individual components or the entire product. To get container and app developers started, we've provided a JavaScript SDK—called <strong>F2.js</strong>—in addition to example apps as part of an <a href="http://www.github.com/OpenF2/F2">open-source project maintained on GitHub</a>.</p>
+<p>If you are interested in <strong>building apps</strong>, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in <strong>building containers</strong>, browse to the <a href="developing-the-container.html">container documentation</a>.</p>
+<p>
+    
+<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a> <a href="//www.github.com/OpenF2/F2/" class="btn">View GitHub project</a>
+</p>
+
+<section class="level3" id="markit-developers">
+<h3>Markit Developers</h3>
+<p>Prior to public release 1.0.0, we are asking for Markit developers to help collaborate by <strong>building apps</strong>. If you have any questions that aren't answered here, you can get help.</p>
+<p>
+    
+<a href="mailto:BLD-F2TechnicalTeam@markit.com" class="btn"><i class="icon-envelope"></i> Email the F2 Team</a> <a href="https://groups.google.com/forum/#!forum/openf2" class="btn"><i class="icon-tasks"></i> Subscribe to the Google Group</a> <small><i>Send your Google Account name to <a href="mailto:mark.healey@markit.com">mark.healey@markit.com</a> for an invite.</i></small>
+</p>
+
+<hr>
+</section>
+</section>
+<section class="level2" id="the-problems-f2-solves">
+<h2>The Problems F2 Solves</h2>
+<p>The reasons for developing the open standard for a financial app ecosystem are simple: one does not exist today and Markit feels there is a great need. Additionally, much of the installed base of financial software is run on the desktop, which means that even if there is no physical media, there is an installation process that is difficult for users to do. By design, F2 implies a one-step installation process, direct from the Internet, with no &quot;installed software&quot; decisions to be made by the user. Further, the financial information industry has spent most of its history bundling content and tools into packages which include far more than most users need. Perhaps the greatest benefit of the Open Financial Framework is that – through its Catalog component – it will allow users to buy only the content or tools they need. Said plainly: If John can’t get what he wants from Overstock.com, he’s going to buy it from Amazon. And John wants the best content and the best tools so he’ll buy apps from Amazon.</p>
+<p><strong>Primary Goal</strong></p>
+<p>The primary goal of the Open Financial Framework specification, and by extension this technical documentation, is to provide app and container developers the resources they need to create F2. Developers who adhere to this standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated &quot;desktop&quot; experience <em>(the container)</em>.</p>
+<div class="well well-small">
+<h4>
+About Apps
+</h4>
+<p><p>
+The term &quot;app&quot;, in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are <em>not</em> smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.
+</p></p>
+<p>
+This specification <a href="developing-f2-apps.html">furnishes app developers with JavaScript code</a> which—among other things—not only allows their apps to run on the desktop but also provides APIs for communication between the container and nearby apps.
+</p>
+</div>
+
+<hr>
+</section>
+<section class="level2" id="capabilities">
+<h2>Capabilities</h2>
+<p>While there are many goals and features, these three capabilities below form the underpinnings of F2.</p>
+<p><strong>Apps From Multiple Providers Displayed at the Same Time</strong></p>
+<p>A financial app ecosystem needs to display apps (or modules of data) from multiple information providers at the same time. In order to do this, there needs to be a standard for context passing from app to app, and from the desktop to all apps. As part of the context passed to apps, app developers should expect to receive information about how their app will be displayed (width, height, authentication model, etc). <em>For more information on <strong>context</strong>, <a href="developing-f2-apps.html#context">browse to the technical documentation</a>.</em></p>
+<p><strong>Separation of Apps from Content</strong></p>
+<p>Within Apple’s App Store, some types of content can be used by multiple apps at the same time such as iPhoto or iPod. Within the Open Financial Framework, apps need to be entitled with content like streaming Level II quotes, or be able to handle multiple sources of entitled content, like news or research aggregation.</p>
+<p><strong>An App Catalog that Can Handle Several Types of Entitlements</strong></p>
+<p>The App Catalog within F2 will need to handle more than just individually purchased Apps or Content (known as &quot;entitlements&quot;). In addition to handling cash transactions, the App Catalog will need to be able to handle entitlements granted to them by a brokerage firm, by a Yahoo! advertiser, by the App developer, or by a content provider. This Framework would make it so that a user’s purchases and entitlements can move to any desktop adhering to this standard, regardless of who is hosting the desktop.*</p>
+<p><small><i>* Not yet implemented within F2.</i></small></p>
+<hr>
+</section>
+<section class="level2" id="building-the-framework">
+<h2>Building the Framework</h2>
+<p>If we have the goal of F2 being successful and accessible, then we have only one choice in the front-end technology we use: it has to be HTML5. Using the <a href="http://www.alistapart.com/articles/understandingprogressiveenhancement/">progressive enhancement</a> methodology in designing and developing F2, we've been focused on starting with a rock-solid foundation. The F2 open standard provides guidelines for app and container devleopers alike to add feature enhancements targeting specific environments or visitors. For example, F2 apps can be built following the <a href="http://www.lukew.com/presos/preso.asp?26">mobile first</a> design approach and with <a href="http://twitter.github.com/bootstrap/scaffolding.html#responsive">responsive CSS</a>, users could access a container on their desktop, tablet or smartphone all while app devlelopers only need to build a single app.</p>
+<p>As you may know, <a href="http://findmebyip.com/litmus/">support for HTML5-related technologies</a> on <em>all</em> desktop browsers and mobile devices is limited. Therefore, as part of F2, to augment the work we've done, we chose to include some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?</p>
+<p>F2 uses and recommends <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> for a consistent HTML &amp; CSS structure for app development <em>regardless of app developer</em> (<a href="developing-f2-apps.html#designing-the-app-to-look-integrated-with-the-container">we'll explain more later</a>). F2 relies on data structures represented in JSON, so we've included Crockford's <a href="http://www.json.org/">JSON</a>. Finally, to support a secured container environment, F2 needs cross-domain in-browser messaging. For this, we turned to <a href="http://easyxdm.net/wp/">easyXDM</a>.</p>
+<p>As either an app developer or a container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2 JavaScript SDK provides a consistent interface and easy-to-use API for app and container developers.</p>
+<p><strong>Ready to get started building apps?</strong></p>
+<p>
+    
+<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a> <a href="//www.github.com/OpenF2/F2/" class="btn">View GitHub project</a>
+</p>
+
+
+</section>
+			</div><!--/#docs-->
+		</div><!--/span9-->
+	</div><!--/row-->
+
+  <hr>
+
+	<footer>
+		<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+		<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+	</footer>
+
+</div><!--/.container-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="//docs.openf2.com/js/prettify.js"></script>
+<script>
+	
+	/**
+	 * This code is only for the documentation site. Don't use it anywhere else.
+	 *
+	 */
+
+
+	if (navigator.userAgent.indexOf('Mac OS') != -1) {
+		$('body').addClass('mac');
+	}
+
+	/**
+	 * Finds and sets active navigation element based on hash, if one exists
+	 *
+	 */
+	function setActiveNav(){
+		var hash = location.hash;
+		if (!hash) { 
+			return; 
+		}
+		var $lis = $("li ul li", "#toc");//get all <li> elements that are visible children of current page's nav
+		$lis.each(function(idx,item){
+			var $item = $(item);
+			if (hash == $item.find("a").attr("href") && !$item.hasClass("active")){//if hash value is found in links but not yet set to active, highlight it and remove active class from parent element.
+				$item.addClass("active");
+				$item.parents("li.active").removeClass("active");//removes from parent LI
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Takes <pre><code>something();</code></pre> and converts to <pre>something();</pre>
+	 * Removes unneeded CSS classnames, adds correct ones for prettify.js
+	 * Calls prettyPrint()
+	 *
+	 */
+	function formatSourceCodeElements(){
+		$("pre")
+			.removeClass("sourceCode")
+			.addClass("prettyprint")
+			.find("code").replaceWith(function() {
+				return $(this).contents();
+			})
+			.end()
+			.filter(".javascript")
+			.removeClass("javascript")
+			.addClass("lang-js")
+			.end()
+			.filter(".html")
+			.removeClass("html")
+			.addClass("lang-html")
+		;
+		prettyPrint();
+	}
+
+	/**
+	 * Build TOC based on markitdown-generated section elements in DOM
+	 *
+	 */
+	function buildTableOfContents(){
+		var toc = $('#toc');
+		var docs = $('#docs');
+		var file = location.pathname.split('/').pop();
+
+		var tocHeight = function(){
+			return toc.outerHeight();
+		}
+
+		var pageHeight = function(){
+			return docs.outerHeight();
+		}
+
+		if (pageHeight() < tocHeight()){
+			docs.parent().height(tocHeight() + 200);
+		}
+
+		//build individual nav items
+		function tocItem(item, group) {
+			var label = item.children().first().text();
+			var el = $('<li><a href="#' + item.attr('id') + '">' + label + '</a></li>');
+
+			el.appendTo(group);
+			el.append(buildToc(item));
+
+			$('a', el).click(function() {
+				$('ul.nav-list li.active').removeClass('active');
+				$(this).parent().addClass('active');
+			});
+		}
+
+		//build table of contents based on sections within generated markdown file
+		function buildToc(root) {
+			var sections = $('> section.level2', root);//find <section> elements in main content area
+
+			if (!sections.length) {
+				return;
+			}
+
+			var group = $('<ul class="nav nav-list"></ul>');
+
+			sections.each(function(idx, item) {
+				tocItem($(item), group);
+			});
+
+			return group;
+		}
+
+		//build sub-menu nav list for each main/parent nav
+		$('li a', toc).each(function(idx, item) {
+			item = $(item);
+			var url = $(item).attr('href');
+			var subMenu;
+
+			if (file == url || (!file && url == 'index.html')) {
+				subMenu = buildToc(docs);
+
+				item.parent()
+					.addClass('active')
+					.append(subMenu)
+				;
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Let's do this.
+	 *
+	 */
+	$(function() {
+		buildTableOfContents();
+		setActiveNav();
+		formatSourceCodeElements();
+	});
+</script>
+</body>
+</html>

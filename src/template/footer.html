@@ -1,0 +1,153 @@
+			</div><!--/#docs-->
+		</div><!--/span9-->
+	</div><!--/row-->
+
+  <hr>
+
+	<footer>
+		<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+		<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+	</footer>
+
+</div><!--/.container-->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="//docs.openf2.com/js/prettify.js"></script>
+<script>
+	
+	/**
+	 * This code is only for the documentation site. Don't use it anywhere else.
+	 *
+	 */
+
+
+	if (navigator.userAgent.indexOf('Mac OS') != -1) {
+		$('body').addClass('mac');
+	}
+
+	/**
+	 * Finds and sets active navigation element based on hash, if one exists
+	 *
+	 */
+	function setActiveNav(){
+		var hash = location.hash;
+		if (!hash) { 
+			return; 
+		}
+		var $lis = $("li ul li", "#toc");//get all <li> elements that are visible children of current page's nav
+		$lis.each(function(idx,item){
+			var $item = $(item);
+			if (hash == $item.find("a").attr("href") && !$item.hasClass("active")){//if hash value is found in links but not yet set to active, highlight it and remove active class from parent element.
+				$item.addClass("active");
+				$item.parents("li.active").removeClass("active");//removes from parent LI
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Takes <pre><code>something();</code></pre> and converts to <pre>something();</pre>
+	 * Removes unneeded CSS classnames, adds correct ones for prettify.js
+	 * Calls prettyPrint()
+	 *
+	 */
+	function formatSourceCodeElements(){
+		$("pre")
+			.removeClass("sourceCode")
+			.addClass("prettyprint")
+			.find("code").replaceWith(function() {
+				return $(this).contents();
+			})
+			.end()
+			.filter(".javascript")
+			.removeClass("javascript")
+			.addClass("lang-js")
+			.end()
+			.filter(".html")
+			.removeClass("html")
+			.addClass("lang-html")
+		;
+		prettyPrint();
+	}
+
+	/**
+	 * Build TOC based on markitdown-generated section elements in DOM
+	 *
+	 */
+	function buildTableOfContents(){
+		var toc = $('#toc');
+		var docs = $('#docs');
+		var file = location.pathname.split('/').pop();
+
+		var tocHeight = function(){
+			return toc.outerHeight();
+		}
+
+		var pageHeight = function(){
+			return docs.outerHeight();
+		}
+
+		if (pageHeight() < tocHeight()){
+			docs.parent().height(tocHeight() + 200);
+		}
+
+		//build individual nav items
+		function tocItem(item, group) {
+			var label = item.children().first().text();
+			var el = $('<li><a href="#' + item.attr('id') + '">' + label + '</a></li>');
+
+			el.appendTo(group);
+			el.append(buildToc(item));
+
+			$('a', el).click(function() {
+				$('ul.nav-list li.active').removeClass('active');
+				$(this).parent().addClass('active');
+			});
+		}
+
+		//build table of contents based on sections within generated markdown file
+		function buildToc(root) {
+			var sections = $('> section.level2', root);//find <section> elements in main content area
+
+			if (!sections.length) {
+				return;
+			}
+
+			var group = $('<ul class="nav nav-list"></ul>');
+
+			sections.each(function(idx, item) {
+				tocItem($(item), group);
+			});
+
+			return group;
+		}
+
+		//build sub-menu nav list for each main/parent nav
+		$('li a', toc).each(function(idx, item) {
+			item = $(item);
+			var url = $(item).attr('href');
+			var subMenu;
+
+			if (file == url || (!file && url == 'index.html')) {
+				subMenu = buildToc(docs);
+
+				item.parent()
+					.addClass('active')
+					.append(subMenu)
+				;
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * Let's do this.
+	 *
+	 */
+	$(function() {
+		buildTableOfContents();
+		setActiveNav();
+		formatSourceCodeElements();
+	});
+</script>
