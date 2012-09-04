@@ -21,7 +21,8 @@ Help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/
 
 We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on Node.js, and has a few dependencies. To install, `cd` to your `F2` folder, and run the following command in npm:
 
-`$> npm install markitdown uglify-js wrench yuidocjs optimist -g`
+`$> npm install uglify-js wrench yuidocjs optimist`
+`$> npm install markitdown -g`
 
 To **build F2**, run:
 
