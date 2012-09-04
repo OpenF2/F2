@@ -20,8 +20,9 @@
 
 // Accent colors
 // -------------------------
-@blue:                  #049cdb;
-@blueDark:              #0064cd;
+@blue:                  #0f4e88;
+@blueDark:              #273847;
+@blueLight:				#3886c3;
 @green:                 #46a546;
 @red:                   #9d261d;
 @yellow:                #ffc40d;
@@ -38,7 +39,7 @@
 
 // Links
 // -------------------------
-@linkColor:             #08c;
+@linkColor:             @blueLight; //#08c;
 @linkColorHover:        darken(@linkColor, 15%);
 
 
@@ -133,8 +134,11 @@
 
 // Sprite icons path
 // -------------------------
-@iconSpritePath:          "../img/glyphicons-halflings.png";
-@iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png";
+//@iconSpritePath:          "../img/glyphicons-halflings.png";
+//@iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png";
+
+@iconSpritePath:          "http://docs.openF2.com/img/glyphicons-halflings.png";
+@iconWhiteSpritePath:     "http://docs.openF2.com/img/glyphicons-halflings-white.png";
 
 
 // Input placeholder text color
@@ -156,15 +160,16 @@
 // -------------------------
 @navbarCollapseWidth:             979px;
 
-@navbarHeight:                    40px;
+@navbarHeight:                    72px;
 @navbarBackground:                darken(@navbarBackgroundHighlight, 5%);
 @navbarBackgroundHighlight:       #ffffff;
 @navbarBorder:                    darken(@navbarBackground, 12%);
+@navbarLinkHeight:				  26px;
 
 @navbarText:                      @gray;
-@navbarLinkColor:                 @gray;
-@navbarLinkColorHover:            @grayDark;
-@navbarLinkColorActive:           @gray;
+@navbarLinkColor:                 @blue;
+@navbarLinkColorHover:            @blueLight;
+@navbarLinkColorActive:           @blueLight;
 @navbarLinkBackgroundHover:       transparent;
 @navbarLinkBackgroundActive:      darken(@navbarBackground, 5%);
 

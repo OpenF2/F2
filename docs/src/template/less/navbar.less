@@ -47,15 +47,38 @@
   float: left;
   display: block;
   // Vertically center the text given @navbarHeight
-  padding: ((@navbarHeight - @baseLineHeight) / 2) 20px ((@navbarHeight - @baseLineHeight) / 2);
-  margin-left: -20px; // negative indent to left-align the text down the page
-  font-size: 20px;
-  font-weight: 200;
-  color: @navbarBrandColor;
+  //padding: ((@navbarHeight - @baseLineHeight) / 2) 20px ((@navbarHeight - @baseLineHeight) / 2);
+  //margin-left: -20px; // negative indent to left-align the text down the page
+  //font-size: 20px;
+  //font-weight: 200;
+  //color: @navbarBrandColor;
   text-shadow: 0 1px 0 @navbarBackgroundHighlight;
+  text-indent:-9000px;
+  background: transparent url(../img/F2_logo.png) top left no-repeat;
+  width: 63px;
+  height: @navbarHeight;
+  line-height: @navbarHeight;
   &:hover {
     text-decoration: none;
   }
+}
+
+.navbar .tagline-divider {
+  float:left;
+  border-left:1px solid #b2bbc3;
+  height:42px;
+  line-height: 42px;
+  margin:18px 0 0 15px;
+}
+
+//for F2 tagline next to logo
+.navbar .tagline {
+  padding: 0 0 0 15px;
+  //border-left:1px solid #b2bbc3;
+  float:left;
+  // Vertically center the text given @navbarHeight
+  padding: ((@navbarHeight - @baseLineHeight) / 2) 15px ((@navbarHeight - @baseLineHeight) / 2);
+  font-weight:200;
 }
 
 // Plain text in topbar
@@ -77,10 +100,11 @@
 // Dividers in navbar
 // -------------------------
 .navbar .divider-vertical {
-  height: @navbarHeight;
-  margin: 0 9px;
-  border-left: 1px solid @navbarBackground;
-  border-right: 1px solid @navbarBackgroundHighlight;
+  height: @navbarLinkHeight;
+  margin: 0 0px;
+  border-left: 1px solid #e0e0e0; //@navbarBackground;
+  border-right: 1px solid #efefef; //@navbarBackgroundHighlight;
+  width:1px;
 }
 
 // Buttons in navbar
@@ -222,6 +246,11 @@
 .navbar .nav.pull-right {
   float: right; // redeclare due to specificity
 }
+
+.navbar ul.nav {
+  margin-top: 27px;
+}
+
 .navbar .nav > li {
   float: left;
 }
@@ -230,10 +259,12 @@
 .navbar .nav > li > a {
   float: none;
   // Vertically center the text given @navbarHeight
-  padding: ((@navbarHeight - @baseLineHeight) / 2) 15px ((@navbarHeight - @baseLineHeight) / 2);
+  //padding: ((@navbarLinkHeight - @baseLineHeight) / 2) 15px ((@navbarHeight - @baseLineHeight) / 2);
+  padding:0 8px;
   color: @navbarLinkColor;
   text-decoration: none;
   text-shadow: 0 1px 0 @navbarBackgroundHighlight;
+  //font-weight:bold;
 }
 .navbar .nav .dropdown-toggle .caret {
   margin-top: 8px;
@@ -253,10 +284,31 @@
 .navbar .nav > .active > a:focus {
   color: @navbarLinkColorActive;
   text-decoration: none;
+  /*
   background-color: @navbarLinkBackgroundActive;
   -webkit-box-shadow: inset 0 3px 8px rgba(0,0,0,.125);
      -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,.125);
           box-shadow: inset 0 3px 8px rgba(0,0,0,.125);
+  */
+}
+
+.navbar .nav > li > a.download {
+  color:#df280d;
+}
+
+.navbar .nav > li > a:hover.download,
+.navbar .nav > li > a:focus.download {
+  color:#ab1f0b;
+}
+
+.navbar .icon-download {
+  background-image: url(../img/icon_download.png);
+  background-position:0 0;
+}
+
+.navbar .nav > li > a.version {
+  font-size:130%;
+  font-weight:normal;
 }
 
 // Navbar button for toggling navbar items in responsive layouts
