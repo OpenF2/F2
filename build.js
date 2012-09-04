@@ -99,7 +99,7 @@ function docs() {
 	var callbacks = arguments;
 
 	exec(
-		'markitdown ./ --output-path ../html --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
+		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
 		{ cwd:'./docs/src' },
 		function(error, stdout, stderr) {
 			if (error) {
@@ -119,7 +119,7 @@ function docs() {
 function less(){
 	console.log('Compiling LESS...');
 	exec(
-		'lessc ./template/less/bootstrap.less > ../html/css/F2.css', //--compress
+		'lessc ./template/less/bootstrap.less > ../css/F2.css', //--compress
 		{ cwd: './docs/src' },
 		function(error, stdout, stderr){
 			if (error){
@@ -139,10 +139,10 @@ function less(){
 function ghp() {
 	console.log('Copying documentation to gh-pages...');
 	// temporary - do not overwrite the gh-pages index.html until launch
-	fs.renameSync('./docs/html/index.html', './docs/html/index-temp.html');
-	wrench.copyDirSyncRecursive('./docs/html', '../gh-pages', { preserve:true });
+	fs.renameSync('./docs/index.html', './docs/index-temp.html');
+	wrench.copyDirSyncRecursive('./docs', '../gh-pages', { preserve:true });
 	// temporary - put index.html back to normal
-	fs.renameSync('./docs/html/index-temp.html', './docs/html/index.html');
+	fs.renameSync('./docs/index-temp.html', './docs/index.html');
 	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk');
 	console.log('COMPLETE');
 

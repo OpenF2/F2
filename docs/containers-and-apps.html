@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 Documentation - F2 Requirements</title>
+  <title>F2 Documentation - Containers &amp; Apps</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -15,9 +15,7 @@
   <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
   <link href="./css/F2.css" rel="stylesheet">
   <link href="./css/F2-docs.css" rel="stylesheet">
-  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
-  
-  
+  <link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
   
   <style type="text/css" media="print">
   	#toc {
@@ -45,7 +43,7 @@
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.6</a></li>
       </ul>
     </div>
   </div>
@@ -73,19 +71,32 @@
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">F2 Requirements</h1>
+<h1 class="title">Containers &amp; Apps</h1>
 </header>
-<p class="lead">
-There are many requirements to build and host the <em>entire</em> open financial framework. At version 1.0.0, it isn't possible to list them all. Instead, we'll focus on requirements for those building F2 containers and F2 apps.
-</p>
-
-<section class="level3" id="container-requirements">
-<h3>Container Requirements</h3>
-<p>List container reqmts here.</p>
+<section class="level2" id="overview">
+<h2>Overview</h2>
+<p>The diagram below depicts the world’s simplest Container – look at all those grey boxes! The purpose of this picture is to demonstrate an App’s relationship with a Desktop and in turn the Container. What is not shown here is the user’s browser chrome.</p>
+<section class="level3" id="insert-diagram">
+<h3>INSERT DIAGRAM</h3>
+<p>As you can see, the Container is nothing without Apps. Similarly, the Apps have no home without the Container. It is imperative they work together and appear seamless to users.</p>
+<p>“Okay,” you say, “who hosts all these grey boxes?” Great question.</p>
 </section>
-<section class="level3" id="app-requirements">
-<h3>App Requirements</h3>
-<p>List app rqmts here.</p>
+</section>
+<section class="level2" id="hosting">
+<h2>Hosting</h2>
+<p>Since the Framework is web-based and it is a primary requirement of this Framework to simultaneously support multiple Apps from different providers, the following are truths:</p>
+<ul>
+<li>Anyone can technically host a Container provided they are willing to develop the infrastructure capable of supporting an app ecosystem which includes authentication, entitlements, the app store, cross-container communication (targeting version 1.3 spec), etc. See How to Develop a Container for details.</li>
+<li>Similarly, anyone can host an App. By definition, an App is simply a web page or web site which has a Container-accessible domain name.</li>
+</ul>
+</section>
+<section class="level2" id="container-providers-and-app-developers">
+<h2>Container Providers and App Developers</h2>
+<p>In designing the Open Financial Framework, an important consideration was maintaining a separation between Container Providers and App Developers. Therefore, after App developers register their Apps with Container Providers, Containers automatically consume Apps using the Container APIs. App Developers have as much or as little information (as App Context allows) about where their App exists at any given moment in time.</p>
+</section>
+<section class="level2" id="usage-reporting">
+<h2>Usage Reporting</h2>
+<p>App developers are encouraged to leverage their own or third party tools for capturing usage metrics or other MIS. App developers will not have access to Container Provider-owned usage analytics unless it is pre-agreed upon between the two parties.</p>
 </section>
 			</div><!--/#docs-->
 		</div><!--/span9-->
@@ -100,17 +111,15 @@ There are many requirements to build and host the <em>entire</em> open financial
 
 </div><!--/.container-->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
-<script src="//docs.openf2.com/js/prettify.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
 <script>
 	
 	/**
 	 * This code is only for the documentation site. Don't use it anywhere else.
 	 *
 	 */
-
-
 	if (navigator.userAgent.indexOf('Mac OS') != -1) {
 		$('body').addClass('mac');
 	}

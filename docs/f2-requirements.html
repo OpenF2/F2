@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 Documentation - Single Sign-On</title>
+  <title>F2 Documentation - F2 Requirements</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -15,9 +15,7 @@
   <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
   <link href="./css/F2.css" rel="stylesheet">
   <link href="./css/F2-docs.css" rel="stylesheet">
-  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
-  
-  
+  <link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
   
   <style type="text/css" media="print">
   	#toc {
@@ -45,7 +43,7 @@
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.6</a></li>
       </ul>
     </div>
   </div>
@@ -73,15 +71,19 @@
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">Single Sign-On</h1>
+<h1 class="title">F2 Requirements</h1>
 </header>
 <p class="lead">
-What to do about SSO...
+There are many requirements to build and host the <em>entire</em> open financial framework. At version 1.0.0, it isn't possible to list them all. Instead, we'll focus on requirements for those building F2 containers and F2 apps.
 </p>
 
-<section class="level3" id="overview">
-<h3>Overview</h3>
-<p>Providers participating in the Markit App Framework must modify their web sites' authentication mechanism to accept a customer’s authentication from a Container Provider without requiring the user to retype their Username and Password. With an authentication methodology in place between the Container Provider and App Provider, when a customer authenticates to a Provider’s App, the authentication credentials are passed to the Container Provider. The authentication methodology is also suitable for the reverse, for authenticating a customer requesting content from an App Provider after selecting content from the App within the Container. Authentication information will be passed between App Providers and Container Providers in the form of encrypted URLs.</p>
+<section class="level3" id="container-requirements">
+<h3>Container Requirements</h3>
+<p>List container reqmts here.</p>
+</section>
+<section class="level3" id="app-requirements">
+<h3>App Requirements</h3>
+<p>List app rqmts here.</p>
 </section>
 			</div><!--/#docs-->
 		</div><!--/span9-->
@@ -96,17 +98,15 @@ What to do about SSO...
 
 </div><!--/.container-->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
-<script src="//docs.openf2.com/js/prettify.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
 <script>
 	
 	/**
 	 * This code is only for the documentation site. Don't use it anywhere else.
 	 *
 	 */
-
-
 	if (navigator.userAgent.indexOf('Mac OS') != -1) {
 		$('body').addClass('mac');
 	}
