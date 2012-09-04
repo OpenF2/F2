@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>sdk&#x2F;src&#x2F;constants.js</title>
+    <title>sdk\src\constants.js</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -67,6 +67,8 @@
             
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
@@ -110,7 +112,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: sdk&#x2F;src&#x2F;constants.js</h1>
+                        <h1 class="file-heading">File: sdk\src\constants.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -173,7 +175,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 *&#x2F;
 			APP_VIEW:_PREFIX + &#x27;app-view&#x27;,
 			&#x2F;**
-			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
+			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
 			 * trigger an
 			 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{&#x2F;crossLink}}.APP_VIEW_CHANGE
 			 * event. The DOM Element should also have a
@@ -185,7 +187,25 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_VIEW_TRIGGER:_PREFIX + &#x27;app-view-trigger&#x27;
+			APP_VIEW_TRIGGER:_PREFIX + &#x27;app-view-trigger&#x27;,
+			&#x2F;**
+			 * The MASK class is applied to the overlay element that is created
+			 * when the {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} method is fired.
+			 * @property MASK
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			MASK:_PREFIX + &#x27;mask&#x27;,
+			&#x2F;**
+			 * The MASK_CONTAINER class is applied to the Element that is passed into
+			 * the {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} method.
+			 * @property MASK_CONTAINER
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			MASK_CONTAINER:_PREFIX + &#x27;mask-container&#x27;
 		};
 	})(),
 	

@@ -421,6 +421,56 @@ F2.extend("", {
 		supportedViews:[]
 	}
 });
+
+/**
+ * @main F2
+ */
+F2.extend("F2.UI", {
+	/**
+	 * An object containing configuration information for the 
+	 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
+	 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods.
+	 * @class F2.UI.MaskConfiguration
+	 */
+	MaskConfiguration:{
+		/**
+		 * The backround color of the overlay
+		 * @property backgroundColor
+		 * @type string
+		 * @default #FFFFFF
+		 */
+		backgroundColor:'#FFFFFF',
+		/**
+		 * The path to the loading icon
+		 * @property loadingIcon
+		 * @type string
+		 */
+		loadingIcon:'',
+		/**
+		 * The opacity of the background overlay
+		 * @property opacity
+		 * @type int
+		 * @default .6
+		 */
+		opacity:.6,
+		/**
+		 * Do not use inline styles for mask functinality. Instead classes will be
+		 * applied to the elements and it is up to the Container provider to
+		 * implement the class definitions.
+		 * @property useClasses
+		 * @type bool
+		 * @default false
+		 */
+		useClasses:false,
+		/**
+		 * The z-index to use for the overlay
+		 * @property zIndex
+		 * @type int
+		 * @default 2
+		 */
+		zIndex:2
+	}
+});
 /**
  * Constants used throughout the Open Financial Framework
  * @class F2.Constants
@@ -480,7 +530,7 @@ F2.extend('Constants', {
 			 */
 			APP_VIEW:_PREFIX + 'app-view',
 			/**
-			 * APP\_VIEW\_TRIGGER class shuld be applied to the DOM Elements that
+			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
 			 * trigger an
 			 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE
 			 * event. The DOM Element should also have a
@@ -492,7 +542,25 @@ F2.extend('Constants', {
 			 * @static
 			 * @final
 			 */
-			APP_VIEW_TRIGGER:_PREFIX + 'app-view-trigger'
+			APP_VIEW_TRIGGER:_PREFIX + 'app-view-trigger',
+			/**
+			 * The MASK class is applied to the overlay element that is created
+			 * when the {{#crossLink "F2.UI\showMask"}}{{/crossLink}} method is fired.
+			 * @property MASK
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			MASK:_PREFIX + 'mask',
+			/**
+			 * The MASK_CONTAINER class is applied to the Element that is passed into
+			 * the {{#crossLink "F2.UI\showMask"}}{{/crossLink}} method.
+			 * @property MASK_CONTAINER
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			MASK_CONTAINER:_PREFIX + 'mask-container'
 		};
 	})(),
 	
@@ -697,7 +765,7 @@ F2.extend('Constants', {
 F2.extend('', (function(){
 
 	var _apps = {};
-	var _config = {};
+	var _config = false;
 
 	/**
 	 * Renders the html for an App.
@@ -820,6 +888,16 @@ F2.extend('', (function(){
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
+	};
+
+	/**
+	 * Has the Container been init?
+	 * @method _isInit
+	 * @private
+	 * @return {bool} True if the Container has been init
+	 */
+	var _isInit = function() {
+		return _config;
 	};
 
 	/**
@@ -1066,6 +1144,11 @@ F2.extend('', (function(){
 		 * @for F2
 		 */
 		getContainerState:function() {
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.getContainerState()');
+				return;
+			}
+
 			return $.map(_apps, function(e, i) {
 				return { appId: e.app.appId };
 			});
@@ -1087,6 +1170,12 @@ F2.extend('', (function(){
 			}
 		},
 		/**
+		 * Has the Container been init?
+		 * @method isInit
+		 * @return {bool} True if the Container has been init
+		 */
+		isInit:_isInit,
+		/**
 		 * Begins the loading process for all Apps. The App will
 		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will
 		 * contain the App's unique instanceId within the Container. Optionally, the
@@ -1103,6 +1192,11 @@ F2.extend('', (function(){
 		 * passed down to the client.
 		 */
 		registerApps:function(apps, appManifests) {
+
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.registerApps()');
+				return;
+			}
 
 			var appStack = [];
 			var batches = {};
@@ -1207,6 +1301,12 @@ F2.extend('', (function(){
 		 * @method removeAllApps
 		 */
 		removeAllApps:function() {
+
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.removeAllApps()');
+				return;
+			}
+
 			$.each(_apps, function(i, a) {
 				F2.removeApp(a.instanceId);
 			});
@@ -1217,6 +1317,12 @@ F2.extend('', (function(){
 		 * @param {string} instanceId The App's instanceId
 		 */
 		removeApp:function(instanceId) {
+
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.removeApp()');
+				return;
+			}
+
 			if (_apps[instanceId]) {
 				delete _apps[instanceId];
 				$('#' + instanceId).fadeOut(function() {
@@ -1531,51 +1637,139 @@ F2.extend('Rpc', (function(){
  */
 F2.extend('UI', (function(){
 
+	// see classes.js for definition
+	var _config = F2.UI.MaskConfiguration;
+
 	return {
 		/**
-		 * Removes a loading icon/overlay from an Element on the page
-		 * @method hideLoader
+		 * Removes a overlay from an Element on the page
+		 * @method hideMask
 		 * @param {string} instanceId The Instance ID of the App
 		 * @param {string|Element} selector The Element or selector to an Element
 		 * that currently contains the loader
 		 */
-		hideLoader:function(instanceId, selector) {
+		hideMask:function(instanceId, selector) {
+
+			if (!F2.isInit()) {
+				F2.log('F2.init() must be called before F2.UI.hideMask()');
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId) && !$(selector).is('.' + F2.Constants.Css.APP)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
-					'F2.UI.hideLoader',
+					'F2.UI.hideMask',
 					[
+						instanceId,
 						// must only pass the selector argument. if we pass an Element there
 						// will be F2.stringify() errors
 						$(selector).selector
 					]
 				);
 			} else {
-				F2.log('hideLoader called');
+				
+				var container = $(selector);
+				var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
+				container.removeClass(F2.Constants.Css.MASK_CONTAINER);
+
+				// if useClasses is false, we need to remove all inline styles
+				if (!_config.useClasses) {
+					container.attr('style', '');
+				}
+
+				// if the element contains this data property, we need to reset static
+				// position
+				if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
+					container.css({'position':'static'});
+				}
 			}
 		},
 		/**
-		 * Display a loading icon/ovarlay over an Element on the page
-		 * @method showLoader
+		 * Set the configuration options for the
+		 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
+		 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods
+		 * @method setMaskConfiguration
+		 * @param {object} config The F2.UI.MaskConfiguration object
+		 */
+		setMaskConfiguration:function(config) {
+			if (!F2.isInit()) {
+				if (config) {
+					$.extend(_config, config);
+				}
+			} else {
+				F2.log('F2.UI.setMaskConfiguration() must be called before F2.init()');
+			}
+		},
+		/**
+		 * Display an ovarlay over an Element on the page
+		 * @method showMask
 		 * @param {string} instanceId The Instance ID of the App
 		 * @param {string|Element} selector The Element or selector to an Element
 		 * over which to display the loader
+		 * @param {bool} showLoading Display a loading icon
 		 */
-		showLoader:function(instanceId, selector) {
-			if (F2.Rpc.isRemote(instanceId) && !$(selector).is('.' + F2.Constants.Css.APP)) {
+		showMask:function(instanceId, selector, showLoading) {
+
+			if (!F2.isInit()) {
+				F2.log('F2.init() must be called before F2.UI.showMask()');
+				return;
+			}
+
+			if (F2.Rpc.isRemote(instanceId) && $(selector).is('.' + F2.Constants.Css.APP)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
-					'F2.UI.showLoader',
+					'F2.UI.showMask',
 					[
+						instanceId,
 						// must only pass the selector argument. if we pass an Element there
 						// will be F2.stringify() errors
-						$(selector).selector
+						$(selector).selector,
+						showLoading
 					]
 				);
 			} else {
-				F2.log('showLoader called');
+
+				if (showLoading && !_config.loadingIcon) {
+					F2.log('Unable to display loading icon. Please use F2.UI.setMaskConfiguration to set the path to the loading icon');
+				}
+
+				var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
+				var mask = $('<div data->')
+					.height(container.outerHeight())
+					.width(container.outerWidth())
+					.addClass(F2.Constants.Css.MASK);
+
+				// set inline styles if useClasses is false
+				if (!_config.useClasses) {
+					mask.css({
+						'background-color':_config.backgroundColor,
+						'background-image': !!_config.loadingIcon ? ('url(' + _config.loadingIcon + ')') : '',
+						'background-position':'50% 50%',
+						'background-repeat':'no-repeat',
+						'display':'block',
+						'left':0,
+						'padding':0,
+						'position':'absolute',
+						'top':0,
+						'z-index':_config.zIndex,
+
+						'filter':'alpha(opacity=' + (_config.opacity * 100) + ')',
+						'opacity':_config.opacity
+					});
+				}
+
+				// only set the position if the container is currently static
+				if (container.css('position') == 'static') {
+					container.css({'position':'relative'});
+					// setting this data property tells hideMask to set the position
+					// back to static
+					container.data(F2.Constants.Css.MASK_CONTAINER, true);
+				}
+
+				// add the mask to the container
+				container.append(mask);
 			}
 		}
 	};
@@ -1633,16 +1827,18 @@ F2.extend("UI.Modals", (function(){
 		 * closes the dialog
 		 */
 		alert: function(instanceId, message, callback) {
+
+			if (!F2.isInit()) {
+				F2.log('F2.init() must be called before F2.UI.Modals.alert()');
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
 					'F2.UI.Modals.alert',
-					[
-						instanceId,
-						message,
-						callback
-					]
+					[].slice.call(arguments)
 				);
 			} else {
 				// display the alert
@@ -1668,17 +1864,18 @@ F2.extend("UI.Modals", (function(){
 		 * the Cancel button is pressed
 		 */
 		confirm:function(instanceId, message, okCallback, cancelCallback) {
+
+			if (!F2.isInit()) {
+				F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
 					'F2.UI.Modals.confirm',
-					[
-						instanceId,
-						message,
-						okCallback,
-						cancelCallback
-					]
+					[].slice.call(arguments)
 				);
 			} else {
 				// display the alert

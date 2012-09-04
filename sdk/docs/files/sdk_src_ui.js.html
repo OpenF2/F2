@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>sdk&#x2F;src&#x2F;ui.js</title>
+    <title>sdk\src\ui.js</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -67,6 +67,8 @@
             
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
@@ -110,7 +112,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: sdk&#x2F;src&#x2F;ui.js</h1>
+                        <h1 class="file-heading">File: sdk\src\ui.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -120,51 +122,139 @@
  *&#x2F;
 F2.extend(&#x27;UI&#x27;, (function(){
 
+	&#x2F;&#x2F; see classes.js for definition
+	var _config = F2.UI.MaskConfiguration;
+
 	return {
 		&#x2F;**
-		 * Removes a loading icon&#x2F;overlay from an Element on the page
-		 * @method hideLoader
+		 * Removes a overlay from an Element on the page
+		 * @method hideMask
 		 * @param {string} instanceId The Instance ID of the App
 		 * @param {string|Element} selector The Element or selector to an Element
 		 * that currently contains the loader
 		 *&#x2F;
-		hideLoader:function(instanceId, selector) {
+		hideMask:function(instanceId, selector) {
+
+			if (!F2.isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.UI.hideMask()&#x27;);
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId) &amp;&amp; !$(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
-					&#x27;F2.UI.hideLoader&#x27;,
+					&#x27;F2.UI.hideMask&#x27;,
 					[
+						instanceId,
 						&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
 						&#x2F;&#x2F; will be F2.stringify() errors
 						$(selector).selector
 					]
 				);
 			} else {
-				F2.log(&#x27;hideLoader called&#x27;);
+				
+				var container = $(selector);
+				var mask = container.find(&#x27;&gt; .&#x27; + F2.Constants.Css.MASK).remove();
+				container.removeClass(F2.Constants.Css.MASK_CONTAINER);
+
+				&#x2F;&#x2F; if useClasses is false, we need to remove all inline styles
+				if (!_config.useClasses) {
+					container.attr(&#x27;style&#x27;, &#x27;&#x27;);
+				}
+
+				&#x2F;&#x2F; if the element contains this data property, we need to reset static
+				&#x2F;&#x2F; position
+				if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
+					container.css({&#x27;position&#x27;:&#x27;static&#x27;});
+				}
 			}
 		},
 		&#x2F;**
-		 * Display a loading icon&#x2F;ovarlay over an Element on the page
-		 * @method showLoader
+		 * Set the configuration options for the
+		 * {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} and
+		 * {{#crossLink &quot;F2.UI\hideMask&quot;}}{{&#x2F;crossLink}} methods
+		 * @method setMaskConfiguration
+		 * @param {object} config The F2.UI.MaskConfiguration object
+		 *&#x2F;
+		setMaskConfiguration:function(config) {
+			if (!F2.isInit()) {
+				if (config) {
+					$.extend(_config, config);
+				}
+			} else {
+				F2.log(&#x27;F2.UI.setMaskConfiguration() must be called before F2.init()&#x27;);
+			}
+		},
+		&#x2F;**
+		 * Display an ovarlay over an Element on the page
+		 * @method showMask
 		 * @param {string} instanceId The Instance ID of the App
 		 * @param {string|Element} selector The Element or selector to an Element
 		 * over which to display the loader
+		 * @param {bool} showLoading Display a loading icon
 		 *&#x2F;
-		showLoader:function(instanceId, selector) {
-			if (F2.Rpc.isRemote(instanceId) &amp;&amp; !$(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
+		showMask:function(instanceId, selector, showLoading) {
+
+			if (!F2.isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.UI.showMask()&#x27;);
+				return;
+			}
+
+			if (F2.Rpc.isRemote(instanceId) &amp;&amp; $(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
-					&#x27;F2.UI.showLoader&#x27;,
+					&#x27;F2.UI.showMask&#x27;,
 					[
+						instanceId,
 						&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
 						&#x2F;&#x2F; will be F2.stringify() errors
-						$(selector).selector
+						$(selector).selector,
+						showLoading
 					]
 				);
 			} else {
-				F2.log(&#x27;showLoader called&#x27;);
+
+				if (showLoading &amp;&amp; !_config.loadingIcon) {
+					F2.log(&#x27;Unable to display loading icon. Please use F2.UI.setMaskConfiguration to set the path to the loading icon&#x27;);
+				}
+
+				var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
+				var mask = $(&#x27;&lt;div data-&gt;&#x27;)
+					.height(container.outerHeight())
+					.width(container.outerWidth())
+					.addClass(F2.Constants.Css.MASK);
+
+				&#x2F;&#x2F; set inline styles if useClasses is false
+				if (!_config.useClasses) {
+					mask.css({
+						&#x27;background-color&#x27;:_config.backgroundColor,
+						&#x27;background-image&#x27;: !!_config.loadingIcon ? (&#x27;url(&#x27; + _config.loadingIcon + &#x27;)&#x27;) : &#x27;&#x27;,
+						&#x27;background-position&#x27;:&#x27;50% 50%&#x27;,
+						&#x27;background-repeat&#x27;:&#x27;no-repeat&#x27;,
+						&#x27;display&#x27;:&#x27;block&#x27;,
+						&#x27;left&#x27;:0,
+						&#x27;padding&#x27;:0,
+						&#x27;position&#x27;:&#x27;absolute&#x27;,
+						&#x27;top&#x27;:0,
+						&#x27;z-index&#x27;:_config.zIndex,
+
+						&#x27;filter&#x27;:&#x27;alpha(opacity=&#x27; + (_config.opacity * 100) + &#x27;)&#x27;,
+						&#x27;opacity&#x27;:_config.opacity
+					});
+				}
+
+				&#x2F;&#x2F; only set the position if the container is currently static
+				if (container.css(&#x27;position&#x27;) == &#x27;static&#x27;) {
+					container.css({&#x27;position&#x27;:&#x27;relative&#x27;});
+					&#x2F;&#x2F; setting this data property tells hideMask to set the position
+					&#x2F;&#x2F; back to static
+					container.data(F2.Constants.Css.MASK_CONTAINER, true);
+				}
+
+				&#x2F;&#x2F; add the mask to the container
+				container.append(mask);
 			}
 		}
 	};

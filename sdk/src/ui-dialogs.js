@@ -51,16 +51,18 @@ F2.extend("UI.Modals", (function(){
 		 * closes the dialog
 		 */
 		alert: function(instanceId, message, callback) {
+
+			if (!F2.isInit()) {
+				F2.log('F2.init() must be called before F2.UI.Modals.alert()');
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
 					'F2.UI.Modals.alert',
-					[
-						instanceId,
-						message,
-						callback
-					]
+					[].slice.call(arguments)
 				);
 			} else {
 				// display the alert
@@ -86,17 +88,18 @@ F2.extend("UI.Modals", (function(){
 		 * the Cancel button is pressed
 		 */
 		confirm:function(instanceId, message, okCallback, cancelCallback) {
+
+			if (!F2.isInit()) {
+				F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
+				return;
+			}
+
 			if (F2.Rpc.isRemote(instanceId)) {
 				F2.Rpc.call(
 					instanceId,
 					F2.Constants.Sockets.RPC,
 					'F2.UI.Modals.confirm',
-					[
-						instanceId,
-						message,
-						okCallback,
-						cancelCallback
-					]
+					[].slice.call(arguments)
 				);
 			} else {
 				// display the alert

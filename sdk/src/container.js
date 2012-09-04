@@ -6,7 +6,7 @@
 F2.extend('', (function(){
 
 	var _apps = {};
-	var _config = {};
+	var _config = false;
 
 	/**
 	 * Renders the html for an App.
@@ -129,6 +129,16 @@ F2.extend('', (function(){
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
+	};
+
+	/**
+	 * Has the Container been init?
+	 * @method _isInit
+	 * @private
+	 * @return {bool} True if the Container has been init
+	 */
+	var _isInit = function() {
+		return _config;
 	};
 
 	/**
@@ -375,6 +385,11 @@ F2.extend('', (function(){
 		 * @for F2
 		 */
 		getContainerState:function() {
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.getContainerState()');
+				return;
+			}
+
 			return $.map(_apps, function(e, i) {
 				return { appId: e.app.appId };
 			});
@@ -396,6 +411,12 @@ F2.extend('', (function(){
 			}
 		},
 		/**
+		 * Has the Container been init?
+		 * @method isInit
+		 * @return {bool} True if the Container has been init
+		 */
+		isInit:_isInit,
+		/**
 		 * Begins the loading process for all Apps. The App will
 		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will
 		 * contain the App's unique instanceId within the Container. Optionally, the
@@ -412,6 +433,11 @@ F2.extend('', (function(){
 		 * passed down to the client.
 		 */
 		registerApps:function(apps, appManifests) {
+
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.registerApps()');
+				return;
+			}
 
 			var appStack = [];
 			var batches = {};
@@ -516,6 +542,12 @@ F2.extend('', (function(){
 		 * @method removeAllApps
 		 */
 		removeAllApps:function() {
+
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.removeAllApps()');
+				return;
+			}
+
 			$.each(_apps, function(i, a) {
 				F2.removeApp(a.instanceId);
 			});
@@ -526,6 +558,12 @@ F2.extend('', (function(){
 		 * @param {string} instanceId The App's instanceId
 		 */
 		removeApp:function(instanceId) {
+
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.removeApp()');
+				return;
+			}
+
 			if (_apps[instanceId]) {
 				delete _apps[instanceId];
 				$('#' + instanceId).fadeOut(function() {
