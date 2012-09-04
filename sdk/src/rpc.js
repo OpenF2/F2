@@ -191,6 +191,7 @@ F2.extend('Rpc', (function(){
 	/**
 	 * Registers a callback function
 	 * @method _registerCallback
+	 * @private
 	 * @param {function} callback The callback function
 	 * @return {string} The callback ID
 	 */
@@ -247,7 +248,7 @@ F2.extend('Rpc', (function(){
 		/**
 		 * Init function which tells F2.Rpc whether it is running at the Container-
 		 * level or the App-level. This method is generally called by
-		 * {{#crossLink "F2/init"}}{{/crossLink}}
+		 * F2.{{#crossLink "F2/init"}}{{/crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
 		 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}.secureAppPagePath
