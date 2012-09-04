@@ -10,7 +10,6 @@ If you are interested in **building apps**, get started by browsing through this
 
 <p>
 	<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a>
-	<a href="//www.github.com/OpenF2/F2/" class="btn">View GitHub project</a>
 </p>
 
 ### Markit Developers
@@ -19,7 +18,7 @@ Prior to public release 1.0.0, we are asking for Markit developers to help colla
 
 <p>
 	<a href="mailto:BLD-F2TechnicalTeam@markit.com" class="btn"><i class="icon-envelope"></i> Email the F2 Team</a>
-	<a href="https://groups.google.com/forum/#!forum/openf2" class="btn"><i class="icon-tasks"></i> Subscribe to the Google Group</a> <small><i>Send your Google Account name to <a href="mailto:mark.healey@markit.com">mark.healey@markit.com</a> for an invite.</i></small>
+	<a href="https://groups.google.com/forum/#!forum/openf2" class="btn" data-title="Send your Google Account name to Mark Healey for an invite." rel="tooltip"><i class="icon-tasks"></i> Subscribe to the Google Group</a> 
 </p>
 
 * * * *

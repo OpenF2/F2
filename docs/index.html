@@ -43,7 +43,7 @@
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.6</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.7</a></li>
       </ul>
     </div>
   </div>
@@ -83,7 +83,7 @@ F2 is a web integration framework designed specifically for the financial market
 <p>If you are interested in <strong>building apps</strong>, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in <strong>building containers</strong>, browse to the <a href="developing-the-container.html">container documentation</a>.</p>
 <p>
     
-<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a> <a href="//www.github.com/OpenF2/F2/" class="btn">View GitHub project</a>
+<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a>
 </p>
 
 <section class="level3" id="markit-developers">
@@ -91,7 +91,7 @@ F2 is a web integration framework designed specifically for the financial market
 <p>Prior to public release 1.0.0, we are asking for Markit developers to help collaborate by <strong>building apps</strong>. If you have any questions that aren't answered here, you can get help.</p>
 <p>
     
-<a href="mailto:BLD-F2TechnicalTeam@markit.com" class="btn"><i class="icon-envelope"></i> Email the F2 Team</a> <a href="https://groups.google.com/forum/#!forum/openf2" class="btn"><i class="icon-tasks"></i> Subscribe to the Google Group</a> <small><i>Send your Google Account name to <a href="mailto:mark.healey@markit.com">mark.healey@markit.com</a> for an invite.</i></small>
+<a href="mailto:BLD-F2TechnicalTeam@markit.com" class="btn"><i class="icon-envelope"></i> Email the F2 Team</a> <a href="https://groups.google.com/forum/#!forum/openf2" class="btn" data-title="Send your Google Account name to Mark Healey for an invite." rel="tooltip"><i class="icon-tasks"></i> Subscribe to the Google Group</a>
 </p>
 
 <hr>
@@ -291,6 +291,7 @@ This specification <a href="developing-f2-apps.html">furnishes app developers wi
 		buildTableOfContents();
 		setActiveNav();
 		formatSourceCodeElements();
+		$("a[rel=tooltip]","#docs").tooltip();
 	});
 </script>
 </body>
