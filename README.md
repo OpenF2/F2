@@ -15,9 +15,7 @@ Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the l
 
 If you've cloned the repo and are ready to start building a F2 app, [read the documentation](http://docs.openf2.com/F2/developing-f2-apps.html#developing-your-f2-app).
 
-### Collaboration 
-
-Help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+### Build F2
 
 We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on Node.js, and has a few dependencies. To install, `cd` to your `F2` folder, and run the following command in npm:
 
@@ -32,6 +30,10 @@ To **build F2**, run:
 For help, run:
 
 `$> node build -h`
+
+### Collaboration 
+
+Help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
 
 ### Versioning
 
