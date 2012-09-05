@@ -9,13 +9,38 @@ F2.extend('', (function(){
 	var _config = false;
 
 	/**
+	 * Appends the App's html to the DOM
+	 * @method _afterAppRender
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
+	 * @return {Element} The DOM Element that contains the App
+	 */
+	var _afterAppRender = function(app, html) {
+
+		var handler = _config.afterAppRender || function(app, html) {
+			return $(html).appendTo('body');
+		};
+		var appContainer = handler(app, html);
+
+		if (!!_config.afterAppRender && !appContainer) {
+			F2.log('F2.ContainerConfiguration.afterAppRender() must return the DOM Element that contains the App');
+			return;
+		} else {
+			// apply APP class and Instance ID
+			$(appContainer).addClass(F2.Constants.Css.APP).attr('id', app.instanceId);
+			return appContainer.get(0);
+		}
+	};
+
+	/**
 	 * Renders the html for an App.
-	 * @method _getAppHtml
+	 * @method _appRender
 	 * @private
 	 * @param {F2.App} app The App object
 	 * @param {string} html The string of html
 	 */
-	var _getAppHtml = function(app, html) {
+	var _appRender = function(app, html) {
 
 		function outerHtml(html) {
 			return $('<div></div>').append(html).html();
@@ -25,12 +50,24 @@ F2.extend('', (function(){
 		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' app' + app.appId));
 
 		// optionally apply wrapper html
-		if (_config.appWrapper) {
-			html = _config.appWrapper(app, html);
+		if (_config.appRender) {
+			html = _config.appRender(app, html);
 		}
 
 		// apply APP class and instanceId
-		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr('id', app.instanceId));
+		return outerHtml(html);
+	};
+
+	/**
+	 * Rendering hook to allow Containers to render some html prior to an App
+	 * loading
+	 * @method _beforeAppRender
+	 * @private
+	 * @param {F2.App} app The App object
+	 */
+	var _beforeAppRender = function(app) {
+		var handler = _config.beforeAppRender || $.noop;
+		handler(app);
 	};
 
 	/**
@@ -194,7 +231,7 @@ F2.extend('', (function(){
 		// load html
 		$.each(appManifest.apps, function(i, a) {
 			// load html
-			_writeAppHtml(apps[i], _getAppHtml(apps[i], a.html));
+			_afterAppRender(apps[i], _appRender(apps[i], a.html));
 			// init events
 			_initAppEvents(apps[i]);
 		});
@@ -244,7 +281,7 @@ F2.extend('', (function(){
 		// make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
-			_writeAppHtml(app, _getAppHtml(app, '<div></div>'));
+			_afterAppRender(app, _appRender(app, '<div></div>'));
 			// init events
 			_initAppEvents(app);
 			// create RPC socket
@@ -276,23 +313,6 @@ F2.extend('', (function(){
 		}
 
 		return true;
-	};
-
-	/**
-	 * Appends the App's html to the DOM
-	 * @method _writeAppHtml
-	 * @private
-	 * @param {F2.App} app The App object
-	 * @param {string} html The string of html
-	 * @return {Element} The DOM Element that contains the App
-	 */
-	var _writeAppHtml = function(app, html) {
-		var handler = _config.appWriter || function(app, html) {
-			$('body').append(html);
-		};
-		handler(app, html);
-
-		return $('#' + app.instanceId).get(0);
 	};
 
 	return {
@@ -466,6 +486,9 @@ F2.extend('', (function(){
 
 				// save app
 				_apps[a.instanceId] = { app:a };
+
+				// fire beforeAppRender
+				_beforeAppRender(a);
 
 				// if we have the manifest, go ahead and load the app
 				if (haveManifests) {

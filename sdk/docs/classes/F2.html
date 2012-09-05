@@ -120,7 +120,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l1"><code>sdk&#x2F;src&#x2F;container.js:1</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l1"><code>sdk\src\container.js:1</code></a>
         </div>
     
 
@@ -166,7 +166,21 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method private">
-                                <a href="#method__getAppHtml">_getAppHtml</a>
+                                <a href="#method__afterAppRender">_afterAppRender</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__appRender">_appRender</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__beforeAppRender">_beforeAppRender</a>
 
                                 
                                 
@@ -202,13 +216,6 @@
                         
                             <li class="index-item method private">
                                 <a href="#method__validateApp">_validateApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__writeAppHtml">_writeAppHtml</a>
 
                                 
                                 
@@ -343,8 +350,135 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__getAppHtml" class="method item private">
-    <h3 class="name"><code>_getAppHtml</code></h3>
+                    <div id="method__afterAppRender" class="method item private">
+    <h3 class="name"><code>_afterAppRender</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>html</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Element</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk\src\container.js:11</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Appends the App's html to the DOM</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The App object</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">html</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The string of html</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Element</span>:
+                    
+                    The DOM Element that contains the App
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__appRender" class="method item private">
+    <h3 class="name"><code>_appRender</code></h3>
 
     
         <div class="args">
@@ -393,7 +527,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk&#x2F;src&#x2F;container.js:11</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk\src\container.js:36</code></a>
         
         </p>
 
@@ -416,7 +550,7 @@
                 <li class="param">
                     
                         <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
                     
 
                     
@@ -438,6 +572,96 @@
 
                     <div class="param-description">
                         <p>The string of html</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__beforeAppRender" class="method item private">
+    <h3 class="name"><code>_beforeAppRender</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l61"><code>sdk\src\container.js:61</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Rendering hook to allow Containers to render some html prior to an App
+loading</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The App object</p>
                     </div>
 
                     
@@ -497,7 +721,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk&#x2F;src&#x2F;container.js:36</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l73"><code>sdk\src\container.js:73</code></a>
         
         </p>
 
@@ -520,7 +744,7 @@
                 <li class="param">
                     
                         <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
                     
 
                     
@@ -576,7 +800,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l83"><code>sdk&#x2F;src&#x2F;container.js:83</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l120"><code>sdk\src\container.js:120</code></a>
         
         </p>
 
@@ -632,7 +856,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l116"><code>sdk&#x2F;src&#x2F;container.js:116</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l153"><code>sdk\src\container.js:153</code></a>
         
         </p>
 
@@ -692,7 +916,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l134"><code>sdk&#x2F;src&#x2F;container.js:134</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l171"><code>sdk\src\container.js:171</code></a>
         
         </p>
 
@@ -775,7 +999,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l257"><code>sdk&#x2F;src&#x2F;container.js:257</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l294"><code>sdk\src\container.js:294</code></a>
         
         </p>
 
@@ -798,7 +1022,7 @@
                 <li class="param">
                     
                         <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
                     
 
                     
@@ -824,133 +1048,6 @@
                         <span class="type">Bool</span>:
                     
                     True if the App is valid
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__writeAppHtml" class="method item private">
-    <h3 class="name"><code>_writeAppHtml</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>html</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Element</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l281"><code>sdk&#x2F;src&#x2F;container.js:281</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Appends the App's html to the DOM</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App object</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">html</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The string of html</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Element</span>:
-                    
-                    The DOM Element that contains the App
                 
             </div>
         </div>
@@ -1018,7 +1115,7 @@
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l98"><code>sdk&#x2F;src&#x2F;preamble.js:98</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l65"><code>sdk\src\preamble.js:65</code></a>
         
         </p>
 
@@ -1144,7 +1241,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l381"><code>sdk&#x2F;src&#x2F;container.js:381</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l401"><code>sdk\src\container.js:401</code></a>
         
         </p>
 
@@ -1215,7 +1312,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l65"><code>sdk&#x2F;src&#x2F;preamble.js:65</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l102"><code>sdk\src\preamble.js:102</code></a>
         
         </p>
 
@@ -1298,7 +1395,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l88"><code>sdk&#x2F;src&#x2F;preamble.js:88</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l114"><code>sdk\src\preamble.js:114</code></a>
         
         </p>
 
@@ -1400,7 +1497,7 @@ add properties to the F2 namespace directly.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l397"><code>sdk&#x2F;src&#x2F;container.js:397</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l417"><code>sdk\src\container.js:417</code></a>
         
         </p>
 
@@ -1424,7 +1521,7 @@ any other actions in the Container.</p>
                 <li class="param">
                     
                         <code class="param-name">config</code>
-                        <span class="type"><a href="../classes/F2.ContainerConfiguration.html" class="crosslink">F2.ContainerConfiguration</a></span>
+                        <span class="type"><a href="..\classes\F2.ContainerConfiguration.html" class="crosslink">F2.ContainerConfiguration</a></span>
                     
 
                     
@@ -1482,7 +1579,7 @@ any other actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l413"><code>sdk&#x2F;src&#x2F;container.js:413</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l433"><code>sdk\src\container.js:433</code></a>
         
         </p>
 
@@ -1567,7 +1664,7 @@ any other actions in the Container.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l144"><code>sdk&#x2F;src&#x2F;container.js:144</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l181"><code>sdk\src\container.js:181</code></a>
         
         </p>
 
@@ -1596,7 +1693,7 @@ any other actions in the Container.</p>
                     
 
                     <div class="param-description">
-                        <p>An array of <a href="../classes/F2.App.html" class="crosslink">F2.App</a>
+                        <p>An array of <a href="..\classes\F2.App.html" class="crosslink">F2.App</a>
 objects</p>
                     </div>
 
@@ -1606,7 +1703,7 @@ objects</p>
                 <li class="param">
                     
                         <code class="param-name optional">[appManifest]</code>
-                        <span class="type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+                        <span class="type"><a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
                     
 
@@ -1679,7 +1776,7 @@ objects</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l234"><code>sdk&#x2F;src&#x2F;container.js:234</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l271"><code>sdk\src\container.js:271</code></a>
         
         </p>
 
@@ -1702,7 +1799,7 @@ objects</p>
                 <li class="param">
                     
                         <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+                        <span class="type"><a href="..\classes\F2.App.html" class="crosslink">F2.App</a></span>
                     
 
                     
@@ -1717,7 +1814,7 @@ objects</p>
                 <li class="param">
                     
                         <code class="param-name">appManifest</code>
-                        <span class="type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+                        <span class="type"><a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
                     
 
                     
@@ -1788,7 +1885,7 @@ page.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l77"><code>sdk&#x2F;src&#x2F;preamble.js:77</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l123"><code>sdk\src\preamble.js:123</code></a>
         
         </p>
 
@@ -1897,7 +1994,7 @@ page.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l136"><code>sdk&#x2F;src&#x2F;preamble.js:136</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l134"><code>sdk\src\preamble.js:134</code></a>
         
         </p>
 
@@ -2003,7 +2100,7 @@ page.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l419"><code>sdk&#x2F;src&#x2F;container.js:419</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l439"><code>sdk\src\container.js:439</code></a>
         
         </p>
 
@@ -2015,9 +2112,9 @@ page.</p>
 
     <div class="description">
         <p>Begins the loading process for all Apps. The App will
-be passed the <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object which will
+be passed the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a> object which will
 contain the App's unique instanceId within the Container. Optionally, the
-<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
+<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
 assets will be used instead of making a request.</p>
     </div>
 
@@ -2036,7 +2133,7 @@ assets will be used instead of making a request.</p>
                     
 
                     <div class="param-description">
-                        <p>An array of <a href="../classes/F2.App.html" class="crosslink">F2.App</a>
+                        <p>An array of <a href="..\classes\F2.App.html" class="crosslink">F2.App</a>
 objects</p>
                     </div>
 
@@ -2054,7 +2151,7 @@ objects</p>
 
                     <div class="param-description">
                         <p>An array of
-<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
+<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
 objects. This array must be the same length as the apps array that is
 objects. This array must be the same length as the apps array that is
 passed in. This can be useful if Apps are loaded on the server-side and
@@ -2106,7 +2203,7 @@ passed down to the client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l540"><code>sdk&#x2F;src&#x2F;container.js:540</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l563"><code>sdk\src\container.js:563</code></a>
         
         </p>
 
@@ -2170,7 +2267,7 @@ passed down to the client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l555"><code>sdk&#x2F;src&#x2F;container.js:555</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l578"><code>sdk\src\container.js:578</code></a>
         
         </p>
 
@@ -2261,7 +2358,7 @@ passed down to the client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l145"><code>sdk&#x2F;src&#x2F;preamble.js:145</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l143"><code>sdk\src\preamble.js:143</code></a>
         
         </p>
 
@@ -2350,7 +2447,7 @@ passed down to the client.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l30"><code>sdk&#x2F;src&#x2F;preamble.js:30</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l30"><code>sdk\src\preamble.js:30</code></a>
         
         </p>
 
@@ -2362,7 +2459,7 @@ passed down to the client.</p>
     <div class="description">
         <p>The Apps class is a namespace for App developers to place the javascript
 class that is used to initialize their App. The javascript classes should
-be namepaced with the <a href="../classes/F2.App.html" class="crosslink">F2.App</a>.appId. It is recommended
+be namepaced with the <a href="..\classes\F2.App.html" class="crosslink">F2.App</a>.appId. It is recommended
 that the code be placed in a closure to help keep the global namespace
 clean.</p>
 

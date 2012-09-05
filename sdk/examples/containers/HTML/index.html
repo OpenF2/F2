@@ -13,6 +13,10 @@
 			}
 		}
 
+		.f2-app {
+			margin-bottom:20px;
+			min-height:75px;
+		}
 		.f2-app header {
 			background: #0088cc;
 			background: -moz-linear-gradient(top,  #0088cc 0%, #0055cc 100%);
@@ -49,6 +53,7 @@
 			border-top-left-radius:0;
 			border-top-right-radius:0;
 			border-top:0;
+			margin-bottom:0;
 		}
 	</style>
 </head>
@@ -172,14 +177,35 @@
 
 			// init Container
 			F2.init({
-				appWrapper: function (app, html) {
+
+				afterAppRender: function (app, html) {
+					var el = $('#' + app.instanceId).append(html);
+					F2.UI.hideMask(app.instanceId, el);
+					return el;
+				},
+
+				beforeAppRender: function(app) {
+
 					var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, app.views);
 					var hasHelp = F2.inArray(F2.Constants.Views.HELP, app.views);
 					var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, app.views);
 					var showDivider = hasSettings || hasHelp || hasAbout;
 
-					return [
-						'<section class="">',
+					var columns = $("#mainContent div.column");
+					var colIndex = 0;
+					var appsInCol = columns.eq(0).find('.' + F2.Constants.Css.APP).length;
+
+					// find the shortest column
+					$(columns).each(function (i, e) {
+						var apps = $(e).find('.' + F2.Constants.Css.APP).length;
+						if (apps < appsInCol) {
+							colIndex = i;
+							appsInCol = apps;
+						}
+					});
+
+					$(columns).eq(colIndex).append([
+						'<section id="' + app.instanceId + '" class="' + F2.Constants.Css.APP + '">',
 							'<header class="clearfix">',
 								'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name, '</h2>',
 								'<div class="btn-group pull-right">',
@@ -196,26 +222,10 @@
 									'</ul>',
 								'</div>',
 							'</header>',
-							html,
 						'</section>'
-					].join('');
-				},
+					].join(''));
 
-				appWriter: function (app, html) {
-
-					var columns = $("#mainContent div.column");
-					var colIndex = 0;
-					var colHeight = columns.eq(0).height();
-
-					// find the shortest column
-					$(columns).each(function (i, e) {
-						if ($(e).height() < colHeight) {
-							colIndex = i;
-							colHeight = $(e).height();
-						}
-					});
-
-					$(columns).eq(colIndex).append(html);
+					F2.UI.showMask(app.instanceId, $('#' + app.instanceId), true);
 				},
 
 				supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],

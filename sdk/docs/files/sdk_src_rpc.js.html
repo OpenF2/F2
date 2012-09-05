@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>sdk&#x2F;src&#x2F;rpc.js</title>
+    <title>sdk\src\rpc.js</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -112,7 +112,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: sdk&#x2F;src&#x2F;rpc.js</h1>
+                        <h1 class="file-heading">File: sdk\src\rpc.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -183,7 +183,10 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	 *&#x2F;
 	var _createContainerToAppSocket = function(app, appManifest) {
 
-		var container = $(&#x27;#&#x27; + app.instanceId).find(&quot;.&quot; + F2.Constants.Css.APP_CONTAINER);
+		var container = $(&#x27;#&#x27; + app.instanceId);
+		container = container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)
+			? container
+			: container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
 
 		if (!container.length) {
 			F2.log(&#x27;Unable to locate app in order to establish secure connection.&#x27;);
@@ -309,6 +312,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	&#x2F;**
 	 * Registers a callback function
 	 * @method _registerCallback
+	 * @private
 	 * @param {function} callback The callback function
 	 * @return {string} The callback ID
 	 *&#x2F;
@@ -365,7 +369,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		&#x2F;**
 		 * Init function which tells F2.Rpc whether it is running at the Container-
 		 * level or the App-level. This method is generally called by
-		 * {{#crossLink &quot;F2&#x2F;init&quot;}}{{&#x2F;crossLink}}
+		 * F2.{{#crossLink &quot;F2&#x2F;init&quot;}}{{&#x2F;crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
 		 * {{#crossLink &quot;F2.ContainerConfiguration&quot;}}{{&#x2F;crossLink}}.secureAppPagePath

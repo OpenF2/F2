@@ -12,7 +12,7 @@ F2.Apps["3493749374339473947394397439473972018"] = (function() {
 		
 		this.bindEvents();
 
-		console.log("¡Vámonos! Flickr interestingness coming up...");
+		F2.log("¡Vámonos! Flickr interestingness coming up...");
 
 		this.getPhotos();
 	};

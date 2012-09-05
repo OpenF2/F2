@@ -65,7 +65,10 @@ F2.extend('Rpc', (function(){
 	 */
 	var _createContainerToAppSocket = function(app, appManifest) {
 
-		var container = $('#' + app.instanceId).find("." + F2.Constants.Css.APP_CONTAINER);
+		var container = $('#' + app.instanceId);
+		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
+			? container
+			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
 
 		if (!container.length) {
 			F2.log('Unable to locate app in order to establish secure connection.');

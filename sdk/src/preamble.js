@@ -1,5 +1,5 @@
 /*!
- * F2 v0.10.3
+ * F2 v0.11.0
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -62,39 +62,6 @@ if (!window.F2) {
 		 * @for F2
 		 */
 		Apps:{},
-		/** 
-		 * Generates a somewhat random id
-		 * @method guid
-		 * @return {string} A random id
-		 * @for F2
-		 */
-		guid:function() {
-			var S4 = function() {
-				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-			};
-			return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-		},
-		/**
-		 * Wrapper logging function.
-		 * @method log
-		 * @param {object} obj An object to be logged
-		 * @param {object} [obj2]* An object to be logged
-		 */
-		log:function() {
-			if (window.console && window.console.log) {
-				console.log([].slice.call(arguments));
-			}
-		},
-		/**
-		 * Search for a value within an array.
-		 * @method inArray
-		 * @param {object} value The value to search for
-		 * @param {Array} array The array to search
-		 */
-		inArray:function(value, array) {
-			return $.inArray(value, array) > -1;
-		},
-
 		/**
 		 * Creates a namespace on F2 and copies the contents of an object into
 		 * that namespace optionally overwriting existing properties.
@@ -132,7 +99,38 @@ if (!window.F2) {
 
 			return parent;
 		},
-
+		/** 
+		 * Generates a somewhat random id
+		 * @method guid
+		 * @return {string} A random id
+		 * @for F2
+		 */
+		guid:function() {
+			var S4 = function() {
+				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+			};
+			return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		},
+		/**
+		 * Search for a value within an array.
+		 * @method inArray
+		 * @param {object} value The value to search for
+		 * @param {Array} array The array to search
+		 */
+		inArray:function(value, array) {
+			return $.inArray(value, array) > -1;
+		},
+		/**
+		 * Wrapper logging function.
+		 * @method log
+		 * @param {object} obj An object to be logged
+		 * @param {object} [obj2]* An object to be logged
+		 */
+		log:function() {
+			if (window.console && window.console.log) {
+				console.log([].slice.call(arguments));
+			}
+		},
 		/**
 		 * Wrapper to convert a JSON string to an object
 		 * @method parse

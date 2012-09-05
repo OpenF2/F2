@@ -1,5 +1,5 @@
 /*!
- * F2 v0.10.3
+ * F2 v0.11.0
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -62,39 +62,6 @@ if (!window.F2) {
 		 * @for F2
 		 */
 		Apps:{},
-		/** 
-		 * Generates a somewhat random id
-		 * @method guid
-		 * @return {string} A random id
-		 * @for F2
-		 */
-		guid:function() {
-			var S4 = function() {
-				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-			};
-			return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-		},
-		/**
-		 * Wrapper logging function.
-		 * @method log
-		 * @param {object} obj An object to be logged
-		 * @param {object} [obj2]* An object to be logged
-		 */
-		log:function() {
-			if (window.console && window.console.log) {
-				console.log([].slice.call(arguments));
-			}
-		},
-		/**
-		 * Search for a value within an array.
-		 * @method inArray
-		 * @param {object} value The value to search for
-		 * @param {Array} array The array to search
-		 */
-		inArray:function(value, array) {
-			return $.inArray(value, array) > -1;
-		},
-
 		/**
 		 * Creates a namespace on F2 and copies the contents of an object into
 		 * that namespace optionally overwriting existing properties.
@@ -132,7 +99,38 @@ if (!window.F2) {
 
 			return parent;
 		},
-
+		/** 
+		 * Generates a somewhat random id
+		 * @method guid
+		 * @return {string} A random id
+		 * @for F2
+		 */
+		guid:function() {
+			var S4 = function() {
+				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+			};
+			return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		},
+		/**
+		 * Search for a value within an array.
+		 * @method inArray
+		 * @param {object} value The value to search for
+		 * @param {Array} array The array to search
+		 */
+		inArray:function(value, array) {
+			return $.inArray(value, array) > -1;
+		},
+		/**
+		 * Wrapper logging function.
+		 * @method log
+		 * @param {object} obj An object to be logged
+		 * @param {object} [obj2]* An object to be logged
+		 */
+		log:function() {
+			if (window.console && window.console.log) {
+				console.log([].slice.call(arguments));
+			}
+		},
 		/**
 		 * Wrapper to convert a JSON string to an object
 		 * @method parse
@@ -373,7 +371,17 @@ F2.extend("", {
 	 * An object containing configuration information for the Container
 	 * @class F2.ContainerConfiguration
 	 */
-	ContainerConfiguration:{
+	ContainerConfiguration:{		
+		/**
+		 * Allows the Container to override how an App's html is 
+		 * inserted into the page. The function should accept an
+		 * {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html
+		 * @method afterAppRender
+		 * @param {F2.App} app The F2.App object
+		 * @param {string} html The string of html representing the App 
+		 * @return {Element} The DOM Element surrounding the App
+		 */
+		afterAppRender:function(app, html) {},
 		/**
 		 * Allows the Container to wrap an App in extra html. The
 		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
@@ -381,18 +389,20 @@ F2.extend("", {
 		 * settings and remove an app from the Container. See
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
-		 * @property appWrapper
-		 * @type function
+		 * @method appRender
+		 * @param {F2.App} app The F2.App object
+		 * @param {string} html The string of html representing the App
 		 */
-		appWrapper:function() {},
+		appRender:function(app, html) {},
 		/**
-		 * Allows the Container to override how an App's html is 
-		 * inserted into the page. The function should accept an
-		 * {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html
-		 * @property appWriter
-		 * @type function
+		 * Allows the Container to render html for an App before the AppManifest for
+		 * an App has loaded. This can be useful if the design calls for loading
+		 * icons to appear for each App before each App is loaded and rendered to
+		 * the page.
+		 * @method beforeAppRender
+		 * @param {F2.App} app The F2.App object
 		 */
-		appWriter:function() {},
+		beforeAppRender:function(app) {},
 		/**
 		 * Tells the Container that it is currently running within
 		 * a secure app page
@@ -768,13 +778,38 @@ F2.extend('', (function(){
 	var _config = false;
 
 	/**
+	 * Appends the App's html to the DOM
+	 * @method _afterAppRender
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
+	 * @return {Element} The DOM Element that contains the App
+	 */
+	var _afterAppRender = function(app, html) {
+
+		var handler = _config.afterAppRender || function(app, html) {
+			return $(html).appendTo('body');
+		};
+		var appContainer = handler(app, html);
+
+		if (!!_config.afterAppRender && !appContainer) {
+			F2.log('F2.ContainerConfiguration.afterAppRender() must return the DOM Element that contains the App');
+			return;
+		} else {
+			// apply APP class and Instance ID
+			$(appContainer).addClass(F2.Constants.Css.APP).attr('id', app.instanceId);
+			return appContainer.get(0);
+		}
+	};
+
+	/**
 	 * Renders the html for an App.
-	 * @method _getAppHtml
+	 * @method _appRender
 	 * @private
 	 * @param {F2.App} app The App object
 	 * @param {string} html The string of html
 	 */
-	var _getAppHtml = function(app, html) {
+	var _appRender = function(app, html) {
 
 		function outerHtml(html) {
 			return $('<div></div>').append(html).html();
@@ -784,12 +819,24 @@ F2.extend('', (function(){
 		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' app' + app.appId));
 
 		// optionally apply wrapper html
-		if (_config.appWrapper) {
-			html = _config.appWrapper(app, html);
+		if (_config.appRender) {
+			html = _config.appRender(app, html);
 		}
 
 		// apply APP class and instanceId
-		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr('id', app.instanceId));
+		return outerHtml(html);
+	};
+
+	/**
+	 * Rendering hook to allow Containers to render some html prior to an App
+	 * loading
+	 * @method _beforeAppRender
+	 * @private
+	 * @param {F2.App} app The App object
+	 */
+	var _beforeAppRender = function(app) {
+		var handler = _config.beforeAppRender || $.noop;
+		handler(app);
 	};
 
 	/**
@@ -953,7 +1000,7 @@ F2.extend('', (function(){
 		// load html
 		$.each(appManifest.apps, function(i, a) {
 			// load html
-			_writeAppHtml(apps[i], _getAppHtml(apps[i], a.html));
+			_afterAppRender(apps[i], _appRender(apps[i], a.html));
 			// init events
 			_initAppEvents(apps[i]);
 		});
@@ -1003,7 +1050,7 @@ F2.extend('', (function(){
 		// make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
-			_writeAppHtml(app, _getAppHtml(app, '<div></div>'));
+			_afterAppRender(app, _appRender(app, '<div></div>'));
 			// init events
 			_initAppEvents(app);
 			// create RPC socket
@@ -1035,23 +1082,6 @@ F2.extend('', (function(){
 		}
 
 		return true;
-	};
-
-	/**
-	 * Appends the App's html to the DOM
-	 * @method _writeAppHtml
-	 * @private
-	 * @param {F2.App} app The App object
-	 * @param {string} html The string of html
-	 * @return {Element} The DOM Element that contains the App
-	 */
-	var _writeAppHtml = function(app, html) {
-		var handler = _config.appWriter || function(app, html) {
-			$('body').append(html);
-		};
-		handler(app, html);
-
-		return $('#' + app.instanceId).get(0);
 	};
 
 	return {
@@ -1226,6 +1256,9 @@ F2.extend('', (function(){
 				// save app
 				_apps[a.instanceId] = { app:a };
 
+				// fire beforeAppRender
+				_beforeAppRender(a);
+
 				// if we have the manifest, go ahead and load the app
 				if (haveManifests) {
 					_loadApps(a, appManifests[i]);
@@ -1399,7 +1432,10 @@ F2.extend('Rpc', (function(){
 	 */
 	var _createContainerToAppSocket = function(app, appManifest) {
 
-		var container = $('#' + app.instanceId).find("." + F2.Constants.Css.APP_CONTAINER);
+		var container = $('#' + app.instanceId);
+		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
+			? container
+			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
 
 		if (!container.length) {
 			F2.log('Unable to locate app in order to establish secure connection.');
@@ -1525,6 +1561,7 @@ F2.extend('Rpc', (function(){
 	/**
 	 * Registers a callback function
 	 * @method _registerCallback
+	 * @private
 	 * @param {function} callback The callback function
 	 * @return {string} The callback ID
 	 */
@@ -1581,7 +1618,7 @@ F2.extend('Rpc', (function(){
 		/**
 		 * Init function which tells F2.Rpc whether it is running at the Container-
 		 * level or the App-level. This method is generally called by
-		 * {{#crossLink "F2/init"}}{{/crossLink}}
+		 * F2.{{#crossLink "F2/init"}}{{/crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
 		 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}.secureAppPagePath
@@ -1737,8 +1774,8 @@ F2.extend('UI', (function(){
 
 				var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
 				var mask = $('<div data->')
-					.height(container.outerHeight())
-					.width(container.outerWidth())
+					.height('100%' /*container.outerHeight()*/)
+					.width('100%' /*container.outerWidth()*/)
 					.addClass(F2.Constants.Css.MASK);
 
 				// set inline styles if useClasses is false

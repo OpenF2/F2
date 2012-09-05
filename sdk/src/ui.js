@@ -104,8 +104,8 @@ F2.extend('UI', (function(){
 
 				var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
 				var mask = $('<div data->')
-					.height(container.outerHeight())
-					.width(container.outerWidth())
+					.height('100%' /*container.outerHeight()*/)
+					.width('100%' /*container.outerWidth()*/)
 					.addClass(F2.Constants.Css.MASK);
 
 				// set inline styles if useClasses is false

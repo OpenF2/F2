@@ -218,7 +218,17 @@ F2.extend("", {
 	 * An object containing configuration information for the Container
 	 * @class F2.ContainerConfiguration
 	 */
-	ContainerConfiguration:{
+	ContainerConfiguration:{		
+		/**
+		 * Allows the Container to override how an App's html is 
+		 * inserted into the page. The function should accept an
+		 * {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html
+		 * @method afterAppRender
+		 * @param {F2.App} app The F2.App object
+		 * @param {string} html The string of html representing the App 
+		 * @return {Element} The DOM Element surrounding the App
+		 */
+		afterAppRender:function(app, html) {},
 		/**
 		 * Allows the Container to wrap an App in extra html. The
 		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
@@ -226,18 +236,20 @@ F2.extend("", {
 		 * settings and remove an app from the Container. See
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
-		 * @property appWrapper
-		 * @type function
+		 * @method appRender
+		 * @param {F2.App} app The F2.App object
+		 * @param {string} html The string of html representing the App
 		 */
-		appWrapper:function() {},
+		appRender:function(app, html) {},
 		/**
-		 * Allows the Container to override how an App's html is 
-		 * inserted into the page. The function should accept an
-		 * {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html
-		 * @property appWriter
-		 * @type function
+		 * Allows the Container to render html for an App before the AppManifest for
+		 * an App has loaded. This can be useful if the design calls for loading
+		 * icons to appear for each App before each App is loaded and rendered to
+		 * the page.
+		 * @method beforeAppRender
+		 * @param {F2.App} app The F2.App object
 		 */
-		appWriter:function() {},
+		beforeAppRender:function(app) {},
 		/**
 		 * Tells the Container that it is currently running within
 		 * a secure app page
