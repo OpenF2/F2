@@ -69,6 +69,13 @@
 		prettyPrint();
 	}
 
+	/*
+	 * Completely TEMPORARY addition for editors' notes only.
+	 */
+	function makeEditorsNotesBold(){
+		$("span.label-warning").parent().addClass("editors-note well well-large");
+	}
+
 	/**
 	 * Build TOC based on markitdown-generated section elements in DOM
 	 *
@@ -148,5 +155,6 @@
 		setActiveNav();
 		formatSourceCodeElements();
 		$("a[rel=tooltip]","#docs").tooltip();
+		makeEditorsNotesBold();
 	});
 </script>

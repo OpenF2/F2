@@ -3,10 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 Documentation - Creating F2</title>
+  <title>F2 Documentation - Extending F2</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
@@ -74,28 +93,31 @@
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">Creating F2</h1>
+<h1 class="title">Extending F2</h1>
 </header>
 <p class="lead">
-The open financial framework specification aims to solve many problems. As the standard evolves and new requirements come to light, the functionality in F2 will continue to grow, too. To achieve steady growth and stable release cycles, F2 will be maintained under the Semantic Versioning guidelines as much as possible. For more information, browse to the <a href="https://github.com/OpenF2/F2#versioning">readme on GitHub</a>.
+At its core, F2 is an open framework. To create a truly open and flexible foundation with F2.js (version 1.0.0), F2 can be extended with custom plugins. Extending F2 with plugins provides direct access to F2.js SDK methods and can save your teams a lot of time.
 </p>
 
-<section class="level3" id="roadmap">
-<h3>Roadmap</h3>
-<p>To provide transparency into the future of F2, we've setup a <a href="https://github.com/OpenF2/F2/wiki/Roadmap">roadmap</a> wiki on GitHub. Looking back in time, we also have a <a href="https://github.com/OpenF2/F2/wiki/Changelog">changelog</a> tracking version-to-version changes, upgrades and deprecated features.</p>
+<section class="level3" id="plugins">
+<h3>Plugins</h3>
+<p><span class="label label-warning">EDITOR'S NOTE</span> Need content.</p>
 </section>
-<section class="level3" id="commitment">
-<h3>Commitment</h3>
-<p>To demonstrate Markit's commitment to perfecting the F2 standard, Markit's F2 container and app development teams are following the technical implementations described in this standard. Those developers are also actively participating in future versions to enhance F2.</p>
-</section>
-<section class="level3" id="collaboration">
-<h3>Collaboration</h3>
-<p>The F2.js JavaScript SDK is an open-source project managed on GitHub. We chose this route to allow developers to contribute to the success of F2's open standard and SDKs. GitHub's tools make collaboration easy, and you can <a href="https://github.com/OpenF2/F2#collaboration">get started collaborating</a> today.</p>
-<p>We do have <a href="#">some coding standards and guidelines</a> to follow when contributing to F2.</p>
-</section>
-<section class="level3" id="releases">
-<h3>Releases</h3>
-<p>Version 1.0.0 will be released in mid-October 2012. See the <a href="https://github.com/OpenF2/F2/wiki/Roadmap">roadmap</a> for more information on future versions.</p>
+<section class="level3" id="example-plugin">
+<h3>Example Plugin</h3>
+<p>Plugins are encapsulated in JavaScript closures as demonstrated below. There are three arguments which can be passed into <code>F2.extend()</code>: <code>namespace</code>, <code>object</code>, and <code>overwrite</code>. For full details, <a href="../sdk/docs/classes/F2.html#method_extend">read the F2.js SDK documentation</a>.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">extend</span>(<span class="ch">&#39;YourPluginName&#39;</span>, (<span class="kw">function</span>(){
+    <span class="kw">return</span> {
+        <span class="dt">doSomething</span>: <span class="kw">function</span>(){
+            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Something has been done.&quot;</span>);
+        }
+    };
+})());</code></pre>
+<p>To call your custom method shown above:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">...
+<span class="fu">F2</span>.<span class="fu">YourPluginName</span>.<span class="fu">doSomething</span>();
+...</code></pre>
+<p>This method call writes <code>Something has been done.</code> to the Console.</p>
 </section>
 			</div><!--/#docs-->
 		</div><!--/span9-->

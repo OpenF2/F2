@@ -45,7 +45,7 @@
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.1</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
       </ul>
     </div>
   </div>
@@ -61,10 +61,11 @@
 		      <li><a href="f2-requirements.html">Requirements</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
-		      <li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>
-		      <li><a href="developing-the-container.html">Developing the F2 Container</a></li>
+		      <!--<li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>-->
+		      <li><a href="developing-the-container.html">Developing F2 Containers</a></li>
+          <li><a href="extending-f2.html">Extending F2</a></li>
           <li class="divider"></li>
-          <li><a href="../../sdk/docs/">F2.js SDK Reference</a></li>
+          <li><a href="../sdk/docs/">F2.js SDK Reference</a></li>
           <li class="divider"></li>
         </ul>
 
@@ -216,6 +217,13 @@ This specification <a href="developing-f2-apps.html">furnishes app developers wi
 		prettyPrint();
 	}
 
+	/*
+	 * Completely TEMPORARY addition for editors' notes only.
+	 */
+	function makeEditorsNotesBold(){
+		$("span.label-warning").parent().addClass("editors-note well well-large");
+	}
+
 	/**
 	 * Build TOC based on markitdown-generated section elements in DOM
 	 *
@@ -295,6 +303,7 @@ This specification <a href="developing-f2-apps.html">furnishes app developers wi
 		setActiveNav();
 		formatSourceCodeElements();
 		$("a[rel=tooltip]","#docs").tooltip();
+		makeEditorsNotesBold();
 	});
 </script>
 </body>

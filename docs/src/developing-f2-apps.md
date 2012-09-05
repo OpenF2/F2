@@ -294,11 +294,63 @@ F2_jsonpCallback_123456789({
 
 <span class="label label-important">Required</span> Don't forget you need an AppId before you can run your app on a container. [Get your AppId now &raquo;](#)
 
+### Supported App Views
+
+<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.
+
+F2 apps can have one or more views. Every app will have at least one "home" view, while others will include views for settings, help or about. Inside the F2.js SDK, we've [included support for views](../sdk/docs/classes/F2.App.html#property_views) and the list can be extended by the container provider. 
+
+<span class="label">Note</span> If the container doesn't support all the views you need inside your app, you will need to coordinate those additions with the container provider.
+
+#### Setting Up Views
+
+Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Twitter Bootstrap's `hide` class can be applied to views that should be hidden by default.
+
+To setup a single view in your app, use this HTML on your app's outermost element noting the use of the `f2-app-view` classname and the `data-f2-view` attribute.
+
+```html
+<div class='f2-app-view' data-f2-view='home'>
+	...
+</div>
+```
+
+To setup multiple views in your app, write HTML like this noting the use the `f2-app-view` and `hide` classnames as well as the `data-f2-view` attributes.
+
+```html
+<div class='f2-app-view' data-f2-view='home'>
+	...
+</div>
+<div class='f2-app-view hide' data-f2-view='about'>
+	...
+</div>
+```
+
+For details on `F2.Constants.Css.APPVIEW`, [browse to the SDK docs](../sdk/docs/classes/F2.Constants.Css.html).
+
+#### Listening to App View Changes
+
+You shouldn't be surprised to know F2.js contains event triggers for handling app view changes. Specifically, the `APP_VIEW_CHANGE` event will be fired by the container when a user clicks to switch the view for an app.
+
+To listen for the `APP_VIEW_CHANGE` event inside your app code:
+
+```javascript
+F2.Events.on(
+	F2.Constants.Events.APP_VIEW_CHANGE,
+	function(viewName){
+		F2.log("App view changed to " + viewName);
+	}
+);
+```
+
+For details on `F2.Events.on()`, [browse to the SDK docs](../sdk/docs/classes/F2.Events.html#method_on) and for details on `F2.Constants.Events`, [head over to the F2.Constants docs](../sdk/docs/classes/F2.Constants.Events.html).
+
 * * * *
 
 ## Namespacing
 
 F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least the non-secure apps. Following these guidelines, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+
+<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.
 
 ### Namespacing Your CSS
 
@@ -346,7 +398,7 @@ To listen to the `F2.Constants.Events.CONTAINER_SYMBOL_CHANGE` event inside your
 F2.Events.on(
 	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
 	function(data){
-		alert("The symbol was changed to " + data.symbol);
+		F2.log("The symbol was changed to " + data.symbol);
 	}
 );
 ```
@@ -375,7 +427,7 @@ The container would need to listen to your apps' broadcasted `F2.Constants.Event
 F2.Events.on(
 	F2.Constants.Events.APP_SYMBOL_CHANGE, 
 	function(data){
-		alert("The symbol was changed to " + data.symbol);
+		F2.log("The symbol was changed to " + data.symbol);
 	}
 );
 ```
@@ -408,9 +460,9 @@ F2.Events.on(
 	"buy_stock", 
 	function(data){
 		if (data.isAvailableToPurchase){
-			alert("Trade ticket order for " + data.symbol + " at $" + data.price);
+			F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
 		} else {
-			alert("This stock is not available for purchase.")
+			F2.log("This stock is not available for purchase.")
 		}
 	}
 );
@@ -426,6 +478,20 @@ Every F2 app will have a [unique AppId](#developing-your-f2-app) and&mdash;using
 
 * * * *
 
+## F2.UI
+
+<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC. Version 0.10.3 contains correct UI code.
+
+How to use `F2.UI.setMaskConfiguration()`
+
+```javascript
+F2.UI.showMask(this._app.instanceId, this._container, true);
+
+F2.UI.hideMask(this._app.instanceId, this._container);
+```
+
+* * * *
+
 ## Your App on a Container 
 
 Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working app, you're pretty much done.
@@ -434,6 +500,28 @@ If you're curious about _how_ containers load apps, browse over to the [F2.js SD
 
 <span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
 
+### Testing Your App
+
+When you [cloned the F2 GitHub repo](https://github.com/OpenF2/F2/#quick-start) you also got some example F2 containers for your app development and testing. Open the project repository and navigate to `~/F2/sdk/examples/containers` to find them or to jump-start your testing, point your browser at:
+
+`http://localhost/<your_extract_location>/F2/sdk/examples/containers/HTML/`
+
+If you open `~/F2/sdk/examples/containers/apps.json` in your text editor, you'll find a list of sample F2 apps. Simply modify this file to your liking and add your app anywhere in the array. The configuration is comprised of `F2.App` properties, the following are **required**.
+
+```javascript
+{
+	appId: "com_your_appid",
+	description: "Your app description",
+	height:500,
+	isSecure: false,
+	manifestUrl: "http://www.domain.com/app.json",
+	name: "Your app name",
+	views: [F2.Constants.Views.HOME]
+}
+```
+
+For full details on each of these `F2.App` properties, [browse the F2.js SDK documentation](../sdk/docs/classes/F2.App.html).
+
 * * * *
 
 
@@ -442,7 +530,7 @@ If you're curious about _how_ containers load apps, browse over to the [F2.js SD
 
 * * * *
 
-## Stop reading here... ##
+## Hold the phone...
 
 Everything above is good. Everything below is not good...yet.
 
@@ -456,7 +544,7 @@ Everything above is good. Everything below is not good...yet.
 
 Since Apps are comprised of mainly HTML, JavaScript and CSS, App development can be as complex as the App developer wishes with one significant limitation: an App cannot be allowed to negatively impact other Apps on the desktop. To prevent accidental impact, Apps are developed inside of JavaScript closure which means an App will not have any public methods and therefore is a closed cell. 
 
-## Designing Your App
+### Designing Your App
 
 Design is an important first step in creating a new App. Using the Open Financial Framework’s upcoming design guidelines and App API, App Designers and Developers can take advantage of these available resources to develop Apps on their own schedules. The design guidelines will provide a common theme and offer a baseline for consistency between all Apps on the Container.
 
@@ -466,7 +554,7 @@ There is customization available and it will be imperative for App developers to
 
 
 
-## Hosting an App
+### Hosting an App
 
 Since the Framework is web-based and it is a primary requirement of this Framework to simultaneously support multiple Apps from different providers, the following are truths:
 
@@ -479,7 +567,7 @@ An App can be accessed by an HTTP GET or HTTP POST request. Each request consist
 
 * * * *
 
-## App Content
+### App Content
 
 App Providers can determine which content they wish to make available within their App. It is recommended that content is focused on financial information; however, there is no limitation as such. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.
 
@@ -487,13 +575,13 @@ If App Providers embed URLs back to their own websites, URLs must be opened in a
 
 * * * *
 
-## Single Sign-On
+### Single Sign-On
 
 Providers participating in the Markit App Framework must modify their web sites' authentication mechanism to accept a customer’s authentication from a Container Provider without requiring the user to retype their Username and Password. With an authentication methodology in place between the Container Provider and App Provider, when a customer authenticates to a Provider’s App, the authentication credentials are passed to the Container Provider.  The authentication methodology is also suitable for the reverse, for authenticating a customer requesting content from an App Provider after selecting content from the App within the Container. Authentication information will be passed between App Providers and Container Providers in the form of encrypted URLs.
 
 * * * *
 
-## Entitlements
+### Entitlements
 
 User Entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This would include apps like research aggregation, news filtering, streaming market data, etc. In order to enable an App to retrieve data from multiple, entitled, content providers in real-time, there will need to be an explicit and trusted mechanism of passing entitlements information between the Store, the data vendors, and the app developers.
 
