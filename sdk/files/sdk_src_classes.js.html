@@ -67,6 +67,8 @@
             
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
@@ -380,6 +382,56 @@ F2.extend(&quot;&quot;, {
 		 * @required
 		 *&#x2F;
 		supportedViews:[]
+	}
+});
+
+&#x2F;**
+ * @main F2
+ *&#x2F;
+F2.extend(&quot;F2.UI&quot;, {
+	&#x2F;**
+	 * An object containing configuration information for the 
+	 * {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} and
+	 * {{#crossLink &quot;F2.UI\hideMask&quot;}}{{&#x2F;crossLink}} methods.
+	 * @class F2.UI.MaskConfiguration
+	 *&#x2F;
+	MaskConfiguration:{
+		&#x2F;**
+		 * The backround color of the overlay
+		 * @property backgroundColor
+		 * @type string
+		 * @default #FFFFFF
+		 *&#x2F;
+		backgroundColor:&#x27;#FFFFFF&#x27;,
+		&#x2F;**
+		 * The path to the loading icon
+		 * @property loadingIcon
+		 * @type string
+		 *&#x2F;
+		loadingIcon:&#x27;&#x27;,
+		&#x2F;**
+		 * The opacity of the background overlay
+		 * @property opacity
+		 * @type int
+		 * @default .6
+		 *&#x2F;
+		opacity:.6,
+		&#x2F;**
+		 * Do not use inline styles for mask functinality. Instead classes will be
+		 * applied to the elements and it is up to the Container provider to
+		 * implement the class definitions.
+		 * @property useClasses
+		 * @type bool
+		 * @default false
+		 *&#x2F;
+		useClasses:false,
+		&#x2F;**
+		 * The z-index to use for the overlay
+		 * @property zIndex
+		 * @type int
+		 * @default 2
+		 *&#x2F;
+		zIndex:2
 	}
 });
     </pre>

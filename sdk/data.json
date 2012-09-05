@@ -8,7 +8,8 @@
                 "F2.App": 1,
                 "F2.AppManifest": 1,
                 "F2.AppManifest.AppContent": 1,
-                "F2.ContainerConfiguration": 1
+                "F2.ContainerConfiguration": 1,
+                "F2.UI.MaskConfiguration": 1
             },
             "fors": {},
             "namespaces": {}
@@ -86,6 +87,7 @@
                 "F2.AppManifest": 1,
                 "F2.AppManifest.AppContent": 1,
                 "F2.ContainerConfiguration": 1,
+                "F2.UI.MaskConfiguration": 1,
                 "F2.Constants": 1,
                 "F2.Constants.Css": 1,
                 "F2.Constants.Events": 1,
@@ -161,6 +163,19 @@
             "line": 217,
             "description": "An object containing configuration information for the Container"
         },
+        "F2.UI.MaskConfiguration": {
+            "name": "F2.UI.MaskConfiguration",
+            "shortname": "F2.UI.MaskConfiguration",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "file": "sdk/src/classes.js",
+            "line": 274,
+            "description": "An object containing configuration information for the \n{{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} and\n{{#crossLink \"F2.UI\\hideMask\"}}{{/crossLink}} methods."
+        },
         "F2.Constants": {
             "name": "F2.Constants",
             "shortname": "F2.Constants",
@@ -198,7 +213,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/constants.js",
-            "line": 76,
+            "line": 94,
             "description": "Events constants"
         },
         "F2.Constants.Sockets": {
@@ -211,7 +226,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/constants.js",
-            "line": 152,
+            "line": 170,
             "description": "Constants for use with cross-domain sockets",
             "access": "protected",
             "tagname": ""
@@ -226,7 +241,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/constants.js",
-            "line": 207,
+            "line": 225,
             "description": "The available view types to Apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP_VIEW class to the\ncontaining DOM Element. A DATA_ATTRIBUTE attribute should be added to the\nElement as well which defines what view type is represented.\nThe `hide` class can be applied to views that should be hidden by default."
         },
         "F2": {
@@ -254,7 +269,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/container.js",
-            "line": 289,
+            "line": 299,
             "description": "Description of Events goes here"
         },
         "F2.Rpc": {
@@ -608,6 +623,64 @@
             "class": "F2.ContainerConfiguration"
         },
         {
+            "file": "sdk/src/classes.js",
+            "line": 270,
+            "mainName": "F2",
+            "tag": "main",
+            "itemtype": "main",
+            "_main": true,
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 281,
+            "description": "The backround color of the overlay",
+            "itemtype": "property",
+            "name": "backgroundColor",
+            "type": "string",
+            "default": "#FFFFFF",
+            "class": "F2.UI.MaskConfiguration"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 288,
+            "description": "The path to the loading icon",
+            "itemtype": "property",
+            "name": "loadingIcon",
+            "type": "string",
+            "class": "F2.UI.MaskConfiguration"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 294,
+            "description": "The opacity of the background overlay",
+            "itemtype": "property",
+            "name": "opacity",
+            "type": "int",
+            "default": ".6",
+            "class": "F2.UI.MaskConfiguration"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 301,
+            "description": "Do not use inline styles for mask functinality. Instead classes will be\napplied to the elements and it is up to the Container provider to\nimplement the class definitions.",
+            "itemtype": "property",
+            "name": "useClasses",
+            "type": "bool",
+            "default": "false",
+            "class": "F2.UI.MaskConfiguration"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 310,
+            "description": "The z-index to use for the overlay",
+            "itemtype": "property",
+            "name": "zIndex",
+            "type": "int",
+            "default": "2",
+            "class": "F2.UI.MaskConfiguration"
+        },
+        {
             "file": "sdk/src/constants.js",
             "line": 13,
             "class": "F2.Constants.Css"
@@ -659,7 +732,7 @@
         {
             "file": "sdk/src/constants.js",
             "line": 59,
-            "description": "APP\\_VIEW\\_TRIGGER class shuld be applied to the DOM Elements that\ntrigger an\n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_VIEW_CHANGE\nevent. The DOM Element should also have a\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE\nattribute that specifies which\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it will trigger.",
+            "description": "APP\\_VIEW\\_TRIGGER class should be applied to the DOM Elements that\ntrigger an\n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_VIEW_CHANGE\nevent. The DOM Element should also have a\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE\nattribute that specifies which\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it will trigger.",
             "itemtype": "property",
             "name": "APP_VIEW_TRIGGER",
             "type": "string",
@@ -669,17 +742,39 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 81,
+            "line": 73,
+            "description": "The MASK class is applied to the overlay element that is created\nwhen the {{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} method is fired.",
+            "itemtype": "property",
+            "name": "MASK",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "sdk/src/constants.js",
+            "line": 82,
+            "description": "The MASK_CONTAINER class is applied to the Element that is passed into\nthe {{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} method.",
+            "itemtype": "property",
+            "name": "MASK_CONTAINER",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Css"
+        },
+        {
+            "file": "sdk/src/constants.js",
+            "line": 99,
             "class": "F2.Constants.Events"
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 83,
+            "line": 101,
             "class": "F2.Constants.Events"
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 87,
+            "line": 105,
             "description": "The APP\\_WIDTH\\_CHANGE event will be fired by the Container when the\nwidth of an App is changed. The App's instanceId should be concatenated\nto this constant.\nReturns an object with the gridSize and width in pixels:\n\n    { gridSize:8, width:620 }",
             "itemtype": "property",
             "name": "APP_WIDTH_CHANGE",
@@ -690,7 +785,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 101,
+            "line": 119,
             "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an\nApp. It is up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "APP_SYMBOL_CHANGE",
@@ -701,7 +796,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 114,
+            "line": 132,
             "description": "The APP\\_VIEW\\_CHANGE event will be fired by the Container when a user\nclicks to switch the view for an App. The App's instanceId should be\nconcatenated to this constant.",
             "itemtype": "property",
             "name": "APP_VIEW_CHANGE",
@@ -712,7 +807,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 124,
+            "line": 142,
             "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed\nat the Container level. This event should only be fired by the\nContainer or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "CONTAINER_SYMBOL_CHANGE",
@@ -723,7 +818,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 138,
+            "line": 156,
             "description": "The CONTAINER\\_WIDTH\\_CHANGE event will be fired by the Container when\nthe width of the Container has changed.",
             "itemtype": "property",
             "name": "CONTAINER_WIDTH_CHANGE",
@@ -734,7 +829,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 158,
+            "line": 176,
             "description": "The APP\\_RPC message is sent when a method on an App object is called.",
             "itemtype": "property",
             "name": "APP_RPC",
@@ -745,7 +840,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 166,
+            "line": 184,
             "description": "The EVENT message is sent whenever\n{{#crossLink \"F2.Events\\emit\"}}{{/crossLink}} is fired",
             "itemtype": "property",
             "name": "EVENT",
@@ -756,7 +851,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 175,
+            "line": 193,
             "description": "The LOAD message is sent when an iframe socket initially loads.\nReturns a JSON string that represents:\n\n    [ App, AppManifest]",
             "itemtype": "property",
             "name": "LOAD",
@@ -767,7 +862,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 187,
+            "line": 205,
             "description": "The RPC message is sent when a method is passed up from within a secure\napp page.",
             "itemtype": "property",
             "name": "RPC",
@@ -778,7 +873,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 196,
+            "line": 214,
             "description": "The RPC\\_CALLBACK message is sent when a call back from an RPC method is\nfired.",
             "itemtype": "property",
             "name": "RPC_CALLBACK",
@@ -789,7 +884,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 216,
+            "line": 234,
             "itemtype": "property",
             "name": "DATA_ATTRIBUTE",
             "type": "string",
@@ -799,7 +894,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 224,
+            "line": 242,
             "description": "The ABOUT view gives details about the App.",
             "itemtype": "property",
             "name": "ABOUT",
@@ -810,7 +905,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 232,
+            "line": 250,
             "description": "The HELP view provides users with help information for using an App.",
             "itemtype": "property",
             "name": "HELP",
@@ -821,7 +916,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 240,
+            "line": 258,
             "description": "The HOME view is the main view for an App. This view should always\nbe provided by an App.",
             "itemtype": "property",
             "name": "HOME",
@@ -832,7 +927,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 249,
+            "line": 267,
             "description": "The REMOVE view is a special view that handles the removal of an App\nfrom the Container.",
             "itemtype": "property",
             "name": "REMOVE",
@@ -843,7 +938,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 258,
+            "line": 276,
             "description": "The SETTINGS view provides users the ability to modify advanced settings\nfor an App.",
             "itemtype": "property",
             "name": "SETTINGS",
@@ -918,6 +1013,21 @@
         {
             "file": "sdk/src/container.js",
             "line": 134,
+            "description": "Has the Container been init?",
+            "itemtype": "method",
+            "name": "_isInit",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "True if the Container has been init",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 144,
             "description": "Loads the App's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -941,7 +1051,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 224,
+            "line": 234,
             "description": "Loads the App's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -964,7 +1074,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 247,
+            "line": 257,
             "description": "Checks if the App is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -986,7 +1096,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 271,
+            "line": 281,
             "description": "Appends the App's html to the DOM",
             "itemtype": "method",
             "name": "_writeAppHtml",
@@ -1013,7 +1123,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 303,
+            "line": 313,
             "description": "Same as F2.Events.emit except that it will not send the event\nto all sockets.",
             "itemtype": "method",
             "name": "_socketEmit",
@@ -1038,7 +1148,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 314,
+            "line": 324,
             "description": "Execute each of the listeners tha may be listening for the specified\nevent name in order with the list of arguments",
             "itemtype": "method",
             "name": "emit",
@@ -1061,7 +1171,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 325,
+            "line": 335,
             "description": "Adds a listener that will execute n times for the event before being \nremoved. The listener is invoked only the first time the event is \nfired, after which it is removed.",
             "itemtype": "method",
             "name": "many",
@@ -1087,7 +1197,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 339,
+            "line": 349,
             "description": "Remove a listener for the specified event.",
             "itemtype": "method",
             "name": "off",
@@ -1108,7 +1218,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 348,
+            "line": 358,
             "description": "Adds a listener for the specified event",
             "itemtype": "method",
             "name": "on",
@@ -1129,7 +1239,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 358,
+            "line": 368,
             "description": "Adds a one time listener for the event. The listener is invoked only\nthe first time the event is fired, after which it is removed.",
             "itemtype": "method",
             "name": "once",
@@ -1150,7 +1260,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 371,
+            "line": 381,
             "description": "Gets the current list of Apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1163,7 +1273,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 382,
+            "line": 397,
             "description": "Initializes the Container. This method must be called before performing\nany other actions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -1179,7 +1289,20 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 398,
+            "line": 413,
+            "description": "Has the Container been init?",
+            "itemtype": "method",
+            "name": "isInit",
+            "return": {
+                "description": "True if the Container has been init",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 419,
             "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1201,7 +1324,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 514,
+            "line": 540,
             "description": "Removes all Apps from the Container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1210,7 +1333,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 523,
+            "line": 555,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",
@@ -1608,7 +1731,7 @@
         },
         {
             "file": "sdk/src/ui-dialogs.js",
-            "line": 78,
+            "line": 80,
             "description": "Display a confirm message on the page",
             "itemtype": "method",
             "name": "confirm",
@@ -1639,10 +1762,10 @@
         },
         {
             "file": "sdk/src/ui.js",
-            "line": 8,
-            "description": "Removes a loading icon/overlay from an Element on the page",
+            "line": 11,
+            "description": "Removes a overlay from an Element on the page",
             "itemtype": "method",
-            "name": "hideLoader",
+            "name": "hideMask",
             "params": [
                 {
                     "name": "instanceId",
@@ -1660,10 +1783,26 @@
         },
         {
             "file": "sdk/src/ui.js",
-            "line": 31,
-            "description": "Display a loading icon/ovarlay over an Element on the page",
+            "line": 55,
+            "description": "Set the configuration options for the\n{{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} and\n{{#crossLink \"F2.UI\\hideMask\"}}{{/crossLink}} methods",
             "itemtype": "method",
-            "name": "showLoader",
+            "name": "setMaskConfiguration",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "The F2.UI.MaskConfiguration object",
+                    "type": "Object"
+                }
+            ],
+            "class": "F2.UI",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/ui.js",
+            "line": 71,
+            "description": "Display an ovarlay over an Element on the page",
+            "itemtype": "method",
+            "name": "showMask",
             "params": [
                 {
                     "name": "instanceId",
@@ -1674,6 +1813,11 @@
                     "name": "selector",
                     "description": "The Element or selector to an Element\nover which to display the loader",
                     "type": "String|Element"
+                },
+                {
+                    "name": "showLoading",
+                    "description": "Display a loading icon",
+                    "type": "Bool"
                 }
             ],
             "class": "F2.UI",

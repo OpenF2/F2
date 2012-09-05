@@ -15,9 +15,7 @@
   <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
   <link href="./css/F2.css" rel="stylesheet">
   <link href="./css/F2-docs.css" rel="stylesheet">
-  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
-  
-  
+  <link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
   
   <style type="text/css" media="print">
   	#toc {
@@ -45,7 +43,7 @@
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.7</a></li>
       </ul>
     </div>
   </div>
@@ -57,7 +55,7 @@
         <ul class="nav nav-list nav-pills nav-stacked" data-spy="affix">
           <li><a href="index.html">Overview</a></li>
           <li><a href="components-of-the-framework.html">Components of F2</a></li>
-          <li><a href="creating-f2.html">Creating F2</a></li>
+          <li><a href="creating-F2.html">Creating F2</a></li>
 		      <li><a href="f2-requirements.html">Requirements</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
@@ -85,7 +83,7 @@ F2 is a web integration framework designed specifically for the financial market
 <p>If you are interested in <strong>building apps</strong>, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in <strong>building containers</strong>, browse to the <a href="developing-the-container.html">container documentation</a>.</p>
 <p>
     
-<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a> <a href="//www.github.com/OpenF2/F2/" class="btn">View GitHub project</a>
+<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a>
 </p>
 
 <section class="level3" id="markit-developers">
@@ -93,7 +91,7 @@ F2 is a web integration framework designed specifically for the financial market
 <p>Prior to public release 1.0.0, we are asking for Markit developers to help collaborate by <strong>building apps</strong>. If you have any questions that aren't answered here, you can get help.</p>
 <p>
     
-<a href="mailto:BLD-F2TechnicalTeam@markit.com" class="btn"><i class="icon-envelope"></i> Email the F2 Team</a> <a href="https://groups.google.com/forum/#!forum/openf2" class="btn"><i class="icon-tasks"></i> Subscribe to the Google Group</a> <small><i>Send your Google Account name to <a href="mailto:mark.healey@markit.com">mark.healey@markit.com</a> for an invite.</i></small>
+<a href="mailto:BLD-F2TechnicalTeam@markit.com" class="btn"><i class="icon-envelope"></i> Email the F2 Team</a> <a href="https://groups.google.com/forum/#!forum/openf2" class="btn" data-title="Send your Google Account name to Mark Healey for an invite." rel="tooltip"><i class="icon-tasks"></i> Subscribe to the Google Group</a>
 </p>
 
 <hr>
@@ -157,17 +155,15 @@ This specification <a href="developing-f2-apps.html">furnishes app developers wi
 
 </div><!--/.container-->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
-<script src="//docs.openf2.com/js/prettify.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
 <script>
 	
 	/**
 	 * This code is only for the documentation site. Don't use it anywhere else.
 	 *
 	 */
-
-
 	if (navigator.userAgent.indexOf('Mac OS') != -1) {
 		$('body').addClass('mac');
 	}
@@ -295,6 +291,7 @@ This specification <a href="developing-f2-apps.html">furnishes app developers wi
 		buildTableOfContents();
 		setActiveNav();
 		formatSourceCodeElements();
+		$("a[rel=tooltip]","#docs").tooltip();
 	});
 </script>
 </body>

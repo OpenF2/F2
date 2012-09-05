@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>F2.ContainerConfiguration</title>
+    <title>F2.UI.MaskConfiguration</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -112,7 +112,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>F2.ContainerConfiguration Class</h1>
+                        <h1>F2.UI.MaskConfiguration Class</h1>
 <div class="box meta">
     
 
@@ -120,7 +120,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l217"><code>sdk&#x2F;src&#x2F;classes.js:217</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l274"><code>sdk&#x2F;src&#x2F;classes.js:274</code></a>
         </div>
     
 
@@ -136,7 +136,9 @@
 
 
 <div class="box intro">
-    <p>An object containing configuration information for the Container</p>
+    <p>An object containing configuration information for the 
+F2.UI\showMask and
+F2.UI\hideMask methods.</p>
 </div>
 
 
@@ -166,35 +168,35 @@
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_appWrapper">appWrapper</a>
+                                <a href="#property_backgroundColor">backgroundColor</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_appWriter">appWriter</a>
+                                <a href="#property_loadingIcon">loadingIcon</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_isSecureAppPage">isSecureAppPage</a>
+                                <a href="#property_opacity">opacity</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_secureAppPagePath">secureAppPagePath</a>
+                                <a href="#property_useClasses">useClasses</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_supportedViews">supportedViews</a>
+                                <a href="#property_zIndex">zIndex</a>
 
                                 
                                 
@@ -216,148 +218,8 @@
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_appWrapper" class="property item">
-    <h3 class="name"><code>appWrapper</code></h3>
-    <span class="type">Function</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l222"><code>sdk&#x2F;src&#x2F;classes.js:222</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Allows the Container to wrap an App in extra html. The
-function should accept an <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object
-and also a string of html. The extra html can provide links to edit app
-settings and remove an app from the Container. See
-<a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
-should be applied to elements.</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_appWriter" class="property item">
-    <h3 class="name"><code>appWriter</code></h3>
-    <span class="type">Function</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l233"><code>sdk&#x2F;src&#x2F;classes.js:233</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Allows the Container to override how an App's html is 
-inserted into the page. The function should accept an
-<a href="../classes/F2.App.html" class="crosslink">F2.App</a> object and also a string of html</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_isSecureAppPage" class="property item">
-    <h3 class="name"><code>isSecureAppPage</code></h3>
-    <span class="type">Bool</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l241"><code>sdk&#x2F;src&#x2F;classes.js:241</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Tells the Container that it is currently running within
-a secure app page</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_secureAppPagePath" class="property item">
-    <h3 class="name"><code>secureAppPagePath</code></h3>
+                    <div id="property_backgroundColor" class="property item">
+    <h3 class="name"><code>backgroundColor</code></h3>
     <span class="type">String</span>
 
     
@@ -379,7 +241,7 @@ a secure app page</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l248"><code>sdk&#x2F;src&#x2F;classes.js:248</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l281"><code>sdk&#x2F;src&#x2F;classes.js:281</code></a>
         
         </p>
 
@@ -389,11 +251,11 @@ a secure app page</p>
     </div>
 
     <div class="description">
-        <p>Allows the Container to specify which page is used when
-loading a secure app. The page must reside on a different domain than the
-Container</p>
+        <p>The backround color of the overlay</p>
     </div>
 
+    
+        <p><strong>Default:</strong> #FFFFFF</p>
     
 
     
@@ -402,9 +264,9 @@ Container</p>
 </div>
 
                 
-                    <div id="property_supportedViews" class="property item">
-    <h3 class="name"><code>supportedViews</code></h3>
-    <span class="type">Array</span>
+                    <div id="property_loadingIcon" class="property item">
+    <h3 class="name"><code>loadingIcon</code></h3>
+    <span class="type">String</span>
 
     
 
@@ -425,7 +287,7 @@ Container</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l256"><code>sdk&#x2F;src&#x2F;classes.js:256</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l288"><code>sdk&#x2F;src&#x2F;classes.js:288</code></a>
         
         </p>
 
@@ -435,13 +297,149 @@ Container</p>
     </div>
 
     <div class="description">
-        <p>Specifies what views a Container will provide buttons
-or liks to. Generally, the views will be switched via buttons or links in
-the App's header. The
-<a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.HOME view should always
-be present.</p>
+        <p>The path to the loading icon</p>
     </div>
 
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_opacity" class="property item">
+    <h3 class="name"><code>opacity</code></h3>
+    <span class="type">Int</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l294"><code>sdk&#x2F;src&#x2F;classes.js:294</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The opacity of the background overlay</p>
+    </div>
+
+    
+        <p><strong>Default:</strong> .6</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_useClasses" class="property item">
+    <h3 class="name"><code>useClasses</code></h3>
+    <span class="type">Bool</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l301"><code>sdk&#x2F;src&#x2F;classes.js:301</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Do not use inline styles for mask functinality. Instead classes will be
+applied to the elements and it is up to the Container provider to
+implement the class definitions.</p>
+    </div>
+
+    
+        <p><strong>Default:</strong> false</p>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_zIndex" class="property item">
+    <h3 class="name"><code>zIndex</code></h3>
+    <span class="type">Int</span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l310"><code>sdk&#x2F;src&#x2F;classes.js:310</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The z-index to use for the overlay</p>
+    </div>
+
+    
+        <p><strong>Default:</strong> 2</p>
     
 
     

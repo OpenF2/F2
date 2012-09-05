@@ -15,9 +15,7 @@
   <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
   <link href="./css/F2.css" rel="stylesheet">
   <link href="./css/F2-docs.css" rel="stylesheet">
-  <link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
-  
-  
+  <link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
   
   <style type="text/css" media="print">
   	#toc {
@@ -45,7 +43,7 @@
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.5</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.7</a></li>
       </ul>
     </div>
   </div>
@@ -57,7 +55,7 @@
         <ul class="nav nav-list nav-pills nav-stacked" data-spy="affix">
           <li><a href="index.html">Overview</a></li>
           <li><a href="components-of-the-framework.html">Components of F2</a></li>
-          <li><a href="creating-f2.html">Creating F2</a></li>
+          <li><a href="creating-F2.html">Creating F2</a></li>
 		      <li><a href="f2-requirements.html">Requirements</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
@@ -160,17 +158,15 @@ F2 is a web integration framework with many individual components. Taking each o
 
 </div><!--/.container-->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="//docs.openf2.com/js/bootstrap.min.js"></script>
-<script src="//docs.openf2.com/js/prettify.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.min.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
 <script>
 	
 	/**
 	 * This code is only for the documentation site. Don't use it anywhere else.
 	 *
 	 */
-
-
 	if (navigator.userAgent.indexOf('Mac OS') != -1) {
 		$('body').addClass('mac');
 	}
@@ -298,6 +294,7 @@ F2 is a web integration framework with many individual components. Taking each o
 		buildTableOfContents();
 		setActiveNav();
 		formatSourceCodeElements();
+		$("a[rel=tooltip]","#docs").tooltip();
 	});
 </script>
 </body>

@@ -67,6 +67,8 @@
             
                 <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
             
+                <li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
+            
                 <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
             
             </ul>
@@ -122,7 +124,7 @@
 F2.extend(&#x27;&#x27;, (function(){
 
 	var _apps = {};
-	var _config = {};
+	var _config = false;
 
 	&#x2F;**
 	 * Renders the html for an App.
@@ -245,6 +247,16 @@ F2.extend(&#x27;&#x27;, (function(){
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
+	};
+
+	&#x2F;**
+	 * Has the Container been init?
+	 * @method _isInit
+	 * @private
+	 * @return {bool} True if the Container has been init
+	 *&#x2F;
+	var _isInit = function() {
+		return _config;
 	};
 
 	&#x2F;**
@@ -491,6 +503,11 @@ F2.extend(&#x27;&#x27;, (function(){
 		 * @for F2
 		 *&#x2F;
 		getContainerState:function() {
+			if (!_isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.getContainerState()&#x27;);
+				return;
+			}
+
 			return $.map(_apps, function(e, i) {
 				return { appId: e.app.appId };
 			});
@@ -512,6 +529,12 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 		},
 		&#x2F;**
+		 * Has the Container been init?
+		 * @method isInit
+		 * @return {bool} True if the Container has been init
+		 *&#x2F;
+		isInit:_isInit,
+		&#x2F;**
 		 * Begins the loading process for all Apps. The App will
 		 * be passed the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object which will
 		 * contain the App&#x27;s unique instanceId within the Container. Optionally, the
@@ -528,6 +551,11 @@ F2.extend(&#x27;&#x27;, (function(){
 		 * passed down to the client.
 		 *&#x2F;
 		registerApps:function(apps, appManifests) {
+
+			if (!_isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.registerApps()&#x27;);
+				return;
+			}
 
 			var appStack = [];
 			var batches = {};
@@ -632,6 +660,12 @@ F2.extend(&#x27;&#x27;, (function(){
 		 * @method removeAllApps
 		 *&#x2F;
 		removeAllApps:function() {
+
+			if (!_isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.removeAllApps()&#x27;);
+				return;
+			}
+
 			$.each(_apps, function(i, a) {
 				F2.removeApp(a.instanceId);
 			});
@@ -642,6 +676,12 @@ F2.extend(&#x27;&#x27;, (function(){
 		 * @param {string} instanceId The App&#x27;s instanceId
 		 *&#x2F;
 		removeApp:function(instanceId) {
+
+			if (!_isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.removeApp()&#x27;);
+				return;
+			}
+
 			if (_apps[instanceId]) {
 				delete _apps[instanceId];
 				$(&#x27;#&#x27; + instanceId).fadeOut(function() {
