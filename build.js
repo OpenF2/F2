@@ -37,7 +37,7 @@ var CORE_FILES = [
 	'sdk/src/container.js',
 	'sdk/src/rpc.js',
 	'sdk/src/ui.js',
-	'sdk/src/ui-dialogs.js'
+	'sdk/src/ui-modals.js'
 ];
 var ENCODING = 'utf-8';
 var EOL = '\n';
