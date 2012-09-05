@@ -1,6 +1,6 @@
 % Components of F2
 
-<p class="lead">F2 is a web integration framework with many individual components. Taking each on their own, they're not very useful. Combining them allows for the integration of multi-party web applications into a single seamless desktop or mobile experience.</p>
+<p class="lead">F2 is a web integration framework with many individual components. Taking each on their own, they're not very useful. Combining them allows for the creation of powerful multi-party web applications available in a single seamless desktop or mobile experience.</p>
 
 ## Overview
 
@@ -29,7 +29,7 @@ There is only one strict requirement when designing a [F2 app](developing-f2-app
 
 ### Interactions
 
-Apps have Context. Context can be shared between other Apps (children) and the Container (parent). The Container is responsible for managing the Context passing; see “Context” for more information. 
+Apps have context. Context can be shared between other Apps (children) and the Container (parent). The Container is responsible for managing the Context passing; see “Context” for more information. 
 
 As for interactions and user experience, the design guidelines and App API will contain information on how to provide users with a consistent presentation layer. When it comes to in-app menus or settings panes, this is crucial. 
 
@@ -37,10 +37,19 @@ As for interactions and user experience, the design guidelines and App API will 
 
 The App is a web page or microsite, written by an App developer that includes its own (entitled) data. Further, an App can be purchased (or entitled) from the App Store, and is displayed on the desktop or “Container”. The App developer is the person or company that designs, develops, and hosts the app.
 
-Simplistically, an App is one of two things:
+Technically speaking, a F2 app is one of two things:
 
-* Presentation App	A presentation App is an HTML document and contains JavaScript, cascading style sheets, images and other objects. It displays data to users in a manner determined by the App designer and must adhere to this specification.
-* Data App	A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or App-defined XML.
+<dl class="dl-horizontal">
+	<dt>Display App</dt>
+	<dd>A display app displays information to users in visible fashion (using HTML, CSS, and JavaScript).</dd>
+	<dt>Data App</dt>
+	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
+</dl>
+
+<div class="well well-small">
+<h4>About Apps</h4>
+<p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p>
+</div>
 
 ### App Context
 

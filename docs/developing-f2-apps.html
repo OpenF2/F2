@@ -33,8 +33,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
   
   <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
   <link href="./css/F2.css" rel="stylesheet">
-  <link href="./css/F2-docs.css" rel="stylesheet">
   <link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
+  <link href="./css/F2-docs.css" rel="stylesheet">
   
   <style type="text/css" media="print">
   	#toc {
@@ -56,13 +56,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
       <ul class="nav pull-right">
         <li><a href="http://www.openF2.com">OpenF2.com</a></li>
         <li class="divider-vertical"></li>
-        <li class="active"><a href="index.html">Documentation</a></li>
+        <li class="active"><a href="index.html">Docs</a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/">Project on GitHub</a></li>
+        <li><a href="../sdk/docs/">SDK</a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/">Fork F2 on GitHub</a></li>
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.7</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.1</a></li>
       </ul>
     </div>
   </div>
@@ -265,7 +267,17 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <p>Now that we've detailed the <a href="#f2-apps">F2 app</a> and defined the <a href="#sample-app-manifest">App Manifest</a>, let's take a closer look at how to build <em>your</em> app. We'll explain how to get a F2 AppId, what output format your app needs to support, how the contents of <code>AppContent.html</code> work, and the two hooks for adding form and function to your app: <code>scripts</code> and <code>styles</code>.</p>
 <section class="level3" id="f2-appid">
 <h3>F2 AppId</h3>
-<p>To develop a F2 app, you need a unique identifier called an <strong>AppId</strong>. This AppId will be unique to <em>your app</em> in the entire open financial framework ecosystem. To guarantee uniqueness, we have provided an AppId generation service.</p>
+<p>To develop a F2 app, you need a unique identifier called an <strong>AppId</strong>. This AppId will be unique to <em>your app</em> in the entire open financial framework ecosystem. While you don't need a unique app during the app development process, it is recommended you get one. The format of the AppId looks like this: <code>com_&lt;companyName&gt;_&lt;appName&gt;</code>, where the <code>&lt;companyName&gt;</code> &quot;namespace&quot; is your company name and <code>&lt;appName&gt;</code> is the name of your app.</p>
+<p>As an example, your AppId could look like this:</p>
+<p><code>com_acmecorp_watchlist</code></p>
+<p>If you built more than one app while working at Acme Corporation, you could create more AppIds. All of these are valid:</p>
+<ul>
+<li><code>com_acmecorp_watchlist2</code></li>
+<li><code>com_acmecorp_watchlist_big_and_tall</code></li>
+<li><code>com_acmecorp_static_charts</code></li>
+<li><code>com_acmecorp_interactive_charts</code></li>
+</ul>
+<p>To guarantee uniqueness, we have provided an AppId generation service that allows you to customize your AppId.</p>
 <p><a href="#" class="btn btn-large btn-primary">Get Your F2 AppId Now »</a></p>
 </section>
 <section class="level3" id="app-html">
@@ -289,10 +301,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
         ...
     }]
 }</code></pre>
-<p>
-<span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding part.
-</p>
-
+<p><span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding part.</p>
 </section>
 <section class="level3" id="scripts-styles">
 <h3>Scripts &amp; Styles</h3>
@@ -331,10 +340,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <strong>Note:</strong> the JSONP callback function name will <em>not</em> be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container.
 </div>
 
-<p>
-<span class="label label-important">Required</span> Don't forget you need an AppId before you can run your app on a container. <a href="#">Get your AppId now »</a>
-</p>
-
+<p><span class="label label-important">Required</span> Don't forget you need an AppId before you can run your app on a container. <a href="#">Get your AppId now »</a></p>
 <hr>
 </section>
 </section>
@@ -352,14 +358,96 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <hr>
 </section>
 </section>
+<section class="level2" id="context">
+<h2>Context</h2>
+<section class="level3" id="what-is-context">
+<h3>What is Context?</h3>
+<p>Regardless of type of app, a display or data app has &quot;context&quot;—that is to say an app &quot;knows&quot; about where it is, what is happening around it, and possibly who is viewing it. At the discretion of the app itself, an app can be aware of a specific user's data entitlements as well as information about the user (name, email, company, etc). Additionally, an app is capable of sharing context with the container and nearby apps. This means if Susan wants to create a ticker-focused workspace so she can watch her shares of Apple stock increase in value, the container can send &quot;symbol context&quot; to any listening apps which can be smart enough to refresh themselves focusing on <a href="http://www.google.com/finance?q=NASDAQ%3AAAPL">AAPL</a>.</p>
+</section>
+<section class="level3" id="how-to-use-context">
+<h3>How to use Context</h3>
+<p>Each Container will be responsible for hosting the F2 JavaScript SDK. The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an <a href="../sdk/docs/classes/F2.Events.html">event API</a> for handling context.</p>
+<p><span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means <strong>apps cannot communicate directly with other apps on their own</strong>; apps communicate via the container to other apps since the container controls the <code>F2.Events</code> API.</p>
+<p>Let's look at some code.</p>
+<section class="level4" id="container-to-app-context">
+<h4>Container-to-App Context</h4>
+<p>In this example, the container broadcasts, or emits, a javascript event defined in <code>F2.Events.Constants</code>. The <code>F2.Events.emit()</code> method accepts two arguments: the event name and an optional data object.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">CONTAINER</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;AAPL&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Apple, Inc.&quot;</span> 
+    }
+);</code></pre>
+<p>To listen to the <code>F2.Constants.Events.CONTAINER_SYMBOL_CHANGE</code> event inside your F2 app, you can use this code to trigger an alert dialog with the symbol:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">CONTAINER</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    <span class="kw">function</span>(data){
+        alert(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
+    }
+);</code></pre>
+<p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="../sdk/docs/classes/F2.Events.html">Read the SDK</a> for more information.</p>
+<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../sdk/docs/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
+</section>
+<section class="level4" id="app-to-container-context">
+<h4>App-to-Container Context</h4>
+<p>In this example, your app emits an event indicating a user is looking at a different stock ticker <em>within your app</em>. Using <code>F2.Events.emit()</code> in your code, your app broadcasts the new symbol. As with container-to-app context passing, the <code>F2.Events.emit()</code> method accepts two arguments: the event name and an optional data object.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">APP</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;MSFT&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Microsoft, Inc.&quot;</span> 
+    }
+);</code></pre>
+<p>The container would need to listen to your apps' broadcasted <code>F2.Constants.Events.APP_SYMBOL_CHANGE</code> event using code like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">APP</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    <span class="kw">function</span>(data){
+        alert(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
+    }
+);</code></pre>
+<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../sdk/docs/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
+</section>
+<section class="level4" id="app-to-app-context">
+<h4>App-to-App Context</h4>
+<p>Apps can also pass context between apps. If there are two or more apps on a container with similar context and the ability to receive messages (yes, through event listeners, context receiving is opt-in), apps can communicate with each other. To communicate with another app, each app will have to know the event name along with the type of data being passed. Let's take a look.</p>
+<p>Within &quot;App 1&quot;, context is passed using <code>F2.Events.emit()</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="st">&quot;buy_stock&quot;</span>, <span class="co">//custom event name</span>
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;GOOG&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Google Inc&quot;</span>,
+        <span class="dt">price</span>: <span class="fl">682.68</span>,
+        <span class="dt">isAvailableToPurchase</span>: <span class="kw">true</span>,
+        <span class="dt">orderType</span>: <span class="st">&quot;Market Order&quot;</span>
+    }
+);</code></pre>
+<p>Within &quot;App 2&quot;, context is received using <code>F2.Events.on()</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
+    <span class="st">&quot;buy_stock&quot;</span>, 
+    <span class="kw">function</span>(data){
+        <span class="kw">if</span> (<span class="kw">data</span>.<span class="fu">isAvailableToPurchase</span>){
+            alert(<span class="st">&quot;Trade ticket order for &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span> + <span class="st">&quot; at $&quot;</span> + <span class="kw">data</span>.<span class="fu">price</span>);
+        } <span class="kw">else</span> {
+            alert(<span class="st">&quot;This stock is not available for purchase.&quot;</span>)
+        }
+    }
+);</code></pre>
+</section>
+<section class="level4" id="using-appids-to-secure-context-passing">
+<h4>Using AppIds to Secure Context Passing</h4>
+<p>What if you want your app to only receive context emitted from apps you trust?</p>
+<p>Every F2 app will have a <a href="#developing-your-f2-app">unique AppId</a> and—using the AppId—apps can listen for events emitted from trusted sources.</p>
+<p><span class="label label-warning">EDITOR'S NOTE</span> Finish this when code is completed...</p>
+<hr>
+</section>
+</section>
+</section>
 <section class="level2" id="your-app-on-a-container">
 <h2>Your App on a Container</h2>
 <p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working app, you're pretty much done.</p>
 <p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../sdk/docs/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-the-container.html">read the container documentation</a>.</p>
-<p>
-<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
-</p>
-
+<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
 <hr>
 <hr>
 <hr>
@@ -377,44 +465,6 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <h2>Designing Your App</h2>
 <p>Design is an important first step in creating a new App. Using the Open Financial Framework’s upcoming design guidelines and App API, App Designers and Developers can take advantage of these available resources to develop Apps on their own schedules. The design guidelines will provide a common theme and offer a baseline for consistency between all Apps on the Container.</p>
 <p>There is customization available and it will be imperative for App developers to follow Container-provided guidelines for consistency on a case-by-case basis. The ‘common theme’ provided by this Framework is not a template per se but rather a mechanism to facilitate faster development between numerous App developers.</p>
-<hr>
-</section>
-<section class="level2" id="context">
-<h2>Context</h2>
-<p>Each Container Provider shall be responsible for hosting the Container JavaScript SDK. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.</p>
-<p>While Apps can have Context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals and likewise Apps can listen for events sent by the Container.</p>
-<p>This is a sample of a Container sending Context to Apps. Firstly, the Container fires a “ContextUpdate” event.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Container</span>.<span class="fu">on</span>(“ContextUpdate”, { <span class="dt">Symbol</span>: “MSFT” }, <span class="kw">function</span>(ev,callback){
-    <span class="kw">console</span>.<span class="fu">log</span>(“Context updated!”);
-});</code></pre>
-<p>Apps are responsible for listening to the broadcasted “ContextUpdate” event. App developers can bind custom event handlers based on the emitted event. Using jQuery, a sample to refresh an app with a new symbol:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“.<span class="fu">myApp</span>”).<span class="fu">bind</span>(“ContextUpdate”, <span class="kw">function</span>(ev,data){
-    <span class="kw">myApp</span>.<span class="fu">refresh</span>(<span class="kw">data</span>.<span class="fu">Symbol</span>);
-});</code></pre>
-<p>Likewise, Apps can send Context to the Container.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">App</span>.<span class="fu">on</span>(“ContextUpdateToContainer”, { <span class="dt">FullScreen</span>: <span class="kw">true</span> }, <span class="kw">function</span>(ev, callback){
-    <span class="kw">console</span>.<span class="fu">log</span>(“Context sent to Container!”);
-});</code></pre>
-<p>The Container can then listen for App-emitted events.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“#Container”).<span class="fu">bind</span>(“ContextUpdateToContainer”, <span class="kw">function</span>(ev,data){
-    <span class="kw">Container</span>.<span class="fu">showFullScreen</span>();
-});</code></pre>
-<p>Apps can also pass Context between Apps. If there are two or more Apps on a Container with similar Context and the ability to receive messages (yes, this is opt-out), Apps can communicate with each other.</p>
-<p>For example, on your Container you have “App 1” which is a watch list app alongside “App 2” which is a snap quote app. Embedded within the Content in App 2 could be a button labeled “send to watch list”. Pressing that button would transmit the symbol of the stock currently being viewed in App 1 across to App 2 to be added to the watch list. Achieving that looks programmatically like this:</p>
-<p>First, find the App you want to find the apps to which to send the Context to:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> $apps = <span class="kw">Container</span>.<span class="fu">getApps</span>(bool canAcceptContext(<span class="kw">true</span>));</code></pre>
-<p>Secondly, emit an event from App 1:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">$<span class="kw">apps</span>.<span class="fu">find</span>(“App1”).<span class="fu">on</span>(
-    “ContextToApp”, 
-    { Symbol”: “MSFT”, Action”: “ADD” }, 
-    <span class="kw">function</span>(ev,data){
-        <span class="kw">myApp</span>.<span class="fu">refresh</span>(data);
-        }   
-    );</code></pre>
-<p>And finally listen for that event within App 2:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">$<span class="kw">apps</span>.<span class="fu">find</span>(“App2”).<span class="fu">bind</span>(“ContextToApp”, <span class="kw">function</span>(ev,data){
-    <span class="kw">console</span>.<span class="fu">log</span>(“Context received <span class="kw">in</span> App2!”);
-});</code></pre>
 <hr>
 </section>
 <section class="level2" id="hosting-an-app">
