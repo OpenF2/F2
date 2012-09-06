@@ -59,8 +59,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "sdk/src/ui-dialogs.js": {
-            "name": "sdk/src/ui-dialogs.js",
+        "sdk/src/ui-modals.js": {
+            "name": "sdk/src/ui-modals.js",
             "modules": {},
             "classes": {
                 "F2.UI.Modals": 1
@@ -173,7 +173,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/classes.js",
-            "line": 274,
+            "line": 286,
             "description": "An object containing configuration information for the \n{{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} and\n{{#crossLink \"F2.UI\\hideMask\"}}{{/crossLink}} methods."
         },
         "F2.Constants": {
@@ -269,7 +269,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/container.js",
-            "line": 299,
+            "line": 319,
             "description": "Description of Events goes here"
         },
         "F2.Rpc": {
@@ -296,7 +296,7 @@
             "extension_for": [],
             "module": "f2",
             "namespace": "",
-            "file": "sdk/src/ui-dialogs.js",
+            "file": "sdk/src/ui-modals.js",
             "line": 1,
             "description": "Helper methods for creating and using Modals"
         },
@@ -579,24 +579,65 @@
         {
             "file": "sdk/src/classes.js",
             "line": 222,
-            "description": "Allows the Container to wrap an App in extra html. The\nfunction should accept an {{#crossLink \"F2.App\"}}{{/crossLink}} object\nand also a string of html. The extra html can provide links to edit app\nsettings and remove an app from the Container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
-            "itemtype": "property",
-            "name": "appWrapper",
-            "type": "function",
-            "class": "F2.ContainerConfiguration"
-        },
-        {
-            "file": "sdk/src/classes.js",
-            "line": 233,
             "description": "Allows the Container to override how an App's html is \ninserted into the page. The function should accept an\n{{#crossLink \"F2.App\"}}{{/crossLink}} object and also a string of html",
-            "itemtype": "property",
-            "name": "appWriter",
-            "type": "function",
+            "itemtype": "method",
+            "name": "afterAppRender",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The F2.App object",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "html",
+                    "description": "The string of html representing the App",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The DOM Element surrounding the App",
+                "type": "Element"
+            },
             "class": "F2.ContainerConfiguration"
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 241,
+            "line": 232,
+            "description": "Allows the Container to wrap an App in extra html. The\nfunction should accept an {{#crossLink \"F2.App\"}}{{/crossLink}} object\nand also a string of html. The extra html can provide links to edit app\nsettings and remove an app from the Container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
+            "itemtype": "method",
+            "name": "appRender",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The F2.App object",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "html",
+                    "description": "The string of html representing the App",
+                    "type": "String"
+                }
+            ],
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 244,
+            "description": "Allows the Container to render html for an App before the AppManifest for\nan App has loaded. This can be useful if the design calls for loading\nicons to appear for each App before each App is loaded and rendered to\nthe page.",
+            "itemtype": "method",
+            "name": "beforeAppRender",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The F2.App object",
+                    "type": "F2.App"
+                }
+            ],
+            "class": "F2.ContainerConfiguration"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 253,
             "description": "Tells the Container that it is currently running within\na secure app page",
             "itemtype": "property",
             "name": "isSecureAppPage",
@@ -605,7 +646,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 248,
+            "line": 260,
             "description": "Allows the Container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the\nContainer",
             "itemtype": "property",
             "name": "secureAppPagePath",
@@ -614,7 +655,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 256,
+            "line": 268,
             "description": "Specifies what views a Container will provide buttons\nor liks to. Generally, the views will be switched via buttons or links in\nthe App's header. The\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.HOME view should always\nbe present.",
             "itemtype": "property",
             "name": "supportedViews",
@@ -624,7 +665,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 270,
+            "line": 282,
             "mainName": "F2",
             "tag": "main",
             "itemtype": "main",
@@ -633,7 +674,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 281,
+            "line": 293,
             "description": "The backround color of the overlay",
             "itemtype": "property",
             "name": "backgroundColor",
@@ -643,7 +684,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 288,
+            "line": 300,
             "description": "The path to the loading icon",
             "itemtype": "property",
             "name": "loadingIcon",
@@ -652,7 +693,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 294,
+            "line": 306,
             "description": "The opacity of the background overlay",
             "itemtype": "property",
             "name": "opacity",
@@ -662,7 +703,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 301,
+            "line": 313,
             "description": "Do not use inline styles for mask functinality. Instead classes will be\napplied to the elements and it is up to the Container provider to\nimplement the class definitions.",
             "itemtype": "property",
             "name": "useClasses",
@@ -672,7 +713,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 310,
+            "line": 322,
             "description": "The z-index to use for the overlay",
             "itemtype": "property",
             "name": "zIndex",
@@ -950,156 +991,9 @@
         {
             "file": "sdk/src/container.js",
             "line": 11,
-            "description": "Renders the html for an App.",
-            "itemtype": "method",
-            "name": "_getAppHtml",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "app",
-                    "description": "The App object",
-                    "type": "F2.App"
-                },
-                {
-                    "name": "html",
-                    "description": "The string of html",
-                    "type": "String"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 36,
-            "description": "Adds properties and methods to the App object",
-            "itemtype": "method",
-            "name": "_hydrateApp",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "app",
-                    "description": "The App object",
-                    "type": "F2.App"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 83,
-            "description": "Attach App events",
-            "itemtype": "method",
-            "name": "_initAppEvents",
-            "access": "private",
-            "tagname": "",
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 116,
-            "description": "Attach Container Events",
-            "itemtype": "method",
-            "name": "_initContainerEvents",
-            "access": "private",
-            "tagname": "",
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 134,
-            "description": "Has the Container been init?",
-            "itemtype": "method",
-            "name": "_isInit",
-            "access": "private",
-            "tagname": "",
-            "return": {
-                "description": "True if the Container has been init",
-                "type": "Bool"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 144,
-            "description": "Loads the App's html/css/javascript",
-            "itemtype": "method",
-            "name": "loadApp",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "apps",
-                    "description": "An array of {{#crossLink \"F2.App\"}}{{/crossLink}}\nobjects",
-                    "type": "Array"
-                },
-                {
-                    "name": "appManifest",
-                    "description": "The AppManifest object",
-                    "type": "F2.AppManifest",
-                    "optional": true
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 234,
-            "description": "Loads the App's html/css/javascript into an iframe",
-            "itemtype": "method",
-            "name": "loadSecureApp",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "app",
-                    "description": "The App's context object.",
-                    "type": "F2.App"
-                },
-                {
-                    "name": "appManifest",
-                    "description": "The App's html/css/js to be loaded into the\npage.",
-                    "type": "F2.AppManifest"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 257,
-            "description": "Checks if the App is valid",
-            "itemtype": "method",
-            "name": "_validateApp",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "app",
-                    "description": "The App object",
-                    "type": "F2.App"
-                }
-            ],
-            "return": {
-                "description": "True if the App is valid",
-                "type": "Bool"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/container.js",
-            "line": 281,
             "description": "Appends the App's html to the DOM",
             "itemtype": "method",
-            "name": "_writeAppHtml",
+            "name": "_afterAppRender",
             "access": "private",
             "tagname": "",
             "params": [
@@ -1123,7 +1017,172 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 313,
+            "line": 36,
+            "description": "Renders the html for an App.",
+            "itemtype": "method",
+            "name": "_appRender",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "html",
+                    "description": "The string of html",
+                    "type": "String"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 61,
+            "description": "Rendering hook to allow Containers to render some html prior to an App\nloading",
+            "itemtype": "method",
+            "name": "_beforeAppRender",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 73,
+            "description": "Adds properties and methods to the App object",
+            "itemtype": "method",
+            "name": "_hydrateApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 120,
+            "description": "Attach App events",
+            "itemtype": "method",
+            "name": "_initAppEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 153,
+            "description": "Attach Container Events",
+            "itemtype": "method",
+            "name": "_initContainerEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 171,
+            "description": "Has the Container been init?",
+            "itemtype": "method",
+            "name": "_isInit",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "True if the Container has been init",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 181,
+            "description": "Loads the App's html/css/javascript",
+            "itemtype": "method",
+            "name": "loadApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "apps",
+                    "description": "An array of {{#crossLink \"F2.App\"}}{{/crossLink}}\nobjects",
+                    "type": "Array"
+                },
+                {
+                    "name": "appManifest",
+                    "description": "The AppManifest object",
+                    "type": "F2.AppManifest",
+                    "optional": true
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 271,
+            "description": "Loads the App's html/css/javascript into an iframe",
+            "itemtype": "method",
+            "name": "loadSecureApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App's context object.",
+                    "type": "F2.App"
+                },
+                {
+                    "name": "appManifest",
+                    "description": "The App's html/css/js to be loaded into the\npage.",
+                    "type": "F2.AppManifest"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 294,
+            "description": "Checks if the App is valid",
+            "itemtype": "method",
+            "name": "_validateApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "app",
+                    "description": "The App object",
+                    "type": "F2.App"
+                }
+            ],
+            "return": {
+                "description": "True if the App is valid",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 333,
             "description": "Same as F2.Events.emit except that it will not send the event\nto all sockets.",
             "itemtype": "method",
             "name": "_socketEmit",
@@ -1148,7 +1207,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 324,
+            "line": 344,
             "description": "Execute each of the listeners tha may be listening for the specified\nevent name in order with the list of arguments",
             "itemtype": "method",
             "name": "emit",
@@ -1171,7 +1230,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 335,
+            "line": 355,
             "description": "Adds a listener that will execute n times for the event before being \nremoved. The listener is invoked only the first time the event is \nfired, after which it is removed.",
             "itemtype": "method",
             "name": "many",
@@ -1197,7 +1256,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 349,
+            "line": 369,
             "description": "Remove a listener for the specified event.",
             "itemtype": "method",
             "name": "off",
@@ -1218,7 +1277,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 358,
+            "line": 378,
             "description": "Adds a listener for the specified event",
             "itemtype": "method",
             "name": "on",
@@ -1239,7 +1298,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 368,
+            "line": 388,
             "description": "Adds a one time listener for the event. The listener is invoked only\nthe first time the event is fired, after which it is removed.",
             "itemtype": "method",
             "name": "once",
@@ -1260,7 +1319,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 381,
+            "line": 401,
             "description": "Gets the current list of Apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1273,7 +1332,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 397,
+            "line": 417,
             "description": "Initializes the Container. This method must be called before performing\nany other actions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -1289,7 +1348,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 413,
+            "line": 433,
             "description": "Has the Container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1302,7 +1361,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 419,
+            "line": 439,
             "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.App\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1324,7 +1383,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 540,
+            "line": 563,
             "description": "Removes all Apps from the Container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1333,7 +1392,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 555,
+            "line": 578,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",
@@ -1364,63 +1423,6 @@
         {
             "file": "sdk/src/preamble.js",
             "line": 65,
-            "description": "Generates a somewhat random id",
-            "itemtype": "method",
-            "name": "guid",
-            "return": {
-                "description": "A random id",
-                "type": "String"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 77,
-            "description": "Wrapper logging function.",
-            "itemtype": "method",
-            "name": "log",
-            "params": [
-                {
-                    "name": "obj",
-                    "description": "An object to be logged",
-                    "type": "Object"
-                },
-                {
-                    "name": "obj2",
-                    "description": "An object to be logged",
-                    "type": "Object",
-                    "optional": true,
-                    "multiple": true
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 88,
-            "description": "Search for a value within an array.",
-            "itemtype": "method",
-            "name": "inArray",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "The value to search for",
-                    "type": "Object"
-                },
-                {
-                    "name": "array",
-                    "description": "The array to search",
-                    "type": "Array"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 98,
             "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
             "itemtype": "method",
             "name": "extend",
@@ -1450,7 +1452,64 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 136,
+            "line": 102,
+            "description": "Generates a somewhat random id",
+            "itemtype": "method",
+            "name": "guid",
+            "return": {
+                "description": "A random id",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/preamble.js",
+            "line": 114,
+            "description": "Search for a value within an array.",
+            "itemtype": "method",
+            "name": "inArray",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The value to search for",
+                    "type": "Object"
+                },
+                {
+                    "name": "array",
+                    "description": "The array to search",
+                    "type": "Array"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/preamble.js",
+            "line": 123,
+            "description": "Wrapper logging function.",
+            "itemtype": "method",
+            "name": "log",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "An object to be logged",
+                    "type": "Object"
+                },
+                {
+                    "name": "obj2",
+                    "description": "An object to be logged",
+                    "type": "Object",
+                    "optional": true,
+                    "multiple": true
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/preamble.js",
+            "line": 134,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -1470,7 +1529,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 145,
+            "line": 143,
             "description": "Wrapper to convert an object to JSON",
             "itemtype": "method",
             "name": "stringify",
@@ -1524,7 +1583,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 102,
+            "line": 105,
             "itemtype": "method",
             "name": "_createRpcCallback",
             "access": "private",
@@ -1550,7 +1609,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 120,
+            "line": 123,
             "description": "Handles messages that come across the sockets",
             "itemtype": "method",
             "name": "_onMessage",
@@ -1578,10 +1637,12 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 191,
+            "line": 194,
             "description": "Registers a callback function",
             "itemtype": "method",
             "name": "_registerCallback",
+            "access": "private",
+            "tagname": "",
             "params": [
                 {
                     "name": "callback",
@@ -1598,7 +1659,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 204,
+            "line": 208,
             "description": "Broadcast an RPC function to all sockets",
             "itemtype": "method",
             "name": "broadcast",
@@ -1619,7 +1680,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 217,
+            "line": 221,
             "description": "Calls a remote function",
             "itemtype": "method",
             "name": "call",
@@ -1650,8 +1711,8 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 247,
-            "description": "Init function which tells F2.Rpc whether it is running at the Container-\nlevel or the App-level. This method is generally called by\n{{#crossLink \"F2/init\"}}{{/crossLink}}",
+            "line": 251,
+            "description": "Init function which tells F2.Rpc whether it is running at the Container-\nlevel or the App-level. This method is generally called by\nF2.{{#crossLink \"F2/init\"}}{{/crossLink}}",
             "itemtype": "method",
             "name": "init",
             "params": [
@@ -1667,7 +1728,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 263,
+            "line": 267,
             "description": "Determines whether the Instance ID is considered to be 'remote'. This is\ndetermined by checking if 1) the App has an open socket, 2) where the\ninstance of RPC is running (Container or App) and 3) where the App is\nrelative to where this RPC is.",
             "itemtype": "method",
             "name": "isRemote",
@@ -1687,7 +1748,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 283,
+            "line": 287,
             "description": "Creates a Container-to-App or App-to-Container socket for communication",
             "itemtype": "method",
             "name": "register",
@@ -1703,7 +1764,7 @@
             "module": "f2"
         },
         {
-            "file": "sdk/src/ui-dialogs.js",
+            "file": "sdk/src/ui-modals.js",
             "line": 45,
             "description": "Display an alert message on the page",
             "itemtype": "method",
@@ -1730,7 +1791,7 @@
             "module": "f2"
         },
         {
-            "file": "sdk/src/ui-dialogs.js",
+            "file": "sdk/src/ui-modals.js",
             "line": 80,
             "description": "Display a confirm message on the page",
             "itemtype": "method",

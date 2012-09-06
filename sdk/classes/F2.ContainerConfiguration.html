@@ -146,6 +146,8 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
         
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+        
         
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
         
@@ -158,26 +160,41 @@
             <h2 class="off-left">Item Index</h2>
 
             
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                        
+                            <li class="index-item method">
+                                <a href="#method_afterAppRender">afterAppRender</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_appRender">appRender</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_beforeAppRender">beforeAppRender</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
 
             
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#property_appWrapper">appWrapper</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_appWriter">appWriter</a>
-
-                                
-                                
-                            </li>
                         
                             <li class="index-item property">
                                 <a href="#property_isSecureAppPage">isSecureAppPage</a>
@@ -210,15 +227,42 @@
         </div>
 
         
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="property_appWrapper" class="property item">
-    <h3 class="name"><code>appWrapper</code></h3>
-    <span class="type">Function</span>
+                    <div id="method_afterAppRender" class="method item">
+    <h3 class="name"><code>afterAppRender</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>html</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Element</span>
+        </span>
+    
+
+    
+
+    
 
     
 
@@ -243,31 +287,105 @@
         
         </p>
 
+
         
 
         
     </div>
 
     <div class="description">
-        <p>Allows the Container to wrap an App in extra html. The
-function should accept an <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object
-and also a string of html. The extra html can provide links to edit app
-settings and remove an app from the Container. See
-<a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
-should be applied to elements.</p>
+        <p>Allows the Container to override how an App's html is 
+inserted into the page. The function should accept an
+<a href="../classes/F2.App.html" class="crosslink">F2.App</a> object and also a string of html</p>
     </div>
 
     
+        <div class="params">
+            <h4>Parameters:</h4>
 
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The F2.App object</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">html</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The string of html representing the App</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Element</span>:
+                    
+                    The DOM Element surrounding the App
+                
+            </div>
+        </div>
     
 
     
 </div>
 
                 
-                    <div id="property_appWriter" class="property item">
-    <h3 class="name"><code>appWriter</code></h3>
-    <span class="type">Function</span>
+                    <div id="method_appRender" class="method item">
+    <h3 class="name"><code>appRender</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>html</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
 
     
 
@@ -288,9 +406,10 @@ should be applied to elements.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l233"><code>sdk&#x2F;src&#x2F;classes.js:233</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l232"><code>sdk&#x2F;src&#x2F;classes.js:232</code></a>
         
         </p>
+
 
         
 
@@ -298,17 +417,156 @@ should be applied to elements.</p>
     </div>
 
     <div class="description">
-        <p>Allows the Container to override how an App's html is 
-inserted into the page. The function should accept an
-<a href="../classes/F2.App.html" class="crosslink">F2.App</a> object and also a string of html</p>
+        <p>Allows the Container to wrap an App in extra html. The
+function should accept an <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object
+and also a string of html. The extra html can provide links to edit app
+settings and remove an app from the Container. See
+<a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
+should be applied to elements.</p>
     </div>
 
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The F2.App object</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">html</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The string of html representing the App</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
     
 
     
 
     
 </div>
+
+                
+                    <div id="method_beforeAppRender" class="method item">
+    <h3 class="name"><code>beforeAppRender</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>app</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l244"><code>sdk&#x2F;src&#x2F;classes.js:244</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows the Container to render html for an App before the AppManifest for
+an App has loaded. This can be useful if the design calls for loading
+icons to appear for each App before each App is loaded and rendered to
+the page.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">app</code>
+                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The F2.App object</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+            </div>
+        
+
+        
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
 
                 
                     <div id="property_isSecureAppPage" class="property item">
@@ -334,7 +592,7 @@ inserted into the page. The function should accept an
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l241"><code>sdk&#x2F;src&#x2F;classes.js:241</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l253"><code>sdk&#x2F;src&#x2F;classes.js:253</code></a>
         
         </p>
 
@@ -379,7 +637,7 @@ a secure app page</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l248"><code>sdk&#x2F;src&#x2F;classes.js:248</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l260"><code>sdk&#x2F;src&#x2F;classes.js:260</code></a>
         
         </p>
 
@@ -425,7 +683,7 @@ Container</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l256"><code>sdk&#x2F;src&#x2F;classes.js:256</code></a>
+        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l268"><code>sdk&#x2F;src&#x2F;classes.js:268</code></a>
         
         </p>
 

@@ -199,7 +199,20 @@ Now that we've detailed the [F2 app](#f2-apps) and defined the [App Manifest](#s
 
 ### F2 AppId
 
-To develop a F2 app, you need a unique identifier called an **AppId**. This AppId will be unique to _your app_ in the entire open financial framework ecosystem. To guarantee uniqueness, we have provided an AppId generation service.
+To develop a F2 app, you need a unique identifier called an **AppId**. This AppId will be unique to _your app_ in the entire open financial framework ecosystem. While you don't need a unique app during the app development process, it is recommended you get one. The format of the AppId looks like this: `com_<companyName>_<appName>`, where the `<companyName>` "namespace" is your company name and `<appName>` is the name of your app.
+
+As an example, your AppId could look like this:
+
+`com_acmecorp_watchlist`
+
+If you built more than one app while working at Acme Corporation, you could create more AppIds. All of these are valid:
+
+* `com_acmecorp_watchlist2`
+* `com_acmecorp_watchlist_big_and_tall`
+* `com_acmecorp_static_charts`
+* `com_acmecorp_interactive_charts`
+
+To guarantee uniqueness, we have provided an AppId generation service that allows you to customize your AppId.
 
 <a href="#" class="btn btn-large btn-primary">Get Your F2 AppId Now &raquo;</a>
 
@@ -237,7 +250,7 @@ Step 3. App Manifest file.
 }
 ```
 
-<p><span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding part.</p>
+<span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding part.
 
 ### Scripts & Styles
 
@@ -279,13 +292,65 @@ F2_jsonpCallback_123456789({
 
 <div class="alert">**Note:** the JSONP callback function name will _not_ be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container.</div>
 
-<p><span class="label label-important">Required</span> Don't forget you need an AppId before you can run your app on a container. [Get your AppId now &raquo;](#)</p>
+<span class="label label-important">Required</span> Don't forget you need an AppId before you can run your app on a container. [Get your AppId now &raquo;](#)
+
+### Supported App Views
+
+<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.
+
+F2 apps can have one or more views. Every app will have at least one "home" view, while others will include views for settings, help or about. Inside the F2.js SDK, we've [included support for views](../sdk/docs/classes/F2.App.html#property_views) and the list can be extended by the container provider. 
+
+<span class="label">Note</span> If the container doesn't support all the views you need inside your app, you will need to coordinate those additions with the container provider.
+
+#### Setting Up Views
+
+Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Twitter Bootstrap's `hide` class can be applied to views that should be hidden by default.
+
+To setup a single view in your app, use this HTML on your app's outermost element noting the use of the `f2-app-view` classname and the `data-f2-view` attribute.
+
+```html
+<div class='f2-app-view' data-f2-view='home'>
+	...
+</div>
+```
+
+To setup multiple views in your app, write HTML like this noting the use the `f2-app-view` and `hide` classnames as well as the `data-f2-view` attributes.
+
+```html
+<div class='f2-app-view' data-f2-view='home'>
+	...
+</div>
+<div class='f2-app-view hide' data-f2-view='about'>
+	...
+</div>
+```
+
+For details on `F2.Constants.Css.APPVIEW`, [browse to the SDK docs](../sdk/docs/classes/F2.Constants.Css.html).
+
+#### Listening to App View Changes
+
+You shouldn't be surprised to know F2.js contains event triggers for handling app view changes. Specifically, the `APP_VIEW_CHANGE` event will be fired by the container when a user clicks to switch the view for an app.
+
+To listen for the `APP_VIEW_CHANGE` event inside your app code:
+
+```javascript
+F2.Events.on(
+	F2.Constants.Events.APP_VIEW_CHANGE,
+	function(viewName){
+		F2.log("App view changed to " + viewName);
+	}
+);
+```
+
+For details on `F2.Events.on()`, [browse to the SDK docs](../sdk/docs/classes/F2.Events.html#method_on) and for details on `F2.Constants.Events`, [head over to the F2.Constants docs](../sdk/docs/classes/F2.Constants.Events.html).
 
 * * * *
 
 ## Namespacing
 
 F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least the non-secure apps. Following these guidelines, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+
+<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.
 
 ### Namespacing Your CSS
 
@@ -299,13 +364,163 @@ Closures and the global namespace...
 
 * * * *
 
+## Context
+
+### What is Context? 
+
+Regardless of type of app, a display or data app has "context"&mdash;that is to say an app "knows" about where it is, what is happening around it, and possibly who is viewing it. At the discretion of the app itself, an app can be aware of a specific user's data entitlements as well as information about the user (name, email, company, etc). Additionally, an app is capable of sharing context with the container and nearby apps. This means if Susan wants to create a ticker-focused workspace so she can watch her shares of Apple stock increase in value, the container can send "symbol context" to any listening apps which can be smart enough to refresh themselves focusing on [AAPL](http://www.google.com/finance?q=NASDAQ%3AAAPL).
+
+### How to use Context
+
+Each Container will be responsible for hosting the F2 JavaScript SDK. The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an [event API](../sdk/docs/classes/F2.Events.html) for handling context.
+
+<span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop&mdash;managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means **apps cannot communicate directly with other apps on their own**; apps communicate via the container to other apps since the container controls the `F2.Events` API.
+
+Let's look at some code.
+
+#### Container-to-App Context
+
+In this example, the container broadcasts, or emits, a javascript event defined in `F2.Events.Constants`. The `F2.Events.emit()` method accepts two arguments: the event name and an optional data object.
+
+```javascript
+F2.Events.emit(
+	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+	{ 
+		symbol: "AAPL", 
+		name: "Apple, Inc." 
+	}
+);
+```
+
+To listen to the `F2.Constants.Events.CONTAINER_SYMBOL_CHANGE` event inside your F2 app, you can use this code to trigger an alert dialog with the symbol:
+
+```javascript
+F2.Events.on(
+	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+	function(data){
+		F2.log("The symbol was changed to " + data.symbol);
+	}
+);
+```
+
+The `F2.Events.on()` method accepts the event name and listener function as arguments. [Read the SDK](../sdk/docs/classes/F2.Events.html) for more information.
+
+<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](../sdk/docs/classes/F2.Constants.Events.html).
+
+#### App-to-Container Context
+
+In this example, your app emits an event indicating a user is looking at a different stock ticker _within your app_. Using `F2.Events.emit()` in your code, your app broadcasts the new symbol. As with container-to-app context passing, the `F2.Events.emit()` method accepts two arguments: the event name and an optional data object.
+
+```javascript
+F2.Events.emit(
+	F2.Constants.Events.APP_SYMBOL_CHANGE, 
+	{ 
+		symbol: "MSFT", 
+		name: "Microsoft, Inc." 
+	}
+);
+```
+
+The container would need to listen to your apps' broadcasted `F2.Constants.Events.APP_SYMBOL_CHANGE` event using code like this:
+
+```javascript
+F2.Events.on(
+	F2.Constants.Events.APP_SYMBOL_CHANGE, 
+	function(data){
+		F2.log("The symbol was changed to " + data.symbol);
+	}
+);
+```
+
+<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](../sdk/docs/classes/F2.Constants.Events.html).
+
+#### App-to-App Context
+
+Apps can also pass context between apps. If there are two or more apps on a container with similar context and the ability to receive messages (yes, through event listeners, context receiving is opt-in), apps can communicate with each other. To communicate with another app, each app will have to know the event name along with the type of data being passed. Let's take a look.
+
+Within "App 1", context is passed using `F2.Events.emit()`:
+
+```javascript
+F2.Events.emit(
+	"buy_stock", //custom event name
+	{ 
+		symbol: "GOOG", 
+		name: "Google Inc",
+		price: 682.68,
+		isAvailableToPurchase: true,
+		orderType: "Market Order"
+	}
+);
+```
+
+Within "App 2", context is received using `F2.Events.on()`:
+
+```javascript
+F2.Events.on(
+	"buy_stock", 
+	function(data){
+		if (data.isAvailableToPurchase){
+			F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
+		} else {
+			F2.log("This stock is not available for purchase.")
+		}
+	}
+);
+```
+
+#### Using AppIds to Secure Context Passing
+
+What if you want your app to only receive context emitted from apps you trust? 
+
+Every F2 app will have a [unique AppId](#developing-your-f2-app) and&mdash;using the AppId&mdash;apps can listen for events emitted from trusted sources.
+
+<span class="label label-warning">EDITOR'S NOTE</span> Finish this when code is completed...
+
+* * * *
+
+## F2.UI
+
+<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC. Version 0.10.3 contains correct UI code.
+
+How to use `F2.UI.setMaskConfiguration()`
+
+```javascript
+F2.UI.showMask(this._app.instanceId, this._container, true);
+
+F2.UI.hideMask(this._app.instanceId, this._container);
+```
+
+* * * *
+
 ## Your App on a Container 
 
 Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working app, you're pretty much done.
 
 If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-the-container.html).
 
-<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
+<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
+
+### Testing Your App
+
+When you [cloned the F2 GitHub repo](https://github.com/OpenF2/F2/#quick-start) you also got some example F2 containers for your app development and testing. Open the project repository and navigate to `~/F2/sdk/examples/containers` to find them or to jump-start your testing, point your browser at:
+
+`http://localhost/<your_extract_location>/F2/sdk/examples/containers/HTML/`
+
+If you open `~/F2/sdk/examples/containers/apps.json` in your text editor, you'll find a list of sample F2 apps. Simply modify this file to your liking and add your app anywhere in the array. The configuration is comprised of `F2.App` properties, the following are **required**.
+
+```javascript
+{
+	appId: "com_your_appid",
+	description: "Your app description",
+	height:500,
+	isSecure: false,
+	manifestUrl: "http://www.domain.com/app.json",
+	name: "Your app name",
+	views: [F2.Constants.Views.HOME]
+}
+```
+
+For full details on each of these `F2.App` properties, [browse the F2.js SDK documentation](../sdk/docs/classes/F2.App.html).
 
 * * * *
 
@@ -315,7 +530,7 @@ If you're curious about _how_ containers load apps, browse over to the [F2.js SD
 
 * * * *
 
-## Stop reading here... ##
+## Hold the phone...
 
 Everything above is good. Everything below is not good...yet.
 
@@ -329,7 +544,7 @@ Everything above is good. Everything below is not good...yet.
 
 Since Apps are comprised of mainly HTML, JavaScript and CSS, App development can be as complex as the App developer wishes with one significant limitation: an App cannot be allowed to negatively impact other Apps on the desktop. To prevent accidental impact, Apps are developed inside of JavaScript closure which means an App will not have any public methods and therefore is a closed cell. 
 
-## Designing Your App
+### Designing Your App
 
 Design is an important first step in creating a new App. Using the Open Financial Framework’s upcoming design guidelines and App API, App Designers and Developers can take advantage of these available resources to develop Apps on their own schedules. The design guidelines will provide a common theme and offer a baseline for consistency between all Apps on the Container.
 
@@ -337,77 +552,9 @@ There is customization available and it will be imperative for App developers to
 
 * * * *
 
-## Context
 
-Each Container Provider shall be responsible for hosting the Container JavaScript SDK. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.
 
-While Apps can have Context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals and likewise Apps can listen for events sent by the Container. 
-
-This is a sample of a Container sending Context to Apps. Firstly, the Container fires a “ContextUpdate” event.
-
-```javascript
-Container.on(“ContextUpdate”, { Symbol: “MSFT” }, function(ev,callback){
-	console.log(“Context updated!”);
-});
-```
-
-Apps are responsible for listening to the broadcasted “ContextUpdate” event. App developers can bind custom event handlers based on the emitted event. Using jQuery, a sample to refresh an app with a new symbol:
-
-```javascript
-$(“.myApp”).bind(“ContextUpdate”, function(ev,data){
-	myApp.refresh(data.Symbol);
-});
-````
-
-Likewise, Apps can send Context to the Container.
-
-```javascript
-App.on(“ContextUpdateToContainer”, { FullScreen: true }, function(ev, callback){
-	console.log(“Context sent to Container!”);
-});
-```
-
-The Container can then listen for App-emitted events.
-
-```javascript
-$(“#Container”).bind(“ContextUpdateToContainer”, function(ev,data){
-	Container.showFullScreen();
-});
-```
-
-Apps can also pass Context between Apps. If there are two or more Apps on a Container with similar Context and the ability to receive messages (yes, this is opt-out), Apps can communicate with each other.
-
-For example, on your Container you have “App 1” which is a watch list app alongside “App 2” which is a snap quote app. Embedded within the Content in App 2 could be a button labeled “send to watch list”. Pressing that button would transmit the symbol of the stock currently being viewed in App 1 across to App 2 to be added to the watch list. Achieving that looks programmatically like this:
-
-First, find the App you want to find the apps to which to send the Context to:
-
-```javascript
-var $apps = Container.getApps(bool canAcceptContext(true));
-```
-
-Secondly, emit an event from App 1:
-
-```javascript
-$apps.find(“App1”).on(
-	“ContextToApp”, 
-	{ Symbol”: “MSFT”, Action”: “ADD” }, 
-	function(ev,data){
-		myApp.refresh(data);
-		}	
-	);
-```
-
-And finally listen for that event within App 2:
-
-```javascript
-$apps.find(“App2”).bind(“ContextToApp”, function(ev,data){
-	console.log(“Context received in App2!”);
-});
-```
-
-* * * *
-
-## Hosting an App
+### Hosting an App
 
 Since the Framework is web-based and it is a primary requirement of this Framework to simultaneously support multiple Apps from different providers, the following are truths:
 
@@ -420,7 +567,7 @@ An App can be accessed by an HTTP GET or HTTP POST request. Each request consist
 
 * * * *
 
-## App Content
+### App Content
 
 App Providers can determine which content they wish to make available within their App. It is recommended that content is focused on financial information; however, there is no limitation as such. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.
 
@@ -428,13 +575,13 @@ If App Providers embed URLs back to their own websites, URLs must be opened in a
 
 * * * *
 
-## Single Sign-On
+### Single Sign-On
 
 Providers participating in the Markit App Framework must modify their web sites' authentication mechanism to accept a customer’s authentication from a Container Provider without requiring the user to retype their Username and Password. With an authentication methodology in place between the Container Provider and App Provider, when a customer authenticates to a Provider’s App, the authentication credentials are passed to the Container Provider.  The authentication methodology is also suitable for the reverse, for authenticating a customer requesting content from an App Provider after selecting content from the App within the Container. Authentication information will be passed between App Providers and Container Providers in the form of encrypted URLs.
 
 * * * *
 
-## Entitlements
+### Entitlements
 
 User Entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This would include apps like research aggregation, news filtering, streaming market data, etc. In order to enable an App to retrieve data from multiple, entitled, content providers in real-time, there will need to be an explicit and trusted mechanism of passing entitlements information between the Store, the data vendors, and the app developers.
 

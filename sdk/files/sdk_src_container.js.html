@@ -127,13 +127,38 @@ F2.extend(&#x27;&#x27;, (function(){
 	var _config = false;
 
 	&#x2F;**
+	 * Appends the App&#x27;s html to the DOM
+	 * @method _afterAppRender
+	 * @private
+	 * @param {F2.App} app The App object
+	 * @param {string} html The string of html
+	 * @return {Element} The DOM Element that contains the App
+	 *&#x2F;
+	var _afterAppRender = function(app, html) {
+
+		var handler = _config.afterAppRender || function(app, html) {
+			return $(html).appendTo(&#x27;body&#x27;);
+		};
+		var appContainer = handler(app, html);
+
+		if (!!_config.afterAppRender &amp;&amp; !appContainer) {
+			F2.log(&#x27;F2.ContainerConfiguration.afterAppRender() must return the DOM Element that contains the App&#x27;);
+			return;
+		} else {
+			&#x2F;&#x2F; apply APP class and Instance ID
+			$(appContainer).addClass(F2.Constants.Css.APP).attr(&#x27;id&#x27;, app.instanceId);
+			return appContainer.get(0);
+		}
+	};
+
+	&#x2F;**
 	 * Renders the html for an App.
-	 * @method _getAppHtml
+	 * @method _appRender
 	 * @private
 	 * @param {F2.App} app The App object
 	 * @param {string} html The string of html
 	 *&#x2F;
-	var _getAppHtml = function(app, html) {
+	var _appRender = function(app, html) {
 
 		function outerHtml(html) {
 			return $(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
@@ -143,12 +168,24 @@ F2.extend(&#x27;&#x27;, (function(){
 		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; app&#x27; + app.appId));
 
 		&#x2F;&#x2F; optionally apply wrapper html
-		if (_config.appWrapper) {
-			html = _config.appWrapper(app, html);
+		if (_config.appRender) {
+			html = _config.appRender(app, html);
 		}
 
 		&#x2F;&#x2F; apply APP class and instanceId
-		return outerHtml($(html).addClass(F2.Constants.Css.APP).attr(&#x27;id&#x27;, app.instanceId));
+		return outerHtml(html);
+	};
+
+	&#x2F;**
+	 * Rendering hook to allow Containers to render some html prior to an App
+	 * loading
+	 * @method _beforeAppRender
+	 * @private
+	 * @param {F2.App} app The App object
+	 *&#x2F;
+	var _beforeAppRender = function(app) {
+		var handler = _config.beforeAppRender || $.noop;
+		handler(app);
 	};
 
 	&#x2F;**
@@ -312,7 +349,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		&#x2F;&#x2F; load html
 		$.each(appManifest.apps, function(i, a) {
 			&#x2F;&#x2F; load html
-			_writeAppHtml(apps[i], _getAppHtml(apps[i], a.html));
+			_afterAppRender(apps[i], _appRender(apps[i], a.html));
 			&#x2F;&#x2F; init events
 			_initAppEvents(apps[i]);
 		});
@@ -362,7 +399,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		&#x2F;&#x2F; make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			&#x2F;&#x2F; create the html container for the iframe
-			_writeAppHtml(app, _getAppHtml(app, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
+			_afterAppRender(app, _appRender(app, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
 			&#x2F;&#x2F; init events
 			_initAppEvents(app);
 			&#x2F;&#x2F; create RPC socket
@@ -394,23 +431,6 @@ F2.extend(&#x27;&#x27;, (function(){
 		}
 
 		return true;
-	};
-
-	&#x2F;**
-	 * Appends the App&#x27;s html to the DOM
-	 * @method _writeAppHtml
-	 * @private
-	 * @param {F2.App} app The App object
-	 * @param {string} html The string of html
-	 * @return {Element} The DOM Element that contains the App
-	 *&#x2F;
-	var _writeAppHtml = function(app, html) {
-		var handler = _config.appWriter || function(app, html) {
-			$(&#x27;body&#x27;).append(html);
-		};
-		handler(app, html);
-
-		return $(&#x27;#&#x27; + app.instanceId).get(0);
 	};
 
 	return {
@@ -584,6 +604,9 @@ F2.extend(&#x27;&#x27;, (function(){
 
 				&#x2F;&#x2F; save app
 				_apps[a.instanceId] = { app:a };
+
+				&#x2F;&#x2F; fire beforeAppRender
+				_beforeAppRender(a);
 
 				&#x2F;&#x2F; if we have the manifest, go ahead and load the app
 				if (haveManifests) {

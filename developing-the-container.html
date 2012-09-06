@@ -33,8 +33,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
   
   <!--<link href="//docs.openf2.com/css/bootstrap.min.css" rel="stylesheet">-->
   <link href="./css/F2.css" rel="stylesheet">
-  <link href="./css/F2-docs.css" rel="stylesheet">
   <link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
+  <link href="./css/F2-docs.css" rel="stylesheet">
   
   <style type="text/css" media="print">
   	#toc {
@@ -56,13 +56,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
       <ul class="nav pull-right">
         <li><a href="http://www.openF2.com">OpenF2.com</a></li>
         <li class="divider-vertical"></li>
-        <li class="active"><a href="index.html">Documentation</a></li>
+        <li class="active"><a href="index.html">Docs</a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/">Project on GitHub</a></li>
+        <li><a href="../sdk/docs/">SDK</a></li>
+        <li class="divider-vertical"></li>
+        <li><a href="https://github.com/OpenF2/F2/">Fork F2 on GitHub</a></li>
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.9.7</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
       </ul>
     </div>
   </div>
@@ -78,10 +80,11 @@ code > span.er { color: #ff0000; font-weight: bold; }
 		      <li><a href="f2-requirements.html">Requirements</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
-		      <li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>
-		      <li><a href="developing-the-container.html">Developing the F2 Container</a></li>
+		      <!--<li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>-->
+		      <li><a href="developing-the-container.html">Developing F2 Containers</a></li>
+          <li><a href="extending-f2.html">Extending F2</a></li>
           <li class="divider"></li>
-          <li><a href="../../sdk/docs/">F2.js SDK Reference</a></li>
+          <li><a href="../sdk/docs/">F2.js SDK Reference</a></li>
           <li class="divider"></li>
         </ul>
 
@@ -258,6 +261,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 		prettyPrint();
 	}
 
+	/*
+	 * Completely TEMPORARY addition for editors' notes only.
+	 */
+	function makeEditorsNotesBold(){
+		$("span.label-warning").parent().addClass("editors-note well well-large");
+	}
+
 	/**
 	 * Build TOC based on markitdown-generated section elements in DOM
 	 *
@@ -337,6 +347,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 		setActiveNav();
 		formatSourceCodeElements();
 		$("a[rel=tooltip]","#docs").tooltip();
+		makeEditorsNotesBold();
 	});
 </script>
 </body>
