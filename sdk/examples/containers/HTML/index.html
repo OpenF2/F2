@@ -4,71 +4,24 @@
 	<title>F2 - HTML Container Example</title>
 	<!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 	<link href="./assets/css/smoothness/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet" />
-	<link href="./assets/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-	<link href="./assets/bootstrap/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
-	<style type="text/css">
-  	@media (min-width: 979px) {
-			body {
-				padding-top:60px;
-			}
-		}
-
-		.f2-app {
-			margin-bottom:20px;
-			min-height:75px;
-		}
-		.f2-app header {
-			background: #0088cc;
-			background: -moz-linear-gradient(top,  #0088cc 0%, #0055cc 100%);
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0088cc), color-stop(100%,#0055cc));
-			background: -webkit-linear-gradient(top,  #0088cc 0%,#0055cc 100%);
-			background: -o-linear-gradient(top,  #0088cc 0%,#0055cc 100%);
-			background: -ms-linear-gradient(top,  #0088cc 0%,#0055cc 100%);
-			background: linear-gradient(to bottom,  #0088cc 0%,#0055cc 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0088cc', endColorstr='#0055cc',GradientType=0 );
-
-			-webkit-border-top-left-radius: 4px;
-			-webkit-border-top-right-radius: 4px;
-			-moz-border-radius-topleft: 4px;
-			-moz-border-radius-topright: 4px;
-			border-top-left-radius: 4px;
-			border-top-right-radius: 4px;
-			
-			border-left:1px solid #05C;
-			border-right:1px solid #05C;
-			border-top:1px solid #05C;
-			padding:5px 10px;
-		}
-		.f2-app header h2 {
-			color:#FFFFFF;
-			font-size:14px;
-			line-height:normal;
-			padding:0;
-		}
-		.f2-app .well {
-			-webkit-border-top-left-radius:0;
-			-webkit-border-top-right-radius:0;
-			-moz-border-radius-topleft:0;
-			-moz-border-radius-topright:0;
-			border-top-left-radius:0;
-			border-top-right-radius:0;
-			border-top:0;
-			margin-bottom:0;
-		}
-	</style>
+	<link href="http://docs.openf2.com/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<link href="http://docs.openf2.com/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
+	<link href="./assets/css/container.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
-				<a class="brand">Container</a>
+				<a class="brand">F2 Sample Container</a>
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="../../../../docs/html/">Documentation</a></li>
-						<li><a href="//www.github.com/OpenF2/F2">View on GitHub</a></li>
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="../../../../docs/">Docs</a></li>
+						<li><a href="../../../../sdk/docs/">SDK</a></li>
+						<li><a href="https://github.com/OpenF2/F2">Fork F2 on GitHub</a></li>
+						<li><a href="https://github.com/OpenF2/F2/zipball/master">Download</a></li>
 					</ul>
-					<form class="navbar-search pull-right">
+					<form class="navbar-search pull-left">
 						<input id="symbolLookup" class="search-query span2 ui-autocomplete-input" type="text" placeholder="Symbol Lookup" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
 					</form>
 				</div>
@@ -87,163 +40,20 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="./assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="../../../f2.debug.js" type="text/javascript"></script>
+	<script src="../../../f2.min.js" type="text/javascript"></script>
+
+	<!-- Include container-specific logic, notably F2.init() -->
+	<script src="./container.js"></script>
 	<script type="text/javascript">
-		$(function() {
-			// define all of the apps
-			var apps = [
-				//chart
-				{
-					appId: "com_markh_highchartsChart",
-					description: "Semi-Interactive Price Chart",
-					height:300,
-					minGridSize: 8,
-					isSecure: false,
-					manifestUrl: "../../apps/JavaScript/Chart/manifest.js",
-					name: "Price Chart"
-				},
+		$(function(){
 
-				{
-					appId: "9d1c357e7a9241532ab8977d440df4f3",
-					description: "A JScript Hello World App",
-					manifestUrl: "../../apps/JScript/HelloWorld/index.asp",
-					name: "JScript Hello World",
-					views: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS]
-				},
-
-				{
-					appId: "9d1c357e7a9241532ab8977d440df4f3",
-					description: "A JScript Hello World App",
-					height:500,
-					isSecure: true,
-					manifestUrl: "../../apps/JScript/HelloWorld/index.asp",
-					name: "JScript Hello World",
-					views: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS]
-				},
-
-				{
-					appId: "fa50d9b1e3535cc66fcd353c95b2cf28",
-					description: "A PHP News App",
-					manifestUrl: "../../apps/PHP/News/index.php",
-					name: "PHP News",
-					views: [F2.Constants.Views.HOME]
-				},
-
-				{
-					appId: "c63380f4340ea1be65d10d38a69bb343",
-					description: "A PHP Hello World App",
-					manifestUrl: "../../apps/PHP/HelloWorld/index.php",
-					name: "PHP Hello World",
-					views: [F2.Constants.Views.HOME]
-				},
-
-				{
-					appId: "c63380f4340ea1be65d10d38a69bb343",
-					description: "A PHP Hello World App",
-					isSecure: true,
-					manifestUrl: "../../apps/PHP/HelloWorld/index.php",
-					name: "PHP Hello World"
-				},
-
-				{
-					appId: "3493749374339473947394397439473972018",
-					description: "A Flickr App",
-					manifestUrl: "../../apps/JavaScript/Flickr/appManifest.js",
-					name: "Interestingness on Flickr",
-					views: [F2.Constants.Views.ABOUT]
-				}
-			];
-
-			// init symbol lookup
-			$("#symbolLookup").autocomplete({
-				source: function (request, response) {
-
-					$.ajax({
-						url: "//dev.markitondemand.com/api/Lookup/jsonp",
-						dataType: "jsonp",
-						data: {
-							input: request.term
-						},
-						success: function (data) {
-							response($.map(data, function (item) {
-								return {
-									label: item.Name + " (" + item.Exchange + ")",
-									value: item.Symbol
-								}
-							}));
-						}
-					});
-				},
-				minLength: 0,
-				select: function (event, ui) {
-					F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
-				}
+			// get all of the apps & call F2.registerApps()
+			$.getJSON("sampleApps.json", function(apps){
+				F2.registerApps(apps);
+			}).error(function(err){
+				F2.log(err);
 			});
 
-			// init UI elements
-			F2.UI.setMaskConfiguration({
-				loadingIcon:'./assets/img/ajax-loader.gif'
-			});
-
-			// init Container
-			F2.init({
-
-				afterAppRender: function (app, html) {
-					var el = $('#' + app.instanceId).append(html);
-					F2.UI.hideMask(app.instanceId, el);
-					return el;
-				},
-
-				beforeAppRender: function(app) {
-
-					var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, app.views);
-					var hasHelp = F2.inArray(F2.Constants.Views.HELP, app.views);
-					var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, app.views);
-					var showDivider = hasSettings || hasHelp || hasAbout;
-
-					var columns = $("#mainContent div.column");
-					var colIndex = 0;
-					var appsInCol = columns.eq(0).find('.' + F2.Constants.Css.APP).length;
-
-					// find the shortest column
-					$(columns).each(function (i, e) {
-						var apps = $(e).find('.' + F2.Constants.Css.APP).length;
-						if (apps < appsInCol) {
-							colIndex = i;
-							appsInCol = apps;
-						}
-					});
-
-					$(columns).eq(colIndex).append([
-						'<section id="' + app.instanceId + '" class="' + F2.Constants.Css.APP + '">',
-							'<header class="clearfix">',
-								'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name, '</h2>',
-								'<div class="btn-group pull-right">',
-									'<button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown">',
-										'<i class="icon-white icon-cog"></i> ',
-										'<span class="caret"></span>',
-									'</button>',
-									'<ul class="dropdown-menu">',
-										hasSettings ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.SETTINGS + '">Edit Settings</a></li>' : '',
-										hasHelp ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.HELP + '">Help</a></li>' : '',
-										hasAbout ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.ABOUT + '">About</a></li>' : '',
-										showDivider ? '<li class="divider"></li>' : '',
-										'<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.REMOVE + '">Remove App</a></li>',
-									'</ul>',
-								'</div>',
-							'</header>',
-						'</section>'
-					].join(''));
-
-					F2.UI.showMask(app.instanceId, $('#' + app.instanceId), true);
-				},
-
-				supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],
-				secureAppPagePath: "secure.html" // this should go on a separate domain from index.html
-			});
-
-			// init apps
-			F2.registerApps(apps);
 		});
 	</script>
 </body>
