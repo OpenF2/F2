@@ -553,6 +553,11 @@ F2.extend('', (function(){
 							},
 							error:function(jqxhr, settings, exception) {
 								F2.log('Failed to load app(s)', exception.toString(), req.apps);
+								//remove failed app(s)
+								$.each(req.apps, function(idx,item){
+									F2.log('Removed failed ' +item.name+ ' app', item);
+									F2.removeApp(item.instanceId);
+								});
 							},
 							complete:function() {
 								manifestRequest(i, requests.pop());

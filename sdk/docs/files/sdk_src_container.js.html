@@ -199,6 +199,12 @@ F2.extend(&#x27;&#x27;, (function(){
 		&#x2F;&#x2F; create the instanceId for the App
 		app.instanceId = app.instanceId || F2.guid();
 
+		&#x2F;&#x2F; default the views if not provided
+		app.views = app.views || [];
+		if (!F2.inArray(app.views, F2.Constants.Views.HOME)) {
+			app.views.push(F2.Constants.Views.HOME);
+		}
+
 		app.setTitle = function(title) {
 
 			if (F2.Rpc.isRemote(this.instanceId)) {
@@ -424,9 +430,6 @@ F2.extend(&#x27;&#x27;, (function(){
 			return false;
 		} else if (!app.manifestUrl) {
 			F2.log(&#x27;manifestUrl&quot; missing from App object&#x27;);
-			return false;
-		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
-			F2.log(&#x27;views&quot; not defined or missing &quot;F2.Constants.Views.HOME&quot; view.&#x27;);
 			return false;
 		}
 
@@ -668,6 +671,11 @@ F2.extend(&#x27;&#x27;, (function(){
 							},
 							error:function(jqxhr, settings, exception) {
 								F2.log(&#x27;Failed to load app(s)&#x27;, exception.toString(), req.apps);
+								&#x2F;&#x2F;remove failed app(s)
+								$.each(req.apps, function(idx,item){
+									F2.log(&#x27;Removed failed &#x27; +item.name+ &#x27; app&#x27;, item);
+									F2.removeApp(item.instanceId);
+								});
 							},
 							complete:function() {
 								manifestRequest(i, requests.pop());

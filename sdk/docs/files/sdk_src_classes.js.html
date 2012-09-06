@@ -143,28 +143,24 @@ F2.extend(&quot;&quot;, {
 		 * The description of the App
 		 * @property description
 		 * @type string
-		 * @required
 		 *&#x2F;
 		description:&quot;&quot;,
 		&#x2F;**
 		 * The company of the developer
 		 * @property developerCompany
 		 * @type string
-		 * @required
 		 *&#x2F;
 		developerCompany:&quot;&quot;,
 		&#x2F;**
 		 * The name of the developer
 		 * @property developerName
 		 * @type string
-		 * @required
 		 *&#x2F;
 		developerName:&quot;&quot;,
 		&#x2F;**
 		 * The url of the developer
 		 * @property developerUrl
 		 * @type string
-		 * @required
 		 *&#x2F;
 		developerUrl:&quot;&quot;,
 		&#x2F;**
@@ -186,7 +182,8 @@ F2.extend(&quot;&quot;, {
 		 *&#x2F;
 		height:0,
 		&#x2F;**
-		 * The unique runtime ID of the App
+		 * The unique runtime ID of the App. Will by assigned automaticaly when the
+		 * App is registered with {{#crossLink &quot;F2\registerApps&quot;}}{{&#x2F;crossLink}}
 		 * @property instanceId
 		 * @type string
 		 *&#x2F;
@@ -268,8 +265,6 @@ F2.extend(&quot;&quot;, {
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should
-		 * always be present.
 		 * @property views
 		 * @type Array
 		 *&#x2F;
@@ -386,9 +381,7 @@ F2.extend(&quot;&quot;, {
 		&#x2F;**
 		 * Specifies what views a Container will provide buttons
 		 * or liks to. Generally, the views will be switched via buttons or links in
-		 * the App&#x27;s header. The
-		 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.HOME view should always
-		 * be present.
+		 * the App&#x27;s header.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
