@@ -25,25 +25,42 @@ section > hr {
 }
 
 /*left rail/table of contents*/
-#toc > ul { 
-	width:240px; 
+#toc {
+	min-height: 1px;/*keep width of well so main content doesn't collapse*/
 }
 
-#toc > ul { 
-	margin-bottom:30px; 
+#toc > ul.affix-top {
+
 }
+
+#toc > ul,
+#toc > ul.affix,
+#toc > ul.affix-bottom {
+	width:205px;
+}
+
+#toc > ul.affix {
+	margin-bottom: 70px;
+}
+
+/*
+#toc > ul.affix-bottom {
+	top:auto;
+	position: absolute;
+	bottom:100px;
+}*/
 
 #toc ul ul { 
 	font-size: 85%; 
 }
 
 /*main content*/
-.row .span9 { 
-	margin-left:300px;
-}
-
 .container .row {
 	margin-bottom: 20px;
+}
+
+.container .span9 {
+	padding-bottom:100px;
 }
 
 pre {

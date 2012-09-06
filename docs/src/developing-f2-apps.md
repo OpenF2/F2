@@ -4,35 +4,33 @@
 
 ## Overview
 
-Defined very simply, a F2-capable app is a `javascript` file which defines your [app manifest](../../sdk/docs/classes/F2.AppManifest.html). Check out the [example apps on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/apps) to see some apps in action.
-
-Technically speaking, a F2 app is one of two things:
+Defined very simply, a F2 app is a `javascript` file which defines your [app manifest](../../sdk/docs/classes/F2.AppManifest.html). Technically speaking, a F2 app is one of two things:
 
 <dl class="dl-horizontal">
 	<dt>Display App</dt>
-	<dd>A display app displays information to users in visible fashion (using HTML, CSS, and JavaScript).</dd>
+	<dd>A display app presents information to users in the form of a visible widget (using HTML, CSS, and JavaScript).</dd>
 	<dt>Data App</dt>
 	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
 </dl>
 
-For the purposes of this documentation and to get started, we'll focus on developing **display apps**. If you want to build a data app, [browse to data apps](#).
+For the purposes of this documentation and to get started, we'll focus on developing **display apps**. 
 
 <div class="well well-small">
-<h4>About Apps</h4>
+<h4>About  Apps</h4>
 <p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p>
 </div>
 
-* * * *
-
 ### Understanding F2 Apps
 
-To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many [components of F2](components-of-the-framework.html), and apps and containers are only scratching the surface in terms of what is available to app developers today. From the concept of [app context](components-of-the-framework.html#app-context) to [creating a common look and feel](components-of-the-framework.html#creating-a-common-look-and-feel) across apps, apps are the cornerstone of F2-enabled multi-party web applications.
+To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many [components of F2](components-of-the-framework.html), and apps and containers are only scratching the surface in terms of what is available to app developers within F2. Including concepts like [app context](components-of-the-framework.html#app-context) and standardizing the [creation of a common look and feel](components-of-the-framework.html#creating-a-common-look-and-feel) across apps, apps form the cornerstone of F2-enabled multi-party web applications.
 
-To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML). Once you download and extract the archive, point your browser at:
+#### Get Started
+
+To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML) along with a number of sample apps. Once you open the project repository, point your browser at:
 
 `http://localhost/<your_extract_location>/F2/sdk/examples/containers/HTML/`
 
-<div class="alert alert-info"><strong>Note:</strong> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, ASP, JavaScript). While it is not a requirement you have a web server configured on your computer, it will certainly enhance your F2 development experience.</div>
+<span class="label">Note</span> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, JavaScript, Ruby, ASP). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
 * * * *
 
@@ -478,7 +476,7 @@ Every F2 app will have a [unique AppId](#developing-your-f2-app) and&mdash;using
 
 * * * *
 
-## F2.UI
+## F2 UI
 
 <span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC. Version 0.10.3 contains correct UI code.
 
