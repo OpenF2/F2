@@ -60,6 +60,61 @@
     </div>
 {{/is_constructor}}
 
+<div class="navbar">
+	<div class="navbar-inner">
+		<ul class="nav">
+			{{#if methods}}
+				<li class="active"><a href="#methods">Methods</a></li>
+			{{/if}}
+			{{#if properties}}
+				<li><a href="#properties">Properties</a></li>
+			{{/if}}
+			{{#if attrs}}
+				<li><a href="#attrs">Attributes</a></li>
+			{{/if}}
+			{{#if events}}
+				<li><a href="#events">Events</a></li>
+			{{/if}}
+		</ul>
+	</div>
+</div>
+
+{{#if methods}}
+	<div id="methods" class="api-class-tabpanel">
+		<h2>Methods</h2>
+		{{#methods}}
+			{{>method}}
+		{{/methods}}
+	</div>
+{{/if}}
+
+{{#if properties}}
+	<div id="properties" class="api-class-tabpanel">
+		<h2>Properties</h2>
+		{{#properties}}
+			{{>props}}
+		{{/properties}}
+	</div>
+{{/if}}
+
+{{#if attrs}}
+	<div id="attrs" class="api-class-tabpanel">
+		<h2>Attributes</h2>
+		{{#attrs}}
+			{{>attrs}}
+		{{/attrs}}
+	</div>
+{{/if}}
+
+{{#if events}}
+	<div id="events" class="api-class-tabpanel">
+		<h2>Events</h2>
+		{{#events}}
+			{{>events}}
+		{{/events}}
+	</div>
+{{/if}}
+
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
