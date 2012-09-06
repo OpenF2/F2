@@ -48,7 +48,7 @@
 		$(function(){
 
 			// get all of the apps & call F2.registerApps()
-			$.getJSON("sampleApps.json", function(apps){
+			$.getJSON("sampleApps.js", function(apps){
 				F2.registerApps(apps);
 			}).error(function(err){
 				F2.log(err);
