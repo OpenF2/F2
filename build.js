@@ -143,7 +143,7 @@ function ghp() {
 	wrench.copyDirSyncRecursive('./docs', '../gh-pages', { preserve:true });
 	// temporary - put index.html back to normal
 	fs.renameSync('./docs/index-temp.html', './docs/index.html');
-	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk');
+	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk/docs');
 	console.log('COMPLETE');
 
 	processOptionQueue();
