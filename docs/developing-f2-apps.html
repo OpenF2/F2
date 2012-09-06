@@ -64,7 +64,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.3</a></li>
       </ul>
     </div>
   </div>
@@ -135,6 +135,7 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML">project repo on GitHub</a> along with a number of sample apps. Once you open the project repository, point your browser at:</p>
 <p><code>http://localhost/&lt;your_extract_location&gt;/F2/sdk/examples/containers/HTML/</code></p>
 <p><span class="label">Note</span> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, JavaScript, Ruby, ASP). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
+<p><strong>Ready to start coding?</strong> <a href="#developing-your-f2-app">Browse to Developing Your F2 App</a>.</p>
 <hr>
 </section>
 </section>
@@ -145,8 +146,8 @@ The term &quot;app&quot;, in popular web parlance, is a program that runs on you
 <figure>
 <img src="./img/wwp_devices.png" title="Containers and Apps on desktop and mobile"><figcaption></figcaption>
 </figure>
-<p>The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is &quot;aware&quot; of its contents (the apps) and plays the role of a traffic cop managing context passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2 JavaScript SDK.</p>
-<p>Each container provider, or individual person or company hosting a container, shall be responsible for including the <a href="https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js">F2 JavaScript SDK</a>. Through the SDK, F2.js provides a consistent means for all app developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.</p>
+<p>The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is &quot;aware&quot; of its contents (the apps) and plays the role of a traffic cop managing <a href="#context">context</a> passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2.js JavaScript SDK.</p>
+<p>Each container provider, or individual person or company hosting a container, shall be responsible for including the <a href="https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js">F2.js JavaScript SDK</a>. Through the SDK, F2.js provides a consistent means for all F2 apps to get loaded on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.</p>
 <p>To get started working with or developing containers, browse to the <a href="developing-the-container.html">documentation for developing the container</a>.</p>
 <hr>
 </section>

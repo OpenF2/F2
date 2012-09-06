@@ -7,9 +7,10 @@ if (navigator.userAgent.indexOf('Mac OS') != -1) {
 }
 
 //don't let hash links jump docs
+/*
 $('section [href^=#]').click(function (e) {
 	e.preventDefault()
-})
+})*/
 
 /**
  * Finds and sets active navigation element based on hash, if one exists

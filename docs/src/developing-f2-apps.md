@@ -32,6 +32,8 @@ To help you get started, you will find a basic container in the [project repo on
 
 <span class="label">Note</span> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, JavaScript, Ruby, ASP). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
+**Ready to start coding?** [Browse to Developing Your F2 App](#developing-your-f2-app).
+
 * * * *
 
 ## Apps and Containers
@@ -40,9 +42,9 @@ To understand F2 and the role of apps, you need to understand the role of the **
 
 ![](./img/wwp_devices.png "Containers and Apps on desktop and mobile")
 
-The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is "aware" of its contents (the apps) and plays the role of a traffic cop managing context passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2 JavaScript SDK.
+The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is "aware" of its contents (the apps) and plays the role of a traffic cop managing [context](#context) passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2.js JavaScript SDK.
 
-Each container provider, or individual person or company hosting a container, shall be responsible for including the [F2 JavaScript SDK](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). Through the SDK, F2.js provides a consistent means for all app developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
+Each container provider, or individual person or company hosting a container, shall be responsible for including the [F2.js JavaScript SDK](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). Through the SDK, F2.js provides a consistent means for all F2 apps to get loaded on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
 
 To get started working with or developing containers, browse to the [documentation for developing the container](developing-the-container.html).
 
