@@ -1,5 +1,5 @@
 /*!
- * F2 v0.11.0
+ * F2 v0.11.1
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -303,8 +303,6 @@ F2.extend("", {
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should
-		 * always be present.
 		 * @property views
 		 * @type Array
 		 */
@@ -421,9 +419,7 @@ F2.extend("", {
 		/**
 		 * Specifies what views a Container will provide buttons
 		 * or liks to. Generally, the views will be switched via buttons or links in
-		 * the App's header. The
-		 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always
-		 * be present.
+		 * the App's header.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
@@ -850,6 +846,12 @@ F2.extend('', (function(){
 		// create the instanceId for the App
 		app.instanceId = app.instanceId || F2.guid();
 
+		// default the views if not provided
+		app.views = app.views || [];
+		if (!F2.inArray(app.views, F2.Constants.Views.HOME)) {
+			app.views.push(F2.Constants.Views.HOME);
+		}
+
 		app.setTitle = function(title) {
 
 			if (F2.Rpc.isRemote(this.instanceId)) {
@@ -1075,9 +1077,6 @@ F2.extend('', (function(){
 			return false;
 		} else if (!app.manifestUrl) {
 			F2.log('manifestUrl" missing from App object');
-			return false;
-		} else if (!app.views || !F2.inArray(F2.Constants.Views.HOME, app.views)) {
-			F2.log('views" not defined or missing "F2.Constants.Views.HOME" view.');
 			return false;
 		}
 

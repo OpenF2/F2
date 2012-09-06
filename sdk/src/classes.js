@@ -150,8 +150,6 @@ F2.extend("", {
 		 * 
 		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 		 *
-		 * The {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should
-		 * always be present.
 		 * @property views
 		 * @type Array
 		 */
@@ -268,9 +266,7 @@ F2.extend("", {
 		/**
 		 * Specifies what views a Container will provide buttons
 		 * or liks to. Generally, the views will be switched via buttons or links in
-		 * the App's header. The
-		 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.HOME view should always
-		 * be present.
+		 * the App's header.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
