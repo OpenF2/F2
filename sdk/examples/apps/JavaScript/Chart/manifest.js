@@ -18,6 +18,8 @@ F2_jsonpCallback_com_markh_highchartsChart({
 				    		'<li class="active"><a href="#" data-timeframe="90">3 months</a></li>',
 				    		'<li><a href="#" data-timeframe="180">6 months</a></li>',
 				    		'<li><a href="#" data-timeframe="365">1 year</a></li>',
+				    		'<li><a href="#" data-timeframe="1826">5 years</a></li>',
+				    		'<li><a href="#" data-timeframe="3650">10 years</a></li>',
 				  		'</ul>',
 					'</div>',
 					'<div id="chartDemoContainer"></div>',

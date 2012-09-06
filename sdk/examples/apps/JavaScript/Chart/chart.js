@@ -81,7 +81,7 @@ F2.Apps["com_markh_highchartsChart"] = (function(){
 		
 	    //set dataset and chart label
 	    this.oChartOptions.series[0].data = irregularIntervalDS;
-	    this.oChartOptions.title.text = "Price History of " + json.Data.Name;
+	    this.oChartOptions.title.text = json.Data.Name;
 	    
 	    //init chart
 	    this.hc = new Highcharts.Chart(this.oChartOptions);
@@ -94,7 +94,7 @@ F2.Apps["com_markh_highchartsChart"] = (function(){
 		},
 		title:{},
 		subtitle: {
-			text: 'Source: DataScope (Markit)'
+			text: ''
 		},
 		xAxis: {
 			type: 'datetime'
