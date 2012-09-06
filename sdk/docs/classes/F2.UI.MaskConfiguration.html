@@ -3,26 +3,20 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2.UI.MaskConfiguration</title>
-	<link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-	<!--<link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">-->
-	<link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
+	<link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
 	<style type="text/css" media="print">
 		#toc {
 			display: none;
 		}
-
 		.row .span9 {
 			margin-left: 0;
 		}
 	</style>
-	
-	<script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.5.1&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
 </head>
-<body class="yui3-skin-sam">
+<body>
 
 <div id="doc">
 	<div class="navbar navbar-fixed-top">
@@ -52,8 +46,8 @@
 		<div class="row">
 			<div id="toc" class="span3">
 				<ul class="nav nav-list nav-pills nav-stacked affix">
-	<li class="list-header">Classes</li>
-	
+					<li class="nav-header">Classes</li>
+						
 		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
@@ -84,642 +78,389 @@
 	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
 	
-</ul>
+
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
 			</div>
-			<div class="span9">
-				    <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
+			<div id="main" class="span9">
+				<h1>F2.UI.MaskConfiguration Class</h1>
 
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
-				<div class="apidocs">
-					<div id="docs-main">
-						<div class="content">
-							<h1>F2.UI.MaskConfiguration Class</h1>
-<div class="box meta">
-    
-
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l279"><code>sdk&#x2F;src&#x2F;classes.js:279</code></a>
-        </div>
-    
-
-    
-        
-            Module: <a href="../modules/f2.html">f2</a>
-        
-    
-
-    
-</div>
-
-
-
-<div class="box intro">
-    <p>An object containing configuration information for the 
+<p>
+	<p>An object containing configuration information for the 
 F2.UI\showMask and
 F2.UI\hideMask methods.</p>
-</div>
+</p>
 
-
-
-<div class="navbar">
-	<div class="navbar-inner">
-		<ul class="nav">
-			
-			
-				<li><a href="#properties">Properties</a></li>
-			
-			
-			
-		</ul>
-	</div>
-</div>
-
-
-
-
-	<div id="properties" class="api-class-tabpanel">
-		<h2 class="off-left">Properties</h2>
+<div class="well well-small">
+	<dl class="dl-horizontal">
 		
-			<div id="property_backgroundColor" class="property item">
-    <h3 class="name"><code>backgroundColor</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l286"><code>sdk&#x2F;src&#x2F;classes.js:286</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The backround color of the overlay</p>
-    </div>
-
-    
-        <p><strong>Default:</strong> #FFFFFF</p>
-    
-
-    
-
-    
-</div>
 
 		
-			<div id="property_loadingIcon" class="property item">
-    <h3 class="name"><code>loadingIcon</code></h3>
-    <span class="type">String</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l293"><code>sdk&#x2F;src&#x2F;classes.js:293</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The path to the loading icon</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
 
 		
-			<div id="property_opacity" class="property item">
-    <h3 class="name"><code>opacity</code></h3>
-    <span class="type">Int</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l299"><code>sdk&#x2F;src&#x2F;classes.js:299</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The opacity of the background overlay</p>
-    </div>
-
-    
-        <p><strong>Default:</strong> .6</p>
-    
-
-    
-
-    
-</div>
+			<dt>Defined in</dt>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l279"><code>sdk\src\classes.js:279</code></a></dd>
+		
 
 		
-			<div id="property_useClasses" class="property item">
-    <h3 class="name"><code>useClasses</code></h3>
-    <span class="type">Bool</span>
+	</dl>
+</div>
 
-    
 
-    
 
-    
 
-    
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l306"><code>sdk&#x2F;src&#x2F;classes.js:306</code></a>
-        
-        </p>
+<ul id="classTabs" class="nav nav-tabs">
+	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
+	
+	
+		<li><a href="#properties" data-toggle="tab">Properties</a></li>
+	
+	
+	
+</ul>
 
-        
+<div class="tab-content">
+	<!-- SUMMARY TAB -->
+	<div id="summary" class="tab-pane active">
+		
 
-        
-    </div>
-
-    <div class="description">
-        <p>Do not use inline styles for mask functinality. Instead classes will be
+		
+		<div class="index-section properties">
+			<h3>Properties</h3>
+			<table class="table table-bordered table-striped table-members">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="backgroundColor" href="javascript:;">backgroundColor</a>
+						</td>
+						<td><p>The backround color of the overlay</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="loadingIcon" href="javascript:;">loadingIcon</a>
+						</td>
+						<td><p>The path to the loading icon</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="opacity" href="javascript:;">opacity</a>
+						</td>
+						<td><p>The opacity of the background overlay</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="useClasses" href="javascript:;">useClasses</a>
+						</td>
+						<td><p>Do not use inline styles for mask functinality. Instead classes will be
 applied to the elements and it is up to the Container provider to
-implement the class definitions.</p>
-    </div>
-
-    
-        <p><strong>Default:</strong> false</p>
-    
-
-    
-
-    
-</div>
+implement the class definitions.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="zIndex" href="javascript:;">zIndex</a>
+						</td>
+						<td><p>The z-index to use for the overlay</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		
 
 		
-			<div id="property_zIndex" class="property item">
-    <h3 class="name"><code>zIndex</code></h3>
-    <span class="type">Int</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l315"><code>sdk&#x2F;src&#x2F;classes.js:315</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The z-index to use for the overlay</p>
-    </div>
-
-    
-        <p><strong>Default:</strong> 2</p>
-    
-
-    
-
-    
-</div>
 
 		
 	</div>
+	<!-- SUMMARY TAB -->
 
+	<!-- METHODS TAB -->
+	
+	<!-- METHODS TAB -->
+
+	<!-- PROPERTIES TAB -->
+	
+	<div id="properties" class="tab-pane">
+		
+		<section id="properties-backgroundColor" class="level2 ">
+	<h3>
+		backgroundColor
 
+		<span class="label type">String</span>
 
+		
 
+		
 
+		
 
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
+		
+	</h3>
 
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
+	<p>
+		<p>The backround color of the overlay</p>
+	</p>
 
-            
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l286"><code>sdk\src\classes.js:286</code></a></dd>
+			
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
+			
 
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#property_backgroundColor">backgroundColor</a>
+			
+		</dl>
+	</div>
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_loadingIcon">loadingIcon</a>
+	
+		<p><strong>Default:</strong> #FFFFFF</p>
+	
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_opacity">opacity</a>
+	
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_useClasses">useClasses</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_zIndex">zIndex</a>
+	
+</section>
+		
+		<section id="properties-loadingIcon" class="level2 ">
+	<h3>
+		loadingIcon
 
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
+		<span class="label type">String</span>
 
-            
+		
 
-            
-        </div>
+		
 
-        
+		
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+		
+	</h3>
 
-                
-                    <div id="property_backgroundColor" class="property item">
-    <h3 class="name"><code>backgroundColor</code></h3>
-    <span class="type">String</span>
+	<p>
+		<p>The path to the loading icon</p>
+	</p>
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l293"><code>sdk\src\classes.js:293</code></a></dd>
+			
 
-    
+			
 
-    
+			
+		</dl>
+	</div>
 
-    
+	
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l286"><code>sdk&#x2F;src&#x2F;classes.js:286</code></a>
-        
-        </p>
+	
 
-        
+	
+</section>
+		
+		<section id="properties-opacity" class="level2 ">
+	<h3>
+		opacity
 
-        
-    </div>
+		<span class="label type">Int</span>
 
-    <div class="description">
-        <p>The backround color of the overlay</p>
-    </div>
+		
 
-    
-        <p><strong>Default:</strong> #FFFFFF</p>
-    
+		
 
-    
+		
 
-    
-</div>
+		
+	</h3>
 
-                
-                    <div id="property_loadingIcon" class="property item">
-    <h3 class="name"><code>loadingIcon</code></h3>
-    <span class="type">String</span>
+	<p>
+		<p>The opacity of the background overlay</p>
+	</p>
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l299"><code>sdk\src\classes.js:299</code></a></dd>
+			
 
-    
+			
 
-    
+			
+		</dl>
+	</div>
 
-    
+	
+		<p><strong>Default:</strong> .6</p>
+	
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l293"><code>sdk&#x2F;src&#x2F;classes.js:293</code></a>
-        
-        </p>
+	
 
-        
+	
+</section>
+		
+		<section id="properties-useClasses" class="level2 ">
+	<h3>
+		useClasses
 
-        
-    </div>
+		<span class="label type">Bool</span>
 
-    <div class="description">
-        <p>The path to the loading icon</p>
-    </div>
+		
 
-    
+		
 
-    
+		
 
-    
-</div>
+		
+	</h3>
 
-                
-                    <div id="property_opacity" class="property item">
-    <h3 class="name"><code>opacity</code></h3>
-    <span class="type">Int</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l299"><code>sdk&#x2F;src&#x2F;classes.js:299</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The opacity of the background overlay</p>
-    </div>
-
-    
-        <p><strong>Default:</strong> .6</p>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_useClasses" class="property item">
-    <h3 class="name"><code>useClasses</code></h3>
-    <span class="type">Bool</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l306"><code>sdk&#x2F;src&#x2F;classes.js:306</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Do not use inline styles for mask functinality. Instead classes will be
+	<p>
+		<p>Do not use inline styles for mask functinality. Instead classes will be
 applied to the elements and it is up to the Container provider to
 implement the class definitions.</p>
-    </div>
+	</p>
 
-    
-        <p><strong>Default:</strong> false</p>
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l306"><code>sdk\src\classes.js:306</code></a></dd>
+			
 
-    
+			
 
-    
+			
+		</dl>
+	</div>
+
+	
+		<p><strong>Default:</strong> false</p>
+	
+
+	
+
+	
+</section>
+		
+		<section id="properties-zIndex" class="level2 ">
+	<h3>
+		zIndex
+
+		<span class="label type">Int</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>The z-index to use for the overlay</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l315"><code>sdk\src\classes.js:315</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<p><strong>Default:</strong> 2</p>
+	
+
+	
+
+	
+</section>
+		
+	</div>
+	
+	<!-- PROPERTIES TAB -->
+
+	<!-- ATTRIBUTES TAB -->
+	
+	<!-- ATTRIBUTES TAB -->
+
+	<!-- EVENTS TAB -->
+	
+	<!-- EVENTS TAB -->
 </div>
-
-                
-                    <div id="property_zIndex" class="property item">
-    <h3 class="name"><code>zIndex</code></h3>
-    <span class="type">Int</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l315"><code>sdk&#x2F;src&#x2F;classes.js:315</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The z-index to use for the overlay</p>
-    </div>
-
-    
-        <p><strong>Default:</strong> 2</p>
-    
-
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-
-        
-    </div>
-</div>
-
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
+
 		<hr>
 
 		<footer>
@@ -728,13 +469,10 @@ implement the class definitions.</p>
 		</footer>
 	</div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
+<script src="..&#x2F;assets/js/main.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
 </body>
 </html>

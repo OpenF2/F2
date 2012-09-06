@@ -2,27 +2,21 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;ui.js</title>
-	<link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-	<!--<link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">-->
-	<link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-
+	<title>sdk\src\ui.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
+	<link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
 	<style type="text/css" media="print">
 		#toc {
 			display: none;
 		}
-
 		.row .span9 {
 			margin-left: 0;
 		}
 	</style>
-	
-	<script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.5.1&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
 </head>
-<body class="yui3-skin-sam">
+<body>
 
 <div id="doc">
 	<div class="navbar navbar-fixed-top">
@@ -52,8 +46,8 @@
 		<div class="row">
 			<div id="toc" class="span3">
 				<ul class="nav nav-list nav-pills nav-stacked affix">
-	<li class="list-header">Classes</li>
-	
+					<li class="nav-header">Classes</li>
+						
 		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
@@ -84,37 +78,30 @@
 	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
 	
-</ul>
+
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
 			</div>
-			<div class="span9">
-				    <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
-				<div class="apidocs">
-					<div id="docs-main">
-						<div class="content">
-							<h1 class="file-heading">File: sdk&#x2F;src&#x2F;ui.js</h1>
+			<div id="main" class="span9">
+				<h1 class="file-heading">File: sdk\src\ui.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -264,11 +251,9 @@ F2.extend(&#x27;UI&#x27;, (function(){
     </pre>
 </div>
 
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
+
 		<hr>
 
 		<footer>
@@ -277,13 +262,10 @@ F2.extend(&#x27;UI&#x27;, (function(){
 		</footer>
 	</div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
+<script src="..&#x2F;assets/js/main.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
 </body>
 </html>
