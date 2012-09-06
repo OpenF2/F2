@@ -1,6 +1,6 @@
 % Developing F2 Apps
 
-<p class="lead">To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start instructions](https://github.com/OpenF2/F2#quick-start).</p>
+<p class="lead">To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
 
 ## Overview
 

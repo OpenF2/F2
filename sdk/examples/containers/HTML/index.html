@@ -92,6 +92,18 @@
 		$(function() {
 			// define all of the apps
 			var apps = [
+				//chart
+				{
+					appId: "com_markh_highchartsChart",
+					description: "Semi-Interactive Price Chart",
+					height:300,
+					minGridSize: 8,
+					isSecure: false,
+					manifestUrl: "../../apps/JavaScript/Chart/manifest.js",
+					name: "Price Chart",
+					views: [F2.Constants.Views.HOME]
+				},
+
 				{
 					appId: "9d1c357e7a9241532ab8977d440df4f3",
 					description: "A JScript Hello World App",
