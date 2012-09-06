@@ -25,28 +25,24 @@ F2.extend("", {
 		 * The description of the App
 		 * @property description
 		 * @type string
-		 * @required
 		 */
 		description:"",
 		/**
 		 * The company of the developer
 		 * @property developerCompany
 		 * @type string
-		 * @required
 		 */
 		developerCompany:"",
 		/**
 		 * The name of the developer
 		 * @property developerName
 		 * @type string
-		 * @required
 		 */
 		developerName:"",
 		/**
 		 * The url of the developer
 		 * @property developerUrl
 		 * @type string
-		 * @required
 		 */
 		developerUrl:"",
 		/**
@@ -68,7 +64,8 @@ F2.extend("", {
 		 */
 		height:0,
 		/**
-		 * The unique runtime ID of the App
+		 * The unique runtime ID of the App. Will by assigned automaticaly when the
+		 * App is registered with {{#crossLink "F2\registerApps"}}{{/crossLink}}
 		 * @property instanceId
 		 * @type string
 		 */
