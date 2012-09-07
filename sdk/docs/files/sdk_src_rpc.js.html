@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;rpc.js</title>
+	<title>sdk\src\rpc.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -50,7 +50,7 @@
 						
 		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+		<li><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
@@ -66,7 +66,7 @@
 	
 		<li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
@@ -101,7 +101,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;rpc.js</h1>
+				<h1 class="file-heading">File: sdk\src\rpc.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -129,7 +129,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	var _createAppToContainerSocket = function() {
 
 		var isLoaded = false;
-		var app = false;
+		var appConfig = false;
 
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
@@ -139,24 +139,24 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 					message = message.replace(_rSocketLoad, &#x27;&#x27;);
 					var appParts = F2.parse(message);
 
-					&#x2F;&#x2F; make sure we have the App and AppManifest
+					&#x2F;&#x2F; make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
-						app = appParts[0]; &#x2F;&#x2F; assigning app object to closure
+						appConfig = appParts[0]; &#x2F;&#x2F; assigning app object to closure
 						var appManifest = appParts[1];
 
 						&#x2F;&#x2F; save app locally
-						_apps[app.instanceId] = {
-							app:app,
+						_apps[appConfig.instanceId] = {
+							app:appConfig,
 							socket:socket
 						};
 
-						F2.registerApps([app], [appManifest]);
+						F2.registerApps([appConfig], [appManifest]);
 						isLoaded = true;
 					}
 
 				&#x2F;&#x2F; pass everyting else to _onMessage
 				} else {
-					_onMessage(app, message, origin);
+					_onMessage(appConfig, message, origin);
 				}
 			}
 		});
@@ -167,12 +167,12 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	 * &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt;.
 	 * @method _createContainerToAppSocket
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {F2.AppManifest} appManifest The AppManifest object
 	 *&#x2F;
-	var _createContainerToAppSocket = function(app, appManifest) {
+	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
-		var container = $(&#x27;#&#x27; + app.instanceId);
+		var container = $(&#x27;#&#x27; + appConfig.instanceId);
 		container = container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)
 			? container
 			: container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
@@ -189,8 +189,8 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			}
 		};
 
-		if (app.height) {
-			iframeProps.style.height = app.height + &#x27;px&#x27;;
+		if (appConfig.height) {
+			iframeProps.style.height = appConfig.height + &#x27;px&#x27;;
 		}
 
 		var socket = new easyXDM.Socket({
@@ -199,10 +199,10 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			props:iframeProps,
 			onMessage: function(message, origin) {
 				&#x2F;&#x2F; pass everything to _onMessage
-				_onMessage(app, message, origin);
+				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appManifest]));
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest]));
 			}
 		});
 
@@ -231,11 +231,11 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	 * Handles messages that come across the sockets
 	 * @method _onMessage
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} message The socket message
 	 * @param {string} origin The originator
 	 *&#x2F;
-	var _onMessage = function(app, message, origin) {
+	var _onMessage = function(appConfig, message, origin) {
 
 		var obj;
 
@@ -246,7 +246,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		&#x2F;&#x2F; handle App Call
 		if (_rAppCall.test(message)) {
 			obj = parse(_rAppCall, message);
-			app[obj.functionName].apply(app, obj.params);
+			appConfig[obj.functionName].apply(appConfig, obj.params);
 
 		&#x2F;&#x2F; handle RPC
 		} else if (_rRpc.test(message)) {
@@ -261,7 +261,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				$.each(obj.callbacks, function(i, c) {
 					$.each(obj.params, function(i, p) {
 						if (c == p) {
-							obj.params[i] = _createRpcCallback(app.instanceId, c);
+							obj.params[i] = _createRpcCallback(appConfig.instanceId, c);
 						}
 					});
 				});
@@ -361,7 +361,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * F2.{{#crossLink &quot;F2&#x2F;init&quot;}}{{&#x2F;crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
-		 * {{#crossLink &quot;F2.ContainerConfiguration&quot;}}{{&#x2F;crossLink}}.secureAppPagePath
+		 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{&#x2F;crossLink}}.secureAppPagePath
 		 * property
 		 *&#x2F;
 		init:function(secureAppPagePath) {
@@ -394,13 +394,14 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		&#x2F;**
 		 * Creates a Container-to-App or App-to-Container socket for communication
 		 * @method register
-		 * @param {F2.App} [app] The App object
+		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
+		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 *&#x2F;
-		register:function(app, appManifest) {
-			if (app) {
-				_apps[app.instanceId] = {
-					app:app,
-					socket:_createContainerToAppSocket(app, appManifest)
+		register:function(appConfig, appManifest) {
+			if (appConfig) {
+				_apps[appConfig.instanceId] = {
+					app:appConfig,
+					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
 				F2.log(&quot;Unable to register socket connection. Please check container configuration.&quot;);

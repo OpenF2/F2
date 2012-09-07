@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;container.js</title>
+	<title>sdk\src\container.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -50,7 +50,7 @@
 						
 		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+		<li><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
@@ -66,7 +66,7 @@
 	
 		<li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
@@ -101,7 +101,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;container.js</h1>
+				<h1 class="file-heading">File: sdk\src\container.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -119,23 +119,23 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * Appends the App&#x27;s html to the DOM
 	 * @method _afterAppRender
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
 	 * @return {Element} The DOM Element that contains the App
 	 *&#x2F;
-	var _afterAppRender = function(app, html) {
+	var _afterAppRender = function(appConfig, html) {
 
-		var handler = _config.afterAppRender || function(app, html) {
+		var handler = _config.afterAppRender || function(appConfig, html) {
 			return $(html).appendTo(&#x27;body&#x27;);
 		};
-		var appContainer = handler(app, html);
+		var appContainer = handler(appConfig, html);
 
 		if (!!_config.afterAppRender &amp;&amp; !appContainer) {
-			F2.log(&#x27;F2.ContainerConfiguration.afterAppRender() must return the DOM Element that contains the App&#x27;);
+			F2.log(&#x27;F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the App&#x27;);
 			return;
 		} else {
 			&#x2F;&#x2F; apply APP class and Instance ID
-			$(appContainer).addClass(F2.Constants.Css.APP).attr(&#x27;id&#x27;, app.instanceId);
+			$(appContainer).addClass(F2.Constants.Css.APP).attr(&#x27;id&#x27;, appConfig.instanceId);
 			return appContainer.get(0);
 		}
 	};
@@ -144,21 +144,21 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * Renders the html for an App.
 	 * @method _appRender
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
 	 *&#x2F;
-	var _appRender = function(app, html) {
+	var _appRender = function(appConfig, html) {
 
 		function outerHtml(html) {
 			return $(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
 		}
 
 		&#x2F;&#x2F; apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; app&#x27; + app.appId));
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; app&#x27; + appConfig.appId));
 
 		&#x2F;&#x2F; optionally apply wrapper html
 		if (_config.appRender) {
-			html = _config.appRender(app, html);
+			html = _config.appRender(appConfig, html);
 		}
 
 		&#x2F;&#x2F; apply APP class and instanceId
@@ -170,31 +170,31 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * loading
 	 * @method _beforeAppRender
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 *&#x2F;
-	var _beforeAppRender = function(app) {
+	var _beforeAppRender = function(appConfig) {
 		var handler = _config.beforeAppRender || $.noop;
-		handler(app);
+		handler(appConfig);
 	};
 
 	&#x2F;**
 	 * Adds properties and methods to the App object
 	 * @method _hydrateApp
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 *&#x2F;
-	var _hydrateApp = function(app) {
+	var _hydrateApp = function(appConfig) {
 
 		&#x2F;&#x2F; create the instanceId for the App
-		app.instanceId = app.instanceId || F2.guid();
+		appConfig.instanceId = appConfig.instanceId || F2.guid();
 
 		&#x2F;&#x2F; default the views if not provided
-		app.views = app.views || [];
-		if (!F2.inArray(app.views, F2.Constants.Views.HOME)) {
-			app.views.push(F2.Constants.Views.HOME);
+		appConfig.views = appConfig.views || [];
+		if (!F2.inArray(appConfig.views, F2.Constants.Views.HOME)) {
+			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
-		app.setTitle = function(title) {
+		appConfig.setTitle = function(title) {
 
 			if (F2.Rpc.isRemote(this.instanceId)) {
 				F2.Rpc.call(
@@ -210,7 +210,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 		};
 
-		app.updateHeight = function(height) {
+		appConfig.updateHeight = function(height) {
 
 			height = height || $(&#x27;#&#x27; + this.instanceId).outerHeight();
 
@@ -235,9 +235,9 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * @method _initAppEvents
 	 * @private
 	 *&#x2F;
-	var _initAppEvents = function (app) {
+	var _initAppEvents = function (appConfig) {
 
-		var appContainer = $(&#x27;#&#x27; + app.instanceId);
+		var appContainer = $(&#x27;#&#x27; + appConfig.instanceId);
 
 		&#x2F;&#x2F; these events should only be attached outside of the secure app
 		if (!_config.isSecureAppPage) {
@@ -251,12 +251,12 @@ F2.extend(&#x27;&#x27;, (function(){
 
 					&#x2F;&#x2F; handle the special REMOVE view
 					if (view == F2.Constants.Views.REMOVE) {
-						F2.removeApp(app.instanceId);
+						F2.removeApp(appConfig.instanceId);
 
 					&#x2F;&#x2F; make sure the app supports this type of view
-					} else if (F2.inArray(view, app.views)) {
+					} else if (F2.inArray(view, appConfig.views)) {
 						&#x2F;&#x2F; tell the app that the view has changed
-						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
+						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + appConfig.instanceId, view);
 					}
 				});
 			}
@@ -295,23 +295,24 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * Loads the App&#x27;s html&#x2F;css&#x2F;javascript
 	 * @method loadApp
 	 * @private
-	 * @param {Array} apps An array of {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}
+	 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
 	 * objects
 	 * @param {F2.AppManifest} [appManifest] The AppManifest object
 	 *&#x2F;
-	var _loadApps = function(apps, appManifest) {
+	var _loadApps = function(appConfigs, appManifest) {
 
-		apps = [].concat(apps);
+		appConfigs = [].concat(appConfigs);
 
 		&#x2F;&#x2F; check for secure app
-		if (apps.length == 1 &amp;&amp; apps[0].isSecure &amp;&amp; !_config.isSecureAppPage) {
-			_loadSecureApp(apps[0], appManifest);
+		if (appConfigs.length == 1 &amp;&amp; appConfigs[0].isSecure &amp;&amp; !_config.isSecureAppPage) {
+			_loadSecureApp(appConfigs[0], appManifest);
 			return;
 		}
 
 		&#x2F;&#x2F; check that the number of apps in manifest matches the number requested
-		if (apps.length != appManifest.apps.length) {
+		if (appConfigs.length != appManifest.apps.length) {
 			F2.log(&#x27;The number of Apps defined in the AppManifest do not match the number requested.&#x27;, appManifest);
+			return;
 		}
 
 		var scripts = appManifest.scripts || [];
@@ -320,12 +321,12 @@ F2.extend(&#x27;&#x27;, (function(){
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
 		var appInit = function() {
-			$.each(apps, function(i, a) {
+			$.each(appConfigs, function(i, a) {
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === &#x27;function&#x27;) {
-						F2.Apps[a.appId].appClass = new F2.Apps[a.appId](a, appManifest.apps[i]);
-						if (F2.Apps[a.appId].appClass[&#x27;init&#x27;] !== undefined) {
-							F2.Apps[a.appId].appClass.init();
+						F2.Apps[a.appId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+						if (F2.Apps[a.appId].app[&#x27;init&#x27;] !== undefined) {
+							F2.Apps[a.appId].app.init();
 						}
 					} else {
 						F2.log(&#x27;App initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
@@ -343,10 +344,10 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; load html
 		$.each(appManifest.apps, function(i, a) {
-			&#x2F;&#x2F; load html
-			_afterAppRender(apps[i], _appRender(apps[i], a.html));
+			&#x2F;&#x2F; load html and save the root node
+			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			&#x2F;&#x2F; init events
-			_initAppEvents(apps[i]);
+			_initAppEvents(appConfigs[i]);
 		});
 
 		&#x2F;&#x2F; load scripts and eval inlines once complete
@@ -385,22 +386,22 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * Loads the App&#x27;s html&#x2F;css&#x2F;javascript into an iframe
 	 * @method loadSecureApp
 	 * @private
-	 * @param {F2.App} app The App&#x27;s context object.
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {F2.AppManifest} appManifest The App&#x27;s html&#x2F;css&#x2F;js to be loaded into the
 	 * page.
 	 *&#x2F;
-	var _loadSecureApp = function(app, appManifest) {
+	var _loadSecureApp = function(appConfig, appManifest) {
 
 		&#x2F;&#x2F; make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			&#x2F;&#x2F; create the html container for the iframe
-			_afterAppRender(app, _appRender(app, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
+			_afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
 			&#x2F;&#x2F; init events
-			_initAppEvents(app);
+			_initAppEvents(appConfig);
 			&#x2F;&#x2F; create RPC socket
-			F2.Rpc.register(app, appManifest);
+			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log(&#x27;Unable to load secure app: \&quot;secureAppPagePath\&quot; is not defined in ContainerConfiguration.&#x27;);
+			F2.log(&#x27;Unable to load secure app: \&quot;secureAppPagePath\&quot; is not defined in ContainerConfig.&#x27;);
 		}
 	};
 
@@ -408,16 +409,16 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * Checks if the App is valid
 	 * @method _validateApp
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @returns {bool} True if the App is valid
 	 *&#x2F;
-	var _validateApp = function(app) {
+	var _validateApp = function(appConfig) {
 
 		&#x2F;&#x2F; check for valid App configurations
-		if (!app.appId) {
+		if (!appConfig.appId) {
 			F2.log(&#x27;&quot;appId&quot; missing from App object&#x27;);
 			return false;
-		} else if (!app.manifestUrl) {
+		} else if (!appConfig.manifestUrl) {
 			F2.log(&#x27;manifestUrl&quot; missing from App object&#x27;);
 			return false;
 		}
@@ -521,14 +522,14 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 
 			return $.map(_apps, function(e, i) {
-				return { appId: e.app.appId };
+				return { appId: e.config.appId };
 			});
 		},
 		&#x2F;**
 		 * Initializes the Container. This method must be called before performing
 		 * any other actions in the Container.
 		 * @method init
-		 * @param {F2.ContainerConfiguration} config The configuration object
+		 * @param {F2.ContainerConfig} config The configuration object
 		 * @for F2
 		 *&#x2F;
 		init:function(config) {
@@ -548,12 +549,12 @@ F2.extend(&#x27;&#x27;, (function(){
 		isInit:_isInit,
 		&#x2F;**
 		 * Begins the loading process for all Apps. The App will
-		 * be passed the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object which will
+		 * be passed the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object which will
 		 * contain the App&#x27;s unique instanceId within the Container. Optionally, the
 		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}} can be passed in and those
 		 * assets will be used instead of making a request.
 		 * @method registerApps
-		 * @param {Array} apps An array of {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}}
+		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
 		 * objects
 		 * @param {Array} [appManifests] An array of
 		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}}
@@ -562,7 +563,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		 * passed in. This can be useful if Apps are loaded on the server-side and
 		 * passed down to the client.
 		 *&#x2F;
-		registerApps:function(apps, appManifests) {
+		registerApps:function(appConfigs, appManifests) {
 
 			if (!_isInit()) {
 				F2.log(&#x27;F2.init() must be called before F2.registerApps()&#x27;);
@@ -573,19 +574,19 @@ F2.extend(&#x27;&#x27;, (function(){
 			var batches = {};
 			var callbackStack = {};
 			var haveManifests = false;
-			apps = [].concat(apps);
+			appConfigs = [].concat(appConfigs);
 			appManifests = appManifests || [];
 			haveManifests = !!appManifests.length;
 
 			&#x2F;&#x2F; ensure that the array of apps and manifests are qual
-			if (apps.length &amp;&amp; haveManifests &amp;&amp; apps.length != appManifests.length) {
+			if (appConfigs.length &amp;&amp; haveManifests &amp;&amp; appConfigs.length != appManifests.length) {
 				F2.log(&#x27;The length of &quot;apps&quot; does not equal the length of &quot;appManifests&quot;&#x27;);
 				return;
 			}
 
 			&#x2F;&#x2F; validate each app and assign it an instanceId
 			&#x2F;&#x2F; then determine which apps can be batched together
-			$.each(apps, function(i, a) {
+			$.each(appConfigs, function(i, a) {
 
 				if (!_validateApp(a)) {
 					return; &#x2F;&#x2F; move to the next app
@@ -595,7 +596,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				_hydrateApp(a);
 
 				&#x2F;&#x2F; save app
-				_apps[a.instanceId] = { app:a };
+				_apps[a.instanceId] = { config:a };
 
 				&#x2F;&#x2F; fire beforeAppRender
 				_beforeAppRender(a);
@@ -708,6 +709,10 @@ F2.extend(&#x27;&#x27;, (function(){
 					$(this).remove();
 				});
 			}
+		}
+
+		,temp:function() {
+			F2.log(_apps);
 		}
 	};
 })());
