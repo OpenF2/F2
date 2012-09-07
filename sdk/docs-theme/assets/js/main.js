@@ -15,7 +15,7 @@ $(function() {
 		var tabMember = $(this).data('tab-member');
 		$('#classTabs [href="' + tab + '"]').tab('show');
 		var offset = $(tab + '-' + tabMember).offset();
-		$('html, body').animate({scrollTop:offset.top});
+		$('html, body').animate({scrollTop:offset.top - 75});
 	});
 
 	// view options
