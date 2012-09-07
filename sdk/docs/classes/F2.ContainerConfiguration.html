@@ -1,735 +1,793 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>F2.ContainerConfiguration</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.5.1&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+	<meta charset="utf-8">
+	<title>F2.ContainerConfiguration</title>
+	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
+	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
+	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
+	<link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+	<style type="text/css" media="print">
+		#toc {
+			display: none;
+		}
+		.row .span9 {
+			margin-left: 0;
+		}
+	</style>
 </head>
-<body class="yui3-skin-sam">
+<body>
 
 <div id="doc">
-    <div id="hd" class="yui3-g header">
-        <div class="yui3-u-3-4">
-            
-                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
-            
-        </div>
-        <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
-        </div>
-    </div>
-    <div id="bd" class="yui3-g">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="index.html">F2: Financial Framework</a>
+				<div class="tagline-divider"></div>
+				<div class="tagline">Helping you build smarter financial apps</div>
+				<ul class="nav pull-right">
+					<li><a href="http://www.openF2.com">OpenF2.com</a></li>
+					<li class="divider-vertical"></li>
+					<li class="active"><a href="../../index.html">Docs</a></li>
+					<li class="divider-vertical"></li>
+					<li><a href="../sdk/docs/">SDK</a></li>
+					<li class="divider-vertical"></li>
+					<li><a href="https://github.com/OpenF2/F2/">Fork F2 on GitHub</a></li>
+					<li class="divider-vertical"></li>
+					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
+					<li class="divider-vertical"></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-        <div class="yui3-u-1-4">
-            <div id="docs-sidebar" class="sidebar apidocs">
-                <div id="api-list">
-    <h2 class="off-left">APIs</h2>
-    <div id="api-tabview" class="tabview">
-        <ul class="tabs">
-            <li><a href="#api-classes">Classes</a></li>
-            <li><a href="#api-modules">Modules</a></li>
-        </ul>
+	<div class="container">
+		<div class="row">
+			<div id="toc" class="span3">
+				<ul class="nav nav-list nav-pills nav-stacked affix">
+					<li class="nav-header">Classes</li>
+						
+		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
 
-        <div id="api-tabview-filter">
-            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-        </div>
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
+			</div>
+			<div id="main" class="span9">
+				<h1>F2.ContainerConfiguration</h1>
 
-        <div id="api-tabview-panel">
-            <ul id="api-classes" class="apis classes">
-            
-                <li><a href="..&#x2F;classes/F2.html">F2</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
-            
-            </ul>
+<p>
+	<p>An object containing configuration information for the Container</p>
+</p>
 
-            <ul id="api-modules" class="apis modules">
-            
-                <li><a href="..&#x2F;modules/f2.html">f2</a></li>
-            
-            </ul>
-        </div>
-    </div>
-</div>
+<div class="well well-small">
+	<dl class="dl-horizontal">
+		
 
-            </div>
-        </div>
-        <div class="yui3-u-3-4">
-                <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
+		
 
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
+		
+			<dt>Defined in</dt>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l212"><code>sdk&#x2F;src&#x2F;classes.js:212</code></a></dd>
+		
 
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <h1>F2.ContainerConfiguration Class</h1>
-<div class="box meta">
-    
-
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l217"><code>sdk&#x2F;src&#x2F;classes.js:217</code></a>
-        </div>
-    
-
-    
-        
-            Module: <a href="../modules/f2.html">f2</a>
-        
-    
-
-    
+		
+	</dl>
 </div>
 
 
 
-<div class="box intro">
-    <p>An object containing configuration information for the Container</p>
-</div>
 
 
+<ul id="classTabs" class="nav nav-tabs">
+	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
+	
+		<li><a href="#methods" data-toggle="tab">Methods</a></li>
+	
+	
+		<li><a href="#properties" data-toggle="tab">Properties</a></li>
+	
+	
+	
+</ul>
 
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
+<div class="tab-content">
+	<!-- SUMMARY TAB -->
+	<div id="summary" class="tab-pane active">
+		
+		<div class="index-section methods">
+			<h3>Methods</h3>
+			<table class="table table-bordered table-striped table-members">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="afterAppRender" href="javascript:;">
+								afterAppRender
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+										<li>
+											
+												html
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows the Container to override how an App's html is 
+inserted into the page. The function should accept an
+<a href="../classes/F2.App.html" class="crosslink">F2.App</a> object and also a string of html</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="appRender" href="javascript:;">
+								appRender
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+										<li>
+											
+												html
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows the Container to wrap an App in extra html. The
+function should accept an <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object
+and also a string of html. The extra html can provide links to edit app
+settings and remove an app from the Container. See
+<a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
+should be applied to elements.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="beforeAppRender" href="javascript:;">
+								beforeAppRender
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows the Container to render html for an App before the AppManifest for
+an App has loaded. This can be useful if the design calls for loading
+icons to appear for each App before each App is loaded and rendered to
+the page.</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		
 
-        
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
+		
+		<div class="index-section properties">
+			<h3>Properties</h3>
+			<table class="table table-bordered table-striped table-members">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="isSecureAppPage" href="javascript:;">isSecureAppPage</a>
+						</td>
+						<td><p>Tells the Container that it is currently running within
+a secure app page</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="secureAppPagePath" href="javascript:;">secureAppPagePath</a>
+						</td>
+						<td><p>Allows the Container to specify which page is used when
+loading a secure app. The page must reside on a different domain than the
+Container</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="supportedViews" href="javascript:;">supportedViews</a>
+						</td>
+						<td><p>Specifies what views a Container will provide buttons
+or liks to. Generally, the views will be switched via buttons or links in
+the App's header.</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		
 
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
+		
 
-            
-                <div class="index-section methods">
-                    <h3>Methods</h3>
+		
+	</div>
+	<!-- SUMMARY TAB -->
 
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method">
-                                <a href="#method_afterAppRender">afterAppRender</a>
+	<!-- METHODS TAB -->
+	
+	<div id="methods" class="tab-pane">
+		
+		<section id="methods-afterAppRender" class="level2 ">
+	<h3>
+		afterAppRender
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+				<li>
+					
+						html
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_appRender">appRender</a>
+		
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_beforeAppRender">beforeAppRender</a>
+		
 
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
+		
 
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
+		
 
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#property_isSecureAppPage">isSecureAppPage</a>
+		
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_secureAppPagePath">secureAppPagePath</a>
+		
+	</h3>
 
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_supportedViews">supportedViews</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-        </div>
-
-        
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method_afterAppRender" class="method item">
-    <h3 class="name"><code>afterAppRender</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>html</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Element</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l222"><code>sdk&#x2F;src&#x2F;classes.js:222</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Allows the Container to override how an App's html is 
+	<p>
+		<p>Allows the Container to override how an App's html is 
 inserted into the page. The function should accept an
 <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object and also a string of html</p>
-    </div>
+	</p>	
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l217"><code>sdk&#x2F;src&#x2F;classes.js:217</code></a></dd>
+			
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
+			
 
-                    
+			
+		</dl>
+	</div>
 
-                    <div class="param-description">
-                        <p>The F2.App object</p>
-                    </div>
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">html</code>
-                        <span class="type">String</span>
-                    
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
 
-                    
+					
 
-                    <div class="param-description">
-                        <p>The string of html representing the App</p>
-                    </div>
+					<p>
+						<p>The F2.App object</p>
+					</p>
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">html</code>
+						<span class="label type">String</span>
+					
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
+					
 
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Element</span>:
-                    
-                    The DOM Element surrounding the App
-                
-            </div>
-        </div>
-    
+					<p>
+						<p>The string of html representing the App</p>
+					</p>
 
-    
-</div>
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-                
-                    <div id="method_appRender" class="method item">
-    <h3 class="name"><code>appRender</code></h3>
+	
+		<div class="returns">
+			<h4>Returns:</h4>
 
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>html</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
+			<div class="returns-description">
+				
+					
+						<span class="label type">Element</span>:
+					
+					The DOM Element surrounding the App
+				
+			</div>
+		</div>
+	
 
-    
+	
+</section>
+		
+		<section id="methods-appRender" class="level2 ">
+	<h3>
+		appRender
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+				<li>
+					
+						html
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
+	</h3>
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l232"><code>sdk&#x2F;src&#x2F;classes.js:232</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Allows the Container to wrap an App in extra html. The
+	<p>
+		<p>Allows the Container to wrap an App in extra html. The
 function should accept an <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object
 and also a string of html. The extra html can provide links to edit app
 settings and remove an app from the Container. See
 <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
 should be applied to elements.</p>
-    </div>
+	</p>	
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l227"><code>sdk&#x2F;src&#x2F;classes.js:227</code></a></dd>
+			
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
+			
 
-                    
+			
+		</dl>
+	</div>
 
-                    <div class="param-description">
-                        <p>The F2.App object</p>
-                    </div>
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">html</code>
-                        <span class="type">String</span>
-                    
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
 
-                    
+					
 
-                    <div class="param-description">
-                        <p>The string of html representing the App</p>
-                    </div>
+					<p>
+						<p>The F2.App object</p>
+					</p>
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">html</code>
+						<span class="label type">String</span>
+					
 
-    
+					
 
-    
-</div>
+					<p>
+						<p>The string of html representing the App</p>
+					</p>
 
-                
-                    <div id="method_beforeAppRender" class="method item">
-    <h3 class="name"><code>beforeAppRender</code></h3>
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
+	
 
-    
+	
+</section>
+		
+		<section id="methods-beforeAppRender" class="level2 ">
+	<h3>
+		beforeAppRender
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
+	</h3>
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l244"><code>sdk&#x2F;src&#x2F;classes.js:244</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Allows the Container to render html for an App before the AppManifest for
+	<p>
+		<p>Allows the Container to render html for an App before the AppManifest for
 an App has loaded. This can be useful if the design calls for loading
 icons to appear for each App before each App is loaded and rendered to
 the page.</p>
-    </div>
+	</p>	
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l239"><code>sdk&#x2F;src&#x2F;classes.js:239</code></a></dd>
+			
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
+			
 
-                    
+			
+		</dl>
+	</div>
 
-                    <div class="param-description">
-                        <p>The F2.App object</p>
-                    </div>
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
 
-    
+					
 
-    
-</div>
+					<p>
+						<p>The F2.App object</p>
+					</p>
 
-                
-            </div>
-        
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+	
 
-                
-                    <div id="property_isSecureAppPage" class="property item">
-    <h3 class="name"><code>isSecureAppPage</code></h3>
-    <span class="type">Bool</span>
+	
+</section>
+		
+	</div>
+	
+	<!-- METHODS TAB -->
 
-    
+	<!-- PROPERTIES TAB -->
+	
+	<div id="properties" class="tab-pane">
+		
+		<section id="properties-isSecureAppPage" class="level2 ">
+	<h3>
+		isSecureAppPage
 
-    
+		<span class="label type">Bool</span>
 
-    
+		
 
-    
+		
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l253"><code>sdk&#x2F;src&#x2F;classes.js:253</code></a>
-        
-        </p>
+		
 
-        
+		
+	</h3>
 
-        
-    </div>
-
-    <div class="description">
-        <p>Tells the Container that it is currently running within
+	<p>
+		<p>Tells the Container that it is currently running within
 a secure app page</p>
-    </div>
+	</p>
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l248"><code>sdk&#x2F;src&#x2F;classes.js:248</code></a></dd>
+			
 
-    
+			
 
-    
-</div>
+			
+		</dl>
+	</div>
 
-                
-                    <div id="property_secureAppPagePath" class="property item">
-    <h3 class="name"><code>secureAppPagePath</code></h3>
-    <span class="type">String</span>
+	
 
-    
+	
 
-    
+	
+</section>
+		
+		<section id="properties-secureAppPagePath" class="level2 ">
+	<h3>
+		secureAppPagePath
 
-    
+		<span class="label type">String</span>
 
-    
+		
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l260"><code>sdk&#x2F;src&#x2F;classes.js:260</code></a>
-        
-        </p>
+		
 
-        
+		
 
-        
-    </div>
+		
+	</h3>
 
-    <div class="description">
-        <p>Allows the Container to specify which page is used when
+	<p>
+		<p>Allows the Container to specify which page is used when
 loading a secure app. The page must reside on a different domain than the
 Container</p>
-    </div>
+	</p>
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l255"><code>sdk&#x2F;src&#x2F;classes.js:255</code></a></dd>
+			
 
-    
+			
 
-    
-</div>
+			
+		</dl>
+	</div>
 
-                
-                    <div id="property_supportedViews" class="property item">
-    <h3 class="name"><code>supportedViews</code></h3>
-    <span class="type">Array</span>
+	
 
-    
+	
 
-    
+	
+</section>
+		
+		<section id="properties-supportedViews" class="level2 ">
+	<h3>
+		supportedViews
 
-    
+		<span class="label type">Array</span>
 
-    
+		
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l268"><code>sdk&#x2F;src&#x2F;classes.js:268</code></a>
-        
-        </p>
+		
 
-        
+		
 
-        
-    </div>
+		
+	</h3>
 
-    <div class="description">
-        <p>Specifies what views a Container will provide buttons
+	<p>
+		<p>Specifies what views a Container will provide buttons
 or liks to. Generally, the views will be switched via buttons or links in
-the App's header. The
-<a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.HOME view should always
-be present.</p>
-    </div>
+the App's header.</p>
+	</p>
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l263"><code>sdk&#x2F;src&#x2F;classes.js:263</code></a></dd>
+			
 
-    
+			
 
-    
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+</section>
+		
+	</div>
+	
+	<!-- PROPERTIES TAB -->
+
+	<!-- ATTRIBUTES TAB -->
+	
+	<!-- ATTRIBUTES TAB -->
+
+	<!-- EVENTS TAB -->
+	
+	<!-- EVENTS TAB -->
 </div>
+			</div>
+		</div>
 
-                
-            </div>
-        
+		<hr>
 
-        
-
-        
-    </div>
+		<footer>
+			<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+			<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		</footer>
+	</div>
 </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
+<script src="..&#x2F;assets/js/main.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
 </body>
 </html>

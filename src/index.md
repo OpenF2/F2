@@ -1,6 +1,6 @@
 % F2: The Open Financial Framework
 
-<p class="lead">F2 is a web integration framework designed specifically for the financial markets. Its primary use is for integrating multi-party web applications into a single seamless desktop or mobile experience. It was created and is maintained by [Markit](http://www.markit.com). Visit [OpenF2.com](http://www.openf2.com) for more information or continue reading.</p>
+<p class="lead">F2, an open web integration framework, defines how to develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessy integrated front-end.  The essential components defined by the F2 specification are the Container, Apps, Context and the F2 Store—all supported under the hood by F2.js, a JavaScript SDK which provides an extensible foundation supporting all F2-based web applications. It was created and is maintained by [Markit](http://www.markit.com). Visit [OpenF2.com](http://www.openf2.com) for more information.</p>
 
 ## Get Started
 

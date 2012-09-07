@@ -1,38 +1,38 @@
 % Developing F2 Apps
 
-<p class="lead">To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start instructions](https://github.com/OpenF2/F2#quick-start).</p>
+<p class="lead">To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
 
 ## Overview
 
-Defined very simply, a F2-capable app is a `javascript` file which defines your [app manifest](../../sdk/docs/classes/F2.AppManifest.html). Check out the [example apps on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/apps) to see some apps in action.
-
-Technically speaking, a F2 app is one of two things:
+Defined very simply, a F2 app is a `javascript` file which defines your [app manifest](../../sdk/docs/classes/F2.AppManifest.html). Technically speaking, a F2 app is one of two things:
 
 <dl class="dl-horizontal">
 	<dt>Display App</dt>
-	<dd>A display app displays information to users in visible fashion (using HTML, CSS, and JavaScript).</dd>
+	<dd>A display app presents information to users in the form of a visible widget (using HTML, CSS, and JavaScript).</dd>
 	<dt>Data App</dt>
 	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
 </dl>
 
-For the purposes of this documentation and to get started, we'll focus on developing **display apps**. If you want to build a data app, [browse to data apps](#).
+For the purposes of this documentation and to get started, we'll focus on developing **display apps**. 
 
 <div class="well well-small">
-<h4>About Apps</h4>
+<h4>About  Apps</h4>
 <p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p>
 </div>
 
-* * * *
-
 ### Understanding F2 Apps
 
-To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many [components of F2](components-of-the-framework.html), and apps and containers are only scratching the surface in terms of what is available to app developers today. From the concept of [app context](components-of-the-framework.html#app-context) to [creating a common look and feel](components-of-the-framework.html#creating-a-common-look-and-feel) across apps, apps are the cornerstone of F2-enabled multi-party web applications.
+To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many [components of F2](components-of-the-framework.html), and apps and containers are only scratching the surface in terms of what is available to app developers within F2. Including concepts like [app context](components-of-the-framework.html#app-context) and standardizing the [creation of a common look and feel](components-of-the-framework.html#creating-a-common-look-and-feel) across apps, apps form the cornerstone of F2-enabled multi-party web applications.
 
-To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML). Once you download and extract the archive, point your browser at:
+#### Get Started
+
+To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML) along with a number of sample apps. Once you open the project repository, point your browser at:
 
 `http://localhost/<your_extract_location>/F2/sdk/examples/containers/HTML/`
 
-<div class="alert alert-info"><strong>Note:</strong> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, ASP, JavaScript). While it is not a requirement you have a web server configured on your computer, it will certainly enhance your F2 development experience.</div>
+<span class="label">Note</span> The examples provided as part of the project repo demonstrate apps written in different languages (PHP, JavaScript, Ruby, ASP). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
+
+**Ready to start coding?** [Browse to Developing Your F2 App](#developing-your-f2-app).
 
 * * * *
 
@@ -42,9 +42,9 @@ To understand F2 and the role of apps, you need to understand the role of the **
 
 ![](./img/wwp_devices.png "Containers and Apps on desktop and mobile")
 
-The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is "aware" of its contents (the apps) and plays the role of a traffic cop managing context passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2 JavaScript SDK.
+The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is "aware" of its contents (the apps) and plays the role of a traffic cop managing [context](#context) passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2.js JavaScript SDK.
 
-Each container provider, or individual person or company hosting a container, shall be responsible for including the [F2 JavaScript SDK](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). Through the SDK, F2.js provides a consistent means for all app developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
+Each container provider, or individual person or company hosting a container, shall be responsible for including the [F2.js JavaScript SDK](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). Through the SDK, F2.js provides a consistent means for all F2 apps to get loaded on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
 
 To get started working with or developing containers, browse to the [documentation for developing the container](developing-the-container.html).
 
@@ -478,7 +478,7 @@ Every F2 app will have a [unique AppId](#developing-your-f2-app) and&mdash;using
 
 * * * *
 
-## F2.UI
+## F2 UI
 
 <span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC. Version 0.10.3 contains correct UI code.
 
