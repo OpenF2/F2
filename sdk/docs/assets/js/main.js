@@ -1,4 +1,9 @@
 $(function() {
+	var winHeight = $(window).height();
+	var tocHeight = $('#toc').outerHeight() + $('#toc').position().top;
+	if (winHeight > tocHeight + 200) {
+		$('#toc ul.nav').affix();
+	}
 
 	// go to correct class members tab
 	var activeTab = $('a[href="' + location.hash + '"]');
