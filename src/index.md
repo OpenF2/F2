@@ -1,6 +1,8 @@
 % F2: The Open Financial Framework
 
-<p class="lead">F2, an open web integration framework, defines how to develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessy integrated front-end.  The essential components defined by the F2 specification are the Container, Apps, Context and the F2 Store—all supported under the hood by F2.js, a JavaScript SDK which provides an extensible foundation supporting all F2-based web applications. It was created and is maintained by [Markit](http://www.markit.com). Visit [OpenF2.com](http://www.openf2.com) for more information.</p>
+<p class="lead">F2, an open web integration framework, defines how to develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessy integrated front-end.  The [essential components](components-of-the-framework.html) of F2 are all supported under the hood by F2.js, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.</p>
+
+F2 was created and is maintained by [Markit](http://www.markit.com). Visit [OpenF2.com](http://www.openf2.com) for more information.
 
 ## Get Started
 
@@ -35,7 +37,7 @@ The reasons for developing the open standard for a financial app ecosystem are s
 
 <div class="well well-small">
 <h4>About Apps</h4>
-<p><p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p></p>
+<p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p>
 <p>This specification [furnishes app developers with JavaScript code](developing-f2-apps.html) (the F2.js SDK) which&mdash;among other things&mdash;not only allows their apps to run on the desktop but also provides APIs for communication between the container and nearby apps.</p>
 </div>
 
