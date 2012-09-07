@@ -10,7 +10,7 @@
 }
 
 .level2 {
-	margin-bottom:75px;
+	margin-bottom:35px;
 	padding-top:0;
 }
 
@@ -31,7 +31,24 @@ ul.params li {
 ul.commas li:after { content: ','; }
 ul.commas li:last-child:after { content: ''; }
 
+.backToTop {
+	background-color:#EEEEEE;
+	height:1px;
+	margin-top:35px;
+	position:relative;
+	text-align:center;
+}
+.backToTop a {
+	background-color:#FFFFFF;
+	left:50%;
+	margin-left:-45px;
+	position:absolute;
+	top:-9px;
+	width:90px;
+	z-index:1;
+}
 
+/*** Labels ***/
 .label.public,
 .label.static,
 .label.chainable,
@@ -57,3 +74,4 @@ ul.commas li:last-child:after { content: ''; }
 	font-weight:normal;
 	text-shadow:none;
 }
+/*** Labels ***/

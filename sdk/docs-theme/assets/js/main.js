@@ -26,5 +26,9 @@ $(function() {
 		.on('click', function() {
 			$('#main').toggleClass('hide-' + $(this).val(), !$(this).is(':checked'));
 		});
-		
+	
+	// back to top
+	$('#doc').on('click', '.backToTop a', function() {
+		$('html, body').animate({scrollTop:0});
+	});
 });
