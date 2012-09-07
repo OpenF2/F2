@@ -1,2463 +1,2646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>F2</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.5.1&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+	<meta charset="utf-8">
+	<title>F2</title>
+	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
+	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
+	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
+	<link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+	<style type="text/css" media="print">
+		#toc {
+			display: none;
+		}
+		.row .span9 {
+			margin-left: 0;
+		}
+	</style>
 </head>
-<body class="yui3-skin-sam">
+<body>
 
 <div id="doc">
-    <div id="hd" class="yui3-g header">
-        <div class="yui3-u-3-4">
-            
-                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
-            
-        </div>
-        <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
-        </div>
-    </div>
-    <div id="bd" class="yui3-g">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="index.html">F2: Financial Framework</a>
+				<div class="tagline-divider"></div>
+				<div class="tagline">Helping you build smarter financial apps</div>
+				<ul class="nav pull-right">
+					<li><a href="http://www.openF2.com">OpenF2.com</a></li>
+					<li class="divider-vertical"></li>
+					<li class="active"><a href="../../index.html">Docs</a></li>
+					<li class="divider-vertical"></li>
+					<li><a href="../sdk/docs/">SDK</a></li>
+					<li class="divider-vertical"></li>
+					<li><a href="https://github.com/OpenF2/F2/">Fork F2 on GitHub</a></li>
+					<li class="divider-vertical"></li>
+					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
+					<li class="divider-vertical"></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-        <div class="yui3-u-1-4">
-            <div id="docs-sidebar" class="sidebar apidocs">
-                <div id="api-list">
-    <h2 class="off-left">APIs</h2>
-    <div id="api-tabview" class="tabview">
-        <ul class="tabs">
-            <li><a href="#api-classes">Classes</a></li>
-            <li><a href="#api-modules">Modules</a></li>
-        </ul>
+	<div class="container">
+		<div class="row">
+			<div id="toc" class="span3">
+				<ul class="nav nav-list nav-pills nav-stacked affix">
+					<li class="nav-header">Classes</li>
+						
+		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
 
-        <div id="api-tabview-filter">
-            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-        </div>
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
+			</div>
+			<div id="main" class="span9">
+				<h1>F2</h1>
 
-        <div id="api-tabview-panel">
-            <ul id="api-classes" class="apis classes">
-            
-                <li><a href="..&#x2F;classes/F2.html">F2</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.ContainerConfiguration.html">F2.ContainerConfiguration</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-            
-                <li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
-            
-            </ul>
+<p>
+	<p>Core Container functionality</p>
+</p>
 
-            <ul id="api-modules" class="apis modules">
-            
-                <li><a href="..&#x2F;modules/f2.html">f2</a></li>
-            
-            </ul>
-        </div>
-    </div>
-</div>
+<div class="well well-small">
+	<dl class="dl-horizontal">
+		
 
-            </div>
-        </div>
-        <div class="yui3-u-3-4">
-                <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
+		
 
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
+		
+			<dt>Defined in</dt>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l1"><code>sdk&#x2F;src&#x2F;container.js:1</code></a></dd>
+		
 
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <h1>F2 Class</h1>
-<div class="box meta">
-    
-
-    
-
-    
-        <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l1"><code>sdk&#x2F;src&#x2F;container.js:1</code></a>
-        </div>
-    
-
-    
-        
-            Module: <a href="../modules/f2.html">f2</a>
-        
-    
-
-    
+		
+	</dl>
 </div>
 
 
 
-<div class="box intro">
-    <p>Core Container functionality</p>
-</div>
-
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-        
-        
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method private">
-                                <a href="#method__afterAppRender">_afterAppRender</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__appRender">_appRender</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__beforeAppRender">_beforeAppRender</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__hydrateApp">_hydrateApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__initAppEvents">_initAppEvents</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__initContainerEvents">_initContainerEvents</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__isInit">_isInit</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__validateApp">_validateApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_extend">extend</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_getContainerState">getContainerState</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_guid">guid</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_inArray">inArray</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_init">init</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_isInit">isInit</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_loadApp">loadApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method_loadSecureApp">loadSecureApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_log">log</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_parse">parse</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_registerApps">registerApps</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_removeAllApps">removeAllApps</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_removeApp">removeApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_stringify">stringify</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#property_Apps">Apps</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
-                </div>
-            
-
-            
-
-            
-        </div>
-
-        
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-                
-                    <div id="method__afterAppRender" class="method item private">
-    <h3 class="name"><code>_afterAppRender</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>html</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Element</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk&#x2F;src&#x2F;container.js:11</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Appends the App's html to the DOM</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App object</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">html</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The string of html</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Element</span>:
-                    
-                    The DOM Element that contains the App
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__appRender" class="method item private">
-    <h3 class="name"><code>_appRender</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>html</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk&#x2F;src&#x2F;container.js:36</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Renders the html for an App.</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App object</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">html</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The string of html</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__beforeAppRender" class="method item private">
-    <h3 class="name"><code>_beforeAppRender</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l61"><code>sdk&#x2F;src&#x2F;container.js:61</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Rendering hook to allow Containers to render some html prior to an App
+
+
+<ul id="classTabs" class="nav nav-tabs">
+	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
+	
+		<li><a href="#methods" data-toggle="tab">Methods</a></li>
+	
+	
+		<li><a href="#properties" data-toggle="tab">Properties</a></li>
+	
+	
+	
+</ul>
+
+<div class="tab-content">
+	<!-- SUMMARY TAB -->
+	<div id="summary" class="tab-pane active">
+		
+		<div class="index-section methods">
+			<h3>Methods</h3>
+			<table class="table table-bordered table-striped table-members">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_afterAppRender" href="javascript:;">
+								_afterAppRender
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+										<li>
+											
+												html
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Appends the App's html to the DOM</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_appRender" href="javascript:;">
+								_appRender
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+										<li>
+											
+												html
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Renders the html for an App.</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_beforeAppRender" href="javascript:;">
+								_beforeAppRender
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Rendering hook to allow Containers to render some html prior to an App
+loading</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_hydrateApp" href="javascript:;">
+								_hydrateApp
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Adds properties and methods to the App object</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_initAppEvents" href="javascript:;">
+								_initAppEvents
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Attach App events</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_initContainerEvents" href="javascript:;">
+								_initContainerEvents
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Attach Container Events</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_isInit" href="javascript:;">
+								_isInit
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Has the Container been init?</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="_validateApp" href="javascript:;">
+								_validateApp
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Checks if the App is valid</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="extend" href="javascript:;">
+								extend
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												ns
+											
+										</li>
+										
+										<li>
+											
+												obj
+											
+										</li>
+										
+										<li>
+											
+												overwrite
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Creates a namespace on F2 and copies the contents of an object into
+that namespace optionally overwriting existing properties.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="getContainerState" href="javascript:;">
+								getContainerState
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Gets the current list of Apps in the container</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="guid" href="javascript:;">
+								guid
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Generates a somewhat random id</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="inArray" href="javascript:;">
+								inArray
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												value
+											
+										</li>
+										
+										<li>
+											
+												array
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Search for a value within an array.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="init" href="javascript:;">
+								init
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												config
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Initializes the Container. This method must be called before performing
+any other actions in the Container.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="isInit" href="javascript:;">
+								isInit
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Has the Container been init?</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="loadApp" href="javascript:;">
+								loadApp
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												apps
+											
+										</li>
+										
+										<li>
+											
+												[appManifest]
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Loads the App's html/css/javascript</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="loadSecureApp" href="javascript:;">
+								loadSecureApp
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												app
+											
+										</li>
+										
+										<li>
+											
+												appManifest
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Loads the App's html/css/javascript into an iframe</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="log" href="javascript:;">
+								log
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												obj
+											
+										</li>
+										
+										<li>
+											
+												[obj2]
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Wrapper logging function.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="parse" href="javascript:;">
+								parse
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												str
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Wrapper to convert a JSON string to an object</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="registerApps" href="javascript:;">
+								registerApps
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												apps
+											
+										</li>
+										
+										<li>
+											
+												[appManifests]
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Begins the loading process for all Apps. The App will
+be passed the <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object which will
+contain the App's unique instanceId within the Container. Optionally, the
+<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
+assets will be used instead of making a request.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="removeAllApps" href="javascript:;">
+								removeAllApps
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Removes all Apps from the Container</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="removeApp" href="javascript:;">
+								removeApp
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												instanceId
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Removes an App from the Container</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="stringify" href="javascript:;">
+								stringify
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												obj
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Wrapper to convert an object to JSON</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		
+
+		
+		<div class="index-section properties">
+			<h3>Properties</h3>
+			<table class="table table-bordered table-striped table-members">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="Apps" href="javascript:;">Apps</a>
+						</td>
+						<td><p>The Apps class is a namespace for App developers to place the javascript
+class that is used to initialize their App. The javascript classes should
+be namepaced with the <a href="../classes/F2.App.html" class="crosslink">F2.App</a>.appId. It is recommended
+that the code be placed in a closure to help keep the global namespace
+clean.</p>
+
+<p>If the class has an 'init' function, that function will be called 
+automatically.</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		
+
+		
+
+		
+	</div>
+	<!-- SUMMARY TAB -->
+
+	<!-- METHODS TAB -->
+	
+	<div id="methods" class="tab-pane">
+		
+		<section id="methods-_afterAppRender" class="level2  private">
+	<h3>
+		_afterAppRender
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+				<li>
+					
+						html
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Appends the App's html to the DOM</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk&#x2F;src&#x2F;container.js:11</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
+
+					
+
+					<p>
+						<p>The App object</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">html</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The string of html</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Element</span>:
+					
+					The DOM Element that contains the App
+				
+			</div>
+		</div>
+	
+
+	
+</section>
+		
+		<section id="methods-_appRender" class="level2  private">
+	<h3>
+		_appRender
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+				<li>
+					
+						html
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Renders the html for an App.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk&#x2F;src&#x2F;container.js:36</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
+
+					
+
+					<p>
+						<p>The App object</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">html</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The string of html</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-_beforeAppRender" class="level2  private">
+	<h3>
+		_beforeAppRender
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Rendering hook to allow Containers to render some html prior to an App
 loading</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App object</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__hydrateApp" class="method item private">
-    <h3 class="name"><code>_hydrateApp</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l73"><code>sdk&#x2F;src&#x2F;container.js:73</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Adds properties and methods to the App object</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App object</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__initAppEvents" class="method item private">
-    <h3 class="name"><code>_initAppEvents</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l126"><code>sdk&#x2F;src&#x2F;container.js:126</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attach App events</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__initContainerEvents" class="method item private">
-    <h3 class="name"><code>_initContainerEvents</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l159"><code>sdk&#x2F;src&#x2F;container.js:159</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Attach Container Events</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method__isInit" class="method item private">
-    <h3 class="name"><code>_isInit</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Bool</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l177"><code>sdk&#x2F;src&#x2F;container.js:177</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Has the Container been init?</p>
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Bool</span>:
-                    
-                    True if the Container has been init
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__validateApp" class="method item private">
-    <h3 class="name"><code>_validateApp</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Bool</span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l300"><code>sdk&#x2F;src&#x2F;container.js:300</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Checks if the App is valid</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App object</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Bool</span>:
-                    
-                    True if the App is valid
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_extend" class="method item">
-    <h3 class="name"><code>extend</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>ns</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>obj</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>overwrite</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l65"><code>sdk&#x2F;src&#x2F;preamble.js:65</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Creates a namespace on F2 and copies the contents of an object into
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l61"><code>sdk&#x2F;src&#x2F;container.js:61</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
+
+					
+
+					<p>
+						<p>The App object</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-_hydrateApp" class="level2  private">
+	<h3>
+		_hydrateApp
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Adds properties and methods to the App object</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l73"><code>sdk&#x2F;src&#x2F;container.js:73</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
+
+					
+
+					<p>
+						<p>The App object</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-_initAppEvents" class="level2  private">
+	<h3>
+		_initAppEvents
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Attach App events</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l126"><code>sdk&#x2F;src&#x2F;container.js:126</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-_initContainerEvents" class="level2  private">
+	<h3>
+		_initContainerEvents
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Attach Container Events</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l159"><code>sdk&#x2F;src&#x2F;container.js:159</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-_isInit" class="level2  private">
+	<h3>
+		_isInit
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Has the Container been init?</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l177"><code>sdk&#x2F;src&#x2F;container.js:177</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Bool</span>:
+					
+					True if the Container has been init
+				
+			</div>
+		</div>
+	
+
+	
+</section>
+		
+		<section id="methods-_validateApp" class="level2  private">
+	<h3>
+		_validateApp
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Checks if the App is valid</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l300"><code>sdk&#x2F;src&#x2F;container.js:300</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
+
+					
+
+					<p>
+						<p>The App object</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Bool</span>:
+					
+					True if the App is valid
+				
+			</div>
+		</div>
+	
+
+	
+</section>
+		
+		<section id="methods-extend" class="level2 ">
+	<h3>
+		extend
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						ns
+					
+				</li>
+				
+				<li>
+					
+						obj
+					
+				</li>
+				
+				<li>
+					
+						overwrite
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Creates a namespace on F2 and copies the contents of an object into
 that namespace optionally overwriting existing properties.</p>
-    </div>
+	</p>	
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l65"><code>sdk&#x2F;src&#x2F;preamble.js:65</code></a></dd>
+			
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">ns</code>
-                        <span class="type">String</span>
-                    
+			
 
-                    
+			
+		</dl>
+	</div>
 
-                    <div class="param-description">
-                        <p>The namespace to create. Pass a falsy value to 
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">ns</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The namespace to create. Pass a falsy value to 
 add properties to the F2 namespace directly.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">obj</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The object to copy into the namespace.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">overwrite</code>
-                        <span class="type">Bool</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>True if object properties should be overwritten</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    The created object
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_getContainerState" class="method item">
-    <h3 class="name"><code>getContainerState</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l404"><code>sdk&#x2F;src&#x2F;container.js:404</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Gets the current list of Apps in the container</p>
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Array</span>:
-                    
-                    An array of objects containing the appId and...
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_guid" class="method item">
-    <h3 class="name"><code>guid</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l102"><code>sdk&#x2F;src&#x2F;preamble.js:102</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Generates a somewhat random id</p>
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    A random id
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_inArray" class="method item">
-    <h3 class="name"><code>inArray</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>value</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>array</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l114"><code>sdk&#x2F;src&#x2F;preamble.js:114</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Search for a value within an array.</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The value to search for</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">array</code>
-                        <span class="type">Array</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The array to search</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_init" class="method item">
-    <h3 class="name"><code>init</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>config</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l420"><code>sdk&#x2F;src&#x2F;container.js:420</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Initializes the Container. This method must be called before performing
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">obj</code>
+						<span class="label type">Object</span>
+					
+
+					
+
+					<p>
+						<p>The object to copy into the namespace.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">overwrite</code>
+						<span class="label type">Bool</span>
+					
+
+					
+
+					<p>
+						<p>True if object properties should be overwritten</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Object</span>:
+					
+					The created object
+				
+			</div>
+		</div>
+	
+
+	
+</section>
+		
+		<section id="methods-getContainerState" class="level2 ">
+	<h3>
+		getContainerState
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Gets the current list of Apps in the container</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l404"><code>sdk&#x2F;src&#x2F;container.js:404</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Array</span>:
+					
+					An array of objects containing the appId and...
+				
+			</div>
+		</div>
+	
+
+	
+</section>
+		
+		<section id="methods-guid" class="level2 ">
+	<h3>
+		guid
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Generates a somewhat random id</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l102"><code>sdk&#x2F;src&#x2F;preamble.js:102</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">String</span>:
+					
+					A random id
+				
+			</div>
+		</div>
+	
+
+	
+</section>
+		
+		<section id="methods-inArray" class="level2 ">
+	<h3>
+		inArray
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						value
+					
+				</li>
+				
+				<li>
+					
+						array
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Search for a value within an array.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l114"><code>sdk&#x2F;src&#x2F;preamble.js:114</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">value</code>
+						<span class="label type">Object</span>
+					
+
+					
+
+					<p>
+						<p>The value to search for</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">array</code>
+						<span class="label type">Array</span>
+					
+
+					
+
+					<p>
+						<p>The array to search</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-init" class="level2 ">
+	<h3>
+		init
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						config
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Initializes the Container. This method must be called before performing
 any other actions in the Container.</p>
-    </div>
+	</p>	
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l420"><code>sdk&#x2F;src&#x2F;container.js:420</code></a></dd>
+			
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">config</code>
-                        <span class="type"><a href="../classes/F2.ContainerConfiguration.html" class="crosslink">F2.ContainerConfiguration</a></span>
-                    
+			
 
-                    
+			
+		</dl>
+	</div>
 
-                    <div class="param-description">
-                        <p>The configuration object</p>
-                    </div>
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">config</code>
+						<span class="label type"><a href="../classes/F2.ContainerConfiguration.html" class="crosslink">F2.ContainerConfiguration</a></span>
+					
 
-    
+					
 
-    
-</div>
+					<p>
+						<p>The configuration object</p>
+					</p>
 
-                
-                    <div id="method_isInit" class="method item">
-    <h3 class="name"><code>isInit</code></h3>
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-    
-        <span class="paren">()</span>
-    
+	
 
-    
-        <span class="returns-inline">
-            <span class="type">Bool</span>
-        </span>
-    
+	
+</section>
+		
+		<section id="methods-isInit" class="level2 ">
+	<h3>
+		isInit
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
+	</h3>
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l436"><code>sdk&#x2F;src&#x2F;container.js:436</code></a>
-        
-        </p>
+	<p>
+		<p>Has the Container been init?</p>
+	</p>	
 
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l436"><code>sdk&#x2F;src&#x2F;container.js:436</code></a></dd>
+			
 
-        
+			
 
-        
-    </div>
+			
+		</dl>
+	</div>
 
-    <div class="description">
-        <p>Has the Container been init?</p>
-    </div>
+	
 
-    
+	
+		<div class="returns">
+			<h4>Returns:</h4>
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
+			<div class="returns-description">
+				
+					
+						<span class="label type">Bool</span>:
+					
+					True if the Container has been init
+				
+			</div>
+		</div>
+	
 
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Bool</span>:
-                    
-                    True if the Container has been init
-                
-            </div>
-        </div>
-    
+	
+</section>
+		
+		<section id="methods-loadApp" class="level2  private">
+	<h3>
+		loadApp
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						apps
+					
+				</li>
+				
+				<li>
+					
+						[appManifest]
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-    
-</div>
+		
 
-                
-                    <div id="method_loadApp" class="method item private">
-    <h3 class="name"><code>loadApp</code></h3>
+		
+			<span class="label private">private</span>
+		
 
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>apps</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[appManifest]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
+		
 
-    
+		
 
-    
+		
 
-    
-        <span class="flag private">private</span>
-    
+		
+	</h3>
 
-    
+	<p>
+		<p>Loads the App's html/css/javascript</p>
+	</p>	
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l187"><code>sdk&#x2F;src&#x2F;container.js:187</code></a></dd>
+			
 
-    
+			
 
-    
+			
+		</dl>
+	</div>
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l187"><code>sdk&#x2F;src&#x2F;container.js:187</code></a>
-        
-        </p>
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">apps</code>
+						<span class="label type">Array</span>
+					
 
-        
+					
 
-        
-    </div>
-
-    <div class="description">
-        <p>Loads the App's html/css/javascript</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">apps</code>
-                        <span class="type">Array</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>An array of <a href="../classes/F2.App.html" class="crosslink">F2.App</a>
+					<p>
+						<p>An array of <a href="../classes/F2.App.html" class="crosslink">F2.App</a>
 objects</p>
-                    </div>
+					</p>
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[appManifest]</code>
-                        <span class="type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name optional">[appManifest]</code>
+						<span class="label type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+						<span class="label label-info" title="This parameter is optional.">optional</span>
+					
 
-                    
+					
 
-                    <div class="param-description">
-                        <p>The AppManifest object</p>
-                    </div>
+					<p>
+						<p>The AppManifest object</p>
+					</p>
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-    
+	
 
-    
-</div>
+	
+</section>
+		
+		<section id="methods-loadSecureApp" class="level2  private">
+	<h3>
+		loadSecureApp
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						app
+					
+				</li>
+				
+				<li>
+					
+						appManifest
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-                
-                    <div id="method_loadSecureApp" class="method item private">
-    <h3 class="name"><code>loadSecureApp</code></h3>
+		
 
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>app</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>appManifest</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
+		
+			<span class="label private">private</span>
+		
 
-    
+		
 
-    
+		
 
-    
-        <span class="flag private">private</span>
-    
+		
 
-    
+		
+	</h3>
 
-    
+	<p>
+		<p>Loads the App's html/css/javascript into an iframe</p>
+	</p>	
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l277"><code>sdk&#x2F;src&#x2F;container.js:277</code></a></dd>
+			
 
-    
+			
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l277"><code>sdk&#x2F;src&#x2F;container.js:277</code></a>
-        
-        </p>
+			
+		</dl>
+	</div>
 
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
-        
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">app</code>
+						<span class="label type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
+					
 
-        
-    </div>
+					
 
-    <div class="description">
-        <p>Loads the App's html/css/javascript into an iframe</p>
-    </div>
+					<p>
+						<p>The App's context object.</p>
+					</p>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">appManifest</code>
+						<span class="label type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+					
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">app</code>
-                        <span class="type"><a href="../classes/F2.App.html" class="crosslink">F2.App</a></span>
-                    
+					
 
-                    
-
-                    <div class="param-description">
-                        <p>The App's context object.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">appManifest</code>
-                        <span class="type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App's html/css/js to be loaded into the
+					<p>
+						<p>The App's html/css/js to be loaded into the
 page.</p>
-                    </div>
+					</p>
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-    
+	
 
-    
-</div>
+	
+</section>
+		
+		<section id="methods-log" class="level2 ">
+	<h3>
+		log
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						obj
+					
+				</li>
+				
+				<li>
+					
+						[obj2]
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-                
-                    <div id="method_log" class="method item">
-    <h3 class="name"><code>log</code></h3>
+		
 
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>obj</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[obj2]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
 
-    
+		
+	</h3>
 
-    
+	<p>
+		<p>Wrapper logging function.</p>
+	</p>	
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l123"><code>sdk&#x2F;src&#x2F;preamble.js:123</code></a></dd>
+			
 
-    
+			
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l123"><code>sdk&#x2F;src&#x2F;preamble.js:123</code></a>
-        
-        </p>
+			
+		</dl>
+	</div>
 
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
-        
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">obj</code>
+						<span class="label type">Object</span>
+					
 
-        
-    </div>
+					
 
-    <div class="description">
-        <p>Wrapper logging function.</p>
-    </div>
+					<p>
+						<p>An object to be logged</p>
+					</p>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name optional">[obj2]</code>
+						<span class="label type">Object</span>
+						<span class="label label-info" title="This parameter is optional.">optional</span>
+					
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">obj</code>
-                        <span class="type">Object</span>
-                    
+					
+						<span class="label label-info" title="This argument may occur one or more times.">multiple</span>
+					
 
-                    
+					<p>
+						<p>An object to be logged</p>
+					</p>
 
-                    <div class="param-description">
-                        <p>An object to be logged</p>
-                    </div>
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[obj2]</code>
-                        <span class="type">Object</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
+	
 
-                    
-                        <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>
-                    
+	
+</section>
+		
+		<section id="methods-parse" class="level2 ">
+	<h3>
+		parse
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						str
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-                    <div class="param-description">
-                        <p>An object to be logged</p>
-                    </div>
+		
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+		
 
-    
+		
 
-    
-</div>
+		
 
-                
-                    <div id="method_parse" class="method item">
-    <h3 class="name"><code>parse</code></h3>
+		
 
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>str</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
+		
+	</h3>
 
-    
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-    
+	<p>
+		<p>Wrapper to convert a JSON string to an object</p>
+	</p>	
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l134"><code>sdk&#x2F;src&#x2F;preamble.js:134</code></a></dd>
+			
 
-    
+			
 
-    
+			
+		</dl>
+	</div>
 
-    
+	
+		<div class="params">
+			<h4>Parameters:</h4>
 
-    
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">str</code>
+						<span class="label type">String</span>
+					
 
-    
+					
 
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l134"><code>sdk&#x2F;src&#x2F;preamble.js:134</code></a>
-        
-        </p>
+					<p>
+						<p>The JSON string to convert</p>
+					</p>
 
+					
+				</li>
+				
+			</ul>
+		</div>
+	
 
-        
+	
+		<div class="returns">
+			<h4>Returns:</h4>
 
-        
-    </div>
+			<div class="returns-description">
+				
+					
+						<span class="label type">Object</span>:
+					
+					The parsed object
+				
+			</div>
+		</div>
+	
 
-    <div class="description">
-        <p>Wrapper to convert a JSON string to an object</p>
-    </div>
+	
+</section>
+		
+		<section id="methods-registerApps" class="level2 ">
+	<h3>
+		registerApps
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						apps
+					
+				</li>
+				
+				<li>
+					
+						[appManifests]
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+		
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">str</code>
-                        <span class="type">String</span>
-                    
+		
 
-                    
+		
 
-                    <div class="param-description">
-                        <p>The JSON string to convert</p>
-                    </div>
+		
 
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
+		
 
-    
-        <div class="returns">
-            <h4>Returns:</h4>
+		
+	</h3>
 
-            <div class="returns-description">
-                
-                    
-                        <span class="type">Object</span>:
-                    
-                    The parsed object
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_registerApps" class="method item">
-    <h3 class="name"><code>registerApps</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>apps</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[appManifests]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l442"><code>sdk&#x2F;src&#x2F;container.js:442</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Begins the loading process for all Apps. The App will
+	<p>
+		<p>Begins the loading process for all Apps. The App will
 be passed the <a href="../classes/F2.App.html" class="crosslink">F2.App</a> object which will
 contain the App's unique instanceId within the Container. Optionally, the
 <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
 assets will be used instead of making a request.</p>
-    </div>
+	</p>	
 
-    
-        <div class="params">
-            <h4>Parameters:</h4>
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l442"><code>sdk&#x2F;src&#x2F;container.js:442</code></a></dd>
+			
 
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">apps</code>
-                        <span class="type">Array</span>
-                    
+			
 
-                    
+			
+		</dl>
+	</div>
 
-                    <div class="param-description">
-                        <p>An array of <a href="../classes/F2.App.html" class="crosslink">F2.App</a>
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">apps</code>
+						<span class="label type">Array</span>
+					
+
+					
+
+					<p>
+						<p>An array of <a href="../classes/F2.App.html" class="crosslink">F2.App</a>
 objects</p>
-                    </div>
+					</p>
 
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[appManifests]</code>
-                        <span class="type">Array</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name optional">[appManifests]</code>
+						<span class="label type">Array</span>
+						<span class="label label-info" title="This parameter is optional.">optional</span>
+					
 
-                    
+					
 
-                    <div class="param-description">
-                        <p>An array of
+					<p>
+						<p>An array of
 <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
 objects. This array must be the same length as the apps array that is
 objects. This array must be the same length as the apps array that is
 passed in. This can be useful if Apps are loaded on the server-side and
 passed down to the client.</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_removeAllApps" class="method item">
-    <h3 class="name"><code>removeAllApps</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l571"><code>sdk&#x2F;src&#x2F;container.js:571</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Removes all Apps from the Container</p>
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_removeApp" class="method item">
-    <h3 class="name"><code>removeApp</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>instanceId</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l586"><code>sdk&#x2F;src&#x2F;container.js:586</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Removes an App from the Container</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">instanceId</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The App's instanceId</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_stringify" class="method item">
-    <h3 class="name"><code>stringify</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>obj</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type">String</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l143"><code>sdk&#x2F;src&#x2F;preamble.js:143</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Wrapper to convert an object to JSON</p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">obj</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The object to convert</p>
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type">String</span>:
-                    
-                    The JSON string
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-            </div>
-        
-
-        
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_Apps" class="property item">
-    <h3 class="name"><code>Apps</code></h3>
-    <span class="type">Object</span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l30"><code>sdk&#x2F;src&#x2F;preamble.js:30</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The Apps class is a namespace for App developers to place the javascript
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-removeAllApps" class="level2 ">
+	<h3>
+		removeAllApps
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Removes all Apps from the Container</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l571"><code>sdk&#x2F;src&#x2F;container.js:571</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-removeApp" class="level2 ">
+	<h3>
+		removeApp
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						instanceId
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Removes an App from the Container</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l586"><code>sdk&#x2F;src&#x2F;container.js:586</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">instanceId</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The App's instanceId</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+</section>
+		
+		<section id="methods-stringify" class="level2 ">
+	<h3>
+		stringify
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						obj
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Wrapper to convert an object to JSON</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l143"><code>sdk&#x2F;src&#x2F;preamble.js:143</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">obj</code>
+						<span class="label type">Object</span>
+					
+
+					
+
+					<p>
+						<p>The object to convert</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">String</span>:
+					
+					The JSON string
+				
+			</div>
+		</div>
+	
+
+	
+</section>
+		
+	</div>
+	
+	<!-- METHODS TAB -->
+
+	<!-- PROPERTIES TAB -->
+	
+	<div id="properties" class="tab-pane">
+		
+		<section id="properties-Apps" class="level2 ">
+	<h3>
+		Apps
+
+		<span class="label type">Object</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>The Apps class is a namespace for App developers to place the javascript
 class that is used to initialize their App. The javascript classes should
 be namepaced with the <a href="../classes/F2.App.html" class="crosslink">F2.App</a>.appId. It is recommended
 that the code be placed in a closure to help keep the global namespace
@@ -2465,16 +2648,34 @@ clean.</p>
 
 <p>If the class has an 'init' function, that function will be called 
 automatically.</p>
-    </div>
+	</p>
 
-    
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l30"><code>sdk&#x2F;src&#x2F;preamble.js:30</code></a></dd>
+			
 
-    
-        <div class="example">
-            <h4>Example:</h4>
+			
 
-            <div class="example-content">
-                <pre class="code"><code class="prettyprint">F2.Apps["712521f7737666e1489f681817376592"] = (function() {
+			
+		</dl>
+	</div>
+
+	
+
+	
+		<h4>Example:</h4>
+
+		<div class="example-content">
+			<pre class="code"><code class="prettyprint">F2.Apps["712521f7737666e1489f681817376592"] = (function() {
     var App_Class = function(app, appContent) {
         this._app = app; // the F2.App object
         this._appContent = appContent // the F2.AppManifest.AppContent object
@@ -2494,36 +2695,39 @@ automatically.</p>
    };
 };
 </code></pre>
-            </div>
-        </div>
-    
+		</div>
+	
 
-    
+	
+</section>
+		
+	</div>
+	
+	<!-- PROPERTIES TAB -->
+
+	<!-- ATTRIBUTES TAB -->
+	
+	<!-- ATTRIBUTES TAB -->
+
+	<!-- EVENTS TAB -->
+	
+	<!-- EVENTS TAB -->
 </div>
+			</div>
+		</div>
 
-                
-            </div>
-        
+		<hr>
 
-        
-
-        
-    </div>
+		<footer>
+			<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+			<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		</footer>
+	</div>
 </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
+<script src="..&#x2F;assets/js/main.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
 </body>
 </html>

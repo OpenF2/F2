@@ -219,7 +219,7 @@ function yuidoc() {
 		norecurse:true,
 		paths:['./sdk/src'],
 		outdir:'./sdk/docs',
-		themedir:'./sdk/doc-theme'
+		themedir:'./sdk/docs-theme'
 	};
 
 	console.log('Generating YUIDoc...');
