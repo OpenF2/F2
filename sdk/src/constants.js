@@ -37,7 +37,7 @@ F2.extend('Constants', {
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
 			 * the title for an App.  If this class is not present, then
-			 * {{#crossLink "F2.App/setTitle"}}{{/crossLink}} will not function.
+			 * {{#crossLink "F2.AppConfig/setTitle"}}{{/crossLink}} will not function.
 			 * @property APP_TITLE
 			 * @type string
 			 * @static

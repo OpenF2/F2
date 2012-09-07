@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;classes.js</title>
+	<title>sdk\src\classes.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -50,7 +50,7 @@
 						
 		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+		<li><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
@@ -101,7 +101,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;classes.js</h1>
+				<h1 class="file-heading">File: sdk\src\classes.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -112,9 +112,9 @@
 F2.extend(&quot;&quot;, {
 	&#x2F;**
 	 * The App object represents an App&#x27;s meta data
-	 * @class F2.App
+	 * @class F2.AppConfig
 	 *&#x2F;
-	 App:{
+	 AppConfig:{
 		&#x2F;**
 		 * The unique ID of the App
 		 * @property appId
@@ -129,30 +129,6 @@ F2.extend(&quot;&quot;, {
 		 *&#x2F;
 		context:&quot;&quot;,
 		&#x2F;**
-		 * The description of the App
-		 * @property description
-		 * @type string
-		 *&#x2F;
-		description:&quot;&quot;,
-		&#x2F;**
-		 * The company of the developer
-		 * @property developerCompany
-		 * @type string
-		 *&#x2F;
-		developerCompany:&quot;&quot;,
-		&#x2F;**
-		 * The name of the developer
-		 * @property developerName
-		 * @type string
-		 *&#x2F;
-		developerName:&quot;&quot;,
-		&#x2F;**
-		 * The url of the developer
-		 * @property developerUrl
-		 * @type string
-		 *&#x2F;
-		developerUrl:&quot;&quot;,
-		&#x2F;**
 		 * True if the App should be requested in a single request with other Apps.
 		 * The App must have isSecure = false.
 		 * @property enableBatchRequests
@@ -162,7 +138,7 @@ F2.extend(&quot;&quot;, {
 		enableBatchRequests:false,
 		&#x2F;**
 		 * The height of the App. The initial height will be pulled from
-		 * the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object, but later modified by
+		 * the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object, but later modified by
 		 * firing an
 		 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{&#x2F;crossLink}}.APP_HEIGHT_CHANGE
 		 * event.
@@ -179,7 +155,7 @@ F2.extend(&quot;&quot;, {
 		instanceId:&quot;&quot;,
 		&#x2F;**
 		 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object sets
+		 * will be true if the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object sets
 		 * isSecure = true. It will also be true if the Container has decided to run
 		 * Apps in iframes.
 		 * @property isSecure
@@ -229,6 +205,12 @@ F2.extend(&quot;&quot;, {
 		 *&#x2F;
 		name:&quot;&quot;,
 		&#x2F;**
+		 * The root DOM Element that contains this App
+		 * @property root
+		 * @type Element
+		 *&#x2F;
+		root:null,
+		&#x2F;**
 		 * Sets the title of the App as shown in the browser. Depending on the
 		 * Container HTML, this method may do nothing if the Container has not been
 		 * configured properly or else the Container Provider does not allow Title&#x27;s
@@ -276,18 +258,21 @@ F2.extend(&quot;&quot;, {
 		 * Any inline javascript tha should initially be run
 		 * @property inlineScripts
 		 * @type Array
+		 * @optional
 		 *&#x2F;
 		inlineScripts:[],
 		&#x2F;**
 		 * Urls to javascript files required by the App
 		 * @property scripts
 		 * @type Array
+		 * @optional
 		 *&#x2F;
 		scripts:[],
 		&#x2F;**
 		 * Urls to CSS files required by the App
 		 * @property styles
 		 * @type Array
+		 * @optional
 		 *&#x2F;
 		styles:[]
 	},
@@ -300,6 +285,7 @@ F2.extend(&quot;&quot;, {
 		 * Arbitrary data to be passed along with the App
 		 * @property data
 		 * @type object
+		 * @optional
 		 *&#x2F;
 		data:{},
 		&#x2F;**
@@ -313,6 +299,7 @@ F2.extend(&quot;&quot;, {
 		 * A status message
 		 * @property status
 		 * @type string
+		 * @optional
 		 *&#x2F;
 		status:&quot;&quot;
 	},
@@ -324,34 +311,34 @@ F2.extend(&quot;&quot;, {
 		&#x2F;**
 		 * Allows the Container to override how an App&#x27;s html is 
 		 * inserted into the page. The function should accept an
-		 * {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object and also a string of html
+		 * {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object and also a string of html
 		 * @method afterAppRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App 
 		 * @return {Element} The DOM Element surrounding the App
 		 *&#x2F;
-		afterAppRender:function(app, html) {},
+		afterAppRender:function(appConfig, html) {},
 		&#x2F;**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {{#crossLink &quot;F2.App&quot;}}{{&#x2F;crossLink}} object
+		 * function should accept an {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object
 		 * and also a string of html. The extra html can provide links to edit app
 		 * settings and remove an app from the Container. See
 		 * {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App
 		 *&#x2F;
-		appRender:function(app, html) {},
+		appRender:function(appConfig, html) {},
 		&#x2F;**
 		 * Allows the Container to render html for an App before the AppManifest for
 		 * an App has loaded. This can be useful if the design calls for loading
 		 * icons to appear for each App before each App is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 *&#x2F;
-		beforeAppRender:function(app) {},
+		beforeAppRender:function(appConfig) {},
 		&#x2F;**
 		 * Tells the Container that it is currently running within
 		 * a secure app page

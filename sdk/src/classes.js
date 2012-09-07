@@ -5,9 +5,9 @@
 F2.extend("", {
 	/**
 	 * The App object represents an App's meta data
-	 * @class F2.App
+	 * @class F2.AppConfig
 	 */
-	 App:{
+	 AppConfig:{
 		/**
 		 * The unique ID of the App
 		 * @property appId
@@ -22,30 +22,6 @@ F2.extend("", {
 		 */
 		context:"",
 		/**
-		 * The description of the App
-		 * @property description
-		 * @type string
-		 */
-		description:"",
-		/**
-		 * The company of the developer
-		 * @property developerCompany
-		 * @type string
-		 */
-		developerCompany:"",
-		/**
-		 * The name of the developer
-		 * @property developerName
-		 * @type string
-		 */
-		developerName:"",
-		/**
-		 * The url of the developer
-		 * @property developerUrl
-		 * @type string
-		 */
-		developerUrl:"",
-		/**
 		 * True if the App should be requested in a single request with other Apps.
 		 * The App must have isSecure = false.
 		 * @property enableBatchRequests
@@ -55,7 +31,7 @@ F2.extend("", {
 		enableBatchRequests:false,
 		/**
 		 * The height of the App. The initial height will be pulled from
-		 * the {{#crossLink "F2.App"}}{{/crossLink}} object, but later modified by
+		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later modified by
 		 * firing an
 		 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_HEIGHT_CHANGE
 		 * event.
@@ -72,7 +48,7 @@ F2.extend("", {
 		instanceId:"",
 		/**
 		 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink "F2.App"}}{{/crossLink}} object sets
+		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object sets
 		 * isSecure = true. It will also be true if the Container has decided to run
 		 * Apps in iframes.
 		 * @property isSecure
@@ -122,6 +98,12 @@ F2.extend("", {
 		 */
 		name:"",
 		/**
+		 * The root DOM Element that contains this App
+		 * @property root
+		 * @type Element
+		 */
+		root:null,
+		/**
 		 * Sets the title of the App as shown in the browser. Depending on the
 		 * Container HTML, this method may do nothing if the Container has not been
 		 * configured properly or else the Container Provider does not allow Title's
@@ -169,18 +151,21 @@ F2.extend("", {
 		 * Any inline javascript tha should initially be run
 		 * @property inlineScripts
 		 * @type Array
+		 * @optional
 		 */
 		inlineScripts:[],
 		/**
 		 * Urls to javascript files required by the App
 		 * @property scripts
 		 * @type Array
+		 * @optional
 		 */
 		scripts:[],
 		/**
 		 * Urls to CSS files required by the App
 		 * @property styles
 		 * @type Array
+		 * @optional
 		 */
 		styles:[]
 	},
@@ -193,6 +178,7 @@ F2.extend("", {
 		 * Arbitrary data to be passed along with the App
 		 * @property data
 		 * @type object
+		 * @optional
 		 */
 		data:{},
 		/**
@@ -206,6 +192,7 @@ F2.extend("", {
 		 * A status message
 		 * @property status
 		 * @type string
+		 * @optional
 		 */
 		status:""
 	},
@@ -217,34 +204,34 @@ F2.extend("", {
 		/**
 		 * Allows the Container to override how an App's html is 
 		 * inserted into the page. The function should accept an
-		 * {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html
+		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of html
 		 * @method afterAppRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App 
 		 * @return {Element} The DOM Element surrounding the App
 		 */
-		afterAppRender:function(app, html) {},
+		afterAppRender:function(appConfig, html) {},
 		/**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
+		 * function should accept an {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * and also a string of html. The extra html can provide links to edit app
 		 * settings and remove an app from the Container. See
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App
 		 */
-		appRender:function(app, html) {},
+		appRender:function(appConfig, html) {},
 		/**
 		 * Allows the Container to render html for an App before the AppManifest for
 		 * an App has loaded. This can be useful if the design calls for loading
 		 * icons to appear for each App before each App is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 */
-		beforeAppRender:function(app) {},
+		beforeAppRender:function(appConfig) {},
 		/**
 		 * Tells the Container that it is currently running within
 		 * a secure app page

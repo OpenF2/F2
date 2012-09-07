@@ -12,7 +12,7 @@
 	"description": "A JScript Hello World App",
 	"manifestUrl": "../../apps/JScript/HelloWorld/index.asp",
 	"name": "JScript Hello World",
-	"views": ["F2.Constants.Views.HOME", "F2.Constants.Views.SETTINGS"]
+	"views": ["home", "settings"]
 },
 {
 	"appId": "9d1c357e7a9241532ab8977d440df4f3",
@@ -21,21 +21,21 @@
 	"isSecure": true,
 	"manifestUrl": "../../apps/JScript/HelloWorld/index.asp",
 	"name": "JScript Hello World",
-	"views": ["F2.Constants.Views.HOME", "F2.Constants.Views.SETTINGS"]
+	"views": ["home", "settings"]
 },
 {
 	"appId": "fa50d9b1e3535cc66fcd353c95b2cf28",
 	"description": "A PHP News App",
 	"manifestUrl": "../../apps/PHP/News/index.php",
 	"name": "PHP News",
-	"views": ["F2.Constants.Views.HOME"]
+	"views": ["home"]
 },
 {
 	"appId": "c63380f4340ea1be65d10d38a69bb343",
 	"description": "A PHP Hello World App",
 	"manifestUrl": "../../apps/PHP/HelloWorld/index.php",
 	"name": "PHP Hello World",
-	"views": ["F2.Constants.Views.HOME"]
+	"views": ["home"]
 },
 {
 	"appId": "c63380f4340ea1be65d10d38a69bb343",
@@ -49,5 +49,5 @@
 	"description": "A Flickr App",
 	"manifestUrl": "../../apps/JavaScript/Flickr/appManifest.js",
 	"name": "Interestingness on Flickr",
-	"views": ["F2.Constants.Views.ABOUT"]
+	"views": ["about"]
 }]

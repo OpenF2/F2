@@ -30,7 +30,7 @@ if (!window.F2) {
 		/**
 		 * The Apps class is a namespace for App developers to place the javascript
 		 * class that is used to initialize their App. The javascript classes should
-		 * be namepaced with the {{#crossLink "F2.App"}}{{/crossLink}}.appId. It is recommended
+		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. It is recommended
 		 * that the code be placed in a closure to help keep the global namespace
 		 * clean.
 		 *
@@ -40,9 +40,10 @@ if (!window.F2) {
 		 * @type object
 		 * @example
 		 *     F2.Apps["712521f7737666e1489f681817376592"] = (function() {
-		 *         var App_Class = function(app, appContent) {
-		 *             this._app = app; // the F2.App object
+		 *         var App_Class = function(appConfig, appContent, root) {
+		 *             this._app = appConfig; // the F2.AppConfig object
 		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
+		 *             this.$root = root; // the root DOM Element that contains this app
 		 *         }
 		 *
 		 *         App_Class.prototype.init = function() {
@@ -52,7 +53,7 @@ if (!window.F2) {
 		 *         return App_Class;
 		 *     })();
 		 * @example
-		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(app, appContent) {
+		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(appConfig, appContent, root) {
 		 *        return {
 		 *            init:function() {
 		 *                // perform init actions
@@ -158,9 +159,9 @@ if (!window.F2) {
 F2.extend("", {
 	/**
 	 * The App object represents an App's meta data
-	 * @class F2.App
+	 * @class F2.AppConfig
 	 */
-	 App:{
+	 AppConfig:{
 		/**
 		 * The unique ID of the App
 		 * @property appId
@@ -175,30 +176,6 @@ F2.extend("", {
 		 */
 		context:"",
 		/**
-		 * The description of the App
-		 * @property description
-		 * @type string
-		 */
-		description:"",
-		/**
-		 * The company of the developer
-		 * @property developerCompany
-		 * @type string
-		 */
-		developerCompany:"",
-		/**
-		 * The name of the developer
-		 * @property developerName
-		 * @type string
-		 */
-		developerName:"",
-		/**
-		 * The url of the developer
-		 * @property developerUrl
-		 * @type string
-		 */
-		developerUrl:"",
-		/**
 		 * True if the App should be requested in a single request with other Apps.
 		 * The App must have isSecure = false.
 		 * @property enableBatchRequests
@@ -208,7 +185,7 @@ F2.extend("", {
 		enableBatchRequests:false,
 		/**
 		 * The height of the App. The initial height will be pulled from
-		 * the {{#crossLink "F2.App"}}{{/crossLink}} object, but later modified by
+		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later modified by
 		 * firing an
 		 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_HEIGHT_CHANGE
 		 * event.
@@ -225,7 +202,7 @@ F2.extend("", {
 		instanceId:"",
 		/**
 		 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink "F2.App"}}{{/crossLink}} object sets
+		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object sets
 		 * isSecure = true. It will also be true if the Container has decided to run
 		 * Apps in iframes.
 		 * @property isSecure
@@ -275,6 +252,12 @@ F2.extend("", {
 		 */
 		name:"",
 		/**
+		 * The root DOM Element that contains this App
+		 * @property root
+		 * @type Element
+		 */
+		root:null,
+		/**
 		 * Sets the title of the App as shown in the browser. Depending on the
 		 * Container HTML, this method may do nothing if the Container has not been
 		 * configured properly or else the Container Provider does not allow Title's
@@ -322,18 +305,21 @@ F2.extend("", {
 		 * Any inline javascript tha should initially be run
 		 * @property inlineScripts
 		 * @type Array
+		 * @optional
 		 */
 		inlineScripts:[],
 		/**
 		 * Urls to javascript files required by the App
 		 * @property scripts
 		 * @type Array
+		 * @optional
 		 */
 		scripts:[],
 		/**
 		 * Urls to CSS files required by the App
 		 * @property styles
 		 * @type Array
+		 * @optional
 		 */
 		styles:[]
 	},
@@ -346,6 +332,7 @@ F2.extend("", {
 		 * Arbitrary data to be passed along with the App
 		 * @property data
 		 * @type object
+		 * @optional
 		 */
 		data:{},
 		/**
@@ -359,6 +346,7 @@ F2.extend("", {
 		 * A status message
 		 * @property status
 		 * @type string
+		 * @optional
 		 */
 		status:""
 	},
@@ -370,34 +358,34 @@ F2.extend("", {
 		/**
 		 * Allows the Container to override how an App's html is 
 		 * inserted into the page. The function should accept an
-		 * {{#crossLink "F2.App"}}{{/crossLink}} object and also a string of html
+		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of html
 		 * @method afterAppRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App 
 		 * @return {Element} The DOM Element surrounding the App
 		 */
-		afterAppRender:function(app, html) {},
+		afterAppRender:function(appConfig, html) {},
 		/**
 		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {{#crossLink "F2.App"}}{{/crossLink}} object
+		 * function should accept an {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * and also a string of html. The extra html can provide links to edit app
 		 * settings and remove an app from the Container. See
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App
 		 */
-		appRender:function(app, html) {},
+		appRender:function(appConfig, html) {},
 		/**
 		 * Allows the Container to render html for an App before the AppManifest for
 		 * an App has loaded. This can be useful if the design calls for loading
 		 * icons to appear for each App before each App is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
-		 * @param {F2.App} app The F2.App object
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 */
-		beforeAppRender:function(app) {},
+		beforeAppRender:function(appConfig) {},
 		/**
 		 * Tells the Container that it is currently running within
 		 * a secure app page
@@ -513,7 +501,7 @@ F2.extend('Constants', {
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
 			 * the title for an App.  If this class is not present, then
-			 * {{#crossLink "F2.App/setTitle"}}{{/crossLink}} will not function.
+			 * {{#crossLink "F2.AppConfig/setTitle"}}{{/crossLink}} will not function.
 			 * @property APP_TITLE
 			 * @type string
 			 * @static
@@ -774,23 +762,23 @@ F2.extend('', (function(){
 	 * Appends the App's html to the DOM
 	 * @method _afterAppRender
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
 	 * @return {Element} The DOM Element that contains the App
 	 */
-	var _afterAppRender = function(app, html) {
+	var _afterAppRender = function(appConfig, html) {
 
-		var handler = _config.afterAppRender || function(app, html) {
+		var handler = _config.afterAppRender || function(appConfig, html) {
 			return $(html).appendTo('body');
 		};
-		var appContainer = handler(app, html);
+		var appContainer = handler(appConfig, html);
 
 		if (!!_config.afterAppRender && !appContainer) {
 			F2.log('F2.ContainerConfiguration.afterAppRender() must return the DOM Element that contains the App');
 			return;
 		} else {
 			// apply APP class and Instance ID
-			$(appContainer).addClass(F2.Constants.Css.APP).attr('id', app.instanceId);
+			$(appContainer).addClass(F2.Constants.Css.APP).attr('id', appConfig.instanceId);
 			return appContainer.get(0);
 		}
 	};
@@ -799,21 +787,21 @@ F2.extend('', (function(){
 	 * Renders the html for an App.
 	 * @method _appRender
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
 	 */
-	var _appRender = function(app, html) {
+	var _appRender = function(appConfig, html) {
 
 		function outerHtml(html) {
 			return $('<div></div>').append(html).html();
 		}
 
 		// apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' app' + app.appId));
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' app' + appConfig.appId));
 
 		// optionally apply wrapper html
 		if (_config.appRender) {
-			html = _config.appRender(app, html);
+			html = _config.appRender(appConfig, html);
 		}
 
 		// apply APP class and instanceId
@@ -825,31 +813,31 @@ F2.extend('', (function(){
 	 * loading
 	 * @method _beforeAppRender
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 */
-	var _beforeAppRender = function(app) {
+	var _beforeAppRender = function(appConfig) {
 		var handler = _config.beforeAppRender || $.noop;
-		handler(app);
+		handler(appConfig);
 	};
 
 	/**
 	 * Adds properties and methods to the App object
 	 * @method _hydrateApp
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 */
-	var _hydrateApp = function(app) {
+	var _hydrateApp = function(appConfig) {
 
 		// create the instanceId for the App
-		app.instanceId = app.instanceId || F2.guid();
+		appConfig.instanceId = appConfig.instanceId || F2.guid();
 
 		// default the views if not provided
-		app.views = app.views || [];
-		if (!F2.inArray(app.views, F2.Constants.Views.HOME)) {
-			app.views.push(F2.Constants.Views.HOME);
+		appConfig.views = appConfig.views || [];
+		if (!F2.inArray(appConfig.views, F2.Constants.Views.HOME)) {
+			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
-		app.setTitle = function(title) {
+		appConfig.setTitle = function(title) {
 
 			if (F2.Rpc.isRemote(this.instanceId)) {
 				F2.Rpc.call(
@@ -865,7 +853,7 @@ F2.extend('', (function(){
 			}
 		};
 
-		app.updateHeight = function(height) {
+		appConfig.updateHeight = function(height) {
 
 			height = height || $('#' + this.instanceId).outerHeight();
 
@@ -890,9 +878,9 @@ F2.extend('', (function(){
 	 * @method _initAppEvents
 	 * @private
 	 */
-	var _initAppEvents = function (app) {
+	var _initAppEvents = function (appConfig) {
 
-		var appContainer = $('#' + app.instanceId);
+		var appContainer = $('#' + appConfig.instanceId);
 
 		// these events should only be attached outside of the secure app
 		if (!_config.isSecureAppPage) {
@@ -906,12 +894,12 @@ F2.extend('', (function(){
 
 					// handle the special REMOVE view
 					if (view == F2.Constants.Views.REMOVE) {
-						F2.removeApp(app.instanceId);
+						F2.removeApp(appConfig.instanceId);
 
 					// make sure the app supports this type of view
-					} else if (F2.inArray(view, app.views)) {
+					} else if (F2.inArray(view, appConfig.views)) {
 						// tell the app that the view has changed
-						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + app.instanceId, view);
+						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + appConfig.instanceId, view);
 					}
 				});
 			}
@@ -950,23 +938,24 @@ F2.extend('', (function(){
 	 * Loads the App's html/css/javascript
 	 * @method loadApp
 	 * @private
-	 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}}
+	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
 	 * objects
 	 * @param {F2.AppManifest} [appManifest] The AppManifest object
 	 */
-	var _loadApps = function(apps, appManifest) {
+	var _loadApps = function(appConfigs, appManifest) {
 
-		apps = [].concat(apps);
+		appConfigs = [].concat(appConfigs);
 
 		// check for secure app
-		if (apps.length == 1 && apps[0].isSecure && !_config.isSecureAppPage) {
-			_loadSecureApp(apps[0], appManifest);
+		if (appConfigs.length == 1 && appConfigs[0].isSecure && !_config.isSecureAppPage) {
+			_loadSecureApp(appConfigs[0], appManifest);
 			return;
 		}
 
 		// check that the number of apps in manifest matches the number requested
-		if (apps.length != appManifest.apps.length) {
+		if (appConfigs.length != appManifest.apps.length) {
 			F2.log('The number of Apps defined in the AppManifest do not match the number requested.', appManifest);
+			return;
 		}
 
 		var scripts = appManifest.scripts || [];
@@ -975,12 +964,12 @@ F2.extend('', (function(){
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
 		var appInit = function() {
-			$.each(apps, function(i, a) {
+			$.each(appConfigs, function(i, a) {
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === 'function') {
-						F2.Apps[a.appId].appClass = new F2.Apps[a.appId](a, appManifest.apps[i]);
-						if (F2.Apps[a.appId].appClass['init'] !== undefined) {
-							F2.Apps[a.appId].appClass.init();
+						F2.Apps[a.appId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+						if (F2.Apps[a.appId].app['init'] !== undefined) {
+							F2.Apps[a.appId].app.init();
 						}
 					} else {
 						F2.log('App initialization class is defined but not a function. (' + a.appId + ')');
@@ -999,9 +988,9 @@ F2.extend('', (function(){
 		// load html
 		$.each(appManifest.apps, function(i, a) {
 			// load html
-			_afterAppRender(apps[i], _appRender(apps[i], a.html));
+			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			// init events
-			_initAppEvents(apps[i]);
+			_initAppEvents(appConfigs[i]);
 		});
 
 		// load scripts and eval inlines once complete
@@ -1040,20 +1029,20 @@ F2.extend('', (function(){
 	 * Loads the App's html/css/javascript into an iframe
 	 * @method loadSecureApp
 	 * @private
-	 * @param {F2.App} app The App's context object.
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {F2.AppManifest} appManifest The App's html/css/js to be loaded into the
 	 * page.
 	 */
-	var _loadSecureApp = function(app, appManifest) {
+	var _loadSecureApp = function(appConfig, appManifest) {
 
 		// make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
-			_afterAppRender(app, _appRender(app, '<div></div>'));
+			_afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			// init events
-			_initAppEvents(app);
+			_initAppEvents(appConfig);
 			// create RPC socket
-			F2.Rpc.register(app, appManifest);
+			F2.Rpc.register(appConfig, appManifest);
 		} else {
 			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.');
 		}
@@ -1063,16 +1052,16 @@ F2.extend('', (function(){
 	 * Checks if the App is valid
 	 * @method _validateApp
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @returns {bool} True if the App is valid
 	 */
-	var _validateApp = function(app) {
+	var _validateApp = function(appConfig) {
 
 		// check for valid App configurations
-		if (!app.appId) {
+		if (!appConfig.appId) {
 			F2.log('"appId" missing from App object');
 			return false;
-		} else if (!app.manifestUrl) {
+		} else if (!appConfig.manifestUrl) {
 			F2.log('manifestUrl" missing from App object');
 			return false;
 		}
@@ -1176,7 +1165,7 @@ F2.extend('', (function(){
 			}
 
 			return $.map(_apps, function(e, i) {
-				return { appId: e.app.appId };
+				return { appId: e.config.appId };
 			});
 		},
 		/**
@@ -1203,12 +1192,12 @@ F2.extend('', (function(){
 		isInit:_isInit,
 		/**
 		 * Begins the loading process for all Apps. The App will
-		 * be passed the {{#crossLink "F2.App"}}{{/crossLink}} object which will
+		 * be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
 		 * contain the App's unique instanceId within the Container. Optionally, the
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
 		 * assets will be used instead of making a request.
 		 * @method registerApps
-		 * @param {Array} apps An array of {{#crossLink "F2.App"}}{{/crossLink}}
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
 		 * objects
 		 * @param {Array} [appManifests] An array of
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
@@ -1217,7 +1206,7 @@ F2.extend('', (function(){
 		 * passed in. This can be useful if Apps are loaded on the server-side and
 		 * passed down to the client.
 		 */
-		registerApps:function(apps, appManifests) {
+		registerApps:function(appConfigs, appManifests) {
 
 			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.registerApps()');
@@ -1228,19 +1217,19 @@ F2.extend('', (function(){
 			var batches = {};
 			var callbackStack = {};
 			var haveManifests = false;
-			apps = [].concat(apps);
+			appConfigs = [].concat(appConfigs);
 			appManifests = appManifests || [];
 			haveManifests = !!appManifests.length;
 
 			// ensure that the array of apps and manifests are qual
-			if (apps.length && haveManifests && apps.length != appManifests.length) {
+			if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
 				F2.log('The length of "apps" does not equal the length of "appManifests"');
 				return;
 			}
 
 			// validate each app and assign it an instanceId
 			// then determine which apps can be batched together
-			$.each(apps, function(i, a) {
+			$.each(appConfigs, function(i, a) {
 
 				if (!_validateApp(a)) {
 					return; // move to the next app
@@ -1250,7 +1239,7 @@ F2.extend('', (function(){
 				_hydrateApp(a);
 
 				// save app
-				_apps[a.instanceId] = { app:a };
+				_apps[a.instanceId] = { config:a };
 
 				// fire beforeAppRender
 				_beforeAppRender(a);
@@ -1364,6 +1353,10 @@ F2.extend('', (function(){
 				});
 			}
 		}
+
+		,temp:function() {
+			F2.log(_apps);
+		}
 	};
 })());
 /**
@@ -1390,7 +1383,7 @@ F2.extend('Rpc', (function(){
 	var _createAppToContainerSocket = function() {
 
 		var isLoaded = false;
-		var app = false;
+		var appConfig = false;
 
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
@@ -1400,24 +1393,24 @@ F2.extend('Rpc', (function(){
 					message = message.replace(_rSocketLoad, '');
 					var appParts = F2.parse(message);
 
-					// make sure we have the App and AppManifest
+					// make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
-						app = appParts[0]; // assigning app object to closure
+						appConfig = appParts[0]; // assigning app object to closure
 						var appManifest = appParts[1];
 
 						// save app locally
-						_apps[app.instanceId] = {
-							app:app,
+						_apps[appConfig.instanceId] = {
+							app:appConfig,
 							socket:socket
 						};
 
-						F2.registerApps([app], [appManifest]);
+						F2.registerApps([appConfig], [appManifest]);
 						isLoaded = true;
 					}
 
 				// pass everyting else to _onMessage
 				} else {
-					_onMessage(app, message, origin);
+					_onMessage(appConfig, message, origin);
 				}
 			}
 		});
@@ -1428,12 +1421,12 @@ F2.extend('Rpc', (function(){
 	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
 	 * @method _createContainerToAppSocket
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {F2.AppManifest} appManifest The AppManifest object
 	 */
-	var _createContainerToAppSocket = function(app, appManifest) {
+	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
-		var container = $('#' + app.instanceId);
+		var container = $('#' + appConfig.instanceId);
 		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
 			? container
 			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
@@ -1450,8 +1443,8 @@ F2.extend('Rpc', (function(){
 			}
 		};
 
-		if (app.height) {
-			iframeProps.style.height = app.height + 'px';
+		if (appConfig.height) {
+			iframeProps.style.height = appConfig.height + 'px';
 		}
 
 		var socket = new easyXDM.Socket({
@@ -1460,10 +1453,10 @@ F2.extend('Rpc', (function(){
 			props:iframeProps,
 			onMessage: function(message, origin) {
 				// pass everything to _onMessage
-				_onMessage(app, message, origin);
+				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([app, appManifest]));
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest]));
 			}
 		});
 
@@ -1492,11 +1485,11 @@ F2.extend('Rpc', (function(){
 	 * Handles messages that come across the sockets
 	 * @method _onMessage
 	 * @private
-	 * @param {F2.App} app The App object
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} message The socket message
 	 * @param {string} origin The originator
 	 */
-	var _onMessage = function(app, message, origin) {
+	var _onMessage = function(appConfig, message, origin) {
 
 		var obj;
 
@@ -1507,7 +1500,7 @@ F2.extend('Rpc', (function(){
 		// handle App Call
 		if (_rAppCall.test(message)) {
 			obj = parse(_rAppCall, message);
-			app[obj.functionName].apply(app, obj.params);
+			appConfig[obj.functionName].apply(appConfig, obj.params);
 
 		// handle RPC
 		} else if (_rRpc.test(message)) {
@@ -1522,7 +1515,7 @@ F2.extend('Rpc', (function(){
 				$.each(obj.callbacks, function(i, c) {
 					$.each(obj.params, function(i, p) {
 						if (c == p) {
-							obj.params[i] = _createRpcCallback(app.instanceId, c);
+							obj.params[i] = _createRpcCallback(appConfig.instanceId, c);
 						}
 					});
 				});
@@ -1655,13 +1648,14 @@ F2.extend('Rpc', (function(){
 		/**
 		 * Creates a Container-to-App or App-to-Container socket for communication
 		 * @method register
-		 * @param {F2.App} [app] The App object
+		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
+		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 */
-		register:function(app, appManifest) {
-			if (app) {
-				_apps[app.instanceId] = {
-					app:app,
-					socket:_createContainerToAppSocket(app, appManifest)
+		register:function(appConfig, appManifest) {
+			if (appConfig) {
+				_apps[appConfig.instanceId] = {
+					app:appConfig,
+					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
 				F2.log("Unable to register socket connection. Please check container configuration.");

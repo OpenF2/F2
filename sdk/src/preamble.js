@@ -30,7 +30,7 @@ if (!window.F2) {
 		/**
 		 * The Apps class is a namespace for App developers to place the javascript
 		 * class that is used to initialize their App. The javascript classes should
-		 * be namepaced with the {{#crossLink "F2.App"}}{{/crossLink}}.appId. It is recommended
+		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. It is recommended
 		 * that the code be placed in a closure to help keep the global namespace
 		 * clean.
 		 *
@@ -40,9 +40,10 @@ if (!window.F2) {
 		 * @type object
 		 * @example
 		 *     F2.Apps["712521f7737666e1489f681817376592"] = (function() {
-		 *         var App_Class = function(app, appContent) {
-		 *             this._app = app; // the F2.App object
+		 *         var App_Class = function(appConfig, appContent, root) {
+		 *             this._app = appConfig; // the F2.AppConfig object
 		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
+		 *             this.$root = root; // the root DOM Element that contains this app
 		 *         }
 		 *
 		 *         App_Class.prototype.init = function() {
@@ -52,7 +53,7 @@ if (!window.F2) {
 		 *         return App_Class;
 		 *     })();
 		 * @example
-		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(app, appContent) {
+		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(appConfig, appContent, root) {
 		 *        return {
 		 *            init:function() {
 		 *                // perform init actions
