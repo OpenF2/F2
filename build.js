@@ -119,7 +119,7 @@ function docs() {
 function less(){
 	console.log('Compiling LESS...');
 	exec(
-		'lessc ./template/less/bootstrap.less > ../css/F2.css', //--compress
+		'lessc ./template/less/bootstrap.less > ../css/F2.css --compress',
 		{ cwd: './docs/src' },
 		function(error, stdout, stderr){
 			if (error){
