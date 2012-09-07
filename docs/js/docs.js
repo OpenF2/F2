@@ -12,6 +12,7 @@ $('section [href^=#]').click(function (e) {
 	e.preventDefault()
 })*/
 
+
 /**
  * Finds and sets active navigation element based on hash, if one exists
  *
@@ -154,5 +155,16 @@ $(function() {
 
 	//scrollspy
 	$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0);
+
+	//Keep nav aligned -- TEMP
+	$('section [href^=#]').click(function (e) {
+		window.setTimeout(function(){
+			$("li ul li", "#toc").removeClass('active');
+			setActiveNav()
+		},100)
+	});
+	//$(window).bind('hashchange', function() {
+	//	setActiveNav();
+	//});
 
 });
