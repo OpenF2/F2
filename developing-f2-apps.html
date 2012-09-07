@@ -313,11 +313,11 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
 <figure>
 <img src="./img/project_folder.png" title="Setup your project"><figcaption></figcaption>
 </figure>
-<p><span class="label">Helper</span> <a href="">Download the F2 app starter zip</a></p>
+<p><span class="label">Helper</span> <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">Download the F2 app starter zip</a></p>
 </section>
 <section class="level3" id="app-manifest-response">
 <h3>App Manifest Response</h3>
-<p>OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="">download the F2 app starter zip</a>. Once you have your App Manifest defined (or at least stubbed out), there's one important detail you need to know now—the App Manifest response format. As part of F2, containers register apps—typically hosted on different domains—using JSONP. <strong>This means F2 App Manifest files must provide a JSONP callback function.</strong> (If you don't know what JSONP is or how it works, we recommend <a href="http://remysharp.com/2007/10/08/what-is-jsonp/">reading what Remy Sharp has to say</a> about it.)</p>
+<p>OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">download the F2 app starter zip</a>. Once you have your App Manifest defined (or at least stubbed out), there's one important detail you need to know now—the App Manifest response format. As part of F2, containers register apps—typically hosted on different domains—using JSONP. <strong>This means F2 App Manifest files must provide a JSONP callback function.</strong> (If you don't know what JSONP is or how it works, we recommend <a href="http://remysharp.com/2007/10/08/what-is-jsonp/">reading what Remy Sharp has to say</a> about it.)</p>
 <p>For security reasons, the App Manifest JSONP callback function must be a specific, reliable, and testable format. F2 has defined that using a combination of a string and your unique F2 AppId. The JSONP callback function name looks like this:</p>
 <p><code>F2_jsonpCallback_&lt;AppID&gt;</code></p>
 <p>When applied, the final (bare bones) App Manifest file looks like this example (where <code>com_companyname_appname</code> is your AppId):</p>
@@ -430,7 +430,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </p>
 </div>
 
-<p>If you don't want to think about any of this and would rather just start coding, <a href="#">download the F2 app starter zip</a>.</p>
+<p>If you don't want to think about any of this and would rather just start coding, <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">download the F2 app starter zip</a>.</p>
 </section>
 </section>
 <section class="level3" id="supported-app-views">
