@@ -10,10 +10,8 @@
 }
 
 .level2 {
+	margin-bottom:75px;
 	padding-top:0;
-}
-.level2 + .level2 {
-	padding-top:75px;
 }
 
 table.table-members td.name {
