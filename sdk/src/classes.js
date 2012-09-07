@@ -198,9 +198,9 @@ F2.extend("", {
 	},
 	/**
 	 * An object containing configuration information for the Container
-	 * @class F2.ContainerConfiguration
+	 * @class F2.ContainerConfig
 	 */
-	ContainerConfiguration:{		
+	ContainerConfig:{		
 		/**
 		 * Allows the Container to override how an App's html is 
 		 * inserted into the page. The function should accept an

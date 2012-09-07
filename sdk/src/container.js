@@ -24,7 +24,7 @@ F2.extend('', (function(){
 		var appContainer = handler(appConfig, html);
 
 		if (!!_config.afterAppRender && !appContainer) {
-			F2.log('F2.ContainerConfiguration.afterAppRender() must return the DOM Element that contains the App');
+			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the App');
 			return;
 		} else {
 			// apply APP class and Instance ID
@@ -294,7 +294,7 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.');
+			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfig.');
 		}
 	};
 
@@ -422,7 +422,7 @@ F2.extend('', (function(){
 		 * Initializes the Container. This method must be called before performing
 		 * any other actions in the Container.
 		 * @method init
-		 * @param {F2.ContainerConfiguration} config The configuration object
+		 * @param {F2.ContainerConfig} config The configuration object
 		 * @for F2
 		 */
 		init:function(config) {

@@ -1,5 +1,5 @@
 /*!
- * F2 v0.11.1
+ * F2 v0.11.3
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -352,9 +352,9 @@ F2.extend("", {
 	},
 	/**
 	 * An object containing configuration information for the Container
-	 * @class F2.ContainerConfiguration
+	 * @class F2.ContainerConfig
 	 */
-	ContainerConfiguration:{		
+	ContainerConfig:{		
 		/**
 		 * Allows the Container to override how an App's html is 
 		 * inserted into the page. The function should accept an
@@ -482,7 +482,7 @@ F2.extend('Constants', {
 			 * The APP class should be applied to the DOM Element that surrounds the
 			 * entire App, including any extra html that surrounds the APP\_CONTAINER
 			 * that is inserted by the Container. See appWrapper property in the
-			 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}} object.
+			 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}} object.
 			 * @property APP
 			 * @type string
 			 * @static
@@ -774,7 +774,7 @@ F2.extend('', (function(){
 		var appContainer = handler(appConfig, html);
 
 		if (!!_config.afterAppRender && !appContainer) {
-			F2.log('F2.ContainerConfiguration.afterAppRender() must return the DOM Element that contains the App');
+			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the App');
 			return;
 		} else {
 			// apply APP class and Instance ID
@@ -987,7 +987,7 @@ F2.extend('', (function(){
 
 		// load html
 		$.each(appManifest.apps, function(i, a) {
-			// load html
+			// load html and save the root node
 			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			// init events
 			_initAppEvents(appConfigs[i]);
@@ -1044,7 +1044,7 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfiguration.');
+			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfig.');
 		}
 	};
 
@@ -1172,7 +1172,7 @@ F2.extend('', (function(){
 		 * Initializes the Container. This method must be called before performing
 		 * any other actions in the Container.
 		 * @method init
-		 * @param {F2.ContainerConfiguration} config The configuration object
+		 * @param {F2.ContainerConfig} config The configuration object
 		 * @for F2
 		 */
 		init:function(config) {
@@ -1615,7 +1615,7 @@ F2.extend('Rpc', (function(){
 		 * F2.{{#crossLink "F2/init"}}{{/crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
-		 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}.secureAppPagePath
+		 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}}.secureAppPagePath
 		 * property
 		 */
 		init:function(secureAppPagePath) {

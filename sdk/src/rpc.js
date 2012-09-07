@@ -254,7 +254,7 @@ F2.extend('Rpc', (function(){
 		 * F2.{{#crossLink "F2/init"}}{{/crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
-		 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}}.secureAppPagePath
+		 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}}.secureAppPagePath
 		 * property
 		 */
 		init:function(secureAppPagePath) {

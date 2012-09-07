@@ -8,7 +8,7 @@
                 "F2.AppConfig": 1,
                 "F2.AppManifest": 1,
                 "F2.AppManifest.AppContent": 1,
-                "F2.ContainerConfiguration": 1,
+                "F2.ContainerConfig": 1,
                 "F2.UI.MaskConfiguration": 1
             },
             "fors": {},
@@ -86,7 +86,7 @@
                 "F2.AppConfig": 1,
                 "F2.AppManifest": 1,
                 "F2.AppManifest.AppContent": 1,
-                "F2.ContainerConfiguration": 1,
+                "F2.ContainerConfig": 1,
                 "F2.UI.MaskConfiguration": 1,
                 "F2.Constants": 1,
                 "F2.Constants.Css": 1,
@@ -150,9 +150,9 @@
             "line": 172,
             "description": "The AppContent object"
         },
-        "F2.ContainerConfiguration": {
-            "name": "F2.ContainerConfiguration",
-            "shortname": "F2.ContainerConfiguration",
+        "F2.ContainerConfig": {
+            "name": "F2.ContainerConfig",
+            "shortname": "F2.ContainerConfig",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -572,7 +572,7 @@
                 "description": "The DOM Element surrounding the App",
                 "type": "Element"
             },
-            "class": "F2.ContainerConfiguration"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
@@ -592,7 +592,7 @@
                     "type": "String"
                 }
             ],
-            "class": "F2.ContainerConfiguration"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
@@ -607,7 +607,7 @@
                     "type": "F2.AppConfig"
                 }
             ],
-            "class": "F2.ContainerConfiguration"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
@@ -616,7 +616,7 @@
             "itemtype": "property",
             "name": "isSecureAppPage",
             "type": "bool",
-            "class": "F2.ContainerConfiguration"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
@@ -625,7 +625,7 @@
             "itemtype": "property",
             "name": "secureAppPagePath",
             "type": "string",
-            "class": "F2.ContainerConfiguration"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
@@ -635,7 +635,7 @@
             "name": "supportedViews",
             "type": "Array",
             "required": 1,
-            "class": "F2.ContainerConfiguration"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
@@ -644,7 +644,7 @@
             "tag": "main",
             "itemtype": "main",
             "_main": true,
-            "class": "F2.ContainerConfiguration"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
@@ -703,7 +703,7 @@
         {
             "file": "sdk\\src\\constants.js",
             "line": 17,
-            "description": "The APP class should be applied to the DOM Element that surrounds the\nentire App, including any extra html that surrounds the APP\\_CONTAINER\nthat is inserted by the Container. See appWrapper property in the\n{{#crossLink \"F2.ContainerConfiguration\"}}{{/crossLink}} object.",
+            "description": "The APP class should be applied to the DOM Element that surrounds the\nentire App, including any extra html that surrounds the APP\\_CONTAINER\nthat is inserted by the Container. See appWrapper property in the\n{{#crossLink \"F2.ContainerConfig\"}}{{/crossLink}} object.",
             "itemtype": "property",
             "name": "APP",
             "type": "string",
@@ -1314,7 +1314,7 @@
                 {
                     "name": "config",
                     "description": "The configuration object",
-                    "type": "F2.ContainerConfiguration"
+                    "type": "F2.ContainerConfig"
                 }
             ],
             "class": "F2",
@@ -1692,7 +1692,7 @@
             "params": [
                 {
                     "name": "secureAppPagePath",
-                    "description": "The\n{{#crossLink \"F2.ContainerConfiguration\"}}{{/crossLink}}.secureAppPagePath\nproperty",
+                    "description": "The\n{{#crossLink \"F2.ContainerConfig\"}}{{/crossLink}}.secureAppPagePath\nproperty",
                     "type": "String",
                     "optional": true
                 }

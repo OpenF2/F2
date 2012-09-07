@@ -10,7 +10,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "F2.Constants.Events",
         "F2.Constants.Sockets",
         "F2.Constants.Views",
-        "F2.ContainerConfiguration",
+        "F2.ContainerConfig",
         "F2.Events",
         "F2.Rpc",
         "F2.UI",

@@ -18,7 +18,7 @@ F2.extend('Constants', {
 			 * The APP class should be applied to the DOM Element that surrounds the
 			 * entire App, including any extra html that surrounds the APP\_CONTAINER
 			 * that is inserted by the Container. See appWrapper property in the
-			 * {{#crossLink "F2.ContainerConfiguration"}}{{/crossLink}} object.
+			 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}} object.
 			 * @property APP
 			 * @type string
 			 * @static
