@@ -1,5 +1,5 @@
 /*!
- * F2 v0.11.3
+ * F2 v0.11.4
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -158,10 +158,33 @@ if (!window.F2) {
  */
 F2.extend("", {
 	/**
-	 * The App object represents an App's meta data
+	 * The App Class is an optional class that can be namespaced onto the 
+	 * {{#crossLink "F2\Apps"}}{{/crossLink}} property.  The 
+	 * [F2 Docs](../../developing-f2-apps.html#app-class)
+	 * has more information on the usage of the App Class.
+	 * @class F2.App
+	 * @constructor
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object for the App
+	 * @param {F2.AppManifest.AppContent} appContent The F2.AppManifest.AppContent
+	 * object
+	 * @param {Element} root The root DOM Element for the App
+	 */
+	App:function(appConfig, appContent, root) {
+		return {
+			/**
+			 * An optional init function that will automatically be called when
+			 * F2.{{#crossLink "F2\registerApps"}}{{/crossLink}} is called.
+			 * @method init
+			 * @optional
+			 */
+			init:function() {}
+		};
+	},
+	/**
+	 * The AppConfig object represents an App's meta data
 	 * @class F2.AppConfig
 	 */
-	 AppConfig:{
+	AppConfig:{
 		/**
 		 * The unique ID of the App
 		 * @property appId
@@ -169,6 +192,12 @@ F2.extend("", {
 		 * @required
 		 */
 		appId:"",
+		/**
+		 * Changes the view of the App
+		 * @method changeView
+		 * @params {string} view The View to switch to
+		 */
+		changeView:function(view) {},
 		/**
 		 * An object that represents the context of an App
 		 * @property context
@@ -967,9 +996,9 @@ F2.extend('', (function(){
 			$.each(appConfigs, function(i, a) {
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === 'function') {
-						F2.Apps[a.appId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-						if (F2.Apps[a.appId].app['init'] !== undefined) {
-							F2.Apps[a.appId].app.init();
+						_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+						if (_apps[a.instanceId].app['init'] !== undefined) {
+							_apps[a.instanceId].app.init();
 						}
 					} else {
 						F2.log('App initialization class is defined but not a function. (' + a.appId + ')');
@@ -1038,7 +1067,7 @@ F2.extend('', (function(){
 		// make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
-			_afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			// init events
 			_initAppEvents(appConfig);
 			// create RPC socket
@@ -1353,10 +1382,6 @@ F2.extend('', (function(){
 				});
 			}
 		}
-
-		,temp:function() {
-			F2.log(_apps);
-		}
 	};
 })());
 /**
@@ -1426,7 +1451,7 @@ F2.extend('Rpc', (function(){
 	 */
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
-		var container = $('#' + appConfig.instanceId);
+		var container = $(appConfig.root);
 		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
 			? container
 			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
@@ -1449,14 +1474,19 @@ F2.extend('Rpc', (function(){
 
 		var socket = new easyXDM.Socket({
 			remote: _secureAppPagePath,
-			container: container.get(0),
+			container: appConfig.root,
 			props:iframeProps,
 			onMessage: function(message, origin) {
 				// pass everything to _onMessage
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
+				// remove root from appConfig, otherwise there will be recursion errors
+				// with F2.stringify()
+				var root = appConfig.root;
+				appConfig.root = null;
 				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest]));
+				appConfig.root = root;
 			}
 		});
 
@@ -1627,9 +1657,8 @@ F2.extend('Rpc', (function(){
 
 		/**
 		 * Determines whether the Instance ID is considered to be 'remote'. This is
-		 * determined by checking if 1) the App has an open socket, 2) where the
-		 * instance of RPC is running (Container or App) and 3) where the App is
-		 * relative to where this RPC is.
+		 * determined by checking if 1) the App has an open socket and 2) whether
+		 * F2.Rpc is running inside of an iframe
 		 * @method isRemote
 		 * @param {string} instanceId The Instance ID
 		 * @return {bool} True if there is an open socket

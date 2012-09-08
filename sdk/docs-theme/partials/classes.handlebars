@@ -45,13 +45,6 @@
 </p>
 {{/if}}
 
-{{#is_constructor}}
-<div class="constructor">
-	<h2>Constructor</h2>
-	{{>method}}
-</div>
-{{/is_constructor}}
-
 <ul id="classTabs" class="nav nav-tabs">
 	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
 	{{#if methods}}
@@ -71,6 +64,11 @@
 <div class="tab-content">
 	<!-- SUMMARY TAB -->
 	<div id="summary" class="tab-pane active">
+		{{#is_constructor}}
+			<h3>Constructor</h3>
+			{{>method}}
+		{{/is_constructor}}
+
 		{{#if methods}}
 		<div class="index-section methods">
 			<h3>Methods</h3>

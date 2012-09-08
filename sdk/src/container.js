@@ -217,9 +217,9 @@ F2.extend('', (function(){
 			$.each(appConfigs, function(i, a) {
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === 'function') {
-						F2.Apps[a.appId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-						if (F2.Apps[a.appId].app['init'] !== undefined) {
-							F2.Apps[a.appId].app.init();
+						_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+						if (_apps[a.instanceId].app['init'] !== undefined) {
+							_apps[a.instanceId].app.init();
 						}
 					} else {
 						F2.log('App initialization class is defined but not a function. (' + a.appId + ')');
@@ -288,7 +288,7 @@ F2.extend('', (function(){
 		// make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
-			_afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			// init events
 			_initAppEvents(appConfig);
 			// create RPC socket
@@ -602,10 +602,6 @@ F2.extend('', (function(){
 					$(this).remove();
 				});
 			}
-		}
-
-		,temp:function() {
-			F2.log(_apps);
 		}
 	};
 })());

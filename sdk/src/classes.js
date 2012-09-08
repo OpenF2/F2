@@ -4,10 +4,33 @@
  */
 F2.extend("", {
 	/**
-	 * The App object represents an App's meta data
+	 * The App Class is an optional class that can be namespaced onto the 
+	 * {{#crossLink "F2\Apps"}}{{/crossLink}} property.  The 
+	 * [F2 Docs](../../developing-f2-apps.html#app-class)
+	 * has more information on the usage of the App Class.
+	 * @class F2.App
+	 * @constructor
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object for the App
+	 * @param {F2.AppManifest.AppContent} appContent The F2.AppManifest.AppContent
+	 * object
+	 * @param {Element} root The root DOM Element for the App
+	 */
+	App:function(appConfig, appContent, root) {
+		return {
+			/**
+			 * An optional init function that will automatically be called when
+			 * F2.{{#crossLink "F2\registerApps"}}{{/crossLink}} is called.
+			 * @method init
+			 * @optional
+			 */
+			init:function() {}
+		};
+	},
+	/**
+	 * The AppConfig object represents an App's meta data
 	 * @class F2.AppConfig
 	 */
-	 AppConfig:{
+	AppConfig:{
 		/**
 		 * The unique ID of the App
 		 * @property appId
@@ -15,6 +38,12 @@ F2.extend("", {
 		 * @required
 		 */
 		appId:"",
+		/**
+		 * Changes the view of the App
+		 * @method changeView
+		 * @params {string} view The View to switch to
+		 */
+		changeView:function(view) {},
 		/**
 		 * An object that represents the context of an App
 		 * @property context

@@ -65,7 +65,7 @@ F2.extend('Rpc', (function(){
 	 */
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
-		var container = $('#' + appConfig.instanceId);
+		var container = $(appConfig.root);
 		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
 			? container
 			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
@@ -88,14 +88,19 @@ F2.extend('Rpc', (function(){
 
 		var socket = new easyXDM.Socket({
 			remote: _secureAppPagePath,
-			container: container.get(0),
+			container: appConfig.root,
 			props:iframeProps,
 			onMessage: function(message, origin) {
 				// pass everything to _onMessage
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
+				// remove root from appConfig, otherwise there will be recursion errors
+				// with F2.stringify()
+				var root = appConfig.root;
+				appConfig.root = null;
 				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest]));
+				appConfig.root = root;
 			}
 		});
 
@@ -266,9 +271,8 @@ F2.extend('Rpc', (function(){
 
 		/**
 		 * Determines whether the Instance ID is considered to be 'remote'. This is
-		 * determined by checking if 1) the App has an open socket, 2) where the
-		 * instance of RPC is running (Container or App) and 3) where the App is
-		 * relative to where this RPC is.
+		 * determined by checking if 1) the App has an open socket and 2) whether
+		 * F2.Rpc is running inside of an iframe
 		 * @method isRemote
 		 * @param {string} instanceId The Instance ID
 		 * @return {bool} True if there is an open socket

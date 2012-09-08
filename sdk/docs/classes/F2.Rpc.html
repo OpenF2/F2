@@ -50,6 +50,8 @@
 						
 		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
@@ -124,8 +126,6 @@
 
 
 
-
-
 <ul id="classTabs" class="nav nav-tabs">
 	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
 	
@@ -139,6 +139,8 @@
 <div class="tab-content">
 	<!-- SUMMARY TAB -->
 	<div id="summary" class="tab-pane active">
+		
+
 		
 		<div class="index-section methods">
 			<h3>Methods</h3>
@@ -389,9 +391,8 @@ F2.<a href="..\classes\F2.html#method_init" class="crosslink">init</a></p></td>
 							</a>
 						</td>
 						<td><p>Determines whether the Instance ID is considered to be 'remote'. This is
-determined by checking if 1) the App has an open socket, 2) where the
-instance of RPC is running (Container or App) and 3) where the App is
-relative to where this RPC is.</p></td>
+determined by checking if 1) the App has an open socket and 2) whether
+F2.Rpc is running inside of an iframe</p></td>
 					</tr>
 					
 					<tr class="">
@@ -491,9 +492,11 @@ relative to where this RPC is.</p></td>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-_createContainerToAppSocket" class="level2  private">
@@ -602,9 +605,11 @@ relative to where this RPC is.</p></td>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-_createRpcCallback" class="level2  private">
@@ -659,7 +664,7 @@ relative to where this RPC is.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l105"><code>sdk\src\rpc.js:105</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l110"><code>sdk\src\rpc.js:110</code></a></dd>
 			
 
 			
@@ -725,9 +730,11 @@ relative to where this RPC is.</p></td>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-_onMessage" class="level2  private">
@@ -788,7 +795,7 @@ relative to where this RPC is.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l123"><code>sdk\src\rpc.js:123</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l128"><code>sdk\src\rpc.js:128</code></a></dd>
 			
 
 			
@@ -856,9 +863,11 @@ relative to where this RPC is.</p></td>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-_registerCallback" class="level2  private">
@@ -907,7 +916,7 @@ relative to where this RPC is.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l194"><code>sdk\src\rpc.js:194</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l199"><code>sdk\src\rpc.js:199</code></a></dd>
 			
 
 			
@@ -958,9 +967,11 @@ relative to where this RPC is.</p></td>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-broadcast" class="level2 ">
@@ -1013,7 +1024,7 @@ relative to where this RPC is.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l208"><code>sdk\src\rpc.js:208</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l213"><code>sdk\src\rpc.js:213</code></a></dd>
 			
 
 			
@@ -1066,9 +1077,11 @@ relative to where this RPC is.</p></td>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-call" class="level2 ">
@@ -1133,7 +1146,7 @@ relative to where this RPC is.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l221"><code>sdk\src\rpc.js:221</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l226"><code>sdk\src\rpc.js:226</code></a></dd>
 			
 
 			
@@ -1218,9 +1231,11 @@ callback function.</p>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-init" class="level2 ">
@@ -1269,7 +1284,7 @@ F2.<a href="..\classes\F2.html#method_init" class="crosslink">init</a></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l251"><code>sdk\src\rpc.js:251</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l256"><code>sdk\src\rpc.js:256</code></a></dd>
 			
 
 			
@@ -1310,9 +1325,11 @@ property</p>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-isRemote" class="level2 ">
@@ -1347,9 +1364,8 @@ property</p>
 
 	<p>
 		<p>Determines whether the Instance ID is considered to be 'remote'. This is
-determined by checking if 1) the App has an open socket, 2) where the
-instance of RPC is running (Container or App) and 3) where the App is
-relative to where this RPC is.</p>
+determined by checking if 1) the App has an open socket and 2) whether
+F2.Rpc is running inside of an iframe</p>
 	</p>	
 
 	<div class="well well-small">
@@ -1362,7 +1378,7 @@ relative to where this RPC is.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l267"><code>sdk\src\rpc.js:267</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l272"><code>sdk\src\rpc.js:272</code></a></dd>
 			
 
 			
@@ -1413,9 +1429,11 @@ relative to where this RPC is.</p>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 		<section id="methods-register" class="level2 ">
@@ -1468,7 +1486,7 @@ relative to where this RPC is.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l287"><code>sdk\src\rpc.js:287</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_rpc.js.html#l291"><code>sdk\src\rpc.js:291</code></a></dd>
 			
 
 			
@@ -1523,9 +1541,11 @@ relative to where this RPC is.</p>
 
 	
 
+	
 	<div class="backToTop">
 		<a href="javascript:;">Back to top</a>
 	</div>
+	
 </section>
 		
 	</div>
