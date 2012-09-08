@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2.AppManifest</title>
+	<title>F2.App</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -103,10 +103,13 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.AppManifest</h1>
+				<h1>F2.App</h1>
 
 <p>
-	<p>The assets needed to render an App on the page</p>
+	<p>The App Class is an optional class that can be namespaced onto the 
+F2\Apps property.  The 
+<a href="../../developing-f2-apps.html#app-class">F2 Docs</a>
+has more information on the usage of the App Class.</p>
 </p>
 
 <div class="well well-small">
@@ -117,7 +120,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l166"><code>sdk\src\classes.js:166</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l6"><code>sdk\src\classes.js:6</code></a></dd>
 		
 
 		
@@ -129,8 +132,8 @@
 <ul id="classTabs" class="nav nav-tabs">
 	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
 	
+		<li><a href="#methods" data-toggle="tab">Methods</a></li>
 	
-		<li><a href="#properties" data-toggle="tab">Properties</a></li>
 	
 	
 	
@@ -140,12 +143,139 @@
 	<!-- SUMMARY TAB -->
 	<div id="summary" class="tab-pane active">
 		
+			<h3>Constructor</h3>
+			<section id="methods-F2.App" class="level2 ">
+	<h3>
+		F2.App
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						appConfig
+					
+				</li>
+				
+				<li>
+					
+						appContent
+					
+				</li>
+				
+				<li>
+					
+						root
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
 
 		
 
 		
-		<div class="index-section properties">
-			<h3>Properties</h3>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l6"><code>sdk\src\classes.js:6</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">appConfig</code>
+						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+					
+
+					
+
+					<p>
+						<p>The F2.AppConfig object for the App</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">appContent</code>
+						<span class="label type"><a href="..\classes\F2.AppManifest.AppContent.html" class="crosslink">F2.AppManifest.AppContent</a></span>
+					
+
+					
+
+					<p>
+						<p>The F2.AppManifest.AppContent
+object</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">root</code>
+						<span class="label type">Element</span>
+					
+
+					
+
+					<p>
+						<p>The root DOM Element for the App</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+</section>
+		
+
+		
+		<div class="index-section methods">
+			<h3>Methods</h3>
 			<table class="table table-bordered table-striped table-members">
 				<thead>
 					<tr>
@@ -157,31 +287,15 @@
 					
 					<tr class="">
 						<td class="name">
-							<a data-tab="#properties" data-tab-member="apps" href="javascript:;">apps</a>
+							<a data-tab="#methods" data-tab-member="init" href="javascript:;">
+								init
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
 						</td>
-						<td><p>The array of <a href="..\classes\F2.AppManifest.AppContent.html" class="crosslink">F2.AppManifest.AppContent</a>
-objects</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#properties" data-tab-member="inlineScripts" href="javascript:;">inlineScripts</a>
-						</td>
-						<td><p>Any inline javascript tha should initially be run</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#properties" data-tab-member="scripts" href="javascript:;">scripts</a>
-						</td>
-						<td><p>Urls to javascript files required by the App</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#properties" data-tab-member="styles" href="javascript:;">styles</a>
-						</td>
-						<td><p>Urls to CSS files required by the App</p></td>
+						<td><p>An optional init function that will automatically be called when
+F2.F2\registerApps is called.</p></td>
 					</tr>
 					
 				</tbody>
@@ -192,215 +306,77 @@ objects</p></td>
 		
 
 		
+
+		
 	</div>
 	<!-- SUMMARY TAB -->
 
 	<!-- METHODS TAB -->
 	
+	<div id="methods" class="tab-pane">
+		
+		<section id="methods-init" class="level2 ">
+	<h3>
+		init
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>An optional init function that will automatically be called when
+F2.F2\registerApps is called.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l20"><code>sdk\src\classes.js:20</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+	</div>
+	
 	<!-- METHODS TAB -->
 
 	<!-- PROPERTIES TAB -->
-	
-	<div id="properties" class="tab-pane">
-		
-		<section id="properties-apps" class="level2 ">
-	<h3>
-		apps
-
-		<span class="label type">Array</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>The array of <a href="..\classes\F2.AppManifest.AppContent.html" class="crosslink">F2.AppManifest.AppContent</a>
-objects</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l171"><code>sdk\src\classes.js:171</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-inlineScripts" class="level2 ">
-	<h3>
-		inlineScripts
-
-		<span class="label type">Array</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Any inline javascript tha should initially be run</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l179"><code>sdk\src\classes.js:179</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-scripts" class="level2 ">
-	<h3>
-		scripts
-
-		<span class="label type">Array</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Urls to javascript files required by the App</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l186"><code>sdk\src\classes.js:186</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-styles" class="level2 ">
-	<h3>
-		styles
-
-		<span class="label type">Array</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Urls to CSS files required by the App</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l193"><code>sdk\src\classes.js:193</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-	</div>
 	
 	<!-- PROPERTIES TAB -->
 

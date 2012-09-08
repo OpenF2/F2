@@ -50,6 +50,8 @@
 						
 		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
@@ -324,9 +326,9 @@ F2.extend(&#x27;&#x27;, (function(){
 			$.each(appConfigs, function(i, a) {
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === &#x27;function&#x27;) {
-						F2.Apps[a.appId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-						if (F2.Apps[a.appId].app[&#x27;init&#x27;] !== undefined) {
-							F2.Apps[a.appId].app.init();
+						_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+						if (_apps[a.instanceId].app[&#x27;init&#x27;] !== undefined) {
+							_apps[a.instanceId].app.init();
 						}
 					} else {
 						F2.log(&#x27;App initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
@@ -395,7 +397,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		&#x2F;&#x2F; make sure the Container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			&#x2F;&#x2F; create the html container for the iframe
-			_afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
+			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
 			&#x2F;&#x2F; init events
 			_initAppEvents(appConfig);
 			&#x2F;&#x2F; create RPC socket
@@ -709,10 +711,6 @@ F2.extend(&#x27;&#x27;, (function(){
 					$(this).remove();
 				});
 			}
-		}
-
-		,temp:function() {
-			F2.log(_apps);
 		}
 	};
 })());
