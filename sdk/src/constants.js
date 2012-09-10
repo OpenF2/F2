@@ -174,14 +174,6 @@ F2.extend('Constants', {
 	 */
 	Sockets:{
 		/**
-		 * The APP\_RPC message is sent when a method on an App object is called.
-		 * @property APP_RPC
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		APP_RPC:'__appRpc__',
-		/**
 		 * The EVENT message is sent whenever
 		 * {{#crossLink "F2.Events\emit"}}{{/crossLink}} is fired
 		 * @property EVENT
@@ -219,7 +211,15 @@ F2.extend('Constants', {
 		 * @static
 		 * @final
 		 */
-		RPC_CALLBACK:'__rpcCallback__'
+		RPC_CALLBACK:'__rpcCallback__',
+		/**
+		 * The UI\_RPC message is sent when a UI method called.
+		 * @property UI_RPC
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		UI_RPC:'__uiRpc__'
 	},
 
 	/**

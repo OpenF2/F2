@@ -70,15 +70,19 @@
 	
 		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -117,7 +121,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l1"><code>sdk\src\container.js:1</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l1"><code>sdk&#x2F;src&#x2F;container.js:1</code></a></dd>
 		
 
 		
@@ -236,8 +240,8 @@ loading</p></td>
 					
 					<tr class=" private">
 						<td class="name">
-							<a data-tab="#methods" data-tab-member="_hydrateApp" href="javascript:;">
-								_hydrateApp
+							<a data-tab="#methods" data-tab-member="_hydrateAppConfig" href="javascript:;">
+								_hydrateAppConfig
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
@@ -253,7 +257,7 @@ loading</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Adds properties and methods to the App object</p></td>
+						<td><p>Adds properties to the AppConfig object</p></td>
 					</tr>
 					
 					<tr class=" private">
@@ -312,6 +316,19 @@ loading</p></td>
 							</a>
 						</td>
 						<td><p>Checks if the App is valid</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="appConfigReplacer" href="javascript:;">
+								appConfigReplacer
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Function to pass into F2.stringify which will prevent circular reference
+errors when serializing objects</p></td>
 					</tr>
 					
 					<tr class="">
@@ -568,9 +585,9 @@ any other actions in the Container.</p></td>
 							</a>
 						</td>
 						<td><p>Begins the loading process for all Apps. The App will
-be passed the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
+be passed the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
 contain the App's unique instanceId within the Container. Optionally, the
-<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
+<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
 assets will be used instead of making a request.</p></td>
 					</tr>
 					
@@ -618,7 +635,19 @@ assets will be used instead of making a request.</p></td>
 										
 										<li>
 											
-												obj
+												value
+											
+										</li>
+										
+										<li>
+											
+												replacer
+											
+										</li>
+										
+										<li>
+											
+												space
 											
 										</li>
 										
@@ -627,7 +656,11 @@ assets will be used instead of making a request.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Wrapper to convert an object to JSON</p></td>
+						<td><p>Wrapper to convert an object to JSON</p>
+
+<p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
+recommended to pass F2.appConfigReplacer as the replacer function in
+order to prevent circular serialization errors.</strong></p></td>
 					</tr>
 					
 				</tbody>
@@ -653,7 +686,7 @@ assets will be used instead of making a request.</p></td>
 						</td>
 						<td><p>The Apps class is a namespace for App developers to place the javascript
 class that is used to initialize their App. The javascript classes should
-be namepaced with the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. It is recommended
+be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. It is recommended
 that the code be placed in a closure to help keep the global namespace
 clean.</p>
 
@@ -728,7 +761,7 @@ automatically.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk\src\container.js:11</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk&#x2F;src&#x2F;container.js:11</code></a></dd>
 			
 
 			
@@ -746,7 +779,7 @@ automatically.</p></td>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -853,7 +886,7 @@ automatically.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk\src\container.js:36</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk&#x2F;src&#x2F;container.js:36</code></a></dd>
 			
 
 			
@@ -871,7 +904,7 @@ automatically.</p></td>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -960,7 +993,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l61"><code>sdk\src\container.js:61</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l61"><code>sdk&#x2F;src&#x2F;container.js:61</code></a></dd>
 			
 
 			
@@ -978,7 +1011,7 @@ loading</p>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -995,6 +1028,19 @@ loading</p>
 	
 
 	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Element</span>:
+					
+					The DOM Element surrounding the App
+				
+			</div>
+		</div>
+	
 
 	
 
@@ -1005,9 +1051,9 @@ loading</p>
 	
 </section>
 		
-		<section id="methods-_hydrateApp" class="level2  private">
+		<section id="methods-_hydrateAppConfig" class="level2  private">
 	<h3>
-		_hydrateApp
+		_hydrateAppConfig
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
@@ -1038,7 +1084,7 @@ loading</p>
 	</h3>
 
 	<p>
-		<p>Adds properties and methods to the App object</p>
+		<p>Adds properties to the AppConfig object</p>
 	</p>	
 
 	<div class="well well-small">
@@ -1051,7 +1097,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l73"><code>sdk\src\container.js:73</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l74"><code>sdk&#x2F;src&#x2F;container.js:74</code></a></dd>
 			
 
 			
@@ -1069,7 +1115,7 @@ loading</p>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -1132,7 +1178,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l126"><code>sdk\src\container.js:126</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l92"><code>sdk&#x2F;src&#x2F;container.js:92</code></a></dd>
 			
 
 			
@@ -1190,7 +1236,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l159"><code>sdk\src\container.js:159</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l114"><code>sdk&#x2F;src&#x2F;container.js:114</code></a></dd>
 			
 
 			
@@ -1248,7 +1294,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l177"><code>sdk\src\container.js:177</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l132"><code>sdk&#x2F;src&#x2F;container.js:132</code></a></dd>
 			
 
 			
@@ -1329,7 +1375,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l301"><code>sdk\src\container.js:301</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l262"><code>sdk&#x2F;src&#x2F;container.js:262</code></a></dd>
 			
 
 			
@@ -1347,7 +1393,7 @@ loading</p>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -1376,6 +1422,63 @@ loading</p>
 				
 			</div>
 		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-appConfigReplacer" class="level2 ">
+	<h3>
+		appConfigReplacer
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Function to pass into F2.stringify which will prevent circular reference
+errors when serializing objects</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l30"><code>sdk&#x2F;src&#x2F;preamble.js:30</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
 	
 
 	
@@ -1444,7 +1547,7 @@ that namespace optionally overwriting existing properties.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l66"><code>sdk\src\preamble.js:66</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l78"><code>sdk&#x2F;src&#x2F;preamble.js:78</code></a></dd>
 			
 
 			
@@ -1567,7 +1670,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l405"><code>sdk\src\container.js:405</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l284"><code>sdk&#x2F;src&#x2F;container.js:284</code></a></dd>
 			
 
 			
@@ -1636,7 +1739,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l103"><code>sdk\src\preamble.js:103</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l118"><code>sdk&#x2F;src&#x2F;preamble.js:118</code></a></dd>
 			
 
 			
@@ -1721,7 +1824,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l115"><code>sdk\src\preamble.js:115</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l130"><code>sdk&#x2F;src&#x2F;preamble.js:130</code></a></dd>
 			
 
 			
@@ -1826,7 +1929,7 @@ any other actions in the Container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l421"><code>sdk\src\container.js:421</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l299"><code>sdk&#x2F;src&#x2F;container.js:299</code></a></dd>
 			
 
 			
@@ -1844,7 +1947,7 @@ any other actions in the Container.</p>
 				<li class="param">
 					
 						<code class="param-name">config</code>
-						<span class="label type"><a href="..\classes\F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a></span>
+						<span class="label type"><a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a></span>
 					
 
 					
@@ -1905,7 +2008,7 @@ any other actions in the Container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l437"><code>sdk\src\container.js:437</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l315"><code>sdk&#x2F;src&#x2F;container.js:315</code></a></dd>
 			
 
 			
@@ -1992,7 +2095,7 @@ any other actions in the Container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l187"><code>sdk\src\container.js:187</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l142"><code>sdk&#x2F;src&#x2F;container.js:142</code></a></dd>
 			
 
 			
@@ -2016,7 +2119,7 @@ any other actions in the Container.</p>
 					
 
 					<p>
-						<p>An array of <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
+						<p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
 					</p>
 
@@ -2026,7 +2129,7 @@ objects</p>
 				<li class="param">
 					
 						<code class="param-name optional">[appManifest]</code>
-						<span class="label type"><a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+						<span class="label type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
 						<span class="label label-info" title="This parameter is optional.">optional</span>
 					
 
@@ -2106,7 +2209,7 @@ objects</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l278"><code>sdk\src\container.js:278</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l237"><code>sdk&#x2F;src&#x2F;container.js:237</code></a></dd>
 			
 
 			
@@ -2124,7 +2227,7 @@ objects</p>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -2139,7 +2242,7 @@ objects</p>
 				<li class="param">
 					
 						<code class="param-name">appManifest</code>
-						<span class="label type"><a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+						<span class="label type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
 					
 
 					
@@ -2217,7 +2320,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l124"><code>sdk\src\preamble.js:124</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l139"><code>sdk&#x2F;src&#x2F;preamble.js:139</code></a></dd>
 			
 
 			
@@ -2324,7 +2427,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l135"><code>sdk\src\preamble.js:135</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l150"><code>sdk&#x2F;src&#x2F;preamble.js:150</code></a></dd>
 			
 
 			
@@ -2420,9 +2523,9 @@ page.</p>
 
 	<p>
 		<p>Begins the loading process for all Apps. The App will
-be passed the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
+be passed the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
 contain the App's unique instanceId within the Container. Optionally, the
-<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
+<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
 assets will be used instead of making a request.</p>
 	</p>	
 
@@ -2436,7 +2539,7 @@ assets will be used instead of making a request.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l443"><code>sdk\src\container.js:443</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l321"><code>sdk&#x2F;src&#x2F;container.js:321</code></a></dd>
 			
 
 			
@@ -2460,7 +2563,7 @@ assets will be used instead of making a request.</p>
 					
 
 					<p>
-						<p>An array of <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
+						<p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
 					</p>
 
@@ -2478,7 +2581,7 @@ objects</p>
 
 					<p>
 						<p>An array of
-<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
+<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
 objects. This array must be the same length as the apps array that is
 objects. This array must be the same length as the apps array that is
 passed in. This can be useful if Apps are loaded on the server-side and
@@ -2537,7 +2640,7 @@ passed down to the client.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l572"><code>sdk\src\container.js:572</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l450"><code>sdk&#x2F;src&#x2F;container.js:450</code></a></dd>
 			
 
 			
@@ -2603,7 +2706,7 @@ passed down to the client.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l587"><code>sdk\src\container.js:587</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l465"><code>sdk&#x2F;src&#x2F;container.js:465</code></a></dd>
 			
 
 			
@@ -2657,7 +2760,19 @@ passed down to the client.</p>
 				
 				<li>
 					
-						obj
+						value
+					
+				</li>
+				
+				<li>
+					
+						replacer
+					
+				</li>
+				
+				<li>
+					
+						space
 					
 				</li>
 				
@@ -2680,6 +2795,10 @@ passed down to the client.</p>
 
 	<p>
 		<p>Wrapper to convert an object to JSON</p>
+
+<p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
+recommended to pass F2.appConfigReplacer as the replacer function in
+order to prevent circular serialization errors.</strong></p>
 	</p>	
 
 	<div class="well well-small">
@@ -2692,7 +2811,7 @@ passed down to the client.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l144"><code>sdk\src\preamble.js:144</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l159"><code>sdk&#x2F;src&#x2F;preamble.js:159</code></a></dd>
 			
 
 			
@@ -2709,7 +2828,7 @@ passed down to the client.</p>
 				
 				<li class="param">
 					
-						<code class="param-name">obj</code>
+						<code class="param-name">value</code>
 						<span class="label type">Object</span>
 					
 
@@ -2717,6 +2836,42 @@ passed down to the client.</p>
 
 					<p>
 						<p>The object to convert</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">replacer</code>
+						<span class="label type">Function | Array</span>
+					
+
+					
+
+					<p>
+						<p>an optional parameter that determines
+how object values are stringified for objects. It can be a function or an 
+array of strings.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">space</code>
+						<span class="label type">Int | String</span>
+					
+
+					
+
+					<p>
+						<p>an optional parameter that specifies the
+indentation of nested structures. If it is omitted, the text will be
+packed without extra whitespace. If it is a number, it will specify the
+number of spaces to indent at each level. If it is a string (such as '\t'
+or '&nbsp;'), it contains the characters used to indent at each level.</p>
 					</p>
 
 					
@@ -2776,7 +2931,7 @@ passed down to the client.</p>
 	<p>
 		<p>The Apps class is a namespace for App developers to place the javascript
 class that is used to initialize their App. The javascript classes should
-be namepaced with the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. It is recommended
+be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. It is recommended
 that the code be placed in a closure to help keep the global namespace
 clean.</p>
 
@@ -2794,7 +2949,7 @@ automatically.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l30"><code>sdk\src\preamble.js:30</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l42"><code>sdk&#x2F;src&#x2F;preamble.js:42</code></a></dd>
 			
 
 			

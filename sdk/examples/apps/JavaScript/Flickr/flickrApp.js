@@ -1,40 +1,18 @@
 F2.Apps["3493749374339473947394397439473972018"] = (function() {
 
-	App_Class = function (app, appContent) {
-		this._app = app;
-		this._appContent = appContent;
+	var App_Class = function (appConfig, appContent, root) {
+		this.ui = appConfig.ui;
+		this.appContent = appContent;
+		this.$root = root;
 	};
 
 	App_Class.prototype.init = function () {
 
-		this._container = $("#" + this._app.instanceId);
-		this._app.updateHeight();
+		this.ui.updateHeight();
 		
-		this.bindEvents();
-
 		//F2.log("¡Vámonos! Flickr interestingness coming up...");
 
 		this.getPhotos();
-	};
-
-	App_Class.prototype.bindEvents = function(){
-		var self = this;
-
-		// bind 'about this app' change event
-		F2.Events.on(F2.Constants.Events.APP_VIEW_CHANGE + this._app.instanceId, $.proxy(this._handleViewChange, this));
-
-		//bind 'back to home' event 
-		$("div[data-f2-view='about'] a", this._container).bind("click",function(e){
-			self._handleViewChange("home");
-		});
-	}
-
-	App_Class.prototype._handleViewChange = function(view) {
-
-		$("div." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
-		$("div." + F2.Constants.Css.APP_VIEW + "[data-f2-view='"+view+"']", this._container).removeClass("hide");
-
-		this._app.updateHeight();
 	};
 
 	App_Class.prototype.getPhotos = function(){
@@ -48,14 +26,18 @@ F2.Apps["3493749374339473947394397439473972018"] = (function() {
 			//F2.log(jqxhr)
 			this.loadPhoto(jqxhr.photos.photo[0]);
 		}).fail(function(jqxhr,txtStatus){
-			$("div.imgPlaceholder", this._container).html("Booof! Flickr or something failed.");
+			$("div.imgPlaceholder", this.$root).html("Booof! Flickr or something failed.");
 		});
 	}
 
 	App_Class.prototype.loadPhoto = function(photo){
 		var url = this.makePhotoURL(photo);
 		//F2.log(url);
-		$("div.imgPlaceholder", this._container).html("<img src='"+url+"' class='img-polaroid' >");
+		$('<img src="' + url + '" class="img-polaroid">')
+			.appendTo( $('div.imgPlaceholder', this.$root))
+			.load($.proxy(function() {
+				this.ui.updateHeight();
+			}, this));
 	}
 
 	App_Class.prototype.makePhotoURL = function(photo){

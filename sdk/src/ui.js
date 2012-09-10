@@ -1,143 +1,430 @@
-/**
- * UI helper methods
- * @class F2.UI
- */
 F2.extend('UI', (function(){
 
-	// see classes.js for definition
-	var _config = F2.UI.MaskConfiguration;
+	var _containerConfig;
 
-	return {
-		/**
-		 * Removes a overlay from an Element on the page
-		 * @method hideMask
-		 * @param {string} instanceId The Instance ID of the App
-		 * @param {string|Element} selector The Element or selector to an Element
-		 * that currently contains the loader
-		 */
-		hideMask:function(instanceId, selector) {
+	/**
+	 * UI helper methods
+	 * @class F2.UI
+	 * @constructor
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 */
+	var UI_Class = function(appConfig) {
 
-			if (!F2.isInit()) {
-				F2.log('F2.init() must be called before F2.UI.hideMask()');
-				return;
-			}
+		var _appConfig = appConfig;
+		var $root = $(appConfig.root);
 
-			if (F2.Rpc.isRemote(instanceId) && !$(selector).is('.' + F2.Constants.Css.APP)) {
+		var _updateHeight = function(height) {
+			height = height || $(_appConfig.root).outerHeight();
+			//console.log(_appConfig.name, height);
+			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
-					instanceId,
-					F2.Constants.Sockets.RPC,
-					'F2.UI.hideMask',
+					_appConfig.instanceId,
+					F2.Constants.Sockets.UI_RPC,
+					'updateHeight',
 					[
-						instanceId,
-						// must only pass the selector argument. if we pass an Element there
-						// will be F2.stringify() errors
-						$(selector).selector
+						height
 					]
 				);
 			} else {
-				
-				var container = $(selector);
-				var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
-				container.removeClass(F2.Constants.Css.MASK_CONTAINER);
-
-				// if useClasses is false, we need to remove all inline styles
-				if (!_config.useClasses) {
-					container.attr('style', '');
-				}
-
-				// if the element contains this data property, we need to reset static
-				// position
-				if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
-					container.css({'position':'static'});
-				}
+				_appConfig.height = height;
+				$(_appConfig.root).find('iframe').height(_appConfig.height);
 			}
-		},
-		/**
-		 * Set the configuration options for the
-		 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
-		 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods
-		 * @method setMaskConfiguration
-		 * @param {object} config The F2.UI.MaskConfiguration object
-		 */
-		setMaskConfiguration:function(config) {
-			if (!F2.isInit()) {
-				if (config) {
-					$.extend(_config, config);
+		};
+
+		return {
+			/**
+			 * Removes a overlay from an Element on the page
+			 * @method hideMask
+			 * @param {string|Element} selector The Element or selector to an Element
+			 * that currently contains the loader
+			 */
+			hideMask:function(selector) {
+				F2.UI.hideMask(_appConfig.instanceId, selector);
+			},
+			/**
+			 * Helper methods for creating and using Modals
+			 * @class F2.UI.Modals
+			 * @for F2.UI
+			 */
+			Modals:(function(){
+
+				var _renderAlert = function(message) {
+					return [
+						'<div class="modal">',
+							'<header class="modal-header">',
+								'<h3>Alert!</h3>',
+							'</header>',
+							'<div class="modal-body">',
+								'<p>',
+									message,
+								'</p>',
+							'</div>',
+							'<div class="modal-footer">',
+								'<button class="btn btn-primary btn-ok">OK</button>',
+							'</div>',
+						'</div>'
+					].join('');
+				};
+
+				var _renderConfirm = function(message) {
+					return [
+						'<div class="modal">',
+							'<header class="modal-header">',
+								'<h3>Confirm</h3>',
+							'</header>',
+							'<div class="modal-body">',
+								'<p>',
+									message,
+								'</p>',
+							'</div>',
+							'<div class="modal-footer">',
+								'<button type="button" class="btn btn-primary btn-ok">OK</button>',
+								'<button type="button" class="btn btn-cancel">Cancel</button">',
+							'</div>',
+						'</div>'
+					].join('');
+				};
+
+				return {
+					/**
+					 * Display an alert message on the page
+					 * @method alert
+					 * @param {string} message The message to be displayed
+					 * @param {function} [callback] The callback to be fired when the user
+					 * closes the dialog
+					 * @for F2.UI.Modals
+					 */
+					alert: function(message, callback) {
+
+						if (!F2.isInit()) {
+							F2.log('F2.init() must be called before F2.UI.Modals.alert()');
+							return;
+						}
+
+						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
+							F2.Rpc.call(
+								_appConfig.instanceId,
+								F2.Constants.Sockets.UI_RPC,
+								'Modals.alert',
+								[].slice.call(arguments)
+							);
+						} else {
+							// display the alert
+							$(_renderAlert(message))
+								.on('show', function() {
+									var modal = this;
+									$(modal).find('.btn-primary').on('click', function() {
+										$(modal).modal('hide').remove();
+										(callback || $.noop)();
+									});
+								})
+								.modal({backdrop:true});
+						}
+					},
+					/**
+					 * Display a confirm message on the page
+					 * @method confirm
+					 * @param {string} message The message to be displayed
+					 * @param {function} okCallback The function that will be called when the OK
+					 * button is pressed
+					 * @param {function} cancelCallback The function that will be called when
+					 * the Cancel button is pressed
+					 * @for F2.UI.Modals
+					 */
+					confirm:function(message, okCallback, cancelCallback) {
+
+						if (!F2.isInit()) {
+							F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
+							return;
+						}
+
+						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
+							F2.Rpc.call(
+								_appConfig.instanceId,
+								F2.Constants.Sockets.UI_RPC,
+								'Modals.confirm',
+								[].slice.call(arguments)
+							);
+						} else {
+							// display the alert
+							$(_renderConfirm(message))
+								.on('show', function() {
+									var modal = this;
+
+									$(modal).find('.btn-ok').on('click', function() {
+										$(modal).modal('hide').remove();
+										(okCallback || $.noop)();
+									});
+
+									$(modal).find('.btn-cancel').on('click', function() {
+										$(modal).modal('hide').remove();
+										(cancelCallback || $.noop)();
+									});
+								})
+								.modal({backdrop:true});
+						}
+					}
+				};
+			})(),
+			/**
+			 * Sets the title of the App as shown in the browser. Depending on the
+			 * Container HTML, this method may do nothing if the Container has not been
+			 * configured properly or else the Container Provider does not allow Title's
+			 * to be set.
+			 * @method setTitle
+			 * @params {string} title The title of the App
+			 * @for F2.UI
+			 */
+			setTitle:function(title) {
+
+				if (F2.Rpc.isRemote(_appConfig.instanceId)) {
+					F2.Rpc.call(
+						_appConfig.instanceId,
+						F2.Constants.Sockets.UI_RPC,
+						'setTitle',
+						[
+							title
+						]
+					);
+				} else {
+					$(_appConfig.root).find('.' + F2.Constants.Css.APP_TITLE).text(title);
 				}
-			} else {
-				F2.log('F2.UI.setMaskConfiguration() must be called before F2.init()');
-			}
-		},
-		/**
-		 * Display an ovarlay over an Element on the page
-		 * @method showMask
-		 * @param {string} instanceId The Instance ID of the App
-		 * @param {string|Element} selector The Element or selector to an Element
-		 * over which to display the loader
-		 * @param {bool} showLoading Display a loading icon
-		 */
-		showMask:function(instanceId, selector, showLoading) {
+			},
+			/**
+			 * Display an ovarlay over an Element on the page
+			 * @method showMask
+			 * @param {string|Element} selector The Element or selector to an Element
+			 * over which to display the loader
+			 * @param {bool} showLoading Display a loading icon
+			 */
+			showMask:function(selector, showLoader) {
+				F2.UI.showMask(_appConfig.instanceId, selector, showLoader);
+			},
+			/**
+			 * For secure apps, this method updates the size of the iframe that
+			 * contains the App. **Note: It is recommended that App developers call
+			 * this method anytime Elements are added or removed from the DOM**
+			 * @method updateHeight
+			 * @params {int} height The height of the App
+			 */
+			updateHeight:_updateHeight,
+			/**
+			 * Helper methods for creating and using Views
+			 * @class F2.UI.Views
+			 * @for F2.UI
+			 */
+			Views:(function(){
 
-			if (!F2.isInit()) {
-				F2.log('F2.init() must be called before F2.UI.showMask()');
-				return;
-			}
+				var _events = new EventEmitter2();
+				var _rValidEvents = /change/i;
 
-			if (F2.Rpc.isRemote(instanceId) && $(selector).is('.' + F2.Constants.Css.APP)) {
-				F2.Rpc.call(
+				// unlimited listeners, set to > 0 for debugging
+				_events.setMaxListeners(0);
+
+				var _isValid = function(eventName) {
+					if (_rValidEvents.test(eventName)) {
+						return true;
+					} else {
+						F2.log('"' + eventName + '" is not a valid F2.UI.Views event name');
+						return false;
+					}
+				};
+
+				return {
+					/**
+					 * Change the current view for the App or add an event listener
+					 * @method change
+					 * @param {string|function} [input] If a string is passed in, the view
+					 * will be changed for the App. If a function is passed in, a change
+					 * event listener will be added.
+					 * @for F2.UI.Views
+					 */
+					change:function(input) {
+
+						if (typeof input === 'function') {
+							this.on('change', input);
+						} else if (typeof input === 'string') {
+
+							if (!F2.Rpc.isRemote(_appConfig.instanceId)) {
+								F2.Rpc.call(
+									_appConfig.instanceId,
+									F2.Constants.Sockets.UI_RPC,
+									'Views.change',
+									[].slice.call(arguments)
+								);
+							} else if (F2.inArray(input, _appConfig.views)) {
+								$('.' + F2.Constants.Css.APP_VIEW, $root)
+									.addClass('hide')
+									.filter('[data-f2-view="' + input + '"]', $root)
+									.removeClass('hide');
+								
+								_updateHeight();
+								_events.emit('change', input);
+							}							
+						}
+					},
+					/**
+					 * Removes a view event listener
+					 * @method off
+					 * @param {string} event The event name
+		 			 * @param {function} listener The function that will be removed
+		 			 * @for F2.UI.Views
+					 */
+					off:function(event, listener) {
+						if (_isValid(event)) {
+							_events.off(event, listener);
+						}
+					},
+					/**
+					 * Adds a view event listener
+					 * @method on
+					 * @param {string} event The event name
+					 * @param {function} listener The function to be fired when the event is
+					 * emitted
+					 * @for F2.UI.Views
+					 */
+					on:function(event, listener) {
+						if (_isValid(event)) {
+							_events.on(event, listener);
+						}
+					}
+				}
+			})()
+		};
+	};
+
+	/**
+	 * Removes a overlay from an Element on the page
+	 * @method hideMask
+	 * @static
+	 * @param {string} instanceId The Instance ID of the App
+	 * @param {string|Element} selector The Element or selector to an Element
+	 * that currently contains the loader
+	 * @for F2.UI
+	 */
+	UI_Class.hideMask = function(instanceId, selector) {
+
+		if (!F2.isInit()) {
+			F2.log('F2.init() must be called before F2.UI.hideMask()');
+			return;
+		}
+
+		if (F2.Rpc.isRemote(instanceId) && !$(selector).is('.' + F2.Constants.Css.APP)) {
+			F2.Rpc.call(
+				instanceId,
+				F2.Constants.Sockets.RPC,
+				'F2.UI.hideMask',
+				[
 					instanceId,
-					F2.Constants.Sockets.RPC,
-					'F2.UI.showMask',
-					[
-						instanceId,
-						// must only pass the selector argument. if we pass an Element there
-						// will be F2.stringify() errors
-						$(selector).selector,
-						showLoading
-					]
-				);
-			} else {
+					// must only pass the selector argument. if we pass an Element there
+					// will be F2.stringify() errors
+					$(selector).selector
+				]
+			);
+		} else {
+			
+			var container = $(selector);
+			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
+			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
-				if (showLoading && !_config.loadingIcon) {
-					F2.log('Unable to display loading icon. Please use F2.UI.setMaskConfiguration to set the path to the loading icon');
-				}
+			// if useClasses is false, we need to remove all inline styles
+			if (!_containerConfig.UI.Mask.useClasses) {
+				container.attr('style', '');
+			}
 
-				var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
-				var mask = $('<div data->')
-					.height('100%' /*container.outerHeight()*/)
-					.width('100%' /*container.outerWidth()*/)
-					.addClass(F2.Constants.Css.MASK);
-
-				// set inline styles if useClasses is false
-				if (!_config.useClasses) {
-					mask.css({
-						'background-color':_config.backgroundColor,
-						'background-image': !!_config.loadingIcon ? ('url(' + _config.loadingIcon + ')') : '',
-						'background-position':'50% 50%',
-						'background-repeat':'no-repeat',
-						'display':'block',
-						'left':0,
-						'padding':0,
-						'position':'absolute',
-						'top':0,
-						'z-index':_config.zIndex,
-
-						'filter':'alpha(opacity=' + (_config.opacity * 100) + ')',
-						'opacity':_config.opacity
-					});
-				}
-
-				// only set the position if the container is currently static
-				if (container.css('position') == 'static') {
-					container.css({'position':'relative'});
-					// setting this data property tells hideMask to set the position
-					// back to static
-					container.data(F2.Constants.Css.MASK_CONTAINER, true);
-				}
-
-				// add the mask to the container
-				container.append(mask);
+			// if the element contains this data property, we need to reset static
+			// position
+			if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
+				container.css({'position':'static'});
 			}
 		}
 	};
+
+	/**
+	 *
+	 * @method init
+	 * @static
+	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
+	 */
+	UI_Class.init = function(containerConfig) {
+		_containerConfig = containerConfig;
+
+		// set defaults
+		_containerConfig.UI = $.extend(true, {}, F2.ContainerConfig.UI, _containerConfig.UI || {});
+	};
+
+	/**
+	 * Display an ovarlay over an Element on the page
+	 * @method showMask
+	 * @static
+	 * @param {string} instanceId The Instance ID of the App
+	 * @param {string|Element} selector The Element or selector to an Element
+	 * over which to display the loader
+	 * @param {bool} showLoading Display a loading icon
+	 */
+	UI_Class.showMask = function(instanceId, selector, showLoading) {
+
+		if (!F2.isInit()) {
+			F2.log('F2.init() must be called before F2.UI.showMask()');
+			return;
+		}
+
+		if (F2.Rpc.isRemote(instanceId) && $(selector).is('.' + F2.Constants.Css.APP)) {
+			F2.Rpc.call(
+				instanceId,
+				F2.Constants.Sockets.RPC,
+				'F2.UI.showMask',
+				[
+					instanceId,
+					// must only pass the selector argument. if we pass an Element there
+					// will be F2.stringify() errors
+					$(selector).selector,
+					showLoading
+				]
+			);
+		} else {
+
+			if (showLoading && !_containerConfig.UI.Mask.loadingIcon) {
+				F2.log('Unable to display loading icon. Please use F2.UI.setMaskConfiguration to set the path to the loading icon');
+			}
+
+			var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
+			var mask = $('<div data->')
+				.height('100%' /*container.outerHeight()*/)
+				.width('100%' /*container.outerWidth()*/)
+				.addClass(F2.Constants.Css.MASK);
+
+			// set inline styles if useClasses is false
+			if (!_containerConfig.UI.Mask.useClasses) {
+				mask.css({
+					'background-color':_containerConfig.UI.Mask.backgroundColor,
+					'background-image': !!_containerConfig.UI.Mask.loadingIcon ? ('url(' + _containerConfig.UI.Mask.loadingIcon + ')') : '',
+					'background-position':'50% 50%',
+					'background-repeat':'no-repeat',
+					'display':'block',
+					'left':0,
+					'padding':0,
+					'position':'absolute',
+					'top':0,
+					'z-index':_containerConfig.UI.Mask.zIndex,
+
+					'filter':'alpha(opacity=' + (_containerConfig.UI.Mask.opacity * 100) + ')',
+					'opacity':_containerConfig.UI.Mask.opacity
+				});
+			}
+
+			// only set the position if the container is currently static
+			if (container.css('position') === 'static') {
+				container.css({'position':'relative'});
+				// setting this data property tells hideMask to set the position
+				// back to static
+				container.data(F2.Constants.Css.MASK_CONTAINER, true);
+			}
+
+			// add the mask to the container
+			container.append(mask);
+		}
+	};
+
+	return UI_Class;
 })());

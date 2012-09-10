@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2.AppManifest.AppContent</title>
+	<title>sdk&#x2F;src&#x2F;events.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -107,257 +107,95 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.AppManifest.AppContent</h1>
+				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;events.js</h1>
 
-<p>
-	<p>The AppContent object</p>
-</p>
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ * Description of Events goes here
+ * @class F2.Events
+ *&#x2F;
+F2.extend(&#x27;Events&#x27;, (function() {
+	&#x2F;&#x2F; init EventEmitter
+	var _events = new EventEmitter2({
+		wildcard:true
+	});
 
-<div class="well well-small">
-	<dl class="dl-horizontal">
-		
+	&#x2F;&#x2F; unlimited listeners, set to &gt; 0 for debugging
+	_events.setMaxListeners(0);
 
-		
-
-		
-			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l191"><code>sdk&#x2F;src&#x2F;classes.js:191</code></a></dd>
-		
-
-		
-	</dl>
+	return {
+		&#x2F;**
+		 * Same as F2.Events.emit except that it will not send the event
+		 * to all sockets.
+		 * @method _socketEmit
+		 * @private
+		 * @param {string} event The event name
+		 * @param {object} [arg]* The arguments to be passed
+		 *&#x2F;
+		_socketEmit:function() {
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		},
+		&#x2F;**
+		 * Execute each of the listeners tha may be listening for the specified
+		 * event name in order with the list of arguments
+		 * @method emit
+		 * @param {string} event The event name
+		 * @param {object} [arg]* The arguments to be passed
+		 *&#x2F;
+		emit:function() {
+			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		},
+		&#x2F;**
+		 * Adds a listener that will execute n times for the event before being 
+		 * removed. The listener is invoked only the first time the event is 
+		 * fired, after which it is removed.
+		 * @method many
+		 * @param {string} event The event name
+		 * @param {int} timesToListen The number of times to execute the event
+		 * before being removed
+		 * @param {function} listener The function to be fired when the event is
+		 * emitted
+		 *&#x2F;
+		many:function(event, timesToListen, listener) {
+			return _events.many(event, timesToListen, listener);
+		},
+		&#x2F;**
+		 * Remove a listener for the specified event.
+		 * @method off
+		 * @param {string} event The event name
+		 * @param {function} listener The function that will be removed
+		 *&#x2F;
+		off:function(event, listener) {
+			return _events.off(event, listener);
+		},
+		&#x2F;**
+		 * Adds a listener for the specified event
+		 * @method on
+		 * @param {string} event The event name
+		 * @param {function} listener The function to be fired when the event is
+		 * emitted
+		 *&#x2F;
+		on:function(event, listener){
+			return _events.on(event, listener);
+		},
+		&#x2F;**
+		 * Adds a one time listener for the event. The listener is invoked only
+		 * the first time the event is fired, after which it is removed.
+		 * @method once
+		 * @param {string} event The event name
+		 * @param {function} listener The function to be fired when the event is
+		 * emitted
+		 *&#x2F;
+		once:function(event, listener) {
+			return _events.once(event, listener);
+		}
+	};
+})());
+    </pre>
 </div>
 
-
-
-<ul id="classTabs" class="nav nav-tabs">
-	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
-	
-	
-		<li><a href="#properties" data-toggle="tab">Properties</a></li>
-	
-	
-	
-</ul>
-
-<div class="tab-content">
-	<!-- SUMMARY TAB -->
-	<div id="summary" class="tab-pane active">
-		
-
-		
-
-		
-		<div class="index-section properties">
-			<h3>Properties</h3>
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#properties" data-tab-member="data" href="javascript:;">data</a>
-						</td>
-						<td><p>Arbitrary data to be passed along with the App</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#properties" data-tab-member="html" href="javascript:;">html</a>
-						</td>
-						<td><p>The string of HTML representing the App</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#properties" data-tab-member="status" href="javascript:;">status</a>
-						</td>
-						<td><p>A status message</p></td>
-					</tr>
-					
-				</tbody>
-			</table>
-		</div>
-		
-
-		
-
-		
-	</div>
-	<!-- SUMMARY TAB -->
-
-	<!-- METHODS TAB -->
-	
-	<!-- METHODS TAB -->
-
-	<!-- PROPERTIES TAB -->
-	
-	<div id="properties" class="tab-pane">
-		
-		<section id="properties-data" class="level2 ">
-	<h3>
-		data
-
-		<span class="label type">Object</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Arbitrary data to be passed along with the App</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l196"><code>sdk&#x2F;src&#x2F;classes.js:196</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-html" class="level2 ">
-	<h3>
-		html
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>The string of HTML representing the App</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l203"><code>sdk&#x2F;src&#x2F;classes.js:203</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-status" class="level2 ">
-	<h3>
-		status
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>A status message</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l210"><code>sdk&#x2F;src&#x2F;classes.js:210</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-	</div>
-	
-	<!-- PROPERTIES TAB -->
-
-	<!-- ATTRIBUTES TAB -->
-	
-	<!-- ATTRIBUTES TAB -->
-
-	<!-- EVENTS TAB -->
-	
-	<!-- EVENTS TAB -->
-</div>
 			</div>
 		</div>
 

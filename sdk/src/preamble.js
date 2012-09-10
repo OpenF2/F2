@@ -1,5 +1,5 @@
 /*!
- * F2 v0.11.4
+ * F2 v0.12.0
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +27,18 @@ if (!window.F2) {
 	 * @main f2
 	 */
 	F2 = {
+		/**
+		 * Function to pass into F2.stringify which will prevent circular reference
+		 * errors when serializing objects
+		 * @method appConfigReplacer
+		 */
+		appConfigReplacer:function(key, value) {
+			if (key == 'root' || key == 'ui') {
+				return undefined;
+			} else {
+				return value;
+			}
+		},
 		/**
 		 * The Apps class is a namespace for App developers to place the javascript
 		 * class that is used to initialize their App. The javascript classes should
@@ -74,28 +86,31 @@ if (!window.F2) {
 		 * @returns {object} The created object
 		 */
 		extend:function (ns, obj, overwrite) {
+			var isFunc = typeof obj === 'function';
 			var parts = ns ? ns.split('.') : [];
 			var parent = window.F2;
 			obj = obj || {};
 			
 			// ignore leading global
-			if (parts[0] === "F2") {
+			if (parts[0] === 'F2') {
 				parts = parts.slice(1);
 			}
-			
+
 			// create namespaces
-			for (var i = 0; i < parts.length; i++) {
-				if (typeof parent[parts[i]] === "undefined") {
-					parent[parts[i]] = {};
+			for (var i = 0, len = parts.length; i < len; i++) {
+				if (!parent[parts[i]]) {
+					parent[parts[i]] = isFunc && i + 1 == len ? obj : {};
 				}
 				parent = parent[parts[i]];
 			}
-			
+
 			// copy object into namespace
-			for (var prop in obj) {
-				if (typeof parent[prop] === "undefined" || overwrite) {
-					parent[prop] = obj[prop];
-				} 
+			if (!isFunc) {
+				for (var prop in obj) {
+					if (typeof parent[prop] === 'undefined' || overwrite) {
+						parent[prop] = obj[prop];
+					} 
+				}
 			}
 
 			return parent;
@@ -143,12 +158,24 @@ if (!window.F2) {
 		},
 		/**
 		 * Wrapper to convert an object to JSON
+		 *
+		 * **Note: When using F2.stringify on an F2.AppConfig object, it is
+		 * recommended to pass F2.appConfigReplacer as the replacer function in
+		 * order to prevent circular serialization errors.**
 		 * @method stringify
-		 * @param {object} obj The object to convert
+		 * @param {object} value The object to convert
+		 * @param {function|Array} replacer an optional parameter that determines
+		 * how object values are stringified for objects. It can be a function or an 
+		 * array of strings.
+		 * @param {int|string} space an optional parameter that specifies the
+		 * indentation of nested structures. If it is omitted, the text will be
+		 * packed without extra whitespace. If it is a number, it will specify the
+		 * number of spaces to indent at each level. If it is a string (such as '\t'
+		 * or '&nbsp;'), it contains the characters used to indent at each level.
 		 * @returns {string} The JSON string
 		 */
-		stringify:function(obj) {
-			return JSON.stringify(obj);
+		stringify:function(value, replacer, space) {
+			return JSON.stringify(value, replacer, space);
 		}
 	};
 }

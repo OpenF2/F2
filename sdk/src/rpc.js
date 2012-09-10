@@ -3,15 +3,14 @@
  * @class F2.Rpc
  */
 F2.extend('Rpc', (function(){
-	
-	var _apps = {};
 	var _callbacks = {};
 	var _secureAppPagePath = '';
-	var _rAppCall = new RegExp('^' + F2.Constants.Sockets.APP_RPC);
+	var _apps = {};
 	var _rEvents = new RegExp('^' + F2.Constants.Sockets.EVENT);
 	var _rRpc = new RegExp('^' + F2.Constants.Sockets.RPC);
 	var _rRpcCallback = new RegExp('^' + F2.Constants.Sockets.RPC_CALLBACK);
 	var _rSocketLoad = new RegExp('^' + F2.Constants.Sockets.LOAD);
+	var _rUiCall = new RegExp('^' + F2.Constants.Sockets.UI_RPC);
 
 	/**
 	 * Creates a socket connection from the App to the Container using 
@@ -21,8 +20,8 @@ F2.extend('Rpc', (function(){
 	 */
 	var _createAppToContainerSocket = function() {
 
+		var appConfig; // socket closure
 		var isLoaded = false;
-		var appConfig = false;
 
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
@@ -34,16 +33,17 @@ F2.extend('Rpc', (function(){
 
 					// make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
-						appConfig = appParts[0]; // assigning app object to closure
-						var appManifest = appParts[1];
+						appConfig = appParts[0];
 
-						// save app locally
+						// register app
+						F2.registerApps([appConfig], [appParts[1]]);
+
+						// save socket
 						_apps[appConfig.instanceId] = {
-							app:appConfig,
+							config:appConfig,
 							socket:socket
-						};
+						};	
 
-						F2.registerApps([appConfig], [appManifest]);
 						isLoaded = true;
 					}
 
@@ -60,8 +60,8 @@ F2.extend('Rpc', (function(){
 	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
 	 * @method _createContainerToAppSocket
 	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The AppManifest object
+	 * @param {appConfig} appConfig The F2.AppConfig object
+	 * @param {F2.AppManifest} appManifest The F2.AppManifest object
 	 */
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
@@ -95,12 +95,7 @@ F2.extend('Rpc', (function(){
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
-				// remove root from appConfig, otherwise there will be recursion errors
-				// with F2.stringify()
-				var root = appConfig.root;
-				appConfig.root = null;
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest]));
-				appConfig.root = root;
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
 			}
 		});
 
@@ -137,44 +132,54 @@ F2.extend('Rpc', (function(){
 
 		var obj;
 
-		function parse(regEx, message) {
-			return F2.parse(message.replace(regEx, ''));
-		}
+		function parseFunction(parent, functionName) {
+			var path = String(functionName).split('.');
+			for (var i = 0; i < path.length; i++) {
+				if (parent[path[i]] === undefined) {
+					parent = undefined;
+					break;
+				}
+				parent = parent[path[i]];
+			}
+			return parent;
+		};
 
-		// handle App Call
-		if (_rAppCall.test(message)) {
-			obj = parse(_rAppCall, message);
-			appConfig[obj.functionName].apply(appConfig, obj.params);
-
-		// handle RPC
-		} else if (_rRpc.test(message)) {
-			obj = parse(_rRpc, message);
+		function parseMessage(regEx, message, instanceId) {
+			var o = F2.parse(message.replace(regEx, ''));
 
 			// if obj.callbacks
 			//   for each callback
 			//     for each params
 			//       if callback matches param
 			//        replace param with _createRpcCallback(app.instanceId, callback)
-			if (obj.params && obj.params.length && obj.callbacks && obj.callbacks.length) {
-				$.each(obj.callbacks, function(i, c) {
-					$.each(obj.params, function(i, p) {
+			if (o.params && o.params.length && o.callbacks && o.callbacks.length) {
+				$.each(o.callbacks, function(i, c) {
+					$.each(o.params, function(i, p) {
 						if (c == p) {
-							obj.params[i] = _createRpcCallback(appConfig.instanceId, c);
+							o.params[i] = _createRpcCallback(instanceId, c);
 						}
 					});
 				});
 			}
-			// parse function path
-			var path = String(obj.functionName).split('.');
-			var func = window;
-			for (var i = 0; i < path.length; i++) {
-				if (func[path[i]] === undefined) {
-					func = undefined;
-					break;
-				}
-				func = func[path[i]];
-			}
+
+			return o;
+		};
+
+		// handle UI Call
+		if (_rUiCall.test(message)) {
+			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
+			var func = parseFunction(appConfig.ui, obj.functionName);
 			// if we found the function, call it
+			if (func !== undefined) {
+				func.apply(appConfig.ui, obj.params);
+			} else {
+				F2.log('Unable to locate UI RPC function: ' + obj.functionName);
+			}
+
+		// handle RPC
+		} else if (_rRpc.test(message)) {
+			obj = parseMessage(_rRpc, message, appConfig.instanceId);
+			var func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
@@ -183,7 +188,7 @@ F2.extend('Rpc', (function(){
 
 		// handle RPC Callback
 		} else if (_rRpcCallback.test(message)) {
-			obj = parse(_rRpcCallback, message);
+			obj = parseMessage(_rRpcCallback, message, appConfig.instanceId);
 			if (_callbacks[obj.functionName] !== undefined) {
 				_callbacks[obj.functionName].apply(_callbacks[obj.functionName], obj.params);
 				delete _callbacks[obj.functionName];
@@ -191,7 +196,7 @@ F2.extend('Rpc', (function(){
 
 		// handle Events
 		} else if (_rEvents.test(message)) {
-			obj = parse(_rEvents, message);
+			obj = parseMessage(_rEvents, message, appConfig.instanceId);
 			F2.Events._socketEmit.apply(F2.Events, obj);
 		}
 	};
@@ -280,11 +285,11 @@ F2.extend('Rpc', (function(){
 		isRemote:function(instanceId) {
 			return (
 				// we have an App
-				_apps[instanceId] !== undefined && 
+				_apps[instanceId] !== undefined &&
 				// the App is secure
-				_apps[instanceId].app.isSecure &&
+				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
-				$('#' + instanceId).find('iframe').length == 0
+				$(_apps[instanceId].config.root).find('iframe').length == 0
 			);
 		},
 
@@ -295,9 +300,9 @@ F2.extend('Rpc', (function(){
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 */
 		register:function(appConfig, appManifest) {
-			if (appConfig) {
+			if (appConfig.instanceId) {
 				_apps[appConfig.instanceId] = {
-					app:appConfig,
+					config:appConfig,
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {

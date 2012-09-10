@@ -34,10 +34,10 @@ var CORE_FILES = [
 	'sdk/src/preamble.js',
 	'sdk/src/classes.js',
 	'sdk/src/constants.js',
-	'sdk/src/container.js',
+	'sdk/src/events.js',
 	'sdk/src/rpc.js',
 	'sdk/src/ui.js',
-	'sdk/src/ui-modals.js'
+	'sdk/src/container.js'
 ];
 var ENCODING = 'utf-8';
 var EOL = '\n';

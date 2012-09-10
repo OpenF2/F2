@@ -12,11 +12,13 @@ YUI.add("yuidoc-meta", function(Y) {
         "F2.Constants.Sockets",
         "F2.Constants.Views",
         "F2.ContainerConfig",
+        "F2.ContainerConfig.UI",
+        "F2.ContainerConfig.UI.Mask",
         "F2.Events",
         "F2.Rpc",
         "F2.UI",
-        "F2.UI.MaskConfiguration",
-        "F2.UI.Modals"
+        "F2.UI.Modals",
+        "F2.UI.Views"
     ],
     "modules": [
         "f2"

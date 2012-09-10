@@ -1,45 +1,36 @@
 F2.Apps["9d1c357e7a9241532ab8977d440df4f3"] = (function() {
 
-	var App_Class = function (app, appContent) {
-		this._app = app;
-		this._appContent = appContent;
+	var App_Class = function (appConfig, appContent, root) {
+		this.appConfig = appConfig;
+		this.appContent = appContent;
+		this.ui = appConfig.ui;
+		this.$root = root;
 	};
 
 	App_Class.prototype.init = function () {
 
-		this._container = $("#" + this._app.instanceId);
-		this._app.setTitle((this._app.isSecure ? 'Secure' : '') + " Hello World");
-		this._app.updateHeight();
+		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + ' Hello World');
+		this.ui.updateHeight();
 		
 		// bind symbol change event
 		F2.Events.on(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, $.proxy(this._handleSymbolChange, this));
 
-		// bind settings change event
-		F2.Events.on(F2.Constants.Events.APP_VIEW_CHANGE + this._app.instanceId, $.proxy(this._handleViewChange, this));
-
-		$("button.cancel").on("click", $.proxy(function() {
-			$("div." + F2.Constants.Css.APP_VIEW, this._container).removeClass("hide");
-			$("form." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
-			this._app.updateHeight();
+		$('button.cancel', this.$root).on('click', $.proxy(function() {
+			this.ui.Views.change(F2.Constants.Views.HOME);
+			this.ui.updateHeight();
 		}, this));
-	};
-
-	App_Class.prototype._handleViewChange = function() {
-		$("div." + F2.Constants.Css.APP_VIEW, this._container).addClass("hide");
-		$("form." + F2.Constants.Css.APP_VIEW, this._container).removeClass("hide");
-		this._app.updateHeight();
 	};
 
 	App_Class.prototype._handleSymbolChange = function (data) {
 		
-		var symbolAlert = $("div.symbolAlert", this._container);
+		var symbolAlert = $('div.symbolAlert', this.$root);
 		symbolAlert = (symbolAlert.length)
 			? symbolAlert
 			: this._renderSymbolAlert();
 
-		$("span:first", symbolAlert).text("The symbol has been changed to " + data.symbol);
+		$('span:first', symbolAlert).text('The symbol has been changed to ' + data.symbol);
 
-		this._app.updateHeight();
+		this.ui.updateHeight();
 	};
 
 	App_Class.prototype._renderSymbolAlert = function() {
@@ -50,7 +41,7 @@ F2.Apps["9d1c357e7a9241532ab8977d440df4f3"] = (function() {
 					'<span></span>',
 				'</div>'
 			].join(''))
-			.prependTo($("." + F2.Constants.Css.APP_CONTAINER,this._container));
+			.prependTo($('.' + F2.Constants.Css.APP_CONTAINER, this.$root));
 	};
 
 	return App_Class;

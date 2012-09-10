@@ -39,12 +39,6 @@ F2.extend("", {
 		 */
 		appId:"",
 		/**
-		 * Changes the view of the App
-		 * @method changeView
-		 * @params {string} view The View to switch to
-		 */
-		changeView:function(view) {},
-		/**
 		 * An object that represents the context of an App
 		 * @property context
 		 * @type object
@@ -69,8 +63,10 @@ F2.extend("", {
 		 */
 		height:0,
 		/**
-		 * The unique runtime ID of the App. Will by assigned automaticaly when the
-		 * App is registered with {{#crossLink "F2\registerApps"}}{{/crossLink}}
+		 * The unique runtime ID of the App.
+		 *
+		 * **This property populated during the
+		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
 		 * @property instanceId
 		 * @type string
 		 */
@@ -127,29 +123,23 @@ F2.extend("", {
 		 */
 		name:"",
 		/**
-		 * The root DOM Element that contains this App
+		 * The root DOM element that contains the App
+		 *
+		 * **This property populated during the
+		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
 		 * @property root
 		 * @type Element
 		 */
-		root:null,
+		root:undefined,
 		/**
-		 * Sets the title of the App as shown in the browser. Depending on the
-		 * Container HTML, this method may do nothing if the Container has not been
-		 * configured properly or else the Container Provider does not allow Title's
-		 * to be set.
-		 * @method setTitle
-		 * @params {string} title The title of the App
+		 * The instance of F2.UI providing easy access to F2.UI methods
+		 *
+		 * **This property populated during the
+		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
+		 * @property ui
+		 * @type F2.UI
 		 */
-		setTitle:function(title) {},
-		/**
-		 * For secure apps, this method updates the size of the iframe that contains
-		 * the App. **Note: It is recommended that App developers get into the habit
-		 * of calling this method anytime Elements are added or removed from the
-		 * DOM**
-		 * @method updateHeight
-		 * @params {int} height The height of the App
-		 */
-		updateHeight:function(height) {},
+		ui:undefined,
 		/**
 		 * The views that this App supports. Available views
 		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
@@ -259,6 +249,7 @@ F2.extend("", {
 		 * the page.
 		 * @method beforeAppRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+		 * @return {Element} The DOM Element surrounding the App
 		 */
 		beforeAppRender:function(appConfig) {},
 		/**
@@ -268,6 +259,56 @@ F2.extend("", {
 		 * @type bool
 		 */
 		isSecureAppPage:false,
+		/**
+		 * An object containing configuration defaults for F2.UI
+		 * @class F2.ContainerConfig.UI
+		 */
+		UI:{
+			/**
+			 * An object containing configuration defaults for the 
+			 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
+			 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods.
+			 * @class F2.ContainerConfig.UI.Mask
+			 */
+			Mask:{
+				/**
+				 * The backround color of the overlay
+				 * @property backgroundColor
+				 * @type string
+				 * @default #FFFFFF
+				 */
+				backgroundColor:'#FFFFFF',
+				/**
+				 * The path to the loading icon
+				 * @property loadingIcon
+				 * @type string
+				 */
+				loadingIcon:'',
+				/**
+				 * The opacity of the background overlay
+				 * @property opacity
+				 * @type int
+				 * @default .6
+				 */
+				opacity:.6,
+				/**
+				 * Do not use inline styles for mask functinality. Instead classes will be
+				 * applied to the elements and it is up to the Container provider to
+				 * implement the class definitions.
+				 * @property useClasses
+				 * @type bool
+				 * @default false
+				 */
+				useClasses:false,
+				/**
+				 * The z-index to use for the overlay
+				 * @property zIndex
+				 * @type int
+				 * @default 2
+				 */
+				zIndex:2
+			}
+		},
 		/**
 		 * Allows the Container to specify which page is used when
 		 * loading a secure app. The page must reside on a different domain than the
@@ -285,55 +326,5 @@ F2.extend("", {
 		 * @required
 		 */
 		supportedViews:[]
-	}
-});
-
-/**
- * @main F2
- */
-F2.extend("F2.UI", {
-	/**
-	 * An object containing configuration information for the 
-	 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
-	 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods.
-	 * @class F2.UI.MaskConfiguration
-	 */
-	MaskConfiguration:{
-		/**
-		 * The backround color of the overlay
-		 * @property backgroundColor
-		 * @type string
-		 * @default #FFFFFF
-		 */
-		backgroundColor:'#FFFFFF',
-		/**
-		 * The path to the loading icon
-		 * @property loadingIcon
-		 * @type string
-		 */
-		loadingIcon:'',
-		/**
-		 * The opacity of the background overlay
-		 * @property opacity
-		 * @type int
-		 * @default .6
-		 */
-		opacity:.6,
-		/**
-		 * Do not use inline styles for mask functinality. Instead classes will be
-		 * applied to the elements and it is up to the Container provider to
-		 * implement the class definitions.
-		 * @property useClasses
-		 * @type bool
-		 * @default false
-		 */
-		useClasses:false,
-		/**
-		 * The z-index to use for the overlay
-		 * @property zIndex
-		 * @type int
-		 * @default 2
-		 */
-		zIndex:2
 	}
 });

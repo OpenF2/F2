@@ -28,7 +28,7 @@ F2.extend('', (function(){
 			return;
 		} else {
 			// apply APP class and Instance ID
-			$(appContainer).addClass(F2.Constants.Css.APP).attr('id', appConfig.instanceId);
+			$(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
 		}
 	};
@@ -64,19 +64,20 @@ F2.extend('', (function(){
 	 * @method _beforeAppRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @return {Element} The DOM Element surrounding the App
 	 */
 	var _beforeAppRender = function(appConfig) {
 		var handler = _config.beforeAppRender || $.noop;
-		handler(appConfig);
+		return handler(appConfig);
 	};
 
 	/**
-	 * Adds properties and methods to the App object
-	 * @method _hydrateApp
+	 * Adds properties to the AppConfig object
+	 * @method _hydrateAppConfig
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 */
-	var _hydrateApp = function(appConfig) {
+	var _hydrateAppConfig = function(appConfig) {
 
 		// create the instanceId for the App
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
@@ -86,41 +87,6 @@ F2.extend('', (function(){
 		if (!F2.inArray(appConfig.views, F2.Constants.Views.HOME)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
-
-		appConfig.setTitle = function(title) {
-
-			if (F2.Rpc.isRemote(this.instanceId)) {
-				F2.Rpc.call(
-					this.instanceId,
-					F2.Constants.Sockets.APP_RPC,
-					'setTitle',
-					[
-						title
-					]
-				);
-			} else {
-				$('#' + this.instanceId).find('.' + F2.Constants.Css.APP_TITLE).text(title);
-			}
-		};
-
-		appConfig.updateHeight = function(height) {
-
-			height = height || $('#' + this.instanceId).outerHeight();
-
-			if (F2.Rpc.isRemote(this.instanceId)) {
-				F2.Rpc.call(
-					this.instanceId,
-					F2.Constants.Sockets.APP_RPC,
-					'updateHeight',
-					[
-						height
-					]
-				);
-			} else {
-				this.height = height;
-				$('#' + this.instanceId).find('iframe').height(this.height);
-			}
-		};
 	};
 
 	/**
@@ -130,30 +96,19 @@ F2.extend('', (function(){
 	 */
 	var _initAppEvents = function (appConfig) {
 
-		var appContainer = $('#' + appConfig.instanceId);
+		$(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
 
-		// these events should only be attached outside of the secure app
-		if (!_config.isSecureAppPage) {
+			event.preventDefault();
 
-			// it is assumed that all containers will at least have
-			// F2.Constants.Views.HOME
-			if (_config.supportedViews.length > 1) {
-				$(appContainer).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
+			var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
 
-					var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE);
-
-					// handle the special REMOVE view
-					if (view == F2.Constants.Views.REMOVE) {
-						F2.removeApp(appConfig.instanceId);
-
-					// make sure the app supports this type of view
-					} else if (F2.inArray(view, appConfig.views)) {
-						// tell the app that the view has changed
-						F2.Events.emit(F2.Constants.Events.APP_VIEW_CHANGE + appConfig.instanceId, view);
-					}
-				});
+			// handle the special REMOVE view
+			if (view == F2.Constants.Views.REMOVE) {
+				F2.removeApp(appConfig.instanceId);
+			} else {
+				appConfig.ui.Views.change(view);
 			}
-		}
+		});
 	};
 
 	/**
@@ -181,7 +136,7 @@ F2.extend('', (function(){
 	 * @return {bool} True if the Container has been init
 	 */
 	var _isInit = function() {
-		return _config;
+		return !!_config;
 	};
 
 	/**
@@ -215,6 +170,10 @@ F2.extend('', (function(){
 		var scriptsLoaded = 0;
 		var appInit = function() {
 			$.each(appConfigs, function(i, a) {
+				// instantiate F2.UI
+				a.ui = F2.UI(a);
+
+				// instantiate F2.App
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === 'function') {
 						_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
@@ -289,6 +248,8 @@ F2.extend('', (function(){
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			// instantiate F2.UI
+			appConfig.ui = F2.UI(appConfig);
 			// init events
 			_initAppEvents(appConfig);
 			// create RPC socket
@@ -321,92 +282,9 @@ F2.extend('', (function(){
 
 	return {
 		/**
-		 * Description of Events goes here
-		 * @class F2.Events
-		 */
-		Events:(function() {
-			// init EventEmitter
-			var events = new EventEmitter2({
-				wildcard:true
-			});
-
-			// unlimited listeners, set to > 0 for debugging
-			events.setMaxListeners(0);
-
-			return {
-				/**
-				 * Same as F2.Events.emit except that it will not send the event
-				 * to all sockets.
-				 * @method _socketEmit
-				 * @private
-				 * @param {string} event The event name
-				 * @param {object} [arg]* The arguments to be passed
-				 */
-				_socketEmit:function() {
-					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
-				},
-				/**
-				 * Execute each of the listeners tha may be listening for the specified
-				 * event name in order with the list of arguments
-				 * @method emit
-				 * @param {string} event The event name
-				 * @param {object} [arg]* The arguments to be passed
-				 */
-				emit:function() {
-					F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
-					return EventEmitter2.prototype.emit.apply(events, [].slice.call(arguments));
-				},
-				/**
-				 * Adds a listener that will execute n times for the event before being 
-				 * removed. The listener is invoked only the first time the event is 
-				 * fired, after which it is removed.
-				 * @method many
-				 * @param {string} event The event name
-				 * @param {int} timesToListen The number of times to execute the event
-				 * before being removed
-				 * @param {function} listener The function to be fired when the event is
-				 * emitted
-				 */
-				many:function(event, timesToListen, listener) {
-					return events.many(event, timesToListen, listener);
-				},
-				/**
-				 * Remove a listener for the specified event.
-				 * @method off
-				 * @param {string} event The event name
-				 * @param {function} listener The function that will be removed
-				 */
-				off:function(event, listener) {
-					return events.off(event, listener);
-				},
-				/**
-				 * Adds a listener for the specified event
-				 * @method on
-				 * @param {string} event The event name
-				 * @param {function} listener The function to be fired when the event is
-				 * emitted
-				 */
-				on:function(event, listener){
-					return events.on(event, listener);
-				},
-				/**
-				 * Adds a one time listener for the event. The listener is invoked only
-				 * the first time the event is fired, after which it is removed.
-				 * @method once
-				 * @param {string} event The event name
-				 * @param {function} listener The function to be fired when the event is
-				 * emitted
-				 */
-				once:function(event, listener) {
-					return events.once(event, listener);
-				}
-			};
-		})(),
-		/**
 		 * Gets the current list of Apps in the container
 		 * @method getContainerState
 		 * @returns {Array} An array of objects containing the appId and...
-		 * @for F2
 		 */
 		getContainerState:function() {
 			if (!_isInit()) {
@@ -423,12 +301,12 @@ F2.extend('', (function(){
 		 * any other actions in the Container.
 		 * @method init
 		 * @param {F2.ContainerConfig} config The configuration object
-		 * @for F2
 		 */
 		init:function(config) {
 			_config = config;
 
 			F2.Rpc.init(_config.secureAppPagePath);
+			F2.UI.init(_config);
 
 			if (!_config.isSecureAppPage) {
 				_initContainerEvents();
@@ -486,13 +364,13 @@ F2.extend('', (function(){
 				}
 
 				// add properties and methods
-				_hydrateApp(a);
+				_hydrateAppConfig(a);
+
+				// fire beforeAppRender
+				a.root = _beforeAppRender(a);
 
 				// save app
 				_apps[a.instanceId] = { config:a };
-
-				// fire beforeAppRender
-				_beforeAppRender(a);
 
 				// if we have the manifest, go ahead and load the app
 				if (haveManifests) {
@@ -544,7 +422,7 @@ F2.extend('', (function(){
 						$.ajax({
 							url:req.url,
 							data:{
-								params:F2.stringify(req.apps)
+								params:F2.stringify(req.apps, F2.appConfigReplacer)
 							},
 							jsonp:false, /* do not put 'callback=' in the query string */
 							jsonpCallback:jsonpCallback, /* Unique function name */
@@ -597,8 +475,8 @@ F2.extend('', (function(){
 			}
 
 			if (_apps[instanceId]) {
-				delete _apps[instanceId];
-				$('#' + instanceId).fadeOut(function() {
+				$(_apps[instanceId].config.root).fadeOut(function() {
+					delete _apps[instanceId];
 					$(this).remove();
 				});
 			}

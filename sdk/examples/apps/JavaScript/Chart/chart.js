@@ -1,4 +1,4 @@
-F2.Apps["com_markh_highchartsChart"] = (function(){
+F2.Apps["com_markh_highchartsChart"] = function(){
 
 	//setup container symbol change listener to draw new chart.
 	F2.Events.on(
@@ -189,4 +189,4 @@ F2.Apps["com_markh_highchartsChart"] = (function(){
 	* Need help? Visit the API documentation at:
 	* http://dev.markitondemand.com
 	*/
-});
+};

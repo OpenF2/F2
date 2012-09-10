@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2.ContainerConfig</title>
+	<title>F2.UI.Views</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -107,10 +107,10 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.ContainerConfig</h1>
+				<h1>F2.UI.Views</h1>
 
 <p>
-	<p>An object containing configuration information for the Container</p>
+	<p>Helper methods for creating and using Views</p>
 </p>
 
 <div class="well well-small">
@@ -121,7 +121,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l218"><code>sdk&#x2F;src&#x2F;classes.js:218</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l211"><code>sdk&#x2F;src&#x2F;ui.js:211</code></a></dd>
 		
 
 		
@@ -135,8 +135,6 @@
 	
 		<li><a href="#methods" data-toggle="tab">Methods</a></li>
 	
-	
-		<li><a href="#properties" data-toggle="tab">Properties</a></li>
 	
 	
 	
@@ -161,21 +159,15 @@
 					
 					<tr class="">
 						<td class="name">
-							<a data-tab="#methods" data-tab-member="afterAppRender" href="javascript:;">
-								afterAppRender
+							<a data-tab="#methods" data-tab-member="change" href="javascript:;">
+								change
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												appConfig
-											
-										</li>
-										
-										<li>
-											
-												html
+												[input]
 											
 										</li>
 										
@@ -184,28 +176,26 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows the Container to override how an App's html is 
-inserted into the page. The function should accept an
-<a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of html</p></td>
+						<td><p>Change the current view for the App or add an event listener</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a data-tab="#methods" data-tab-member="appRender" href="javascript:;">
-								appRender
+							<a data-tab="#methods" data-tab-member="off" href="javascript:;">
+								off
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												appConfig
+												event
 											
 										</li>
 										
 										<li>
 											
-												html
+												listener
 											
 										</li>
 										
@@ -214,25 +204,26 @@ inserted into the page. The function should accept an
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows the Container to wrap an App in extra html. The
-function should accept an <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
-and also a string of html. The extra html can provide links to edit app
-settings and remove an app from the Container. See
-<a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
-should be applied to elements.</p></td>
+						<td><p>Removes a view event listener</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a data-tab="#methods" data-tab-member="beforeAppRender" href="javascript:;">
-								beforeAppRender
+							<a data-tab="#methods" data-tab-member="on" href="javascript:;">
+								on
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												appConfig
+												event
+											
+										</li>
+										
+										<li>
+											
+												listener
 											
 										</li>
 										
@@ -241,10 +232,7 @@ should be applied to elements.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows the Container to render html for an App before the AppManifest for
-an App has loaded. This can be useful if the design calls for loading
-icons to appear for each App before each App is loaded and rendered to
-the page.</p></td>
+						<td><p>Adds a view event listener</p></td>
 					</tr>
 					
 				</tbody>
@@ -252,29 +240,6 @@ the page.</p></td>
 		</div>
 		
 
-		
-		<div class="index-section properties">
-			<h3>Properties</h3>
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#properties" data-tab-member="isSecureAppPage" href="javascript:;">isSecureAppPage</a>
-						</td>
-						<td><p>Tells the Container that it is currently running within
-a secure app page</p></td>
-					</tr>
-					
-				</tbody>
-			</table>
-		</div>
 		
 
 		
@@ -287,22 +252,16 @@ a secure app page</p></td>
 	
 	<div id="methods" class="tab-pane">
 		
-		<section id="methods-afterAppRender" class="level2 ">
+		<section id="methods-change" class="level2 ">
 	<h3>
-		afterAppRender
+		change
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
 				
 				<li>
 					
-						appConfig
-					
-				</li>
-				
-				<li>
-					
-						html
+						[input]
 					
 				</li>
 				
@@ -324,9 +283,7 @@ a secure app page</p></td>
 	</h3>
 
 	<p>
-		<p>Allows the Container to override how an App's html is 
-inserted into the page. The function should accept an
-<a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of html</p>
+		<p>Change the current view for the App or add an event listener</p>
 	</p>	
 
 	<div class="well well-small">
@@ -339,7 +296,7 @@ inserted into the page. The function should accept an
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l223"><code>sdk&#x2F;src&#x2F;classes.js:223</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l234"><code>sdk&#x2F;src&#x2F;ui.js:234</code></a></dd>
 			
 
 			
@@ -356,157 +313,17 @@ inserted into the page. The function should accept an
 				
 				<li class="param">
 					
-						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<code class="param-name optional">[input]</code>
+						<span class="label type">String | Function</span>
+						<span class="label label-info" title="This parameter is optional.">optional</span>
 					
 
 					
 
 					<p>
-						<p>The F2.AppConfig object</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">html</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The string of html representing the App</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-				
-					
-						<span class="label type">Element</span>:
-					
-					The DOM Element surrounding the App
-				
-			</div>
-		</div>
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-appRender" class="level2 ">
-	<h3>
-		appRender
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						appConfig
-					
-				</li>
-				
-				<li>
-					
-						html
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Allows the Container to wrap an App in extra html. The
-function should accept an <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
-and also a string of html. The extra html can provide links to edit app
-settings and remove an app from the Container. See
-<a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
-should be applied to elements.</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l233"><code>sdk&#x2F;src&#x2F;classes.js:233</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-					
-
-					
-
-					<p>
-						<p>The F2.AppConfig object</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">html</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The string of html representing the App</p>
+						<p>If a string is passed in, the view
+will be changed for the App. If a function is passed in, a change
+event listener will be added.</p>
 					</p>
 
 					
@@ -527,16 +344,22 @@ should be applied to elements.</p>
 	
 </section>
 		
-		<section id="methods-beforeAppRender" class="level2 ">
+		<section id="methods-off" class="level2 ">
 	<h3>
-		beforeAppRender
+		off
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
 				
 				<li>
 					
-						appConfig
+						event
+					
+				</li>
+				
+				<li>
+					
+						listener
 					
 				</li>
 				
@@ -558,10 +381,7 @@ should be applied to elements.</p>
 	</h3>
 
 	<p>
-		<p>Allows the Container to render html for an App before the AppManifest for
-an App has loaded. This can be useful if the design calls for loading
-icons to appear for each App before each App is loaded and rendered to
-the page.</p>
+		<p>Removes a view event listener</p>
 	</p>	
 
 	<div class="well well-small">
@@ -574,7 +394,7 @@ the page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l245"><code>sdk&#x2F;src&#x2F;classes.js:245</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l266"><code>sdk&#x2F;src&#x2F;ui.js:266</code></a></dd>
 			
 
 			
@@ -591,14 +411,29 @@ the page.</p>
 				
 				<li class="param">
 					
-						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<code class="param-name">event</code>
+						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The F2.AppConfig object</p>
+						<p>The event name</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">listener</code>
+						<span class="label type">Function</span>
+					
+
+					
+
+					<p>
+						<p>The function that will be removed</p>
 					</p>
 
 					
@@ -609,18 +444,116 @@ the page.</p>
 	
 
 	
-		<div class="returns">
-			<h4>Returns:</h4>
 
-			<div class="returns-description">
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-on" class="level2 ">
+	<h3>
+		on
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						event
+					
+				</li>
+				
+				<li>
+					
+						listener
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Adds a view event listener</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
 				
 					
-						<span class="label type">Element</span>:
-					
-					The DOM Element surrounding the App
 				
-			</div>
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l278"><code>sdk&#x2F;src&#x2F;ui.js:278</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">event</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The event name</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">listener</code>
+						<span class="label type">Function</span>
+					
+
+					
+
+					<p>
+						<p>The function to be fired when the event is
+emitted</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
 		</div>
+	
+
 	
 
 	
@@ -637,60 +570,6 @@ the page.</p>
 	<!-- METHODS TAB -->
 
 	<!-- PROPERTIES TAB -->
-	
-	<div id="properties" class="tab-pane">
-		
-		<section id="properties-isSecureAppPage" class="level2 ">
-	<h3>
-		isSecureAppPage
-
-		<span class="label type">Bool</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Tells the Container that it is currently running within
-a secure app page</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l255"><code>sdk&#x2F;src&#x2F;classes.js:255</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-	</div>
 	
 	<!-- PROPERTIES TAB -->
 

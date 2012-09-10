@@ -70,15 +70,19 @@
 	
 		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -117,7 +121,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l29"><code>sdk\src\classes.js:29</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l29"><code>sdk&#x2F;src&#x2F;classes.js:29</code></a></dd>
 		
 
 		
@@ -128,8 +132,6 @@
 
 <ul id="classTabs" class="nav nav-tabs">
 	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
-	
-		<li><a href="#methods" data-toggle="tab">Methods</a></li>
 	
 	
 		<li><a href="#properties" data-toggle="tab">Properties</a></li>
@@ -143,93 +145,6 @@
 	<div id="summary" class="tab-pane active">
 		
 
-		
-		<div class="index-section methods">
-			<h3>Methods</h3>
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#methods" data-tab-member="changeView" href="javascript:;">
-								changeView
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												view
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>Changes the view of the App</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#methods" data-tab-member="setTitle" href="javascript:;">
-								setTitle
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												title
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>Sets the title of the App as shown in the browser. Depending on the
-Container HTML, this method may do nothing if the Container has not been
-configured properly or else the Container Provider does not allow Title's
-to be set.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a data-tab="#methods" data-tab-member="updateHeight" href="javascript:;">
-								updateHeight
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												height
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>For secure apps, this method updates the size of the iframe that contains
-the App. <strong>Note: It is recommended that App developers get into the habit
-of calling this method anytime Elements are added or removed from the
-DOM</strong></p></td>
-					</tr>
-					
-				</tbody>
-			</table>
-		</div>
 		
 
 		
@@ -271,9 +186,9 @@ The App must have isSecure = false.</p></td>
 							<a data-tab="#properties" data-tab-member="height" href="javascript:;">height</a>
 						</td>
 						<td><p>The height of the App. The initial height will be pulled from
-the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later modified by
+the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later modified by
 firing an
-<a href="..\classes\F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP<em>HEIGHT</em>CHANGE
+<a href="../classes/F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP<em>HEIGHT</em>CHANGE
 event.</p></td>
 					</tr>
 					
@@ -281,8 +196,10 @@ event.</p></td>
 						<td class="name">
 							<a data-tab="#properties" data-tab-member="instanceId" href="javascript:;">instanceId</a>
 						</td>
-						<td><p>The unique runtime ID of the App. Will by assigned automaticaly when the
-App is registered with F2\registerApps</p></td>
+						<td><p>The unique runtime ID of the App.</p>
+
+<p><strong>This property populated during the
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
 					</tr>
 					
 					<tr class="">
@@ -290,7 +207,7 @@ App is registered with F2\registerApps</p></td>
 							<a data-tab="#properties" data-tab-member="isSecure" href="javascript:;">isSecure</a>
 						</td>
 						<td><p>True if the App will be loaded in an iframe. This property
-will be true if the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
+will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
 isSecure = true. It will also be true if the Container has decided to run
 Apps in iframes.</p></td>
 					</tr>
@@ -299,7 +216,7 @@ Apps in iframes.</p></td>
 						<td class="name">
 							<a data-tab="#properties" data-tab-member="manifestUrl" href="javascript:;">manifestUrl</a>
 						</td>
-						<td><p>The url to retrieve the <a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p></td>
+						<td><p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p></td>
 					</tr>
 					
 					<tr class="">
@@ -341,7 +258,20 @@ an App from being run when the minWidth requirements are not met.</p></td>
 						<td class="name">
 							<a data-tab="#properties" data-tab-member="root" href="javascript:;">root</a>
 						</td>
-						<td><p>The root DOM Element that contains this App</p></td>
+						<td><p>The root DOM element that contains the App</p>
+
+<p><strong>This property populated during the
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="ui" href="javascript:;">ui</a>
+						</td>
+						<td><p>The instance of F2.UI providing easy access to F2.UI methods</p>
+
+<p><strong>This property populated during the
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
 					</tr>
 					
 					<tr class="">
@@ -349,9 +279,9 @@ an App from being run when the minWidth requirements are not met.</p></td>
 							<a data-tab="#properties" data-tab-member="views" href="javascript:;">views</a>
 						</td>
 						<td><p>The views that this App supports. Available views
-are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
+are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
-F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
 
 <pre><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 </code></pre></td>
@@ -369,283 +299,6 @@ F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p
 	<!-- SUMMARY TAB -->
 
 	<!-- METHODS TAB -->
-	
-	<div id="methods" class="tab-pane">
-		
-		<section id="methods-changeView" class="level2 ">
-	<h3>
-		changeView
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						view
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Changes the view of the App</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l41"><code>sdk\src\classes.js:41</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">view</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The View to switch to</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-setTitle" class="level2 ">
-	<h3>
-		setTitle
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						title
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Sets the title of the App as shown in the browser. Depending on the
-Container HTML, this method may do nothing if the Container has not been
-configured properly or else the Container Provider does not allow Title's
-to be set.</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l135"><code>sdk\src\classes.js:135</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">title</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The title of the App</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-updateHeight" class="level2 ">
-	<h3>
-		updateHeight
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						height
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>For secure apps, this method updates the size of the iframe that contains
-the App. <strong>Note: It is recommended that App developers get into the habit
-of calling this method anytime Elements are added or removed from the
-DOM</strong></p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l144"><code>sdk\src\classes.js:144</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">height</code>
-						<span class="label type">Int</span>
-					
-
-					
-
-					<p>
-						<p>The height of the App</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-	</div>
 	
 	<!-- METHODS TAB -->
 
@@ -682,7 +335,7 @@ DOM</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l34"><code>sdk\src\classes.js:34</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l34"><code>sdk&#x2F;src&#x2F;classes.js:34</code></a></dd>
 			
 
 			
@@ -731,7 +384,7 @@ DOM</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l47"><code>sdk\src\classes.js:47</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l41"><code>sdk&#x2F;src&#x2F;classes.js:41</code></a></dd>
 			
 
 			
@@ -781,7 +434,7 @@ The App must have isSecure = false.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l53"><code>sdk\src\classes.js:53</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l47"><code>sdk&#x2F;src&#x2F;classes.js:47</code></a></dd>
 			
 
 			
@@ -820,9 +473,9 @@ The App must have isSecure = false.</p>
 
 	<p>
 		<p>The height of the App. The initial height will be pulled from
-the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later modified by
+the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later modified by
 firing an
-<a href="..\classes\F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP<em>HEIGHT</em>CHANGE
+<a href="../classes/F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP<em>HEIGHT</em>CHANGE
 event.</p>
 	</p>
 
@@ -836,7 +489,7 @@ event.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l61"><code>sdk\src\classes.js:61</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l55"><code>sdk&#x2F;src&#x2F;classes.js:55</code></a></dd>
 			
 
 			
@@ -872,8 +525,10 @@ event.</p>
 	</h3>
 
 	<p>
-		<p>The unique runtime ID of the App. Will by assigned automaticaly when the
-App is registered with F2\registerApps</p>
+		<p>The unique runtime ID of the App.</p>
+
+<p><strong>This property populated during the
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
 	</p>
 
 	<div class="well well-small">
@@ -886,7 +541,7 @@ App is registered with F2\registerApps</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l71"><code>sdk\src\classes.js:71</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l65"><code>sdk&#x2F;src&#x2F;classes.js:65</code></a></dd>
 			
 
 			
@@ -923,7 +578,7 @@ App is registered with F2\registerApps</p>
 
 	<p>
 		<p>True if the App will be loaded in an iframe. This property
-will be true if the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
+will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
 isSecure = true. It will also be true if the Container has decided to run
 Apps in iframes.</p>
 	</p>
@@ -938,7 +593,7 @@ Apps in iframes.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l78"><code>sdk\src\classes.js:78</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l74"><code>sdk&#x2F;src&#x2F;classes.js:74</code></a></dd>
 			
 
 			
@@ -976,7 +631,7 @@ Apps in iframes.</p>
 	</h3>
 
 	<p>
-		<p>The url to retrieve the <a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p>
+		<p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p>
 	</p>
 
 	<div class="well well-small">
@@ -989,7 +644,7 @@ Apps in iframes.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l88"><code>sdk\src\classes.js:88</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l84"><code>sdk&#x2F;src&#x2F;classes.js:84</code></a></dd>
 			
 
 			
@@ -1040,7 +695,7 @@ from being run when the maxWidth requirements are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l95"><code>sdk\src\classes.js:95</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l91"><code>sdk&#x2F;src&#x2F;classes.js:91</code></a></dd>
 			
 
 			
@@ -1092,7 +747,7 @@ columns in their layout.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l103"><code>sdk\src\classes.js:103</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l99"><code>sdk&#x2F;src&#x2F;classes.js:99</code></a></dd>
 			
 
 			
@@ -1145,7 +800,7 @@ an App from being run when the minWidth requirements are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l113"><code>sdk\src\classes.js:113</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l109"><code>sdk&#x2F;src&#x2F;classes.js:109</code></a></dd>
 			
 
 			
@@ -1196,7 +851,7 @@ an App from being run when the minWidth requirements are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l122"><code>sdk\src\classes.js:122</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l118"><code>sdk&#x2F;src&#x2F;classes.js:118</code></a></dd>
 			
 
 			
@@ -1232,7 +887,10 @@ an App from being run when the minWidth requirements are not met.</p>
 	</h3>
 
 	<p>
-		<p>The root DOM Element that contains this App</p>
+		<p>The root DOM element that contains the App</p>
+
+<p><strong>This property populated during the
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
 	</p>
 
 	<div class="well well-small">
@@ -1245,7 +903,59 @@ an App from being run when the minWidth requirements are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l129"><code>sdk\src\classes.js:129</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l125"><code>sdk&#x2F;src&#x2F;classes.js:125</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-ui" class="level2 ">
+	<h3>
+		ui
+
+		<span class="label type"><a href="../classes/F2.UI.html" class="crosslink">F2.UI</a></span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>The instance of F2.UI providing easy access to F2.UI methods</p>
+
+<p><strong>This property populated during the
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l134"><code>sdk&#x2F;src&#x2F;classes.js:134</code></a></dd>
 			
 
 			
@@ -1282,9 +992,9 @@ an App from being run when the minWidth requirements are not met.</p>
 
 	<p>
 		<p>The views that this App supports. Available views
-are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
+are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
-F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
 
 <pre class="code"><code class="prettyprint">F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 </code></pre>
@@ -1300,7 +1010,7 @@ F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l153"><code>sdk\src\classes.js:153</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l143"><code>sdk&#x2F;src&#x2F;classes.js:143</code></a></dd>
 			
 
 			

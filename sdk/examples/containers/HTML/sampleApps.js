@@ -47,6 +47,7 @@
 {
 	"appId": "3493749374339473947394397439473972018",
 	"description": "A Flickr App",
+	"isSecure": true,
 	"manifestUrl": "../../apps/JavaScript/Flickr/appManifest.js",
 	"name": "Interestingness on Flickr",
 	"views": ["about"]

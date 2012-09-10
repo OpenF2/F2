@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk\src\preamble.js</title>
+	<title>sdk&#x2F;src&#x2F;preamble.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -70,15 +70,19 @@
 	
 		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -103,12 +107,12 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\preamble.js</h1>
+				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;preamble.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 &#x2F;*!
- * F2 v0.11.4
+ * F2 v0.12.0
  * Copyright (c) 2012 Markit Group Limited http:&#x2F;&#x2F;www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -136,6 +140,18 @@ if (!window.F2) {
 	 * @main f2
 	 *&#x2F;
 	F2 = {
+		&#x2F;**
+		 * Function to pass into F2.stringify which will prevent circular reference
+		 * errors when serializing objects
+		 * @method appConfigReplacer
+		 *&#x2F;
+		appConfigReplacer:function(key, value) {
+			if (key == &#x27;root&#x27; || key == &#x27;ui&#x27;) {
+				return undefined;
+			} else {
+				return value;
+			}
+		},
 		&#x2F;**
 		 * The Apps class is a namespace for App developers to place the javascript
 		 * class that is used to initialize their App. The javascript classes should
@@ -183,28 +199,31 @@ if (!window.F2) {
 		 * @returns {object} The created object
 		 *&#x2F;
 		extend:function (ns, obj, overwrite) {
+			var isFunc = typeof obj === &#x27;function&#x27;;
 			var parts = ns ? ns.split(&#x27;.&#x27;) : [];
 			var parent = window.F2;
 			obj = obj || {};
 			
 			&#x2F;&#x2F; ignore leading global
-			if (parts[0] === &quot;F2&quot;) {
+			if (parts[0] === &#x27;F2&#x27;) {
 				parts = parts.slice(1);
 			}
-			
+
 			&#x2F;&#x2F; create namespaces
-			for (var i = 0; i &lt; parts.length; i++) {
-				if (typeof parent[parts[i]] === &quot;undefined&quot;) {
-					parent[parts[i]] = {};
+			for (var i = 0, len = parts.length; i &lt; len; i++) {
+				if (!parent[parts[i]]) {
+					parent[parts[i]] = isFunc &amp;&amp; i + 1 == len ? obj : {};
 				}
 				parent = parent[parts[i]];
 			}
-			
+
 			&#x2F;&#x2F; copy object into namespace
-			for (var prop in obj) {
-				if (typeof parent[prop] === &quot;undefined&quot; || overwrite) {
-					parent[prop] = obj[prop];
-				} 
+			if (!isFunc) {
+				for (var prop in obj) {
+					if (typeof parent[prop] === &#x27;undefined&#x27; || overwrite) {
+						parent[prop] = obj[prop];
+					} 
+				}
 			}
 
 			return parent;
@@ -252,12 +271,24 @@ if (!window.F2) {
 		},
 		&#x2F;**
 		 * Wrapper to convert an object to JSON
+		 *
+		 * **Note: When using F2.stringify on an F2.AppConfig object, it is
+		 * recommended to pass F2.appConfigReplacer as the replacer function in
+		 * order to prevent circular serialization errors.**
 		 * @method stringify
-		 * @param {object} obj The object to convert
+		 * @param {object} value The object to convert
+		 * @param {function|Array} replacer an optional parameter that determines
+		 * how object values are stringified for objects. It can be a function or an 
+		 * array of strings.
+		 * @param {int|string} space an optional parameter that specifies the
+		 * indentation of nested structures. If it is omitted, the text will be
+		 * packed without extra whitespace. If it is a number, it will specify the
+		 * number of spaces to indent at each level. If it is a string (such as &#x27;\t&#x27;
+		 * or &#x27;&amp;nbsp;&#x27;), it contains the characters used to indent at each level.
 		 * @returns {string} The JSON string
 		 *&#x2F;
-		stringify:function(obj) {
-			return JSON.stringify(obj);
+		stringify:function(value, replacer, space) {
+			return JSON.stringify(value, replacer, space);
 		}
 	};
 }
