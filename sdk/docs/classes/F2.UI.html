@@ -36,7 +36,7 @@
 					<li class="divider-vertical"></li>
 					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
 					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.0</a></li>
 				</ul>
 			</div>
 		</div>
@@ -70,15 +70,19 @@
 	
 		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -117,7 +121,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l1"><code>sdk\src\ui.js:1</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l5"><code>sdk&#x2F;src&#x2F;ui.js:5</code></a></dd>
 		
 
 		
@@ -140,6 +144,92 @@
 	<!-- SUMMARY TAB -->
 	<div id="summary" class="tab-pane active">
 		
+			<h3>Constructor</h3>
+			<section id="methods-F2.UI" class="level2 ">
+	<h3>
+		F2.UI
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						appConfig
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l5"><code>sdk&#x2F;src&#x2F;ui.js:5</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">appConfig</code>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+					
+
+					
+
+					<p>
+						<p>The F2.AppConfig object</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+</section>
+		
 
 		
 		<div class="index-section methods">
@@ -152,6 +242,28 @@
 					</tr>
 				</thead>
 				<tbody>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="hideMask" href="javascript:;">
+								hideMask
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												selector
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Removes a overlay from an Element on the page</p></td>
+					</tr>
 					
 					<tr class="">
 						<td class="name">
@@ -183,15 +295,15 @@
 					
 					<tr class="">
 						<td class="name">
-							<a data-tab="#methods" data-tab-member="setMaskConfiguration" href="javascript:;">
-								setMaskConfiguration
+							<a data-tab="#methods" data-tab-member="init" href="javascript:;">
+								init
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												config
+												containerConfig
 											
 										</li>
 										
@@ -200,9 +312,60 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Set the configuration options for the
-F2.UI\showMask and
-F2.UI\hideMask methods</p></td>
+						<td></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="setTitle" href="javascript:;">
+								setTitle
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												title
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Sets the title of the App as shown in the browser. Depending on the
+Container HTML, this method may do nothing if the Container has not been
+configured properly or else the Container Provider does not allow Title's
+to be set.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="showMask" href="javascript:;">
+								showMask
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												selector
+											
+										</li>
+										
+										<li>
+											
+												showLoading
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Display an ovarlay over an Element on the page</p></td>
 					</tr>
 					
 					<tr class="">
@@ -239,6 +402,30 @@ F2.UI\hideMask methods</p></td>
 						<td><p>Display an ovarlay over an Element on the page</p></td>
 					</tr>
 					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#methods" data-tab-member="updateHeight" href="javascript:;">
+								updateHeight
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												height
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>For secure apps, this method updates the size of the iframe that
+contains the App. <strong>Note: It is recommended that App developers call
+this method anytime Elements are added or removed from the DOM</strong></p></td>
+					</tr>
+					
 				</tbody>
 			</table>
 		</div>
@@ -262,12 +449,6 @@ F2.UI\hideMask methods</p></td>
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
-				
-				<li>
-					
-						instanceId
-					
-				</li>
 				
 				<li>
 					
@@ -306,7 +487,105 @@ F2.UI\hideMask methods</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l11"><code>sdk\src\ui.js:11</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l35"><code>sdk&#x2F;src&#x2F;ui.js:35</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">selector</code>
+						<span class="label type">String | Element</span>
+					
+
+					
+
+					<p>
+						<p>The Element or selector to an Element
+that currently contains the loader</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-hideMask" class="level2 ">
+	<h3>
+		hideMask
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						instanceId
+					
+				</li>
+				
+				<li>
+					
+						selector
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+			<span class="label static">static</span>
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Removes a overlay from an Element on the page</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l296"><code>sdk&#x2F;src&#x2F;ui.js:296</code></a></dd>
 			
 
 			
@@ -367,16 +646,107 @@ that currently contains the loader</p>
 	
 </section>
 		
-		<section id="methods-setMaskConfiguration" class="level2 ">
+		<section id="methods-init" class="level2 ">
 	<h3>
-		setMaskConfiguration
+		init
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
 				
 				<li>
 					
-						config
+						containerConfig
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+			<span class="label static">static</span>
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l343"><code>sdk&#x2F;src&#x2F;ui.js:343</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">containerConfig</code>
+						<span class="label type"><a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a></span>
+					
+
+					
+
+					<p>
+						<p>The F2.ContainerConfig object</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-setTitle" class="level2 ">
+	<h3>
+		setTitle
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						title
 					
 				</li>
 				
@@ -398,9 +768,10 @@ that currently contains the loader</p>
 	</h3>
 
 	<p>
-		<p>Set the configuration options for the
-F2.UI\showMask and
-F2.UI\hideMask methods</p>
+		<p>Sets the title of the App as shown in the browser. Depending on the
+Container HTML, this method may do nothing if the Container has not been
+configured properly or else the Container Provider does not allow Title's
+to be set.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -413,7 +784,7 @@ F2.UI\hideMask methods</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l55"><code>sdk\src\ui.js:55</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l169"><code>sdk&#x2F;src&#x2F;ui.js:169</code></a></dd>
 			
 
 			
@@ -430,14 +801,125 @@ F2.UI\hideMask methods</p>
 				
 				<li class="param">
 					
-						<code class="param-name">config</code>
-						<span class="label type">Object</span>
+						<code class="param-name">title</code>
+						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The F2.UI.MaskConfiguration object</p>
+						<p>The title of the App</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-showMask" class="level2 ">
+	<h3>
+		showMask
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						selector
+					
+				</li>
+				
+				<li>
+					
+						showLoading
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Display an ovarlay over an Element on the page</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l193"><code>sdk&#x2F;src&#x2F;ui.js:193</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">selector</code>
+						<span class="label type">String | Element</span>
+					
+
+					
+
+					<p>
+						<p>The Element or selector to an Element
+over which to display the loader</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">showLoading</code>
+						<span class="label type">Bool</span>
+					
+
+					
+
+					<p>
+						<p>Display a loading icon</p>
 					</p>
 
 					
@@ -494,6 +976,8 @@ F2.UI\hideMask methods</p>
 		
 
 		
+			<span class="label static">static</span>
+		
 
 		
 
@@ -514,7 +998,7 @@ F2.UI\hideMask methods</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l71"><code>sdk\src\ui.js:71</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l356"><code>sdk&#x2F;src&#x2F;ui.js:356</code></a></dd>
 			
 
 			
@@ -570,6 +1054,97 @@ over which to display the loader</p>
 
 					<p>
 						<p>Display a loading icon</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-updateHeight" class="level2 ">
+	<h3>
+		updateHeight
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						height
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>For secure apps, this method updates the size of the iframe that
+contains the App. <strong>Note: It is recommended that App developers call
+this method anytime Elements are added or removed from the DOM</strong></p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l203"><code>sdk&#x2F;src&#x2F;ui.js:203</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">height</code>
+						<span class="label type">Int</span>
+					
+
+					
+
+					<p>
+						<p>The height of the App</p>
 					</p>
 
 					

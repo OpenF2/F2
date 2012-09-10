@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk\src\rpc.js</title>
+	<title>sdk&#x2F;src&#x2F;rpc.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 					<li class="divider-vertical"></li>
 					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
 					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.0</a></li>
 				</ul>
 			</div>
 		</div>
@@ -70,15 +70,19 @@
 	
 		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -103,7 +107,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\rpc.js</h1>
+				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;rpc.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -112,15 +116,14 @@
  * @class F2.Rpc
  *&#x2F;
 F2.extend(&#x27;Rpc&#x27;, (function(){
-	
-	var _apps = {};
 	var _callbacks = {};
 	var _secureAppPagePath = &#x27;&#x27;;
-	var _rAppCall = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.APP_RPC);
+	var _apps = {};
 	var _rEvents = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.EVENT);
 	var _rRpc = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC);
 	var _rRpcCallback = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC_CALLBACK);
 	var _rSocketLoad = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.LOAD);
+	var _rUiCall = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.UI_RPC);
 
 	&#x2F;**
 	 * Creates a socket connection from the App to the Container using 
@@ -130,8 +133,8 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	 *&#x2F;
 	var _createAppToContainerSocket = function() {
 
+		var appConfig; &#x2F;&#x2F; socket closure
 		var isLoaded = false;
-		var appConfig = false;
 
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
@@ -143,16 +146,17 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 
 					&#x2F;&#x2F; make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
-						appConfig = appParts[0]; &#x2F;&#x2F; assigning app object to closure
-						var appManifest = appParts[1];
+						appConfig = appParts[0];
 
-						&#x2F;&#x2F; save app locally
+						&#x2F;&#x2F; register app
+						F2.registerApps([appConfig], [appParts[1]]);
+
+						&#x2F;&#x2F; save socket
 						_apps[appConfig.instanceId] = {
-							app:appConfig,
+							config:appConfig,
 							socket:socket
-						};
+						};	
 
-						F2.registerApps([appConfig], [appManifest]);
 						isLoaded = true;
 					}
 
@@ -169,8 +173,8 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	 * &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt;.
 	 * @method _createContainerToAppSocket
 	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The AppManifest object
+	 * @param {appConfig} appConfig The F2.AppConfig object
+	 * @param {F2.AppManifest} appManifest The F2.AppManifest object
 	 *&#x2F;
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
@@ -204,12 +208,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
-				&#x2F;&#x2F; remove root from appConfig, otherwise there will be recursion errors
-				&#x2F;&#x2F; with F2.stringify()
-				var root = appConfig.root;
-				appConfig.root = null;
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest]));
-				appConfig.root = root;
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
 			}
 		});
 
@@ -246,44 +245,54 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 
 		var obj;
 
-		function parse(regEx, message) {
-			return F2.parse(message.replace(regEx, &#x27;&#x27;));
-		}
+		function parseFunction(parent, functionName) {
+			var path = String(functionName).split(&#x27;.&#x27;);
+			for (var i = 0; i &lt; path.length; i++) {
+				if (parent[path[i]] === undefined) {
+					parent = undefined;
+					break;
+				}
+				parent = parent[path[i]];
+			}
+			return parent;
+		};
 
-		&#x2F;&#x2F; handle App Call
-		if (_rAppCall.test(message)) {
-			obj = parse(_rAppCall, message);
-			appConfig[obj.functionName].apply(appConfig, obj.params);
-
-		&#x2F;&#x2F; handle RPC
-		} else if (_rRpc.test(message)) {
-			obj = parse(_rRpc, message);
+		function parseMessage(regEx, message, instanceId) {
+			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
 
 			&#x2F;&#x2F; if obj.callbacks
 			&#x2F;&#x2F;   for each callback
 			&#x2F;&#x2F;     for each params
 			&#x2F;&#x2F;       if callback matches param
 			&#x2F;&#x2F;        replace param with _createRpcCallback(app.instanceId, callback)
-			if (obj.params &amp;&amp; obj.params.length &amp;&amp; obj.callbacks &amp;&amp; obj.callbacks.length) {
-				$.each(obj.callbacks, function(i, c) {
-					$.each(obj.params, function(i, p) {
+			if (o.params &amp;&amp; o.params.length &amp;&amp; o.callbacks &amp;&amp; o.callbacks.length) {
+				$.each(o.callbacks, function(i, c) {
+					$.each(o.params, function(i, p) {
 						if (c == p) {
-							obj.params[i] = _createRpcCallback(appConfig.instanceId, c);
+							o.params[i] = _createRpcCallback(instanceId, c);
 						}
 					});
 				});
 			}
-			&#x2F;&#x2F; parse function path
-			var path = String(obj.functionName).split(&#x27;.&#x27;);
-			var func = window;
-			for (var i = 0; i &lt; path.length; i++) {
-				if (func[path[i]] === undefined) {
-					func = undefined;
-					break;
-				}
-				func = func[path[i]];
-			}
+
+			return o;
+		};
+
+		&#x2F;&#x2F; handle UI Call
+		if (_rUiCall.test(message)) {
+			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
+			var func = parseFunction(appConfig.ui, obj.functionName);
 			&#x2F;&#x2F; if we found the function, call it
+			if (func !== undefined) {
+				func.apply(appConfig.ui, obj.params);
+			} else {
+				F2.log(&#x27;Unable to locate UI RPC function: &#x27; + obj.functionName);
+			}
+
+		&#x2F;&#x2F; handle RPC
+		} else if (_rRpc.test(message)) {
+			obj = parseMessage(_rRpc, message, appConfig.instanceId);
+			var func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
@@ -292,7 +301,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 
 		&#x2F;&#x2F; handle RPC Callback
 		} else if (_rRpcCallback.test(message)) {
-			obj = parse(_rRpcCallback, message);
+			obj = parseMessage(_rRpcCallback, message, appConfig.instanceId);
 			if (_callbacks[obj.functionName] !== undefined) {
 				_callbacks[obj.functionName].apply(_callbacks[obj.functionName], obj.params);
 				delete _callbacks[obj.functionName];
@@ -300,7 +309,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 
 		&#x2F;&#x2F; handle Events
 		} else if (_rEvents.test(message)) {
-			obj = parse(_rEvents, message);
+			obj = parseMessage(_rEvents, message, appConfig.instanceId);
 			F2.Events._socketEmit.apply(F2.Events, obj);
 		}
 	};
@@ -389,11 +398,11 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		isRemote:function(instanceId) {
 			return (
 				&#x2F;&#x2F; we have an App
-				_apps[instanceId] !== undefined &amp;&amp; 
+				_apps[instanceId] !== undefined &amp;&amp;
 				&#x2F;&#x2F; the App is secure
-				_apps[instanceId].app.isSecure &amp;&amp;
+				_apps[instanceId].config.isSecure &amp;&amp;
 				&#x2F;&#x2F; we can&#x27;t access the iframe
-				$(&#x27;#&#x27; + instanceId).find(&#x27;iframe&#x27;).length == 0
+				$(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length == 0
 			);
 		},
 
@@ -404,9 +413,9 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 *&#x2F;
 		register:function(appConfig, appManifest) {
-			if (appConfig) {
+			if (appConfig.instanceId) {
 				_apps[appConfig.instanceId] = {
-					app:appConfig,
+					config:appConfig,
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {

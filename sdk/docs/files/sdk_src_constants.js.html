@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk\src\constants.js</title>
+	<title>sdk&#x2F;src&#x2F;constants.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 					<li class="divider-vertical"></li>
 					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
 					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.0</a></li>
 				</ul>
 			</div>
 		</div>
@@ -70,15 +70,19 @@
 	
 		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -103,7 +107,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\constants.js</h1>
+				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;constants.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -283,14 +287,6 @@ F2.extend(&#x27;Constants&#x27;, {
 	 *&#x2F;
 	Sockets:{
 		&#x2F;**
-		 * The APP\_RPC message is sent when a method on an App object is called.
-		 * @property APP_RPC
-		 * @type string
-		 * @static
-		 * @final
-		 *&#x2F;
-		APP_RPC:&#x27;__appRpc__&#x27;,
-		&#x2F;**
 		 * The EVENT message is sent whenever
 		 * {{#crossLink &quot;F2.Events\emit&quot;}}{{&#x2F;crossLink}} is fired
 		 * @property EVENT
@@ -328,7 +324,15 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		RPC_CALLBACK:&#x27;__rpcCallback__&#x27;
+		RPC_CALLBACK:&#x27;__rpcCallback__&#x27;,
+		&#x2F;**
+		 * The UI\_RPC message is sent when a UI method called.
+		 * @property UI_RPC
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		UI_RPC:&#x27;__uiRpc__&#x27;
 	},
 
 	&#x2F;**

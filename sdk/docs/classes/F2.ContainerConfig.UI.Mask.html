@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2.UI.MaskConfiguration</title>
+	<title>F2.ContainerConfig.UI.Mask</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 					<li class="divider-vertical"></li>
 					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
 					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.10.2</a></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.0</a></li>
 				</ul>
 			</div>
 		</div>
@@ -70,15 +70,19 @@
 	
 		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
 		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
 	
 		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
 	
-		<li><a href="..&#x2F;classes/F2.UI.MaskConfiguration.html">F2.UI.MaskConfiguration</a></li>
-	
 		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -103,10 +107,10 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.UI.MaskConfiguration</h1>
+				<h1>F2.ContainerConfig.UI.Mask</h1>
 
 <p>
-	<p>An object containing configuration information for the 
+	<p>An object containing configuration defaults for the 
 F2.UI\showMask and
 F2.UI\hideMask methods.</p>
 </p>
@@ -119,7 +123,7 @@ F2.UI\hideMask methods.</p>
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l295"><code>sdk\src\classes.js:295</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l267"><code>sdk&#x2F;src&#x2F;classes.js:267</code></a></dd>
 		
 
 		
@@ -176,6 +180,24 @@ F2.UI\hideMask methods.</p>
 							<a data-tab="#properties" data-tab-member="opacity" href="javascript:;">opacity</a>
 						</td>
 						<td><p>The opacity of the background overlay</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="secureAppPagePath" href="javascript:;">secureAppPagePath</a>
+						</td>
+						<td><p>Allows the Container to specify which page is used when
+loading a secure app. The page must reside on a different domain than the
+Container</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a data-tab="#properties" data-tab-member="supportedViews" href="javascript:;">supportedViews</a>
+						</td>
+						<td><p>Specifies what views a Container will provide buttons
+or liks to. Generally, the views will be switched via buttons or links in
+the App's header.</p></td>
 					</tr>
 					
 					<tr class="">
@@ -242,7 +264,7 @@ implement the class definitions.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l302"><code>sdk\src\classes.js:302</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l274"><code>sdk&#x2F;src&#x2F;classes.js:274</code></a></dd>
 			
 
 			
@@ -293,7 +315,7 @@ implement the class definitions.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l309"><code>sdk\src\classes.js:309</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l281"><code>sdk&#x2F;src&#x2F;classes.js:281</code></a></dd>
 			
 
 			
@@ -342,7 +364,7 @@ implement the class definitions.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l315"><code>sdk\src\classes.js:315</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l287"><code>sdk&#x2F;src&#x2F;classes.js:287</code></a></dd>
 			
 
 			
@@ -353,6 +375,108 @@ implement the class definitions.</p></td>
 
 	
 		<p><strong>Default:</strong> .6</p>
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-secureAppPagePath" class="level2 ">
+	<h3>
+		secureAppPagePath
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows the Container to specify which page is used when
+loading a secure app. The page must reside on a different domain than the
+Container</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l312"><code>sdk&#x2F;src&#x2F;classes.js:312</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-supportedViews" class="level2 ">
+	<h3>
+		supportedViews
+
+		<span class="label type">Array</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Specifies what views a Container will provide buttons
+or liks to. Generally, the views will be switched via buttons or links in
+the App's header.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l320"><code>sdk&#x2F;src&#x2F;classes.js:320</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
 	
 
 	
@@ -395,7 +519,7 @@ implement the class definitions.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l322"><code>sdk\src\classes.js:322</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l294"><code>sdk&#x2F;src&#x2F;classes.js:294</code></a></dd>
 			
 
 			
@@ -446,7 +570,7 @@ implement the class definitions.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l331"><code>sdk\src\classes.js:331</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l303"><code>sdk&#x2F;src&#x2F;classes.js:303</code></a></dd>
 			
 
 			
