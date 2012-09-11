@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 Documentation - F2: The Open Financial Framework</title>
+  <title>F2 Documentation - F2: An open framework created for the financial services industry.</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -63,7 +63,7 @@
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
 		      <!--<li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>-->
-		      <li><a href="developing-the-container.html">Developing F2 Containers</a></li>
+		      <li><a href="developing-f2-containers.html">Developing F2 Containers</a></li>
           <li><a href="extending-f2.html">Extending F2</a></li>
           <li class="divider"></li>
           <li><a href="../sdk/docs/">F2.js SDK Reference</a></li>
@@ -74,20 +74,34 @@
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">F2: The Open Financial Framework</h1>
+<h1 class="title">F2: An open framework created for the financial services industry.</h1>
 </header>
 <p class="lead">
-F2, an open web integration framework, defines how to develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessy integrated front-end. The <a href="components-of-the-framework.html">essential components</a> of F2 are all supported under the hood by F2.js, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.
+F2 is an open and free web integration framework that has been designed to help you develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.
 </p>
 
-<p>F2 was created and is maintained by <a href="http://www.markit.com">Markit</a>. Visit <a href="http://www.openf2.com">OpenF2.com</a> for more information.</p>
+<p>The <a href="components-of-the-framework.html">essential components</a> defined by the F2 specification are the <a href="developing-f2-containers.html">Container</a>, <a href="developing-f2-apps.html">Apps</a>, <a href="developing-f2-apps.html#context">Context</a> and <a href="#">Store</a>—all supported under the hood by <strong>F2.js</strong>, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.</p>
+<p>F2 was started by and is maintained by <a href="http://www.markitondemand.com">Markit On Demand</a>. Visit <a href="http://www.openF2.com">OpenF2.com</a> for more information.</p>
 <section class="level2" id="get-started">
 <h2>Get Started</h2>
-<p>F2 is an open framework meaning anyone can build individual components or the entire product. To get container and app developers started, we've provided a JavaScript SDK—called <strong>F2.js</strong>—in addition to example apps as part of an <a href="http://www.github.com/OpenF2/F2">open-source project maintained on GitHub</a>.</p>
-<p>If you are interested in <strong>building apps</strong>, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in <strong>building containers</strong>, browse to the <a href="developing-the-container.html">container documentation</a>.</p>
+<p>F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK—called <strong>F2.js</strong>—in addition to example apps as part of an <a href="http://www.github.com/OpenF2/F2">open-source project maintained on GitHub</a>.</p>
+<p>If you are interested in <strong>building Apps</strong>, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in <strong>building Containers</strong>, browse to the <a href="developing-the-container.html">Container documentation</a>.</p>
+<div class="well well-small">
+<h4>
+About Apps
+</h4>
+<p>
+The term &quot;app&quot;, in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are <em>not</em> smartphone apps built for the Apple, Android or BlackBerry app stores. You should think of F2 Apps as modules, widgets or components.
+</p>
+<p>
+This specification <a href="developing-f2-apps.html">furnishes app developers with JavaScript code</a> (the F2.js SDK) which—among other things—not only allows their apps to run on the Container but also provides APIs for communication between the Container and nearby Apps.
+</p>
+</div>
+
 <p><a href="developing-f2-apps.html" class="btn btn-primary">Get Started Building Apps <i class="icon-arrow-right icon-white"></i></a></p>
 <section class="level4" id="markit-developers">
 <h4>Markit Developers</h4>
+<p><span class="label label-info">TEMPORARY</span> This information is temporary and will be removed prior to 1.0.0 launch.</p>
 <p>Prior to public release 1.0.0, we are asking for Markit developers to help collaborate by <strong>building apps</strong>. If you have any questions that aren't answered here, you can get help.</p>
 <p>
     
@@ -97,39 +111,84 @@ F2, an open web integration framework, defines how to develop custom solutions t
 <hr>
 </section>
 </section>
-<section class="level2" id="what-is-f2">
-<h2>What is F2?</h2>
-<p>F2 is a web integration framework designed specifically for the financial markets. Its primary use is for integrating multi-party web applications into a single seamless desktop or mobile experience.</p>
-<section class="level3" id="primary-goal">
-<h3>Primary Goal</h3>
-<p>The primary goal of the Open Financial Framework specification, and by extension this technical documentation, is to provide app and container developers the resources they need to create F2. Developers who adhere to this standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated &quot;desktop&quot; experience <em>(the container)</em>.</p>
-</section>
+<section class="level2" id="the-f2-goal">
+<h2>The F2 Goal</h2>
+<p>The primary goal of this F2 specification is to provide App and Container developers the resources they need to create F2. Developers who adhere to this standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.</p>
 <section class="level3" id="the-problems-f2-solves">
 <h3>The Problems F2 Solves</h3>
-<p>The reasons for developing the open standard for a financial app ecosystem are simple: one does not exist today and Markit feels there is a great need. Additionally, much of the installed base of financial software is run on the desktop, which means that even if there is no physical media, there is an installation process that is difficult for users to do. By design, F2 implies a one-step installation process, direct from the Internet, with no &quot;installed software&quot; decisions to be made by the user. Further, the financial information industry has spent most of its history bundling content and tools into packages which include far more than most users need. Perhaps the greatest benefit of the Open Financial Framework is that—through its Catalog component—it will allow users to buy only the content or tools they need. Using an example: If John can’t get what he wants from Overstock.com, he’s going to buy it from Amazon. And John wants the best content and the best tools so he’ll buy apps from Amazon.</p>
-<div class="well well-small">
-<h4>
-About Apps
-</h4>
-<p>
-The term &quot;app&quot;, in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are <em>not</em> smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.
-</p>
-<p>
-This specification <a href="developing-f2-apps.html">furnishes app developers with JavaScript code</a> (the F2.js SDK) which—among other things—not only allows their apps to run on the desktop but also provides APIs for communication between the container and nearby apps.
-</p>
-</div>
+<p>Several fundamental problems are common to the financial services industry. Everyone is looking for ways to solve them quickly and efficiently.</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th nowrap>
+Industry Problem
+</th>
+            <th>
+Description
+</th>
+            <th>
+F2 Solution
+</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td nowrap>
+Monolithic Systems
+</td>
+            <td>
+Monolithic, installed code bases that are closed and expensive to enhance. When a “redesign” occurs on this type of platform, it’s usually a do-over, from the ground-up. Integration is difficult.
+</td>
+            <td>
+Nimble, modern use of internet-delivery with a multi-vendor approach. Standardized framework used by all parties. Cost-effective and shorter development cycles.
+</td>
+        </tr>
+        <tr>
+            <td>
+Big Bang
+</td>
+            <td>
+Big Bang approaches stifle innovation and require significant investment in the integration of legacy systems. Buy-in from many stakeholders is essential and difficult to manage. Entire platforms must be redeveloped in order to make cut-overs. There are more bugs and problems at launch and unhappy users.
+</td>
+            <td>
+In the F2 environment you will be able to compete on features. It is easy to progressively make changes, enhancements, onboard new applications, switch content providers with little risk and migrate users and tools to the platform gradually as time and resources allow. Containers may also host previous versions of websites and Apps to further simplify migration.
+</td>
+        </tr>
+        <tr>
+            <td>
+Single Channel
+</td>
+            <td>
+Separate projects, budgets and teams for web sites, tablets and hand-held devices.
+</td>
+            <td>
+The F2 specification describes how to develop one framework that can be managed to many devices.
+</td>
+        </tr>
+        <tr>
+            <td>
+Security
+</td>
+            <td>
+Security concerns are a major reason firms worry about switching vendors or to a new technology.
+</td>
+            <td>
+F2 can entitle Apps without passing sensitive client information to a third party App provider. This multi-provider solution is more secure and less vulnerable than single-provider solutions.
+</td>
+        </tr>
+        <tr>
+            <td>
+Over-provisioning
+</td>
+            <td>
+Over-provisioning of content happens frequently. It is expensive to pay for content that no one is using. This probably happens because it is difficult.
+</td>
+            <td>
+The F2 spec makes it easy to turn on or off entitlements as often as may be required.
+</td>
+        </tr>
+</table>
 
-</section>
-<section class="level3" id="capabilities">
-<h3>Capabilities</h3>
-<p>While there are many goals and features, these three capabilities below form the underpinnings of F2.</p>
-<p><strong>Apps From Multiple Providers Displayed at the Same Time</strong></p>
-<p>A financial app ecosystem needs to display apps (or modules of data) from multiple information providers at the same time. In order to do this, there needs to be a standard for context passing from app to app, and from the desktop to all apps. As part of the context passed to apps, app developers should expect to receive information about how their app will be displayed (width, height, authentication model, etc). <em>For more information on <strong>context</strong>, <a href="developing-f2-apps.html#context">browse to the technical documentation</a>.</em></p>
-<p><strong>Separation of Apps from Content</strong></p>
-<p>Within Apple’s App Store, some types of content can be used by multiple apps at the same time such as iPhoto or iPod. Within the Open Financial Framework, apps need to be entitled with content like streaming Level II quotes, or be able to handle multiple sources of entitled content, like news or research aggregation.</p>
-<p><strong>An App Catalog that Can Handle Several Types of Entitlements</strong></p>
-<p>The App Catalog within F2 will need to handle more than just individually purchased Apps or Content (known as &quot;entitlements&quot;). In addition to handling cash transactions, the App Catalog will need to be able to handle entitlements granted to them by a brokerage firm, by a Yahoo! advertiser, by the App developer, or by a content provider. This Framework would make it so that a user’s purchases and entitlements can move to any desktop adhering to this standard, regardless of who is hosting the desktop.*</p>
-<p><small><i>* Not yet implemented within F2.</i></small></p>
 <hr>
 </section>
 </section>
@@ -138,7 +197,7 @@ This specification <a href="developing-f2-apps.html">furnishes app developers wi
 <p>If we have the goal of F2 being successful and accessible, then we have only one choice in the front-end technology we use: it has to be HTML5. Using the <a href="http://www.alistapart.com/articles/understandingprogressiveenhancement/">progressive enhancement</a> methodology in designing and developing F2, we've been focused on starting with a rock-solid foundation. The F2 open standard provides guidelines for app and container devleopers alike to add feature enhancements targeting specific environments or visitors. For example, F2 apps can be built following the <a href="http://www.lukew.com/presos/preso.asp?26">mobile first</a> design approach and with <a href="http://twitter.github.com/bootstrap/scaffolding.html#responsive">responsive CSS</a>, users could access a container on their desktop, tablet or smartphone all while app devlelopers only need to build a single app.</p>
 <p>As you may know, <a href="http://findmebyip.com/litmus/">support for HTML5-related technologies</a> on <em>all</em> desktop browsers and mobile devices is limited. Therefore, as part of F2, to augment the work we've done, we chose to include some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?</p>
 <p>F2 uses and recommends <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> for a consistent HTML &amp; CSS structure for app development <em>regardless of app developer</em> (<a href="developing-f2-apps.html#designing-the-app-to-look-integrated-with-the-container">we'll explain more later</a>). F2 relies on data structures represented in JSON, so we've included Crockford's <a href="http://www.json.org/">JSON</a>. Finally, to support a secured container environment, F2 needs cross-domain in-browser messaging. For this, we turned to <a href="http://easyxdm.net/wp/">easyXDM</a>.</p>
-<p>As either an app developer or a container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2.js JavaScript SDK provides a consistent interface and easy-to-use API for app and container developers.</p>
+<p>As either an app developer or a container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2.js JavaScript SDK provides a consistent interface and easy-to-use API so you don't have to think about it.</p>
 <p><strong>Ready to get started building apps?</strong></p>
 <p>
     
