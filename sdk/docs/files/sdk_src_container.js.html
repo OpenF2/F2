@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;container.js</title>
+	<title>sdk\src\container.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -107,7 +107,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;container.js</h1>
+				<h1 class="file-heading">File: sdk\src\container.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -197,7 +197,7 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; default the views if not provided
 		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(appConfig.views, F2.Constants.Views.HOME)) {
+		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 	};
@@ -284,7 +284,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		var appInit = function() {
 			$.each(appConfigs, function(i, a) {
 				&#x2F;&#x2F; instantiate F2.UI
-				a.ui = F2.UI(a);
+				a.ui = new F2.UI(a);
 
 				&#x2F;&#x2F; instantiate F2.App
 				if (F2.Apps[a.appId] !== undefined) {
@@ -362,7 +362,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			&#x2F;&#x2F; create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
 			&#x2F;&#x2F; instantiate F2.UI
-			appConfig.ui = F2.UI(appConfig);
+			appConfig.ui = new F2.UI(appConfig);
 			&#x2F;&#x2F; init events
 			_initAppEvents(appConfig);
 			&#x2F;&#x2F; create RPC socket

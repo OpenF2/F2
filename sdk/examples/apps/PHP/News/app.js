@@ -4,7 +4,7 @@ F2.Apps["fa50d9b1e3535cc66fcd353c95b2cf28"] = (function() {
 		this.appConfig = appConfig;
 		this.appContent = appContent;
 		this.ui = appConfig.ui;		
-		this.$root = root;
+		this.$root = $(root);
 		this._config = this.appContent.data;
 	};
 

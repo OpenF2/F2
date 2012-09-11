@@ -84,7 +84,7 @@ F2.extend('', (function(){
 
 		// default the views if not provided
 		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(appConfig.views, F2.Constants.Views.HOME)) {
+		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 	};
@@ -171,7 +171,7 @@ F2.extend('', (function(){
 		var appInit = function() {
 			$.each(appConfigs, function(i, a) {
 				// instantiate F2.UI
-				a.ui = F2.UI(a);
+				a.ui = new F2.UI(a);
 
 				// instantiate F2.App
 				if (F2.Apps[a.appId] !== undefined) {
@@ -249,7 +249,7 @@ F2.extend('', (function(){
 			// create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			// instantiate F2.UI
-			appConfig.ui = F2.UI(appConfig);
+			appConfig.ui = new F2.UI(appConfig);
 			// init events
 			_initAppEvents(appConfig);
 			// create RPC socket

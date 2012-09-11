@@ -1,5 +1,5 @@
 /*!
- * F2 v0.12.0
+ * F2 v0.12.1
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -901,6 +901,10 @@ F2.extend('Rpc', (function(){
 
 		var appConfig; // socket closure
 		var isLoaded = false;
+		// its possible for messages to be received before the socket load event has
+		// happened.  We'll save off these messages and replay them once the socket
+		// is ready
+		var messagePlayback = [];
 
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
@@ -914,21 +918,28 @@ F2.extend('Rpc', (function(){
 					if (appParts.length == 2) {
 						appConfig = appParts[0];
 
-						// register app
-						F2.registerApps([appConfig], [appParts[1]]);
-
 						// save socket
 						_apps[appConfig.instanceId] = {
 							config:appConfig,
 							socket:socket
 						};	
 
+						// register app
+						F2.registerApps([appConfig], [appParts[1]]);
+
+						// socket message playback
+						$.each(messagePlayback, function(i, e) {
+							_onMessage(appConfig, message, origin);
+						});
+						
 						isLoaded = true;
 					}
-
-				// pass everyting else to _onMessage
-				} else {
+				} else if (isLoaded) {
+					// pass everyting else to _onMessage
 					_onMessage(appConfig, message, origin);
+				} else {
+					F2.log('socket not ready, queuing message', message);
+					messagePlayback.push(message);
 				}
 			}
 		});
@@ -967,7 +978,7 @@ F2.extend('Rpc', (function(){
 
 		var socket = new easyXDM.Socket({
 			remote: _secureAppPagePath,
-			container: appConfig.root,
+			container: container.get(0),
 			props:iframeProps,
 			onMessage: function(message, origin) {
 				// pass everything to _onMessage
@@ -1179,7 +1190,7 @@ F2.extend('Rpc', (function(){
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 */
 		register:function(appConfig, appManifest) {
-			if (appConfig.instanceId) {
+			if (!!appConfig && !!appManifest) {
 				_apps[appConfig.instanceId] = {
 					config:appConfig,
 					socket:_createContainerToAppSocket(appConfig, appManifest)
@@ -1207,7 +1218,7 @@ F2.extend('UI', (function(){
 
 		var _updateHeight = function(height) {
 			height = height || $(_appConfig.root).outerHeight();
-			//console.log(_appConfig.name, height);
+
 			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
 					_appConfig.instanceId,
@@ -1219,7 +1230,7 @@ F2.extend('UI', (function(){
 				);
 			} else {
 				_appConfig.height = height;
-				$(_appConfig.root).find('iframe').height(_appConfig.height);
+				$root.find('iframe').height(_appConfig.height);
 			}
 		};
 
@@ -1595,6 +1606,7 @@ F2.extend('UI', (function(){
 					'background-repeat':'no-repeat',
 					'display':'block',
 					'left':0,
+					'min-height':30,
 					'padding':0,
 					'position':'absolute',
 					'top':0,
@@ -1706,7 +1718,7 @@ F2.extend('', (function(){
 
 		// default the views if not provided
 		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(appConfig.views, F2.Constants.Views.HOME)) {
+		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 	};
@@ -1793,7 +1805,7 @@ F2.extend('', (function(){
 		var appInit = function() {
 			$.each(appConfigs, function(i, a) {
 				// instantiate F2.UI
-				a.ui = F2.UI(a);
+				a.ui = new F2.UI(a);
 
 				// instantiate F2.App
 				if (F2.Apps[a.appId] !== undefined) {
@@ -1871,7 +1883,7 @@ F2.extend('', (function(){
 			// create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			// instantiate F2.UI
-			appConfig.ui = F2.UI(appConfig);
+			appConfig.ui = new F2.UI(appConfig);
 			// init events
 			_initAppEvents(appConfig);
 			// create RPC socket

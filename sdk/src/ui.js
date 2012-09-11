@@ -15,7 +15,7 @@ F2.extend('UI', (function(){
 
 		var _updateHeight = function(height) {
 			height = height || $(_appConfig.root).outerHeight();
-			//console.log(_appConfig.name, height);
+
 			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
 					_appConfig.instanceId,
@@ -27,7 +27,7 @@ F2.extend('UI', (function(){
 				);
 			} else {
 				_appConfig.height = height;
-				$(_appConfig.root).find('iframe').height(_appConfig.height);
+				$root.find('iframe').height(_appConfig.height);
 			}
 		};
 
@@ -403,6 +403,7 @@ F2.extend('UI', (function(){
 					'background-repeat':'no-repeat',
 					'display':'block',
 					'left':0,
+					'min-height':30,
 					'padding':0,
 					'position':'absolute',
 					'top':0,

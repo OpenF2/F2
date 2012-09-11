@@ -12,7 +12,12 @@
 			margin:0;
 			padding:0;
 		}
-		.f2-app .well {
+		.f2-app {
+			margin-bottom:0;
+		}
+		.f2-app .f2-app-container {
+			border-radius:0;
+			border:0;
 			margin-bottom:0;
 		}
 	</style>
@@ -38,7 +43,7 @@
 					].join('');
 				},
 				afterAppRender:function(appContext, html) {
-					return $("#mainContent div.row:first").append(html);
+					return $(html).appendTo("#mainContent div.row:first");
 				},
 				isSecureAppPage:true,
 				supportedViews:[F2.Constants.Views.HOME]

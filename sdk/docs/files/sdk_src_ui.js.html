@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;ui.js</title>
+	<title>sdk\src\ui.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -107,7 +107,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;ui.js</h1>
+				<h1 class="file-heading">File: sdk\src\ui.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -128,7 +128,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 
 		var _updateHeight = function(height) {
 			height = height || $(_appConfig.root).outerHeight();
-			&#x2F;&#x2F;console.log(_appConfig.name, height);
+
 			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
 					_appConfig.instanceId,
@@ -140,7 +140,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				);
 			} else {
 				_appConfig.height = height;
-				$(_appConfig.root).find(&#x27;iframe&#x27;).height(_appConfig.height);
+				$root.find(&#x27;iframe&#x27;).height(_appConfig.height);
 			}
 		};
 
@@ -516,6 +516,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					&#x27;background-repeat&#x27;:&#x27;no-repeat&#x27;,
 					&#x27;display&#x27;:&#x27;block&#x27;,
 					&#x27;left&#x27;:0,
+					&#x27;min-height&#x27;:30,
 					&#x27;padding&#x27;:0,
 					&#x27;position&#x27;:&#x27;absolute&#x27;,
 					&#x27;top&#x27;:0,
