@@ -28,7 +28,6 @@ F2.Apps["c63380f4340ea1be65d10d38a69bb343"] = (function() {
 		}, this));
 
 		this.ui.setTitle('PHP ' + (this.appConfig.isSecure ? 'Secure' : '') + ' Hello World');
-		F2.log($(this.$root).height(), $(this.$root).outerHeight());
 		this.ui.updateHeight();
 		
 		// bind symbol change event

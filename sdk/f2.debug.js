@@ -2298,7 +2298,7 @@ F2.extend('Rpc', (function(){
 					// pass everyting else to _onMessage
 					_onMessage(appConfig, message, origin);
 				} else {
-					F2.log('socket not ready, queuing message', message);
+					//F2.log('socket not ready, queuing message', message);
 					messagePlayback.push(message);
 				}
 			}
@@ -3170,10 +3170,15 @@ F2.extend('', (function(){
 				// instantiate F2.App
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === 'function') {
-						_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-						if (_apps[a.instanceId].app['init'] !== undefined) {
-							_apps[a.instanceId].app.init();
-						}
+
+						// 
+						setTimeout(function() {
+							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+							if (_apps[a.instanceId].app['init'] !== undefined) {
+								_apps[a.instanceId].app.init();
+							}
+						}, 0);
+						
 					} else {
 						F2.log('App initialization class is defined but not a function. (' + a.appId + ')');
 					}
