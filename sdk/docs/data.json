@@ -1175,7 +1175,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 237,
+            "line": 242,
             "description": "Loads the App's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1198,7 +1198,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 262,
+            "line": 267,
             "description": "Checks if the App is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1220,7 +1220,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 284,
+            "line": 289,
             "description": "Gets the current list of Apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1233,7 +1233,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 299,
+            "line": 304,
             "description": "Initializes the Container. This method must be called before performing\nany other actions in the Container.",
             "itemtype": "method",
             "name": "init",
@@ -1249,7 +1249,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 315,
+            "line": 320,
             "description": "Has the Container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1262,7 +1262,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 321,
+            "line": 326,
             "description": "Begins the loading process for all Apps. The App will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the App's unique instanceId within the Container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1284,7 +1284,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 450,
+            "line": 455,
             "description": "Removes all Apps from the Container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1293,7 +1293,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 465,
+            "line": 470,
             "description": "Removes an App from the Container",
             "itemtype": "method",
             "name": "removeApp",
@@ -1617,7 +1617,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 58,
+            "line": 69,
             "description": "Creates a socket connection from the Container to the App using \n<a href=\"http://easyxdm.net\" target=\"_blank\">easyXDM</a>.",
             "itemtype": "method",
             "name": "_createContainerToAppSocket",
@@ -1640,7 +1640,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 105,
+            "line": 116,
             "itemtype": "method",
             "name": "_createRpcCallback",
             "access": "private",
@@ -1666,7 +1666,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 123,
+            "line": 134,
             "description": "Handles messages that come across the sockets",
             "itemtype": "method",
             "name": "_onMessage",
@@ -1694,7 +1694,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 204,
+            "line": 215,
             "description": "Registers a callback function",
             "itemtype": "method",
             "name": "_registerCallback",
@@ -1716,7 +1716,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 218,
+            "line": 229,
             "description": "Broadcast an RPC function to all sockets",
             "itemtype": "method",
             "name": "broadcast",
@@ -1737,7 +1737,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 231,
+            "line": 242,
             "description": "Calls a remote function",
             "itemtype": "method",
             "name": "call",
@@ -1768,7 +1768,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 261,
+            "line": 272,
             "description": "Init function which tells F2.Rpc whether it is running at the Container-\nlevel or the App-level. This method is generally called by\nF2.{{#crossLink \"F2/init\"}}{{/crossLink}}",
             "itemtype": "method",
             "name": "init",
@@ -1785,7 +1785,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 277,
+            "line": 288,
             "description": "Determines whether the Instance ID is considered to be 'remote'. This is\ndetermined by checking if 1) the App has an open socket and 2) whether\nF2.Rpc is running inside of an iframe",
             "itemtype": "method",
             "name": "isRemote",
@@ -1805,7 +1805,7 @@
         },
         {
             "file": "sdk/src/rpc.js",
-            "line": 296,
+            "line": 307,
             "description": "Creates a Container-to-App or App-to-Container socket for communication",
             "itemtype": "method",
             "name": "register",

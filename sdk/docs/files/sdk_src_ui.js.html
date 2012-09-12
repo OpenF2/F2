@@ -36,7 +36,7 @@
 					<li class="divider-vertical"></li>
 					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
 					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.0</a></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.2</a></li>
 				</ul>
 			</div>
 		</div>
@@ -128,7 +128,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 
 		var _updateHeight = function(height) {
 			height = height || $(_appConfig.root).outerHeight();
-			&#x2F;&#x2F;console.log(_appConfig.name, height);
+
 			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
 					_appConfig.instanceId,
@@ -140,7 +140,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				);
 			} else {
 				_appConfig.height = height;
-				$(_appConfig.root).find(&#x27;iframe&#x27;).height(_appConfig.height);
+				$root.find(&#x27;iframe&#x27;).height(_appConfig.height);
 			}
 		};
 
@@ -358,7 +358,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 							this.on(&#x27;change&#x27;, input);
 						} else if (typeof input === &#x27;string&#x27;) {
 
-							if (!F2.Rpc.isRemote(_appConfig.instanceId)) {
+							if (_appConfig.isSecure &amp;&amp; !F2.Rpc.isRemote(_appConfig.instanceId)) {
 								F2.Rpc.call(
 									_appConfig.instanceId,
 									F2.Constants.Sockets.UI_RPC,
@@ -516,6 +516,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					&#x27;background-repeat&#x27;:&#x27;no-repeat&#x27;,
 					&#x27;display&#x27;:&#x27;block&#x27;,
 					&#x27;left&#x27;:0,
+					&#x27;min-height&#x27;:30,
 					&#x27;padding&#x27;:0,
 					&#x27;position&#x27;:&#x27;absolute&#x27;,
 					&#x27;top&#x27;:0,

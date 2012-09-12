@@ -36,7 +36,7 @@
 					<li class="divider-vertical"></li>
 					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
 					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.0</a></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.2</a></li>
 				</ul>
 			</div>
 		</div>
@@ -135,6 +135,10 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 
 		var appConfig; &#x2F;&#x2F; socket closure
 		var isLoaded = false;
+		&#x2F;&#x2F; its possible for messages to be received before the socket load event has
+		&#x2F;&#x2F; happened.  We&#x27;ll save off these messages and replay them once the socket
+		&#x2F;&#x2F; is ready
+		var messagePlayback = [];
 
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
@@ -148,21 +152,28 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 					if (appParts.length == 2) {
 						appConfig = appParts[0];
 
-						&#x2F;&#x2F; register app
-						F2.registerApps([appConfig], [appParts[1]]);
-
 						&#x2F;&#x2F; save socket
 						_apps[appConfig.instanceId] = {
 							config:appConfig,
 							socket:socket
 						};	
 
+						&#x2F;&#x2F; register app
+						F2.registerApps([appConfig], [appParts[1]]);
+
+						&#x2F;&#x2F; socket message playback
+						$.each(messagePlayback, function(i, e) {
+							_onMessage(appConfig, message, origin);
+						});
+						
 						isLoaded = true;
 					}
-
-				&#x2F;&#x2F; pass everyting else to _onMessage
-				} else {
+				} else if (isLoaded) {
+					&#x2F;&#x2F; pass everyting else to _onMessage
 					_onMessage(appConfig, message, origin);
+				} else {
+					&#x2F;&#x2F;F2.log(&#x27;socket not ready, queuing message&#x27;, message);
+					messagePlayback.push(message);
 				}
 			}
 		});
@@ -201,7 +212,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 
 		var socket = new easyXDM.Socket({
 			remote: _secureAppPagePath,
-			container: appConfig.root,
+			container: container.get(0),
 			props:iframeProps,
 			onMessage: function(message, origin) {
 				&#x2F;&#x2F; pass everything to _onMessage
@@ -413,7 +424,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 *&#x2F;
 		register:function(appConfig, appManifest) {
-			if (appConfig.instanceId) {
+			if (!!appConfig &amp;&amp; !!appManifest) {
 				_apps[appConfig.instanceId] = {
 					config:appConfig,
 					socket:_createContainerToAppSocket(appConfig, appManifest)
