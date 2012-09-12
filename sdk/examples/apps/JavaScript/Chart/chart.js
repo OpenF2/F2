@@ -9,7 +9,7 @@ F2.Apps["com_markh_highchartsChart"] = function(){
 	);
 
 	//setup listener for duration change menu
-	$("ul.dropdown-menu a", "div.appcom_markh_highchartsChart").bind("click",function(e){
+	$("ul.dropdown-menu a", "div.com_markh_highchartsChart").bind("click",function(e){
 		cht.changeTimeframe(e);
 	});
 
