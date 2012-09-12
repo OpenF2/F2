@@ -1,5 +1,5 @@
 /*!
- * F2 v0.12.1
+ * F2 v0.12.2
  * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1448,7 +1448,7 @@ F2.extend('UI', (function(){
 							this.on('change', input);
 						} else if (typeof input === 'string') {
 
-							if (!F2.Rpc.isRemote(_appConfig.instanceId)) {
+							if (_appConfig.isSecure && !F2.Rpc.isRemote(_appConfig.instanceId)) {
 								F2.Rpc.call(
 									_appConfig.instanceId,
 									F2.Constants.Sockets.UI_RPC,
@@ -1681,7 +1681,7 @@ F2.extend('', (function(){
 		}
 
 		// apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' app' + appConfig.appId));
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
 		if (_config.appRender) {

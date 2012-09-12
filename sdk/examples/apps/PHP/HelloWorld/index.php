@@ -35,5 +35,5 @@ HTML;
 
 	// output the jsonp
 	header("Content-type: application/javascript");
-	echo "F2_jsonpCallback_" . $app->appId . "(" . json_encode($a, JSON_HEX_TAG) . ")";
+	echo "F2_jsonpCallback_com_openf2_examples_php_helloworld(" . json_encode($a, JSON_HEX_TAG) . ")";
 ?>

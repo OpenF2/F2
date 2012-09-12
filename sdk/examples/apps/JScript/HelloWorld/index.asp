@@ -13,7 +13,7 @@ var serverPath = [
 
 if (app) {
 	Response.ContentType = "application/javascript";
-	Response.Write("F2_jsonpCallback_" + app.appId + "(" + JSON.stringify({
+	Response.Write("F2_jsonpCallback_com_openf2_examples_jscript_helloworld(" + JSON.stringify({
 		scripts:[
 			serverPath + "app.js"
 		],

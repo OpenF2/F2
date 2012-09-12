@@ -36,7 +36,7 @@
 					<li class="divider-vertical"></li>
 					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
 					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.0</a></li>
+					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.2</a></li>
 				</ul>
 			</div>
 		</div>
@@ -160,7 +160,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		}
 
 		&#x2F;&#x2F; apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; app&#x27; + appConfig.appId));
+		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId));
 
 		&#x2F;&#x2F; optionally apply wrapper html
 		if (_config.appRender) {
@@ -289,10 +289,15 @@ F2.extend(&#x27;&#x27;, (function(){
 				&#x2F;&#x2F; instantiate F2.App
 				if (F2.Apps[a.appId] !== undefined) {
 					if (typeof F2.Apps[a.appId] === &#x27;function&#x27;) {
-						_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-						if (_apps[a.instanceId].app[&#x27;init&#x27;] !== undefined) {
-							_apps[a.instanceId].app.init();
-						}
+
+						&#x2F;&#x2F; 
+						setTimeout(function() {
+							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+							if (_apps[a.instanceId].app[&#x27;init&#x27;] !== undefined) {
+								_apps[a.instanceId].app.init();
+							}
+						}, 0);
+						
 					} else {
 						F2.log(&#x27;App initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
 					}

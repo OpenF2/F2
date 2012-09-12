@@ -1,7 +1,14 @@
-.appfa50d9b1e3535cc66fcd353c95b2cf28 li + li {
+.com_openf2_examples_php_news header h1 {
+	font-size:14px;
+	line-height:normal;
+}
+.com_openf2_examples_php_news li + li {
 	margin-top:3px;	
 }
-.appfa50d9b1e3535cc66fcd353c95b2cf28 li time {
+.com_openf2_examples_php_news li time {
 	display:block;
 	font-size:11px;
+}
+.com_openf2_examples_php_news footer {
+	font-size:10px;
 }

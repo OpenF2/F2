@@ -6,7 +6,7 @@
  *    - Same with Apps.HTML
  *
  */
-F2_jsonpCallback_3493749374339473947394397439473972018({
+F2_jsonpCallback_com_openf2_examples_javascript_helloworld({
 	"scripts":[
 		"../../apps/JavaScript/Flickr/flickrApp.js"
 	],

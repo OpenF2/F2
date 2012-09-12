@@ -1,4 +1,4 @@
-F2.Apps["9d1c357e7a9241532ab8977d440df4f3"] = (function() {
+F2.Apps["com_openf2_examples_jscript_helloworld"] = (function() {
 
 	var App_Class = function (appConfig, appContent, root) {
 		this.appConfig = appConfig;

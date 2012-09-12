@@ -245,7 +245,7 @@ F2.extend('UI', (function(){
 							this.on('change', input);
 						} else if (typeof input === 'string') {
 
-							if (!F2.Rpc.isRemote(_appConfig.instanceId)) {
+							if (_appConfig.isSecure && !F2.Rpc.isRemote(_appConfig.instanceId)) {
 								F2.Rpc.call(
 									_appConfig.instanceId,
 									F2.Constants.Sockets.UI_RPC,

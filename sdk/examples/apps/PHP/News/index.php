@@ -1,30 +1,39 @@
 <?php
 	date_default_timezone_set("America/New_York");
+	$DEFAULT_SYMBOL = 'MSFT';
+	$DEFAULT_PROVIDER = 'google';
+	$MAX_ARTICLES = 5;
+	$PROVIDERS = array(
+		'google' => array('display' => 'Google Finance', 'feed' => 'http://www.google.com/finance/company_news?output=rss&q='),
+		'yahoo' => array('display' => 'Yahoo Finance', 'feed' => 'http://finance.yahoo.com/rss/headline?s=')
+	);
 
 	$apps = $_REQUEST["params"];
 	$apps = get_magic_quotes_gpc() ? stripslashes($apps) : $apps;
 	$app = json_decode($apps);  
 	$app = $app[0]; // this App doesn't support batchedRequests
-
+	$provider = (array_key_exists('context', $app) && array_key_exists('provider', $app->context) && array_key_exists($app->context->provider, $PROVIDERS))
+		? $app->context->provider
+		: $DEFAULT_PROVIDER;
+	$symbol = (array_key_exists('context', $app) && array_key_exists('symbol', $app->context))
+		? $app->context->symbol
+		: $DEFAULT_SYMBOL;
 	$serverPath = 
 		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
 		$_SERVER["SERVER_NAME"] .
 		str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
 
 	// read in the news
-	$doc = new DOMDocument();
-	$doc->load(
-		(array_key_exists('context', $app) && array_key_exists('symbol', $app->context))
-			? "http://www.google.com/finance/company_news?q=" . $app->context->symbol . "&output=rss"
-			: "http://news.google.com/news?ned=us&topic=b&output=rss"
-	);
+	$xml_source = file_get_contents($PROVIDERS[$provider]['feed'] . $symbol);
+	$doc = simplexml_load_string($xml_source);
+
 	$newsItems = array();
-	foreach ($doc->getElementsByTagName('item') as $node) {
+	foreach ($doc->channel->item as $item) {
 		$newsItems[] = array ( 
-			'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
-			'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
-			'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
-			'date' => $node->getElementsByTagName('pubDate')->item(0)->nodeValue
+			'title' => $item->title,
+			'desc' => $item->description,
+			'link' => $item->link,
+			'date' => $item->pubDate
 		);
   }
 
@@ -34,7 +43,12 @@
 		"styles" => array($serverPath . "style.css"),
 		"apps" => array(
 			array(
-				"html" => renderAppHtml($newsItems),
+				"html" => join('', array(
+					'<div class="well">',
+						renderNews($newsItems),
+						renderSettings(),
+					'</div>'
+				)),
 				"data" => array("baseUrl" => $serverPath)
 			)
 		)
@@ -42,30 +56,86 @@
 
 	// output the jsonp
 	header("Content-type: application/javascript");
-	echo "F2_jsonpCallback_" . $app->appId . "(" . json_encode($a, JSON_HEX_TAG) . ")";
+	echo "F2_jsonpCallback_com_openf2_examples_php_news(" . json_encode($a, JSON_HEX_TAG) . ")";
 
 	/**
 	 * Renders the news articles
-	 * @method renderAppHtml
+	 * @method renderNews
 	 * @param {Array} $newsItems The list of articles
-	 * @return {string} The HTML for the App
+	 * @return {string} The News HTML
 	 */
-	function renderAppHtml($newsItems) {
-		$html = array();
+	function renderNews($newsItems) {
+		global $MAX_ARTICLES;
+		global $PROVIDERS;
+		global $provider;
+		global $doc;
 
-		$html[] = '<div class="well f2-app-view" data-f2-view="home"><ul class="unstyled">';
+		$html = array(
+			'<div class="f2-app-view" data-f2-view="home">',
+				'<header>',
+					'<h1>',
+						$doc->channel->title,
+					'</h1>',
+				'</header>',
+				'<ul class="unstyled">'
+		);
 
-		foreach ($newsItems as $item) {
-			$date = date_format(new DateTime($item['date']), 'g:iA \o\n l M j, Y');
+		for ($i = 0; $i < $MAX_ARTICLES; $i++) {
+			$date = date_format(new DateTime($newsItems[$i]['date']), 'g:iA \o\n l M j, Y');
 			$html[] = <<<HTML
 <li>
-	<a href="{$item['link']}" target="_blank">{$item['title']}</a>
+	<a href="{$newsItems[$i]['link']}" target="_blank">{$newsItems[$i]['title']}</a>
 	<time>$date</time>
 </li>
 HTML;
 		}
 
-		$html[] = '</ul></div>';
+		$html[] = join('', array(
+				'</ul>',
+				'<footer>',
+					'<a href="', $doc->channel->link, '" target="_blank">',
+						empty($doc->channel->copyright) ? ('Copyright &copy;' . date('Y') . ' ' . $PROVIDERS[$provider]['display']) : $doc->channel->copyright,
+					'</a>',
+				'</footer>',
+			'</div>'
+		));
+
+		return join("", $html);
+	}
+
+	/**
+	 * Renders the settings view
+	 * @method renderSettings
+	 * @return {string} The settings HTML
+	 */
+	function renderSettings() {
+
+		global $PROVIDERS;
+		global $provider;
+		$providerHtml = array();
+
+		foreach ($PROVIDERS as $key => $value) {
+			$providerHtml[] = join('', array(
+				'<label class="radio">',
+					'<input type="radio" name="provider" value="', $key, '" ', ($key == $provider ? 'checked' : '') ,'> ',
+					$value['display'],
+				'</label>'
+			));
+		}
+
+		$html = array(
+			'<form class="f2-app-view hide" data-f2-view="settings">',
+				'<label class="checkbox" name="autoRefresh">',
+					'<input type="checkbox" name="autoRefresh"> 30-Second Auto-Refresh',
+				'</label>',
+				'<span class="help-block">News Provider:</span>',
+				join('', $providerHtml),
+				'<div class="form-actions">',
+					'<button type="button" class="btn btn-primary save">Save</button> ',
+					'<button type="button" class="btn cancel">Cancel</button>',
+				'</div>',
+			'</form>'
+		);
 
 		return join("", $html);
 	}

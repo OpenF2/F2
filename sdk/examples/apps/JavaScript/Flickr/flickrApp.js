@@ -1,4 +1,4 @@
-F2.Apps["3493749374339473947394397439473972018"] = (function() {
+F2.Apps["com_openf2_examples_javascript_helloworld"] = (function() {
 
 	var App_Class = function (appConfig, appContent, root) {
 		this.ui = appConfig.ui;
