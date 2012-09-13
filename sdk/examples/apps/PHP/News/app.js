@@ -52,7 +52,7 @@ F2.Apps["com_openf2_examples_php_news"] = (function() {
 		this.ui.showMask(this.$root, true);
 
 		$.ajax({
-			url: this.appContent.data.baseUrl,
+			url: this.appContent.data.baseUrl + 'index.php',
 			data: {
 				params: JSON.stringify([this.appConfig], F2.appConfigReplacer)
 			},
