@@ -154,7 +154,7 @@ $(function() {
 	$("#toc > ul.nav").affix();
 
 	//scrollspy
-	$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0);
+	//$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0);
 
 	//Keep nav aligned -- TEMP
 	$('section [href^=#]').click(function (e) {
