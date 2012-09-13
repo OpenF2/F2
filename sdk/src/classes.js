@@ -43,7 +43,7 @@ F2.extend("", {
 		 * @property context
 		 * @type object
 		 */
-		context:"",
+		context:{},
 		/**
 		 * True if the App should be requested in a single request with other Apps.
 		 * The App must have isSecure = false.
