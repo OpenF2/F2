@@ -315,6 +315,7 @@ F2.extend("", {
 		 * Container
 		 * @property secureAppPagePath
 		 * @type string
+		 * @for F2.ContainerConfig
 		 */
 		secureAppPagePath:"",
 		/**

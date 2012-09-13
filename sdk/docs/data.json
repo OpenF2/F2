@@ -13,7 +13,9 @@
                 "F2.ContainerConfig.UI": 1,
                 "F2.ContainerConfig.UI.Mask": 1
             },
-            "fors": {},
+            "fors": {
+                "F2.ContainerConfig": 1
+            },
             "namespaces": {}
         },
         "sdk\\src\\constants.js": {
@@ -743,17 +745,17 @@
             "itemtype": "property",
             "name": "secureAppPagePath",
             "type": "string",
-            "class": "F2.ContainerConfig.UI.Mask"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 320,
+            "line": 321,
             "description": "Specifies what views a Container will provide buttons\nor liks to. Generally, the views will be switched via buttons or links in\nthe App's header.",
             "itemtype": "property",
             "name": "supportedViews",
             "type": "Array",
             "required": 1,
-            "class": "F2.ContainerConfig.UI.Mask"
+            "class": "F2.ContainerConfig"
         },
         {
             "file": "sdk\\src\\constants.js",
