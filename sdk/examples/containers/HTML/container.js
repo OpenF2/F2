@@ -71,35 +71,42 @@ $(function() {
 	/**
 	 * init symbol lookup in navbar
 	 */
-	$("#symbolLookup").autocomplete({
-		source: function (request, response) {
+	$("#symbolLookup")
+		.on('keypress', function(event) {
+			if (event.keyCode == 13) {
+				event.preventDefault();
+			}
+		})
+		.autocomplete({
+			autoFocus:true,
+			minLength: 0,
+			select: function (event, ui) {
+				F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
+			},
+			source: function (request, response) {
 
-			$.ajax({
-				url: "//dev.markitondemand.com/api/Lookup/jsonp",
-				dataType: "jsonp",
-				data: {
-					input: request.term
-				},
-				success: function (data) {
-					response($.map(data, function (item) {
-						return {
-							label: item.Name + " (" + item.Exchange + ")",
-							value: item.Symbol
-						}
-					}));
-				},
-				open: function() {
-					$(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-				},
-				close: function() {
-					$(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-				}
-			});
-		},
-		minLength: 0,
-		select: function (event, ui) {
-			F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
-		}
-	});
+				$.ajax({
+					url: "//dev.markitondemand.com/api/Lookup/jsonp",
+					dataType: "jsonp",
+					data: {
+						input: request.term
+					},
+					success: function (data) {
+						response($.map(data, function (item) {
+							return {
+								label: item.Name + " (" + item.Exchange + ")",
+								value: item.Symbol
+							}
+						}));
+					},
+					open: function() {
+						$(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+					},
+					close: function() {
+						$(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+					}
+				});
+			}
+		});
 
 });
