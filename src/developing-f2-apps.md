@@ -1,10 +1,10 @@
 % Developing F2 Apps
 
-<p class="lead">To understand how F2 apps work or to get started building apps, read through the documentation below. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
+<p class="lead">To understand how F2 apps work or to get started building apps, you've come to the right place. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
 
 ## Overview
 
-Defined very simply, a F2 app is a `javascript` file which defines your [app manifest](../../sdk/docs/classes/F2.AppManifest.html). Technically speaking, a F2 app is one of two things:
+Defined very simply, a F2 app is a `javascript` file which contains your [app manifest](../../sdk/docs/classes/F2.AppManifest.html). However, technically speaking, a F2 app is one of two things:
 
 <dl class="dl-horizontal">
 	<dt>Display App</dt>
@@ -17,7 +17,7 @@ For the purposes of this documentation and to get started, we'll focus on develo
 
 <div class="well well-small">
 <h4>About  Apps</h4>
-<p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of a F2 app as a module or widget or component.</p>
+<p>The term "app", in popular web parlance, is a compiled program that runs on your smartphone or tablet. In F2 context, apps are web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of F2 apps as a modules or widgets or components.</p>
 </div>
 
 ### Understanding F2 Apps
