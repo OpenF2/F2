@@ -8,7 +8,8 @@ h1.title {
 	margin-top: 0;
 }
 
-.level2 { 
+.level2,
+.level3 { 
 	padding-top:75px;
 }
 
@@ -54,6 +55,9 @@ section > hr {
 	font-size: 85%; 
 }
 
+#toc ul ul ul { 
+	font-size: 90%; 
+}
 /*main content*/
 .container .row {
 	margin-bottom: 20px;
