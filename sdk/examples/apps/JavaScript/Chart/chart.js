@@ -1,4 +1,4 @@
-F2.Apps["com_markh_highchartsChart"] = function(){
+F2.Apps["com_openf2_examples_chart"] = function(appConfig, appContent, root){
 
 	//setup container symbol change listener to draw new chart.
 	F2.Events.on(
@@ -9,7 +9,7 @@ F2.Apps["com_markh_highchartsChart"] = function(){
 	);
 
 	//setup listener for duration change menu
-	$("ul.dropdown-menu a", "div.com_markh_highchartsChart").bind("click",function(e){
+	$("ul.dropdown-menu a", "div.com_openf2_examples_chart").bind("click",function(e){
 		cht.changeTimeframe(e);
 	});
 
@@ -30,14 +30,24 @@ F2.Apps["com_markh_highchartsChart"] = function(){
 	Markit.TimeseriesService = function(symbol,duration){
 	    this.symbol = symbol;
 	    this.duration = duration;
+
+	    //F2 hooks
+	    this.appConfig = appConfig;
+	    this.appContent = appContent;
+	    this.root = root;
+	    this.$root = $(root);
+	    this.ui = this.appConfig.ui;
 	};
 
 	Markit.TimeseriesService.prototype.PlotChart = function(){
 	    
+	    this.ui.showMask(this.$root,true);
+		this.ui.setTitle("Price Chart for " + this.symbol);
+
 	    //Make JSON request for timeseries data
 	    $.ajax({
 	        beforeSend:function(){
-	            $("#chartDemoContainer").text("Loading chart...");
+	            //$("#chartDemoContainer").text("Loading chart...");
 	        },
 	        data: { 
 	            symbol: this.symbol, 
@@ -61,6 +71,9 @@ F2.Apps["com_markh_highchartsChart"] = function(){
 	};
 
 	Markit.TimeseriesService.prototype.BuildDataAndChart = function(json){
+	   	
+	   	$("#chartDemoContainer").empty();
+
 	    var dateDS = json.Data.SeriesDates,
 	        closeDS = json.Data.Series.close.values,
 	        openDS = json.Data.Series.open.values,
@@ -85,6 +98,9 @@ F2.Apps["com_markh_highchartsChart"] = function(){
 	    
 	    //init chart
 	    this.hc = new Highcharts.Chart(this.oChartOptions);
+
+	    this.ui.updateHeight();
+	    this.ui.hideMask(this.$root);
 	};
 
 	//Define the HighCharts options
@@ -155,7 +171,7 @@ F2.Apps["com_markh_highchartsChart"] = function(){
 	 * Allows chart to be reset with container symbol change context.
 	 */
 	Markit.TimeseriesService.prototype.newChart = function(data){
-		$("#chartDemoContainer").empty();
+		
 		this.hc = null;
 		this.symbol = data.symbol;
 		this.duration = data.duration || this.duration;
@@ -180,7 +196,7 @@ F2.Apps["com_markh_highchartsChart"] = function(){
 	};
 
 	//go! 
-	var cht = new Markit.TimeseriesService("GOOG", 90);
+	var cht = new Markit.TimeseriesService("MSFT", 90);
 		cht.PlotChart();
 
 	return cht;

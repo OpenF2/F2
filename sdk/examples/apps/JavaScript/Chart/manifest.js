@@ -1,4 +1,4 @@
-F2_jsonpCallback_com_markh_highchartsChart({
+F2_jsonpCallback_com_openf2_examples_chart({
     "scripts":[
     	"http://code.highcharts.com/highcharts.js",
         "../../apps/JavaScript/Chart/chart.js"

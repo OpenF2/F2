@@ -9,9 +9,7 @@ F2.Apps["com_openf2_examples_javascript_helloworld"] = (function() {
 	App_Class.prototype.init = function () {
 
 		this.ui.updateHeight();
-		
-		//F2.log("¡Vámonos! Flickr interestingness coming up...");
-
+		this.ui.showMask(this.$root,true);
 		this.getPhotos();
 	};
 
@@ -37,6 +35,7 @@ F2.Apps["com_openf2_examples_javascript_helloworld"] = (function() {
 			.appendTo( $('div.imgPlaceholder', this.$root))
 			.load($.proxy(function() {
 				this.ui.updateHeight();
+				this.ui.hideMask(this.$root);
 			}, this));
 	}
 
