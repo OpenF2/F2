@@ -457,9 +457,41 @@ F2 is a _web_ integration framework which means are apps are inherently insecure
 
 ### Namespacing Your CSS
 
-AppID...
+As discussed in [Developing a F2 App: F2 AppID](#f2-appid), to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app in the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
-`div.<AppID>` 
+When Container Providers [register apps](../sdk/docs/classes/F2.html#methods-registerApps), F2.js draws each app as defined by the [ContainerConfig](../sdk/docs/classes/F2.ContainerConfig.html). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
+
+This example shows app HTML after it has been drawn on the container. Note the `com_companyName_appName` classname.
+
+```html
+<div class="f2-app-container com_companyName_appName">
+	...
+</div>
+```
+
+To avoid styling conflicts or other display issues related to app-provided style sheets, **app developers must namespace their CSS selectors.** Fortunately, this is quite easy. 
+
+Every selector in app-provided style sheets must look like this:
+
+```css
+.com_companyName_appName p {
+	padding:5px;
+}
+
+.com_companyName_appName .alert {
+	color:red;
+}
+```
+
+Note `.com_companyName_appName` is prefixed on both `p` and `.alert` selectors.
+
+While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and prefixing F2 AppIDs on your CSS selectors isn't required, it is recommended.
+
+```css
+.com_companyName_appName #notice {
+	background-color:yellow;
+}
+```
 
 ### Protecting Your JavaScript
 
@@ -578,6 +610,34 @@ What if you want your app to only receive context emitted from apps you trust?
 Every F2 app will have a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
 
 <span class="label label-warning">EDITOR'S NOTE</span> Finish this when code is completed...
+
+* * * *
+
+## Secure Apps
+
+F2 fully supports secure apps. A secure app is one that exists inside an `iframe` on a container _and_ is hosted on a different domain. The F2.js SDK provides developers with seamless handling of Context, UI and the other F2 APIs whether or not an app is secure. This means app developers do not have to code apps any differently if an app is secure.
+
+An app is defined as "secure" in the [AppConfig](../sdk/docs/classes/F2.AppConfig.html#properties-isSecure). Creating the `AppConfig` is something that is done when apps are registered on the (coming) Developer Center, or within the Container Provider's app catalog.
+
+Noting the `isSecure` property, the `AppConfig` looks like this:
+
+```javascript
+{
+	"appId": "com_f2_demo",
+	"description": "A demo F2 app.",
+	"height":250,
+	"minGridSize": 4,
+	"isSecure": true, //secure boolean
+	"manifestUrl": "manifest.js",
+	"name": "F2 App"
+}
+```
+
+To see examples of secure apps, [fork F2 on GitHub](https://github.com/OpenF2/F2) and point your browser at:
+
+`http://localhost/F2/sdk/examples/containers/HTML/`
+
+The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;and that's where you'll find the `isSecure` flag defined in each of the `AppConfig` objects.
 
 * * * *
 

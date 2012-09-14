@@ -64,7 +64,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.11.0</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.11.1</a></li>
       </ul>
     </div>
   </div>
@@ -463,8 +463,26 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p><span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.</p>
 <section class="level3" id="namespacing-your-css">
 <h3>Namespacing Your CSS</h3>
-<p>AppID...</p>
-<p><code>div.&lt;AppID&gt;</code></p>
+<p>As discussed in <a href="#f2-appid">Developing a F2 App: F2 AppID</a>, to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app in the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
+<p>When Container Providers <a href="../sdk/docs/classes/F2.html#methods-registerApps">register apps</a>, F2.js draws each app as defined by the <a href="../sdk/docs/classes/F2.ContainerConfig.html">ContainerConfig</a>. Before the app is added to the container DOM, F2 automatically wraps an outer HTML element—with the AppID used as a class—around the rendered app.</p>
+<p>This example shows app HTML after it has been drawn on the container. Note the <code>com_companyName_appName</code> classname.</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;f2-app-container com_companyName_appName&quot;</span><span class="kw">&gt;</span>
+    ...
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>To avoid styling conflicts or other display issues related to app-provided style sheets, <strong>app developers must namespace their CSS selectors.</strong> Fortunately, this is quite easy.</p>
+<p>Every selector in app-provided style sheets must look like this:</p>
+<pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_companyName_appName</span> p <span class="kw">{</span>
+    <span class="kw">padding:</span><span class="dt">5px</span><span class="kw">;</span>
+<span class="kw">}</span>
+
+<span class="fl">.com_companyName_appName</span> <span class="fl">.alert</span> <span class="kw">{</span>
+    <span class="kw">color:</span><span class="dt">red</span><span class="kw">;</span>
+<span class="kw">}</span></code></pre>
+<p>Note <code>.com_companyName_appName</code> is prefixed on both <code>p</code> and <code>.alert</code> selectors.</p>
+<p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and prefixing F2 AppIDs on your CSS selectors isn't required, it is recommended.</p>
+<pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_companyName_appName</span> <span class="fl">#notice</span> <span class="kw">{</span>
+    <span class="kw">background-color:</span><span class="dt">yellow</span><span class="kw">;</span>
+<span class="kw">}</span></code></pre>
 </section>
 <section class="level3" id="protecting-your-javascript">
 <h3>Protecting Your JavaScript</h3>
@@ -556,6 +574,25 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p><span class="label label-warning">EDITOR'S NOTE</span> Finish this when code is completed...</p>
 <hr>
 </section>
+</section>
+<section class="level2" id="secure-apps">
+<h2>Secure Apps</h2>
+<p>F2 fully supports secure apps. A secure app is one that exists inside an <code>iframe</code> on a container <em>and</em> is hosted on a different domain. The F2.js SDK provides developers with seamless handling of Context, UI and the other F2 APIs whether or not an app is secure. This means app developers do not have to code apps any differently if an app is secure.</p>
+<p>An app is defined as &quot;secure&quot; in the <a href="../sdk/docs/classes/F2.AppConfig.html#properties-isSecure">AppConfig</a>. Creating the <code>AppConfig</code> is something that is done when apps are registered on the (coming) Developer Center, or within the Container Provider's app catalog.</p>
+<p>Noting the <code>isSecure</code> property, the <code>AppConfig</code> looks like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    <span class="st">&quot;appId&quot;</span>: <span class="st">&quot;com_f2_demo&quot;</span>,
+    <span class="st">&quot;description&quot;</span>: <span class="st">&quot;A demo F2 app.&quot;</span>,
+    <span class="st">&quot;height&quot;</span>:<span class="dv">250</span>,
+    <span class="st">&quot;minGridSize&quot;</span>: <span class="dv">4</span>,
+    <span class="st">&quot;isSecure&quot;</span>: <span class="kw">true</span>, <span class="co">//secure boolean</span>
+    <span class="st">&quot;manifestUrl&quot;</span>: <span class="st">&quot;manifest.js&quot;</span>,
+    <span class="st">&quot;name&quot;</span>: <span class="st">&quot;F2 App&quot;</span>
+}</code></pre>
+<p>To see examples of secure apps, <a href="https://github.com/OpenF2/F2">fork F2 on GitHub</a> and point your browser at:</p>
+<p><code>http://localhost/F2/sdk/examples/containers/HTML/</code></p>
+<p>The example container runs sample apps—defined in <code>sampleApps.js</code>—and that's where you'll find the <code>isSecure</code> flag defined in each of the <code>AppConfig</code> objects.</p>
+<hr>
 </section>
 <section class="level2" id="f2.ui">
 <h2>F2.UI</h2>
