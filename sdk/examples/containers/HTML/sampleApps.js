@@ -1,4 +1,14 @@
-[{
+[
+{
+	"appId": "com_markh_F2wits",
+	"description": "F2 StockTwits",
+	"height":200,
+	"minGridSize": 4,
+	"manifestUrl": "../../apps/PHP/F2wits/manifest.js",
+	"name": "F2wits",
+	"views": ["home","about"]
+},
+{
 	"appId": "com_openf2_examples_chart",
 	"description": "Semi-Interactive Price Chart",
 	"height":200,

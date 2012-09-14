@@ -68,6 +68,14 @@ $(function() {
 		secureAppPagePath: "secure.html" // this should go on a separate domain from index.html
 	});
 
+	//listen for app symbol change events and re-broadcast
+	F2.Events.on(
+		F2.Constants.Events.APP_SYMBOL_CHANGE,
+		function(data){
+			F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: data.symbol, name: data.name || "" });
+		}
+	);
+
 	/**
 	 * init symbol lookup in navbar
 	 */
