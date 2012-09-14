@@ -1,6 +1,6 @@
 /*!
- * F2 v0.12.2
- * Copyright (c) 2012 Markit Group Limited http://www.openf2.com
+ * F2 v0.12.3
+ * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
