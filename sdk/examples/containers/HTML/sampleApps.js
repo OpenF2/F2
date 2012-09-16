@@ -1,7 +1,6 @@
 [
 {
 	"appId": "com_markh_F2wits",
-	"description": "F2 StockTwits",
 	"height":200,
 	"minGridSize": 4,
 	"manifestUrl": "../../apps/PHP/F2wits/manifest.js",
@@ -10,7 +9,6 @@
 },
 {
 	"appId": "com_openf2_examples_chart",
-	"description": "Semi-Interactive Price Chart",
 	"height":200,
 	"minGridSize": 8,
 	"isSecure": false,
@@ -19,21 +17,18 @@
 },
 {
 	"appId": "com_openf2_examples_php_news",
-	"description": "A PHP News App",
 	"manifestUrl": "../../apps/PHP/News/index.php",
 	"name": "PHP News",
 	"views": ["home", "settings"]
 },
 {
 	"appId": "com_openf2_examples_jscript_helloworld",
-	"description": "A JScript Hello World App",
 	"manifestUrl": "../../apps/JScript/HelloWorld/index.asp",
 	"name": "JScript Hello World",
 	"views": ["home", "settings"]
 },
 {
 	"appId": "com_openf2_examples_jscript_helloworld",
-	"description": "A JScript Hello World App",
 	"height":500,
 	"isSecure": true,
 	"manifestUrl": "../../apps/JScript/HelloWorld/index.asp",
@@ -41,23 +36,25 @@
 	"views": ["home", "settings"]
 },
 {
-	"appId": "com_openf2_examples_php_helloworld",
-	"description": "A PHP Hello World App",
-	"manifestUrl": "../../apps/PHP/HelloWorld/index.php",
-	"name": "PHP Hello World",
-	"views": ["home"]
-},
-{
-	"appId": "com_openf2_examples_javascript_helloworld",
-	"description": "A Flickr App",
+	"appId": "com_openf2_examples_javascript_flickr",
 	"isSecure": false,
 	"manifestUrl": "../../apps/JavaScript/Flickr/manifest.js",
 	"name": "Interestingness on Flickr",
 	"views": ["about"]
 },
 {
+	"appId": "com_openf2_examples_javascript_quote",
+	"manifestUrl": "../../apps/JavaScript/Quote/manifest.js",
+	"name": "Quote",
+	"views": ["home", "settings", "about"]
+},
+{
 	"appId": "com_openf2_examples_php_helloworld",
-	"description": "A PHP Hello World App",
+	"manifestUrl": "../../apps/PHP/HelloWorld/index.php",
+	"name": "PHP Hello World"
+},
+{
+	"appId": "com_openf2_examples_php_helloworld",
 	"isSecure": true,
 	"manifestUrl": "../../apps/PHP/HelloWorld/index.php",
 	"name": "PHP Hello World"
