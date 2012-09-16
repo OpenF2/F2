@@ -1,0 +1,13 @@
+.com_openf2_examples_javascript_quote .last {
+	display:inline;
+}
+.com_openf2_examples_javascript_quote .lastChange {
+	display:inline;
+	margin-left:15px;
+}
+.com_openf2_examples_javascript_quote .positive {
+	color:#468847;
+}
+.com_openf2_examples_javascript_quote .negative {
+	color:#B94A48;
+}
