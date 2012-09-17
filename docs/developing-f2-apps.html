@@ -64,7 +64,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.11.1</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.11.2</a></li>
       </ul>
     </div>
   </div>
@@ -594,6 +594,27 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p>The example container runs sample apps—defined in <code>sampleApps.js</code>—and that's where you'll find the <code>isSecure</code> flag defined in each of the <code>AppConfig</code> objects.</p>
 <hr>
 </section>
+<section class="level2" id="your-app-on-a-container">
+<h2>Your App On a Container</h2>
+<p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working app, you're pretty much done.</p>
+<p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../sdk/docs/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-the-container.html">read the container documentation</a>.</p>
+<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
+<section class="level4" id="testing-your-app">
+<h4>Testing Your App</h4>
+<p>When you <a href="https://github.com/OpenF2/F2/#quick-start">cloned the F2 GitHub repo</a> you also got some example F2 containers for your app development and testing. Open the project repository and navigate to <code>~/F2/sdk/examples/containers</code> to find them or to jump-start your testing, point your browser at:</p>
+<p><code>http://localhost/F2/sdk/examples/containers/HTML/</code></p>
+<p>If you open <code>~/F2/sdk/examples/containers/sampleApps.js</code> in your text editor, you'll find a list of sample F2 apps. Simply modify this file to your liking and add your app anywhere in the array. The configuration is comprised of <code>F2.AppConfig</code> properties, the following are <strong>required</strong>.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    <span class="dt">appId</span>: <span class="st">&quot;com_your_appid&quot;</span>,
+    <span class="dt">description</span>: <span class="st">&quot;Your app description&quot;</span>,
+    <span class="dt">height</span>:<span class="dv">500</span>,
+    <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.domain.com/appmanifest.js&quot;</span>,
+    <span class="dt">name</span>: <span class="st">&quot;Your app name&quot;</span>
+}</code></pre>
+<p>For full details on each of these <code>F2.AppConfig</code> properties, <a href="../sdk/docs/classes/F2.AppConfig.html">browse the F2.js SDK documentation</a>.</p>
+<hr>
+</section>
+</section>
 <section class="level2" id="f2.ui">
 <h2>F2.UI</h2>
 <p>There are some utility methods provided within F2.js in the <code>UI</code> namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views withing your app, and more.</p>
@@ -711,38 +732,17 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 </section>
 </section>
-<section class="level2" id="your-app-on-a-container">
-<h2>Your App on a Container</h2>
-<p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working app, you're pretty much done.</p>
-<p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../sdk/docs/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-the-container.html">read the container documentation</a>.</p>
-<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
-<section class="level3" id="testing-your-app">
-<h3>Testing Your App</h3>
-<p>When you <a href="https://github.com/OpenF2/F2/#quick-start">cloned the F2 GitHub repo</a> you also got some example F2 containers for your app development and testing. Open the project repository and navigate to <code>~/F2/sdk/examples/containers</code> to find them or to jump-start your testing, point your browser at:</p>
-<p><code>http://localhost/F2/sdk/examples/containers/HTML/</code></p>
-<p>If you open <code>~/F2/sdk/examples/containers/sampleApps.js</code> in your text editor, you'll find a list of sample F2 apps. Simply modify this file to your liking and add your app anywhere in the array. The configuration is comprised of <code>F2.App</code> properties, the following are <strong>required</strong>.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">{
-    <span class="dt">appId</span>: <span class="st">&quot;com_your_appid&quot;</span>,
-    <span class="dt">description</span>: <span class="st">&quot;Your app description&quot;</span>,
-    <span class="dt">height</span>:<span class="dv">500</span>,
-    <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.domain.com/appmanifest.js&quot;</span>,
-    <span class="dt">name</span>: <span class="st">&quot;Your app name&quot;</span>
-}</code></pre>
-<p>For full details on each of these <code>F2.App</code> properties, <a href="../sdk/docs/classes/F2.App.html">browse the F2.js SDK documentation</a>.</p>
-<hr>
-</section>
-</section>
 <section class="level2" id="entitlements">
 <h2>Entitlements</h2>
 <p>User or content entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This could include apps like research aggregation, news filtering, streaming market data, etc. Similarly to how companies build their own websites today with their own authentication and access (or content) entitlements, F2 apps are no different.</p>
 <p><em>Further details around app entitlements will be forthcoming as this F2 specification evolves.</em></p>
 <hr>
-<section class="level3" id="single-sign-on">
-<h3>Single Sign-On</h3>
+</section>
+<section class="level2" id="single-sign-on">
+<h2>Single Sign-On</h2>
 <p>In version 1.0.0 of this F2 spec, like <a href="#entitlements">entitlements</a>, single sign-on (or SSO) will be the responsibility of the app developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers.</p>
 <p><em>Further details around container and app single sign-on will be forthcoming as this F2 specification evolves.</em></p>
 <hr>
-</section>
 </section>
 			</div><!--/#docs-->
 		</div><!--/span9-->
