@@ -641,6 +641,36 @@ The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;an
 
 * * * *
 
+## Your App On a Container 
+
+Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working app, you're pretty much done.
+
+If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-the-container.html).
+
+<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
+
+#### Testing Your App
+
+When you [cloned the F2 GitHub repo](https://github.com/OpenF2/F2/#quick-start) you also got some example F2 containers for your app development and testing. Open the project repository and navigate to `~/F2/sdk/examples/containers` to find them or to jump-start your testing, point your browser at:
+
+`http://localhost/F2/sdk/examples/containers/HTML/`
+
+If you open `~/F2/sdk/examples/containers/sampleApps.js` in your text editor, you'll find a list of sample F2 apps. Simply modify this file to your liking and add your app anywhere in the array. The configuration is comprised of `F2.AppConfig` properties, the following are **required**.
+
+```javascript
+{
+	appId: "com_your_appid",
+	description: "Your app description",
+	height:500,
+	manifestUrl: "http://www.domain.com/appmanifest.js",
+	name: "Your app name"
+}
+```
+
+For full details on each of these `F2.AppConfig` properties, [browse the F2.js SDK documentation](../sdk/docs/classes/F2.AppConfig.html).
+
+* * * *
+
 ## F2.UI
 
 There are some utility methods provided within F2.js in the `UI` namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views withing your app, and more.
@@ -807,36 +837,6 @@ For details on `F2.Events.on()`, [browse to the SDK docs](../sdk/docs/classes/F2
 
 * * * *
 
-## Your App on a Container 
-
-Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working app, you're pretty much done.
-
-If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-the-container.html).
-
-<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
-
-### Testing Your App
-
-When you [cloned the F2 GitHub repo](https://github.com/OpenF2/F2/#quick-start) you also got some example F2 containers for your app development and testing. Open the project repository and navigate to `~/F2/sdk/examples/containers` to find them or to jump-start your testing, point your browser at:
-
-`http://localhost/F2/sdk/examples/containers/HTML/`
-
-If you open `~/F2/sdk/examples/containers/sampleApps.js` in your text editor, you'll find a list of sample F2 apps. Simply modify this file to your liking and add your app anywhere in the array. The configuration is comprised of `F2.App` properties, the following are **required**.
-
-```javascript
-{
-	appId: "com_your_appid",
-	description: "Your app description",
-	height:500,
-	manifestUrl: "http://www.domain.com/appmanifest.js",
-	name: "Your app name"
-}
-```
-
-For full details on each of these `F2.App` properties, [browse the F2.js SDK documentation](../sdk/docs/classes/F2.App.html).
-
-* * * *
-
 ## Entitlements
 
 User or content entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This could include apps like research aggregation, news filtering, streaming market data, etc. Similarly to how companies build their own websites today with their own authentication and access (or content) entitlements, F2 apps are no different.
@@ -845,7 +845,7 @@ _Further details around app entitlements will be forthcoming as this F2 specific
 
 * * * *
 
-### Single Sign-On
+## Single Sign-On
 
 In version 1.0.0 of this F2 spec, like [entitlements](#entitlements), single sign-on (or SSO) will be the responsibility of the app developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers.
 
