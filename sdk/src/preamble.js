@@ -1,5 +1,5 @@
 /*!
- * F2 v0.12.3
+ * F2 v0.12.4
  * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy

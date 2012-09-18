@@ -1,5 +1,5 @@
 /*!
- * F2 v0.12.3
+ * F2 v0.12.4
  * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1531,11 +1531,6 @@ F2.extend('UI', (function(){
 			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
-			// if useClasses is false, we need to remove all inline styles
-			if (!_containerConfig.UI.Mask.useClasses) {
-				container.attr('style', '');
-			}
-
 			// if the element contains this data property, we need to reset static
 			// position
 			if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
@@ -1593,7 +1588,7 @@ F2.extend('UI', (function(){
 			}
 
 			var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
-			var mask = $('<div data->')
+			var mask = $('<div>')
 				.height('100%' /*container.outerHeight()*/)
 				.width('100%' /*container.outerWidth()*/)
 				.addClass(F2.Constants.Css.MASK);
