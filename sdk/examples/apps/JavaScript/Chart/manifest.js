@@ -1,10 +1,10 @@
 F2_jsonpCallback_com_openf2_examples_chart({
     "scripts":[
     	"http://code.highcharts.com/highcharts.js",
-        "../../apps/JavaScript/Chart/chart.js"
+        "../apps/JavaScript/Chart/chart.js"
     ],   
     "styles":[
-        "../../apps/JavaScript/Chart/chart.css"
+        "../apps/JavaScript/Chart/chart.css"
     ],   
     "apps":[{
       "html":[

@@ -60,7 +60,7 @@ $(function() {
 
 		UI:{
 			Mask:{
-				loadingIcon:'./assets/img/ajax-loader.gif'
+				loadingIcon:'./img/ajax-loader.gif'
 			}
 		},
 

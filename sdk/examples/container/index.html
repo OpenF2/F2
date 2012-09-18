@@ -3,10 +3,10 @@
 <head>
 	<title>F2 - HTML Container Example</title>
 	<!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<link href="./assets/css/smoothness/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet" />
+	<link href="./css/smoothness/jquery-ui-1.8.22.custom.css" type="text/css" rel="stylesheet" />
 	<link href="http://docs.openf2.com/css/bootstrap.min.2.1.1.css" type="text/css" rel="stylesheet" />
 	<link href="http://docs.openf2.com/css/bootstrap-responsive.min.2.1.1.css" type="text/css" rel="stylesheet" />
-	<link href="./assets/css/container.css" type="text/css" rel="stylesheet" />
+	<link href="./css/container.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
 	<div class="navbar navbar-fixed-top">
@@ -16,14 +16,14 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="../../../../docs/">Docs</a></li>
-						<li><a href="../../../../sdk/docs/">SDK</a></li>
+						<li><a href="../../../docs/">Docs</a></li>
+						<li><a href="../../../sdk/docs/">SDK</a></li>
 						<li><a href="https://github.com/OpenF2/F2">Fork F2 on GitHub</a></li>
-						<li><a href="https://github.com/OpenF2/F2/zipball/master">Download</a></li>
 					</ul>
 					<form class="navbar-search pull-left">
 						<input id="symbolLookup" class="search-query span2 ui-autocomplete-input" type="text" placeholder="Symbol Lookup" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
 					</form>
+					<button id="btnSelectApps" type="button" class="btn pull-right">Select Apps</button>
 				</div>
 			</div>
 		</div>
@@ -37,24 +37,48 @@
 		</div>
 	</div>
 
+	<div id="languageSelect" class="modal hide">
+		<div class="modal-header">
+			<h3>Please select example apps</h3>
+		</div>
+		<div class="modal-body">
+			<span class="help-block">
+				There are a variety of Apps written in several programming languages.
+				Please select the language(s) that can run on your computer to continue.
+				You can select other Apps to load later by clicking the 'Select Apps'
+				button in the top nav bar.
+			</span>
+			<div class="span2" data-language="js">
+				<h4>JavaScript</h4>
+			</div>
+			<div class="span2" data-language="php">
+				<h4>PHP</h4>
+			</div>
+			<div class="span2" data-language="csharp">
+				<h4>C#</h4>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary disabled" type="button">Save</button>
+		</div>
+	</div>
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="//docs.openf2.com/js/bootstrap.min.2.1.1.js" type="text/javascript"></script>
-	<script src="../../../f2.debug.js" type="text/javascript"></script>
+	<script src="../../f2.debug.js" type="text/javascript"></script>
 
 	<!-- Include container-specific logic, notably F2.init() -->
-	<script src="./container.js"></script>
 	<script type="text/javascript">
 		$(function(){
-
-			// get all of the apps & call F2.registerApps()
-			$.getJSON("sampleApps.js", function(apps){
-				F2.registerApps(apps);
-			}).error(function(err){
-				F2.log(err);
-			});
-
+			window.f2_example_apps = [
+				{ language:'csharp', script:'./js/csharpSampleApps.js' },
+				{ language:'js', script:'./js/jsSampleApps.js' },
+				{ language:'php', script:'./js/phpSampleApps.js' }
+			];
 		});
 	</script>
+	<script src="./js/container.js"></script>
+	<script src="./js/examples.js"></script>
 </body>
 </html>

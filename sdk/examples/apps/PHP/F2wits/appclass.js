@@ -29,7 +29,7 @@ F2.Apps["com_markh_F2wits"] = (function() {
 
     App_Class.prototype.getTwits = function(){
     	$.ajax({
-    		url: "../../apps/PHP/F2wits/stocktwits.php",
+    		url: "../apps/PHP/F2wits/stocktwits.php",
     		data: {
     			symbol: this.symbol
     		},

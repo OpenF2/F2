@@ -1,10 +1,10 @@
 F2_jsonpCallback_com_markh_F2wits({
 	"scripts":[
-		"../../apps/PHP/F2wits/moment.1.7.0.min.js",
-		"../../apps/PHP/F2wits/appclass.js"
+		"../apps/PHP/F2wits/moment.1.7.0.min.js",
+		"../apps/PHP/F2wits/appclass.js"
 	],	 
 	"styles":[
-		"../../apps/PHP/F2wits/app.css"
+		"../apps/PHP/F2wits/app.css"
 	],	 
 	"apps":[{
 			"html":[

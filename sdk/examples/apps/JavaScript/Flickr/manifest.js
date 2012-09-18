@@ -8,7 +8,7 @@
  */
 F2_jsonpCallback_com_openf2_examples_javascript_flickr({
 	"scripts":[
-		"../../apps/JavaScript/Flickr/flickrApp.js"
+		"../apps/JavaScript/Flickr/flickrApp.js"
 	],
 	"styles":[
 

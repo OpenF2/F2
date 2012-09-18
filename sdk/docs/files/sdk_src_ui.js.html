@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;ui.js</title>
+	<title>sdk\src\ui.js</title>
 	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
 	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
@@ -107,7 +107,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;ui.js</h1>
+				<h1 class="file-heading">File: sdk\src\ui.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -440,11 +440,6 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			var mask = container.find(&#x27;&gt; .&#x27; + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
-			&#x2F;&#x2F; if useClasses is false, we need to remove all inline styles
-			if (!_containerConfig.UI.Mask.useClasses) {
-				container.attr(&#x27;style&#x27;, &#x27;&#x27;);
-			}
-
 			&#x2F;&#x2F; if the element contains this data property, we need to reset static
 			&#x2F;&#x2F; position
 			if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
@@ -502,7 +497,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			}
 
 			var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
-			var mask = $(&#x27;&lt;div data-&gt;&#x27;)
+			var mask = $(&#x27;&lt;div&gt;&#x27;)
 				.height(&#x27;100%&#x27; &#x2F;*container.outerHeight()*&#x2F;)
 				.width(&#x27;100%&#x27; &#x2F;*container.outerWidth()*&#x2F;)
 				.addClass(F2.Constants.Css.MASK);
