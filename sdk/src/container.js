@@ -464,7 +464,7 @@ F2.extend('', (function(){
 			}
 
 			$.each(_apps, function(i, a) {
-				F2.removeApp(a.instanceId);
+				F2.removeApp(a.config.instanceId);
 			});
 		},
 		/**
