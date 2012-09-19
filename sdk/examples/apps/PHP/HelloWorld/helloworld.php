@@ -7,11 +7,11 @@
 	$serverPath = 
 		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
 		$_SERVER["SERVER_NAME"] .
-		str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
+		str_replace("helloworld.php", "", $_SERVER["SCRIPT_NAME"]);
 
 	// create the AppManifest object
 	$a = array(
-		"scripts" => array($serverPath . "app.js"),
+		"scripts" => array($serverPath . "appclass.js"),
 		"apps" => array(array("html" => renderAppHtml($app)))
 	);
 

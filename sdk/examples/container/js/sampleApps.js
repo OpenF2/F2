@@ -33,11 +33,11 @@
 	"php": [
 		{
 			"appId": "com_openf2_examples_php_helloworld",
-			"manifestUrl": "../apps/PHP/HelloWorld/index.php",
+			"manifestUrl": "../apps/PHP/HelloWorld/helloworld.php",
 			"name": "Hello World"
 		},
 		{
-			"appId": "com_markh_F2wits",
+			"appId": "com_openf2_examples_php_f2wits",
 			"height": 200,
 			"minGridSize": 4,
 			"manifestUrl": "../apps/PHP/F2wits/manifest.js",
@@ -46,13 +46,13 @@
 		},
 		{
 			"appId": "com_openf2_examples_php_news",
-			"manifestUrl": "../apps/PHP/News/index.php",
+			"manifestUrl": "../apps/PHP/News/news.php",
 			"name": "Stocks News",
 			"views": ["home", "settings"]
 		},
 		{
 			"appId": "com_openf2_examples_php_marketnews",
-			"manifestUrl": "../apps/PHP/MarketNews/index.php",
+			"manifestUrl": "../apps/PHP/MarketNews/marketnews.php",
 			"name": "Market News",
 			"views": ["home", "settings"]
 		}
