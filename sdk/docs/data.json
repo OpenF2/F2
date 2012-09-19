@@ -2028,7 +2028,7 @@
         },
         {
             "file": "sdk/src/ui.js",
-            "line": 343,
+            "line": 338,
             "itemtype": "method",
             "name": "init",
             "static": 1,
@@ -2044,7 +2044,7 @@
         },
         {
             "file": "sdk/src/ui.js",
-            "line": 356,
+            "line": 351,
             "description": "Display an ovarlay over an Element on the page",
             "itemtype": "method",
             "name": "showMask",

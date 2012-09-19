@@ -577,7 +577,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 
 			$.each(_apps, function(i, a) {
-				F2.removeApp(a.instanceId);
+				F2.removeApp(a.config.instanceId);
 			});
 		},
 		&#x2F;**
@@ -594,9 +594,10 @@ F2.extend(&#x27;&#x27;, (function(){
 
 			if (_apps[instanceId]) {
 				$(_apps[instanceId].config.root).fadeOut(function() {
-					delete _apps[instanceId];
 					$(this).remove();
 				});
+
+				delete _apps[instanceId];
 			}
 		}
 	};

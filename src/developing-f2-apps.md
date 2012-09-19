@@ -767,7 +767,7 @@ Usage is simple:
 ```javascript
 //appclass.js snippet
 ...
-	this.ui.alert("A message to display in a modal.");
+	this.ui.Modals.alert("A message to display in a modal.");
 ...
 ```
 
@@ -776,9 +776,26 @@ You can optionally provide a callback to be fired when the user closes the modal
 ```javascript
 //appclass.js snippet
 ...
-	this.ui.alert("A message to display in a modal.", function(){
+	this.ui.Modals.alert("A message to display in a modal.", function(){
 		F2.log("Modal closed!");
 	});
+...
+```
+
+Additionally, there is a `confirm` modal.
+
+```javascript
+//appclass.js snippet
+...
+	this.ui.Modals.confirm(
+		"A message to display in a confirmation modal.", 
+		function(){
+			F2.log("OK clicked");
+		},
+		function(){
+			F2.log("Cancel clicked");
+		}
+	);
 ...
 ```
 
