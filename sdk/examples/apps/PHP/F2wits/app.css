@@ -2,15 +2,15 @@
  * All selectors must have .YOUR_APP_ID as a prefix. 
  */
 
-.com_markh_F2wits .avatar {
+.com_openf2_examples_php_f2wits .avatar {
 	vertical-align: top;
 }
 
-.com_markh_F2wits img {
+.com_openf2_examples_php_f2wits img {
 	max-width: 35px !important;
 }
 
-.com_markh_F2wits time {
+.com_openf2_examples_php_f2wits time {
 	display: block;
 	font-size:12px;
 }

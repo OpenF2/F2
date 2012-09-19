@@ -21,7 +21,7 @@
 	$serverPath = 
 		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
 		$_SERVER["SERVER_NAME"] .
-		str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
+		str_replace("news.php", "", $_SERVER["SCRIPT_NAME"]);
 
 	// read in the news
 	$xml_source = file_get_contents($PROVIDERS[$provider]['feed'] . $symbol);
@@ -39,8 +39,8 @@
 
 	// create the AppManifest object
 	$a = array(
-		"scripts" => array($serverPath . "app.js"),
-		"styles" => array($serverPath . "style.css"),
+		"scripts" => array($serverPath . "appclass.js"),
+		"styles" => array($serverPath . "app.css"),
 		"apps" => array(
 			array(
 				"html" => join('', array(
@@ -48,8 +48,7 @@
 						renderNews($newsItems),
 						renderSettings(),
 					'</div>'
-				)),
-				"data" => array("baseUrl" => $serverPath)
+				))
 			)
 		)
 	);

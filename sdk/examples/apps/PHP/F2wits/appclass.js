@@ -1,4 +1,4 @@
-F2.Apps["com_markh_F2wits"] = (function() {
+F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
     
     var App_Class = function(appConfig, appContent, root) {
     	// constructor
