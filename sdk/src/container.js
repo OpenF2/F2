@@ -481,9 +481,10 @@ F2.extend('', (function(){
 
 			if (_apps[instanceId]) {
 				$(_apps[instanceId].config.root).fadeOut(function() {
-					delete _apps[instanceId];
 					$(this).remove();
 				});
+
+				delete _apps[instanceId];
 			}
 		}
 	};

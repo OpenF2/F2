@@ -1,5 +1,5 @@
 /*!
- * F2 v0.12.4
+ * F2 v0.12.5
  * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -2111,9 +2111,10 @@ F2.extend('', (function(){
 
 			if (_apps[instanceId]) {
 				$(_apps[instanceId].config.root).fadeOut(function() {
-					delete _apps[instanceId];
 					$(this).remove();
 				});
+
+				delete _apps[instanceId];
 			}
 		}
 	};
