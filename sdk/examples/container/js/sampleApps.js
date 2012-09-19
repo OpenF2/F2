@@ -3,6 +3,11 @@
 
 	"js": [
 		{
+			"appId": "com_openf2_examples_javascript_helloworld",
+			"manifestUrl": "../apps/JavaScript/HelloWorld/manifest.js",
+			"name": "Hello World"
+		},
+		{
 			"appId": "com_openf2_examples_chart",
 			"height":200,
 			"minGridSize": 8,
@@ -27,6 +32,11 @@
 
 	"php": [
 		{
+			"appId": "com_openf2_examples_php_helloworld",
+			"manifestUrl": "../apps/PHP/HelloWorld/index.php",
+			"name": "Hello World"
+		},
+		{
 			"appId": "com_markh_F2wits",
 			"height":200,
 			"minGridSize": 4,
@@ -45,17 +55,6 @@
 			"manifestUrl": "../apps/PHP/MarketNews/index.php",
 			"name": "Market News",
 			"views": ["home", "settings"]
-		},
-		{
-			"appId": "com_openf2_examples_php_helloworld",
-			"manifestUrl": "../apps/PHP/HelloWorld/index.php",
-			"name": "Hello World"
-		},
-		{
-			"appId": "com_openf2_examples_php_helloworld",
-			"isSecure": true,
-			"manifestUrl": "../apps/PHP/HelloWorld/index.php",
-			"name": "Hello World"
 		}
 	]
 }
