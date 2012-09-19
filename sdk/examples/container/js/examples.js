@@ -32,31 +32,23 @@ $(function(){
 		F2.registerApps(apps);
 	});
 
-	// load apps
-	var scriptsLoaded = 0;
-	var scriptCount = f2_example_apps.length;
-
 	// show a mask while loading app json
 	F2.UI.showMask('', $('#languageSelect'), true);
 
 	// load in app json
-	$.each(f2_example_apps, function(i, c) {
-		$.getJSON(c.script, function(apps) {
-			if (!!apps && apps.length) {
-				$('[data-language="' + c.language + '"]', $modal).append(
-					$.map(apps, function(app, i) {
-						return $('<label class="checkbox"></label>').append(
-							$('<input type="checkbox">').data('f2-app', app),
-							' ' + app.name + (app.isSecure ? ' (Secure)' : '')
-						);
-					})
-				);
-			}
+	$.getJSON('./js/sampleApps.js', function(allApps) {
+		$.each(allApps, function(language, apps) {
+			$('[data-language="' + language + '"]', $modal).append(
+				$.map(apps, function(app, i) {
+					return $('<label class="checkbox"></label>').append(
+						$('<input type="checkbox">').data('f2-app', app),
+						' ' + app.name + (app.isSecure ? ' (Secure)' : '')
+					);
+				})
+			);
+		})
 
-			if (++scriptsLoaded == scriptCount) {
-				F2.UI.hideMask('', $modal);
-			}
-		});
+		F2.UI.hideMask('', $modal);
 	});
 
 });
