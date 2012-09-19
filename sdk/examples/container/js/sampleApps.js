@@ -9,7 +9,7 @@
 		},
 		{
 			"appId": "com_openf2_examples_chart",
-			"height":200,
+			"height": 200,
 			"minGridSize": 8,
 			"isSecure": false,
 			"manifestUrl": "../apps/JavaScript/Chart/manifest.js",
@@ -38,7 +38,7 @@
 		},
 		{
 			"appId": "com_markh_F2wits",
-			"height":200,
+			"height": 200,
 			"minGridSize": 4,
 			"manifestUrl": "../apps/PHP/F2wits/manifest.js",
 			"name": "F2wits",

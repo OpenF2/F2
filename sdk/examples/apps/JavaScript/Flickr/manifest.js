@@ -1,14 +1,6 @@
-/* 
- * Callback function name must include "appId" as configured by Container 
- * 
- * Couple things 
- *    - Would be great if InlineScripts were legible
- *    - Same with Apps.HTML
- *
- */
 F2_jsonpCallback_com_openf2_examples_javascript_flickr({
 	"scripts":[
-		"../apps/JavaScript/Flickr/flickrApp.js"
+		"../apps/JavaScript/Flickr/appclass.js"
 	],
 	"styles":[
 

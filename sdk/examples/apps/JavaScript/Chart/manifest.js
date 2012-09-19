@@ -1,14 +1,14 @@
 F2_jsonpCallback_com_openf2_examples_chart({
     "scripts":[
     	"http://code.highcharts.com/highcharts.js",
-        "../apps/JavaScript/Chart/chart.js"
+        "../apps/JavaScript/Chart/appclass.js"
     ],   
     "styles":[
-        "../apps/JavaScript/Chart/chart.css"
+        "../apps/JavaScript/Chart/app.css"
     ],   
     "apps":[{
       "html":[
-      			'<div class="f2-app-view well" data-f2-view="home">',
+      	'<div class="f2-app-view well" data-f2-view="home">',
 					'<div class="btn-group">',
 						'<a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">',
 				    		'Change timeframe <span class="caret"></span>',
