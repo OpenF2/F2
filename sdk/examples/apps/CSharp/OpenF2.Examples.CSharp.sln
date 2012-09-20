@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Web Developer Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenF2.Examples.CSharp", "OpenF2.Examples.CSharp.csproj", "{94C1DEC6-42C3-47B4-A4F6-105BB914DA3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94C1DEC6-42C3-47B4-A4F6-105BB914DA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C1DEC6-42C3-47B4-A4F6-105BB914DA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C1DEC6-42C3-47B4-A4F6-105BB914DA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C1DEC6-42C3-47B4-A4F6-105BB914DA3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

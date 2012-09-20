@@ -1,5 +1,11 @@
 {
-	"csharp": [],
+	"csharp": [
+		{
+			"appId": "com_openf2_examples_csharp_helloworld",
+			"manifestUrl": "../apps/CSharp/Apps/HelloWorld",
+			"name": "Hello World"
+		}
+	],
 
 	"js": [
 		{
