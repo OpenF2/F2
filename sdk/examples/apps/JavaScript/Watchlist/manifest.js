@@ -20,7 +20,7 @@ F2_jsonpCallback_com_f2_examples_javascript_watchlist({
 					'</div>',
 					'<form class="f2-app-view hide" data-f2-view="settings">',
 						'<h3>Settings</h3>',
-						'<span class="help-block">This App can listen for symbols from nearby Apps which allows <em>other apps</em> to add symbols to this watchlis.</span>',
+						'<span class="help-block">This App can listen for symbols from nearby Apps which allows <em>other apps</em> to add symbols to this watchlist.</span>',
 						'<span class="help-block">Allow Symbols from Nearby Apps</span>',
 						'<label class="radio">',
 							'<input type="checkbox" name="allowExternalAdd" checked="checked"> Yes',
