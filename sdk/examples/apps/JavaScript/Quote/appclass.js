@@ -121,7 +121,8 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 								'<th>Market Cap</th>',
 								'<td>', quoteData.Data.MarketCap, '</td>',
 							'</tr>',
-						'</table>'
+						'</table>',
+						'<button type="button" class="btn btn-mini" data-watchlist-add="',quoteData.Data.Symbol,'">Add ',quoteData.Data.Symbol,' to Watchlist App</button>'
 					].join(''))
 					.fadeIn();
 			});
@@ -178,8 +179,24 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 				}
 			});
 
+			//Talk to External Watchlist App
+			$root.on("click", "button[data-watchlist-add]", function(e){
+				var $this = $(e.currentTarget),
+					sym = $this.attr("data-watchlist-add");
+
+				if (!$(".com_f2_examples_javascript_watchlist").length){
+					appConfig.ui.Modals.alert("The Watchlist App is not on this container.");
+				}
+
+				F2.Events.emit(
+					"F2_Examples_Watchlist_Add",
+					{ symbol: sym }
+				);
+				$this.addClass("disabled");
+			});			
+
 			// bind save settings
-			$($root).on("click", "button.save", _saveSettings);
+			$root.on("click", "button.save", _saveSettings);
 
 			// init typeahead
 			_initTypeahead();

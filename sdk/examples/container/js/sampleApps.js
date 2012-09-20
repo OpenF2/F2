@@ -33,6 +33,12 @@
 			"manifestUrl": "../apps/JavaScript/Quote/manifest.js",
 			"name": "Quote",
 			"views": ["home", "settings", "about"]
+		},
+		{
+			"appId": "com_f2_examples_javascript_watchlist",
+			"manifestUrl": "../apps/JavaScript/Watchlist/manifest.js",
+			"name": "Watchlist",
+			"views": ["home", "settings"]
 		}
 	],
 
