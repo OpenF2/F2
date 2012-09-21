@@ -11,13 +11,13 @@ F2 was started by and is maintained by [Markit On Demand](http://www.markitondem
 
 ### Quick Start
 
-Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the latest version](https://github.com/OpenF2/F2/zipball/master).
+Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the latest version](https://github.com/OpenF2/F2/zipball/master). 
 
-If you've cloned the repo and are ready to start building a F2 app, [read the documentation](http://docs.openf2.com/developing-f2-apps.html#developing-your-f2-app).
+If you've cloned the repo and are ready to start building a F2 app, [read the documentation](http://docs.openf2.com/developing-f2-apps.html#developing-your-f2-app). Just want to see examples? Point your browser at `http://localhost/OpenF2/F2/sdk/examples/`.
 
 ### Build F2
 
-We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on Node.js, and has a few dependencies. To install, `cd` to your `F2` folder, and run the following commands in npm:
+We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on [Node.js](http://nodejs.org/), and has a few dependencies. To install, `cd` to your `F2` folder, and run the following commands in npm:
 
 `$> npm install uglify-js wrench yuidocjs optimist`
 
@@ -33,7 +33,7 @@ For help, run:
 
 ### Collaboration 
 
-Help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+Join the team and help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
 
 ### Versioning
 
@@ -55,7 +55,7 @@ Have a question? Ask it on our Google Group.
 
 ### Bug Tracking
 
-To track bugs or issues, we are using Issues here on GitHub. Please search across open issues before submitting new ones to prevent any duplicates.
+To track bugs or issues, we are using Issues here on GitHub.
 
 <https://github.com/OpenF2/F2/issues>
 
