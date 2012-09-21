@@ -104,7 +104,7 @@ function buildTableOfContents(){
 
 	//build table of contents based on sections within generated markdown file
 	function buildToc(root) {
-		var sections = $('> section', root).filter(".level2,.level3");//find <section> elements in main content area
+		var sections = $('> section', root).filter(".level2");//find <section> elements in main content area
 
 		if (!sections.length) {
 			return;
@@ -151,7 +151,7 @@ $(function() {
 	makeEditorsNotesBold();
 
 	//affix nav
-	//$("#toc > ul.nav").affix();
+	$("#toc > ul.nav").affix();
 
 	//scrollspy
 	//$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0);

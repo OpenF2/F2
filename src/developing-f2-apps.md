@@ -34,13 +34,13 @@ If App Providers embed URLs back to their own websites, URLs must be opened in a
 
 #### Get Started
 
-To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/containers/HTML) along with a number of sample apps. Once you open the project repository, point your browser at:
+To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/sdk/examples/container/) along with a number of sample apps. Once you open the project repository, point your browser at:
 
-`http://localhost/F2/sdk/examples/containers/HTML/`
+`http://localhost/F2/sdk/examples/container/`
 
 <div class="well well-small">
 <h4>Configuration</h4>
-<p>It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, Ruby, ASP). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
+<p>It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
 </div>
 
 **Ready to start coding?** [Browse to Developing a F2 App](#developing-a-f2-app).
@@ -57,7 +57,7 @@ The F2 container is most simply described as the user interface and the location
 
 Each container provider, or individual person or company hosting a container, shall be responsible for including the [F2.js JavaScript SDK](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). Through the SDK, F2.js provides a consistent means for all F2 apps to get loaded on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
 
-To get started working with or developing containers, browse to the [documentation for developing the container](developing-the-container.html).
+To get started working with or developing containers, browse to the [documentation for developing the container](developing-f2-containers.html).
 
 * * * *
 
@@ -256,7 +256,7 @@ Now that we've detailed the [F2 app](#f2-apps) and defined the [App Manifest](#s
 
 ### F2 AppID
 
-To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ in the entire open financial framework ecosystem. While you don't need a unique app during the app development process, it is recommended you get one. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ in the entire open financial framework ecosystem. While you don't need a unique AppID during the app development process, it is recommended you get one. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
 As an example, your AppID could look like this:
 
@@ -451,9 +451,7 @@ If you don't want to think about any of this and would rather just start coding,
 
 ## Namespacing
 
-F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least the non-secure apps. Following these guidelines, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
-
-<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.
+F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least _non-secure_ apps. Following this spec, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
 
 ### Namespacing Your CSS
 
@@ -493,9 +491,27 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 }
 ```
 
-### Protecting Your JavaScript
+### Keeping Your JavaScript Clean
 
-Closures and the global namespace...
+Adhering to one of the [OpenAjax Alliance](http://www.openajax.org/) goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App developers alike, this means following this spec closely and ensuring javascript code is contained inside [closures](http://jibbering.com/faq/notes/closures/) or is extended as a new namespace on `F2`.
+
+To ensure javascript bundled with F2 apps executes in a javascript closure, [follow the guidelines](#app-class) for the `appclass.js` file and one of the two patterns described (prototypal inheritance or module).
+
+The F2.js SDK was designed with extensibility in mind and therefore custom logic can be added on the `F2` namespace.
+
+Example:
+
+```javascript
+F2.extend('YourPluginName', (function(){
+    return {
+        doSomething: function(){
+            F2.log("Something has been done.");
+        }
+    };
+})());
+```
+
+For more information, read [Extending F2](extending-f2.html).
 
 * * * *
 
@@ -607,9 +623,15 @@ F2.Events.on(
 
 What if you want your app to only receive context emitted from apps you trust? 
 
-Every F2 app will have a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
+Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
 
-<span class="label label-warning">EDITOR'S NOTE</span> Finish this when code is completed...
+<span class="label label-warning">EDITOR'S NOTE</span> Needs attn.
+
+### Types of Context
+
+Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container providers the option to define context within their container.
+
+Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to communicate symbol context, developers could also use `{ symbol: "123456789" }` to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand `AAPL` but&mdash;given symbol lookup services&mdash;would understand `123456789` as the universal _F2_ identifier for Apple, Inc. It is clear Container and App developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.
 
 * * * *
 
@@ -635,7 +657,7 @@ Noting the `isSecure` property, the `AppConfig` looks like this:
 
 To see examples of secure apps, [fork F2 on GitHub](https://github.com/OpenF2/F2) and point your browser at:
 
-`http://localhost/F2/sdk/examples/containers/HTML/`
+`http://localhost/F2/sdk/examples/container/`
 
 The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;and that's where you'll find the `isSecure` flag defined in each of the `AppConfig` objects.
 
@@ -643,9 +665,9 @@ The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;an
 
 ## Your App On a Container 
 
-Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working app, you're pretty much done.
+Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working&mdash;and tested&mdash;app, you're pretty much done.
 
-If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-the-container.html).
+If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../sdk/docs/classes/F2.html#method_registerApps) or [read the container documentation](developing-f2-containers.html).
 
 <span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
 
@@ -653,17 +675,17 @@ If you're curious about _how_ containers load apps, browse over to the [F2.js SD
 
 When you [cloned the F2 GitHub repo](https://github.com/OpenF2/F2/#quick-start) you also got some example F2 containers for your app development and testing. Open the project repository and navigate to `~/F2/sdk/examples/containers` to find them or to jump-start your testing, point your browser at:
 
-`http://localhost/F2/sdk/examples/containers/HTML/`
+`http://localhost/F2/sdk/examples/container/`
 
-If you open `~/F2/sdk/examples/containers/sampleApps.js` in your text editor, you'll find a list of sample F2 apps. Simply modify this file to your liking and add your app anywhere in the array. The configuration is comprised of `F2.AppConfig` properties, the following are **required**.
+If you open `~/F2/sdk/examples/container/js/sampleApps.js` in your text editor, you'll find a list of sample F2 apps broken down by programming language. Simply modify this file to your liking and add your app anywhere in the appropriate array (javascript, PHP or C#). The configuration is comprised of `F2.AppConfig` properties, and the following are **required**.
 
 ```javascript
 {
-	appId: "com_your_appid",
-	description: "Your app description",
+	appId: "com_companyName_appName",
+	description: "App description",
 	height:500,
-	manifestUrl: "http://www.domain.com/appmanifest.js",
-	name: "Your app name"
+	manifestUrl: "http://www.domain.com/manifest.js",
+	name: "App name"
 }
 ```
 
@@ -801,9 +823,7 @@ Additionally, there is a `confirm` modal.
 
 ### F2.UI.Views
 
-Adding and managing views within a F2 app is considered an **advanced topic**. If your app only needs a single view, you don't have to worry about reading this part of the F2 standard.
-
-<span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.
+Adding and managing views within a F2 app is considered an **advanced topic**. If your app only needs a single view, you don't have to worry about reading this part of the F2 spec.
 
 F2 apps can have one or more views. Every app will have at least one "home" view, while others will include views for settings, help or about. Inside the F2.js SDK, we've [included support for views](../sdk/docs/classes/F2.App.html#property_views) and the list can be extended by the container provider. 
 
@@ -811,7 +831,7 @@ F2 apps can have one or more views. Every app will have at least one "home" view
 
 #### Setting Up Views
 
-Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Twitter Bootstrap's `hide` class can be applied to views that should be hidden by default.
+Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Twitter Bootstrap's `hide` class should be applied to views are hidden on startup.
 
 To setup a single view in your app, use this HTML on your app's outermost element noting the use of the `f2-app-view` classname and the `data-f2-view` attribute.
 
@@ -832,25 +852,52 @@ To setup multiple views in your app, write HTML like this noting the use the `f2
 </div>
 ```
 
-For details on `F2.Constants.Css.APPVIEW`, [browse to the SDK docs](../sdk/docs/classes/F2.Constants.Css.html).
+For details on `F2.Constants.Css.APPVIEW`, [browse to the SDK docs](../sdk/docs/classes/F2.Constants.Css.html#properties-APP_VIEW).
+
+#### Controlling View State
+
+The `F2.UI` namespace provides an API for developers to manage app View state. 
+
+To programmatically change a View in javascript:
+
+```javascript
+appConfig.ui.Views.change(F2.Constants.Views.HOME);
+```
+
+<span class="label label-info">Note</span> When `appConfig.ui.Views.change()` is called, the `hide` classname is automatically added or removed by F2.js depending on the visibility of the view. [Read more in the SDK docs](../sdk/docs/classes/F2.UI.Views.html#methods-change).
+
+In F2 app HTML, you can use a combination of CSS classnames and `data-` attributes to provide UI elements making it easy for users to navigate between Views. 
+
+For example, an app has two views: "home" and "about". On the "home" View, a button allows the user to navigate to the "about" view. In the presence of the classname `f2-app-view-trigger` and the `data-f2-view` data attribute, F2.js automatically adds a javascript event to the button.
+
+```html
+<div class="f2-app-view" data-f2-view="home">
+	<!--use 'data-f2-view' to switch to the "about" View-->
+	<button class="btn f2-app-view-trigger" data-f2-view="about">Show About View</button>
+</div>
+```
+
+To get back to the "home" View from the "about" View:
+
+```html
+<div class="f2-app-view" data-f2-view="about">
+	...
+	<button class="btn f2-app-view-trigger" data-f2-view="home">&laquo; Back Home</button>
+	...
+</div>
+```
 
 #### Listening to App View Changes
 
-You shouldn't be surprised to know F2.js contains event triggers for handling app view changes. Specifically, the `APP_VIEW_CHANGE` event will be fired by the container when a user clicks to switch the view for an app.
-
-To listen for the `APP_VIEW_CHANGE` event inside your app code:
+You shouldn't be surprised to know F2.js contains event triggers for handling app View changes. To listen for View changes inside F2 app javascript code:
 
 ```javascript
-F2.Events.on(
-	F2.Constants.Events.APP_VIEW_CHANGE,
-	function(viewName){
-		F2.log("App view changed to " + viewName);
-	}
-);
+appConfig.ui.Views.change(function(view){
+	F2.log("View changed to ", view);
+});
 ```
 
-For details on `F2.Events.on()`, [browse to the SDK docs](../sdk/docs/classes/F2.Events.html#method_on) and for details on `F2.Constants.Events`, [head over to the F2.Constants docs](../sdk/docs/classes/F2.Constants.Events.html).
-
+For details on `F2.UI.Views`, [browse to the SDK docs](../sdk/docs/classes/F2.UI.Views.html) and for details on `F2.Constants.Views`, [head over to the F2.Constants docs](../sdk/docs/classes/F2.Constants.Views.html).
 
 * * * *
 
@@ -864,7 +911,21 @@ _Further details around app entitlements will be forthcoming as this F2 specific
 
 ## Single Sign-On
 
-In version 1.0.0 of this F2 spec, like [entitlements](#entitlements), single sign-on (or SSO) will be the responsibility of the app developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers.
+In version 1.0.0 of this F2 spec, like [entitlements](#entitlements), single sign-on (or SSO) will be the responsibility of the app developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for Container access. 
+
+Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? Encrypted URLs.
+
+### Using Encrypted URLs
+
+Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as `AES` and the exchange of public keys.
+
+When the Container provider calls `F2.registerApps()`, custom logic should be added to append encrypted user credentials&mdash;on a need-to-know basis&mdash;to each app requiring authentication.
+
+[Read more in Developing F2 Containers](developing-f2-containers.html).
+
+### Considerations
+
+Authentication is a critical part of any Container-App relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App developers alike.
 
 _Further details around container and app single sign-on will be forthcoming as this F2 specification evolves._
 
