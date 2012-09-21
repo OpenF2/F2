@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 Documentation - Developing the Container</title>
+  <title>F2 Documentation - Developing F2 Containers</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -27,7 +27,7 @@ code > span.fu { color: #06287e; }
 code > span.er { color: #ff0000; font-weight: bold; }
   </style>
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width"><!--, initial-scale=1.0"-->
   <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
   <meta name="author" content="Markit">
   
@@ -64,7 +64,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.11.3</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.2</a></li>
       </ul>
     </div>
   </div>
@@ -81,7 +81,6 @@ code > span.er { color: #ff0000; font-weight: bold; }
 		      <li><a href="f2-requirements.html">Requirements</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
-		      <!--<li><a href="single-sign-on.html">Single Sign On (SSO)</a></li>-->
 		      <li><a href="developing-f2-containers.html">Developing F2 Containers</a></li>
           <li><a href="extending-f2.html">Extending F2</a></li>
           <li class="divider"></li>
@@ -93,78 +92,258 @@ code > span.er { color: #ff0000; font-weight: bold; }
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">Developing the Container</h1>
+<h1 class="title">Developing F2 Containers</h1>
 </header>
+<p class="lead">
+To understand how F2 containers work or to get started building a container, you've come to the right place. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a>.
+</p>
+
 <section class="level2" id="the-container">
 <h2>The Container</h2>
-<p>The Container is most simply described as the user interface and the location where all Apps reside. More specifically, the Container is a web page which is “aware” of its contents (the Apps) and plays the role of a traffic cop managing Context between Apps. Further, the Container can have any variation of intelligence on a wide spectrum.</p>
-<p>Markit’s intention in standardizing the Container concept is to keep the Container as “thin” as possible not unlike a traditional thin client. Wikipedia describes a “thin client” as “a computer or a computer program which depends heavily on some other computer (its server) to fulfill its traditional computational roles. This stands in contrast to the traditional fat client, a computer designed to take on these roles by itself. The exact roles assumed by the server may vary, from providing data persistence to actual information processing on the client's behalf.</p>
-<p>“Thin clients occur as components of a broader computer infrastructure, where many clients share their computations with the same server. As such, thin client infrastructures can be viewed as the providing of some computing service via several user-interfaces. This is desirable in contexts where individual fat clients have much more functionality or power than the infrastructure either requires or uses.”</p>
+<p>To understand F2 and the role of apps, you need to understand the role of the <strong>container</strong>.</p>
+<figure>
+<img src="./img/wwp_devices.png" title="Containers and Apps on desktop and mobile"><figcaption></figcaption>
+</figure>
+<p>The F2 container is most simply described as the user interface and the location where all apps reside. More specifically, the container is a web page which is &quot;aware&quot; of its contents (the apps) and plays the role of a traffic cop managing <a href="developing-f2-apps.html#context">context</a> passing between F2 apps (if there are more than one). Further, the container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to apps or simply host the F2.js JavaScript SDK.</p>
+<p>Each container provider, or individual person or company hosting a container, shall be responsible for including the <a href="https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js">F2.js JavaScript SDK</a>. Through the SDK, F2.js provides a consistent means for all F2 apps to get loaded on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.</p>
+<section class="level3" id="get-started">
+<h3>Get Started</h3>
+<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you download or clone it, open the project repository and point your browser at:</p>
+<p><code>http://localhost/F2/sdk/examples/container/</code></p>
+<div class="well well-small">
+<h4>
+Configuration
+</h4>
+<p>
+It is assumed you will be developing a F2 container locally and have a localhost setup. The URLs mentioned in this specification assume you have configured your F2 container and apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
+</p>
+</div>
+
+<hr>
+</section>
 </section>
 <section class="level2" id="context">
 <h2>Context</h2>
-<p>Each Container Provider shall be responsible for hosting the Container JavaScript API. This JavaScript framework provides a consistent means for all App Developers to load their Apps on any Container.</p>
-<p>While Apps can have context themselves, the responsibility for managing Context switching or Context passing falls on the Container. The Container assumes the role of a traffic cop – managing what data goes where. Using an Event Emitter, the Container can “listen” for events sent by Apps on configurable intervals.</p>
-<p>This is a sample of a Container sending Context to Apps.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Container</span>.<span class="fu">on</span>(“SendContext”, { <span class="dt">Symbol</span>: “MSFT” });</code></pre>
-<p>Apps on the Container can optionally listen for broadcasted messages or events and respond accordingly.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">$(“myApp”).<span class="fu">bind</span>(“SendContext”, <span class="kw">function</span>(ev,data){
-    <span class="kw">myApp</span>.<span class="fu">refresh</span>();
-});</code></pre>
-<p>Container developers do not need to worry about how to “receive” Context sent from Apps; this logic is handled as part of the Markit-provided Container API.</p>
+<section class="level3" id="what-is-context">
+<h3>What is Context?</h3>
+<p>Regardless of type of app, a display or data app has &quot;context&quot;—that is to say an app &quot;knows&quot; about where it is, what is happening around it, and possibly who is viewing it. At the discretion of the app itself, an app can be aware of a specific user's data entitlements as well as information about the user (name, email, company, etc). Additionally, an app is capable of sharing context with the container and nearby apps. This means if Susan wants to create a ticker-focused workspace so she can watch her shares of Apple stock increase in value, the container can send &quot;symbol context&quot; to any listening apps which can be smart enough to refresh themselves focusing on <a href="http://www.google.com/finance?q=NASDAQ%3AAAPL">AAPL</a>.</p>
 </section>
-<section class="level2" id="how-to-develop-a-container">
-<h2>How to Develop a Container</h2>
-<p>A Container is most simply described as a web page; therefore developing Containers can be as simple or complex as the Container developer chooses. Markit is developing a Container API which will manage Context on the workspace. Additionally, it will provide App developers an Application Programming Interface, or API, for advanced Container features such as a drag-and-drop, app management (add new apps, remove existing apps), etc.</p>
-<p>The simplest implementation of a Container looks like this:</p>
+<section class="level3" id="how-to-use-context">
+<h3>How to use Context</h3>
+<p>Each Container will be responsible for hosting the F2 JavaScript SDK. The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an <a href="../sdk/docs/classes/F2.Events.html">event API</a> for handling context.</p>
+<p><span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means <strong>apps cannot communicate directly with other apps on their own</strong>; apps communicate via the container to other apps since the container controls the <code>F2.Events</code> API.</p>
+<p>Let's look at some code.</p>
+</section>
+<section class="level3" id="container-to-app-context">
+<h3>Container-to-App Context</h3>
+<p>In this example, the container broadcasts, or emits, a javascript event defined in <code>F2.Events.Constants</code>. The <code>F2.Events.emit()</code> method accepts two arguments: the event name and an optional data object.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">CONTAINER</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;AAPL&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Apple, Inc.&quot;</span> 
+    }
+);</code></pre>
+<p>To listen to the <code>F2.Constants.Events.CONTAINER_SYMBOL_CHANGE</code> event inside your F2 app, you can use this code to trigger an alert dialog with the symbol:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">CONTAINER</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    <span class="kw">function</span>(data){
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
+    }
+);</code></pre>
+<p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="../sdk/docs/classes/F2.Events.html">Read the SDK</a> for more information.</p>
+<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../sdk/docs/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
+</section>
+<section class="level3" id="app-to-container-context">
+<h3>App-to-Container Context</h3>
+<p>In this example, your app emits an event indicating a user is looking at a different stock ticker <em>within your app</em>. Using <code>F2.Events.emit()</code> in your code, your app broadcasts the new symbol. As with container-to-app context passing, the <code>F2.Events.emit()</code> method accepts two arguments: the event name and an optional data object.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">APP</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;MSFT&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Microsoft, Inc.&quot;</span> 
+    }
+);</code></pre>
+<p>The container would need to listen to your apps' broadcasted <code>F2.Constants.Events.APP_SYMBOL_CHANGE</code> event using code like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
+    <span class="kw">F2.Constants.Events</span>.<span class="fu">APP</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
+    <span class="kw">function</span>(data){
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
+    }
+);</code></pre>
+<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../sdk/docs/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
+</section>
+<section class="level3" id="app-to-app-context">
+<h3>App-to-App Context</h3>
+<p>Apps can also pass context between apps. If there are two or more apps on a container with similar context and the ability to receive messages (yes, through event listeners, context receiving is opt-in), apps can communicate with each other. To communicate with another app, each app will have to know the event name along with the type of data being passed. Let's take a look.</p>
+<p>Within &quot;App 1&quot;, context is <em>sent</em> using <code>F2.Events.emit()</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="st">&quot;buy_stock&quot;</span>, <span class="co">//custom event name</span>
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;GOOG&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Google Inc&quot;</span>,
+        <span class="dt">price</span>: <span class="fl">682.68</span>,
+        <span class="dt">isAvailableToPurchase</span>: <span class="kw">true</span>,
+        <span class="dt">orderType</span>: <span class="st">&quot;Market Order&quot;</span>
+    }
+);</code></pre>
+<p>Within &quot;App 2&quot;, context is <em>received</em> using <code>F2.Events.on()</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
+    <span class="st">&quot;buy_stock&quot;</span>, 
+    <span class="kw">function</span>(data){
+        <span class="kw">if</span> (<span class="kw">data</span>.<span class="fu">isAvailableToPurchase</span>){
+            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Trade ticket order for &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span> + <span class="st">&quot; at $&quot;</span> + <span class="kw">data</span>.<span class="fu">price</span>);
+        } <span class="kw">else</span> {
+            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;This stock is not available for purchase.&quot;</span>)
+        }
+    }
+);</code></pre>
+</section>
+<section class="level3" id="using-appids-to-secure-context-passing">
+<h3>Using AppIDs to Secure Context Passing</h3>
+<p>What if you want your app to only receive context emitted from apps you trust?</p>
+<p>Every F2 app has a <a href="#developing-a-f2-app">unique AppID</a> and—using the AppID—apps can listen for events emitted from trusted sources.</p>
+<p><span class="label label-warning">EDITOR'S NOTE</span> Needs attn.</p>
+</section>
+<section class="level3" id="types-of-context">
+<h3>Types of Context</h3>
+<p>Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from <a href="#container-to-app-context">Container-to-App</a> or from <a href="#app-to-app-context">App-to-App</a> or from <a href="#app-to-container-context">App-to-Container</a>. In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container providers the option to define context within their container.</p>
+<p>Said another way, while <code>{ symbol:&quot;AAPL&quot;, name: &quot;Apple, Inc&quot; }</code> can be used to communicate symbol context, developers could also use <code>{ symbol: &quot;123456789&quot; }</code> to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand <code>AAPL</code> but—given symbol lookup services—would understand <code>123456789</code> as the universal <em>F2</em> identifier for Apple, Inc. It is clear Container and App developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.</p>
+<hr>
+</section>
+</section>
+<section class="level2" id="developing-a-f2-container">
+<h2>Developing a F2 Container</h2>
+<p>A Container is a browser-based desktop-like application which brings F2 apps together onto a seamless user interface. It also can provide horsepower to its apps in the form of request-response web services or streaming data feeds.</p>
+<section class="level3" id="f2-containerid">
+<h3>F2 ContainerID</h3>
+<p>To develop a F2 container, you need a unique identifier called an <strong>ContainerID</strong>. This ContainerID will be unique to <em>your container</em> in the entire open financial framework ecosystem. While you don't need a unique ContainerID during the container development process, it is recommended you get one. The format of the ContainerID looks like this: <code>f2c_companyName_containerName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>containerName</code> is the name of your container.</p>
+<p>As an example, your ContainerID could look like this:</p>
+<p><code>f2c_acmecorp_watchlist</code></p>
+<p>If you built more than one container while working at Acme Corporation, you could create more ContainerIDs. All of these are valid:</p>
+<ul>
+<li><code>f2c_acmecorp_activetrader</code></li>
+<li><code>f2c_acmecorp_retail</code></li>
+<li><code>f2c_acmecorp_interactive_charts</code></li>
+</ul>
+<p>To guarantee uniqueness, we have provided a ContainerID generation service that allows you to customize your ContainerID. <em>This will be available in fall 2012.</em></p>
+</section>
+<section class="level3" id="setting-up-your-project">
+<h3>Setting Up Your Project</h3>
+<p>Once you have your ContainerID, start by setting up your container project. You will need at least one configuration in addition to a HTML page: the app configs. (In the GitHub repository, an example is found in <code>/F2/sdk/examples/container/js/sampleApps.js</code>.) This doesn't need to be a static javascript file like <code>sampleApps.js</code> but the structure and format of the app configs is important.</p>
+</section>
+<section class="level3" id="apps-config">
+<h3>Apps Config</h3>
+<p>A F2 Container provider must deliver the app configs to itself before calling <code>F2.init()</code>. The app configs is quite simply a javascript array of <a href="../sdk/docs/classes/F2.AppConfig.html">AppConfig objects</a>—which is app meta data provided by the apps' developer.</p>
+<p>Example <code>AppConfig</code> object from an <em>individual</em> app:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{
+    <span class="dt">appId</span>: <span class="st">&quot;com_companyName_appName&quot;</span>,
+    <span class="dt">description</span>: <span class="st">&quot;App description&quot;</span>,
+    <span class="dt">height</span>:<span class="dv">500</span>,
+    <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.domain.com/manifest.js&quot;</span>,
+    <span class="dt">name</span>: <span class="st">&quot;App name&quot;</span>
+}</code></pre>
+<p>Example array of <code>AppConfig</code> objects for a collection of apps:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> _appConfigs = [
+    {
+        <span class="dt">appId</span>: <span class="st">&quot;com_companyName_appName&quot;</span>,
+        <span class="dt">description</span>: <span class="st">&quot;App description&quot;</span>,
+        <span class="dt">height</span>:<span class="dv">500</span>,
+        <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.domain.com/manifest.js&quot;</span>,
+        <span class="dt">name</span>: <span class="st">&quot;App name&quot;</span>
+    },
+    {
+        <span class="dt">appId</span>: <span class="st">&quot;com_companyName_appName2&quot;</span>,
+        <span class="dt">description</span>: <span class="st">&quot;App2 description&quot;</span>,
+        <span class="dt">height</span>:<span class="dv">100</span>,
+        <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.domain2.com/manifest.js&quot;</span>,
+        <span class="dt">name</span>: <span class="st">&quot;App2 name&quot;</span>
+    },
+    {
+        <span class="dt">appId</span>: <span class="st">&quot;com_companyName_appName3&quot;</span>,
+        <span class="dt">description</span>: <span class="st">&quot;App3 description&quot;</span>,
+        <span class="dt">height</span>:<span class="dv">200</span>,
+        <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.domain3.com/manifest.js&quot;</span>,
+        <span class="dt">name</span>: <span class="st">&quot;App3 name&quot;</span>
+    }
+];</code></pre>
+<p>For the purposes of the examples shown here, the <code>_appConfigs</code> array is a static collection of F2 App <code>AppConfig</code> objects. In an actual container implementation, each <code>AppConfig</code> object would be stored in the <a href="#">App Catalog</a> database.</p>
+</section>
+<section class="level3" id="basic-container-template">
+<h3>Basic Container Template</h3>
+<p>The simplest template for a Container looks like this:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
 <span class="kw">&lt;html&gt;</span>
     <span class="kw">&lt;head&gt;</span>
-        <span class="kw">&lt;title&gt;</span>Markit Container<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
         <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/ResourceManager/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="co">&lt;!--[if IE]&gt;</span>
-<span class="co">        &lt;script src=&quot;http://dev.domain.com/ResourceManager/html5shiv.js&quot;&gt;&lt;/script&gt;</span>
-<span class="co">        &lt;![endif]--&gt;</span>
     <span class="kw">&lt;/head&gt;</span>
     <span class="kw">&lt;body&gt;</span>
         
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/Container.js?1.0&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
+
+        <span class="co">&lt;!--include F2.js--&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/js/F2.min.js?1.0&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--init &amp; register--&gt;</span>
+        <span class="kw">&lt;script&gt;</span>
+            (<span class="kw">function</span>(){
+                <span class="kw">var</span> _appConfigs = [...]; <span class="co">//define app configs</span>
+                <span class="kw">F2</span>.<span class="fu">init</span>();
+                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs array to registerApps</span>()
+<span class="co">            </span>})();
+<span class="co">        </span><span class="kw">&lt;/script&gt;</span>
     <span class="kw">&lt;/body&gt;</span>
 <span class="kw">&lt;/html&gt;</span></code></pre>
-<p>In developing an advanced Container, the HTML document’s body element would contain additional markup and allow for specific positioning or placement of Apps. Such an example might look like this:</p>
+<p>In developing a more advanced Container, the HTML document's <code>body</code> element would contain additional markup and allow for specific positioning or placement of Apps. Such an example might look like this:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
 <span class="kw">&lt;html&gt;</span>
     <span class="kw">&lt;head&gt;</span>
-        <span class="kw">&lt;title&gt;</span>Markit Container<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/ResourceManager/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="co">&lt;!--[if IE]&gt;</span>
-<span class="co">        &lt;script src=&quot;http://dev.domain.com/ResourceManager/html5shiv.js&quot;&gt;&lt;/script&gt;</span>
-<span class="co">        &lt;![endif]--&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/js/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
     <span class="kw">&lt;/head&gt;</span>
     <span class="kw">&lt;body&gt;</span>
         <span class="kw">&lt;header&gt;</span>
             <span class="kw">&lt;nav&gt;</span>
-                <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">”/home”&gt;Home</span><span class="er">&lt;</span><span class="st">/a</span><span class="kw">&gt;</span>
+                <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;/home&quot;</span><span class="kw">&gt;</span>Home<span class="kw">&lt;/a&gt;</span>
             <span class="kw">&lt;/nav&gt;</span>
         <span class="kw">&lt;/header&gt;</span>
         <span class="kw">&lt;section&gt;</span>
-            <span class="kw">&lt;h1&gt;</span>Markets Overview<span class="kw">&lt;/h1&gt;</span>
-            <span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">”destinationApp1”&gt;</span><span class="er">&lt;</span><span class="st">/div</span><span class="kw">&gt;</span>
+            <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
+            <span class="kw">&lt;p&gt;</span>Hi.<span class="kw">&lt;/p&gt;</span>
         <span class="kw">&lt;/section&gt;</span>
         <span class="kw">&lt;footer&gt;</span>
-            <span class="dv">&amp;copy;</span> 2012 Markit.
+            <span class="dv">&amp;copy;</span> 2012 F2 Container.
         <span class="kw">&lt;/footer&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/Container.js?1.0&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&#39;http://app.provider.com/App/Factory/script?params=%5B%7B%22Id%22%3A%22Hello%20World%22%2C%22DestinationElement%22%3A%22destinationApp1%22%7D%5D&#39;</span><span class="kw">&gt;&lt;/script&gt;</span>
+
+        <span class="co">&lt;!--include F2.js--&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/js/F2.min.js?1.0&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--init &amp; register--&gt;</span>
+        <span class="kw">&lt;script&gt;</span>
+            (<span class="kw">function</span>(){
+                <span class="kw">var</span> _appConfigs = [...]; <span class="co">//define app configs</span>
+                <span class="kw">F2</span>.<span class="fu">init</span>();
+                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs array to registerApps</span>()
+<span class="co">            </span>})();
+<span class="co">        </span><span class="kw">&lt;/script&gt;</span>
     <span class="kw">&lt;/body&gt;</span>
 <span class="kw">&lt;/html&gt;</span></code></pre>
-<p>You may notice the App embedded in the above example has querystring “params”. The decoded params value is:</p>
-<p><code>?params=[{&quot;Id&quot;:&quot;Hello World&quot;,&quot;DestinationElement&quot;:&quot;destinationApp1&quot;}]</code></p>
-<p>This params object only demonstrates an example for a Container. For a full explanation on Params and all their possible values, refer to “How to Develop an App” in this specification.</p>
+<p>Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, common UI components, etc.</p>
+</section>
+<section class="level3" id="container-configuration">
+<h3>Container Configuration</h3>
+<p><code>ContainerConfig</code></p>
+<p><span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.</p>
+<p><code>F2.ContainerConfiguration.beforeAppRender</code> has been added <code>F2.ContainerConfiguration.appWrapper</code> has been renamed to <code>F2.ContainerConfig.appRender</code> <code>F2.ContainerConfiguration.appWriter</code> has been renamed to <code>F2.ContainerConfig.afterAppRender</code></p>
+</section>
+</section>
+<section class="level2" id="f2.ui">
+<h2>F2.UI</h2>
+<p><span class="label label-warning">EDITOR'S NOTE</span> This section needs some TLC.</p>
+<p>F2.UI.setMaskConfiguration()</p>
 </section>
 <section class="level2" id="how-to-consume-an-app">
 <h2>How to Consume an App</h2>
