@@ -38,12 +38,12 @@ To help you get started, you will find a basic container in the [project repo on
 
 `http://localhost/F2/sdk/examples/container/`
 
-<div class="well well-small">
-<h4>Configuration</h4>
-<p>It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
-</div>
 
-**Ready to start coding?** [Browse to Developing a F2 App](#developing-a-f2-app).
+#### Configuration
+
+It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
+
+**Ready to start coding?** [Jump to Developing a F2 App](#developing-a-f2-app).
 
 * * * *
 
@@ -253,6 +253,8 @@ F2_jsonpCallback_com_companyname_appname({
 ## Developing a F2 App 
 
 Now that we've detailed the [F2 app](#f2-apps) and defined the [App Manifest](#sample-app-manifest), let's take a closer look at how to build _your_ app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of `AppContent.html` work, and the two hooks for adding form and function to your app: `scripts` and `styles`.
+
+Before opening your editor, [read the configuration assumptions](#configuration).
 
 ### F2 AppID
 
@@ -911,15 +913,15 @@ _Further details around app entitlements will be forthcoming as this F2 specific
 
 ## Single Sign-On
 
-In version 1.0.0 of this F2 spec, like [entitlements](#entitlements), single sign-on (or SSO) will be the responsibility of the app developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for Container access. 
+In version 1.0.0 of this F2 spec, like [entitlements](#entitlements), single sign-on (or SSO) will be a shared responsibility between the Container and App developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for access to the Container itself. 
 
 Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? Encrypted URLs.
 
 ### Using Encrypted URLs
 
-Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as `AES` and the exchange of public keys.
+Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as `AES`) and the exchange of public keys.
 
-When the Container provider calls `F2.registerApps()`, custom logic should be added to append encrypted user credentials&mdash;on a need-to-know basis&mdash;to each app requiring authentication.
+When the Container provider calls `F2.registerApps()`, custom logic should be added to append encrypted user credentials&mdash;on a need-to-know basis&mdash;to _each app_ requiring authentication.
 
 [Read more in Developing F2 Containers](developing-f2-containers.html).
 
