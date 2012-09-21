@@ -21,7 +21,7 @@ We've included a `build.js` file in the project which contains the logic for com
 
 `$> npm install uglify-js wrench yuidocjs optimist`
 
-`$> npm install markitdown -g`
+`$> npm install less markitdown -g`
 
 To **build F2**, run:
 
