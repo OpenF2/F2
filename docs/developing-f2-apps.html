@@ -64,7 +64,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <li class="divider-vertical"></li>
         <li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
         <li class="divider-vertical"></li>
-        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.2</a></li>
+        <li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v 0.12.3</a></li>
       </ul>
     </div>
   </div>
@@ -139,16 +139,11 @@ The term &quot;app&quot;, in popular web parlance, is a compiled program that ru
 <h4>Get Started</h4>
 <p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you open the project repository, point your browser at:</p>
 <p><code>http://localhost/F2/sdk/examples/container/</code></p>
-<div class="well well-small">
-<h4>
-Configuration
-</h4>
-<p>
-It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification assume you have configured your F2 apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
-</p>
-</div>
-
-<p><strong>Ready to start coding?</strong> <a href="#developing-a-f2-app">Browse to Developing a F2 App</a>.</p>
+</section>
+<section class="level4" id="configuration">
+<h4>Configuration</h4>
+<p>It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification assume you have configured your F2 apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
+<p><strong>Ready to start coding?</strong> <a href="#developing-a-f2-app">Jump to Developing a F2 App</a>.</p>
 <hr>
 </section>
 </section>
@@ -305,6 +300,7 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
 <section class="level2" id="developing-a-f2-app">
 <h2>Developing a F2 App</h2>
 <p>Now that we've detailed the <a href="#f2-apps">F2 app</a> and defined the <a href="#sample-app-manifest">App Manifest</a>, let's take a closer look at how to build <em>your</em> app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of <code>AppContent.html</code> work, and the two hooks for adding form and function to your app: <code>scripts</code> and <code>styles</code>.</p>
+<p>Before opening your editor, <a href="#configuration">read the configuration assumptions</a>.</p>
 <section class="level3" id="f2-appid">
 <h3>F2 AppID</h3>
 <p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> in the entire open financial framework ecosystem. While you don't need a unique AppID during the app development process, it is recommended you get one. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
@@ -781,12 +777,12 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level2" id="single-sign-on">
 <h2>Single Sign-On</h2>
-<p>In version 1.0.0 of this F2 spec, like <a href="#entitlements">entitlements</a>, single sign-on (or SSO) will be the responsibility of the app developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for Container access.</p>
+<p>In version 1.0.0 of this F2 spec, like <a href="#entitlements">entitlements</a>, single sign-on (or SSO) will be a shared responsibility between the Container and App developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for access to the Container itself.</p>
 <p>Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? Encrypted URLs.</p>
 <section class="level3" id="using-encrypted-urls">
 <h3>Using Encrypted URLs</h3>
-<p>Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as <code>AES</code> and the exchange of public keys.</p>
-<p>When the Container provider calls <code>F2.registerApps()</code>, custom logic should be added to append encrypted user credentials—on a need-to-know basis—to each app requiring authentication.</p>
+<p>Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as <code>AES</code>) and the exchange of public keys.</p>
+<p>When the Container provider calls <code>F2.registerApps()</code>, custom logic should be added to append encrypted user credentials—on a need-to-know basis—to <em>each app</em> requiring authentication.</p>
 <p><a href="developing-f2-containers.html">Read more in Developing F2 Containers</a>.</p>
 </section>
 <section class="level3" id="considerations">
