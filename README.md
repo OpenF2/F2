@@ -1,5 +1,6 @@
-F2: An open framework created for the financial services industry.
-=================
+# F2
+
+## An open framework created for the financial services industry.
 
 F2 is an open and free web integration framework that has been designed to help you develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.
 
