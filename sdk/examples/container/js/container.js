@@ -17,22 +17,10 @@ $(function() {
 			var hasHelp = F2.inArray(F2.Constants.Views.HELP, app.views);
 			var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, app.views);
 			var showDivider = hasSettings || hasHelp || hasAbout;
-
-			var columns = $('#mainContent div.column');
-			var colIndex = 0;
-			var appsInCol = columns.eq(0).find('> section').length;
-
-			// place apps left-to-right, top-to-bottom
-			$(columns).each(function (i, e) {
-				var apps = $(e).find('> section').length;
-				if (apps < appsInCol) {
-					colIndex = i;
-					appsInCol = apps;
-				}
-			});
+			var gridWidth = app.minGridSize || 4;
 
 			var appRoot = $([
-				'<section class="' + F2.Constants.Css.APP + '">',
+				'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '">',
 					'<header class="clearfix">',
 						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name, '</h2>',
 						'<div class="btn-group pull-right">',
@@ -50,7 +38,7 @@ $(function() {
 						'</div>',
 					'</header>',
 				'</section>'
-			].join('')).appendTo($(columns).eq(colIndex));
+			].join('')).appendTo($('#mainContent div.row'));
 
 			// show loader
 			F2.UI.showMask(app.instanceId, appRoot, true);
