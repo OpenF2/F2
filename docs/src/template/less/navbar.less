@@ -23,10 +23,13 @@
   min-height: @navbarHeight;
   padding-left:  20px;
   padding-right: 20px;
-  #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
+  background: @F2NavBackgroundColor;//#gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
   border: 1px solid @navbarBorder;
   .border-radius(4px);
   .box-shadow(0 1px 4px rgba(0,0,0,.065));
+
+  // Prevent floats from breaking the navbar
+  .clearfix();
 }
 
 // Set width to auto for default container
@@ -47,38 +50,18 @@
   float: left;
   display: block;
   // Vertically center the text given @navbarHeight
-  //padding: ((@navbarHeight - @baseLineHeight) / 2) 20px ((@navbarHeight - @baseLineHeight) / 2);
+  padding: 30px 30px 10px 30px;//((@navbarHeight - @baseLineHeight) / 2) 20px ((@navbarHeight - @baseLineHeight) / 2);
+  margin-top: 15px;
   //margin-left: -20px; // negative indent to left-align the text down the page
-  //font-size: 20px;
-  //font-weight: 200;
-  //color: @navbarBrandColor;
+  font-size: 20px;
+  font-weight: 200;
+  color: @navbarBrandColor;
   text-shadow: 0 1px 0 @navbarBackgroundHighlight;
-  text-indent:-9000px;
-  background: transparent url(../img/F2_logo.png) top left no-repeat;
-  width: 63px;
-  height: @navbarHeight;
-  line-height: @navbarHeight;
   &:hover {
     text-decoration: none;
   }
-}
-
-.navbar .tagline-divider {
-  float:left;
-  border-left:1px solid #b2bbc3;
-  height:42px;
-  line-height: 42px;
-  margin:18px 0 0 15px;
-}
-
-//for F2 tagline next to logo
-.navbar .tagline {
-  padding: 0 0 0 15px;
-  //border-left:1px solid #b2bbc3;
-  float:left;
-  // Vertically center the text given @navbarHeight
-  padding: ((@navbarHeight - @baseLineHeight) / 2) 15px ((@navbarHeight - @baseLineHeight) / 2);
-  font-weight:200;
+  text-indent: -9000px;
+  background: transparent url(@F2Logo) top left no-repeat;
 }
 
 // Plain text in topbar
@@ -86,6 +69,8 @@
 .navbar-text {
   margin-bottom: 0;
   line-height: @navbarHeight;
+  color:  @grayLight;
+  font-size: 18px;
 }
 
 // Janky solution for now to account for links outside the .nav
@@ -100,24 +85,33 @@
 // Dividers in navbar
 // -------------------------
 .navbar .divider-vertical {
-  height: @navbarLinkHeight;
-  margin: 0 0px;
-  border-left: 1px solid #e0e0e0; //@navbarBackground;
-  border-right: 1px solid #efefef; //@navbarBackgroundHighlight;
-  width:1px;
+  height: 10px;//@navbarHeight;
+  margin: 33px 0 0 0; //9px;
+  border-left: 1px solid  @F2NavLinkDividerGray;//@navbarBackground;
+  border-right: 1px solid  @F2NavLinkDividerGray;//@navbarBackgroundHighlight;
+}
+
+.navbar .tagline-divider {
+  float: left;
+  border-left: 1px solid #B2BBC3;
+  height: 30px;//(@navbarHeight - @baseLineHeight) / 2;
+  margin: 20px 20px 0 20px;
 }
 
 // Buttons in navbar
 // -------------------------
 .navbar .btn,
 .navbar .btn-group {
-  .navbarVerticalAlign(28px); // Vertically center in navbar
+  .navbarVerticalAlign(30px); // Vertically center in navbar
 }
-.navbar .btn-group .btn {
-  margin: 0; // then undo the margin here so we don't accidentally double it
+.navbar .btn-group .btn,
+.navbar .input-prepend .btn,
+.navbar .input-append .btn {
+  margin-top: 0; // then undo the margin here so we don't accidentally double it
 }
 
 // Navbar forms
+// -------------------------
 .navbar-form {
   margin-bottom: 0; // remove default bottom margin
   .clearfix();
@@ -149,6 +143,7 @@
 }
 
 // Navbar search
+// -------------------------
 .navbar-search {
   position: relative;
   float: left;
@@ -190,12 +185,12 @@
   z-index: @zindexFixedNavbar;
   margin-bottom: 0; // remove 18px margin for default navbar
 }
-.navbar-fixed-top,
-.navbar-fixed-bottom,
-.navbar-static-top {
-  .navbar-inner {
-    border: 0;
-  }
+.navbar-fixed-top .navbar-inner,
+.navbar-static-top .navbar-inner {
+  border-width: 0 0 1px;
+}
+.navbar-fixed-bottom .navbar-inner {
+  border-width: 1px 0 0;
 }
 .navbar-fixed-top .navbar-inner,
 .navbar-fixed-bottom .navbar-inner {
@@ -219,7 +214,7 @@
 .navbar-fixed-top,
 .navbar-static-top {
   .navbar-inner {
-    .box-shadow(~"inset 0 -1px 0 rgba(0,0,0,.1), 0 1px 10px rgba(0,0,0,.1)");
+    .box-shadow(inset 0 -1px 0 rgba(0,0,0,.1), 0 1px 10px rgba(0,0,0,.1));
   }
 }
 
@@ -227,7 +222,7 @@
 .navbar-fixed-bottom {
   bottom: 0;
   .navbar-inner {
-    .box-shadow(~"inset 0 1px 0 rgba(0,0,0,.1), 0 -1px 10px rgba(0,0,0,.1)");
+    .box-shadow(inset 0 1px 0 rgba(0,0,0,.1), 0 -1px 10px rgba(0,0,0,.1));
   }
 }
 
@@ -245,12 +240,8 @@
 }
 .navbar .nav.pull-right {
   float: right; // redeclare due to specificity
+  margin-right: 0; // remove margin on float right nav  
 }
-
-.navbar ul.nav {
-  margin-top: 27px;
-}
-
 .navbar .nav > li {
   float: left;
 }
@@ -259,15 +250,35 @@
 .navbar .nav > li > a {
   float: none;
   // Vertically center the text given @navbarHeight
-  //padding: ((@navbarLinkHeight - @baseLineHeight) / 2) 15px ((@navbarHeight - @baseLineHeight) / 2);
-  padding:0 8px;
-  color: @navbarLinkColor;
+  padding: ((@navbarHeight - @baseLineHeight) / 2) 10px ((@navbarHeight - @baseLineHeight) / 2);
+  color: @F2NavLinkGray;//@navbarLinkColor;
   text-decoration: none;
   text-shadow: 0 1px 0 @navbarBackgroundHighlight;
-  //font-weight:bold;
+  font-size: @F2NavLinkFontSize;
 }
 .navbar .nav .dropdown-toggle .caret {
   margin-top: 8px;
+}
+
+.navbar .nav > li > .gitHubLink {
+  font-size: @F2NavLinkFontSize + 2;
+  color: @F2GitHubLinkBlue;
+}
+
+.navbar .nav > li > a > .onDecoratation {
+  border-top: 1px solid @grayLight;
+  border-bottom: 1px solid @grayLight;
+  color: @grayLight;
+  font-size: @F2NavLinkFontSize - 4;
+}
+
+.navbar .nav > li > a > .F2VersionIndicator {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  font-size:  @F2NavLinkFontSize - 4;
+  padding-top: 3px;
+  color: @F2NavLinkGray;
 }
 
 // Hover
@@ -284,31 +295,8 @@
 .navbar .nav > .active > a:focus {
   color: @navbarLinkColorActive;
   text-decoration: none;
-  /*
   background-color: @navbarLinkBackgroundActive;
-  -webkit-box-shadow: inset 0 3px 8px rgba(0,0,0,.125);
-     -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,.125);
-          box-shadow: inset 0 3px 8px rgba(0,0,0,.125);
-  */
-}
-
-.navbar .nav > li > a.download {
-  color:#df280d;
-}
-
-.navbar .nav > li > a:hover.download,
-.navbar .nav > li > a:focus.download {
-  color:#ab1f0b;
-}
-
-.navbar .icon-download {
-  background-image: url(../img/icon_download.png);
-  background-position:0 0;
-}
-
-.navbar .nav > li > a.version {
-  font-size:130%;
-  font-weight:normal;
+  .box-shadow(inset 0 3px 8px rgba(0,0,0,.125));
 }
 
 // Navbar button for toggling navbar items in responsive layouts
@@ -320,7 +308,7 @@
   margin-left: 5px;
   margin-right: 5px;
   .buttonBackground(darken(@navbarBackgroundHighlight, 5%), darken(@navbarBackground, 5%));
-  .box-shadow(~"inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075)");
+  .box-shadow(inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075));
 }
 .navbar .btn-navbar .icon-bar {
   display: block;
@@ -464,8 +452,8 @@
 
   // Dividers in navbar
   .divider-vertical {
-    border-left-color: @navbarInverseBackground;
-    border-right-color: @navbarInverseBackgroundHighlight;
+    border-left-color: @F2NavLinkDividerGray;//@navbarInverseBackground;
+    border-right-color: @F2NavLinkDividerGray;//@navbarInverseBackgroundHighlight;
   }
 
   // Dropdowns
@@ -492,7 +480,7 @@
       color: @white;
       background-color: @navbarInverseSearchBackground;
       border-color: @navbarInverseSearchBorder;
-      .box-shadow(~"inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15)");
+      .box-shadow(inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15));
       .transition(none);
       .placeholder(@navbarInverseSearchPlaceholderColor);
 
