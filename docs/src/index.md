@@ -10,7 +10,7 @@ F2 was started by and is maintained by [Markit On Demand](http://www.markitondem
 
 F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK&mdash;called **F2.js**&mdash;in addition to example apps as part of an [open-source project maintained on GitHub](http://www.github.com/OpenF2/F2).
 
-If you are interested in **building Apps**, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in **building Containers**, browse to the [Container documentation](developing-the-container.html).
+If you are interested in **building Apps**, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in **building Containers**, browse to the [Container documentation](developing-f2-containers.html).
 
 <div class="well well-small">
 <h4>About Apps</h4>
