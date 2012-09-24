@@ -20,9 +20,8 @@
 
 // Accent colors
 // -------------------------
-@blue:                  #0f4e88;
-@blueDark:              #273847;
-@blueLight:				#3886c3;
+@blue:                  #049cdb;
+@blueDark:              #0064cd;
 @green:                 #46a546;
 @red:                   #9d261d;
 @yellow:                #ffc40d;
@@ -30,16 +29,26 @@
 @pink:                  #c3325f;
 @purple:                #7a43b6;
 
+// F2 Colors
+// -------------------------
+@F2BodyBackgroundColor:		#EEEEEE;
+@F2NavBackgroundColor:		#F0F0F0;
+@F2NavLinkDividerGray:		#A5A5A5;
+@F2NavLinkGray:				#6C6C6C;
+@F2Blue:					#0A6199;
+@F2GitHubLinkBlue:			#5066A0;
+@F2OverviewBackgroundColor:	#4D5052;
+@F2OverviewTextColor:		#fff;
 
 // Scaffolding
 // -------------------------
-@bodyBackground:        @white;
+@bodyBackground:        @F2BodyBackgroundColor;//@white;
 @textColor:             @grayDark;
 
 
 // Links
 // -------------------------
-@linkColor:             @blueLight; //#08c;
+@linkColor:             #08c;
 @linkColorHover:        darken(@linkColor, 15%);
 
 
@@ -50,14 +59,15 @@
 @monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
 
 @baseFontSize:          14px;
+@F2baseFontSize:        18px;
+@F2NavLinkFontSize:		14px;
 @baseFontFamily:        @sansFontFamily;
 @baseLineHeight:        20px;
 @altFontFamily:         @serifFontFamily;
 
-@headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
-@headingsFontWeight:    bold;    // instead of browser default, bold
+@headingsFontFamily:    rokkittregular;//inherit; // empty to use BS default, @baseFontFamily
+@headingsFontWeight:    normal;//bold;    // instead of browser default, bold
 @headingsColor:         inherit; // empty to use BS default, @textColor
-
 
 // Tables
 // -------------------------
@@ -65,7 +75,6 @@
 @tableBackgroundAccent:             #f9f9f9; // for striping
 @tableBackgroundHover:              #f5f5f5; // for hover
 @tableBorder:                       #ddd; // table and cell border
-
 
 // Buttons
 // -------------------------
@@ -108,12 +117,11 @@
 @dropdownDividerBottom:         @white;
 
 @dropdownLinkColor:             @grayDark;
-
 @dropdownLinkColorHover:        @white;
-@dropdownLinkBackgroundHover:   @dropdownLinkBackgroundActive;
-
 @dropdownLinkColorActive:       @dropdownLinkColor;
+
 @dropdownLinkBackgroundActive:  @linkColor;
+@dropdownLinkBackgroundHover:   @dropdownLinkBackgroundActive;
 
 
 
@@ -134,11 +142,8 @@
 
 // Sprite icons path
 // -------------------------
-//@iconSpritePath:          "../img/glyphicons-halflings.png";
-//@iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png";
-
-@iconSpritePath:          "http://docs.openF2.com/img/glyphicons-halflings.png";
-@iconWhiteSpritePath:     "http://docs.openF2.com/img/glyphicons-halflings-white.png";
+@iconSpritePath:          "../img/glyphicons-halflings.png";
+@iconWhiteSpritePath:     "../img/glyphicons-halflings-white.png";
 
 
 // Input placeholder text color
@@ -151,6 +156,11 @@
 @hrBorder:                @grayLighter;
 
 
+// Horizontal forms & lists
+// -------------------------
+@horizontalComponentOffset:       180px;
+
+
 // Wells
 // -------------------------
 @wellBackground:                  #f5f5f5;
@@ -160,16 +170,15 @@
 // -------------------------
 @navbarCollapseWidth:             979px;
 
-@navbarHeight:                    72px;
-@navbarBackground:                darken(@navbarBackgroundHighlight, 5%);
+@navbarHeight:                    75px;
 @navbarBackgroundHighlight:       #ffffff;
+@navbarBackground:                darken(@navbarBackgroundHighlight, 5%);
 @navbarBorder:                    darken(@navbarBackground, 12%);
-@navbarLinkHeight:				  26px;
 
-@navbarText:                      @gray;
-@navbarLinkColor:                 @blue;
-@navbarLinkColorHover:            @blueLight;
-@navbarLinkColorActive:           @blueLight;
+@navbarText:                      #777;
+@navbarLinkColor:                 #777;
+@navbarLinkColorHover:            @grayDark;
+@navbarLinkColorActive:           @gray;
 @navbarLinkBackgroundHover:       transparent;
 @navbarLinkBackgroundActive:      darken(@navbarBackground, 5%);
 
@@ -193,6 +202,8 @@
 @navbarInverseSearchPlaceholderColor:    #ccc;
 
 @navbarInverseBrandColor:                @navbarInverseLinkColor;
+
+@F2NavBarBackground:					@F2NavBackgroundColor;
 
 
 // Pagination
@@ -280,3 +291,12 @@
 // 768px-979px
 @fluidGridColumnWidth768:      percentage(@gridColumnWidth768/@gridRowWidth768);
 @fluidGridGutterWidth768:      percentage(@gridGutterWidth768/@gridRowWidth768);
+
+
+
+
+// Background Images
+// -------------------------
+@F2Logo:							"../img/F2_logo.png";
+@F2MainContainerBG:					"../img/F2MainContainerBG.jpg";
+@F2InteractiveDisplayBackground:	"../img/bankeo.png";
