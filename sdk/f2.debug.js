@@ -1387,6 +1387,12 @@ if (!window.F2) {
 	 * @main f2
 	 */
 	F2 = {
+		/** 
+		 * Function to get the F2 version number
+		 * @method version
+		 * @return {string} F2 version number.
+		 */
+		version: function(){ return "0.12.3"; },
 		/**
 		 * Function to pass into F2.stringify which will prevent circular reference
 		 * errors when serializing objects
