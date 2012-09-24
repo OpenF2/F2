@@ -15,17 +15,26 @@ body {
   background-color: @bodyBackground;
 }
 
-body .mainContainer{
-  padding-top: 150px;
-  background: url(@F2MainContainerBG) no-repeat center;
-  width: 100%;
-  min-height: 669px;
-}
-@media (max-width: @navbarCollapseWidth) {
-  body .mainContainer{
-    padding-top: 0;
+body .mainContainer {
+  margin-top: @navbarHeight * 2;
+  .description {
+    background: url(@F2MainContainerBG) no-repeat center;
+    //min-height: 669px;
+    padding-bottom: 10px;
+  }  
+  .overview{
+    margin-top: 50px;
+    padding-top: 50px;
+    background: @F2OverviewBackgroundColor;
+    .interactiveDisplay {
+      background: url(@F2InteractiveDisplayBackground) no-repeat center;
+      width: 100%;
+      height: 570px;
+    }
   }
 }
+
+
 
 // Links
 // -------------------------

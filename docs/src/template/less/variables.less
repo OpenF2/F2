@@ -31,15 +31,18 @@
 
 // F2 Colors
 // -------------------------
-@F2NavBackgroundColor:	#F0F0F0;
-@F2NavLinkDividerGray:	#A5A5A5;
-@F2NavLinkGray:			#6C6C6C;
-@F2Blue:				#0A6199;
-@F2GitHubLinkBlue:		#5066A0;
+@F2BodyBackgroundColor:		#EEEEEE;
+@F2NavBackgroundColor:		#F0F0F0;
+@F2NavLinkDividerGray:		#A5A5A5;
+@F2NavLinkGray:				#6C6C6C;
+@F2Blue:					#0A6199;
+@F2GitHubLinkBlue:			#5066A0;
+@F2OverviewBackgroundColor:	#4D5052;
+@F2OverviewTextColor:		#fff;
 
 // Scaffolding
 // -------------------------
-@bodyBackground:        @white;
+@bodyBackground:        @F2BodyBackgroundColor;//@white;
 @textColor:             @grayDark;
 
 
@@ -51,19 +54,19 @@
 
 // Typography
 // -------------------------
-@sansFontFamily:        rokkittregular, "Helvetica Neue", Helvetica, Arial, sans-serif;
+@sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
 
 @baseFontSize:          14px;
 @F2baseFontSize:        18px;
-@F2NavLinkFontSize:		16px;
+@F2NavLinkFontSize:		14px;
 @baseFontFamily:        @sansFontFamily;
 @baseLineHeight:        20px;
 @altFontFamily:         @serifFontFamily;
 
-@headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
-@headingsFontWeight:    bold;    // instead of browser default, bold
+@headingsFontFamily:    rokkittregular;//inherit; // empty to use BS default, @baseFontFamily
+@headingsFontWeight:    normal;//bold;    // instead of browser default, bold
 @headingsColor:         inherit; // empty to use BS default, @textColor
 
 // Tables
@@ -294,5 +297,6 @@
 
 // Background Images
 // -------------------------
-@F2Logo:						"../img/F2_logo.png";
-@F2MainContainerBG:				"../img/F2MainContainerBG.jpg";
+@F2Logo:							"../img/F2_logo.png";
+@F2MainContainerBG:					"../img/F2MainContainerBG.jpg";
+@F2InteractiveDisplayBackground:	"../img/bankeo.png";
