@@ -20,9 +20,11 @@ textarea{overflow:auto;vertical-align:top;}
 .clearfix:after{clear:both;}
 .hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0;}
 .input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
-body{margin:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#eeeeee;}
-body .mainContainer{margin-top:150px;}body .mainContainer .description{background:url("../img/F2MainContainerBG.jpg") no-repeat center;padding-bottom:10px;}
-body .mainContainer .overview{margin-top:50px;padding-top:50px;background:#4d5052;}body .mainContainer .overview .interactiveDisplay{background:url("../img/bankeo.png") no-repeat center;width:100%;height:570px;}
+body{margin:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#e0e0e0;}
+body .mainContainer{padding:0;margin-top:150px;}body .mainContainer .description{background:url("../img/F2MainContainerBG.jpg") no-repeat center;padding:0 0 10px 0;}
+body .mainContainer .overview{margin-top:50px;padding:50px 0 10px 0;background:#4d5052;}body .mainContainer .overview .interactiveDisplay{background-color:#fff;margin:auto;width:570px;height:425px;}
+body .mainContainer .overview .interactiveDisplay+p{padding-top:20px;margin:auto;width:570px;}
+body .mainContainer .footer{background-color:#575d61;}
 a{color:#0088cc;text-decoration:none;}
 a:hover{color:#005580;text-decoration:underline;}
 .img-rounded{-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;}
