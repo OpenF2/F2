@@ -17,15 +17,15 @@ body {
 
 body .mainContainer {
   padding: 0;
-  margin-top: @navbarHeight * 2;
+  margin-top: @navbarHeight;
   .description {
-    background: url(@F2MainContainerBG) no-repeat center;
+    //background: url(@F2MainContainerBG) no-repeat center;
     //min-height: 669px;
-    padding: 0 0 10px 0;
+    padding: 50px 0 50px 0;
   }  
   .overview{
     margin-top: 50px;
-    padding: 50px 0 10px 0;
+    padding: 50px 0 200px 0;
     background: @F2OverviewBackgroundColor;
     .interactiveDisplay {
       background-color: #fff;//url(@F2InteractiveDisplayBackground) no-repeat center;
@@ -39,8 +39,45 @@ body .mainContainer {
       width: 570px;
     }
   }
-  .footer{
+  footer{
+    padding-top: 20px;
+    color: @F2FooterGray;
+    h1, h2, h3, h4, h5, h6 { font-family: @baseFontFamily; }
+    h5 { line-height: @baseLineHeight / 2; }
     background-color: @F2FooterBackgroundColor;
+    .diskIcon { background: url(@F2DownloadDiskIcon) no-repeat center; padding: 50px 75px; }
+    .docIcon { background: url(@F2DocIcon) no-repeat center; padding: 50px 60px; }
+    .span6 { padding: 20px 40px; margin-left: 0; }
+    .span6:first-child {
+      .box-shadow(20px 0 10px -10px rgba(0,0,0,.065));      
+    }
+    .pull-left h2 { line-height: @baseLineHeight; }
+    a {
+      text-decoration: underline;
+      color: @F2FooterGray;
+    }
+    .version {
+      padding: 0 10px;
+      font-size: 46px;
+    }
+    .row-fluid:first-child{
+      .box-shadow(0px 20px 10px -10px rgba(0,0,0,.065));
+      padding-bottom: 20px;
+    }
+    .social{
+      padding: 20px 0 10px 0;
+    }
+    .span12 {
+      text-align: center;
+      color: @F2FooterInsetGray;
+      h1 {
+        color: rgba(87,93,97, .8);
+        padding: 20px 0;
+        font-weight: bold;
+        font-family: @baseFontFamily;
+        text-shadow: 1px 4px 6px @F2FooterBackgroundColor, 0 0 0 @black, 1px 4px 6px @F2FooterBackgroundColor;
+      }
+    }
   }  
 }
 
