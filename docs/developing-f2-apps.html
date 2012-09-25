@@ -70,7 +70,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
             <li class="divider-vertical"></li>
             <li><a href="#">Examples</a></li>
             <li class="divider-vertical"></li>
-            <li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+            <li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.8</span></a></li>
           </ul>
         </div>
       </div>
@@ -589,6 +589,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <h3>Types of Context</h3>
 <p>Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from <a href="#container-to-app-context">Container-to-App</a> or from <a href="#app-to-app-context">App-to-App</a> or from <a href="#app-to-container-context">App-to-Container</a>. In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container providers the option to define context within their container.</p>
 <p>Said another way, while <code>{ symbol:&quot;AAPL&quot;, name: &quot;Apple, Inc&quot; }</code> can be used to communicate symbol context, developers could also use <code>{ symbol: &quot;123456789&quot; }</code> to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand <code>AAPL</code> but—given symbol lookup services—would understand <code>123456789</code> as the universal <em>F2</em> identifier for Apple, Inc. It is clear Container and App developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.</p>
+<p>F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols (more to come).</p>
 <hr>
 </section>
 </section>
@@ -784,8 +785,9 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level2" id="single-sign-on">
 <h2>Single Sign-On</h2>
-<p>In version 1.0.0 of this F2 spec, like <a href="#entitlements">entitlements</a>, single sign-on (or SSO) will be a shared responsibility between the Container and App developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for access to the Container itself.</p>
-<p>Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? Encrypted URLs.</p>
+<p>Single sign-on (SSO) will be a shared responsibility between the Container and App developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for access to their Container(s).</p>
+<p>Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? <a href="#using-encrypted-urls">Encrypted URLs</a>.*</p>
+<p><span class="label">Note</span> The Container provider is free to utilize any app authentication method they deem fit. Container providers and app developers will need to work together to finalize the authentication details.</p>
 <section class="level3" id="using-encrypted-urls">
 <h3>Using Encrypted URLs</h3>
 <p>Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as <code>AES</code>) and the exchange of public keys.</p>

@@ -635,6 +635,8 @@ Context is a term used to describe the state of a F2 container and its apps. At 
 
 Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to communicate symbol context, developers could also use `{ symbol: "123456789" }` to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand `AAPL` but&mdash;given symbol lookup services&mdash;would understand `123456789` as the universal _F2_ identifier for Apple, Inc. It is clear Container and App developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.
 
+F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols (more to come).
+
 * * * *
 
 ## Secure Apps
@@ -913,9 +915,11 @@ _Further details around app entitlements will be forthcoming as this F2 specific
 
 ## Single Sign-On
 
-In version 1.0.0 of this F2 spec, like [entitlements](#entitlements), single sign-on (or SSO) will be a shared responsibility between the Container and App developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for access to the Container itself. 
+Single sign-on (SSO) will be a shared responsibility between the Container and App developer. In some cases, Containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host authentication for access to their Container(s). 
 
-Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? Encrypted URLs.
+Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).*
+
+<span class="label">Note</span> The Container provider is free to utilize any app authentication method they deem fit. Container providers and app developers will need to work together to finalize the authentication details.
 
 ### Using Encrypted URLs
 
