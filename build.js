@@ -99,7 +99,7 @@ function docs() {
 	var callbacks = arguments;
 
 	exec(
-		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 Documentation"',
+		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title ""',
 		{ cwd:'./docs/src' },
 		function(error, stdout, stderr) {
 			if (error) {
@@ -113,13 +113,13 @@ function docs() {
 };
 
 /**
- * Compile LESS into f2.css
+ * Compile LESS into F2.css and F2.Docs.css
  * @method less
  */
 function less(){
 	console.log('Compiling LESS...');
 	exec(
-		'lessc ./template/less/bootstrap.less > ../css/F2.css --compress',
+		'lessc ./template/less/bootstrap.less > ../css/F2.css --compress | lessc ./template/less/bootstrap-docs.less > ../css/F2.Docs.css --compress',
 		{ cwd: './docs/src' },
 		function(error, stdout, stderr){
 			if (error){
