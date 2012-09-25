@@ -144,6 +144,8 @@ function ghp() {
 	// temporary - put index.html back to normal
 	fs.renameSync('./docs/index-temp.html', './docs/index.html');
 	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk/docs');
+	//delete the /src on gh-pages, we don't need it.
+	wrench.rmdirSyncRecursive('../gh-pages/src');
 	console.log('COMPLETE');
 
 	processOptionQueue();
