@@ -1,10 +1,7 @@
 $(function(){
 
-	// grab apps from hash
-	var requestedApps = [];
-	if (location.hash.length > 1) {
-		requestedApps = location.hash.substring(1).split('-');
-	}
+	// grab apps from storage
+	var requestedApps = F2.Storage.getItem('requestedApps') || [];
 
 	// setup modal
 	var $modal = $('#languageSelect').modal({
@@ -30,17 +27,17 @@ $(function(){
 	// bind save button
 	$modal.on('click', 'button.btn-primary:not(.disabled)', function() {
 		var apps = [];
-		var hash = [];
+		var storageItems = [];
 
 		$('input:checked', $modal).map(function(i, el) {
 			apps.push($(el).data('f2-app'));
-			hash.push($(el).val());
+			storageItems.push($(el).val());
 		});
 
 		$modal.modal('hide');
 
-		// set location has so that this page can be reloaded
-		location.hash = hash.join('-');
+		// save apps to storage
+		F2.Storage.setItem('requestedApps', storageItems);
 
 		// remove all apps and add only the selected ones
 		F2.removeAllApps();
