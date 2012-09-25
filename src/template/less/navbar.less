@@ -69,8 +69,9 @@
 .navbar-text {
   margin-bottom: 0;
   line-height: @navbarHeight;
-  color:  @grayLight;
-  font-size: 18px;
+  color: @grayAlt;
+  font-size: 13px;
+  letter-spacing:1px;
 }
 
 // Janky solution for now to account for links outside the .nav
@@ -265,6 +266,11 @@
   color: @F2GitHubLinkBlue;
 }
 
+.navbar .nav > li > .gitHubLink strong {
+  font-family: @headingsFontFamily;
+  font-size:17px;
+}
+
 .navbar .nav > li > a > .onDecoratation {
   border-top: 1px solid @grayLight;
   border-bottom: 1px solid @grayLight;
@@ -296,8 +302,8 @@
 .navbar .nav > .active > a:focus {
   color: @navbarLinkColorActive;
   text-decoration: none;
-  background-color: @navbarLinkBackgroundActive;
-  .box-shadow(inset 0 3px 8px rgba(0,0,0,.125));
+  //background-color: @navbarLinkBackgroundActive;
+  //.box-shadow(inset 0 3px 8px rgba(0,0,0,.125));
 }
 
 // Navbar button for toggling navbar items in responsive layouts

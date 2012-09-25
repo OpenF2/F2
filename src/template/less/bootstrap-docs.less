@@ -1,0 +1,171 @@
+//
+// F2 documentation site
+// --------------------------------------------------
+
+@import "bootstrap.less";
+
+
+body {
+	padding-top: 92px;
+	background: #fff;
+}
+
+//responsive
+@media (max-width: @navbarCollapseWidth) {
+	body {
+		padding-top:0;//no padding on body on tablets or smaller
+	}
+
+	#toc {
+		display: none;//hide TOC
+	}
+}
+
+
+
+/*sections*/
+h1.title { 
+	margin-top: 0;
+}
+
+.level2,
+.level3 { 
+	padding-top:75px;
+}
+
+p.lead { 
+	xmargin-bottom: 0;
+}
+
+.level4 { 
+	margin-top:30px;
+}
+
+section > hr {
+	margin:40px 0 0;
+}
+
+/*left rail/table of contents*/
+// NAV LIST
+// --------
+.nav-list > li > a {
+	font-family: @headingsFontFamily;
+	font-size: 20px;
+}
+
+.nav-list > li > ul a {
+	font-size: 18px;
+	padding: 0px 15px;
+}
+
+.nav-list > li > a:hover {
+  background: none;
+  color: @F2Blue;
+}
+
+.nav-list {
+  border-top:3px solid @grayAlt;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 0;
+}
+.nav-list .nav-list {
+	border-top:none;
+}
+.nav-list > li > a,
+.nav-list .nav-header {
+  margin-left:  -15px;
+  margin-right: -15px;
+  text-shadow: none;
+  //text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.nav-list > li > a {
+  padding: 8px 15px;
+  color: @grayAlt;
+}
+.nav-list > .active > a,
+.nav-list > .active > a:hover {
+  color: @F2Blue;
+  text-shadow: none;
+  background: none;
+  //text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+  //background-color: @linkColor;
+}
+.nav-list [class^="icon-"] {
+  margin-right: 2px;
+}
+// Dividers (basically an hr) within the dropdown
+.nav-list .divider {
+  .nav-divider();
+}
+
+
+#toc {
+	min-height: 1px;/*keep width of well so main content doesn't collapse*/
+}
+
+#toc > ul.affix-top {
+
+}
+
+#toc > ul,
+#toc > ul.affix,
+#toc > ul.affix-bottom {
+	//width:205px;
+}
+
+#toc > ul.affix {
+	margin-bottom: 70px;
+}
+
+/*
+#toc > ul.affix-bottom {
+	top:auto;
+	position: absolute;
+	bottom:100px;
+}*/
+
+
+/*
+#toc ul ul { 
+	font-size: 85%; 
+}
+
+#toc ul ul ul { 
+	font-size: 90%; 
+}
+*/
+
+/*main content*/
+.container .row {
+	margin-bottom: 20px;
+}
+
+.container .span9 {
+	padding-bottom:100px;
+}
+
+//indent levels
+.level2 {
+	//padding-left: 100px;
+}
+
+//code
+
+pre {
+	font-size:12px;
+}
+
+pre.prettyprint {
+	padding: 8px;
+	background-color: #F7F7F9;
+	border: 1px solid #E1E1E8;
+}
+
+/*footer*/
+footer small {
+	font-size: 12px;
+}
+footer .pull-right {
+	text-align: right;
+}
