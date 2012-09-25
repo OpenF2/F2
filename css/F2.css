@@ -20,9 +20,11 @@ textarea{overflow:auto;vertical-align:top;}
 .clearfix:after{clear:both;}
 .hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0;}
 .input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
-body{margin:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#eeeeee;}
-body .mainContainer{margin-top:150px;}body .mainContainer .description{background:url("../img/F2MainContainerBG.jpg") no-repeat center;padding-bottom:10px;}
-body .mainContainer .overview{margin-top:50px;padding-top:50px;background:#4d5052;}body .mainContainer .overview .interactiveDisplay{background:url("../img/bankeo.png") no-repeat center;width:100%;height:570px;}
+body{margin:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#e0e0e0;}
+body .mainContainer{padding:0;margin-top:150px;}body .mainContainer .description{background:url("../img/F2MainContainerBG.jpg") no-repeat center;padding:0 0 10px 0;}
+body .mainContainer .overview{margin-top:50px;padding:50px 0 10px 0;background:#4d5052;}body .mainContainer .overview .interactiveDisplay{background-color:#fff;margin:auto;width:570px;height:425px;}
+body .mainContainer .overview .interactiveDisplay+p{padding-top:20px;margin:auto;width:570px;}
+body .mainContainer .footer{background-color:#575d61;}
 a{color:#0088cc;text-decoration:none;}
 a:hover{color:#005580;text-decoration:underline;}
 .img-rounded{-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;}
@@ -443,8 +445,8 @@ table [class*=span],.row-fluid table [class*=span]{display:table-cell;float:none
 .table-hover tbody tr.error:hover td{background-color:#ebcccc;}
 .table-hover tbody tr.warning:hover td{background-color:#faf2cc;}
 .table-hover tbody tr.info:hover td{background-color:#c4e3f3;}
-[class^="icon-"],[class*=" icon-"]{display:inline-block;width:14px;height:14px;*margin-right:.3em;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("../img/glyphicons-halflings.png");background-position:14px 14px;background-repeat:no-repeat;margin-top:1px;}
-.icon-white,.nav-tabs>.active>a>[class^="icon-"],.nav-tabs>.active>a>[class*=" icon-"],.nav-pills>.active>a>[class^="icon-"],.nav-pills>.active>a>[class*=" icon-"],.nav-list>.active>a>[class^="icon-"],.nav-list>.active>a>[class*=" icon-"],.navbar-inverse .nav>.active>a>[class^="icon-"],.navbar-inverse .nav>.active>a>[class*=" icon-"],.dropdown-menu>li>a:hover>[class^="icon-"],.dropdown-menu>li>a:hover>[class*=" icon-"],.dropdown-menu>.active>a>[class^="icon-"],.dropdown-menu>.active>a>[class*=" icon-"]{background-image:url("../img/glyphicons-halflings-white.png");}
+[class^="icon-"],[class*=" icon-"]{display:inline-block;width:14px;height:14px;*margin-right:.3em;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("http://docs.openf2.com/img/glyphicons-halflings.png");background-position:14px 14px;background-repeat:no-repeat;margin-top:1px;}
+.icon-white,.nav-tabs>.active>a>[class^="icon-"],.nav-tabs>.active>a>[class*=" icon-"],.nav-pills>.active>a>[class^="icon-"],.nav-pills>.active>a>[class*=" icon-"],.nav-list>.active>a>[class^="icon-"],.nav-list>.active>a>[class*=" icon-"],.navbar-inverse .nav>.active>a>[class^="icon-"],.navbar-inverse .nav>.active>a>[class*=" icon-"],.dropdown-menu>li>a:hover>[class^="icon-"],.dropdown-menu>li>a:hover>[class*=" icon-"],.dropdown-menu>.active>a>[class^="icon-"],.dropdown-menu>.active>a>[class*=" icon-"]{background-image:url("http://docs.openf2.com/img/glyphicons-halflings-white.png");}
 .icon-glass{background-position:0 0;}
 .icon-music{background-position:-24px 0;}
 .icon-search{background-position:-48px 0;}
