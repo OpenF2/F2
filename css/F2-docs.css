@@ -1,6 +1,17 @@
 body {
 	padding-top: 92px;
-	padding-bottom: 40px;
+	xpadding-bottom: 40px;
+	background: #fff;
+}
+
+@media (max-width: 979px) {
+	body {
+		padding-top:0;
+	}
+
+	#toc {
+		display: none;
+	}
 }
 
 /*sections*/
