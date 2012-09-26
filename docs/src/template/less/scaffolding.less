@@ -17,26 +17,43 @@ body {
 
 body .mainContainer {
   padding: 0;
-  margin-top: @navbarHeight;
+  margin-top: 0;
   .description {
-    //background: url(@F2MainContainerBG) no-repeat center;
-    //min-height: 669px;
-    padding: 50px 0 50px 0;
+    background: url(@F2MainContainerBG) no-repeat center;
+    height: 667px;
   }  
-  .overview{
-    margin-top: 50px;
-    padding: 50px 0 200px 0;
+  .overview {
+    padding: 75px 0 200px 0;
     background: @F2OverviewBackgroundColor;
     .interactiveDisplay {
+      width: 570px;
+      height: 430px;
+      margin: auto;
       background-color: #fff;//url(@F2InteractiveDisplayBackground) no-repeat center;
-      margin: auto;
-      width: 570px;
-      height: 425px;
+      .carousel .item {
+        background: url(@F2InteractiveDisplayBackground) no-repeat center;
+        padding: 210px;
+      }
     }
-    .interactiveDisplay + p {
-      padding-top: 20px;
-      margin: auto;
+    .photoControl {
+      list-style: none;
+      text-align: center;
       width: 570px;
+      margin: auto;
+      padding: 20px 0;
+      li { display: inline-block; }
+      li a {
+        background: url(@F2CarouselDot) no-repeat center;
+        padding: 13px;
+      }
+      .selected a {
+        background: url(@F2CarouselDotSelected) no-repeat center;
+        padding: 13px;
+      }
+    }    
+    .photoControl + p {
+      width: 570px;
+      margin: auto;
     }
   }
   footer{
