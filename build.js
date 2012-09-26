@@ -115,6 +115,11 @@ function docs() {
 				console.log(stderr);
 			} else {
 				processTemplateFileCleanup(templateFiles);
+
+				// update Last Update Date and save F2.json
+				f2Info.docs.lastUpdateDate = (new Date()).toJSON();
+				saveF2Info();
+
 				console.log('COMPLETE');
 				processOptionQueue();
 			}
@@ -196,8 +201,12 @@ function js() {
 		return code;
 	});
 	fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
-	console.log('COMPLETE');
 
+	// update Last Update Date and save F2.json
+	f2Info.sdk.lastUpdateDate = (new Date()).toJSON();
+	saveF2Info();
+
+	console.log('COMPLETE');
 	processOptionQueue();
 };
 
@@ -267,7 +276,8 @@ function processTemplateFile(filePath, data, preserveOriginalFile) {
 };
 
 /**
- * If 
+ * Copies the temp files created by processTemplateFile back to their original
+ * file names and removes the temp file
  * @method processTemplateFileCleanup
  * @param {string|Array} filePath The path to the template content
  */
@@ -282,7 +292,15 @@ function processTemplateFileCleanup(filePath) {
 			fs.unlinkSync(filePath[i] + '.temp');
 		}	
 	}
-}
+};
+
+/**
+ * Saves the F2.json object back to a file
+ * @method saveF2Info
+ */
+function saveF2Info() {
+	fs.writeFileSync('./F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
+};
 
 /**
  * Build the YUIDoc for the sdk
