@@ -21,9 +21,12 @@ textarea{overflow:auto;vertical-align:top;}
 .hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0;}
 .input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
 body{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#e0e0e0;}
-body .mainContainer{padding:0;margin-top:75px;}body .mainContainer .description{padding:50px 0 50px 0;}
-body .mainContainer .overview{margin-top:50px;padding:50px 0 200px 0;background:#4d5052;}body .mainContainer .overview .interactiveDisplay{background-color:#fff;margin:auto;width:570px;height:425px;}
-body .mainContainer .overview .interactiveDisplay+p{padding-top:20px;margin:auto;width:570px;}
+body .mainContainer{padding:0;margin-top:0;}body .mainContainer .description{background:url("../img/F2MainContainerBG.jpg") no-repeat center;height:667px;}
+body .mainContainer .overview{padding:75px 0 200px 0;background:#4d5052;}body .mainContainer .overview .interactiveDisplay{width:570px;height:430px;margin:auto;background-color:#fff;}body .mainContainer .overview .interactiveDisplay .carousel .item{background:url("../img/bankeo.png") no-repeat center;padding:210px;}
+body .mainContainer .overview .photoControl{list-style:none;text-align:center;width:570px;margin:auto;padding:20px 0;}body .mainContainer .overview .photoControl li{display:inline-block;}
+body .mainContainer .overview .photoControl li a{background:url("../img/dot.png") no-repeat center;padding:13px;}
+body .mainContainer .overview .photoControl .selected a{background:url("../img/dotSelected.png") no-repeat center;padding:13px;}
+body .mainContainer .overview .photoControl+p{width:570px;margin:auto;}
 body .mainContainer footer{padding-top:20px;color:#bfc7ce;background-color:#575d61;}body .mainContainer footer h1,body .mainContainer footer h2,body .mainContainer footer h3,body .mainContainer footer h4,body .mainContainer footer h5,body .mainContainer footer h6{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;}
 body .mainContainer footer h5{line-height:10px;}
 body .mainContainer footer .diskIcon{background:url("../img/diskIcon.png") no-repeat center;padding:50px 75px;}
@@ -223,7 +226,7 @@ h1 small{font-size:24px;}
 h2 small{font-size:18px;}
 h3 small{font-size:14px;}
 h4 small{font-size:14px;}
-.mainContainer .description h2:first-child{margin-top:0;font-size:40px;margin-bottom:30px;}
+.mainContainer .description h2:first-child{margin-top:0;padding-top:75px;font-size:40px;margin-bottom:30px;}
 .mainContainer .description h2,.mainContainer .description h3{color:#0a6199;margin-bottom:0;line-height:1;}
 .mainContainer .description h3:first-child{margin-top:50px;}
 .mainContainer .description h3 a{color:#0a6199;}
@@ -798,7 +801,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini{*padding-top:1px;*padding-
 .tabs-right>.nav-tabs .active>a,.tabs-right>.nav-tabs .active>a:hover{border-color:#ddd #ddd #ddd transparent;*border-left-color:#ffffff;}
 .nav>.disabled>a{color:#999999;}
 .nav>.disabled>a:hover{text-decoration:none;background-color:transparent;cursor:default;}
-.navbar{overflow:visible;margin-bottom:20px;color:#777777;*position:relative;*z-index:2;}
+.navbar{overflow:visible;margin-bottom:0;color:#777777;*position:relative;*z-index:2;}
 .navbar-inner{min-height:75px;padding-left:20px;padding-right:20px;background:#f0f0f0;border:1px solid #d4d4d4;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.065);-moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.065);box-shadow:0 1px 4px rgba(0, 0, 0, 0.065);-webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.065);-moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.065);box-shadow:0 1px 4px rgba(0, 0, 0, 0.065);*zoom:1;*zoom:1;}.navbar-inner:before,.navbar-inner:after{display:table;content:"";line-height:0;}
 .navbar-inner:after{clear:both;}
 .navbar-inner:before,.navbar-inner:after{display:table;content:"";line-height:0;}
