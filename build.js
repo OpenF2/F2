@@ -12,11 +12,13 @@
  */
 var exec = require('child_process').exec;
 var fs = require('fs');
+var handlebars = require('Handlebars');
 var jsp = require('uglify-js').parser;
+var optimist = require('optimist');
 var pro = require('uglify-js').uglify;
+var f2Info = require('./F2.json');
 var wrench = require('wrench');
 var Y = require('yuidocjs');
-var optimist = require('optimist');
 var argv = optimist
 	.usage('Build script for F2\nUsage: $0 [options]')
 	.boolean('a').alias('a', 'all').describe('a', 'Build all')
@@ -58,6 +60,7 @@ var OPTIONS = [
 	{ arg: 'g', f: ghp }
 ];
 
+
 // build all if no args are passed
 argv.a = argv.a || process.argv.length == 2;
 // process -l if -d is passed
@@ -96,7 +99,13 @@ function processOptionQueue() {
  */
 function docs() {
 	console.log('Generating Docs...');
-	var callbacks = arguments;
+
+	// files to run handlebar substitutions
+	var templateFiles = [
+		'./docs/src/template/header.html'
+	];
+
+	processTemplateFile(templateFiles, f2Info, true);
 
 	exec(
 		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title ""',
@@ -105,32 +114,13 @@ function docs() {
 			if (error) {
 				console.log(stderr);
 			} else {
+				processTemplateFileCleanup(templateFiles);
 				console.log('COMPLETE');
 				processOptionQueue();
 			}
 		}
 	);
 };
-
-/**
- * Compile LESS into F2.css and F2.Docs.css
- * @method less
- */
-function less(){
-	console.log('Compiling LESS...');
-	exec(
-		'lessc ./template/less/bootstrap.less > ../css/F2.css --compress | lessc ./template/less/bootstrap-docs.less > ../css/F2.Docs.css --compress',
-		{ cwd: './docs/src' },
-		function(error, stdout, stderr){
-			if (error){
-				console.log(stderr);
-			} else {
-				console.log("COMPLETE");
-				processOptionQueue();
-			}
-		}
-	);
-}
 
 /**
  * Copies all documentation to the gh-pages folder
@@ -168,7 +158,8 @@ function js() {
 	var contents = CORE_FILES.map(function(f) {
 		return fs.readFileSync(f, ENCODING);
 	});
-	fs.writeFileSync('./sdk/f2.no-third-party.js', contents.join(EOL), ENCODING);
+	contents = processTemplate(contents.join(EOL), f2Info);
+	fs.writeFileSync('./sdk/f2.no-third-party.js', contents, ENCODING);
 	console.log('COMPLETE');
 
 
@@ -187,7 +178,7 @@ function js() {
 		var comments = [];
 		var token = '"F2: preserved commment block"';
 
-		// borrowed from enter-js
+		// borrowed from ender-js
 		code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
 			comments.push(comment)
 			return ';' + token + ';';
@@ -211,21 +202,108 @@ function js() {
 };
 
 /**
+ * Compile LESS into F2.css and F2.Docs.css
+ * @method less
+ */
+function less() {
+	console.log('Compiling LESS...');
+	exec(
+		'lessc ./template/less/bootstrap.less > ../css/F2.css --compress | lessc ./template/less/bootstrap-docs.less > ../css/F2.Docs.css --compress',
+		{ cwd: './docs/src' },
+		function(error, stdout, stderr){
+			if (error){
+				console.log(stderr);
+			} else {
+				console.log("COMPLETE");
+				processOptionQueue();
+			}
+		}
+	);
+};
+
+/**
+ * Will replace handlebar placeholders for data
+ * @method processTemplate
+ * @param {string} content The template content or a path to the template content
+ * @param {object} data The data to replace
+ */
+function processTemplate(content, data) {
+
+	// 'crossLink' is a special helper that is used by YUIdoc. We need to leave it
+	// alone so that it is processed later
+	handlebars.registerHelper('crossLink', function(path) {
+		return '{{#crossLink "' + path + '"}}{{/crossLink}}';
+	});
+
+	// compile and run the template
+	var template = handlebars.compile(content);
+	return template(data);
+};
+
+/**
+ * Will replace handlebar placeholders for data within a file
+ * @method processTemplateFile
+ * @param {string|Array} filePath The path to the template content
+ * @param {object} data The data to replace
+ * @param {bool} [preserveOriginalFile] If true, the original file will be
+ * copied with a .temp extension.  See
+ * {{#crossLink "processTemplateFileCleanup"}}{{/crossLink}} for how to cleanup
+ * the temp files that were created during this process
+ */
+function processTemplateFile(filePath, data, preserveOriginalFile) {
+
+	filePath = [].concat(filePath);
+
+	for (var i = 0; i < filePath.length; i++) {
+		if (fs.existsSync(filePath[i])) {
+			var content = fs.readFileSync(filePath[i], ENCODING);
+			if (preserveOriginalFile) {
+				fs.writeFileSync(filePath[i] + '.temp', content, ENCODING);
+			}
+			content = processTemplate(content, data);
+			fs.writeFileSync(filePath[i], content, ENCODING);
+		}	
+	}
+};
+
+/**
+ * If 
+ * @method processTemplateFileCleanup
+ * @param {string|Array} filePath The path to the template content
+ */
+function processTemplateFileCleanup(filePath) {
+
+	filePath = [].concat(filePath);
+
+	for (var i = 0; i < filePath.length; i++) {
+		if (fs.existsSync(filePath[i]) && fs.existsSync(filePath[i] + '.temp')) {
+			var content = fs.readFileSync(filePath[i] + '.temp', ENCODING);
+			fs.writeFileSync(filePath[i], content, ENCODING);
+			fs.unlinkSync(filePath[i] + '.temp');
+		}	
+	}
+}
+
+/**
  * Build the YUIDoc for the sdk
  * @method yuidoc
  */
 function yuidoc() {
-	var callbacks = arguments;
+
 	var docOptions = {
-		quiet:true,
-		norecurse:true,
-		paths:['./sdk/src'],
-		outdir:'./sdk/docs',
-		themedir:'./sdk/docs-theme'
+		quiet: true,
+		norecurse: true,
+		paths: ['./sdk/src'],
+		outdir: './sdk/docs',
+		themedir: './sdk/docs-theme'
 	};
 
 	console.log('Generating YUIDoc...');
 	var json = (new Y.YUIDoc(docOptions)).run();
+	// massage in some meta information from F2.json
+	json.project = {
+		version: f2Info.sdk.version
+	};
 	docOptions = Y.Project.mix(json, docOptions);
 	(new Y.DocBuilder(docOptions, json)).compile(function() {
 		console.log('COMPLETE');
