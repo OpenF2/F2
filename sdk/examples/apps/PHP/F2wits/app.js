@@ -17,18 +17,20 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
     }
 
     App_Class.prototype.setupEvents = function(){
-    	var self = this;
+
     	F2.Events.on(
-    		F2.Constants.Events.CONTAINER_SYMBOL_CHANGE,
-    		function(data){
-    			self.symbol = data.symbol;
-    			self.init();
-    		}
+    		F2.Constants.Events.CONTAINER_SYMBOL_CHANGE,$.proxy(function(data){
+                this.symbol = data.symbol;
+                this.init();
+            },this)
     	);
     }
 
     App_Class.prototype.getTwits = function(){
     	$.ajax({
+            beforeSend: function(){
+                this.appConfig.ui.setTitle("Loading StockTwits...");
+            },
     		url: "../apps/PHP/F2wits/stocktwits.php",
     		data: {
     			symbol: this.symbol
@@ -42,17 +44,21 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
     		this.draw();
     	}).fail(function(jqxhr,txtStatus){
     		console.error("F2wits failed to load StockTwits data.", jqxhr, txtStatus);
+            this.appConfig.ui.setTitle("StockTwits Error");
+            this.$app.html("<p>An error occurred loading StockTwits data for " +this.symbol+ ".</p>");
+            this.appConfig.ui.hideMask(this.$app);
+            this.appConfig.ui.updateHeight();
     	});
     }
 
     App_Class.prototype.draw = function(){
-    	var self = this;
+
     	this.appConfig.ui.setTitle("StockTwits for $" + this.symbol);
 
     	var html = [];
     	html.push('<table class="table">');
 
-    	$.each(this.data.messages,function(idx, item){
+    	$.each(this.data.messages,$.proxy(function(idx, item){
     		//body, created_at, source, symbols, user
 
 			if (idx > 4) { return true; }//only show 5
@@ -65,8 +71,8 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
     			user = item.user,
     			symList = [];
 
-    		body = self.replaceURLWithHTMLLinks(body);
-    		body = self.replaceDollarSigns(body);
+    		body = this.replaceURLWithHTMLLinks(body);
+    		body = this.replaceDollarSigns(body);
 
     		//build list of symbols
 			$.each(symbols,function(idx,item){
@@ -86,27 +92,17 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
     					body, 
     					'<div class="clearfix">',
     						'<time class="pull-left">',created_at,'</time>',
-    						'<div class="pull-right btn-group">',
-								'<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">',
-									'Set Focus On...',
-									'<span class="caret"></span>',
-								'</a>',
-								'<ul class="dropdown-menu">',
-									symList.join(''),
-								'</ul>',
-							'</div>',
     					'</div>',
     				'</td>',
     			'</tr>'
     		);
-    	});
+    	},this));
 
     	html.push('</table>');
 
     	this.$app.html(html.join(''));
     	this.appConfig.ui.hideMask(this.$app);
     	this.appConfig.ui.updateHeight();
-
 
     	//assign event to change container focus
     	$("a.focus",this.$app).click(function(){
@@ -128,7 +124,11 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
 
 	App_Class.prototype.replaceDollarSigns = function(text){
 		var exp = /\$([A-Za-z0-9_]+)/ig;
-		return text.replace(exp,"<a target='_blank' href='http://stocktwits.com/symbol/$1'>$$$1</a>");
+		//use this to link to StockTwits.com
+        //return text.replace(exp,"<a target='_blank' href='http://stocktwits.com/symbol/$1'>$$$1</a>");
+
+        //use this to apply focus to container
+        return text.replace(exp,"<a href='javascript:;' data-symbol='$1' class='focus'>$$$1</a>");
 	}
 
     return App_Class;

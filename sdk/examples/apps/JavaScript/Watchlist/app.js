@@ -38,9 +38,9 @@ F2.Apps['com_f2_examples_javascript_watchlist'] = (function (appConfig, appConte
 							"<td class='first'>",
 								"<a href='#' title='{name} (Click to set {symbol} context)' data-context='{symbol}' data-context-name='{name}'>{symbol}</a>",
 							"</td>",
-							"<td>{price}</td>",
-							"<td>{change} ({changePct})</td>",
-							"<td>{volume}</td>",
+							"<td><strong>{price}</strong></td>",
+							"<td><small>{change} ({changePct})</small></td>",
+							"<td><small>{volume}</small></td>",
 							"<td><a href='#' title='Remove from watchlist' data-remove='{symbol}'><i class='icon-remove'></i></a></td>",
 						"</tr>",
 						"<tr class='hide' data-row-detail='{symbol}'>",
@@ -259,12 +259,6 @@ F2.Apps['com_f2_examples_javascript_watchlist'] = (function (appConfig, appConte
 		table.push(
 				'</tbody>',
 			'</table>'
-		);
-
-		table.push(
-			'<div>',
-				'<small>Market data, <a href="http://developer.yahoo.com/yql/" target="_blank">provided by Yahoo!</a>, delayed at least 15 minutes.</small>',
-			'</div>'
 		);
 
 		$("div.watchlist", this.root).html(table.join(''));

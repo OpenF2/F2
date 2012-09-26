@@ -17,16 +17,15 @@ $(function() {
 			var hasHelp = F2.inArray(F2.Constants.Views.HELP, app.views);
 			var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, app.views);
 			var showDivider = hasSettings || hasHelp || hasAbout;
-			var gridWidth = app.minGridSize || 4;
+			var gridWidth = app.minGridSize || 3;
 
 			var appRoot = $([
 				'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '">',
 					'<header class="clearfix">',
-						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name, '</h2>',
+						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
 						'<div class="btn-group pull-right">',
-							'<button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown">',
-								'<i class="icon-white icon-cog"></i> ',
-								'<span class="caret"></span>',
+							'<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown">',
+								'<i class="icon-cog"></i>',
 							'</button>',
 							'<ul class="dropdown-menu">',
 								hasSettings ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.SETTINGS + '">Edit Settings</a></li>' : '',
