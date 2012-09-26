@@ -8,7 +8,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_helloworld({
 	"apps":[
 		{
 			"html":[
-				'<div class="well">',
+				'<div>',
 					'<div class="f2-app-view" data-f2-view="home">',
 						'<p>Hello World!</p>',
 						'<ul>',

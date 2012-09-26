@@ -17,7 +17,7 @@
 
 	function renderAppHtml($app) {
 		return <<<HTML
-<div class="well">
+<div>
 	<div class="f2-app-view" data-f2-view="home">
 		<p>Hello World!</p>
 		<ul>

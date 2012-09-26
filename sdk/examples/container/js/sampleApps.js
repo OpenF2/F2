@@ -3,7 +3,7 @@
 		{
 			"appId": "com_openf2_examples_csharp_helloworld",
 			"manifestUrl": "../apps/CSharp/Apps/HelloWorld",
-			"name": "Hello World"
+			"name": "Hello World (C#)"
 		}
 	],
 
@@ -11,7 +11,7 @@
 		{
 			"appId": "com_openf2_examples_javascript_helloworld",
 			"manifestUrl": "../apps/JavaScript/HelloWorld/manifest.js",
-			"name": "Hello World"
+			"name": "Hello World (JavaScript)"
 		},
 		{
 			"appId": "com_openf2_examples_chart",
@@ -41,7 +41,7 @@
 		{
 			"appId": "com_openf2_examples_php_helloworld",
 			"manifestUrl": "../apps/PHP/HelloWorld/helloworld.php",
-			"name": "Hello World"
+			"name": "Hello World (PHP)"
 		},
 		{
 			"appId": "com_openf2_examples_php_f2wits",

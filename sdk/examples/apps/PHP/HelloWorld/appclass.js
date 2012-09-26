@@ -27,7 +27,7 @@ F2.Apps["com_openf2_examples_php_helloworld"] = (function() {
 			); 
 		}, this));
 
-		this.ui.setTitle('PHP ' + (this.appConfig.isSecure ? 'Secure' : '') + ' Hello World');
+		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + ' Hello World (PHP)');
 		this.ui.updateHeight();
 		
 		// bind symbol change event
