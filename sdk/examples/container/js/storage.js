@@ -58,7 +58,7 @@ F2.extend('Storage', (function() {
 		},
 		/**
 		 * @method setItem
-		 * @param {string} key The key of the item to remove
+		 * @param {string} key The key of the item to set
 		 * @param {object} value The value to be stored
 		 */
 		setItem:function(key, value) {
