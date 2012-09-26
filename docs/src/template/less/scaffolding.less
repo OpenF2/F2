@@ -12,7 +12,11 @@ body {
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
   color: @textColor;
-  background-color: @bodyBackground;
+  background-color: @F2BodyBackgroundColor;
+}
+
+.openf2 {
+  //background: url(@F2BodyBG) repeat-x;
 }
 
 body .mainContainer {
@@ -20,16 +24,15 @@ body .mainContainer {
   margin-top: 0;
   .description {
     background: url(@F2MainContainerBG) no-repeat center;
-    height: 667px;
+    height: 665px;
   }  
   .overview {
     padding: 75px 0 200px 0;
     background: @F2OverviewBackgroundColor;
+    .span4 { margin-left: 100px; }
     .interactiveDisplay {
-      width: 570px;
       height: 430px;
-      margin: auto;
-      background-color: #fff;//url(@F2InteractiveDisplayBackground) no-repeat center;
+      background-color: #fff;
       .carousel .item {
         background: url(@F2InteractiveDisplayBackground) no-repeat center;
         padding: 210px;
@@ -38,9 +41,7 @@ body .mainContainer {
     .photoControl {
       list-style: none;
       text-align: center;
-      width: 570px;
-      margin: auto;
-      padding: 20px 0;
+      padding: 10px 0;
       li { display: inline-block; }
       li a {
         background: url(@F2CarouselDot) no-repeat center;
@@ -50,21 +51,16 @@ body .mainContainer {
         background: url(@F2CarouselDotSelected) no-repeat center;
         padding: 13px;
       }
-    }    
-    .photoControl + p {
-      width: 570px;
-      margin: auto;
     }
   }
   footer{
-    padding-top: 20px;
+    background-color: @F2FooterBackgroundColor;
     color: @F2FooterGray;
     h1, h2, h3, h4, h5, h6 { font-family: @baseFontFamily; }
     h5 { line-height: @baseLineHeight / 2; }
-    background-color: @F2FooterBackgroundColor;
     .diskIcon { background: url(@F2DownloadDiskIcon) no-repeat center; padding: 50px 75px; }
     .docIcon { background: url(@F2DocIcon) no-repeat center; padding: 50px 60px; }
-    .span6 { padding: 20px 40px; margin-left: 0; }
+    .span6, .span5 { padding: 20px; margin: 40px 0 0 0; }
     .span6:first-child {
       .box-shadow(20px 0 10px -10px rgba(0,0,0,.065));      
     }
@@ -77,7 +73,7 @@ body .mainContainer {
       padding: 0 10px;
       font-size: 46px;
     }
-    .row-fluid:first-child{
+    .row:first-child{
       .box-shadow(0px 20px 10px -10px rgba(0,0,0,.065));
       padding-bottom: 20px;
     }
