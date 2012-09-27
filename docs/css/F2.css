@@ -20,7 +20,8 @@ textarea{overflow:auto;vertical-align:top;}
 .clearfix:after{clear:both;}
 .hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0;}
 .input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
-body{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#f0f0f0;}
+body{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#ffffff;}
+.openf2Header{background-color:#f0f0f0;}
 body .mainContainer{padding:0;margin-top:0;}body .mainContainer .description{background:url("../img/F2_iPad.jpg") no-repeat center;height:665px;}
 body .mainContainer .overview{padding:75px 0 200px 0;background:#4d5052;}body .mainContainer .overview .span4{margin-left:100px;}
 body .mainContainer .overview .interactiveDisplay{height:430px;background-color:#fff;}body .mainContainer .overview .interactiveDisplay .carousel .item{background:url("../img/bankeo.png") no-repeat center;padding:210px;}

@@ -12,11 +12,11 @@ body {
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
   color: @textColor;
-  background-color: @F2BodyBackgroundColor;
+  background-color: @white;
 }
 
-.openf2 {
-  //background: url(@F2BodyBG) repeat-x;
+.openf2Header {
+  background-color: @F2NavBackgroundColor;
 }
 
 body .mainContainer {
@@ -75,6 +75,7 @@ body .mainContainer {
     }
     .row:first-child{
       .box-shadow(0px 20px 10px -10px rgba(0,0,0,.065));
+      //.border-image(@F2BorderFade,30, @repeat: stretch);
       padding-bottom: 20px;
     }
     .social{
