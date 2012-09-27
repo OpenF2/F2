@@ -22,7 +22,7 @@ textarea{overflow:auto;vertical-align:top;}
 .input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
 body{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#ffffff;}
 .openf2Header{background-color:#f0f0f0;}
-body .mainContainer{padding:0;margin-top:0;}body .mainContainer .description{position:relative;height:665px;}body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;}
+body .mainContainer{padding:0;margin-top:0;}body .mainContainer .description{position:relative;height:665px;}body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;background-color:#E0E0E0;}
 body .mainContainer .description .mainBGImg li img{height:665px;width:100%;}
 body .mainContainer .description .ImgIpad{background:url("../img/F2_iPad.jpg") no-repeat center;}
 body .mainContainer .description .ImgIscreens{background:url("../img/F2_iScreens.jpg") no-repeat center;}
