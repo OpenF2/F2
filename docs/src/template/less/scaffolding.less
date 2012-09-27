@@ -28,7 +28,8 @@ body .mainContainer {
   }  
   .overview {
     padding: 75px 0 200px 0;
-    background: @F2OverviewBackgroundColor;
+    //background: @F2OverviewBackgroundColor;
+    #gradient > .vertical(@F2OverviewBackgroundColor, @F2FooterBackgroundColor);
     .span4 { margin-left: 100px; }
     .interactiveDisplay {
       height: 430px;
@@ -54,7 +55,7 @@ body .mainContainer {
     }
   }
   footer{
-    background-color: @F2FooterBackgroundColor;
+    background: url(@F2FooterPattern) repeat;//@F2FooterBackgroundColor;
     color: @F2FooterGray;
     h1, h2, h3, h4, h5, h6 { font-family: @baseFontFamily; }
     h5 { line-height: @baseLineHeight / 2; }
@@ -74,8 +75,8 @@ body .mainContainer {
       font-size: 46px;
     }
     .row:first-child{
-      .box-shadow(0px 20px 10px -10px rgba(0,0,0,.065));
-      //.border-image(@F2BorderFade,30, @repeat: stretch);
+      //.box-shadow(0px 20px 10px -10px rgba(0,0,0,.065));
+      background: url(@F2BorderFade) bottom no-repeat;
       padding-bottom: 20px;
     }
     .social{

@@ -23,12 +23,12 @@ textarea{overflow:auto;vertical-align:top;}
 body{margin:0;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:20px;color:#333333;background-color:#ffffff;}
 .openf2Header{background-color:#f0f0f0;}
 body .mainContainer{padding:0;margin-top:0;}body .mainContainer .description{background:url("../img/F2_iPad.jpg") no-repeat center;height:665px;}
-body .mainContainer .overview{padding:75px 0 200px 0;background:#4d5052;}body .mainContainer .overview .span4{margin-left:100px;}
+body .mainContainer .overview{padding:75px 0 200px 0;background-color:#515558;background-image:-moz-linear-gradient(top, #4d5052, #575d61);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#4d5052), to(#575d61));background-image:-webkit-linear-gradient(top, #4d5052, #575d61);background-image:-o-linear-gradient(top, #4d5052, #575d61);background-image:linear-gradient(to bottom, #4d5052, #575d61);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4d5052', endColorstr='#ff575d61', GradientType=0);background-color:#515558;background-image:-moz-linear-gradient(top, #4d5052, #575d61);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#4d5052), to(#575d61));background-image:-webkit-linear-gradient(top, #4d5052, #575d61);background-image:-o-linear-gradient(top, #4d5052, #575d61);background-image:linear-gradient(to bottom, #4d5052, #575d61);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4d5052', endColorstr='#ff575d61', GradientType=0);}body .mainContainer .overview .span4{margin-left:100px;}
 body .mainContainer .overview .interactiveDisplay{height:430px;background-color:#fff;}body .mainContainer .overview .interactiveDisplay .carousel .item{background:url("../img/bankeo.png") no-repeat center;padding:210px;}
 body .mainContainer .overview .photoControl{list-style:none;text-align:center;padding:10px 0;}body .mainContainer .overview .photoControl li{display:inline-block;}
 body .mainContainer .overview .photoControl li a{background:url("../img/dot.png") no-repeat center;padding:13px;}
 body .mainContainer .overview .photoControl .selected a{background:url("../img/dotSelected.png") no-repeat center;padding:13px;}
-body .mainContainer footer{background-color:#575d61;color:#bfc7ce;}body .mainContainer footer h1,body .mainContainer footer h2,body .mainContainer footer h3,body .mainContainer footer h4,body .mainContainer footer h5,body .mainContainer footer h6{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;}
+body .mainContainer footer{background:url("../img/footerNoise.png") repeat;color:#bfc7ce;}body .mainContainer footer h1,body .mainContainer footer h2,body .mainContainer footer h3,body .mainContainer footer h4,body .mainContainer footer h5,body .mainContainer footer h6{font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;}
 body .mainContainer footer h5{line-height:10px;}
 body .mainContainer footer .diskIcon{background:url("../img/diskIcon.png") no-repeat center;padding:50px 75px;}
 body .mainContainer footer .docIcon{background:url("../img/docIcon.png") no-repeat center;padding:50px 60px;}
@@ -37,7 +37,7 @@ body .mainContainer footer .span6:first-child{-webkit-box-shadow:20px 0 10px -10
 body .mainContainer footer .pull-left h2{line-height:20px;}
 body .mainContainer footer a{text-decoration:underline;color:#bfc7ce;}
 body .mainContainer footer .version{padding:0 10px;font-size:46px;}
-body .mainContainer footer .row:first-child{-webkit-box-shadow:0px 20px 10px -10px rgba(0, 0, 0, 0.065);-moz-box-shadow:0px 20px 10px -10px rgba(0, 0, 0, 0.065);box-shadow:0px 20px 10px -10px rgba(0, 0, 0, 0.065);-webkit-box-shadow:0px 20px 10px -10px rgba(0, 0, 0, 0.065);-moz-box-shadow:0px 20px 10px -10px rgba(0, 0, 0, 0.065);box-shadow:0px 20px 10px -10px rgba(0, 0, 0, 0.065);padding-bottom:20px;}
+body .mainContainer footer .row:first-child{background:url("../img/bottomBorderFade.png") bottom no-repeat;padding-bottom:20px;}
 body .mainContainer footer .social{padding:20px 0 10px 0;}
 body .mainContainer footer .span12{text-align:center;color:#3b4044;}body .mainContainer footer .span12 h1{color:rgba(87, 93, 97, 0.8);padding:20px 0;font-weight:bold;font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;text-shadow:1px 4px 6px #575d61,0 0 0 #000000,1px 4px 6px #575d61;}
 a{color:#0088cc;text-decoration:none;}
