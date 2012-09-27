@@ -23,21 +23,47 @@ body .mainContainer {
   padding: 0;
   margin-top: 0;
   .description {
-    background: url(@F2MainContainerBG) no-repeat center;
+    position: relative;
     height: 665px;
+    .mainBGImg {
+      z-index: -1;
+      position: absolute;
+      top: 0; left: 0;
+      margin: 0;
+      list-style: none;
+      width: 100%;
+    }
+    .mainBGImg li img {height: 665px; width: 100%; }
+    .ImgIpad { background: url(@F2MainContainerBGIpad) no-repeat center; }
+    .ImgIscreens { background: url(@F2MainContainerBGIScreens) no-repeat center; }
+    .ImgIphone { background: url(@F2MainContainerBGIphone) no-repeat center; }    
+    .mainBGControl {
+      margin: 0;
+      list-style: none;
+      text-align: center;
+      padding: 10px 0;
+      li { display: inline-block; }
+      li a {
+        background: url(@F2bgControlDot) no-repeat center;
+        padding: 10px;
+      }
+      .selected a {
+        background: url(@F2bgControlDotSelected) no-repeat center;
+      }
+    }
   }  
   .overview {
     padding: 75px 0 200px 0;
-    //background: @F2OverviewBackgroundColor;
-    #gradient > .vertical(@F2OverviewBackgroundColor, @F2FooterBackgroundColor);
+    #gradient > .vertical(@F2FooterBackgroundColor, @F2OverviewBackgroundColor);
     .span4 { margin-left: 100px; }
     .interactiveDisplay {
       height: 430px;
       background-color: #fff;
-      .carousel .item {
-        background: url(@F2InteractiveDisplayBackground) no-repeat center;
-        padding: 210px;
-      }
+      .carousel .item { padding: 210px; }
+      .carousel .euro { background: url(@F2ItemEuro) no-repeat center; }
+      .carousel .video { background: url(@F2ItemVideo) no-repeat center; }
+      .carousel .watchlist { background: url(@F2ItemWatchlist) no-repeat center; }
+      .carousel .ft { background: url(@F2ItemFT) no-repeat center; }
     }
     .photoControl {
       list-style: none;
@@ -50,7 +76,6 @@ body .mainContainer {
       }
       .selected a {
         background: url(@F2CarouselDotSelected) no-repeat center;
-        padding: 13px;
       }
     }
   }
