@@ -25,6 +25,7 @@ body {
 	line-height:normal;
 	padding:0 0 0 5px;
 	text-transform: uppercase;
+	letter-spacing:0.1em;
 }
 
 .f2-app > header .btn-group{
