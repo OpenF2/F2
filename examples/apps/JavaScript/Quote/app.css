@@ -17,5 +17,6 @@
 }
 
 .com_openf2_examples_javascript_quote .input-append {
-
+	padding-bottom:7px;
+	padding-top:7px;
 }

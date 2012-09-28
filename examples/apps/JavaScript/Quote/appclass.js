@@ -3,6 +3,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 	var $root = $(root);
 	var $caption = $('caption', $root);
 	var $tbody = $('tbody', $root);
+	var $addToWatchlist = $('a[data-watchlist-add]', $root);
 	var $settings = $('form[data-f2-view="settings"]', $root);
 	var _config = {
 		refreshMode: 'page',
@@ -29,6 +30,10 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 				appConfig.ui.hideMask($root);
 			}
 		});
+	};
+
+	var _hasWatchListApp = function() {
+		return !!$(".com_f2_examples_javascript_watchlist").length;
 	};
 
 	var _initTypeahead = function() {
@@ -103,15 +108,15 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 						'<tr>',
 							'<th>Market Cap</th>',
 							'<td><strong>', Format.number(quoteData.Data.MarketCap, {withMagnitude:true,precision:1}), '</strong></td>',
-						'</tr>',
-						'<tr>',
-							'<td colspan="2">',
-								'<a href="javascript:;" class="pull-right" data-watchlist-add="', quoteData.Data.Symbol, '">+Add ', quoteData.Data.Symbol, ' to Watchlist</a>',
-							'</td>',
-						'</tr>',
+						'</tr>'
 					].join(''))
 					.fadeIn();
 			});
+
+			$('span', $addToWatchlist).text(quoteData.Data.Symbol);
+			$addToWatchlist
+				.data('watchlist-add', quoteData.Data.Symbol)
+				.closest('tr').toggleClass('hide', !_hasWatchListApp());			
 
 		} else {
 			F2.log('Un problemo!');
@@ -220,18 +225,18 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 
 			//Talk to External Watchlist App
 			$root.on("click", "a[data-watchlist-add]", function(e){
-				var $this = $(e.currentTarget),
-					sym = $this.attr("data-watchlist-add");
 
-				if (!$(".com_f2_examples_javascript_watchlist").length){
+				if (!_hasWatchListApp()){
 					appConfig.ui.Modals.alert("The Watchlist App is not on this container.");
-				}
+				} else {
 
-				F2.Events.emit(
-					"F2_Examples_Watchlist_Add",
-					{ symbol: sym }
-				);
-				$this.addClass("disabled");
+					F2.Events.emit(
+						"F2_Examples_Watchlist_Add",
+						{ symbol: $(this).data("watchlist-add") }
+					);
+
+					$(this).closest('tr').addClass('hide');
+				}
 			});			
 
 			// bind save settings
