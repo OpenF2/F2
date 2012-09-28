@@ -1,17 +1,21 @@
-.com_openf2_examples_javascript_quote .last {
-	display:inline;
+.com_openf2_examples_javascript_quote table {
+	margin:0;
 }
-.com_openf2_examples_javascript_quote .lastChange {
-	display:inline;
-	margin-left:15px;
+.com_openf2_examples_javascript_quote tbody td {
+	text-align: right;
+}
+.com_openf2_examples_javascript_quote .last {
+}
+.com_openf2_examples_javascript_quote .last-change {
+	font-size:80%;
 }
 .com_openf2_examples_javascript_quote .positive {
-	color:#468847;
+	color: green;
 }
 .com_openf2_examples_javascript_quote .negative {
-	color:#B94A48;
+	color: red;
 }
 
-.com_openf2_examples_javascript_quote .f2-app-view {
-	padding-bottom: 10px;
+.com_openf2_examples_javascript_quote .input-append {
+
 }
