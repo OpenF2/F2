@@ -54,10 +54,10 @@ F2.extend("", {
 		enableBatchRequests:false,
 		/**
 		 * The height of the App. The initial height will be pulled from
-		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later modified by
-		 * firing an
-		 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_HEIGHT_CHANGE
-		 * event.
+		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later
+		 * modified by calling
+		 * F2.UI.{{#crossLink "F2.UI/updateHeight"}}{{/crossLink}}. This is used
+		 * for secure apps to be able to set the initial height of the iframe.
 		 * @property height
 		 * @type int
 		 */

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;classes.js</title>
+	<title>sdk\src\classes.js</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
 	<link href="..&#x2F;../css/F2.Sdk.css" rel="stylesheet">
@@ -114,7 +114,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;classes.js</h1>
+				<h1 class="file-heading">File: sdk\src\classes.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -174,10 +174,10 @@ F2.extend(&quot;&quot;, {
 		enableBatchRequests:false,
 		&#x2F;**
 		 * The height of the App. The initial height will be pulled from
-		 * the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object, but later modified by
-		 * firing an
-		 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{&#x2F;crossLink}}.APP_HEIGHT_CHANGE
-		 * event.
+		 * the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object, but later
+		 * modified by calling
+		 * F2.UI.{{#crossLink &quot;F2.UI&#x2F;updateHeight&quot;}}{{&#x2F;crossLink}}. This is used
+		 * for secure apps to be able to set the initial height of the iframe.
 		 * @property height
 		 * @type int
 		 *&#x2F;
