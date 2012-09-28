@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>F2.Constants.Sockets</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+	<link href="..&#x2F;../css/F2.Sdk.css" rel="stylesheet">
+	<link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
+	<link rel="apple-touch-icon" sizes="57x57" href="//docs.openf2.com/img/touch-icon-iphone-57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="//docs.openf2.com/img/touch-icon-ipad-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="//docs.openf2.com/img/touch-icon-iphone-114.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="//docs.openf2.com/img/touch-icon-ipad-144.png" />
+	<style type="text/css" media="print">
+		#toc {
+			display: none;
+		}
+		.row .span9 {
+			margin-left: 0;
+		}
+	</style>
+</head>
+<body>
+
+<div id="doc">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="brand" href="http://www.openf2.com"></a>
+				<div class="tagline-divider"></div>
+				<div class="navbar-text pull-left">Open Financial Framework</div>
+				<div class="collapse nav-collapse">
+					<ul class="nav pull-right">
+						<li><a href="http://www.openF2.com">Home</a></li>
+						<li class="divider-vertical"></li>
+						<li class="active"><a href="../../index.html">Docs</a></li>
+						<li class="divider-vertical"></li>
+						<li><a href="#">Examples</a></li>
+						<li class="divider-vertical"></li>
+						<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.6</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div id="toc" class="span3">
+				<ul class="nav nav-list xnav-stacked">
+					<li class="nav-header">Classes</li>
+						
+		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+	
+
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
+			</div>
+			<div id="main" class="span9">
+				<h1>F2.Constants.Sockets</h1>
+
+<p>
+	<p>Constants for use with cross-domain sockets</p>
+</p>
+
+<div class="well well-small">
+	<dl class="dl-horizontal">
+		
+
+		
+
+		
+			<dt>Defined in</dt>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l170"><code>sdk\src\constants.js:170</code></a></dd>
+		
+
+		
+	</dl>
+</div>
+
+
+
+<ul id="classTabs" class="nav nav-tabs">
+	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
+	
+	
+		<li><a href="#properties" data-toggle="tab">Properties</a></li>
+	
+	
+	
+</ul>
+
+<div class="tab-content">
+	<!-- SUMMARY TAB -->
+	<div id="summary" class="tab-pane active">
+		
+
+		
+
+		
+		<div class="index-section properties">
+			<h3>Properties</h3>
+			<table class="table table-bordered table-striped table-members">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-EVENT">EVENT</a>
+						</td>
+						<td><p>The EVENT message is sent whenever
+F2.Events\emit is fired</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-LOAD">LOAD</a>
+						</td>
+						<td><p>The LOAD message is sent when an iframe socket initially loads.
+Returns a JSON string that represents:</p>
+
+<pre><code>[ App, AppManifest]
+</code></pre></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-RPC">RPC</a>
+						</td>
+						<td><p>The RPC message is sent when a method is passed up from within a secure
+app page.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-RPC_CALLBACK">RPC_CALLBACK</a>
+						</td>
+						<td><p>The RPC_CALLBACK message is sent when a call back from an RPC method is
+fired.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-UI_RPC">UI_RPC</a>
+						</td>
+						<td><p>The UI_RPC message is sent when a UI method called.</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		
+
+		
+
+		
+	</div>
+	<!-- SUMMARY TAB -->
+
+	<!-- METHODS TAB -->
+	
+	<!-- METHODS TAB -->
+
+	<!-- PROPERTIES TAB -->
+	
+	<div id="properties" class="tab-pane">
+		
+		<section id="properties-EVENT" class="level2 ">
+	<h3>
+		EVENT
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>The EVENT message is sent whenever
+F2.Events\emit is fired</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l176"><code>sdk\src\constants.js:176</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-LOAD" class="level2 ">
+	<h3>
+		LOAD
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>The LOAD message is sent when an iframe socket initially loads.
+Returns a JSON string that represents:</p>
+
+<pre class="code"><code class="prettyprint">[ App, AppManifest]
+</code></pre>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l185"><code>sdk\src\constants.js:185</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-RPC" class="level2 ">
+	<h3>
+		RPC
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>The RPC message is sent when a method is passed up from within a secure
+app page.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l197"><code>sdk\src\constants.js:197</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-RPC_CALLBACK" class="level2 ">
+	<h3>
+		RPC_CALLBACK
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>The RPC_CALLBACK message is sent when a call back from an RPC method is
+fired.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l206"><code>sdk\src\constants.js:206</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-UI_RPC" class="level2 ">
+	<h3>
+		UI_RPC
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>The UI_RPC message is sent when a UI method called.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l215"><code>sdk\src\constants.js:215</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+	</div>
+	
+	<!-- PROPERTIES TAB -->
+
+	<!-- ATTRIBUTES TAB -->
+	
+	<!-- ATTRIBUTES TAB -->
+
+	<!-- EVENTS TAB -->
+	
+	<!-- EVENTS TAB -->
+</div>
+			</div>
+		</div>
+
+		<hr>
+
+		<footer>
+			<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+			<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		</footer>
+	</div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="http://docs.openf2.com/js/bootstrap.js"></script>
+<script src="http://docs.openf2.com/js/prettify.js"></script>
+<script src="..&#x2F;assets/js/main.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>
