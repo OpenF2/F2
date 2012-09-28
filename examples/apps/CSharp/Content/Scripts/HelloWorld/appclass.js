@@ -27,7 +27,7 @@ F2.Apps["com_openf2_examples_csharp_helloworld"] = (function() {
 			); 
 		}, this));
 
-		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + ' Hello World');
+		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + ' Hello World (C#)');
 		this.ui.updateHeight();
 		
 		// bind symbol change event
