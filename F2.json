@@ -1,14 +1,14 @@
 {
 	"docs": {
-		"version": "0.12.8",
+		"version": "0.12.9",
 		"shortVersion": "0.12",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-09-26T21:38:09.152Z"
+		"lastUpdateDate": "2012-09-28T22:28:13.303Z"
 	},
 	"sdk": {
 		"version": "0.12.6",
 		"shortVersion": "0.12",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-09-26T21:38:08.714Z"
+		"lastUpdateDate": "2012-09-28T22:28:12.853Z"
 	}
 }
