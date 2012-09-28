@@ -312,8 +312,8 @@ function yuidoc() {
 		quiet: true,
 		norecurse: true,
 		paths: ['./sdk/src'],
-		outdir: '../gh-pages/sdk/',
-		themedir: './sdk/docs-theme'
+		outdir: './docs/sdk/',
+		themedir: './docs/src/sdk-template'
 	};
 
 	console.log('Generating YUIDoc...');

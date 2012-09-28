@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>sdk\src\constants.js</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+	<link href="..&#x2F;../css/F2.Sdk.css" rel="stylesheet">
+	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
+	<style type="text/css" media="print">
+		#toc {
+			display: none;
+		}
+		.row .span9 {
+			margin-left: 0;
+		}
+	</style>
+</head>
+<body>
+
+<div id="doc">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="brand" href="http://www.openf2.com"></a>
+				<div class="tagline-divider"></div>
+				<div class="navbar-text pull-left">Open Financial Framework</div>
+				<div class="collapse nav-collapse">
+					<ul class="nav pull-right">
+						<li><a href="http://www.openF2.com">Home</a></li>
+						<li class="divider-vertical"></li>
+						<li class="active"><a href="..&#x2F;../index.html">Docs</a></li>
+						<li class="divider-vertical"></li>
+						<li><a href="#">Examples</a></li>
+						<li class="divider-vertical"></li>
+						<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.6</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div id="toc" class="span3">
+				<ul class="nav nav-list xnav-stacked">
+					<li class="nav-header">Classes</li>
+						
+		<li><a href="..&#x2F;classes/F2.html">F2</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+	
+
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
+			</div>
+			<div id="main" class="span9">
+				<h1 class="file-heading">File: sdk\src\constants.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants
+ * @static
+ *&#x2F;
+F2.extend(&#x27;Constants&#x27;, {
+	&#x2F;**
+	 * CSS class constants
+	 * @class F2.Constants.Css
+	 *&#x2F;
+	Css:(function() {
+
+		&#x2F;** @private *&#x2F;
+		var _PREFIX = &#x27;f2-&#x27;;
+
+		return {
+			&#x2F;**
+			 * The APP class should be applied to the DOM Element that surrounds the
+			 * entire App, including any extra html that surrounds the APP\_CONTAINER
+			 * that is inserted by the Container. See appWrapper property in the
+			 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{&#x2F;crossLink}} object.
+			 * @property APP
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP:_PREFIX + &#x27;app&#x27;,
+			&#x2F;**
+			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
+			 * of the App.
+			 * @property APP_CONTAINER
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_CONTAINER:_PREFIX + &#x27;app-container&#x27;,
+			&#x2F;**
+			 * The APP\_TITLE class should be applied to the DOM Element that contains
+			 * the title for an App.  If this class is not present, then
+			 * {{#crossLink &quot;F2.AppConfig&#x2F;setTitle&quot;}}{{&#x2F;crossLink}} will not function.
+			 * @property APP_TITLE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_TITLE:_PREFIX + &#x27;app-title&#x27;,
+			&#x2F;**
+			 * The APP\_VIEW class should be applied to the DOM Element that contains
+			 * a view for an App. The DOM Element should also have a
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}} it is. 
+			 * @property APP_VIEW
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_VIEW:_PREFIX + &#x27;app-view&#x27;,
+			&#x2F;**
+			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
+			 * trigger an
+			 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{&#x2F;crossLink}}.APP_VIEW_CHANGE
+			 * event. The DOM Element should also have a
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}} it will trigger.
+			 * @property APP_VIEW_TRIGGER
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_VIEW_TRIGGER:_PREFIX + &#x27;app-view-trigger&#x27;,
+			&#x2F;**
+			 * The MASK class is applied to the overlay element that is created
+			 * when the {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} method is fired.
+			 * @property MASK
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			MASK:_PREFIX + &#x27;mask&#x27;,
+			&#x2F;**
+			 * The MASK_CONTAINER class is applied to the Element that is passed into
+			 * the {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} method.
+			 * @property MASK_CONTAINER
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			MASK_CONTAINER:_PREFIX + &#x27;mask-container&#x27;
+		};
+	})(),
+	
+	&#x2F;**
+	 * Events constants
+	 * @class F2.Constants.Events
+	 *&#x2F;
+	Events:(function() {
+		&#x2F;** @private *&#x2F;
+		var _APP_EVENT_PREFIX = &#x27;App.&#x27;;
+		&#x2F;** @private *&#x2F;
+		var _CONTAINER_EVENT_PREFIX = &#x27;Container.&#x27;;
+
+		return {
+			&#x2F;**
+			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
+			 * width of an App is changed. The App&#x27;s instanceId should be concatenated
+			 * to this constant.
+			 * Returns an object with the gridSize and width in pixels:
+			 *
+			 *     { gridSize:8, width:620 }
+			 *
+			 * @property APP_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + &#x27;widthChange.&#x27;,
+			&#x2F;**
+			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
+			 * App. It is up to the App developer to fire this event.
+			 * Returns an object with the symbol and company name:
+			 *
+			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
+			 *
+			 * @property APP_SYMBOL_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + &#x27;symbolChange&#x27;,
+			&#x2F;**
+			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user
+			 * clicks to switch the view for an App. The App&#x27;s instanceId should be
+			 * concatenated to this constant.
+			 * @property APP_VIEW_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + &#x27;viewChange.&#x27;,
+			&#x2F;**
+			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
+			 * at the Container level. This event should only be fired by the
+			 * Container or Container Provider.
+			 * Returns an object with the symbol and company name:
+			 *
+			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
+			 *
+			 * @property CONTAINER_SYMBOL_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + &#x27;symbolChange&#x27;,
+			&#x2F;**
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
+			 * the width of the Container has changed.
+			 * @property CONTAINER_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + &#x27;widthChange&#x27;
+		};
+	})(),
+
+	JSONP_CALLBACK:&#x27;F2_jsonpCallback_&#x27;,
+
+	&#x2F;**
+	 * Constants for use with cross-domain sockets
+	 * @class F2.Constants.Sockets
+	 * @protected
+	 *&#x2F;
+	Sockets:{
+		&#x2F;**
+		 * The EVENT message is sent whenever
+		 * {{#crossLink &quot;F2.Events\emit&quot;}}{{&#x2F;crossLink}} is fired
+		 * @property EVENT
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		EVENT:&#x27;__event__&#x27;,
+		&#x2F;**
+		 * The LOAD message is sent when an iframe socket initially loads.
+		 * Returns a JSON string that represents:
+		 *
+		 *     [ App, AppManifest]
+		 * 
+		 * @property LOAD
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		LOAD:&#x27;__socketLoad__&#x27;,
+		&#x2F;**
+		 * The RPC message is sent when a method is passed up from within a secure
+		 * app page.
+		 * @property RPC
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		RPC:&#x27;__rpc__&#x27;,
+		&#x2F;**
+		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
+		 * fired.
+		 * @property RPC_CALLBACK
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		RPC_CALLBACK:&#x27;__rpcCallback__&#x27;,
+		&#x2F;**
+		 * The UI\_RPC message is sent when a UI method called.
+		 * @property UI_RPC
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		UI_RPC:&#x27;__uiRpc__&#x27;
+	},
+
+	&#x2F;**
+	 * The available view types to Apps. The view should be specified by applying
+	 * the {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}}.APP_VIEW class to the
+	 * containing DOM Element. A DATA_ATTRIBUTE attribute should be added to the
+	 * Element as well which defines what view type is represented.
+	 * The &#x60;hide&#x60; class can be applied to views that should be hidden by default.
+	 * @class F2.Constants.Views
+	 *&#x2F;
+	Views:{
+		&#x2F;**
+		 * 
+		 * @property DATA_ATTRIBUTE
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		DATA_ATTRIBUTE:&#x27;data-f2-view&#x27;,
+		&#x2F;**
+		 * The ABOUT view gives details about the App.
+		 * @property ABOUT
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		ABOUT:&#x27;about&#x27;,
+		&#x2F;**
+		 * The HELP view provides users with help information for using an App.
+		 * @property HELP
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		HELP:&#x27;help&#x27;,
+		&#x2F;**
+		 * The HOME view is the main view for an App. This view should always
+		 * be provided by an App.
+		 * @property HOME
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		HOME:&#x27;home&#x27;,
+		&#x2F;**
+		 * The REMOVE view is a special view that handles the removal of an App
+		 * from the Container.
+		 * @property REMOVE
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		REMOVE:&#x27;remove&#x27;,
+		&#x2F;**
+		 * The SETTINGS view provides users the ability to modify advanced settings
+		 * for an App.
+		 * @property SETTINGS
+		 * @type string
+		 * @static
+		 * @final
+		 *&#x2F;
+		SETTINGS:&#x27;settings&#x27;
+	}
+});
+    </pre>
+</div>
+
+			</div>
+		</div>
+
+		<hr>
+
+		<footer>
+			<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
+			<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		</footer>
+	</div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="..&#x2F;../js/bootstrap.js"></script>
+<script src="..&#x2F;../js/prettify.js"></script>
+<script src="..&#x2F;assets/js/main.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>
