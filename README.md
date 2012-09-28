@@ -4,9 +4,9 @@
 
 F2 is an open and free web integration framework that has been designed to help you develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.
 
-The [essential components](http://docs.openf2.com/components-of-the-framework.html) defined by the F2 specification are the [Container](http://docs.openf2.com/developing-f2-containers.html), [Apps](http://docs.openf2.com/developing-f2-apps.html), [Context](http://docs.openf2.com/developing-f2-apps.html#context) and [Store](#)&mdash;all supported under the hood by **F2.js**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.
+The [essential components](http://docs.openf2.org/components-of-the-framework.html) defined by the F2 specification are the [Container](http://docs.openf2.org/developing-f2-containers.html), [Apps](http://docs.openf2.org/developing-f2-apps.html), [Context](http://docs.openf2.org/developing-f2-apps.html#context) and [Store](#)&mdash;all supported under the hood by **F2.js**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.
 
-F2 was started by and is maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.com](http://www.openF2.com) for more information. Follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
+F2 was started by and is maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information. Follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
 
 ## Developers
 
@@ -14,7 +14,7 @@ F2 was started by and is maintained by [Markit On Demand](http://www.markitondem
 
 Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the latest version](https://github.com/OpenF2/F2/zipball/master). 
 
-If you've cloned the repo and are ready to start building a F2 app, [read the documentation](http://docs.openf2.com/developing-f2-apps.html#developing-your-f2-app). Just want to see examples? Point your browser at `http://localhost/OpenF2/F2/sdk/examples/`.
+If you've cloned the repo and are ready to start building a F2 app, [read the documentation](http://docs.openf2.org/developing-f2-apps.html#developing-your-f2-app). Just want to see examples? Point your browser at `http://localhost/OpenF2/F2/sdk/examples/`.
 
 ### Build F2
 
