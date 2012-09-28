@@ -11,3 +11,7 @@
 .com_openf2_examples_javascript_quote .negative {
 	color:#B94A48;
 }
+
+.com_openf2_examples_javascript_quote .f2-app-view {
+	padding-bottom: 10px;
+}

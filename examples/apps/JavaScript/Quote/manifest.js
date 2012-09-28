@@ -8,7 +8,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_quote({
 	"apps":[
 		{
 			"html":[
-				'<div class="well">',
+				'<div>',
 					'<div class="f2-app-view" data-f2-view="home">',
 						'<div class="input-append">',
 							'<input type="text" name="lookup" class="span2">',
