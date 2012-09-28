@@ -39,7 +39,7 @@
 		"apps" => array(
 			array(
 				"html" => join('', array(
-					'<div class="well">',
+					'<div>',
 						renderNews($newsItems),
 						renderSettings(),
 					'</div>'
@@ -86,23 +86,21 @@
 
 				$html[] = <<<HTML
 <li>
-	<a href="{$newsItems[$i]['link']}" target="_blank" class="newsTitle">{$newsItems[$i]['title']}</a>
-	<time>$date</time>
-	{$cleanDescription}
+	<article>
+		<header>
+			<a href="{$newsItems[$i]['link']}" target="_blank" class="newsTitle">{$newsItems[$i]['title']}</a>
+			<time>$date</time>
+		</header>
+		<summary>
+			{$cleanDescription}
+		</summary>
+	</article>
 </li>
 HTML;
-			}
-			else {
+			} else {
 				//add one to the MAX_ARTICLES count since we are skipping one
 				$MAX_ARTICLES++;
 			}
-
-
-			
-
-
-
-
 		}
 
 		$html[] = join('', array(
