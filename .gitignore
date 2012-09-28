@@ -3,4 +3,5 @@ node_modules
 *.sh
 bin
 obj
+*.suo
 protos
