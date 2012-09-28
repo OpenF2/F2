@@ -3,10 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{htmlTitle}}</title>
-	<link href="http://docs.openf2.com/css/F2.css" rel="stylesheet">
-	<link href="http://docs.openf2.com/css/prettify.css" rel="stylesheet">
-	<link href="http://docs.openf2.com/css/F2-docs.css" rel="stylesheet">
-	<link rel="stylesheet" href="{{projectAssets}}/css/main.css" id="site_styles">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+	<link href="{{projectRoot}}../css/F2.Sdk.css" rel="stylesheet">
+	<link href="//docs.openf2.com/css/prettify.css" rel="stylesheet">
+	<link rel="apple-touch-icon" sizes="57x57" href="//docs.openf2.com/img/touch-icon-iphone-57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="//docs.openf2.com/img/touch-icon-ipad-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="//docs.openf2.com/img/touch-icon-iphone-114.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="//docs.openf2.com/img/touch-icon-ipad-144.png" />
 	<style type="text/css" media="print">
 		#toc {
 			display: none;
@@ -21,31 +25,34 @@
 <div id="doc">
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
-			<div class="container">
-				<a class="brand" href="index.html">F2: Financial Framework</a>
+			<div class="container-fluid">
+				<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="brand" href="http://www.openf2.com"></a>
 				<div class="tagline-divider"></div>
-				<div class="tagline">Helping you build smarter financial apps</div>
-				<ul class="nav pull-right">
-					<li><a href="http://www.openF2.com">OpenF2.com</a></li>
-					<li class="divider-vertical"></li>
-					<li class="active"><a href="../../index.html">Docs</a></li>
-					<li class="divider-vertical"></li>
-					<li><a href="../sdk/docs/">SDK</a></li>
-					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/">Fork F2 on GitHub</a></li>
-					<li class="divider-vertical"></li>
-					<li><a class="download" href="https://github.com/OpenF2/F2/zipball/master">Download <i class="icon-download"></i></a></li>
-					<li class="divider-vertical"></li>
-					<li><a href="https://github.com/OpenF2/F2/commits/master" class="version">v{{projectVersion}}</a></li>
-				</ul>
+				<div class="navbar-text pull-left">Open Financial Framework</div>
+				<div class="collapse nav-collapse">
+					<ul class="nav pull-right">
+						<li><a href="http://www.openF2.com">Home</a></li>
+						<li class="divider-vertical"></li>
+						<li class="active"><a href="../../index.html">Docs</a></li>
+						<li class="divider-vertical"></li>
+						<li><a href="#">Examples</a></li>
+						<li class="divider-vertical"></li>
+						<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v {{projectVersion}}</span></a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="container">
-		<div class="row">
+	<div class="container-fluid">
+		<div class="row-fluid">
 			<div id="toc" class="span3">
-				<ul class="nav nav-list nav-pills nav-stacked">
+				<ul class="nav nav-list xnav-stacked">
 					<li class="nav-header">Classes</li>
 					{{>sidebar}}
 					<li class="nav-header">View Options</li>

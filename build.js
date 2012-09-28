@@ -138,7 +138,7 @@ function ghp() {
 	wrench.copyDirSyncRecursive('./docs', '../gh-pages', { preserve:true });
 	// temporary - put index.html back to normal
 	fs.renameSync('./docs/index-temp.html', './docs/index.html');
-	wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk/docs');
+	//wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk/docs');
 	//delete the /src on gh-pages, we don't need it.
 	wrench.rmdirSyncRecursive('../gh-pages/src');
 	console.log('COMPLETE');
@@ -217,7 +217,7 @@ function js() {
 function less() {
 	console.log('Compiling LESS...');
 	exec(
-		'lessc ./template/less/bootstrap.less > ../css/F2.css --compress | lessc ./template/less/bootstrap-docs.less > ../css/F2.Docs.css --compress',
+		'lessc ./template/less/bootstrap.less > ../css/F2.css --compress | lessc ./template/less/bootstrap-docs.less > ../css/F2.Docs.css --compress | lessc ./template/less/bootstrap-sdk.less > ../css/F2.Sdk.css --compress',
 		{ cwd: './docs/src' },
 		function(error, stdout, stderr){
 			if (error){
@@ -312,7 +312,7 @@ function yuidoc() {
 		quiet: true,
 		norecurse: true,
 		paths: ['./sdk/src'],
-		outdir: './sdk/docs',
+		outdir: '../gh-pages/sdk/',
 		themedir: './sdk/docs-theme'
 	};
 
@@ -320,6 +320,7 @@ function yuidoc() {
 	var json = (new Y.YUIDoc(docOptions)).run();
 	// massage in some meta information from F2.json
 	json.project = {
+		docsAssets: '../',
 		version: f2Info.sdk.version
 	};
 	docOptions = Y.Project.mix(json, docOptions);

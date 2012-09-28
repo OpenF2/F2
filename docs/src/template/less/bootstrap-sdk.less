@@ -1,3 +1,10 @@
+//
+// F2 SDK site
+// --------------------------------------------------
+
+@import "bootstrap-docs.less";
+
+
 .hide-deprecated .deprecated,
 .hide-inherited .inherited,
 .hide-private .private,
@@ -32,14 +39,14 @@ ul.commas li:after { content: ','; }
 ul.commas li:last-child:after { content: ''; }
 
 .backToTop {
-	background-color:#EEEEEE;
+	background-color:@grayLighter;
 	height:1px;
 	margin-top:35px;
 	position:relative;
 	text-align:center;
 }
 .backToTop a {
-	background-color:#FFFFFF;
+	background-color:@white;
 	left:50%;
 	margin-left:-45px;
 	position:absolute;
@@ -49,28 +56,31 @@ ul.commas li:last-child:after { content: ''; }
 }
 
 /*** Labels ***/
-.label.public,
 .label.static,
 .label.chainable,
 .label.async,
 .label.multiple {
+	background-color:@grayLight;
+}
+.label.public {
+	background-color:@successText;	
 }
 .label.deprecated {
-	background-color:#C67605;
+	background-color:@orange;
 }
 .label.private {
-	background-color:#B94A48;
+	background-color:@errorText;
 }
 .label.protected {
-	background-color:#468847;
+	background-color:@infoText;
 }
 .label.final {
-	background-color:#333333;
+	background-color:@grayDark;
 }
 .label.type {
-	background-color:#F7F7F9;
-	border:1px solid #E1E1E8;
-	color:#333333;
+	background-color:@tableBackgroundAccent;
+	border:1px solid @tableBorder;
+	color:@grayDark;
 	font-weight:normal;
 	text-shadow:none;
 }
