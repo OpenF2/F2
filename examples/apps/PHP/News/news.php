@@ -44,7 +44,7 @@
 		"apps" => array(
 			array(
 				"html" => join('', array(
-					'<div class="well">',
+					'<div>',
 						renderNews($newsItems),
 						renderSettings(),
 					'</div>'
@@ -71,11 +71,11 @@
 
 		$html = array(
 			'<div class="f2-app-view" data-f2-view="home">',
-				'<header>',
+				/*'<header>',
 					'<h1>',
 						$doc->channel->title,
 					'</h1>',
-				'</header>',
+				'</header>',*/
 				'<ul class="unstyled">'
 		);
 

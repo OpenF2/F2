@@ -2,13 +2,19 @@
 	font-size:14px;
 	line-height:normal;
 }
+.com_openf2_examples_php_news li {
+	border-bottom:1px solid #DDD;
+	padding:0 3px 10px;
+}
 .com_openf2_examples_php_news li + li {
-	margin-top:3px;	
+	padding-top:10px;
 }
 .com_openf2_examples_php_news li time {
+	color:#8F8F8F;
 	display:block;
 	font-size:11px;
 }
 .com_openf2_examples_php_news footer {
 	font-size:10px;
+	padding:0 3px 10px;
 }
