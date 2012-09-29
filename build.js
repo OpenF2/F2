@@ -27,7 +27,11 @@ var argv = optimist
 	.boolean('g').alias('g', 'gh-pages').describe('g', 'Copy docs to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
 	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
 	.boolean('j').alias('j', 'js-sdk').describe('j', 'Build just the JS SDK')
+	.boolean('v').alias('v', 'version').describe('v', 'Output the verison information for F2')
 	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
+	.string('release').describe('release', 'Updates the sdk release version in F2.json and creates a tag on GitHub')
+	.string('release-docs').describe('release-docs', 'Update the docs release version in F2.json')
+	.string('release-sdk').describe('release-sdk', 'Update the sdk release version in F2.json')
 	.argv;
 
 // constants
@@ -50,45 +54,77 @@ var PACKAGE_FILES = [
 	'sdk/src/third-party/easyXDM/easyXDM.min.js',
 	'sdk/f2.no-third-party.js' // this file is created by the build process
 ];
-// a list of options that maps an argument to a function. the options need to be
-// in order of dependency, in case the user specifies -a
-var OPTIONS = [
+var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
+
+
+// a list of buildSteps that maps an argument to a function. the buildSteps need
+// to be in order of dependency in case -a is passed
+var buildSteps = [
 	{ arg: 'j', f: js },
-	{ arg: 'd', f: docs },
 	{ arg: 'l', f: less },
+	{ arg: 'd', f: docs },
 	{ arg: 'y', f: yuidoc },
 	{ arg: 'g', f: ghp }
 ];
 
-
 // build all if no args are passed
 argv.a = argv.a || process.argv.length == 2;
-// process -l if -d is passed
-argv.l = argv.l || argv.d;
 
-// if help option was passed, only display help
+// setup queue for release
+if (argv.release) {
+	argv['release-sdk'] = argv.j = argv.y = true;
+}
+
+// these have to be optionally inserted since we don't want them executing if
+// -a is passed
+if (argv['release-docs']) {
+	buildSteps.unshift({ arg: 'release-docs', f: releaseDocs });
+}
+if (argv['release-sdk']) {
+	buildSteps.unshift({ arg: 'release-sdk', f: releaseSdk });
+}
+
+// process -l if -d or -y is passed
+argv.l = argv.l || argv.d || argv.y;
+
+// show help
 if (argv.h) {
 	help();
-// else process all options
+// release
+} else if (argv.release) {
+	release();
+// version
+} else if (argv.v) {
+	version();
+// everything else
 } else {
-	processOptionQueue();
+	nextStep();
 }
 
 /**
- * Process the list of options that were passed. We have to use a queue because
- * of sync issues when running external processes.
- * @method processOptionQueue
+ * Process the list of buildSteps that were requested. We have to use a queue
+ * because of sync issues when running external processes.
+ * @method nextStep
  */
-function processOptionQueue() {
-	var option = OPTIONS.shift();
+function nextStep() {
+	var option = buildSteps.shift();
 
 	if (!option) { return; }
 
 	if (argv[option.arg] || argv.a) {
 		option.f();
 	} else {
-		processOptionQueue();
+		nextStep();
 	}
+}
+
+/**
+ * Ends execution and displays an error message
+ * @method die
+ */
+function die(message) {
+	console.error('ERROR: ' + message);
+	process.exit(1);
 }
 
 /**
@@ -112,7 +148,7 @@ function docs() {
 		{ cwd:'./docs/src' },
 		function(error, stdout, stderr) {
 			if (error) {
-				console.log(stderr);
+				die(stderr);
 			} else {
 				processTemplateFileCleanup(templateFiles);
 
@@ -121,7 +157,7 @@ function docs() {
 				saveF2Info();
 
 				console.log('COMPLETE');
-				processOptionQueue();
+				nextStep();
 			}
 		}
 	);
@@ -143,7 +179,7 @@ function ghp() {
 	wrench.rmdirSyncRecursive('../gh-pages/src');
 	console.log('COMPLETE');
 
-	processOptionQueue();
+	nextStep();
 };
 
 /**
@@ -207,7 +243,7 @@ function js() {
 	saveF2Info();
 
 	console.log('COMPLETE');
-	processOptionQueue();
+	nextStep();
 };
 
 /**
@@ -221,10 +257,10 @@ function less() {
 		{ cwd: './docs/src' },
 		function(error, stdout, stderr){
 			if (error){
-				console.log(stderr);
+				die(stderr);
 			} else {
 				console.log("COMPLETE");
-				processOptionQueue();
+				nextStep();
 			}
 		}
 	);
@@ -295,12 +331,110 @@ function processTemplateFileCleanup(filePath) {
 };
 
 /**
+ * Creates a tag of "master" on GitHub using the SDK release version as the tag
+ * name
+ * @method release
+ */
+function release() {
+
+	var v = argv.release;
+	
+	if (typeof v !== 'boolean') {
+		// git status
+		exec('git status', function(error, stdout, stderr) {
+			if (error) {
+				die(stderr);
+			} else if (/Changes not staged for commit/i.test(stdout) || /Changes to be committed/i.test(stdout)) {
+				die('Changes must be committed or stashed before creating a release');
+			} else {
+				// no uncommitted changes, ready to proceed with the build queue
+				// we'll add a final step to the queue that will commit and tag the 
+				// release in github.  The first few steps will rebuild the files with
+				// the new version number
+				buildSteps.push({
+					arg: 'release',
+					f: function() {
+						console.log('Ready to commit/tag');
+					}
+				});
+			}
+		});
+	} else {
+		die('Version number must be passed with "--release" option');
+	}
+};
+
+/**
+ * Updates the docs version and release date
+ * @method releaseDocs
+ * @param {string} [v] The version number
+ */
+function releaseDocs(v) {
+
+	v = v || argv['release-docs'];
+
+	if (typeof v !== 'boolean' && versionCheck(v)) {
+		f2Info.docs.releaseDate = (new Date()).toJSON();
+		f2Info.docs.shortVersion = v.split('.').slice(0, 2).join('.');
+		f2Info.docs.version = v;
+		saveF2Info();
+
+		console.log('Docs Version Updated: ', v);
+		nextStep();
+	} else {
+		die('Version number must be passed with "--release-docs" option');
+	}
+};
+
+/**
+ * Updates the SDK version and release date
+ * @method releaseSdk
+ * @param {string} [v] The version number
+ */
+function releaseSdk(v) {
+
+	v = v || argv['release-sdk'];
+
+	if (typeof v !== 'boolean' && versionCheck(v)) {
+		var parts = v.split('.');
+		f2Info.sdk.releaseDate = (new Date()).toJSON();
+		f2Info.sdk.shortVersion = v.split('.').slice(0, 2).join('.');
+		f2Info.sdk.version = v;
+		saveF2Info();
+
+		console.log('SDK Version Updated: ', v);
+		nextStep();
+	} else {
+		die('Version number must be passed with "--release-sdk" option');
+	}
+};
+
+/**
  * Saves the F2.json object back to a file
  * @method saveF2Info
  */
 function saveF2Info() {
 	fs.writeFileSync('./F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
 };
+
+/**
+ * Display version information for F2
+ * @method version
+ */
+function version() {
+	console.log([
+		'Docs Version: ' + f2Info.docs.version + ' (' + (new Date(f2Info.docs.releaseDate)).toDateString() + ')',
+		'SDK Version:  ' + f2Info.sdk.version + ' (' + (new Date(f2Info.sdk.releaseDate)).toDateString() + ')',
+		''
+	].join('\n'));
+};
+
+function versionCheck(version) {
+	if (!VERSION_REGEX.test(version)) {
+		die('Version number (' + version + ') must follow semver.org standards.\n\n');
+	}
+	return true;
+}
 
 /**
  * Build the YUIDoc for the sdk
@@ -336,6 +470,6 @@ function yuidoc() {
 	builder = new Y.DocBuilder(docOptions, json);
 	builder.compile(function() {
 		console.log('COMPLETE');
-		processOptionQueue();
+		nextStep();
 	});
 };
