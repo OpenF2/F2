@@ -70,11 +70,6 @@ var buildSteps = [
 // build all if no args are passed
 argv.a = argv.a || process.argv.length == 2;
 
-// setup queue for release
-if (argv.release) {
-	argv['release-sdk'] = argv.j = argv.y = true;
-}
-
 // these have to be optionally inserted since we don't want them executing if
 // -a is passed
 if (argv['release-docs']) {
@@ -357,8 +352,12 @@ function release() {
 						console.log('Ready to commit/tag');
 					}
 				});
-				// run the queue
-				nextStep();
+				
+				// make sure these steps are run
+				argv.j = argv.y = argv.l = true;
+
+				// run the queue by starting with releaseSdk
+				releaseSdk(argv.release);
 			}
 		});
 	} else {
