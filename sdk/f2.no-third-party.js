@@ -1,5 +1,5 @@
 /*!
- * F2 v0.12.6
+ * F2 v0.12.7
  * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,12 +27,6 @@ if (!window.F2) {
 	 * @main f2
 	 */
 	F2 = {
-		/** 
-		 * Function to get the F2 version number
-		 * @method version
-		 * @return {string} F2 version number.
-		 */
-		version: function(){ return "0.12.5"; },
 		/**
 		 * Function to pass into F2.stringify which will prevent circular reference
 		 * errors when serializing objects
@@ -182,9 +176,15 @@ if (!window.F2) {
 		 */
 		stringify:function(value, replacer, space) {
 			return JSON.stringify(value, replacer, space);
-		}
+		},
+		/** 
+		 * Function to get the F2 version number
+		 * @method version
+		 * @return {string} F2 version number.
+		 */
+		version: function(){ return "0.12.7"; }
 	};
-}
+};
 /**
  * Class stubs for documentation purposes
  * @main F2

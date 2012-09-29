@@ -27,12 +27,6 @@ if (!window.F2) {
 	 * @main f2
 	 */
 	F2 = {
-		/** 
-		 * Function to get the F2 version number
-		 * @method version
-		 * @return {string} F2 version number.
-		 */
-		version: function(){ return "0.12.5"; },
 		/**
 		 * Function to pass into F2.stringify which will prevent circular reference
 		 * errors when serializing objects
@@ -182,6 +176,12 @@ if (!window.F2) {
 		 */
 		stringify:function(value, replacer, space) {
 			return JSON.stringify(value, replacer, space);
-		}
+		},
+		/** 
+		 * Function to get the F2 version number
+		 * @method version
+		 * @return {string} F2 version number.
+		 */
+		version: function(){ return "{{sdk.version}}"; }
 	};
-}
+};
