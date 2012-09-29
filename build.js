@@ -308,23 +308,33 @@ function saveF2Info() {
  */
 function yuidoc() {
 
-	var docOptions = {
-		quiet: true,
-		norecurse: true,
-		paths: ['./sdk/src'],
-		outdir: './docs/sdk/',
-		themedir: './docs/src/sdk-template'
-	};
-
 	console.log('Generating YUIDoc...');
-	var json = (new Y.YUIDoc(docOptions)).run();
+
+	var builder,
+		docOptions = {
+			quiet: true,
+			norecurse: true,
+			paths: ['./sdk/src'],
+			outdir: './docs/sdk/',
+			themedir: './docs/src/sdk-template'
+		},
+		json,
+		readmeMd = fs.readFileSync('README.md', ENCODING);
+
+	json = (new Y.YUIDoc(docOptions)).run();
 	// massage in some meta information from F2.json
 	json.project = {
 		docsAssets: '../',
 		version: f2Info.sdk.version
 	};
 	docOptions = Y.Project.mix(json, docOptions);
-	(new Y.DocBuilder(docOptions, json)).compile(function() {
+
+	Y.Handlebars.registerHelper('readme', function() {
+		return builder.markdown(readmeMd, true);	
+	});
+
+	builder = new Y.DocBuilder(docOptions, json);
+	builder.compile(function() {
 		console.log('COMPLETE');
 		processOptionQueue();
 	});
