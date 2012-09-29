@@ -349,7 +349,7 @@ function release() {
 				buildSteps.push({
 					arg: 'release',
 					f: function() {
-						exec('git commmit -a -m "Tagging ' + f2Info.sdk.version + ' release"', function(error, stdout, stderr) {
+						exec('git commit -a -m "Tagging ' + f2Info.sdk.version + ' release"', function(error, stdout, stderr) {
 							if (error) {
 								die(stderr);
 							} else {
