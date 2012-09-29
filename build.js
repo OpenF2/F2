@@ -357,6 +357,8 @@ function release() {
 						console.log('Ready to commit/tag');
 					}
 				});
+				// run the queue
+				nextStep();
 			}
 		});
 	} else {
