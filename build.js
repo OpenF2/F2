@@ -349,10 +349,22 @@ function release() {
 				buildSteps.push({
 					arg: 'release',
 					f: function() {
-						console.log('Ready to commit/tag');
+						exec('git commmit -a -m "Tagging ' + f2Info.sdk.version + ' release"', function(error, stdout, stderr) {
+							if (error) {
+								die(stderr);
+							} else {
+								exec('git tag ' + f2Info.sdk.version, function(error, stdout, stderr) {
+									if (error) {
+										die(stderr);
+									} else {
+										console.log('Release ' + f2Info.sdk.version + ' has been created\n\nYou must run the `git push origin ' + f2Info.sdk.version + '` command for the tag to make it to GitHub\n');
+									}
+								});
+							}
+						});
 					}
 				});
-				
+
 				// make sure these steps are run
 				argv.j = argv.y = argv.l = true;
 
