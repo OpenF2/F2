@@ -1449,19 +1449,6 @@
         {
             "file": "sdk/src/preamble.js",
             "line": 30,
-            "description": "Function to get the F2 version number",
-            "itemtype": "method",
-            "name": "version",
-            "return": {
-                "description": "F2 version number.",
-                "type": "String"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 36,
             "description": "Function to pass into F2.stringify which will prevent circular reference\nerrors when serializing objects",
             "itemtype": "method",
             "name": "appConfigReplacer",
@@ -1470,7 +1457,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 48,
+            "line": 42,
             "description": "The Apps class is a namespace for App developers to place the javascript\nclass that is used to initialize their App. The javascript classes should\nbe namepaced with the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.appId. It is recommended\nthat the code be placed in a closure to help keep the global namespace\nclean.\n\nIf the class has an 'init' function, that function will be called \nautomatically.",
             "itemtype": "property",
             "name": "Apps",
@@ -1484,7 +1471,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 84,
+            "line": 78,
             "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
             "itemtype": "method",
             "name": "extend",
@@ -1514,7 +1501,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 124,
+            "line": 118,
             "description": "Generates a somewhat random id",
             "itemtype": "method",
             "name": "guid",
@@ -1527,7 +1514,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 136,
+            "line": 130,
             "description": "Search for a value within an array.",
             "itemtype": "method",
             "name": "inArray",
@@ -1548,7 +1535,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 145,
+            "line": 139,
             "description": "Wrapper logging function.",
             "itemtype": "method",
             "name": "log",
@@ -1571,7 +1558,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 156,
+            "line": 150,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -1591,7 +1578,7 @@
         },
         {
             "file": "sdk/src/preamble.js",
-            "line": 165,
+            "line": 159,
             "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
             "itemtype": "method",
             "name": "stringify",
@@ -1614,6 +1601,19 @@
             ],
             "return": {
                 "description": "The JSON string",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/preamble.js",
+            "line": 180,
+            "description": "Function to get the F2 version number",
+            "itemtype": "method",
+            "name": "version",
+            "return": {
+                "description": "F2 version number.",
                 "type": "String"
             },
             "class": "F2",
