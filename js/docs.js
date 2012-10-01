@@ -2,6 +2,12 @@
  * This code is only for the documentation site. Don't use it anywhere else.
  *
  */
+F2.extend('Docs', (function(){
+    return {
+        
+    };
+})());
+
 if (navigator.userAgent.indexOf('Mac OS') != -1) {
 	$('body').addClass('mac');
 }
