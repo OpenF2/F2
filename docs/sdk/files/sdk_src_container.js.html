@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>sdk&#x2F;src&#x2F;container.js</title>
+	<title>sdk\src\container.js</title>
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+	<meta name="author" content="Markit">
+
 	<link href="..&#x2F;../css/F2.Sdk.css" rel="stylesheet">
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
+
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
 	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png" />
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
+
 	<style type="text/css" media="print">
 		#toc {
 			display: none;
@@ -23,34 +28,37 @@
 <body>
 
 <div id="doc">
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="brand" href="http://www.openf2.com"></a>
-				<div class="tagline-divider"></div>
-				<div class="navbar-text pull-left">Open Financial Framework</div>
-				<div class="collapse nav-collapse">
-					<ul class="nav pull-right">
-						<li><a href="http://www.openF2.com">Home</a></li>
-						<li class="divider-vertical"></li>
-						<li class="active"><a href="..&#x2F;../index.html">Docs</a></li>
-						<li class="divider-vertical"></li>
-						<li><a href="#">Examples</a></li>
-						<li class="divider-vertical"></li>
-						<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
-					</ul>
+	<header class="openf2Header clearfix">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-triangleDown"></span>
+					</button>
+					<a class="brand" href="http://www.openf2.org"></a>
+					<div class="tagline-divider"></div>
+					<div class="navbar-text pull-left">The Open Financial Framework</div>
+					<div class="collapse nav-collapse">
+						<ul class="nav pull-right">
+							<li><a href="http://www.openF2.org">Home</a></li>
+							<li class="divider-vertical"></li>
+							<li class="active"><a href="..&#x2F;../index.html">Docs <i class="icon-triangleDown"></i></a></li>
+							<li class="divider-vertical"></li>
+							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
+							<li class="divider-vertical"></li>
+							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</header>
 
-	<div class="container-fluid">
-		<div class="row-fluid">
+	<div class="container">
+		<div class="row">
 			<div id="toc" class="span3">
 				<ul class="nav nav-list xnav-stacked">
 					<li class="nav-header">Classes</li>
@@ -114,7 +122,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk&#x2F;src&#x2F;container.js</h1>
+				<h1 class="file-heading">File: sdk\src\container.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -619,14 +627,19 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		<footer>
 			<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
-			<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-right"><small>F2 was started and is maintained by <a href="//www.markitondemand.com/">Markit On Demand</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js"></script>
 <script src="..&#x2F;../js/prettify.js"></script>
 <script src="..&#x2F;assets/js/main.js"></script>
 <script>prettyPrint();</script>
+<script type="text/javascript">
+window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
+
+	_waq.push(['_trackPageView', {category: 'Docs'}]);
+</script>
 </body>
 </html>
