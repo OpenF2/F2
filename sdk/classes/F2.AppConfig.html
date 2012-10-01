@@ -3,14 +3,19 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2.AppConfig</title>
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+	<meta name="author" content="Markit">
+
 	<link href="..&#x2F;../css/F2.Sdk.css" rel="stylesheet">
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
+
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
 	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png" />
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
+
 	<style type="text/css" media="print">
 		#toc {
 			display: none;
@@ -23,34 +28,37 @@
 <body>
 
 <div id="doc">
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="brand" href="http://www.openf2.com"></a>
-				<div class="tagline-divider"></div>
-				<div class="navbar-text pull-left">Open Financial Framework</div>
-				<div class="collapse nav-collapse">
-					<ul class="nav pull-right">
-						<li><a href="http://www.openF2.com">Home</a></li>
-						<li class="divider-vertical"></li>
-						<li class="active"><a href="..&#x2F;../index.html">Docs</a></li>
-						<li class="divider-vertical"></li>
-						<li><a href="#">Examples</a></li>
-						<li class="divider-vertical"></li>
-						<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
-					</ul>
+	<header class="openf2Header clearfix">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-triangleDown"></span>
+					</button>
+					<a class="brand" href="http://www.openf2.org"></a>
+					<div class="tagline-divider"></div>
+					<div class="navbar-text pull-left">The Open Financial Framework</div>
+					<div class="collapse nav-collapse">
+						<ul class="nav pull-right">
+							<li><a href="http://www.openF2.org">Home</a></li>
+							<li class="divider-vertical"></li>
+							<li class="active"><a href="..&#x2F;../index.html">Docs <i class="icon-triangleDown"></i></a></li>
+							<li class="divider-vertical"></li>
+							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
+							<li class="divider-vertical"></li>
+							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoratation">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</header>
 
-	<div class="container-fluid">
-		<div class="row-fluid">
+	<div class="container">
+		<div class="row">
 			<div id="toc" class="span3">
 				<ul class="nav nav-list xnav-stacked">
 					<li class="nav-header">Classes</li>
@@ -128,7 +136,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l29"><code>sdk&#x2F;src&#x2F;classes.js:29</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l29"><code>sdk\src\classes.js:29</code></a></dd>
 		
 
 		
@@ -193,9 +201,9 @@ The App must have isSecure = false.</p></td>
 							<a href="#properties-height">height</a>
 						</td>
 						<td><p>The height of the App. The initial height will be pulled from
-the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
+the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
 modified by calling
-F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
+F2.UI.<a href="..\classes\F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
 for secure apps to be able to set the initial height of the iframe.</p></td>
 					</tr>
 					
@@ -206,7 +214,7 @@ for secure apps to be able to set the initial height of the iframe.</p></td>
 						<td><p>The unique runtime ID of the App.</p>
 
 <p><strong>This property populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
 					</tr>
 					
 					<tr class="">
@@ -214,7 +222,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 							<a href="#properties-isSecure">isSecure</a>
 						</td>
 						<td><p>True if the App will be loaded in an iframe. This property
-will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
+will be true if the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
 isSecure = true. It will also be true if the Container has decided to run
 Apps in iframes.</p></td>
 					</tr>
@@ -223,7 +231,7 @@ Apps in iframes.</p></td>
 						<td class="name">
 							<a href="#properties-manifestUrl">manifestUrl</a>
 						</td>
-						<td><p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p></td>
+						<td><p>The url to retrieve the <a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p></td>
 					</tr>
 					
 					<tr class="">
@@ -268,7 +276,7 @@ an App from being run when the minWidth requirements are not met.</p></td>
 						<td><p>The root DOM element that contains the App</p>
 
 <p><strong>This property populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
 					</tr>
 					
 					<tr class="">
@@ -278,7 +286,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 						<td><p>The instance of F2.UI providing easy access to F2.UI methods</p>
 
 <p><strong>This property populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
 					</tr>
 					
 					<tr class="">
@@ -286,9 +294,9 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 							<a href="#properties-views">views</a>
 						</td>
 						<td><p>The views that this App supports. Available views
-are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
+are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
-F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
 
 <pre><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 </code></pre></td>
@@ -342,7 +350,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l34"><code>sdk&#x2F;src&#x2F;classes.js:34</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l34"><code>sdk\src\classes.js:34</code></a></dd>
 			
 
 			
@@ -391,7 +399,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l41"><code>sdk&#x2F;src&#x2F;classes.js:41</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l41"><code>sdk\src\classes.js:41</code></a></dd>
 			
 
 			
@@ -441,7 +449,7 @@ The App must have isSecure = false.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l47"><code>sdk&#x2F;src&#x2F;classes.js:47</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l47"><code>sdk\src\classes.js:47</code></a></dd>
 			
 
 			
@@ -480,9 +488,9 @@ The App must have isSecure = false.</p>
 
 	<p>
 		<p>The height of the App. The initial height will be pulled from
-the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
+the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
 modified by calling
-F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
+F2.UI.<a href="..\classes\F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
 for secure apps to be able to set the initial height of the iframe.</p>
 	</p>
 
@@ -496,7 +504,7 @@ for secure apps to be able to set the initial height of the iframe.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l55"><code>sdk&#x2F;src&#x2F;classes.js:55</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l55"><code>sdk\src\classes.js:55</code></a></dd>
 			
 
 			
@@ -535,7 +543,7 @@ for secure apps to be able to set the initial height of the iframe.</p>
 		<p>The unique runtime ID of the App.</p>
 
 <p><strong>This property populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
 	</p>
 
 	<div class="well well-small">
@@ -548,7 +556,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l65"><code>sdk&#x2F;src&#x2F;classes.js:65</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l65"><code>sdk\src\classes.js:65</code></a></dd>
 			
 
 			
@@ -585,7 +593,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 
 	<p>
 		<p>True if the App will be loaded in an iframe. This property
-will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
+will be true if the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object sets
 isSecure = true. It will also be true if the Container has decided to run
 Apps in iframes.</p>
 	</p>
@@ -600,7 +608,7 @@ Apps in iframes.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l74"><code>sdk&#x2F;src&#x2F;classes.js:74</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l74"><code>sdk\src\classes.js:74</code></a></dd>
 			
 
 			
@@ -638,7 +646,7 @@ Apps in iframes.</p>
 	</h3>
 
 	<p>
-		<p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p>
+		<p>The url to retrieve the <a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> object.</p>
 	</p>
 
 	<div class="well well-small">
@@ -651,7 +659,7 @@ Apps in iframes.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l84"><code>sdk&#x2F;src&#x2F;classes.js:84</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l84"><code>sdk\src\classes.js:84</code></a></dd>
 			
 
 			
@@ -702,7 +710,7 @@ from being run when the maxWidth requirements are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l91"><code>sdk&#x2F;src&#x2F;classes.js:91</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l91"><code>sdk\src\classes.js:91</code></a></dd>
 			
 
 			
@@ -754,7 +762,7 @@ columns in their layout.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l99"><code>sdk&#x2F;src&#x2F;classes.js:99</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l99"><code>sdk\src\classes.js:99</code></a></dd>
 			
 
 			
@@ -807,7 +815,7 @@ an App from being run when the minWidth requirements are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l109"><code>sdk&#x2F;src&#x2F;classes.js:109</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l109"><code>sdk\src\classes.js:109</code></a></dd>
 			
 
 			
@@ -858,7 +866,7 @@ an App from being run when the minWidth requirements are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l118"><code>sdk&#x2F;src&#x2F;classes.js:118</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l118"><code>sdk\src\classes.js:118</code></a></dd>
 			
 
 			
@@ -897,7 +905,7 @@ an App from being run when the minWidth requirements are not met.</p>
 		<p>The root DOM element that contains the App</p>
 
 <p><strong>This property populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
 	</p>
 
 	<div class="well well-small">
@@ -910,7 +918,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l125"><code>sdk&#x2F;src&#x2F;classes.js:125</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l125"><code>sdk\src\classes.js:125</code></a></dd>
 			
 
 			
@@ -934,7 +942,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 	<h3>
 		ui
 
-		<span class="label type"><a href="../classes/F2.UI.html" class="crosslink">F2.UI</a></span>
+		<span class="label type"><a href="..\classes\F2.UI.html" class="crosslink">F2.UI</a></span>
 
 		
 
@@ -949,7 +957,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 		<p>The instance of F2.UI providing easy access to F2.UI methods</p>
 
 <p><strong>This property populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
 	</p>
 
 	<div class="well well-small">
@@ -962,7 +970,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l134"><code>sdk&#x2F;src&#x2F;classes.js:134</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l134"><code>sdk\src\classes.js:134</code></a></dd>
 			
 
 			
@@ -999,9 +1007,9 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 
 	<p>
 		<p>The views that this App supports. Available views
-are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
+are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
-F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
 
 <pre class="code"><code class="prettyprint">F2.inArray(F2.Constants.Views.SETTINGS, app.views)
 </code></pre>
@@ -1017,7 +1025,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l143"><code>sdk&#x2F;src&#x2F;classes.js:143</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_classes.js.html#l143"><code>sdk\src\classes.js:143</code></a></dd>
 			
 
 			
@@ -1056,14 +1064,19 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 
 		<footer>
 			<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
-			<p class="pull-right"><small>F2 was created and is maintained by <a href="http://www.markit.com/">Markit</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-right"><small>F2 was started and is maintained by <a href="//www.markitondemand.com/">Markit On Demand</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js"></script>
 <script src="..&#x2F;../js/prettify.js"></script>
 <script src="..&#x2F;assets/js/main.js"></script>
 <script>prettyPrint();</script>
+<script type="text/javascript">
+window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
+
+	_waq.push(['_trackPageView', {category: 'Docs'}]);
+</script>
 </body>
 </html>
