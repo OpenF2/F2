@@ -4,6 +4,14 @@ var SDK_Manager = function() {
 
 SDK_Manager.prototype.init = function() {
 
+	// Quick address bar hide on devices like the iPhone
+	//---------------------------------------------------
+	//http://remysharp.com/2010/08/05/doing-it-right-skipping-the-iphone-url-bar/
+	/mobi/i.test(navigator.userAgent) && !location.hash && setTimeout(function () {
+		if (!pageYOffset) window.scrollTo(0, 1);
+	}, 0);
+
+
 	// optionally apply .affix() if the window height is big enough
 	var winHeight = $(window).height();
 	var tocHeight = $('#toc').outerHeight() + $('#toc').position().top;

@@ -10,6 +10,16 @@ $('section [href^=#]').click(function (e) {
 })*/
 
 
+// Quick address bar hide on devices like the iPhone
+//---------------------------------------------------
+//http://remysharp.com/2010/08/05/doing-it-right-skipping-the-iphone-url-bar/
+function quickHideAddressBar() {
+	/mobi/i.test(navigator.userAgent) && !location.hash && setTimeout(function () {
+	  if (!pageYOffset) window.scrollTo(0, 1);
+	}, 0);
+}
+
+
 /**
  * Finds and sets active navigation element based on hash, if one exists
  *
@@ -164,5 +174,7 @@ $(function() {
 	//$(window).bind('hashchange', function() {
 	//	setActiveNav();
 	//});
+
+	quickHideAddressBar();
 
 });
