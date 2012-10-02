@@ -2,15 +2,6 @@
  * This code is only for the documentation site. Don't use it anywhere else.
  *
  */
-F2.extend('Docs', (function(){
-    return {
-        
-    };
-})());
-
-if (navigator.userAgent.indexOf('Mac OS') != -1) {
-	$('body').addClass('mac');
-}
 
 //don't let hash links jump docs
 /*
@@ -134,7 +125,7 @@ function buildTableOfContents(){
 
 		if (file == url || (!file && url == 'index.html') || isTemp) {
 			subMenu = buildToc(docs);
-			
+
 			item.parent()
 				.addClass('active')
 				.append(subMenu)

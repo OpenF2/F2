@@ -1,9 +1,9 @@
 {
 	"docs": {
-		"version": "0.13.0",
+		"version": "0.13.1",
 		"shortVersion": "0.13",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-10-02T04:03:23.523Z",
+		"lastUpdateDate": "2012-10-02T04:10:00.676Z",
 		"localUrlHome": "/OpenF2/F2",
 		"localUrlDocs": "/OpenF2/F2/docs",
 		"prodUrlHome": "http://www.openf2.org",
@@ -13,6 +13,6 @@
 		"version": "0.12.7",
 		"shortVersion": "0.12",
 		"releaseDate": "2012-09-29T19:35:39.842Z",
-		"lastUpdateDate": "2012-10-02T04:03:22.175Z"
+		"lastUpdateDate": "2012-10-02T04:09:59.260Z"
 	}
 }
