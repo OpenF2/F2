@@ -128,12 +128,13 @@ function buildTableOfContents(){
 	//build sub-menu nav list for each main/parent nav
 	$('li a', toc).each(function(idx, item) {
 		item = $(item);
-		var url = $(item).attr('href');
-		var subMenu;
+		var url = $(item).attr('href'),
+			subMenu,
+			isTemp = file == "index-temp.html" && url == "index.html";
 
-		if (file == url || (!file && url == 'index.html')) {
+		if (file == url || (!file && url == 'index.html') || isTemp) {
 			subMenu = buildToc(docs);
-
+			
 			item.parent()
 				.addClass('active')
 				.append(subMenu)
