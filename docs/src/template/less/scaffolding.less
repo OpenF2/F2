@@ -33,7 +33,6 @@ body .mainContainer {
       list-style: none;
       width: 100%;
       li img {height: 665px; width: 100%; }
-      .show {z-index: 500;}
     }
     .ImgIpad { background: url(@F2MainContainerBGIpad) no-repeat center; }
     .ImgIscreens { background: url(@F2MainContainerBGIScreens) no-repeat center; }
@@ -90,6 +89,35 @@ body .mainContainer {
       li {display: none; }
       li.selected { display: inline-block; }
     }
+  }
+  .exampleContent{margin-top: 40px;}
+  .exampleCaptions {
+    p {
+      padding: 0 0 40px 0; 
+      color: @F2NavLinkGray;
+      background: url(@smallShadowDivider) bottom no-repeat;
+    }
+  }
+  .exampleControls {
+      position: relative;
+      margin: 0;
+      padding: 20px 0;
+      text-align: center;
+      .arrow { height: 25px; width: 13px; cursor: pointer; position: absolute; top: 15px;}
+      .leftArrow { background: url(@leftArrow) center no-repeat; left: 0;}
+      .rightArrow { background: url(@rightArrow) center no-repeat; right: 0;}
+      ul {
+        margin: 0;
+        list-style: none;
+        li { display: inline-block; }
+        li a {
+          background: url(@F2bgControlDot) no-repeat center;
+          padding: 10px;
+        }
+        .selected a {
+          background: url(@F2bgControlDotSelected) no-repeat center;
+        }
+      }
   }
   footer{
     background: url(@F2FooterPattern) repeat;//@F2FooterBackgroundColor;
