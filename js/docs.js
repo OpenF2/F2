@@ -130,7 +130,7 @@ function buildTableOfContents(){
 		item = $(item);
 		var url = $(item).attr('href'),
 			subMenu,
-			isTemp = file == "index-temp.html" && url == "index.html";
+			isTemp = (file == "index-temp.html" && url == "index.html");
 
 		if (file == url || (!file && url == 'index.html') || isTemp) {
 			subMenu = buildToc(docs);
