@@ -6,40 +6,45 @@ The [essential components](components-of-the-framework.html) defined by the F2 s
 
 F2 was started by and is maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.com](http://www.openF2.com) for more information.
 
-## Get Started
+The latest version of F2 documentation is {{docs.shortVersion}} last updated {{docs.lastUpdateDate}}.
 
-F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK&mdash;called **F2.js**&mdash;in addition to example apps as part of an [open-source project maintained on GitHub](http://www.github.com/OpenF2/F2).
+## About F2
 
-If you are interested in **building Apps**, get started by browsing through this technical documentation or follow the project on GitHub. If you are interested in **building Containers**, browse to the [Container documentation](developing-f2-containers.html).
+F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The F2 Framework is made up of several components which are discussed in detail in the sections that follow: The Container, Apps and The Store. 
 
-<div class="well well-small">
-<h4>About Apps</h4>
-<p>The term "app", in popular web parlance, is a program that runs on your smartphone or tablet. In the Open Financial Framework, apps are small web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You should think of F2 Apps as modules, widgets or components.</p>
-<p>This specification [furnishes app developers with JavaScript code](developing-f2-apps.html) (the F2.js SDK) which&mdash;among other things&mdash;not only allows their apps to run on the Container but also provides APIs for communication between the Container and nearby Apps.</p>
-</div>
-
-<a href="developing-f2-apps.html" class="btn btn-primary">Get Started Building Apps <i class="icon-arrow-right icon-white"></i></a>
-
-#### Markit Developers
-
-<span class="label label-info">TEMPORARY</span> This information is temporary and will be removed prior to 1.0.0 launch.
-
-Prior to public release 1.0.0, we are asking for Markit developers to help collaborate by **building apps**. If you have any questions that aren't answered here, you can get help.
-
-<p>
-	<a href="mailto:BLD-F2TechnicalTeam@markit.com" class="btn btn-small"><i class="icon-envelope"></i> Email the F2 Team</a>
-	<a href="https://groups.google.com/forum/#!forum/openf2" class="btn btn-small" data-title="Send your Google Account name to Mark Healey for an invite." rel="tooltip"><i class="icon-tasks"></i> Subscribe to the Google Group</a> 
-</p>
+You can use the F2 framework to build:
+ 
+* customized solutions that include only the content, tools, and providers that you want,
+* private-labeled solutions that are true to your design standards and branding elements,
+* user-customized experiences that remember each user’s entitlements and preferences,
+* reusable Apps that you can develop once and use cross-platform on web, tablet and mobile devices,
+* a multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.
 
 * * * *
 
-## The F2 Goal
+## Who
 
-The primary goal of this F2 specification is to provide App and Container developers the resources they need to create F2. Developers who adhere to this standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.
+The F2 concept was born in Boulder, Colorado at [Markit On Demand](http://www.markitondemand.com) (MOD). F2 was brought to life through conversations with industry partners who individually express common frustrations and desire a coordinated solution. 
+MOD’s development team is committed to following the technical guidelines defined by the F2 standard and actively contribute enhancements to future F2 releases.
 
-### The Problems F2 Solves 
+### Advisory Board 
 
-Several fundamental problems are common to the financial services industry. Everyone is looking for ways to solve them quickly and efficiently.
+F2 is forming an Advisory Board that will steer and shape the future of F2. 
+Advice, guidance and thought-leadership from the collective community are integral to the success of F2. 
+Industry experts from financial firms, information providers, content owners, media outlets, research providers, technology firms and developers, designers and technology owners (did we forget anyone?!) are all welcome. 
+
+Please direct inquiries to [info@openf2.org](mailto:info@openf2.org).
+
+By shifting the industry’s development efforts towards a common specification that allows for complete customization, everyone wins. The greater the participation in F2 the richer, smarter and more effective it will be as an industry-wide platform to help reduce labor, time to market and costs.
+
+* * * *
+
+## Goals
+
+F2’s goal is to create a development standard for the financial services industry that offers a cost saving, risk-reducing method for building innovative, multi-provider solutions. In order to do this effectively, F2 must include solutions to shared industry hurdles and concerns.
+
+Because the spec is open, free, and exactly what the industry needs, we believe that it will be widely adopted, which will create new markets for app developers, content providers, and create vibrant app ecosystems for participants.
+
 
 <table class="table table-bordered">
 	<thead>
@@ -79,19 +84,125 @@ Several fundamental problems are common to the financial services industry. Ever
 
 * * * *
 
-## Building the Framework 
+## Evolve
 
-If we have the goal of F2 being successful and accessible, then we have only one choice in the front-end technology we use: it has to be HTML5. Using the [progressive enhancement](http://www.alistapart.com/articles/understandingprogressiveenhancement/) methodology in designing and developing F2, we've been focused on starting with a rock-solid foundation. The F2 open standard provides guidelines for app and container devleopers alike to add feature enhancements targeting specific environments or visitors. For example, F2 apps can be built following the [mobile first](http://www.lukew.com/presos/preso.asp?26) design approach and with [responsive CSS](http://twitter.github.com/bootstrap/scaffolding.html#responsive), users could access a container on their desktop, tablet or smartphone all while app devlelopers only need to build a single app.
+F2 will continuously evolve to bring the community the best features, services and Apps. F2’s promise is to do this by building on the existing spec, not by changing it. The specification aims high to solve many problems and suit many needs. As the standard evolves and new requirements come to light, the functionality in F2 will expand accordingly. 
 
-As you may know, [support for HTML5-related technologies](http://findmebyip.com/litmus/) on _all_ desktop browsers and mobile devices is limited. Therefore, as part of F2, to augment the work we've done, we chose to include some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right? 
+To achieve steady growth and stable release cycles, F2 will be maintained under the Semantic Versioning guidelines as much as possible. For more information, [browse to the readme on GitHub](https://github.com/OpenF2/F2#readme).
 
-F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for a consistent HTML & CSS structure for app development _regardless of app developer_ ([we'll explain more later](developing-f2-apps.html#designing-the-app-to-look-integrated-with-the-container)). F2 relies on data structures represented in JSON, so we've included Crockford's [JSON](http://www.json.org/). Finally, to support a secured container environment, F2 needs cross-domain in-browser messaging. For this, we turned to [easyXDM](http://easyxdm.net/wp/).
+### Release Tracking
 
-As either an app developer or a container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2.js JavaScript SDK provides a consistent interface and easy-to-use API so you don't have to think about it.
+F2 v1.0 was released on October 15, 2012. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2’s evolution. 
 
-**Ready to get started building apps?**
+### Collaboration
 
-<p>
-	<a href="developing-f2-apps.html" class="btn btn-primary">Get started</a>
-	<a href="http://www.github.com/OpenF2/F2/" class="btn">Fork GitHub project</a>
-</p>
+The F2.js JavaScript library is an open-source SDK managed on GitHub. F2 chose this route to allow developers to contribute to the success of the open standard and SDKs. GitHub's tools make collaboration easy, you can get started collaborating today. All contributors will be expected to follow consistent standards and guidelines when contributing to F2. Direct inquiries to [info@openf2.org](mailto:info@openf2.org).
+
+### Build
+
+In order to ensure that applications built using F2 are successful it must be accessible. With this in mind, the front-end technology choice is HTML5. Using the [progressive enhancement methodology](http://www.alistapart.com/articles/understandingprogressiveenhancement/), F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 Apps built following the [mobile first](http://www.lukew.com/presos/preso.asp?26) design approach and with [responsive CSS](http://twitter.github.com/bootstrap/scaffolding.html#responsive), allow users to access the Apps on their desktop, tablet or smartphone and App developers only need to build a single App.
+
+Support across all desktop browsers and mobile devices is sometimes limited so F2 includes some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?
+
+* F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for a consistent HTML & CSS structure for app development regardless of App developer (we'll explain more later). 
+* F2 relies on data structures represented in JSON, so it incorporates Crockford's [JSON](http://www.json.org/). 
+* To support a secured Container environment, F2 needs cross-domain in-browser messaging. For this, it relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM).
+
+As either an App or a Container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2.js JavaScript SDK provides a consistent interface and easy-to-use API so you don't have to think about it.
+
+
+### Start 
+
+F2 enables all of us to build exactly the financial solutions that our customers want.  Using the F2 Framework, you can efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel Apss and deploy them in as many App ecosystems as you want.
+
+Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.
+
+F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
+
+If you are interested in building Apps, get started by [browsing through this technical documentation](developing-f2-apps.html) or follow the project on GitHub. If you are interested in building Containers, [browse to the Container documentation](developing-f2-containers.html).
+
+* * * *
+
+## Framework 
+
+The F2 open framework enables a division of labor among multiple parties who contribute to an integrated experience. By separating responsibilities into those of Container and Apps, F2 makes it possible for project owners to pick who they want to partner with, if anyone, for the development and hosting of their Container and the Apps they wish to include.
+
+Following are definitions for the main F2 Framework components: The Apps, The Container, and The Store.
+
+### Apps
+
+F2 Apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 Apps only need to be programmed once, no matter where they will be used.
+
+F2 Apps are small web pages, consisting of HTML, CSS, JavaScript and entitled data. Consumers of Apps may access, purchase or entitle them from the Store, and the Apps are displayed through the Container. An F2 App developer is the person or company that designs, develops, and hosts the App.
+
+F2 Apps are either:
+
+<dl class="dl-horizontal">
+	<dt>Display App</dt>
+	<dd>A display app presents information to users in the form of a visible widget (using HTML, CSS, and JavaScript).</dd>
+	<dt>Data App</dt>
+	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
+</dl>
+
+The F2 specification furnishes App developers with JavaScript code (the F2.js SDK) which allows Apps to run on the Container and provides APIs for communication between the Container and nearby Apps.
+
+#### Methodology
+
+The F2 design and development philosophy adheres to the Responsive Web Design Methodology to ensure App flexibility across mobile and desktop workspaces. Simply put, Apps will only need to be programmed once, regardless of where they will be used.
+
+#### Context
+
+Apps are capable of sharing “context” with the Container and other nearby Apps. All Apps have context which means the App “knows” who is using it and the content it contains. It is aware of an individual’s data entitlements and user information that the Container is requested to share (name, email, company, etc).  
+
+Apps are capable of sharing context with their Container and other nearby Apps. This means if a user wants to create a ticker-focused workspace so they can keep a close eye on shares of Proctor & Gamble, the Container can send “symbol context” to any listening Apps that are smart enough to refresh when ticker symbol PG is entered in the Container’s search box.
+
+While Apps can have context themselves, the responsibility for managing context switching or context passing falls on the Container. The Container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the Container can listen for events sent by Apps and likewise Apps can listen for events sent by the Container. To provide a layer of security, this means Apps cannot communicate directly with other Apps on their own; Apps must communicate via an F2 Container to other Apps.
+
+### Container
+
+THE F2 CONTAINER IS A WEB PAGE THAT IS "AWARE" OF ITS CONTENTS (THE APPS) AND PLAYS THE ROLE OF A TRAFFIC COP MANAGING CONTEXT PASSING BETWEEN F2 APPS WHEN MORE THAN ONE EXISTS IN A CONTAINER. IT IS ALSO THE LAYER BETWEEN THE BROWSER AND APPS AND LOCATION WHERE APPS RESIDE. 
+
+A Container can have any variation of intelligence on a wide spectrum which means it can provide data via web services to Apps or simply host the F2 JavaScript SDK. It is multi-channel so can deliver capabilities via the internet to desktops, tablets and smartphones.
+
+Each Container Provider, or person or company hosting a Container, is responsible for including the F2 JavaScript SDK. The SDK, F2.js provides a consistent means for all app developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
+
+#### Grid
+
+In order to make it so that Apps look good together in a multi-provider environment, the spec recommends that each App adhere to a standard, Container-controlled grid. F2 relies on a responsive, 12-column grid system and is flexible enough to accommodate everyone’s needs. 
+
+#### Creating a Common Look and Feel
+
+The F2 standard outlines a consistent HTML structure and CSS classname convention so neither Container developers nor App developers have to think about harmonizing look and feel. Container providers can create a customized stylesheet, and the selectors and declarations they define in CSS will cascade to their Containers’ Apps. Separately, Apps can define a preferred resolution (in grid widths) for Containers to position them appropriately within the grid.
+
+App Designers and Developers can take advantage of the F2 documentation and Javascript SDK to develop Apps on their own schedules. App designers should adhere to Container provider design guidelines which should provide a common theme and offer a baseline for consistency between all Apps on the Container.
+
+#### Single App Displays
+
+While F2 is designed to handle several Apps being displayed simultaneously, it doesn’t have to. The spec also permits full screen, single-provider displays. This is a useful feature for Container Owners who need to incorporate legacy, full screen content with the least amount of effort.
+
+#### Container Responsibilities 
+
+Examples of work the Container and therefore the Container Provider are responsible for include:
+
+* Configuration preferences
+* Common user-specific menus
+* Federated search
+* Inter-app communication
+* Framing of Apps on the grid
+* Single-sign on
+
+### The Store
+
+THE STORE EXISTS AS AN ACCESS POINT FOR APPS. DEVELOPERS DELIVER APPS TO THE STORE, ADMINISTRATORS ENTITLE APPS AND APP CONSUMERS MAY VIEW AND SELECT APPS FROM THE STORE. 
+
+The Store is where the general F2 community goes to share, view, administer, purchase and entitle Apps. App Consumers can buy Apps using an electronic payment mechanism (like a credit card), charge-back to their company, be entitled by a vendor or another business relationship or activate time-based, usage-based or free trials. The contents of the Store, meaning the Apps that are accessible, are controlled by the Container Owner.
+
+* * * *
+
+## Developer Center
+
+The F2 specification is published on a website featuring framework documentation, App developer resources and sample Apps. This site, known as the F2 Developer Center, is where all of the resources for App and Container developers can be found including the App APIs which will provide App design and development teams and Container Providers the tools, concepts and best practices needed to produce high-quality Apps. 
+
+A key part of the Developer Center is the ability for App developers to manage their Apps, register Apps with Container Providers, issue App updates, and more.
+
+* * * *

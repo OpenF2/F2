@@ -133,13 +133,14 @@ function docs() {
 
 	// files to run handlebar substitutions
 	var templateFiles = [
-		'./docs/src/template/header.html'
+		'./docs/src/template/header.html',
+		'./docs/src/index.md'
 	];
 
 	processTemplateFile(templateFiles, f2Info, true);
 
 	exec(
-		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title ""',
+		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 | "',
 		{ cwd:'./docs/src' },
 		function(error, stdout, stderr) {
 			if (error) {
