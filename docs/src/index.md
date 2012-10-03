@@ -4,11 +4,11 @@ F2 is an open and free web integration framework designed to help you and other 
 
 You can use the F2 framework to build:
 
-* customized solutions that include only the content, tools, and providers that you want,
-* private-labeled solutions that are true to your design standards and branding elements,
-* user-customized experiences that remember each user's entitlements and preferences,
-* reusable Apps that you can develop once and use cross-platform on web, tablet and mobile devices,
-* a multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.
+* Customized solutions that include only the content, tools, and providers that you want,
+* Private-labeled solutions that are true to your design standards and branding elements,
+* User-customized experiences that remember each user's entitlements and preferences,
+* Reusable Apps that you can develop once and use cross-platform on web, tablet and mobile devices,
+* A multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.
 
 ## Who
 
