@@ -124,7 +124,7 @@ F2Docs.fn.navbarDocsHelper = function(){
 	//remove all 
 	$toc.find("a").removeClass("active");
 
-	if (file == urlMap.basics || !file){
+	if (file == urlMap.basics || !file || file == "index-temp.html"){
 		$toc.find("li").first().find("a").addClass("active");
 		this.currentPage = "basics";
 	} else if (file == urlMap.development || file == urlMap.developmentC || file == urlMap.developmentE){
@@ -217,7 +217,9 @@ F2Docs.fn.buildLeftRailToc = function(){
 				.append($listContainer)
 			;
 		} else {
-			$navWrap.append($listContainer);
+			//we are on Basics, and have no subnav. 
+			//navWrap *is* the list.
+			$navWrap = $listContainer;
 		}
 	}
 
@@ -231,7 +233,7 @@ F2Docs.fn.buildLeftRailToc = function(){
 		$("li.active",$navWrap).removeClass("active");
 		$this.parent().addClass("active");
 
-		//handle shift in padding as navbarmini 
+		//handle shift in padding as navbarmini gets added to body
 		if (!$this.data("parent") && $this.data("id") != "top" && !$("body").hasClass("navbarmini")){
 			$("body").addClass("navbarmini");
 		}
