@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 |  - Developing F2 Containers</title>
+  <title>F2 - Developing F2 Containers</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -28,7 +28,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   </style>
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+  <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
   <link href="./css/F2.Docs.css" rel="stylesheet">
   <link href="//docs.openf2.org/css/prettify.css" rel="stylesheet">
@@ -70,10 +70,10 @@ code > span.er { color: #ff0000; font-weight: bold; }
         <div class="collapse nav-collapse">
           <ul class="nav pull-right">
             <!--TEMP!-->
-            <li><a href="index-temp.html">Index-Temp</a></li>
+            <li><a href="./index-temp.html">Index-Temp</a></li>
             <li class="divider-vertical"></li>
             <!--/TEMP!-->
-            <li><a href="/F2/OpenF2/">Home</a></li>
+            <li><a href="http://www.openf2.org">Home</a></li>
             <li class="divider-vertical"></li>
             <li class="active"><a href="http://docs.openf2.org">Docs <i class="icon-triangleDown"></i></a></li>
             <li class="divider-vertical"></li>
@@ -85,6 +85,21 @@ code > span.er { color: #ff0000; font-weight: bold; }
         </div>
       </div>
     </div>
+
+    <div class="navbar-docs">
+      <nav class="container">
+        <div class="row">
+          <div class="span12">
+              <ul class="unstyled clearfix">
+                <li class="basics"><a href="index.html">The Basics</a></li>
+                <li class="dev"><a href="developing-f2-apps.html">Development</a></li>
+                <li class="ref"><a href="./sdk/">Reference</a></li>
+              </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
   </nav>
 </header>
 
@@ -92,6 +107,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <div class="row">
     <div class="span3" id="toc">
         <ul class="nav nav-list">
+          <!--
           <li><a href="index.html">The Basics</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
@@ -100,6 +116,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
           <li class="divider"></li>
           <li><a href="./sdk/">F2.js SDK Reference</a></li>
           <li class="divider"></li>
+          -->
         </ul>
     </div><!--/span3-->
 
@@ -397,8 +414,9 @@ It is assumed you will be developing a F2 container locally and have a localhost
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="./js/modernizr.2.6.2.custom.min.js"></script>
 <script src="./js/bootstrap.min.2.1.1.js"></script>
-<script src=".//js/prettify.js"></script>
+<script src="./js/prettify.js"></script>
 <script src="../sdk/f2.min.js"></script>
 <script src="./js/docs.js"></script>
 <script type="text/javascript">
