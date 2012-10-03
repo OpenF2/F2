@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 |  - F2: An open framework created for the financial services industry.</title>
+  <title>F2 - About F2</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+  <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
   <link href="./css/F2.Docs.css" rel="stylesheet">
   <link href="//docs.openf2.org/css/prettify.css" rel="stylesheet">
@@ -51,10 +51,10 @@
         <div class="collapse nav-collapse">
           <ul class="nav pull-right">
             <!--TEMP!-->
-            <li><a href="index-temp.html">Index-Temp</a></li>
+            <li><a href="./index-temp.html">Index-Temp</a></li>
             <li class="divider-vertical"></li>
             <!--/TEMP!-->
-            <li><a href="/F2/OpenF2/">Home</a></li>
+            <li><a href="http://www.openf2.org">Home</a></li>
             <li class="divider-vertical"></li>
             <li class="active"><a href="http://docs.openf2.org">Docs <i class="icon-triangleDown"></i></a></li>
             <li class="divider-vertical"></li>
@@ -66,6 +66,21 @@
         </div>
       </div>
     </div>
+
+    <div class="navbar-docs">
+      <nav class="container">
+        <div class="row">
+          <div class="span12">
+              <ul class="unstyled clearfix">
+                <li class="basics"><a href="index.html">The Basics</a></li>
+                <li class="dev"><a href="developing-f2-apps.html">Development</a></li>
+                <li class="ref"><a href="./sdk/">Reference</a></li>
+              </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
   </nav>
 </header>
 
@@ -73,6 +88,7 @@
   <div class="row">
     <div class="span3" id="toc">
         <ul class="nav nav-list">
+          <!--
           <li><a href="index.html">The Basics</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
@@ -81,24 +97,16 @@
           <li class="divider"></li>
           <li><a href="./sdk/">F2.js SDK Reference</a></li>
           <li class="divider"></li>
+          -->
         </ul>
     </div><!--/span3-->
 
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">F2: An open framework created for the financial services industry.</h1>
+<h1 class="title">About F2</h1>
 </header>
-<p class="lead">
-F2 is an open and free web integration framework that has been designed to help you develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.
-</p>
-
-<p>The <a href="components-of-the-framework.html">essential components</a> defined by the F2 specification are the <a href="developing-f2-containers.html">Container</a>, <a href="developing-f2-apps.html">Apps</a>, <a href="developing-f2-apps.html#context">Context</a> and <a href="#">Store</a>—all supported under the hood by <strong>F2.js</strong>, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.</p>
-<p>F2 was started by and is maintained by <a href="http://www.markitondemand.com">Markit On Demand</a>. Visit <a href="http://www.openF2.com">OpenF2.com</a> for more information.</p>
-<p>The latest version of F2 documentation is 0.13 last updated 2012-10-02T14:22:30.082Z.</p>
-<section class="level2" id="about-f2">
-<h2>About F2</h2>
-<p>F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The F2 Framework is made up of several components which are discussed in detail in the sections that follow: The Container, Apps and The Store.</p>
+<p>F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The <a href="components-of-the-framework.html">essential components</a> defined by the F2 specification are the <a href="developing-f2-containers.html">Container</a>, <a href="developing-f2-apps.html">Apps</a>, <a href="developing-f2-apps.html#context">Context</a> and <a href="#">Store</a>—all supported under the hood by <strong>F2.js</strong>, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.</p>
 <p>You can use the F2 framework to build:</p>
 <ul>
 <li>customized solutions that include only the content, tools, and providers that you want,</li>
@@ -107,8 +115,6 @@ F2 is an open and free web integration framework that has been designed to help 
 <li>reusable Apps that you can develop once and use cross-platform on web, tablet and mobile devices,</li>
 <li>a multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.</li>
 </ul>
-<hr>
-</section>
 <section class="level2" id="who">
 <h2>Who</h2>
 <p>The F2 concept was born in Boulder, Colorado at <a href="http://www.markitondemand.com">Markit On Demand</a> (MOD). F2 was brought to life through conversations with industry partners who individually express common frustrations and desire a coordinated solution. MOD’s development team is committed to following the technical guidelines defined by the F2 standard and actively contribute enhancements to future F2 releases.</p>
@@ -334,8 +340,9 @@ A data app is a content feed available in industry-standard formats including JS
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="./js/modernizr.2.6.2.custom.min.js"></script>
 <script src="./js/bootstrap.min.2.1.1.js"></script>
-<script src=".//js/prettify.js"></script>
+<script src="./js/prettify.js"></script>
 <script src="../sdk/f2.min.js"></script>
 <script src="./js/docs.js"></script>
 <script type="text/javascript">

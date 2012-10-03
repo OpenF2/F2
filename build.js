@@ -140,7 +140,7 @@ function docs() {
 	processTemplateFile(templateFiles, f2Info, true);
 
 	exec(
-		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2 | "',
+		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2"',
 		{ cwd:'./docs/src' },
 		function(error, stdout, stderr) {
 			if (error) {

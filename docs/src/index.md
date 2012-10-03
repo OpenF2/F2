@@ -1,26 +1,14 @@
-% F2: An open framework created for the financial services industry.
+% About F2
 
-<p class="lead">F2 is an open and free web integration framework that has been designed to help you develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.</p>
-
-The [essential components](components-of-the-framework.html) defined by the F2 specification are the [Container](developing-f2-containers.html), [Apps](developing-f2-apps.html), [Context](developing-f2-apps.html#context) and [Store](#)&mdash;all supported under the hood by **F2.js**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. 
-
-F2 was started by and is maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.com](http://www.openF2.com) for more information.
-
-The latest version of F2 documentation is {{docs.shortVersion}} last updated {{docs.lastUpdateDate}}.
-
-## About F2
-
-F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The F2 Framework is made up of several components which are discussed in detail in the sections that follow: The Container, Apps and The Store. 
+F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The [essential components](components-of-the-framework.html) defined by the F2 specification are the [Container](developing-f2-containers.html), [Apps](developing-f2-apps.html), [Context](developing-f2-apps.html#context) and [Store](#)&mdash;all supported under the hood by **F2.js**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. 
 
 You can use the F2 framework to build:
- 
+
 * customized solutions that include only the content, tools, and providers that you want,
 * private-labeled solutions that are true to your design standards and branding elements,
 * user-customized experiences that remember each user’s entitlements and preferences,
 * reusable Apps that you can develop once and use cross-platform on web, tablet and mobile devices,
 * a multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.
-
-* * * *
 
 ## Who
 

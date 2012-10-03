@@ -232,7 +232,9 @@
 .navbar-fixed-top,
 .navbar-static-top {
   .navbar-inner {
-    .box-shadow(inset 0 -1px 0 rgba(0,0,0,.1), 0 1px 10px rgba(0,0,0,.1));
+    //just a border on the docs & sdk site, no shadow since we have a subnav
+    border-bottom: 1px solid #dcdcdc;
+    //.box-shadow(inset 0 -1px 0 rgba(0,0,0,.1), 0 1px 10px rgba(0,0,0,.1));
   }
 }
 
@@ -326,6 +328,7 @@
 .navbar .nav > .active > a:focus {
   color: @navbarLinkColorActive;
   text-decoration: none;
+  font-weight: bold;
   //background-color: @navbarLinkBackgroundActive;
   //.box-shadow(inset 0 3px 8px rgba(0,0,0,.125));
 }
@@ -370,7 +373,73 @@
   display:none;
 }
 
+//nav bar mini -- on docs, when nav is squished shorter.
+@navbarMiniHeight: 28px;
 
+//this class gets applied to body element
+.navbarmini {
+
+  //shrink padding on <body> top so content moves up.
+  padding-top: 100px;
+
+  //limit changes to navbar on top of docs & sdk
+  .navbar-fixed-top {
+
+    .navbar-inner {
+      min-height: @navbarMiniHeight;
+      .box-shadow(0 0 0 rgba(0, 0, 0, 0);//reset this
+    }
+
+    .brand {
+      padding: 4px 10px 9px;
+      margin-top: 7px;
+      font-size: 20px;
+      font-weight: 200;
+      background-size: 18px 13px;
+      background-image: url("../img/mini_f2_logo.png");//retina
+    }
+
+    .tagline-divider {
+      height: 10px;
+      margin: 9px 12px 0 12px;
+    }
+
+    .navbar-text {
+      line-height: @navbarMiniHeight;
+      font-size: 10px;
+    }
+
+    .divider-vertical {
+      margin-top: 8px;
+    }
+
+    .nav > li > a {
+      // Vertically center the text given @navbarMiniHeight
+      padding: ((@navbarMiniHeight - @baseLineHeight) / 2) 10px ((@navbarMiniHeight - @baseLineHeight) / 2);
+      font-size: 12px;
+    }
+
+    .nav > li > .gitHubLink {
+      font-size: 14px;
+    }
+
+    .nav > li > .gitHubLink strong {
+      font-size: 15px;
+    }
+
+    .navbar .nav > li > a > .onDecoration {
+      font-size: 9px;
+    }
+
+    .nav > li > a > .F2VersionIndicator {
+      position: static;
+      top:auto;
+      left:auto;
+      padding-left:5px;
+    }
+
+  }//end navbar-fixed-top
+}
 // Dropdown menus
 // --------------
 
