@@ -6,14 +6,15 @@ You can use the F2 framework to build:
 
 * customized solutions that include only the content, tools, and providers that you want,
 * private-labeled solutions that are true to your design standards and branding elements,
-* user-customized experiences that remember each user’s entitlements and preferences,
+* user-customized experiences that remember each user's entitlements and preferences,
 * reusable Apps that you can develop once and use cross-platform on web, tablet and mobile devices,
 * a multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.
 
 ## Who
 
 The F2 concept was born in Boulder, Colorado at [Markit On Demand](http://www.markitondemand.com) (MOD). F2 was brought to life through conversations with industry partners who individually express common frustrations and desire a coordinated solution. 
-MOD’s development team is committed to following the technical guidelines defined by the F2 standard and actively contribute enhancements to future F2 releases.
+
+MOD's development team is committed to following the technical guidelines defined by the F2 standard and actively contribute enhancements to future F2 releases.
 
 ### Advisory Board 
 
@@ -23,13 +24,13 @@ Industry experts from financial firms, information providers, content owners, me
 
 Please direct inquiries to [info@openf2.org](mailto:info@openf2.org).
 
-By shifting the industry’s development efforts towards a common specification that allows for complete customization, everyone wins. The greater the participation in F2 the richer, smarter and more effective it will be as an industry-wide platform to help reduce labor, time to market and costs.
+By shifting the industry's development efforts towards a common specification that allows for complete customization, everyone wins. The greater the participation in F2 the richer, smarter and more effective it will be as an industry-wide integration framework to help reduce labor, time to market and costs.
 
 * * * *
 
 ## Goals
 
-F2’s goal is to create a development standard for the financial services industry that offers a cost saving, risk-reducing method for building innovative, multi-provider solutions. In order to do this effectively, F2 must include solutions to shared industry hurdles and concerns.
+F2's goal is to create a development standard for the financial services industry that offers a cost saving, risk-reducing method for building innovative, multi-provider solutions. In order to do this effectively, F2 must include solutions to shared industry hurdles and concerns.
 
 Because the spec is open, free, and exactly what the industry needs, we believe that it will be widely adopted, which will create new markets for app developers, content providers, and create vibrant app ecosystems for participants.
 
@@ -45,7 +46,7 @@ Because the spec is open, free, and exactly what the industry needs, we believe 
 	<tbody>
 		<tr>
 			<td nowrap>Monolithic Systems</td>
-			<td>Monolithic, installed code bases that are closed and expensive to enhance.  When a “redesign” occurs on this type of platform, it’s usually a do-over, from the ground-up. Integration is difficult.</td>
+			<td>Monolithic, installed code bases that are closed and expensive to enhance.  When a “redesign” occurs on this type of platform, it's usually a do-over, from the ground-up. Integration is difficult.</td>
 			<td>Nimble, modern use of internet-delivery with a multi-vendor approach.  Standardized framework used by all parties.  Cost-effective and shorter development cycles.</td>
 		</tr>
 		<tr>
@@ -74,13 +75,13 @@ Because the spec is open, free, and exactly what the industry needs, we believe 
 
 ## Evolve
 
-F2 will continuously evolve to bring the community the best features, services and Apps. F2’s promise is to do this by building on the existing spec, not by changing it. The specification aims high to solve many problems and suit many needs. As the standard evolves and new requirements come to light, the functionality in F2 will expand accordingly. 
+F2 will continuously evolve to bring the community the best features, services and Apps. F2's promise is to do this by building on the existing spec, not by changing it. The specification aims high to solve many problems and suit many needs. As the standard evolves and new requirements come to light, the functionality in F2 will expand accordingly. 
 
 To achieve steady growth and stable release cycles, F2 will be maintained under the Semantic Versioning guidelines as much as possible. For more information, [browse to the readme on GitHub](https://github.com/OpenF2/F2#readme).
 
 ### Release Tracking
 
-F2 v1.0 was released on October 15, 2012. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2’s evolution. 
+F2 v1.0 was released on October 15, 2012. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
 
 ### Collaboration
 
@@ -140,9 +141,9 @@ The F2 design and development philosophy adheres to the Responsive Web Design Me
 
 #### Context
 
-Apps are capable of sharing “context” with the Container and other nearby Apps. All Apps have context which means the App “knows” who is using it and the content it contains. It is aware of an individual’s data entitlements and user information that the Container is requested to share (name, email, company, etc).  
+Apps are capable of sharing “context” with the Container and other nearby Apps. All Apps have context which means the App “knows” who is using it and the content it contains. It is aware of an individual's data entitlements and user information that the Container is requested to share (name, email, company, etc).  
 
-Apps are capable of sharing context with their Container and other nearby Apps. This means if a user wants to create a ticker-focused workspace so they can keep a close eye on shares of Proctor & Gamble, the Container can send “symbol context” to any listening Apps that are smart enough to refresh when ticker symbol PG is entered in the Container’s search box.
+Apps are capable of sharing context with their Container and other nearby Apps. This means if a user wants to create a ticker-focused workspace so they can keep a close eye on shares of Proctor & Gamble, the Container can send “symbol context” to any listening Apps that are smart enough to refresh when ticker symbol PG is entered in the Container's search box.
 
 While Apps can have context themselves, the responsibility for managing context switching or context passing falls on the Container. The Container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the Container can listen for events sent by Apps and likewise Apps can listen for events sent by the Container. To provide a layer of security, this means Apps cannot communicate directly with other Apps on their own; Apps must communicate via an F2 Container to other Apps.
 
@@ -156,17 +157,17 @@ Each Container Provider, or person or company hosting a Container, is responsibl
 
 #### Grid
 
-In order to make it so that Apps look good together in a multi-provider environment, the spec recommends that each App adhere to a standard, Container-controlled grid. F2 relies on a responsive, 12-column grid system and is flexible enough to accommodate everyone’s needs. 
+In order to make it so that Apps look good together in a multi-provider environment, the spec recommends that each App adhere to a standard, Container-controlled grid. F2 relies on a responsive, 12-column grid system and is flexible enough to accommodate everyone's needs. 
 
 #### Creating a Common Look and Feel
 
-The F2 standard outlines a consistent HTML structure and CSS classname convention so neither Container developers nor App developers have to think about harmonizing look and feel. Container providers can create a customized stylesheet, and the selectors and declarations they define in CSS will cascade to their Containers’ Apps. Separately, Apps can define a preferred resolution (in grid widths) for Containers to position them appropriately within the grid.
+The F2 standard outlines a consistent HTML structure and CSS classname convention so neither Container developers nor App developers have to think about harmonizing look and feel. Container providers can create a customized stylesheet, and the selectors and declarations they define in CSS will cascade to their Containers' Apps. Separately, Apps can define a preferred resolution (in grid widths) for Containers to position them appropriately within the grid.
 
 App Designers and Developers can take advantage of the F2 documentation and Javascript SDK to develop Apps on their own schedules. App designers should adhere to Container provider design guidelines which should provide a common theme and offer a baseline for consistency between all Apps on the Container.
 
 #### Single App Displays
 
-While F2 is designed to handle several Apps being displayed simultaneously, it doesn’t have to. The spec also permits full screen, single-provider displays. This is a useful feature for Container Owners who need to incorporate legacy, full screen content with the least amount of effort.
+While F2 is designed to handle several Apps being displayed simultaneously, it doesn't have to. The spec also permits full screen, single-provider displays. This is a useful feature for Container Owners who need to incorporate legacy, full screen content with the least amount of effort.
 
 #### Container Responsibilities 
 

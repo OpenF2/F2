@@ -3,20 +3,20 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{htmlTitle}}</title>
-	<link rel="icon" href="{{projectRoot}}../img/favicon-32px.png" type="image/png"/>
+	<link rel="icon" href="{{projectRoot}}../img/favicon-32px.png?{{projectCacheBuster}}" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
-	<link href="{{projectRoot}}../css/F2.Sdk.css" rel="stylesheet">
-	<link href="{{projectRoot}}../css/prettify.css" rel="stylesheet">
+	<script src="{{projectRoot}}../js/modernizr.2.6.2.custom.min.js?{{projectCacheBuster}}"></script>
+	<link href="{{projectRoot}}../css/F2.Sdk.css?{{projectCacheBuster}}" rel="stylesheet">
+	<link href="{{projectRoot}}../css/prettify.css?{{projectCacheBuster}}" rel="stylesheet">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="{{projectRoot}}../img/touch-icon-iphone-57.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="{{projectRoot}}../img/touch-icon-ipad-72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="{{projectRoot}}../img/touch-icon-iphone-114.png" />
-	<link rel="apple-touch-icon" sizes="144x144" href="{{projectRoot}}../img/touch-icon-ipad-144.png" />
+	<link rel="apple-touch-icon" sizes="57x57" href="{{projectRoot}}../img/touch-icon-iphone-57.png?{{projectCacheBuster}}" />
+	<link rel="apple-touch-icon" sizes="72x72" href="{{projectRoot}}../img/touch-icon-ipad-72.png?{{projectCacheBuster}}" />
+	<link rel="apple-touch-icon" sizes="114x114" href="{{projectRoot}}../img/touch-icon-iphone-114.png?{{projectCacheBuster}}" />
+	<link rel="apple-touch-icon" sizes="144x144" href="{{projectRoot}}../img/touch-icon-ipad-144.png?{{projectCacheBuster}}" />
 
 	<script type="text/javascript">
-
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-35230380-1']);
 		_gaq.push(['_setDomainName', 'openf2.org']);
@@ -27,7 +27,6 @@
 		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		})();
-
 	</script>
 </head>
 <body>
@@ -103,15 +102,16 @@
 		</footer>
 	</div>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="{{projectRoot}}../js/bootstrap.min.2.1.1.js"></script>
-<script src="{{projectRoot}}../js/prettify.js"></script>
-<script src="{{projectAssets}}/js/main.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="{{projectRoot}}../js/bootstrap.min.2.1.1.js?{{projectCacheBuster}}"></script>
+<script src="{{projectRoot}}../js/prettify.js?{{projectCacheBuster}}"></script>
+<script src="{{projectAssets}}/js/main.js?{{projectCacheBuster}}"></script>
 <script>prettyPrint();</script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
+<script>var ghpagescachebuster = "{{projectCacheBuster}}";</script>
 </body>
 </html>

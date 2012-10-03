@@ -133,7 +133,9 @@ function docs() {
 
 	// files to run handlebar substitutions
 	var templateFiles = [
+		'./docs/src/template/style.html',
 		'./docs/src/template/header.html',
+		'./docs/src/template/footer.html',
 		'./docs/src/index.md'
 	];
 
@@ -150,6 +152,7 @@ function docs() {
 
 				// update Last Update Date and save F2.json
 				f2Info.docs.lastUpdateDate = (new Date()).toJSON();
+				f2Info.docs.cacheBuster = String(new Date().getTime());
 				saveF2Info();
 
 				console.log('COMPLETE');
@@ -191,6 +194,11 @@ function help() {
  * @method js
  */
 function js() {
+
+	console.log("Setting cache buster...")
+	f2Info.sdk.cacheBuster = String(new Date().getTime());
+	saveF2Info();
+
 	console.log('Building f2.no-third-party.js...');
 	var contents = CORE_FILES.map(function(f) {
 		return fs.readFileSync(f, ENCODING);
@@ -473,7 +481,8 @@ function yuidoc() {
 	// massage in some meta information from F2.json
 	json.project = {
 		docsAssets: '../',
-		version: f2Info.sdk.version
+		version: f2Info.sdk.version,
+		cacheBuster: f2Info.sdk.cacheBuster
 	};
 	docOptions = Y.Project.mix(json, docOptions);
 

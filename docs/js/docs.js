@@ -124,7 +124,7 @@ F2Docs.fn.navbarDocsHelper = function(){
 	//remove all 
 	$toc.find("a").removeClass("active");
 
-	if (file == urlMap.basics || !file){
+	if (file == urlMap.basics || !file || file == "index-temp.html"){
 		$toc.find("li").first().find("a").addClass("active");
 		this.currentPage = "basics";
 	} else if (file == urlMap.development || file == urlMap.developmentC || file == urlMap.developmentE){
