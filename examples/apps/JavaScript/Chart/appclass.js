@@ -1,14 +1,14 @@
-F2.Apps["com_openf2_examples_chart"] = (function(appConfig, appContent, root){
+F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 	var app = function (appConfig, appContent, root) {
 		this.symbol = "MSFT";
 		this.appConfig = appConfig;
-    	this.appContent = appContent;
-    	this.ui = this.appConfig.ui;
-    	this.root = root;
-    	this.$root = $(root);
+		this.appContent = appContent;
+		this.ui = this.appConfig.ui;
+		this.root = root;
+		this.$root = $(root);
 		this.$app = $("#f2-1year-chart", this.$root);
-    	this.CHT_CONTAINER = 'f2-1year-chart';
+		this.CHT_CONTAINER = 'f2-1year-chart';
 	};
 
 	app.prototype.redraw = function(data) {
@@ -62,9 +62,9 @@ F2.Apps["com_openf2_examples_chart"] = (function(appConfig, appContent, root){
 	app.prototype._chartError = function(jqxhr) {
 		F2.log("Price Chart Error", jqxhr);
 		this.ui.setTitle("Chart Error");
-        this.$app.html("<p>An error occurred loading price data for " +this.symbol+ ".</p>");
-        this.ui.hideMask(this.$root);
-        this.ui.updateHeight();
+				this.$app.html("<p>An error occurred loading price data for " +this.symbol+ ".</p>");
+				this.ui.hideMask(this.$root);
+				this.ui.updateHeight();
 	};
 
 	app.prototype.style = {
@@ -325,6 +325,6 @@ F2.Apps["com_openf2_examples_chart"] = (function(appConfig, appContent, root){
 		};
 	};
 
-    return app;
+		return app;
 
 })();
