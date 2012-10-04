@@ -3,9 +3,10 @@
 // --------------------------------------------------
 
 @import "bootstrap.less";
+@import "navbar-sub-docs.less";
 
 body {
-	padding-top: 92px;
+	padding-top: 150px;
 }
 
 //responsive
@@ -17,6 +18,16 @@ body {
 	#toc {
 		display: none;//hide TOC
 	}
+
+	.container .span9 {
+		width: 724px;
+	}
+}
+
+@media (max-width: 767px) {
+	.container .span9 {
+		width: 100%;
+	}
 }
 
 /*sections*/
@@ -25,7 +36,7 @@ h1.title {
 }
 
 .level2 { 
-	padding-top:75px;
+	padding-top:87px;
 }
 
 .level3 {
@@ -53,8 +64,8 @@ section > hr {
 }
 
 .nav-list > li > ul a {
-	font-size: 18px;
-	padding: 0px 15px;
+	font-size: 19px;
+	padding: 4px 15px;
 }
 
 .nav-list > li > a:hover {

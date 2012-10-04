@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 |  - Developing F2 Apps</title>
+  <title>F2 - Developing F2 Apps</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -26,30 +26,34 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #06287e; }
 code > span.er { color: #ff0000; font-weight: bold; }
   </style>
-  <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
+  <link rel="icon" href="./img/favicon-32px.png?1349323641927" type="image/png"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="description" content="F2, the open financial framework, is a web integration framework designed specifically for the financial markets.">
+  <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
-  <link href="./css/F2.Docs.css" rel="stylesheet">
-  <link href="//docs.openf2.org/css/prettify.css" rel="stylesheet">
+  <script src="./js/modernizr.2.6.2.custom.min.js?1349323641927"></script>
+  <link href="./css/prettify.css?1349323641927" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1349323641927" rel="stylesheet">
   
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png" />
-  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png" />
+  
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349323641927" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349323641927" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349323641927" />
+  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349323641927" />
   
   <script type="text/javascript">
   
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-35230380-1']);
-    _gaq.push(['_setDomainName', 'openf2.org']);
-    _gaq.push(['_trackPageview']);
+  	var _gaq = _gaq || [];
+  	_gaq.push(['_setAccount', 'UA-35230380-1']);
+  	_gaq.push(['_setDomainName', 'openf2.org']);
+  	_gaq.push(['_trackPageview']);
   
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+  	(function() {
+  	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  	})();
+  
+  	var ghpagescachebuster = "1349323641927";
   
   </script>
 </head>
@@ -64,27 +68,42 @@ code > span.er { color: #ff0000; font-weight: bold; }
           <span class="icon-bar"></span>
           <span class="icon-triangleDown"></span>
         </button>
-        <a class="brand" href="/F2/OpenF2/"></a>
+        <a class="brand" href="http://www.openf2.org"></a>
         <div class="tagline-divider"></div>
         <div class="navbar-text pull-left">The Open Financial Framework</div>
         <div class="collapse nav-collapse">
           <ul class="nav pull-right">
             <!--TEMP!-->
-            <li><a href="index-temp.html">Index-Temp</a></li>
+            <li><a href="./index-temp.html">Index-Temp</a></li>
             <li class="divider-vertical"></li>
             <!--/TEMP!-->
-            <li><a href="/F2/OpenF2/">Home</a></li>
+            <li><a href="http://www.openf2.org">Home</a></li>
             <li class="divider-vertical"></li>
             <li class="active"><a href="http://docs.openf2.org">Docs <i class="icon-triangleDown"></i></a></li>
             <li class="divider-vertical"></li>
             <li><a href="/F2/OpenF2/Examples">Examples</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.13.1</span></a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.13.6</span></a></li>
             <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub</a></li>
           </ul>
         </div>
       </div>
     </div>
+
+    <div class="navbar-docs">
+      <nav class="container">
+        <div class="row">
+          <div class="span12">
+              <ul class="unstyled clearfix">
+                <li class="basics"><a href="./">The Basics</a></li>
+                <li class="dev"><a href="developing-f2-apps.html">Development</a></li>
+                <li class="ref"><a href="./sdk/">Reference</a></li>
+              </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
   </nav>
 </header>
 
@@ -92,6 +111,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <div class="row">
     <div class="span3" id="toc">
         <ul class="nav nav-list">
+          <!--
           <li><a href="index.html">The Basics</a></li>
           <li class="divider"></li>
           <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
@@ -100,6 +120,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
           <li class="divider"></li>
           <li><a href="./sdk/">F2.js SDK Reference</a></li>
           <li class="divider"></li>
+          -->
         </ul>
     </div><!--/span3-->
 
@@ -114,7 +135,7 @@ To understand how F2 apps work or to get started building apps, you've come to t
 
 <section class="level2" id="overview">
 <h2>Overview</h2>
-<p>Defined very simply, a F2 app is a <code>javascript</code> file which contains your <a href="../../sdk/docs/classes/F2.AppManifest.html">app manifest</a>. However, technically speaking, a F2 app is one of two things:</p>
+<p>Defined very simply, a F2 app is a <code>javascript</code> file which contains your <a href="./sdk/classes/F2.AppManifest.html">app manifest</a>. However, technically speaking, a F2 app is one of two things:</p>
 <dl class="dl-horizontal">
     <dt>
 Display App
@@ -142,7 +163,7 @@ The term &quot;app&quot;, in popular web parlance, is a compiled program that ru
 
 <section class="level3" id="understanding-f2-apps">
 <h3>Understanding F2 Apps</h3>
-<p>To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many <a href="components-of-the-framework.html">components of F2</a>, and apps and containers are only scratching the surface in terms of what is available to app developers within F2. Including concepts like <a href="components-of-the-framework.html#app-context">app context</a> and standardizing the <a href="components-of-the-framework.html#creating-a-common-look-and-feel">creation of a common look and feel</a> across apps, apps form the cornerstone of F2-enabled multi-party web applications.</p>
+<p>To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many <a href="index.html#framework">components of F2</a>, and apps and containers are only scratching the surface in terms of what is available to app developers within F2. Including concepts like <a href="index.html#apps">app context</a> and standardizing the <a href="index.html#creating-a-common-look-and-feel">creation of a common look and feel</a> across apps, apps form the cornerstone of F2-enabled multi-party web applications.</p>
 <section class="level4" id="designing-your-app">
 <h4>Designing Your App</h4>
 <p><span class="label label-warning">EDITOR'S NOTE</span> This 'designing your app' section needs some TLC.</p>
@@ -151,8 +172,8 @@ The term &quot;app&quot;, in popular web parlance, is a compiled program that ru
 </section>
 <section class="level4" id="get-started">
 <h4>Get Started</h4>
-<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you open the project repository, point your browser at:</p>
-<p><code>http://localhost/F2/sdk/examples/container/</code></p>
+<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you open the project repository, point your browser at:</p>
+<p><code>http://localhost/F2/examples/container/</code></p>
 </section>
 <section class="level4" id="configuration">
 <h4>Configuration</h4>
@@ -186,7 +207,7 @@ The term &quot;app&quot;, in popular web parlance, is a compiled program that ru
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;&quot;</span>
     }]
 }</code></pre>
-<p>The <a href="../sdk/docs/classes/F2.AppManifest.html">App Manifest</a> can be generated by the server-side code of your choice or be written-by-hand in your favorite text editor. In the <a href="http://www.github.com/OpenF2/F2">GitHub repository</a>, there are apps written in JavaScript, PHP, Ruby, Python and Classic ASP (JScript) to serve as examples to get you started.</p>
+<p>The <a href="../docs/sdk/classes/F2.AppManifest.html">App Manifest</a> can be generated by the server-side code of your choice or be written-by-hand in your favorite text editor. In the <a href="https://www.github.com/OpenF2/F2">GitHub repository</a>, there are apps written in JavaScript, PHP, Ruby, Python and Classic ASP (JScript) to serve as examples to get you started.</p>
 <p>When it's complete (using the examples further below), the App Manifest looks like this:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">F2_jsonpCallback_com_companyname_appname({
     <span class="st">&quot;inlineScripts&quot;</span>:[<span class="st">&quot;(function(){ var foo = bar; doSomething(); })()&quot;</span>],
@@ -216,7 +237,7 @@ The term &quot;app&quot;, in popular web parlance, is a compiled program that ru
 </ol>
 <section class="level4" id="html">
 <h4>html</h4>
-<p>The <code>html</code> property contains the view of your app represented in (optionally encoded) HTML. While you can modify the way your app appears or functions within the container, the <code>html</code> property is what the container will show when it <a href="../../sdk/docs/classes/F2.html#method_registerApps">registers your app</a> and displays its contents for the first time.</p>
+<p>The <code>html</code> property contains the view of your app represented in (optionally encoded) HTML. While you can modify the way your app appears or functions within the container, the <code>html</code> property is what the container will show when it <a href="./sdk/classes/F2.html#method_registerApps">registers your app</a> and displays its contents for the first time.</p>
 <p>Example:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;html&quot;</span>: <span class="st">&quot;&lt;div class=</span><span class="ch">\&quot;</span><span class="st">sunrise</span><span class="ch">\&quot;</span><span class="st">&gt;Hello world.&lt;/div&gt;&quot;</span></code></pre>
 <p>The <em>optionally encoded</em> version of the <code>html</code> example above is:</p>
@@ -266,11 +287,11 @@ The term &quot;app&quot;, in popular web parlance, is a compiled program that ru
     <span class="st">&quot;http://www.domain.com/js/appclass.js&quot;</span>
 ]</code></pre>
 <p><a href="#namespacing">Read more about JavaScript and namespacing</a> inside your app.</p>
-<p><span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded synchronously by F2.js, so be sure to order your scripts properly.</p>
+<p><span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded <em>synchronously</em> by F2.js, so be sure to order your scripts properly.</p>
 </section>
 <section class="level3" id="inline-scripts">
 <h3>Inline Scripts</h3>
-<p>The <code>inlineScripts</code> property is an array of strings. The <code>inlineScripts</code> array can include any JavaScript code needed by the app that <em>cannot be included in your <a href="#">App Class</a></em>. The contents of the <code>inlineScripts</code> array will be evaluated as JavaScript (using <code>eval()</code>) when all <code>scripts</code> have finished loading.</p>
+<p>The <code>inlineScripts</code> property is an array of strings. The <code>inlineScripts</code> array can include any JavaScript code needed by the app that <em>cannot be included in your <a href="#scripts">App Class</a></em>. The contents of the <code>inlineScripts</code> array will be evaluated as JavaScript (using <code>eval()</code>) when all <code>scripts</code> have finished loading.</p>
 <p>Example:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;inlineScripts&quot;</span>: [
     <span class="st">&quot;(function(){ var foo = bar; doSomething(); })()&quot;</span>
@@ -280,12 +301,12 @@ The term &quot;app&quot;, in popular web parlance, is a compiled program that ru
 About Inline Scripts
 </h4>
 <p>
-While the use of <code>inlineScripts</code> is supported by F2's App Manifest, it is not recommended for use. There are many reasons for this, the main one is to avoid cluttering the global namespace. Developers should make every attempt to put their JavaScript code inside their <a href="#">App Class</a>.
+While the use of <code>inlineScripts</code> is supported by F2's App Manifest, it is not recommended for use. There are many reasons for this, the main one is to avoid cluttering the global namespace. Developers should make every attempt to put their JavaScript code inside their <a href="#scripts">App Class</a>.
 </p>
 </div>
 
 <p><a href="#namespacing">Read more about JavaScript and namespacing</a> inside your app.</p>
-<p><span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded synchronously by F2.js, so be sure to order your scripts properly.</p>
+<p><span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded <em>synchronously</em> by F2.js, so be sure to order your scripts properly.</p>
 </section>
 <section class="level3" id="sample-app-manifest">
 <h3>Sample App Manifest</h3>
@@ -409,13 +430,13 @@ F2_jsonpCallback_com_companyname_appname({
 <section class="level4" id="app-class">
 <h4>App Class</h4>
 <p>While it isn't required, it's expected all F2 apps will ship with javascript. This code should be included in an <code>appclass.js</code> file as shown in <a href="#setting-up-your-project">Setting Up Your Project</a>. The <code>F2.Apps</code> property is a namespace for app developers to place the javascript class that is used to initialize their app. The javascript classes should be namepaced with the <code>F2.App.AppID</code>. It is recommended that the code be placed in a closure to help keep the global namespace clean.</p>
-<p>For more information on <code>F2.Apps</code>, <a href="../sdk/docs/classes/F2.html#property_Apps">browse over to the F2.js SDK docs</a>.</p>
+<p>For more information on <code>F2.Apps</code>, <a href="../docs/sdk/classes/F2.html#property_Apps">browse over to the F2.js SDK docs</a>.</p>
 <p>To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during <code>F2.registerApps()</code> (and the internal <code>_loadApps()</code> method). If the class has an <code>init()</code> function, it will be called automatically during execution of F2's <code>registerApps()</code> method.</p>
 <p>We recommend—and have samples below for—two different patterns for writing your <code>appclass.js</code> code: prototypal inheritence or the module pattern.</p>
 </section>
 <section class="level4" id="arguments">
 <h4>Arguments</h4>
-<p>When F2's <code>registerApps()</code> method is called by the container, F2 passes three arguments to your App Class: <code>appConfig</code>, <code>appContent</code> and <code>root</code>. The SDK documentation details the contents of each arg and these should be familiar because <a href="../sdk/docs/classes/F2.App.html">appConfig</a> contains your apps' meta, <a href="../sdk/docs/classes/F2.AppManifest.AppContent.html">appContent</a> contains your <code>html</code>, <code>data</code> and <code>status</code> properties, and <a href="../sdk/docs/classes/F2.AppConfig.html#properties-root">root</a> is the outermost DOM element in which your app exists on the container. The <code>root</code> argument provides your App Class code your apps' parent element for faster DOM traversal.</p>
+<p>When F2's <code>registerApps()</code> method is called by the container, F2 passes three arguments to your App Class: <code>appConfig</code>, <code>appContent</code> and <code>root</code>. The SDK documentation details the contents of each arg and these should be familiar because <a href="../docs/sdk/classes/F2.App.html">appConfig</a> contains your apps' meta, <a href="../docs/sdk/classes/F2.AppManifest.AppContent.html">appContent</a> contains your <code>html</code>, <code>data</code> and <code>status</code> properties, and <a href="../docs/sdk/classes/F2.AppConfig.html#properties-root">root</a> is the outermost DOM element in which your app exists on the container. The <code>root</code> argument provides your App Class code your apps' parent element for faster DOM traversal.</p>
 <p>Example:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//appclass.js snippet</span>
 ...
@@ -451,7 +472,7 @@ F2_jsonpCallback_com_companyname_appname({
 </section>
 <section class="level4" id="patterns-eh.">
 <h4>Patterns, Eh.</h4>
-<p>Of course, you don't have to use either one of these patterns in your <code>appclass.js</code> file. What you <em>do</em> have to use is a <code>function</code>. That is to say the value assigned to <code>F2.Apps[&quot;com_companyname_appname&quot;]</code> by your App Class code <em>must be a function</em>. Within F2's <code>registerApps()</code> method, the <code>new</code> operator is used which produces an object (<a href="../sdk/docs/files/sdk_src_container.js.html#l175">check out the code</a>).</p>
+<p>Of course, you don't have to use either one of these patterns in your <code>appclass.js</code> file. What you <em>do</em> have to use is a <code>function</code>. That is to say the value assigned to <code>F2.Apps[&quot;com_companyname_appname&quot;]</code> by your App Class code <em>must be a function</em>. Within F2's <code>registerApps()</code> method, the <code>new</code> operator is used which produces an object (<a href="../docs/sdk/files/sdk_src_container.js.html#l175">check out the code</a>).</p>
 <div class="alert">
     <h5>
 Important!
@@ -472,7 +493,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <section class="level3" id="namespacing-your-css">
 <h3>Namespacing Your CSS</h3>
 <p>As discussed in <a href="#f2-appid">Developing a F2 App: F2 AppID</a>, to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app in the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
-<p>When Container Providers <a href="../sdk/docs/classes/F2.html#methods-registerApps">register apps</a>, F2.js draws each app as defined by the <a href="../sdk/docs/classes/F2.ContainerConfig.html">ContainerConfig</a>. Before the app is added to the container DOM, F2 automatically wraps an outer HTML element—with the AppID used as a class—around the rendered app.</p>
+<p>When Container Providers <a href="../docs/sdk/classes/F2.html#methods-registerApps">register apps</a>, F2.js draws each app as defined by the <a href="../docs/sdk/classes/F2.ContainerConfig.html">ContainerConfig</a>. Before the app is added to the container DOM, F2 automatically wraps an outer HTML element—with the AppID used as a class—around the rendered app.</p>
 <p>This example shows app HTML after it has been drawn on the container. Note the <code>com_companyName_appName</code> classname.</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;f2-app-container com_companyName_appName&quot;</span><span class="kw">&gt;</span>
     ...
@@ -517,7 +538,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level3" id="how-to-use-context">
 <h3>How to use Context</h3>
-<p>Each Container will be responsible for hosting the F2 JavaScript SDK. The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an <a href="../sdk/docs/classes/F2.Events.html">event API</a> for handling context.</p>
+<p>Each Container will be responsible for hosting the F2 JavaScript SDK. The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an <a href="../docs/sdk/classes/F2.Events.html">event API</a> for handling context.</p>
 <p><span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means <strong>apps cannot communicate directly with other apps on their own</strong>; apps communicate via the container to other apps since the container controls the <code>F2.Events</code> API.</p>
 <p>Let's look at some code.</p>
 </section>
@@ -538,8 +559,8 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
         <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
     }
 );</code></pre>
-<p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="../sdk/docs/classes/F2.Events.html">Read the SDK</a> for more information.</p>
-<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../sdk/docs/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
+<p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="../docs/sdk/classes/F2.Events.html">Read the SDK</a> for more information.</p>
+<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../docs/sdk/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
 </section>
 <section class="level3" id="app-to-container-context">
 <h3>App-to-Container Context</h3>
@@ -558,7 +579,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
         <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
     }
 );</code></pre>
-<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../sdk/docs/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
+<p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../docs/sdk/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
 </section>
 <section class="level3" id="app-to-app-context">
 <h3>App-to-App Context</h3>
@@ -603,7 +624,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <section class="level2" id="secure-apps">
 <h2>Secure Apps</h2>
 <p>F2 fully supports secure apps. A secure app is one that exists inside an <code>iframe</code> on a container <em>and</em> is hosted on a different domain. The F2.js SDK provides developers with seamless handling of Context, UI and the other F2 APIs whether or not an app is secure. This means app developers do not have to code apps any differently if an app is secure.</p>
-<p>An app is defined as &quot;secure&quot; in the <a href="../sdk/docs/classes/F2.AppConfig.html#properties-isSecure">AppConfig</a>. Creating the <code>AppConfig</code> is something that is done when apps are registered on the (coming) Developer Center, or within the Container Provider's app catalog.</p>
+<p>An app is defined as &quot;secure&quot; in the <a href="../docs/sdk/classes/F2.AppConfig.html#properties-isSecure">AppConfig</a>. Creating the <code>AppConfig</code> is something that is done when apps are registered on the (coming) Developer Center, or within the Container Provider's app catalog.</p>
 <p>Noting the <code>isSecure</code> property, the <code>AppConfig</code> looks like this:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{
     <span class="st">&quot;appId&quot;</span>: <span class="st">&quot;com_f2_demo&quot;</span>,
@@ -622,7 +643,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <section class="level2" id="your-app-on-a-container">
 <h2>Your App On a Container</h2>
 <p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working—and tested—app, you're pretty much done.</p>
-<p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../sdk/docs/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-f2-containers.html">read the container documentation</a>.</p>
+<p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../docs/sdk/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-f2-containers.html">read the container documentation</a>.</p>
 <p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
 <section class="level4" id="testing-your-app">
 <h4>Testing Your App</h4>
@@ -636,16 +657,16 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.domain.com/manifest.js&quot;</span>,
     <span class="dt">name</span>: <span class="st">&quot;App name&quot;</span>
 }</code></pre>
-<p>For full details on each of these <code>F2.AppConfig</code> properties, <a href="../sdk/docs/classes/F2.AppConfig.html">browse the F2.js SDK documentation</a>.</p>
+<p>For full details on each of these <code>F2.AppConfig</code> properties, <a href="../docs/sdk/classes/F2.AppConfig.html">browse the F2.js SDK documentation</a>.</p>
 <hr>
 </section>
 </section>
-<section class="level2" id="f2.ui">
-<h2>F2.UI</h2>
+<section class="level2" id="f2-ui">
+<h2>F2 UI</h2>
 <p>There are some utility methods provided within F2.js in the <code>UI</code> namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views withing your app, and more.</p>
 <section class="level3" id="basics">
 <h3>Basics</h3>
-<p>While there are <a href="../sdk/docs/classes/F2.UI.html">numerous utility methods in F2.UI</a>, we will focus on a couple important ones here such as <code>updateHeight()</code> and <code>showMask()</code>. The <code>F2.UI</code> methods are passed as an instance to each F2 apps' App Class on the <code>appConfig</code> argument. The instance of <code>F2.UI</code> gets added to the <code>appConfig</code> object at runtime, and is available in <code>appclass.js</code> as <code>appConfig.ui</code>.</p>
+<p>While there are <a href="../docs/sdk/classes/F2.UI.html">numerous utility methods in F2.UI</a>, we will focus on a couple important ones here such as <code>updateHeight()</code> and <code>showMask()</code>. The <code>F2.UI</code> methods are passed as an instance to each F2 apps' App Class on the <code>appConfig</code> argument. The instance of <code>F2.UI</code> gets added to the <code>appConfig</code> object at runtime, and is available in <code>appclass.js</code> as <code>appConfig.ui</code>.</p>
 <p>Example:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//appclass.js snippet</span>
 <span class="kw">var</span> App_Class = <span class="kw">function</span> (appConfig, appContent, root) {
@@ -669,7 +690,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level4" id="showing-or-hiding-loading-spinners">
 <h4>Showing or Hiding Loading Spinners</h4>
-<p>Apps can show loading spinners—or &quot;masks&quot;—when they are being loaded by a container or afterwards when making data requests. Container Providers configure the <code>UI.Mask</code> as discussed in the SDK <a href="../sdk/docs/classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a> docs, therefore it is simple for app developers to call <code>showMask()</code>.</p>
+<p>Apps can show loading spinners—or &quot;masks&quot;—when they are being loaded by a container or afterwards when making data requests. Container Providers configure the <code>UI.Mask</code> as discussed in the SDK <a href="../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a> docs, therefore it is simple for app developers to call <code>showMask()</code>.</p>
 <p>To show a loading spinner when making an ajax request within an app:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//appclass.js snippet</span>
 ...
@@ -692,11 +713,11 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     <span class="co">//show mask, no spinner</span>
     <span class="kw">this</span>.<span class="fu">ui</span>.<span class="fu">showMask</span>(<span class="kw">this</span>.<span class="fu">root</span>,<span class="kw">false</span>);
 ...</code></pre>
-<p>For full details, read about <a href="../sdk/docs/classes/F2.UI.html">F2.UI in the SDK</a>.</p>
+<p>For full details, read about <a href="../docs/sdk/classes/F2.UI.html">F2.UI in the SDK</a>.</p>
 </section>
 <section class="level4" id="changing-the-app-title">
 <h4>Changing the App Title</h4>
-<p>To update the title of an app in the app's chrome (<a href="../sdk/docs/classes/F2.ContainerConfig.html#methods-appRender">as defined by the container in F2.ContainerConfig.appRender</a>), very simply pass a string to the <code>setTitle()</code> method.</p>
+<p>To update the title of an app in the app's chrome (<a href="../docs/sdk/classes/F2.ContainerConfig.html#methods-appRender">as defined by the container in F2.ContainerConfig.appRender</a>), very simply pass a string to the <code>setTitle()</code> method.</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//appclass.js snippet</span>
 ...
     <span class="kw">this</span>.<span class="fu">ui</span>.<span class="fu">setTitle</span>(<span class="st">&quot;Chart for MSFT&quot;</span>);
@@ -706,7 +727,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <section class="level3" id="f2.ui.modals">
 <h3>F2.UI.Modals</h3>
 <p>F2.js provides two methods in <code>F2.UI</code> for modal dialogs. F2 uses and recommends <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> for many reasons, and taking advantage of <a href="http://twitter.github.com/bootstrap/javascript.html#modals">Bootstrap's modals</a> was an easy choice.</p>
-<p>For full details on F2.UI.Modals and the two types of modals (<code>alert</code> and <code>confirm</code>), <a href="../sdk/docs/classes/F2.UI.Modals.html">read the SDK docs</a>.</p>
+<p>For full details on F2.UI.Modals and the two types of modals (<code>alert</code> and <code>confirm</code>), <a href="../docs/sdk/classes/F2.UI.Modals.html">read the SDK docs</a>.</p>
 <p>Usage is simple:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//appclass.js snippet</span>
 ...
@@ -736,7 +757,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <section class="level3" id="f2.ui.views">
 <h3>F2.UI.Views</h3>
 <p>Adding and managing views within a F2 app is considered an <strong>advanced topic</strong>. If your app only needs a single view, you don't have to worry about reading this part of the F2 spec.</p>
-<p>F2 apps can have one or more views. Every app will have at least one &quot;home&quot; view, while others will include views for settings, help or about. Inside the F2.js SDK, we've <a href="../sdk/docs/classes/F2.App.html#property_views">included support for views</a> and the list can be extended by the container provider.</p>
+<p>F2 apps can have one or more views. Every app will have at least one &quot;home&quot; view, while others will include views for settings, help or about. Inside the F2.js SDK, we've <a href="../docs/sdk/classes/F2.App.html#property_views">included support for views</a> and the list can be extended by the container provider.</p>
 <p><span class="label">Note</span> If the container doesn't support all the views you need inside your app, you will need to coordinate those additions with the container provider.</p>
 <section class="level4" id="setting-up-views">
 <h4>Setting Up Views</h4>
@@ -752,14 +773,14 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&#39;f2-app-view hide&#39;</span><span class="ot"> data-f2-view=</span><span class="st">&#39;about&#39;</span><span class="kw">&gt;</span>
     ...
 <span class="kw">&lt;/div&gt;</span></code></pre>
-<p>For details on <code>F2.Constants.Css.APPVIEW</code>, <a href="../sdk/docs/classes/F2.Constants.Css.html#properties-APP_VIEW">browse to the SDK docs</a>.</p>
+<p>For details on <code>F2.Constants.Css.APPVIEW</code>, <a href="../docs/sdk/classes/F2.Constants.Css.html#properties-APP_VIEW">browse to the SDK docs</a>.</p>
 </section>
 <section class="level4" id="controlling-view-state">
 <h4>Controlling View State</h4>
 <p>The <code>F2.UI</code> namespace provides an API for developers to manage app View state.</p>
 <p>To programmatically change a View in javascript:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">appConfig.ui.Views</span>.<span class="fu">change</span>(<span class="kw">F2.Constants.Views</span>.<span class="fu">HOME</span>);</code></pre>
-<p><span class="label label-info">Note</span> When <code>appConfig.ui.Views.change()</code> is called, the <code>hide</code> classname is automatically added or removed by F2.js depending on the visibility of the view. <a href="../sdk/docs/classes/F2.UI.Views.html#methods-change">Read more in the SDK docs</a>.</p>
+<p><span class="label label-info">Note</span> When <code>appConfig.ui.Views.change()</code> is called, the <code>hide</code> classname is automatically added or removed by F2.js depending on the visibility of the view. <a href="../docs/sdk/classes/F2.UI.Views.html#methods-change">Read more in the SDK docs</a>.</p>
 <p>In F2 app HTML, you can use a combination of CSS classnames and <code>data-</code> attributes to provide UI elements making it easy for users to navigate between Views.</p>
 <p>For example, an app has two views: &quot;home&quot; and &quot;about&quot;. On the &quot;home&quot; View, a button allows the user to navigate to the &quot;about&quot; view. In the presence of the classname <code>f2-app-view-trigger</code> and the <code>data-f2-view</code> data attribute, F2.js automatically adds a javascript event to the button.</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;f2-app-view&quot;</span><span class="ot"> data-f2-view=</span><span class="st">&quot;home&quot;</span><span class="kw">&gt;</span>
@@ -779,7 +800,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">appConfig.ui.Views</span>.<span class="fu">change</span>(<span class="kw">function</span>(view){
     <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;View changed to &quot;</span>, view);
 });</code></pre>
-<p>For details on <code>F2.UI.Views</code>, <a href="../sdk/docs/classes/F2.UI.Views.html">browse to the SDK docs</a> and for details on <code>F2.Constants.Views</code>, <a href="../sdk/docs/classes/F2.Constants.Views.html">head over to the F2.Constants docs</a>.</p>
+<p>For details on <code>F2.UI.Views</code>, <a href="../docs/sdk/classes/F2.UI.Views.html">browse to the SDK docs</a> and for details on <code>F2.Constants.Views</code>, <a href="../docs/sdk/classes/F2.Constants.Views.html">head over to the F2.Constants docs</a>.</p>
 <hr>
 </section>
 </section>
@@ -812,24 +833,25 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 		</div><!--/span9-->
 	</div><!--/row-->
 
-  <hr>
+	<hr>
 
 	<footer>
-		<p class="pull-left"><strong><small>F2 helps you build smarter financial applications.</small></strong></p>
-		<p class="pull-right"><small>F2 was started and is maintained by <a href="//www.markitondemand.com/">Markit On Demand</a> on <a href="//github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="//github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
+		<p class="pull-right"><small>F2 was started and is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 	</footer>
 
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js"></script>
-<script src=".//js/prettify.js"></script>
-<script src="../sdk/f2.min.js"></script>
-<script src="./js/docs.js"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1349323641927"></script>
+<script src="./js/prettify.js?1349323641927"></script>
+<script src="../sdk/f2.min.js?0.12.7"></script>
+<script src="./js/docs.js?1349323641927"></script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
+<script>var ghpagescachebuster = "1349323641927";</script>
 </body>
 </html>

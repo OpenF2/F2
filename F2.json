@@ -1,18 +1,16 @@
 {
 	"docs": {
-		"version": "0.13.1",
+		"version": "0.13.6",
 		"shortVersion": "0.13",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-10-02T14:32:32.988Z",
-		"localUrlHome": "/OpenF2/F2",
-		"localUrlDocs": "/OpenF2/F2/docs",
-		"prodUrlHome": "http://www.openf2.org",
-		"prodUrlDocs": "http://docs.openf2.org"
+		"lastUpdateDate": "2012-10-04T04:18:16.762Z",
+		"cacheBuster": "1349324296763"
 	},
 	"sdk": {
 		"version": "0.12.7",
 		"shortVersion": "0.12",
 		"releaseDate": "2012-09-29T19:35:39.842Z",
-		"lastUpdateDate": "2012-10-02T14:32:31.098Z"
+		"lastUpdateDate": "2012-10-04T04:18:15.485Z",
+		"cacheBuster": "1349324294715"
 	}
 }
