@@ -187,10 +187,6 @@ The Store is also where the general F2 community goes to share, view, administer
 
 ## Developer Center
 
-The F2 specification is published on this website featuring framework documentation, App developer resources, sample Apps and more. This site, known as OpenF2.org, is where all of the tools, concepts, best practices and other resources for App and Container developers can be found. Taken individually or collectively, the resources this site provides are needed to produce high-quality Containers and Apps. 
-
-A key part of the Developer Center is the ability for App developers to get new AppIDs, manage their Apps, register Apps with Container Providers, issue App updates, and more.
-
 The Developer Center will serve as a resource area for the F2 Developer community. Some of the content and services you can expect to find here include:
 
 * F2 spec and related documentation
