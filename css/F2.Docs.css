@@ -1080,14 +1080,14 @@ a.label:hover,a.badge:hover{color:#ffffff;text-decoration:none;cursor:pointer;}
 .navbar-docs .ref{border-top:3px solid #fabb5d;}
 .navbar-docs .ref a{border-right:1px solid #e2e2e2;color:#fabb5d;}
 @media (min-width:768px) and (max-width:979px){.navbar-docs{display:none;visibility:hidden;}}@media (max-width:767px){.navbar-docs{display:none;visibility:hidden;}}body{padding-top:150px;}
-@media (max-width:979px){body{padding-top:0;} #toc{display:none;}}h1.title{margin-top:0;}
+@media (max-width:979px){body{padding-top:0;} #toc{display:none;} .container .span9{width:724px;}}@media (max-width:767px){.container .span9{width:100%;}}h1.title{margin-top:0;}
 .level2{padding-top:87px;}
 .level3{padding-top:15px;}
 p.lead{xmargin-bottom:0;}
 .level4{margin-top:30px;}
 section>hr{margin:40px 0 0;}
 .nav-list>li>a{font-family:rokkittregular;font-size:20px;}
-.nav-list>li>ul a{font-size:18px;padding:0px 15px;}
+.nav-list>li>ul a{font-size:19px;padding:4px 15px;}
 .nav-list>li>a:hover{background:none;color:#0a6199;}
 .nav-list{border-top:3px solid #737373;padding-left:15px;padding-right:15px;margin-bottom:0;}
 .nav-list .nav-list{border-top:none;}

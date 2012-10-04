@@ -1,19 +1,36 @@
 /**
  * This code is only for the documentation site. Don't use it anywhere else.
- *
+ * (c) F2 / Markit On Demand 2012
  */
+if (!String.prototype.supplant) {
+    String.prototype.supplant = function (o) {
+        return this.replace(/{([^{}]*)}/g,
+            function (a, b) {
+                var r = o[b];
+                return typeof r === 'string' || typeof r === 'number' ? r : a;
+            }
+        );
+    };
+}
 
+//F2 docs
 var F2Docs = function(){
 
 }
 
+/**
+ * Shortcut
+ */
 F2Docs.fn = F2Docs.prototype;
 
+/**
+ * Init
+ */
 F2Docs.fn.init = function() {
 	
 	this.mobile_hideAddressBar();
-	this.watchScroll();
 	this.navbarDocsHelper();
+	this.bindEvents();
 	this.buildLeftRailToc();
 	
 	this.formatSourceCodeElements();
@@ -35,19 +52,37 @@ F2Docs.fn.mobile_hideAddressBar = function(){
 	/mobi/i.test(navigator.userAgent) && !location.hash && setTimeout(function () {
 	  if (!pageYOffset) window.scrollTo(0, 1);
 	}, 0);
-};
+}
 
+/**
+ * Events
+ */
 F2Docs.fn.bindEvents = function(){
 
-	//don't let hash links jump docs
-	/*
-	$('section [href^=#]').click(function (e) {
-		e.preventDefault()
-	})*/
-
+	this.handleHashchange();
+	this.watchScroll();
 
 }
 
+/**
+ * Watch for hashchanges, animate
+ */
+F2Docs.fn.handleHashchange = function(){
+
+	window.scrollTo(0, 1);
+	window.setTimeout(function(){
+		var $offset = $(location.hash),
+			pos = $offset.offset() || {};
+
+		if ($offset.length){
+			$('html,body').animate({ scrollTop: (pos.top) });
+		}
+	},250);//we need a slight delay b/c of the header shrinking thing. this isn't the best thing ever.
+}
+
+/**
+ * Keep an eye on scrollTop position for shrinking header/nav
+ */
 F2Docs.fn.watchScroll = function(){
 
 	//if (!Modernizr.isTablet){
@@ -133,13 +168,19 @@ F2Docs.fn.navbarDocsHelper = function(){
 	}
 }
 
-//Don't reorder these without consequences in this._getCurrentDevSubSection()
+/**
+ * Mapping 
+ * Don't reorder these without consequences in this._getCurrentDevSubSection()
+ */
 F2Docs.fn.devSubSections = {
 	"Developing F2 Apps": 		"developing-f2-apps.html",
 	"Developing F2 Containers": "developing-f2-containers.html",
 	"Extending F2": 			"extending-f2.html"
 };
 
+/**
+ * Lookup in devSubSections for right URL
+ */
 F2Docs.fn._getCurrentDevSubSection = function(){
 	var file = location.pathname.split('/').pop(),
 		currSection,
@@ -155,6 +196,9 @@ F2Docs.fn._getCurrentDevSubSection = function(){
 	return currSection;
 }
 
+/**
+ * When on Development, we need some special nav.
+ */
 F2Docs.fn._buildDevSubSectionsHtml = function(){
 	var html = [];
 
@@ -165,6 +209,9 @@ F2Docs.fn._buildDevSubSectionsHtml = function(){
 	return html;
 }
 
+/**
+ * Build left rail TOC
+ */
 F2Docs.fn.buildLeftRailToc = function(){
 
 	var $toc 			= $('div.span12','div.navbar-docs'),
@@ -190,7 +237,7 @@ F2Docs.fn.buildLeftRailToc = function(){
 
 	//need to add very first section (page title/<h1>)
 	if ("development" != this.currentPage){
-		$listContainer.append("<li class='active'><a href='#{id}'>{label}</a></li>".supplant({id: "top", label: $pageHeading.text()}));
+		$listContainer.append("<li class='active'><a href='{url}'>{label}</a></li>".supplant({url: this._getPgUrl($pageHeading.attr("id")), label: $pageHeading.text()}));
 	}
 
 	//loop over all sections, build nav based on <h2>'s inside the <section.level2>
@@ -199,9 +246,10 @@ F2Docs.fn.buildLeftRailToc = function(){
 		var $item = $(item),
 			sectionTitle = $item.children().first().text(),
 			sectionId = $item.prop("id"),
+			isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "",
 			$li;
 
-		$li = $("<li><a href='#{id}' data-id='{id}'>{label}</a></li>".supplant({id: sectionId, label: sectionTitle}));
+		$li = $("<li{isActive}><a href='#{id}' data-id='{id}'>{label}</a></li>".supplant({id: sectionId, label: sectionTitle, isActive: isActive}));
 
 		$listContainer.append($li);
 	},this));
@@ -227,18 +275,43 @@ F2Docs.fn.buildLeftRailToc = function(){
 	$("#toc").html($navWrap);
 
 	//add click event
-	$("a",$navWrap).on("click",function(e){
-		var $this = $(this);
+	$("a",$navWrap).on("click",$.proxy(this._handleTocNavigationClick,this));
 
-		$("li.active",$navWrap).removeClass("active");
-		$this.parent().addClass("active");
+}
 
-		//handle shift in padding as navbarmini gets added to body
-		if (!$this.data("parent") && $this.data("id") != "top" && !$("body").hasClass("navbarmini")){
-			$("body").addClass("navbarmini");
-		}
-	});
+/**
+ * Click handler for left nav
+ */
+F2Docs.fn._handleTocNavigationClick = function(e){
+	var $this = $(e.currentTarget),
+		destinationId = $this.attr("href").replace(".","\\\\."),
+		$destination = $(destinationId),
+		offset;
 
+	$("li.active",$navWrap).removeClass("active");
+	$this.parent().addClass("active");
+
+	//handle shift in padding as navbarmini gets added to body
+	if (!$this.data("parent") && $this.data("id") != "top" && !$("body").hasClass("navbarmini")){
+		$("body").addClass("navbarmini");
+	}
+
+	//if we have a location.hash change, animate scrollTop to it.
+	//need the 100ms delay to account for navbarmini padding changes.
+	if (destinationId.indexOf("#") > -1){
+		window.setTimeout(function(){
+			offset = $destination.offset() || {};
+			$('html,body').animate({ scrollTop: offset.top });
+			location.hash = destinationId;
+		},100);
+		return false
+	}
+}
+
+F2Docs.fn._getPgUrl = function (id) {
+	if ("about-f2" == id){
+		return "index.html";
+	}
 }
 
 /**
@@ -266,120 +339,26 @@ F2Docs.fn.formatSourceCodeElements = function(){
 	window.prettyPrint && prettyPrint();
 }
 
-
-
-/**
- * Finds and sets active navigation element based on hash, if one exists
- *
- */
-function setActiveNav(){
-	var hash = location.hash;
-	if (!hash) { 
-		return; 
-	}
-	var $lis = $("li ul li", "#toc");//get all <li> elements that are visible children of current page's nav
-	$lis.each(function(idx,item){
-		var $item = $(item);
-		if (hash == $item.find("a").attr("href") && !$item.hasClass("active")){//if hash value is found in links but not yet set to active, highlight it and remove active class from parent element.
-			$item.addClass("active");
-			$item.parents("li.active").removeClass("active");//removes from parent LI
-			return false;
-		}
-	});
-
-
-}
-
-
-
 /*
  * Completely TEMPORARY addition for editors' notes only.
  */
 function makeEditorsNotesBold(){
-	$("span.label-warning").parent().addClass("editors-note well well-large");
+	$("span.label-warning").parent().addClass("editors-note well well-large").css("border","3px solid red");
 }
-
 
 /**
  * Let's do this.
- *
  */
-(function(){
-	try{ 
-		Modernizr.addTest("isTablet",function(){
-
-			var agent = navigator.userAgent.toLowerCase();
-			var scrWidth = screen.width;
-			var scrHeight = screen.height;
-			// The document.documentElement dimensions seem to be identical to
-			// the screen dimensions on all the mobile browsers I've tested so far
-			var elemWidth = document.documentElement.clientWidth;
-			var elemHeight = document.documentElement.clientHeight;
-			// We need to eliminate Symbian, Series 60, Windows Mobile and Blackberry
-			// browsers for this quick and dirty check. This can be done with the user agent.
-			var otherBrowser = (agent.indexOf("series60") != -1) || (agent.indexOf("symbian") != -1) || (agent.indexOf("windows ce") != -1) || (agent.indexOf("blackberry") != -1);
-			// If the screen orientation is defined we are in a modern mobile OS
-			var mobileOS = typeof orientation != 'undefined' ? true : false;
-			// If touch events are defined we are in a modern touch screen OS
-			var touchOS = ('ontouchstart' in document.documentElement) ? true : false;
-			// iPhone and iPad can be reliably identified with the navigator.platform
-			// string, which is currently only available on these devices.
-			var iOS = (navigator.platform.indexOf("iPhone") != -1) ||
-			        (navigator.platform.indexOf("iPad") != -1) ? true : false;
-			// If the user agent string contains "android" then it's Android. If it
-			// doesn't but it's not another browser, not an iOS device and we're in
-			// a mobile and touch OS then we can be 99% certain that it's Android.
-			var android = (agent.indexOf("android") != -1) || (!iOS && !otherBrowser && touchOS && mobileOS) ? true : false;
-
-			if ((android || iOS) && scrWidth > 320 && scrWidth < 769){
-				return true;
-			} else {
-				return false;
-			}
-
-
-		});
-	}catch(e){}
-})();
-
-
 $(function() {
 
 	F2Docs = new F2Docs();
 	F2Docs.init();
 	
-
-	setActiveNav();
 	makeEditorsNotesBold();
-
-	
 
 	//scrollspy
 	//$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0);
 
-	//Keep nav aligned -- TEMP
-	$('section [href^=#]').click(function (e) {
-		window.setTimeout(function(){
-			$("li ul li", "#toc").removeClass('active');
-			setActiveNav()
-		},100)
-	});
-
-	//$(window).bind('hashchange', function() {
-	//	setActiveNav();
-	//});
-
-
 });
 
-if (!String.prototype.supplant) {
-    String.prototype.supplant = function (o) {
-        return this.replace(/{([^{}]*)}/g,
-            function (a, b) {
-                var r = o[b];
-                return typeof r === 'string' || typeof r === 'number' ? r : a;
-            }
-        );
-    };
-}
 
