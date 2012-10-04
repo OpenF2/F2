@@ -191,4 +191,13 @@ The F2 specification is published on this website featuring framework documentat
 
 A key part of the Developer Center is the ability for App developers to get new AppIDs, manage their Apps, register Apps with Container Providers, issue App updates, and more.
 
+The Developer Center will serve as a resource area for the F2 Developer community. Some of the content and services you can expect to find here include:
+
+* F2 spec and related documentation
+* Sample Apps
+* Code samples
+* Best practices for developing high-quality Apps
+* App registration with Container Providers
+* App management
+
 * * * *
