@@ -1,6 +1,8 @@
 % About F2
 
-F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The [essential components](#framework) defined by the F2 specification are the Container, Apps, Context and Store&mdash;all supported under the hood by **F2.js**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. 
+<p class="lead">F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. </p>
+
+The [essential components](#framework) defined by the F2 specification are the Container, Apps, Context and Store&mdash;all supported under the hood by **F2.js**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications.
 
 You can use the F2 framework to build:
 
@@ -38,36 +40,30 @@ Because the spec is open, free, and exactly what the industry needs, we believe 
 <table class="table table-bordered">
 	<thead>
 		<tr>
-			<th nowrap>Industry Problem</th>
-			<th>Description</th>
+			<th>Industry Problem</th>
 			<th>F2 Solution</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td nowrap>Monolithic Systems</td>
-			<td>Monolithic, installed code bases that are closed and expensive to enhance.  When a "redesign" occurs on this type of platform, it's usually a do-over, from the ground-up. Integration is difficult.</td>
-			<td>Nimble, modern use of internet-delivery with a multi-vendor approach.  Standardized framework used by all parties.  Cost-effective and shorter development cycles.</td>
+			<td>*Monolithic Systems*<br>Monolithic, installed code bases that are closed and expensive to enhance.  When a "redesign" occurs on this type of platform, it's usually a do-over, from the ground-up. Integration is difficult.</td>
+			<td><br>Nimble, modern use of internet-delivery with a multi-vendor approach.  Standardized framework used by all parties.  Cost-effective and shorter development cycles.</td>
 		</tr>
 		<tr>
-			<td>Big Bang</td>
-			<td>Big Bang approaches stifle innovation and require significant investment in the integration of legacy systems.  Buy-in from many stakeholders is essential and difficult to manage.  Entire platforms must be redeveloped in order to make cut-overs.  There are more bugs and problems at launch and unhappy  users. </td>
-			<td>In the F2 environment  you will be able to compete on features. It is easy to progressively make changes, enhancements, onboard new applications, switch content providers with little risk and migrate users and tools to the platform gradually as time and resources allow. Containers may also host previous versions of websites and Apps to further simplify migration.</td>
+			<td>*Big Bang*<br>Big Bang approaches stifle innovation and require significant investment in the integration of legacy systems.  Buy-in from many stakeholders is essential and difficult to manage.  Entire platforms must be redeveloped in order to make cut-overs.  There are more bugs and problems at launch and unhappy  users. </td>
+			<td><br>In the F2 environment  you will be able to compete on features. It is easy to progressively make changes, enhancements, onboard new applications, switch content providers with little risk and migrate users and tools to the platform gradually as time and resources allow. Containers may also host previous versions of websites and Apps to further simplify migration.</td>
 		</tr>
 		<tr>
-			<td>Single Channel</td>
-			<td>Separate projects, budgets and teams for web sites, tablets and hand-held devices. </td>
-			<td>The F2 specification describes how to develop one framework that can be managed to many devices.</td>
+			<td>*Single Channel*<br>Separate projects, budgets and teams for web sites, tablets and hand-held devices. </td>
+			<td><br>The F2 specification describes how to develop one framework that can be managed to many devices.</td>
 		</tr>
 		<tr>
-			<td>Security</td>
-			<td>Security concerns are a major reason firms worry about switching vendors or to a new technology.</td>
-			<td>F2 can entitle Apps without passing sensitive client information to a third party App provider. This multi-provider solution is more secure and less vulnerable than single-provider solutions.</td>
+			<td>*Security*<br>Security concerns are a major reason firms worry about switching vendors or to a new technology.</td>
+			<td><br>F2 can entitle Apps without passing sensitive client information to a third party App provider. This multi-provider solution is more secure and less vulnerable than single-provider solutions.</td>
 		</tr>
 		<tr>
-			<td>Over-provisioning</td>
-			<td>Over-provisioning of content happens frequently. It is expensive to pay for content that no one is using. This probably happens because it is difficult.</td>
-			<td>The F2 spec makes it easy to turn on or off entitlements as often as may be required.</td>
+			<td>*Over-Provisioning*<br>Over-provisioning of content happens frequently. It is expensive to pay for content that no one is using. This probably happens because it is difficult.</td>
+			<td><br>The F2 spec makes it easy to turn on or off entitlements as often as may be required.</td>
 		</tr>
 </table>
 
