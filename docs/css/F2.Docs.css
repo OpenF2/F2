@@ -185,7 +185,8 @@ a:hover{color:#005580;text-decoration:underline;}
 .container-fluid:before,.container-fluid:after{display:table;content:"";line-height:0;}
 .container-fluid:after{clear:both;}
 .openf2Header{background-color:#f0f0f0;}
-body .mainContainer{padding:0;margin-top:0;}body .mainContainer .description{background:url("../img/F2TopShadowBorder.png") top no-repeat;position:relative;height:665px;}body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;}body .mainContainer .description .mainBGImg li img{height:665px;width:100%;}
+body .mainContainer{padding:0;margin-top:0;}body .mainContainer .AppRegistrationForm{padding:20px;background:url("../img/F2TopShadowBorder.png") top no-repeat;}
+body .mainContainer .description{background:url("../img/F2TopShadowBorder.png") top no-repeat;position:relative;height:665px;}body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;}body .mainContainer .description .mainBGImg li img{height:665px;width:100%;}
 body .mainContainer .description .ImgIpad{background:url("../img/F2_iPad.jpg") no-repeat center;}
 body .mainContainer .description .ImgIscreens{background:url("../img/F2_iScreens.jpg") no-repeat center;}
 body .mainContainer .description .ImgIphone{background:url("../img/F2_iPhone.jpg") no-repeat center;}
@@ -208,7 +209,7 @@ body .mainContainer .overview .photoControl li a{background:url("../img/dot.png"
 body .mainContainer .overview .photoControl .selected a{background:url("../img/dotSelected.png") no-repeat center;}
 body .mainContainer .overview .captions{list-style:none;text-align:center;padding:10px 0;}body .mainContainer .overview .captions li{display:none;}
 body .mainContainer .overview .captions li.selected{display:inline-block;}
-body .mainContainer .exampleContent{margin-top:40px;}
+body .mainContainer .exampleContent{padding-top:40px;}
 body .mainContainer .exampleCaptions p{padding:0 0 40px 0;color:#6c6c6c;background:url("../img/smallShadowDivider.png") bottom no-repeat;}
 body .mainContainer .exampleControls{position:relative;margin:0;padding:20px 0;text-align:center;}body .mainContainer .exampleControls .arrow{height:25px;width:13px;cursor:pointer;position:absolute;top:15px;}
 body .mainContainer .exampleControls .leftArrow{background:url("../img/LeftArrow.png") center no-repeat;left:0;}
