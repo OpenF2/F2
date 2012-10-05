@@ -41,9 +41,14 @@ body .mainContainer {
     }
   }  
   .overview {
-    padding: 75px 0 200px 0;
+    h2 { text-align: center; margin-bottom: 20px;}
+    .container { background: url(@F2TopBorderFade) top no-repeat; }
+    .row { padding: 50px 0; }
+    .F2SunBullet { background: url(@F2WhiteSunIcon) center no-repeat; padding: 10px; }
     #gradient > .vertical(@F2FooterBackgroundColor, @F2OverviewBackgroundColor);
-    .span4 { margin-left: 100px; }
+    .bulletPoints { .span4{ margin-left: 5px; } }
+    .bulletPointsLeft .span4 {float: right; }
+    .f2OverviewSummary {font-style: italic;}
     .interactiveDisplay {
       background: transparent;
       .carousel-inner { height: 430px; }
