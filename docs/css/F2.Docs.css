@@ -233,7 +233,7 @@ body .mainContainer footer .span5{background:url("../img/rightBorderFade.png") l
 body .mainContainer footer .pull-left h2{line-height:20px;}
 body .mainContainer footer a{text-decoration:underline;color:#bfc7ce;}
 body .mainContainer footer .version{padding:0 10px;font-size:46px;}
-body .mainContainer footer .row:first-child{background:url("../img/bottomBorderFade.png") bottom no-repeat;padding-bottom:20px;}
+body .mainContainer footer .socialWrap{background:url("../img/bottomBorderFade.png") bottom no-repeat;padding-bottom:40px;}
 body .mainContainer footer .social{padding:20px 0 10px 0;}
 body .mainContainer footer .span12{text-align:center;color:#3b4044;margin-bottom:10px;}
 .footerLogoDark{background:url("../img/F2FooterLogoDark.png") center no-repeat;height:24px;}
