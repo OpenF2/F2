@@ -188,7 +188,7 @@ a:hover{color:#005580;text-decoration:underline;}
 body.openf2{background:url("../img/footerNoise.png") repeat;}
 body.f2Developer{background:url("../img/footerNoise.png") repeat;}
 body .mainContainer{background-color:#ffffff;padding:0;margin-top:0;}body .mainContainer .AppRegistrationForm{min-height:300px;padding:20px;background:url("../img/F2TopShadowBorder.png") top no-repeat;}
-body .mainContainer .description{background:url("../img/F2TopShadowBorder.png") top no-repeat;background-color:#ffffff;position:relative;height:665px;}body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;}body .mainContainer .description .mainBGImg li img{height:665px;width:100%;}
+body .mainContainer .description{z-index:2;background:url("../img/F2TopShadowBorder.png") top no-repeat;background-color:#ffffff;position:relative;height:665px;}body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;}body .mainContainer .description .mainBGImg li img{height:665px;width:100%;}
 body .mainContainer .description .ImgIpad{background:url("../img/F2_iPad.jpg") no-repeat center;}
 body .mainContainer .description .ImgIscreens{background:url("../img/F2_iScreens.jpg") no-repeat center;}
 body .mainContainer .description .ImgIphone{background:url("../img/F2_iPhone.jpg") no-repeat center;}
