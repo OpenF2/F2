@@ -3,18 +3,18 @@
 <head>
 	<meta charset="utf-8">
 	<title>sdk&#x2F;src&#x2F;classes.js</title>
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349366913180" type="image/png"/>
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349493335018" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349366913180"></script>
-	<link href="..&#x2F;../css/prettify.css?1349366913180" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1349366913180" rel="stylesheet">
+	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349493335018"></script>
+	<link href="..&#x2F;../css/prettify.css?1349493335018" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1349493335018" rel="stylesheet">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349366913180" />
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349493335018" />
 
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -57,7 +57,7 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
 							<li class="divider-vertical"></li>
-							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.8</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -155,7 +155,7 @@
 F2.extend(&quot;&quot;, {
 	&#x2F;**
 	 * The App Class is an optional class that can be namespaced onto the 
-	 * {{#crossLink &quot;F2\Apps&quot;}}{{&#x2F;crossLink}} property.  The 
+	 * {{#crossLink &quot;F2\Apps&quot;}}{{&#x2F;crossLink}} namespace.  The 
 	 * [F2 Docs](..&#x2F;..&#x2F;developing-f2-apps.html#app-class)
 	 * has more information on the usage of the App Class.
 	 * @class F2.App
@@ -165,7 +165,7 @@ F2.extend(&quot;&quot;, {
 	 * object
 	 * @param {Element} root The root DOM Element for the App
 	 *&#x2F;
-	App:function(appConfig, appContent, root) {
+	App: function(appConfig, appContent, root) {
 		return {
 			&#x2F;**
 			 * An optional init function that will automatically be called when
@@ -180,28 +180,28 @@ F2.extend(&quot;&quot;, {
 	 * The AppConfig object represents an App&#x27;s meta data
 	 * @class F2.AppConfig
 	 *&#x2F;
-	AppConfig:{
+	AppConfig: {
 		&#x2F;**
-		 * The unique ID of the App
+		 * The unique ID of the App. More information can be found
+		 * [here](..&#x2F;..&#x2F;developing-f2-apps.html#f2-appid)
 		 * @property appId
 		 * @type string
 		 * @required
 		 *&#x2F;
-		appId:&quot;&quot;,
+		appId: &quot;&quot;,
 		&#x2F;**
 		 * An object that represents the context of an App
 		 * @property context
 		 * @type object
 		 *&#x2F;
-		context:{},
+		context: {},
 		&#x2F;**
 		 * True if the App should be requested in a single request with other Apps.
-		 * The App must have isSecure = false.
 		 * @property enableBatchRequests
 		 * @type bool
 		 * @default false
 		 *&#x2F;
-		enableBatchRequests:false,
+		enableBatchRequests: false,
 		&#x2F;**
 		 * The height of the App. The initial height will be pulled from
 		 * the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object, but later
@@ -211,85 +211,89 @@ F2.extend(&quot;&quot;, {
 		 * @property height
 		 * @type int
 		 *&#x2F;
-		height:0,
+		height: 0,
 		&#x2F;**
 		 * The unique runtime ID of the App.
 		 *
-		 * **This property populated during the
+		 * **This property is populated during the
 		 * F2.{{#crossLink &quot;F2&#x2F;registerApps&quot;}}{{&#x2F;crossLink}} process**
 		 * @property instanceId
 		 * @type string
 		 *&#x2F;
-		instanceId:&quot;&quot;,
+		instanceId: &quot;&quot;,
 		&#x2F;**
 		 * True if the App will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object sets
-		 * isSecure = true. It will also be true if the Container has decided to run
+		 * will be true if the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object
+		 * sets isSecure = true. It will also be true if the
+		 * [Container](..&#x2F;..&#x2F;index-temp.html#container) has made the decision to run
 		 * Apps in iframes.
 		 * @property isSecure
 		 * @type bool
 		 * @default false
 		 *&#x2F;
-		isSecure:false,
+		isSecure: false,
 		&#x2F;**
-		 * The url to retrieve the {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}} object.
+		 * The url to retrieve the {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}}
+		 * object.
 		 * @property manifestUrl
 		 * @type string
 		 * @required
 		 *&#x2F;
-		manifestUrl:&quot;&quot;,
+		manifestUrl: &quot;&quot;,
 		&#x2F;**
 		 * The recommended maximum width in pixels that this app should be run.
-		 * It is up to the Container to implement the logic to prevent an App
-		 * from being run when the maxWidth requirements are not met.
+		 * **It is up to the [Container](..&#x2F;..&#x2F;index-temp.html#container) to
+		 * implement the logic to prevent an App from being run when the maxWidth
+		 * requirements are not met.**
 		 * @property maxWidth
 		 * @type int
 		 *&#x2F;
-		maxWidth:0,
+		maxWidth: 0,
 		&#x2F;**
 		 * The recommended minimum grid size that this app should be run. This
-		 * value corresponds to the 12-grid system that is used by the Container.
-		 * This property should be set by Apps that require a certain number of 
-		 * columns in their layout.
+		 * value corresponds to the 12-grid system that is used by the
+		 * [Container](..&#x2F;..&#x2F;index-temp.html#container). This property should be set
+		 * by Apps that require a certain number of columns in their layout.
 		 * @property minGridSize
 		 * @type int
 		 * @default 4
 		 *&#x2F;
-		minGridSize:4,
+		minGridSize: 4,
 		&#x2F;**
-		 * The recommended minimum width in pixels that this app should be 
-		 * run. It is up to the Container to implement the logic to prevent
-		 * an App from being run when the minWidth requirements are not met.
+		 * The recommended minimum width in pixels that this app should be run. **It
+		 * is up to the [Container](..&#x2F;..&#x2F;index-temp.html#container) to implement
+		 * the logic to prevent an App from being run when the minWidth requirements
+		 * are not met.
 		 * @property minWidth
 		 * @type int
 		 * @default 300
 		 *&#x2F;
-		minWidth:300,
+		minWidth: 300,
 		&#x2F;**
 		 * The name of the App
 		 * @property name
 		 * @type string
 		 * @required
 		 *&#x2F;
-		name:&quot;&quot;,
+		name: &quot;&quot;,
 		&#x2F;**
 		 * The root DOM element that contains the App
 		 *
-		 * **This property populated during the
+		 * **This property is populated during the
 		 * F2.{{#crossLink &quot;F2&#x2F;registerApps&quot;}}{{&#x2F;crossLink}} process**
 		 * @property root
 		 * @type Element
 		 *&#x2F;
-		root:undefined,
+		root: undefined,
 		&#x2F;**
 		 * The instance of F2.UI providing easy access to F2.UI methods
 		 *
-		 * **This property populated during the
+		 * **This property is populated during the
 		 * F2.{{#crossLink &quot;F2&#x2F;registerApps&quot;}}{{&#x2F;crossLink}} process**
 		 * @property ui
 		 * @type F2.UI
 		 *&#x2F;
-		ui:undefined,
+		ui: undefined,
 		&#x2F;**
 		 * The views that this App supports. Available views
 		 * are defined in {{#crossLink &quot;F2.Constants.Views&quot;}}{{&#x2F;crossLink}}. The
@@ -301,13 +305,13 @@ F2.extend(&quot;&quot;, {
 		 * @property views
 		 * @type Array
 		 *&#x2F;
-		views:[]
+		views: []
 	},
 	&#x2F;**
 	 * The assets needed to render an App on the page
 	 * @class F2.AppManifest
 	 *&#x2F;
-	AppManifest:{
+	AppManifest: {
 		&#x2F;**
 		 * The array of {{#crossLink &quot;F2.AppManifest.AppContent&quot;}}{{&#x2F;crossLink}}
 		 * objects
@@ -315,83 +319,86 @@ F2.extend(&quot;&quot;, {
 		 * @type Array
 		 * @required
 		 *&#x2F;
-		apps:[],
+		apps: [],
 		&#x2F;**
 		 * Any inline javascript tha should initially be run
 		 * @property inlineScripts
 		 * @type Array
 		 * @optional
 		 *&#x2F;
-		inlineScripts:[],
+		inlineScripts: [],
 		&#x2F;**
 		 * Urls to javascript files required by the App
 		 * @property scripts
 		 * @type Array
 		 * @optional
 		 *&#x2F;
-		scripts:[],
+		scripts: [],
 		&#x2F;**
 		 * Urls to CSS files required by the App
 		 * @property styles
 		 * @type Array
 		 * @optional
 		 *&#x2F;
-		styles:[]
+		styles: []
 	},
 	&#x2F;**
 	 * The AppContent object
 	 * @class F2.AppManifest.AppContent
 	 **&#x2F;
-	AppContent:{
+	AppContent: {
 		&#x2F;**
 		 * Arbitrary data to be passed along with the App
 		 * @property data
 		 * @type object
 		 * @optional
 		 *&#x2F;
-		data:{},
+		data: {},
 		&#x2F;**
 		 * The string of HTML representing the App
 		 * @property html
 		 * @type string
 		 * @required
 		 *&#x2F;
-		html:&quot;&quot;,
+		html: &quot;&quot;,
 		&#x2F;**
 		 * A status message
 		 * @property status
 		 * @type string
 		 * @optional
 		 *&#x2F;
-		status:&quot;&quot;
+		status: &quot;&quot;
 	},
 	&#x2F;**
-	 * An object containing configuration information for the Container
+	 * An object containing configuration information for the
+	 * [Container](..&#x2F;..&#x2F;index-temp.html#container)
 	 * @class F2.ContainerConfig
 	 *&#x2F;
-	ContainerConfig:{		
+	ContainerConfig: {		
 		&#x2F;**
-		 * Allows the Container to override how an App&#x27;s html is 
-		 * inserted into the page. The function should accept an
-		 * {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object and also a string of html
+		 * Allows the [Container](..&#x2F;..&#x2F;index-temp.html#container) to override how
+		 * an App&#x27;s html is inserted into the page. The function should accept an
+		 * {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object and also a string of
+		 * html
 		 * @method afterAppRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App 
 		 * @return {Element} The DOM Element surrounding the App
 		 *&#x2F;
-		afterAppRender:function(appConfig, html) {},
+		afterAppRender: function(appConfig, html) {},
 		&#x2F;**
-		 * Allows the Container to wrap an App in extra html. The
-		 * function should accept an {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object
-		 * and also a string of html. The extra html can provide links to edit app
-		 * settings and remove an app from the Container. See
+		 * Allows the [Container](..&#x2F;..&#x2F;index-temp.html#container) to wrap an App in
+		 * extra html. The function should accept an
+		 * {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object and also a string of
+		 * html. The extra html can provide links to edit app settings and remove an
+		 * app from the Container. See
 		 * {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the App
 		 *&#x2F;
-		appRender:function(appConfig, html) {},
+		appRender: function(appConfig, html) {},
 		&#x2F;**
 		 * Allows the Container to render html for an App before the AppManifest for
 		 * an App has loaded. This can be useful if the design calls for loading
@@ -401,62 +408,62 @@ F2.extend(&quot;&quot;, {
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @return {Element} The DOM Element surrounding the App
 		 *&#x2F;
-		beforeAppRender:function(appConfig) {},
+		beforeAppRender: function(appConfig) {},
 		&#x2F;**
 		 * Tells the Container that it is currently running within
 		 * a secure app page
 		 * @property isSecureAppPage
 		 * @type bool
 		 *&#x2F;
-		isSecureAppPage:false,
+		isSecureAppPage: false,
 		&#x2F;**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
 		 *&#x2F;
-		UI:{
+		UI: {
 			&#x2F;**
 			 * An object containing configuration defaults for the 
 			 * {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} and
 			 * {{#crossLink &quot;F2.UI\hideMask&quot;}}{{&#x2F;crossLink}} methods.
 			 * @class F2.ContainerConfig.UI.Mask
 			 *&#x2F;
-			Mask:{
+			Mask: {
 				&#x2F;**
 				 * The backround color of the overlay
 				 * @property backgroundColor
 				 * @type string
-				 * @default #FFFFFF
+				 * @default #FFF
 				 *&#x2F;
-				backgroundColor:&#x27;#FFFFFF&#x27;,
+				backgroundColor: &#x27;#FFF&#x27;,
 				&#x2F;**
 				 * The path to the loading icon
 				 * @property loadingIcon
 				 * @type string
 				 *&#x2F;
-				loadingIcon:&#x27;&#x27;,
+				loadingIcon: &#x27;&#x27;,
 				&#x2F;**
 				 * The opacity of the background overlay
 				 * @property opacity
 				 * @type int
 				 * @default .6
 				 *&#x2F;
-				opacity:.6,
+				opacity: .6,
 				&#x2F;**
-				 * Do not use inline styles for mask functinality. Instead classes will be
-				 * applied to the elements and it is up to the Container provider to
+				 * Do not use inline styles for mask functinality. Instead classes will
+				 * be applied to the elements and it is up to the Container provider to
 				 * implement the class definitions.
 				 * @property useClasses
 				 * @type bool
 				 * @default false
 				 *&#x2F;
-				useClasses:false,
+				useClasses: false,
 				&#x2F;**
 				 * The z-index to use for the overlay
 				 * @property zIndex
 				 * @type int
 				 * @default 2
 				 *&#x2F;
-				zIndex:2
+				zIndex: 2
 			}
 		},
 		&#x2F;**
@@ -467,7 +474,7 @@ F2.extend(&quot;&quot;, {
 		 * @type string
 		 * @for F2.ContainerConfig
 		 *&#x2F;
-		secureAppPagePath:&quot;&quot;,
+		secureAppPagePath: &#x27;&#x27;,
 		&#x2F;**
 		 * Specifies what views a Container will provide buttons
 		 * or liks to. Generally, the views will be switched via buttons or links in
@@ -476,7 +483,7 @@ F2.extend(&quot;&quot;, {
 		 * @type Array
 		 * @required
 		 *&#x2F;
-		supportedViews:[]
+		supportedViews: []
 	}
 });
     </pre>
@@ -494,15 +501,15 @@ F2.extend(&quot;&quot;, {
 	</div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349366913180"></script>
-<script src="..&#x2F;../js/prettify.js?1349366913180"></script>
-<script src="..&#x2F;assets/js/main.js?1349366913180"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349493335018"></script>
+<script src="..&#x2F;../js/prettify.js?1349493335018"></script>
+<script src="..&#x2F;assets/js/main.js?1349493335018"></script>
 <script>prettyPrint();</script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349366913180";</script>
+<script>var ghpagescachebuster = "1349493335018";</script>
 </body>
 </html>
