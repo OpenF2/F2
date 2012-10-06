@@ -5,3 +5,8 @@ bin
 obj
 *.suo
 protos
+docs/js/jquery-ui-1.8.24.custom.min.js
+
+docs/js/jquery-ui-1.8.24.effects.core.min.js
+
+docs/js/modernizr.isTablet.js
