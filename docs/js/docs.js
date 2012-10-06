@@ -60,7 +60,6 @@ F2Docs.fn.mobile_hideAddressBar = function(){
 F2Docs.fn.bindEvents = function(){
 
 	this.handleHashchange();
-	this.watchScroll();
 
 }
 
@@ -70,78 +69,13 @@ F2Docs.fn.bindEvents = function(){
 F2Docs.fn.handleHashchange = function(){
 
 	window.scrollTo(0, 1);
-	window.setTimeout(function(){
-		var $offset = $(location.hash),
-			pos = $offset.offset() || {};
+	var $offset = $(location.hash),
+		pos = $offset.offset() || {};
 
-		if ($offset.length){
-			$('html,body').animate({ scrollTop: (pos.top) });
-		}
-	},250);//we need a slight delay b/c of the header shrinking thing. this isn't the best thing ever.
-}
-
-/**
- * Keep an eye on scrollTop position for shrinking header/nav
- */
-F2Docs.fn.watchScroll = function(){
-
-	//if (!Modernizr.isTablet){
-
-		$(window).on("scroll",function(){
-			var $win = $(this),
-				scrollPos = $win.scrollTop(),
-				$body = $(this),
-				winWidth = $win.width();
-
-			//only add this class to desktop browsers
-			if (winWidth > 979 && scrollPos > 0) {
-				$("body")[(scrollPos > 0) ? "addClass" : "removeClass"]("navbarmini");
-			} else {
-				$("body").removeClass("navbarmini");
-			}
-		});
-
-		//desktop browser resizing
-		$(window).on("resize",function(){
-			if ($(this).width() < 980){
-				$("body").removeClass("navbarmini");
-			}
-		});
-	//} else {
-		//$("body").addClass("navbarmini");
-	//}
-
-}
-
-/**
- * Helper for oft-used stuff
-
-F2Docs.fn.winData = function(){
-
-	var agent = navigator.userAgent.toLowerCase();
-
-	return {
-		$body: $("body"),
-		scrWidth: screen.width,
-		scrHeight: screen.height,
-		elemWidth: document.documentElement.clientWidth,
-		elemHeight: document.documentElement.clientHeight,
-		otherBrowser: (agent.indexOf("series60") != -1) || (agent.indexOf("symbian") != -1) || (agent.indexOf("windows ce") != -1) || (agent.indexOf("blackberry") != -1),
-		mobileOS: typeof orientation != 'undefined' ? true : false,
-		touchOS: ('ontouchstart' in document.documentElement) ? true : false,
-		iOS: (navigator.platform.indexOf("iPhone") != -1) || (navigator.platform.indexOf("iPad") != -1) ? true : false,
-		android: (agent.indexOf("android") != -1) || (!this.iOS && !this.otherBrowser && this.touchOS && this.mobileOS) ? true : false
+	if ($offset.length){
+		$('html,body').animate({ scrollTop: (pos.top) });
 	}
 }
-
-F2Docs.fn.setupTablets = function(){
-	alert(Modernizr.isTablet + ", "+ this.winData().scrWidth)
-	if (Modernizr.isTablet && this.winData().scrWidth < 768){
-		this.winData().$body.addClass("navbarmini");
-	}
-}
- */
-
 
 /** 
  * Highlight Basics or Development nav item, based on filename
@@ -159,6 +93,7 @@ F2Docs.fn.navbarDocsHelper = function(){
 	//remove all 
 	$toc.find("a").removeClass("active");
 
+	//add active class to blue,green or orange subnav item
 	if (file == urlMap.basics || !file || file == "index-temp.html"){
 		$toc.find("li").first().find("a").addClass("active");
 		this.currentPage = "basics";
@@ -291,19 +226,11 @@ F2Docs.fn._handleTocNavigationClick = function(e){
 	$("li.active",$navWrap).removeClass("active");
 	$this.parent().addClass("active");
 
-	//handle shift in padding as navbarmini gets added to body
-	if (!$this.data("parent") && $this.data("id") != "top" && !$("body").hasClass("navbarmini")){
-		$("body").addClass("navbarmini");
-	}
-
 	//if we have a location.hash change, animate scrollTop to it.
-	//need the 100ms delay to account for navbarmini padding changes.
 	if (destinationId.indexOf("#") > -1){
-		window.setTimeout(function(){
-			offset = $destination.offset() || {};
-			$('html,body').animate({ scrollTop: offset.top });
-			location.hash = destinationId;
-		},100);
+		offset = $destination.offset() || {};
+		$('html,body').animate({ scrollTop: offset.top });
+		location.hash = destinationId;
 		return false
 	}
 }

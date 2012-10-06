@@ -309,7 +309,7 @@ A Container developer only needs to be concerned with developing and hosting a C
 
 Depending on the Container design, users are typically shown a menu of Apps from which to choose as they are customizing their workspace(s). When a user chooses to add an App, the App will “load” itself (per the section titled “Loading an App on the Container”) on the Container. 
 
-## Other Possible Container Features
+## More Features
 
 ### Search
 

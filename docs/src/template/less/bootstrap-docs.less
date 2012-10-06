@@ -6,10 +6,10 @@
 @import "navbar-sub-docs.less";
 
 body {
-	padding-top: 150px;
+	padding-top: 90px;
 }
 
-//responsive
+//responsive adjustments
 @media (max-width: @navbarCollapseWidth) {
 	body {
 		padding-top:0;//no padding on body on tablets or smaller
@@ -30,7 +30,27 @@ body {
 	}
 }
 
-/*sections*/
+//main content
+.container .row {
+	margin-bottom: 20px;
+}
+
+.container .span9 {
+	padding-bottom:100px;
+}
+
+//code
+pre {
+	font-size:12px;
+}
+
+pre.prettyprint {
+	padding: 8px;
+	background-color: #F7F7F9;
+	border: 1px solid #E1E1E8;
+}
+
+//sections
 h1.title { 
 	margin-top: 0;
 }
@@ -43,10 +63,6 @@ h1.title {
 	padding-top:15px;
 }
 
-p.lead { 
-	xmargin-bottom: 0;
-}
-
 .level4 { 
 	margin-top:30px;
 }
@@ -55,17 +71,23 @@ section > hr {
 	margin:40px 0 0;
 }
 
-/*left rail/table of contents*/
-// NAV LIST
-// --------
+//left rail/table of contents
+
+.nav-list {
+	margin-top: 9px; //align with top of main content well
+	border-top:3px solid @grayAlt;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
 .nav-list > li > a {
 	font-family: @headingsFontFamily;
-	font-size: 20px;
+	font-size: 19px;
 }
 
 .nav-list > li > ul a {
-	font-size: 19px;
-	padding: 4px 15px;
+	font-size: 17px;
+	padding: 4px 0 4px 15px;
 }
 
 .nav-list > li > a:hover {
@@ -73,37 +95,34 @@ section > hr {
   color: @F2Blue;
 }
 
-.nav-list {
-  border-top:3px solid @grayAlt;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-bottom: 0;
-}
 .nav-list .nav-list {
-	border-top:none;
+	border-top: none;
+	margin-top: 0;
 }
+
 .nav-list > li > a,
 .nav-list .nav-header {
   margin-left:  -15px;
   margin-right: -15px;
   text-shadow: none;
-  //text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
+
 .nav-list > li > a {
   padding: 8px 15px;
   color: @grayAlt;
 }
+
 .nav-list > .active > a,
 .nav-list > .active > a:hover {
   color: @F2Blue;
   text-shadow: none;
   background: none;
-  //text-shadow: 0 -1px 0 rgba(0,0,0,.2);
-  //background-color: @linkColor;
 }
+
 .nav-list [class^="icon-"] {
   margin-right: 2px;
 }
+
 // Dividers (basically an hr) within the dropdown
 .nav-list .divider {
   .nav-divider();
@@ -111,66 +130,46 @@ section > hr {
 
 
 #toc {
-	min-height: 1px;/*keep width of well so main content doesn't collapse*/
+	min-height: 1px;//keep width of this div#toc so main content doesn't collapse
 }
 
-#toc > ul.affix-top {
+//affixed
+.nav-list.affix-top {
 
 }
 
-#toc > ul,
-#toc > ul.affix,
-#toc > ul.affix-bottom {
-	//width:205px;
+//left rail nav-list
+.nav-list,
+.nav-list.affix,
+.nav-list.affix-bottom {
+	width: 190px;
 }
 
-#toc > ul.affix {
+@media (min-width: 1200px) {
+	.nav-list,
+	.nav-list.affix,
+	.nav-list.affix-bottom {
+		width: 240px;
+	}
+
+	.nav-list > li > ul a {
+		font-size: 19px;
+	}
+
+	.nav-list > li > a {
+		font-size: 20px;
+	}
+}
+
+.nav-list.affix {
 	margin-bottom: 70px;
 }
 
-/*
-#toc > ul.affix-bottom {
-	top:auto;
-	position: absolute;
-	bottom:100px;
-}*/
-
-
-/*
-#toc ul ul { 
-	font-size: 85%; 
-}
-
-#toc ul ul ul { 
-	font-size: 90%; 
-}
-*/
-
-/*main content*/
-.container .row {
-	margin-bottom: 20px;
-}
-
-.container .span9 {
-	padding-bottom:100px;
-}
-
-//code
-
-pre {
-	font-size:12px;
-}
-
-pre.prettyprint {
-	padding: 8px;
-	background-color: #F7F7F9;
-	border: 1px solid #E1E1E8;
-}
-
-/*footer*/
+//footer
 footer small {
 	font-size: 12px;
 }
+
 footer .pull-right {
 	text-align: right;
 }

@@ -889,7 +889,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini{*padding-top:1px;*padding-
 .btn-navbar .icon-bar+.icon-bar{margin-top:3px;}
 .navbar .icon-triangleDown{width:0;height:0;border-left:6.5px solid transparent;border-right:6.5px solid transparent;border-top:6.5px solid #9da6ac;}
 .nav-collapse .icon-triangleDown{display:none;}
-.navbarmini{padding-top:100px;}.navbarmini .navbar-fixed-top .navbar-inner{min-height:28px;-webkit-box-shadow:0 0 0 rgba(0, 0, 0, 0);-moz-box-shadow:0 0 0 rgba(0, 0, 0, 0);box-shadow:0 0 0 rgba(0, 0, 0, 0);-webkit-box-shadow:0 0 0 rgba(0, 0, 0, 0);-moz-box-shadow:0 0 0 rgba(0, 0, 0, 0);box-shadow:0 0 0 rgba(0, 0, 0, 0);}
+.navbarmini .navbar-fixed-top .navbar-inner{min-height:28px;-webkit-box-shadow:0 0 0 rgba(0, 0, 0, 0);-moz-box-shadow:0 0 0 rgba(0, 0, 0, 0);box-shadow:0 0 0 rgba(0, 0, 0, 0);-webkit-box-shadow:0 0 0 rgba(0, 0, 0, 0);-moz-box-shadow:0 0 0 rgba(0, 0, 0, 0);box-shadow:0 0 0 rgba(0, 0, 0, 0);}
 .navbarmini .navbar-fixed-top .brand{padding:4px 10px 9px;margin-top:7px;font-size:20px;font-weight:200;background-image:url("../img/mini_f2_logo.png");}
 .navbarmini .navbar-fixed-top .tagline-divider{height:10px;margin:9px 12px 0 12px;}
 .navbarmini .navbar-fixed-top .navbar-text{line-height:28px;font-size:10px;}
