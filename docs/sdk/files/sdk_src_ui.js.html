@@ -3,18 +3,18 @@
 <head>
 	<meta charset="utf-8">
 	<title>sdk&#x2F;src&#x2F;ui.js</title>
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349366913180" type="image/png"/>
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349493335018" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349366913180"></script>
-	<link href="..&#x2F;../css/prettify.css?1349366913180" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1349366913180" rel="stylesheet">
+	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349493335018"></script>
+	<link href="..&#x2F;../css/prettify.css?1349493335018" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1349493335018" rel="stylesheet">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349366913180" />
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349493335018" />
 
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -57,7 +57,7 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
 							<li class="divider-vertical"></li>
-							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.8</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -188,7 +188,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			 * @param {string|Element} selector The Element or selector to an Element
 			 * that currently contains the loader
 			 *&#x2F;
-			hideMask:function(selector) {
+			hideMask: function(selector) {
 				F2.UI.hideMask(_appConfig.instanceId, selector);
 			},
 			&#x2F;**
@@ -196,7 +196,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			 * @class F2.UI.Modals
 			 * @for F2.UI
 			 *&#x2F;
-			Modals:(function(){
+			Modals: (function(){
 
 				var _renderAlert = function(message) {
 					return [
@@ -281,7 +281,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					 * the Cancel button is pressed
 					 * @for F2.UI.Modals
 					 *&#x2F;
-					confirm:function(message, okCallback, cancelCallback) {
+					confirm: function(message, okCallback, cancelCallback) {
 
 						if (!F2.isInit()) {
 							F2.log(&#x27;F2.init() must be called before F2.UI.Modals.confirm()&#x27;);
@@ -325,7 +325,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			 * @params {string} title The title of the App
 			 * @for F2.UI
 			 *&#x2F;
-			setTitle:function(title) {
+			setTitle: function(title) {
 
 				if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 					F2.Rpc.call(
@@ -347,7 +347,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			 * over which to display the loader
 			 * @param {bool} showLoading Display a loading icon
 			 *&#x2F;
-			showMask:function(selector, showLoader) {
+			showMask: function(selector, showLoader) {
 				F2.UI.showMask(_appConfig.instanceId, selector, showLoader);
 			},
 			&#x2F;**
@@ -357,13 +357,13 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			 * @method updateHeight
 			 * @params {int} height The height of the App
 			 *&#x2F;
-			updateHeight:_updateHeight,
+			updateHeight: _updateHeight,
 			&#x2F;**
 			 * Helper methods for creating and using Views
 			 * @class F2.UI.Views
 			 * @for F2.UI
 			 *&#x2F;
-			Views:(function(){
+			Views: (function(){
 
 				var _events = new EventEmitter2();
 				var _rValidEvents = &#x2F;change&#x2F;i;
@@ -389,7 +389,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					 * event listener will be added.
 					 * @for F2.UI.Views
 					 *&#x2F;
-					change:function(input) {
+					change: function(input) {
 
 						if (typeof input === &#x27;function&#x27;) {
 							this.on(&#x27;change&#x27;, input);
@@ -420,7 +420,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 		 			 * @param {function} listener The function that will be removed
 		 			 * @for F2.UI.Views
 					 *&#x2F;
-					off:function(event, listener) {
+					off: function(event, listener) {
 						if (_isValid(event)) {
 							_events.off(event, listener);
 						}
@@ -433,7 +433,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					 * emitted
 					 * @for F2.UI.Views
 					 *&#x2F;
-					on:function(event, listener) {
+					on: function(event, listener) {
 						if (_isValid(event)) {
 							_events.on(event, listener);
 						}
@@ -589,15 +589,15 @@ F2.extend(&#x27;UI&#x27;, (function(){
 	</div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349366913180"></script>
-<script src="..&#x2F;../js/prettify.js?1349366913180"></script>
-<script src="..&#x2F;assets/js/main.js?1349366913180"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349493335018"></script>
+<script src="..&#x2F;../js/prettify.js?1349493335018"></script>
+<script src="..&#x2F;assets/js/main.js?1349493335018"></script>
 <script>prettyPrint();</script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349366913180";</script>
+<script>var ghpagescachebuster = "1349493335018";</script>
 </body>
 </html>

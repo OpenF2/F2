@@ -3,18 +3,18 @@
 <head>
 	<meta charset="utf-8">
 	<title>sdk&#x2F;src&#x2F;constants.js</title>
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349366913180" type="image/png"/>
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349493335018" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349366913180"></script>
-	<link href="..&#x2F;../css/prettify.css?1349366913180" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1349366913180" rel="stylesheet">
+	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349493335018"></script>
+	<link href="..&#x2F;../css/prettify.css?1349493335018" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1349493335018" rel="stylesheet">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349366913180" />
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349493335018" />
 
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -57,7 +57,7 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
 							<li class="divider-vertical"></li>
-							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.8</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -158,7 +158,7 @@ F2.extend(&#x27;Constants&#x27;, {
 	 * CSS class constants
 	 * @class F2.Constants.Css
 	 *&#x2F;
-	Css:(function() {
+	Css: (function() {
 
 		&#x2F;** @private *&#x2F;
 		var _PREFIX = &#x27;f2-&#x27;;
@@ -174,7 +174,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP:_PREFIX + &#x27;app&#x27;,
+			APP: _PREFIX + &#x27;app&#x27;,
 			&#x2F;**
 			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
 			 * of the App.
@@ -183,7 +183,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_CONTAINER:_PREFIX + &#x27;app-container&#x27;,
+			APP_CONTAINER: _PREFIX + &#x27;app-container&#x27;,
 			&#x2F;**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
 			 * the title for an App.  If this class is not present, then
@@ -193,7 +193,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_TITLE:_PREFIX + &#x27;app-title&#x27;,
+			APP_TITLE: _PREFIX + &#x27;app-title&#x27;,
 			&#x2F;**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
 			 * a view for an App. The DOM Element should also have a
@@ -205,7 +205,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_VIEW:_PREFIX + &#x27;app-view&#x27;,
+			APP_VIEW: _PREFIX + &#x27;app-view&#x27;,
 			&#x2F;**
 			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
 			 * trigger an
@@ -219,7 +219,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_VIEW_TRIGGER:_PREFIX + &#x27;app-view-trigger&#x27;,
+			APP_VIEW_TRIGGER: _PREFIX + &#x27;app-view-trigger&#x27;,
 			&#x2F;**
 			 * The MASK class is applied to the overlay element that is created
 			 * when the {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} method is fired.
@@ -228,7 +228,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			MASK:_PREFIX + &#x27;mask&#x27;,
+			MASK: _PREFIX + &#x27;mask&#x27;,
 			&#x2F;**
 			 * The MASK_CONTAINER class is applied to the Element that is passed into
 			 * the {{#crossLink &quot;F2.UI\showMask&quot;}}{{&#x2F;crossLink}} method.
@@ -237,7 +237,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			MASK_CONTAINER:_PREFIX + &#x27;mask-container&#x27;
+			MASK_CONTAINER: _PREFIX + &#x27;mask-container&#x27;
 		};
 	})(),
 	
@@ -245,13 +245,26 @@ F2.extend(&#x27;Constants&#x27;, {
 	 * Events constants
 	 * @class F2.Constants.Events
 	 *&#x2F;
-	Events:(function() {
+	Events: (function() {
 		&#x2F;** @private *&#x2F;
 		var _APP_EVENT_PREFIX = &#x27;App.&#x27;;
 		&#x2F;** @private *&#x2F;
 		var _CONTAINER_EVENT_PREFIX = &#x27;Container.&#x27;;
 
 		return {
+			&#x2F;**
+			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
+			 * App. It is up to the App developer to fire this event.
+			 * Returns an object with the symbol and company name:
+			 *
+			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
+			 *
+			 * @property APP_SYMBOL_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 *&#x2F;
+			APP_SYMBOL_CHANGE: _APP_EVENT_PREFIX + &#x27;symbolChange&#x27;,
 			&#x2F;**
 			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
 			 * width of an App is changed. The App&#x27;s instanceId should be concatenated
@@ -265,30 +278,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			APP_WIDTH_CHANGE:_APP_EVENT_PREFIX + &#x27;widthChange.&#x27;,
-			&#x2F;**
-			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
-			 * App. It is up to the App developer to fire this event.
-			 * Returns an object with the symbol and company name:
-			 *
-			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
-			 *
-			 * @property APP_SYMBOL_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 *&#x2F;
-			APP_SYMBOL_CHANGE:_APP_EVENT_PREFIX + &#x27;symbolChange&#x27;,
-			&#x2F;**
-			 * The APP\_VIEW\_CHANGE event will be fired by the Container when a user
-			 * clicks to switch the view for an App. The App&#x27;s instanceId should be
-			 * concatenated to this constant.
-			 * @property APP_VIEW_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 *&#x2F;
-			APP_VIEW_CHANGE:_APP_EVENT_PREFIX + &#x27;viewChange.&#x27;,
+			APP_WIDTH_CHANGE: _APP_EVENT_PREFIX + &#x27;widthChange.&#x27;,
 			&#x2F;**
 			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
 			 * at the Container level. This event should only be fired by the
@@ -302,7 +292,7 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			CONTAINER_SYMBOL_CHANGE:_CONTAINER_EVENT_PREFIX + &#x27;symbolChange&#x27;,
+			CONTAINER_SYMBOL_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;symbolChange&#x27;,
 			&#x2F;**
 			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
 			 * the width of the Container has changed.
@@ -311,18 +301,18 @@ F2.extend(&#x27;Constants&#x27;, {
 			 * @static
 			 * @final
 			 *&#x2F;
-			CONTAINER_WIDTH_CHANGE:_CONTAINER_EVENT_PREFIX + &#x27;widthChange&#x27;
+			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;widthChange&#x27;
 		};
 	})(),
 
-	JSONP_CALLBACK:&#x27;F2_jsonpCallback_&#x27;,
+	JSONP_CALLBACK: &#x27;F2_jsonpCallback_&#x27;,
 
 	&#x2F;**
 	 * Constants for use with cross-domain sockets
 	 * @class F2.Constants.Sockets
 	 * @protected
 	 *&#x2F;
-	Sockets:{
+	Sockets: {
 		&#x2F;**
 		 * The EVENT message is sent whenever
 		 * {{#crossLink &quot;F2.Events\emit&quot;}}{{&#x2F;crossLink}} is fired
@@ -331,7 +321,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		EVENT:&#x27;__event__&#x27;,
+		EVENT: &#x27;__event__&#x27;,
 		&#x2F;**
 		 * The LOAD message is sent when an iframe socket initially loads.
 		 * Returns a JSON string that represents:
@@ -343,7 +333,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		LOAD:&#x27;__socketLoad__&#x27;,
+		LOAD: &#x27;__socketLoad__&#x27;,
 		&#x2F;**
 		 * The RPC message is sent when a method is passed up from within a secure
 		 * app page.
@@ -352,7 +342,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		RPC:&#x27;__rpc__&#x27;,
+		RPC: &#x27;__rpc__&#x27;,
 		&#x2F;**
 		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
 		 * fired.
@@ -361,7 +351,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		RPC_CALLBACK:&#x27;__rpcCallback__&#x27;,
+		RPC_CALLBACK: &#x27;__rpcCallback__&#x27;,
 		&#x2F;**
 		 * The UI\_RPC message is sent when a UI method called.
 		 * @property UI_RPC
@@ -369,7 +359,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		UI_RPC:&#x27;__uiRpc__&#x27;
+		UI_RPC: &#x27;__uiRpc__&#x27;
 	},
 
 	&#x2F;**
@@ -380,7 +370,7 @@ F2.extend(&#x27;Constants&#x27;, {
 	 * The &#x60;hide&#x60; class can be applied to views that should be hidden by default.
 	 * @class F2.Constants.Views
 	 *&#x2F;
-	Views:{
+	Views: {
 		&#x2F;**
 		 * 
 		 * @property DATA_ATTRIBUTE
@@ -388,7 +378,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		DATA_ATTRIBUTE:&#x27;data-f2-view&#x27;,
+		DATA_ATTRIBUTE: &#x27;data-f2-view&#x27;,
 		&#x2F;**
 		 * The ABOUT view gives details about the App.
 		 * @property ABOUT
@@ -396,7 +386,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		ABOUT:&#x27;about&#x27;,
+		ABOUT: &#x27;about&#x27;,
 		&#x2F;**
 		 * The HELP view provides users with help information for using an App.
 		 * @property HELP
@@ -404,7 +394,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		HELP:&#x27;help&#x27;,
+		HELP: &#x27;help&#x27;,
 		&#x2F;**
 		 * The HOME view is the main view for an App. This view should always
 		 * be provided by an App.
@@ -413,7 +403,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		HOME:&#x27;home&#x27;,
+		HOME: &#x27;home&#x27;,
 		&#x2F;**
 		 * The REMOVE view is a special view that handles the removal of an App
 		 * from the Container.
@@ -422,7 +412,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		REMOVE:&#x27;remove&#x27;,
+		REMOVE: &#x27;remove&#x27;,
 		&#x2F;**
 		 * The SETTINGS view provides users the ability to modify advanced settings
 		 * for an App.
@@ -431,7 +421,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		 * @static
 		 * @final
 		 *&#x2F;
-		SETTINGS:&#x27;settings&#x27;
+		SETTINGS: &#x27;settings&#x27;
 	}
 });
     </pre>
@@ -449,15 +439,15 @@ F2.extend(&#x27;Constants&#x27;, {
 	</div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349366913180"></script>
-<script src="..&#x2F;../js/prettify.js?1349366913180"></script>
-<script src="..&#x2F;assets/js/main.js?1349366913180"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349493335018"></script>
+<script src="..&#x2F;../js/prettify.js?1349493335018"></script>
+<script src="..&#x2F;assets/js/main.js?1349493335018"></script>
 <script>prettyPrint();</script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349366913180";</script>
+<script>var ghpagescachebuster = "1349493335018";</script>
 </body>
 </html>

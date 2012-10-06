@@ -1,5 +1,5 @@
 /**
- * Core Container functionality
+ * Root namespace of the F2 SDK
  * @module f2
  * @class F2
  */
@@ -143,8 +143,8 @@ F2.extend('', (function(){
 	 * Loads the App's html/css/javascript
 	 * @method loadApp
 	 * @private
-	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-	 * objects
+	 * @param {Array} appConfigs An array of
+	 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
 	 * @param {F2.AppManifest} [appManifest] The AppManifest object
 	 */
 	var _loadApps = function(appConfigs, appManifest) {
@@ -289,9 +289,9 @@ F2.extend('', (function(){
 		/**
 		 * Gets the current list of Apps in the container
 		 * @method getContainerState
-		 * @returns {Array} An array of objects containing the appId and...
+		 * @returns {Array} An array of objects containing the appId
 		 */
-		getContainerState:function() {
+		getContainerState: function() {
 			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.getContainerState()');
 				return;
@@ -307,7 +307,7 @@ F2.extend('', (function(){
 		 * @method init
 		 * @param {F2.ContainerConfig} config The configuration object
 		 */
-		init:function(config) {
+		init: function(config) {
 			_config = config;
 
 			F2.Rpc.init(_config.secureAppPagePath);
@@ -322,7 +322,7 @@ F2.extend('', (function(){
 		 * @method isInit
 		 * @return {bool} True if the Container has been init
 		 */
-		isInit:_isInit,
+		isInit: _isInit,
 		/**
 		 * Begins the loading process for all Apps. The App will
 		 * be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
@@ -339,7 +339,7 @@ F2.extend('', (function(){
 		 * passed in. This can be useful if Apps are loaded on the server-side and
 		 * passed down to the client.
 		 */
-		registerApps:function(appConfigs, appManifests) {
+		registerApps: function(appConfigs, appManifests) {
 
 			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.registerApps()');
@@ -456,7 +456,7 @@ F2.extend('', (function(){
 		 * Removes all Apps from the Container
 		 * @method removeAllApps
 		 */
-		removeAllApps:function() {
+		removeAllApps: function() {
 
 			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.removeAllApps()');
@@ -472,7 +472,7 @@ F2.extend('', (function(){
 		 * @method removeApp
 		 * @param {string} instanceId The App's instanceId
 		 */
-		removeApp:function(instanceId) {
+		removeApp: function(instanceId) {
 
 			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.removeApp()');

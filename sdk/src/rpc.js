@@ -232,7 +232,7 @@ F2.extend('Rpc', (function(){
 		 * @param {string} messageType The message type
 		 * @param {Array} params The parameters to broadcast
 		 */
-		broadcast:function(messageType, params) {
+		broadcast: function(messageType, params) {
 			// check valid messageType
 			var message = messageType + F2.stringify(params);
 			$.each(_apps, function(i, a) {
@@ -249,7 +249,7 @@ F2.extend('Rpc', (function(){
 		 * function. Any functions found within the params will be treated as a
 		 * callback function.
 		 */
-		call:function(instanceId, messageType, functionName, params) {
+		call: function(instanceId, messageType, functionName, params) {
 			// loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			$.each(params, function(i, e) {
@@ -278,7 +278,7 @@ F2.extend('Rpc', (function(){
 		 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}}.secureAppPagePath
 		 * property
 		 */
-		init:function(secureAppPagePath) {
+		init: function(secureAppPagePath) {
 			_secureAppPagePath = secureAppPagePath;
 			if (!_secureAppPagePath) {
 				_createAppToContainerSocket();
@@ -293,7 +293,7 @@ F2.extend('Rpc', (function(){
 		 * @param {string} instanceId The Instance ID
 		 * @return {bool} True if there is an open socket
 		 */
-		isRemote:function(instanceId) {
+		isRemote: function(instanceId) {
 			return (
 				// we have an App
 				_apps[instanceId] !== undefined &&
@@ -310,7 +310,7 @@ F2.extend('Rpc', (function(){
 		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 */
-		register:function(appConfig, appManifest) {
+		register: function(appConfig, appManifest) {
 			if (!!appConfig && !!appManifest) {
 				_apps[appConfig.instanceId] = {
 					config:appConfig,

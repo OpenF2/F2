@@ -38,7 +38,7 @@ F2.extend('UI', (function(){
 			 * @param {string|Element} selector The Element or selector to an Element
 			 * that currently contains the loader
 			 */
-			hideMask:function(selector) {
+			hideMask: function(selector) {
 				F2.UI.hideMask(_appConfig.instanceId, selector);
 			},
 			/**
@@ -46,7 +46,7 @@ F2.extend('UI', (function(){
 			 * @class F2.UI.Modals
 			 * @for F2.UI
 			 */
-			Modals:(function(){
+			Modals: (function(){
 
 				var _renderAlert = function(message) {
 					return [
@@ -131,7 +131,7 @@ F2.extend('UI', (function(){
 					 * the Cancel button is pressed
 					 * @for F2.UI.Modals
 					 */
-					confirm:function(message, okCallback, cancelCallback) {
+					confirm: function(message, okCallback, cancelCallback) {
 
 						if (!F2.isInit()) {
 							F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
@@ -175,7 +175,7 @@ F2.extend('UI', (function(){
 			 * @params {string} title The title of the App
 			 * @for F2.UI
 			 */
-			setTitle:function(title) {
+			setTitle: function(title) {
 
 				if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 					F2.Rpc.call(
@@ -197,7 +197,7 @@ F2.extend('UI', (function(){
 			 * over which to display the loader
 			 * @param {bool} showLoading Display a loading icon
 			 */
-			showMask:function(selector, showLoader) {
+			showMask: function(selector, showLoader) {
 				F2.UI.showMask(_appConfig.instanceId, selector, showLoader);
 			},
 			/**
@@ -207,13 +207,13 @@ F2.extend('UI', (function(){
 			 * @method updateHeight
 			 * @params {int} height The height of the App
 			 */
-			updateHeight:_updateHeight,
+			updateHeight: _updateHeight,
 			/**
 			 * Helper methods for creating and using Views
 			 * @class F2.UI.Views
 			 * @for F2.UI
 			 */
-			Views:(function(){
+			Views: (function(){
 
 				var _events = new EventEmitter2();
 				var _rValidEvents = /change/i;
@@ -239,7 +239,7 @@ F2.extend('UI', (function(){
 					 * event listener will be added.
 					 * @for F2.UI.Views
 					 */
-					change:function(input) {
+					change: function(input) {
 
 						if (typeof input === 'function') {
 							this.on('change', input);
@@ -270,7 +270,7 @@ F2.extend('UI', (function(){
 		 			 * @param {function} listener The function that will be removed
 		 			 * @for F2.UI.Views
 					 */
-					off:function(event, listener) {
+					off: function(event, listener) {
 						if (_isValid(event)) {
 							_events.off(event, listener);
 						}
@@ -283,7 +283,7 @@ F2.extend('UI', (function(){
 					 * emitted
 					 * @for F2.UI.Views
 					 */
-					on:function(event, listener) {
+					on: function(event, listener) {
 						if (_isValid(event)) {
 							_events.on(event, listener);
 						}

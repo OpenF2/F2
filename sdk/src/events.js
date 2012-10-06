@@ -1,5 +1,6 @@
 /**
- * Description of Events goes here
+ * Handles [Context](../../developing-f2-apps.html#context) passing from
+ * Containers to Apps and Apps to Apps.
  * @class F2.Events
  */
 F2.extend('Events', (function() {
@@ -20,7 +21,7 @@ F2.extend('Events', (function() {
 		 * @param {string} event The event name
 		 * @param {object} [arg]* The arguments to be passed
 		 */
-		_socketEmit:function() {
+		_socketEmit: function() {
 			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
@@ -30,7 +31,7 @@ F2.extend('Events', (function() {
 		 * @param {string} event The event name
 		 * @param {object} [arg]* The arguments to be passed
 		 */
-		emit:function() {
+		emit: function() {
 			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
 			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
@@ -45,7 +46,7 @@ F2.extend('Events', (function() {
 		 * @param {function} listener The function to be fired when the event is
 		 * emitted
 		 */
-		many:function(event, timesToListen, listener) {
+		many: function(event, timesToListen, listener) {
 			return _events.many(event, timesToListen, listener);
 		},
 		/**
@@ -54,7 +55,7 @@ F2.extend('Events', (function() {
 		 * @param {string} event The event name
 		 * @param {function} listener The function that will be removed
 		 */
-		off:function(event, listener) {
+		off: function(event, listener) {
 			return _events.off(event, listener);
 		},
 		/**
@@ -64,7 +65,7 @@ F2.extend('Events', (function() {
 		 * @param {function} listener The function to be fired when the event is
 		 * emitted
 		 */
-		on:function(event, listener){
+		on: function(event, listener){
 			return _events.on(event, listener);
 		},
 		/**
@@ -75,7 +76,7 @@ F2.extend('Events', (function() {
 		 * @param {function} listener The function to be fired when the event is
 		 * emitted
 		 */
-		once:function(event, listener) {
+		once: function(event, listener) {
 			return _events.once(event, listener);
 		}
 	};

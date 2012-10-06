@@ -28,11 +28,11 @@ if (!window.F2) {
 	 */
 	F2 = {
 		/**
-		 * Function to pass into F2.stringify which will prevent circular reference
-		 * errors when serializing objects
+		 * A function to pass into F2.stringify which will prevent circular
+		 * reference errors when serializing objects
 		 * @method appConfigReplacer
 		 */
-		appConfigReplacer:function(key, value) {
+		appConfigReplacer: function(key, value) {
 			if (key == 'root' || key == 'ui') {
 				return undefined;
 			} else {
@@ -40,22 +40,22 @@ if (!window.F2) {
 			}
 		},
 		/**
-		 * The Apps class is a namespace for App developers to place the javascript
+		 * The Apps namespace is a place for App developers to put the javascript
 		 * class that is used to initialize their App. The javascript classes should
-		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. It is recommended
-		 * that the code be placed in a closure to help keep the global namespace
-		 * clean.
+		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. 
+		 * It is recommended that the code be placed in a closure to help keep the
+		 * global namespace clean.
 		 *
 		 * If the class has an 'init' function, that function will be called 
-		 * automatically.
+		 * automatically by F2.
 		 * @property Apps
 		 * @type object
 		 * @example
-		 *     F2.Apps["712521f7737666e1489f681817376592"] = (function() {
+		 *     F2.Apps["com_example_helloworld"] = (function() {
 		 *         var App_Class = function(appConfig, appContent, root) {
 		 *             this._app = appConfig; // the F2.AppConfig object
 		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
-		 *             this.$root = root; // the root DOM Element that contains this app
+		 *             this.$root = $(root); // the root DOM Element that contains this app
 		 *         }
 		 *
 		 *         App_Class.prototype.init = function() {
@@ -65,7 +65,7 @@ if (!window.F2) {
 		 *         return App_Class;
 		 *     })();
 		 * @example
-		 *     F2.Apps["712521f7737666e1489f681817376592"] = function(appConfig, appContent, root) {
+		 *     F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
 		 *        return {
 		 *            init:function() {
 		 *                // perform init actions
@@ -74,7 +74,7 @@ if (!window.F2) {
 		 *     };
 		 * @for F2
 		 */
-		Apps:{},
+		Apps: {},
 		/**
 		 * Creates a namespace on F2 and copies the contents of an object into
 		 * that namespace optionally overwriting existing properties.
@@ -83,9 +83,9 @@ if (!window.F2) {
 		 * add properties to the F2 namespace directly.
 		 * @param {object} obj The object to copy into the namespace.
 		 * @param {bool} overwrite True if object properties should be overwritten
-		 * @returns {object} The created object
+		 * @return {object} The created object
 		 */
-		extend:function (ns, obj, overwrite) {
+		extend: function (ns, obj, overwrite) {
 			var isFunc = typeof obj === 'function';
 			var parts = ns ? ns.split('.') : [];
 			var parent = window.F2;
@@ -121,7 +121,7 @@ if (!window.F2) {
 		 * @return {string} A random id
 		 * @for F2
 		 */
-		guid:function() {
+		guid: function() {
 			var S4 = function() {
 				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 			};
@@ -132,8 +132,9 @@ if (!window.F2) {
 		 * @method inArray
 		 * @param {object} value The value to search for
 		 * @param {Array} array The array to search
+		 * @return {bool} True if the item is in the array
 		 */
-		inArray:function(value, array) {
+		inArray: function(value, array) {
 			return $.inArray(value, array) > -1;
 		},
 		/**
@@ -142,7 +143,7 @@ if (!window.F2) {
 		 * @param {object} obj An object to be logged
 		 * @param {object} [obj2]* An object to be logged
 		 */
-		log:function() {
+		log: function() {
 			if (window.console && window.console.log) {
 				console.log([].slice.call(arguments));
 			}
@@ -151,9 +152,9 @@ if (!window.F2) {
 		 * Wrapper to convert a JSON string to an object
 		 * @method parse
 		 * @param {string} str The JSON string to convert
-		 * @returns {object} The parsed object
+		 * @return {object} The parsed object
 		 */
-		parse:function(str) {
+		parse: function(str) {
 			return JSON.parse(str);
 		},
 		/**
@@ -164,24 +165,24 @@ if (!window.F2) {
 		 * order to prevent circular serialization errors.**
 		 * @method stringify
 		 * @param {object} value The object to convert
-		 * @param {function|Array} replacer an optional parameter that determines
+		 * @param {function|Array} replacer An optional parameter that determines
 		 * how object values are stringified for objects. It can be a function or an 
 		 * array of strings.
-		 * @param {int|string} space an optional parameter that specifies the
+		 * @param {int|string} space An optional parameter that specifies the
 		 * indentation of nested structures. If it is omitted, the text will be
 		 * packed without extra whitespace. If it is a number, it will specify the
 		 * number of spaces to indent at each level. If it is a string (such as '\t'
 		 * or '&nbsp;'), it contains the characters used to indent at each level.
-		 * @returns {string} The JSON string
+		 * @return {string} The JSON string
 		 */
-		stringify:function(value, replacer, space) {
+		stringify: function(value, replacer, space) {
 			return JSON.stringify(value, replacer, space);
 		},
 		/** 
 		 * Function to get the F2 version number
 		 * @method version
-		 * @return {string} F2 version number.
+		 * @return {string} F2 version number
 		 */
-		version: function(){ return "{{sdk.version}}"; }
+		version: function() { return "{{sdk.version}}"; }
 	};
 };

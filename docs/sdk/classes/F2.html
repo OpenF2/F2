@@ -3,18 +3,18 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2</title>
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349366913180" type="image/png"/>
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349493335018" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349366913180"></script>
-	<link href="..&#x2F;../css/prettify.css?1349366913180" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1349366913180" rel="stylesheet">
+	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349493335018"></script>
+	<link href="..&#x2F;../css/prettify.css?1349493335018" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1349493335018" rel="stylesheet">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349366913180" />
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349493335018" />
 
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -57,7 +57,7 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
 							<li class="divider-vertical"></li>
-							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.8</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -147,7 +147,7 @@
 				<h1>F2</h1>
 
 <p>
-	<p>Core Container functionality</p>
+	<p>Root namespace of the F2 SDK</p>
 </p>
 
 <div class="well well-small">
@@ -364,8 +364,8 @@ loading</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Function to pass into F2.stringify which will prevent circular reference
-errors when serializing objects</p></td>
+						<td><p>A function to pass into F2.stringify which will prevent circular
+reference errors when serializing objects</p></td>
 					</tr>
 					
 					<tr class="">
@@ -733,14 +733,14 @@ order to prevent circular serialization errors.</strong></p></td>
 						<td class="name">
 							<a href="#properties-Apps">Apps</a>
 						</td>
-						<td><p>The Apps class is a namespace for App developers to place the javascript
+						<td><p>The Apps namespace is a place for App developers to put the javascript
 class that is used to initialize their App. The javascript classes should
-be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. It is recommended
-that the code be placed in a closure to help keep the global namespace
-clean.</p>
+be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
+It is recommended that the code be placed in a closure to help keep the
+global namespace clean.</p>
 
 <p>If the class has an 'init' function, that function will be called 
-automatically.</p></td>
+automatically by F2.</p></td>
 					</tr>
 					
 				</tbody>
@@ -1503,8 +1503,8 @@ loading</p>
 	</h3>
 
 	<p>
-		<p>Function to pass into F2.stringify which will prevent circular reference
-errors when serializing objects</p>
+		<p>A function to pass into F2.stringify which will prevent circular
+reference errors when serializing objects</p>
 	</p>	
 
 	<div class="well well-small">
@@ -1739,7 +1739,7 @@ add properties to the F2 namespace directly.</p>
 					
 						<span class="label type">Array</span>:
 					
-					An array of objects containing the appId and...
+					An array of objects containing the appId
 				
 			</div>
 		</div>
@@ -1922,6 +1922,19 @@ add properties to the F2 namespace directly.</p>
 		</div>
 	
 
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Bool</span>:
+					
+					True if the item is in the array
+				
+			</div>
+		</div>
 	
 
 	
@@ -2168,8 +2181,8 @@ any other actions in the Container.</p>
 					
 
 					<p>
-						<p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
-objects</p>
+						<p>An array of
+<a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
 					</p>
 
 					
@@ -2369,7 +2382,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l139"><code>sdk&#x2F;src&#x2F;preamble.js:139</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l140"><code>sdk&#x2F;src&#x2F;preamble.js:140</code></a></dd>
 			
 
 			
@@ -2476,7 +2489,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l150"><code>sdk&#x2F;src&#x2F;preamble.js:150</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l151"><code>sdk&#x2F;src&#x2F;preamble.js:151</code></a></dd>
 			
 
 			
@@ -2860,7 +2873,7 @@ order to prevent circular serialization errors.</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l159"><code>sdk&#x2F;src&#x2F;preamble.js:159</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l160"><code>sdk&#x2F;src&#x2F;preamble.js:160</code></a></dd>
 			
 
 			
@@ -2899,7 +2912,7 @@ order to prevent circular serialization errors.</strong></p>
 					
 
 					<p>
-						<p>an optional parameter that determines
+						<p>An optional parameter that determines
 how object values are stringified for objects. It can be a function or an 
 array of strings.</p>
 					</p>
@@ -2916,7 +2929,7 @@ array of strings.</p>
 					
 
 					<p>
-						<p>an optional parameter that specifies the
+						<p>An optional parameter that specifies the
 indentation of nested structures. If it is omitted, the text will be
 packed without extra whitespace. If it is a number, it will specify the
 number of spaces to indent at each level. If it is a string (such as '\t'
@@ -2988,7 +3001,7 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l180"><code>sdk&#x2F;src&#x2F;preamble.js:180</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_preamble.js.html#l181"><code>sdk&#x2F;src&#x2F;preamble.js:181</code></a></dd>
 			
 
 			
@@ -3008,7 +3021,7 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 					
 						<span class="label type">String</span>:
 					
-					F2 version number.
+					F2 version number
 				
 			</div>
 		</div>
@@ -3047,14 +3060,14 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 	</h3>
 
 	<p>
-		<p>The Apps class is a namespace for App developers to place the javascript
+		<p>The Apps namespace is a place for App developers to put the javascript
 class that is used to initialize their App. The javascript classes should
-be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. It is recommended
-that the code be placed in a closure to help keep the global namespace
-clean.</p>
+be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
+It is recommended that the code be placed in a closure to help keep the
+global namespace clean.</p>
 
 <p>If the class has an 'init' function, that function will be called 
-automatically.</p>
+automatically by F2.</p>
 	</p>
 
 	<div class="well well-small">
@@ -3082,11 +3095,11 @@ automatically.</p>
 		<h4>Example:</h4>
 
 		<div class="example-content">
-			<pre class="code"><code class="prettyprint">F2.Apps["712521f7737666e1489f681817376592"] = (function() {
+			<pre class="code"><code class="prettyprint">F2.Apps["com_example_helloworld"] = (function() {
     var App_Class = function(appConfig, appContent, root) {
         this._app = appConfig; // the F2.AppConfig object
         this._appContent = appContent // the F2.AppManifest.AppContent object
-        this.$root = root; // the root DOM Element that contains this app
+        this.$root = $(root); // the root DOM Element that contains this app
     }
 
     App_Class.prototype.init = function() {
@@ -3095,7 +3108,7 @@ automatically.</p>
 
     return App_Class;
 })();
-</code></pre><pre class="code"><code class="prettyprint">F2.Apps["712521f7737666e1489f681817376592"] = function(appConfig, appContent, root) {
+</code></pre><pre class="code"><code class="prettyprint">F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
    return {
        init:function() {
            // perform init actions
@@ -3137,15 +3150,15 @@ automatically.</p>
 	</div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349366913180"></script>
-<script src="..&#x2F;../js/prettify.js?1349366913180"></script>
-<script src="..&#x2F;assets/js/main.js?1349366913180"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349493335018"></script>
+<script src="..&#x2F;../js/prettify.js?1349493335018"></script>
+<script src="..&#x2F;assets/js/main.js?1349493335018"></script>
 <script>prettyPrint();</script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349366913180";</script>
+<script>var ghpagescachebuster = "1349493335018";</script>
 </body>
 </html>

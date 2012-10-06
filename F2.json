@@ -7,10 +7,10 @@
 		"cacheBuster": "1349366915265"
 	},
 	"sdk": {
-		"version": "0.12.7",
+		"version": "0.12.8",
 		"shortVersion": "0.12",
-		"releaseDate": "2012-09-29T19:35:39.842Z",
-		"lastUpdateDate": "2012-10-04T16:08:33.967Z",
-		"cacheBuster": "1349366913180"
+		"releaseDate": "2012-10-06T03:15:35.014Z",
+		"lastUpdateDate": "2012-10-06T03:15:36.289Z",
+		"cacheBuster": "1349493335018"
 	}
 }

@@ -3,18 +3,18 @@
 <head>
 	<meta charset="utf-8">
 	<title>sdk&#x2F;src&#x2F;rpc.js</title>
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349366913180" type="image/png"/>
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349493335018" type="image/png"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349366913180"></script>
-	<link href="..&#x2F;../css/prettify.css?1349366913180" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1349366913180" rel="stylesheet">
+	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349493335018"></script>
+	<link href="..&#x2F;../css/prettify.css?1349493335018" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1349493335018" rel="stylesheet">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349366913180" />
-	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349366913180" />
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349493335018" />
+	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349493335018" />
 
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -57,7 +57,7 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
 							<li class="divider-vertical"></li>
-							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.7</span></a></li>
+							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.8</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -382,7 +382,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * @param {string} messageType The message type
 		 * @param {Array} params The parameters to broadcast
 		 *&#x2F;
-		broadcast:function(messageType, params) {
+		broadcast: function(messageType, params) {
 			&#x2F;&#x2F; check valid messageType
 			var message = messageType + F2.stringify(params);
 			$.each(_apps, function(i, a) {
@@ -399,7 +399,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * function. Any functions found within the params will be treated as a
 		 * callback function.
 		 *&#x2F;
-		call:function(instanceId, messageType, functionName, params) {
+		call: function(instanceId, messageType, functionName, params) {
 			&#x2F;&#x2F; loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			$.each(params, function(i, e) {
@@ -428,7 +428,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{&#x2F;crossLink}}.secureAppPagePath
 		 * property
 		 *&#x2F;
-		init:function(secureAppPagePath) {
+		init: function(secureAppPagePath) {
 			_secureAppPagePath = secureAppPagePath;
 			if (!_secureAppPagePath) {
 				_createAppToContainerSocket();
@@ -443,7 +443,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * @param {string} instanceId The Instance ID
 		 * @return {bool} True if there is an open socket
 		 *&#x2F;
-		isRemote:function(instanceId) {
+		isRemote: function(instanceId) {
 			return (
 				&#x2F;&#x2F; we have an App
 				_apps[instanceId] !== undefined &amp;&amp;
@@ -460,7 +460,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 *&#x2F;
-		register:function(appConfig, appManifest) {
+		register: function(appConfig, appManifest) {
 			if (!!appConfig &amp;&amp; !!appManifest) {
 				_apps[appConfig.instanceId] = {
 					config:appConfig,
@@ -487,15 +487,15 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	</div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349366913180"></script>
-<script src="..&#x2F;../js/prettify.js?1349366913180"></script>
-<script src="..&#x2F;assets/js/main.js?1349366913180"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349493335018"></script>
+<script src="..&#x2F;../js/prettify.js?1349493335018"></script>
+<script src="..&#x2F;assets/js/main.js?1349493335018"></script>
 <script>prettyPrint();</script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349366913180";</script>
+<script>var ghpagescachebuster = "1349493335018";</script>
 </body>
 </html>
