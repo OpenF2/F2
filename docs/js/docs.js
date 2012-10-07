@@ -81,7 +81,8 @@ F2Docs.fn.handleHashchange = function(){
  * Highlight Basics or Development nav item, based on filename
  */
 F2Docs.fn.navbarDocsHelper = function(){
-	var $toc 	= $('ul','div.navbar-docs'),
+	var $toc 	= $('ul','div.navbar-docs')
+		$collapsedNavToc = $('ul.navinset','div.navbar-inner'),
 		file 	= location.pathname.split('/').pop(),
 		urlMap 	= {
 			"basics": 		"index.html",
@@ -95,11 +96,17 @@ F2Docs.fn.navbarDocsHelper = function(){
 
 	//add active class to blue,green or orange subnav item
 	if (file == urlMap.basics || !file || file == "index-temp.html"){
-		$toc.find("li").first().find("a").addClass("active");
+		_setActive(0,$toc);
+		_setActive(0,$collapsedNavToc);
 		this.currentPage = "basics";
 	} else if (file == urlMap.development || file == urlMap.developmentC || file == urlMap.developmentE){
-		$toc.find("li").eq(1).find("a").addClass("active");
+		_setActive(1,$toc);
+		_setActive(1,$collapsedNavToc);
 		this.currentPage = "development";
+	}
+
+	function _setActive(eq,$ul){
+		$ul.find("li").eq(eq).find("a").addClass("active");
 	}
 }
 

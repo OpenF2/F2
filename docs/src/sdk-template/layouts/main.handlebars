@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>{{htmlTitle}}</title>
 	<link rel="icon" href="{{projectRoot}}../img/favicon-32px.png?{{projectCacheBuster}}" type="image/png"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
 	<script src="{{projectRoot}}../js/modernizr.2.6.2.custom.min.js?{{projectCacheBuster}}"></script>
@@ -32,7 +32,7 @@
 <body>
 
 <div id="doc">
-	<header class="openf2Header clearfix">
+	<header class="openf2Header navbarmini clearfix">
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
@@ -53,11 +53,19 @@
 				            <!--/TEMP!-->
 							<li><a href="http://www.openF2.org">Home</a></li>
 							<li class="divider-vertical"></li>
-							<li class="active"><a href="{{projectRoot}}../">Docs <i class="icon-triangleDown"></i></a></li>
+							<li class="active">
+				                <a href="{{projectRoot}}../">Docs <i class="icon-triangleDown"></i></a>
+				                  <ul class="nav navinset">
+				                    <li><a href="{{projectRoot}}../">The Basics</a></li>
+				                    <li><a href="{{projectRoot}}../developing-f2-apps.html">Development</a></li>
+				                    <li><a href="./" class="active">Reference</a></li>
+				                  </ul>
+				            </li>
 							<li class="divider-vertical"></li>
 							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
 							<li class="divider-vertical"></li>
-							<li><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v {{projectVersion}}</span></a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v {{projectVersion}}</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v {{projectVersion}})</a></li>
 						</ul>
 					</div>
 				</div>
@@ -98,7 +106,7 @@
 
 		<footer>
 			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-			<p class="pull-right"><small>F2 was started and is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>

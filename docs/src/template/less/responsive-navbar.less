@@ -18,7 +18,7 @@
   .navbar-fixed-bottom {
     position: static;
   }
-  .navbar-fixed-top {
+  .navbar-fixed-top { 
     //margin-bottom: @baseLineHeight;
   }
   .navbar-fixed-bottom {
@@ -30,6 +30,9 @@
     //padding-left:20px;
     //padding-right: 20px;
   }
+  .openf2Header {
+    margin-bottom: @baseLineHeight;
+  }
   .navbar .container {
     width: auto;
     padding: 0;
@@ -38,6 +41,18 @@
   .navbar .brand {
     margin-left:20px;
   }
+
+  //reset back to big F2 logo when on tablets and below
+  .navbarmini {
+    .navbar-fixed-top {
+      .brand {
+        padding: 30px 30px 10px 30px;
+        margin-top: 20px;
+        background: transparent url(@F2Logo) top left no-repeat;
+      }
+    }
+  }
+
 
   // COLLAPSIBLE NAVBAR
   // ------------------
@@ -53,7 +68,15 @@
 
   .nav-collapse .icon-triangleDown {
     display: inline-block;
-    margin-top: 6px;
+    margin-top: 4px;
+  }
+
+  .nav-collapse .nav.navinset {
+    width:auto;
+    height:auto;
+    display: block;
+    visibility: visible;
+    margin:0;
   }
 
   // Block-level the nav
@@ -68,10 +91,13 @@
     float: none;
     border-bottom:1px solid #cac9c9;
     border-top:1px solid #e2e2e2;
+
   }
-  .nav-collapse .nav > li > a {
+  .navbarmini .navbar-fixed-top .nav-collapse .nav > li > a {
     margin-bottom: 2px;
+    padding: 9px 15px;
   }
+
   .nav-collapse .nav > .divider-vertical {
     display: none;
   }
@@ -85,8 +111,39 @@
     padding: 9px 15px;
     font-weight: bold;
     color: @navbarLinkColor;
-    .border-radius(3px);
   }
+
+  .nav-collapse .dropdown-menu a {
+    .border-radius(0px);
+  }
+
+  .nav-collapse .nav.navinset > li {
+    border-bottom-color: #c0bebe;
+    border-top-color: #adadad;
+  }
+
+  .nav-collapse .nav.navinset > li:first-child {
+    padding-top: 0;
+  }
+
+  .nav-collapse .nav.navinset > li > a {
+    background-color: @navbarCollapsedNavInsetBackground;
+    margin:0;
+    color:#333;
+    text-shadow:none;
+  }
+
+  .navbarmini .nav-collapse .nav.navinset > li > a {
+    margin: 0;
+    padding-left: 25px;
+  }
+
+  .nav-collapse .nav.navinset > li > a:hover,
+  .nav-collapse .nav.navinset > li > a.active {
+    background-color: @navbarCollapsedNavInsetBackgroundHover;
+    color:@white;
+  }
+
   .nav-collapse .nav > li > a > .F2VersionIndicator{
     top: auto;
     bottom: 0;
@@ -194,6 +251,28 @@
     border:0 none; 
   }
 
+  .navbarmini {
+    .navbar-fixed-top {
+      .navbar-text {
+        line-height: 75px;
+        font-size: 13px;
+        margin-top: 2px;
+        .animation(fadeIn, .6s);
+      }
+      .tagline-divider {
+        height: 38px;
+        margin: 20px 20px 0 20px;
+        .animation(fadeIn, .6s);
+      }
+    }
+  }
+
+}
+
+// LANDSCAPE PHONE ONLY
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .tagline-divider,
+  .navbar-text { display:block !important; }
 }
 
 // Phones only

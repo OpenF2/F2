@@ -10,6 +10,7 @@
     padding-left: 20px;
     padding-right: 20px;
   }
+
   // Negative indent the now static "fixed" navbar
   .navbar-fixed-top,
   .navbar-fixed-bottom,
@@ -108,12 +109,16 @@
 
 }
 
-
-
 // UP TO LANDSCAPE PHONE
 // ---------------------
 
 @media (max-width: 480px) {
+
+   //reduce overall size of p.lead
+  .lead {
+    font-size: 18px;
+    line-height: 23px;
+  }
 
   // Smooth out the collapsing/expanding nav
   .nav-collapse {
