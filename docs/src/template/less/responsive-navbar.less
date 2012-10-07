@@ -53,7 +53,6 @@
     }
   }
 
-
   // COLLAPSIBLE NAVBAR
   // ------------------
   // Nav collapse clears brand
@@ -266,11 +265,35 @@
       }
     }
   }
+}
 
+
+//for retina displays -- tablets (portrait) and above (small F2 logo)
+@media (min-width: @navbarCollapseWidth) and (-webkit-min-device-pixel-ratio: 2) {
+  .navbarmini {
+    .navbar-fixed-top {
+      .brand {
+        background-size: 18px 13px;
+        background-image: url("../img/mini_f2_logo_2x.png");
+      }
+    }
+  }
+} 
+
+//for retina displays -- tablets and below (large F2 logo)
+@media (max-width: @navbarCollapseWidth) and (-webkit-min-device-pixel-ratio: 2) {
+  .navbarmini {
+    .navbar-fixed-top {
+      .brand {
+        background-image: url(@F2LogoRetina);
+        background-size: 56px 37px;
+      }
+    }
+  }
 }
 
 // LANDSCAPE PHONE ONLY
-@media only screen and (min-width: 480px) and (max-width: 767px) {
+@media (min-width: 480px) and (max-width: 767px) {
   .tagline-divider,
   .navbar-text { display:block !important; }
 }
