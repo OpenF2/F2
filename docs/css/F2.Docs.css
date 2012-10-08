@@ -1098,8 +1098,8 @@ a.label:hover,a.badge:hover{color:#ffffff;text-decoration:none;cursor:pointer;}
 pre{font-size:12px;}
 pre.prettyprint{padding:8px;background-color:#F7F7F9;border:1px solid #E1E1E8;}
 h1.title{margin-top:0;}
-.level2{padding-top:87px;}
-.level3{padding-top:15px;}
+.level2,.level3{padding-top:87px;}
+.level3{padding-top:82px;}
 .level4{margin-top:30px;}
 section>hr{margin:40px 0 0;}
 .nav-list{margin-top:9px;border-top:3px solid #737373;padding-left:15px;padding-right:15px;}
