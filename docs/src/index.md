@@ -30,9 +30,9 @@ By shifting the industry's development efforts towards a common specification th
 
 * * * *
 
-## Goals
+## Why
 
-F2's goal is to create a development standard for the financial services industry that offers a cost saving, risk-reducing method for building innovative, multi-provider solutions. In order to do this effectively, F2 must include solutions to shared industry hurdles and concerns.
+F2's goal is to create a development standard for the financial services industry that offers a cost saving, risk-reducing method for building innovative, multi-provider solutions. In order to do this effectively, F2 provides solutions that address shared industry hurdles and concerns.
 
 Because the spec is open, free, and exactly what the industry needs, we believe that it will be widely adopted, which will create new markets for app developers, content providers, and create vibrant app ecosystems for participants.
 
@@ -69,23 +69,31 @@ Because the spec is open, free, and exactly what the industry needs, we believe 
 
 * * * *
 
-## Evolve
+## Spec Management
 
 F2 will continuously evolve to bring the community the best features, services and Apps. F2's promise is to do this by building on the existing spec, not by changing it. The specification aims high to solve many problems and suit many needs. As the standard evolves and new requirements come to light, the functionality in F2 will expand accordingly. 
 
 To achieve steady growth and stable release cycles, F2 will be maintained under the Semantic Versioning guidelines as much as possible. For more information, [browse to the readme on GitHub](https://github.com/OpenF2/F2#readme).
 
-### Release Tracking
+### Track
 
 F2 v1.0 was released on October 15, 2012. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
 
-### Collaboration
+### Collaborate
 
 The F2.js JavaScript library is an open-source front-end development SDK managed on GitHub. F2 chose this route to allow developers to contribute to the success of both the open standard and SDKs. GitHub's tools make collaboration easy, and you can get started contributing today.
 
 All contributors will be expected to follow consistent standards and guidelines when contributing to F2. Direct inquiries to [info@openf2.org](mailto:info@openf2.org).
 
-### Build
+* * * *
+
+## Framework 
+
+The F2 open framework enables a division of labor among multiple parties who contribute to an integrated experience. By separating responsibilities into those of Container and Apps, F2 makes it possible for project owners to pick who they want to partner with, if anyone, for the development and hosting of their Container and the Apps they wish to include.
+
+Following are definitions for the main F2 Framework components: The Apps, The Container, and The Store.
+
+### Choices
 
 In order to ensure that applications built using F2 are successful it must be accessible. With this in mind, the front-end technology choice is HTML5. Using the [progressive enhancement methodology](http://www.alistapart.com/articles/understandingprogressiveenhancement/), F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 Apps built following the [mobile first](http://www.lukew.com/presos/preso.asp?26) design approach and with [responsive CSS](http://twitter.github.com/bootstrap/scaffolding.html#responsive), allow users to access the Apps on their desktop, tablet or smartphone and App developers only need to build a single App.
 
@@ -96,24 +104,6 @@ Support across all desktop browsers and mobile devices is sometimes limited so F
 * To support a secured Container environment, F2 needs cross-domain in-browser messaging. For this, it relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM).
 
 As either an App or a Container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2.js JavaScript SDK provides a consistent interface and easy-to-use API so you don't have to think about it.
-
-### Start 
-
-F2 enables all of us to build exactly the financial solutions that our customers want.  Using the F2 Framework, you can efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel Apss and deploy them in as many App ecosystems as you want.
-
-Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.
-
-F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
-
-If you are interested in building Apps, get started by [browsing through this technical documentation](developing-f2-apps.html) or follow the project on GitHub. If you are interested in building Containers, [browse to the Container documentation](developing-f2-containers.html).
-
-* * * *
-
-## Framework 
-
-The F2 open framework enables a division of labor among multiple parties who contribute to an integrated experience. By separating responsibilities into those of Container and Apps, F2 makes it possible for project owners to pick who they want to partner with, if anyone, for the development and hosting of their Container and the Apps they wish to include.
-
-Following are definitions for the main F2 Framework components: The Apps, The Container, and The Store.
 
 ### Apps
 
@@ -195,5 +185,17 @@ The Developer Center will serve as a resource area for the F2 Developer communit
 * Best practices for developing high-quality Apps
 * App registration with Container Providers
 * App management
+
+* * * *
+
+## Get Started
+
+F2 enables all of us to build exactly the financial solutions that our customers want.  Using the F2 Framework, you can efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel Apss and deploy them in as many App ecosystems as you want.
+
+Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.
+
+F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
+
+If you are interested in building Apps, get started by [browsing through this technical documentation](developing-f2-apps.html) or follow the project on GitHub. If you are interested in building Containers, [browse to the Container documentation](developing-f2-containers.html).
 
 * * * *

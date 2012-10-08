@@ -2,13 +2,45 @@
 // Responsive: Landscape phone to desktop/tablet
 // --------------------------------------------------
 
-
 @media (max-width: 767px) {
 
   // Padding to set content in a bit
   body {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  //because markup is different on www.openf2.org, remove padding on body and apply to page-level elements
+  body.openf2 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .openf2 {
+    .mainContainer {
+      .description {
+        padding: 0 20px;
+
+        .slideshow {
+          .opacity(20);
+          .transition(opacity 0.5s linear);//fade opacity
+        }
+
+        h2:first-child {  
+          margin-top:0; 
+          font-size: 40px; 
+          padding-top: 50px;
+          line-height: 1;
+        }
+        h3:first-child { 
+          margin-top: 40px; 
+        }
+        .mainBGControl {
+          margin-top: 7px;
+        }
+      }
+
+    }
   }
 
   // Negative indent the now static "fixed" navbar
@@ -176,4 +208,29 @@
     position: static;
   }
 
+}
+
+
+//phones only
+@media (max-width: 480px){
+  .openf2 {
+    .mainContainer {
+      .description {
+        padding: 0 20px;
+
+        h2:first-child {
+          font-size: 33px; 
+          padding-top: 30px;
+          line-height: 1;
+        }
+        h3:first-child { 
+          margin-top: 40px; 
+        }
+        .mainBGControl {
+          margin-top: 7px;
+        }
+      }
+
+    }
+  }
 }

@@ -33,6 +33,12 @@
   .openf2Header {
     margin-bottom: @baseLineHeight;
   }
+  //on www.openf2.com
+  .openf2 .openf2Header {
+    margin-bottom: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
   .navbar .container {
     width: auto;
     padding: 0;
@@ -40,6 +46,10 @@
   // Account for brand name
   .navbar .brand {
     margin-left:20px;
+  }
+
+  .openf2 .navbar .brand {
+    margin-left:0;
   }
 
   //reset back to big F2 logo when on tablets and below
@@ -231,6 +241,10 @@
     margin-right:20px;
   }
 
+  .openf2 .navbar .btn-navbar {
+    margin-right:0;
+  }
+
   // STATIC NAVBAR
   // -------------
   .navbar-static .navbar-inner {
@@ -250,23 +264,21 @@
     border:0 none; 
   }
 
-  .navbarmini {
-    .navbar-fixed-top {
-      .navbar-text {
-        line-height: 75px;
-        font-size: 13px;
-        margin-top: 2px;
-        .animation(fadeIn, .6s);
-      }
-      .tagline-divider {
-        height: 38px;
-        margin: 20px 20px 0 20px;
-        .animation(fadeIn, .6s);
-      }
-    }
+  //Open Financial Framework tagline thingy
+  .navbarmini .navbar-fixed-top .navbar-text,
+  .openf2 .navbar-inner .navbar-text {
+    line-height: 75px;
+    font-size: 13px;
+    margin-top: 2px;
+    .animation(fadeIn, .6s);
+  }
+  .navbarmini .navbar-fixed-top .tagline-divider,
+  .openf2 .navbar-inner .tagline-divider{
+    height: 38px;
+    margin: 20px 20px 0 20px;
+    .animation(fadeIn, .6s);
   }
 }
-
 
 //for retina displays -- tablets (portrait) and above (small F2 logo)
 @media (min-width: @navbarCollapseWidth) and (-webkit-min-device-pixel-ratio: 2) {

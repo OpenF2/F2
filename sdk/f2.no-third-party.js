@@ -543,7 +543,7 @@ F2.extend('Constants', {
 			/**
 			 * The APP class should be applied to the DOM Element that surrounds the
 			 * entire App, including any extra html that surrounds the APP\_CONTAINER
-			 * that is inserted by the Container. See appWrapper property in the
+			 * that is inserted by the Container. See the 
 			 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}} object.
 			 * @property APP
 			 * @type string
@@ -563,7 +563,7 @@ F2.extend('Constants', {
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
 			 * the title for an App.  If this class is not present, then
-			 * {{#crossLink "F2.AppConfig/setTitle"}}{{/crossLink}} will not function.
+			 * F2.UI.{{#crossLink "F2.UI/setTitle"}}{{/crossLink}} will not function.
 			 * @property APP_TITLE
 			 * @type string
 			 * @static
@@ -585,7 +585,7 @@ F2.extend('Constants', {
 			/**
 			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
 			 * trigger an
-			 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP_VIEW_CHANGE
+			 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP\_VIEW\_CHANGE
 			 * event. The DOM Element should also have a
 			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
 			 * attribute that specifies which
@@ -598,7 +598,8 @@ F2.extend('Constants', {
 			APP_VIEW_TRIGGER: _PREFIX + 'app-view-trigger',
 			/**
 			 * The MASK class is applied to the overlay element that is created
-			 * when the {{#crossLink "F2.UI\showMask"}}{{/crossLink}} method is fired.
+			 * when the F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} method is
+			 * fired.
 			 * @property MASK
 			 * @type string
 			 * @static
@@ -607,7 +608,7 @@ F2.extend('Constants', {
 			MASK: _PREFIX + 'mask',
 			/**
 			 * The MASK_CONTAINER class is applied to the Element that is passed into
-			 * the {{#crossLink "F2.UI\showMask"}}{{/crossLink}} method.
+			 * the F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} method.
 			 * @property MASK_CONTAINER
 			 * @type string
 			 * @static
@@ -691,7 +692,7 @@ F2.extend('Constants', {
 	Sockets: {
 		/**
 		 * The EVENT message is sent whenever
-		 * {{#crossLink "F2.Events\emit"}}{{/crossLink}} is fired
+		 * F2.Events.{{#crossLink "F2.Events/emit"}}{{/crossLink}} is fired
 		 * @property EVENT
 		 * @type string
 		 * @static
@@ -740,15 +741,16 @@ F2.extend('Constants', {
 
 	/**
 	 * The available view types to Apps. The view should be specified by applying
-	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP_VIEW class to the
-	 * containing DOM Element. A DATA_ATTRIBUTE attribute should be added to the
+	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP\_VIEW class to the
+	 * containing DOM Element. A DATA\_ATTRIBUTE attribute should be added to the
 	 * Element as well which defines what view type is represented.
 	 * The `hide` class can be applied to views that should be hidden by default.
 	 * @class F2.Constants.Views
 	 */
 	Views: {
 		/**
-		 * 
+		 * The DATA_ATTRIBUTE should be placed on the DOM Element that contains the
+		 * view.
 		 * @property DATA_ATTRIBUTE
 		 * @type string
 		 * @static

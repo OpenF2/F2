@@ -21,8 +21,8 @@
 // Gradient is applied to its own element because overflow visible is not honored by IE when filter is present
 .navbar-inner {
   min-height: @navbarHeight;
-  padding-left:  20px;
-  padding-right: 20px;
+  //padding-left:  20px;
+  //padding-right: 20px;
   background: @F2NavBackgroundColor;//#gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
   //border: 1px solid @navbarBorder;
   //.border-radius(4px);
@@ -352,7 +352,15 @@
   border-top: 6.5px solid #9da6ac;
 }
 
-.nav-collapse .icon-triangleDown {
+.navbar .icon-triangleRight {
+  width: 0; 
+  height: 0; 
+  border-top: 6.5px solid transparent;
+  border-bottom: 6.5px solid transparent;
+  border-left: 6.5px solid #9da6ac;
+}
+
+.icon-triangleRight {
   display:none;
 }
 
@@ -432,7 +440,7 @@
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2){
   .navbarmini .navbar-fixed-top .brand {
-    //background-size: 18px 13px;
+    background-size: 18px 13px;
     background-image: url("../img/mini_f2_logo_2x.png");
   }
 }
