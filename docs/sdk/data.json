@@ -270,7 +270,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/constants.js",
-            "line": 94,
+            "line": 95,
             "description": "Events constants"
         },
         "F2.Constants.Sockets": {
@@ -283,7 +283,7 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/constants.js",
-            "line": 160,
+            "line": 161,
             "description": "Constants for use with cross-domain sockets",
             "access": "protected",
             "tagname": ""
@@ -298,8 +298,8 @@
             "extension_for": [],
             "module": "f2",
             "file": "sdk/src/constants.js",
-            "line": 215,
-            "description": "The available view types to Apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP_VIEW class to the\ncontaining DOM Element. A DATA_ATTRIBUTE attribute should be added to the\nElement as well which defines what view type is represented.\nThe `hide` class can be applied to views that should be hidden by default."
+            "line": 216,
+            "description": "The available view types to Apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP\\_VIEW class to the\ncontaining DOM Element. A DATA\\_ATTRIBUTE attribute should be added to the\nElement as well which defines what view type is represented.\nThe `hide` class can be applied to views that should be hidden by default."
         },
         "F2": {
             "name": "F2",
@@ -765,7 +765,7 @@
         {
             "file": "sdk/src/constants.js",
             "line": 17,
-            "description": "The APP class should be applied to the DOM Element that surrounds the\nentire App, including any extra html that surrounds the APP\\_CONTAINER\nthat is inserted by the Container. See appWrapper property in the\n{{#crossLink \"F2.ContainerConfig\"}}{{/crossLink}} object.",
+            "description": "The APP class should be applied to the DOM Element that surrounds the\nentire App, including any extra html that surrounds the APP\\_CONTAINER\nthat is inserted by the Container. See the \n{{#crossLink \"F2.ContainerConfig\"}}{{/crossLink}} object.",
             "itemtype": "property",
             "name": "APP",
             "type": "string",
@@ -787,7 +787,7 @@
         {
             "file": "sdk/src/constants.js",
             "line": 37,
-            "description": "The APP\\_TITLE class should be applied to the DOM Element that contains\nthe title for an App.  If this class is not present, then\n{{#crossLink \"F2.AppConfig/setTitle\"}}{{/crossLink}} will not function.",
+            "description": "The APP\\_TITLE class should be applied to the DOM Element that contains\nthe title for an App.  If this class is not present, then\nF2.UI.{{#crossLink \"F2.UI/setTitle\"}}{{/crossLink}} will not function.",
             "itemtype": "property",
             "name": "APP_TITLE",
             "type": "string",
@@ -809,7 +809,7 @@
         {
             "file": "sdk/src/constants.js",
             "line": 59,
-            "description": "APP\\_VIEW\\_TRIGGER class should be applied to the DOM Elements that\ntrigger an\n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP_VIEW_CHANGE\nevent. The DOM Element should also have a\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE\nattribute that specifies which\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it will trigger.",
+            "description": "APP\\_VIEW\\_TRIGGER class should be applied to the DOM Elements that\ntrigger an\n{{#crossLink \"F2.Constants.Events\"}}{{/crossLink}}.APP\\_VIEW\\_CHANGE\nevent. The DOM Element should also have a\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.DATA_ATTRIBUTE\nattribute that specifies which\n{{#crossLink \"F2.Constants.Views\"}}{{/crossLink}} it will trigger.",
             "itemtype": "property",
             "name": "APP_VIEW_TRIGGER",
             "type": "string",
@@ -820,7 +820,7 @@
         {
             "file": "sdk/src/constants.js",
             "line": 73,
-            "description": "The MASK class is applied to the overlay element that is created\nwhen the {{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} method is fired.",
+            "description": "The MASK class is applied to the overlay element that is created\nwhen the F2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} method is\nfired.",
             "itemtype": "property",
             "name": "MASK",
             "type": "string",
@@ -830,8 +830,8 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 82,
-            "description": "The MASK_CONTAINER class is applied to the Element that is passed into\nthe {{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} method.",
+            "line": 83,
+            "description": "The MASK_CONTAINER class is applied to the Element that is passed into\nthe F2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} method.",
             "itemtype": "property",
             "name": "MASK_CONTAINER",
             "type": "string",
@@ -841,17 +841,17 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 99,
+            "line": 100,
             "class": "F2.Constants.Events"
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 101,
+            "line": 102,
             "class": "F2.Constants.Events"
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 105,
+            "line": 106,
             "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an\nApp. It is up to the App developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "APP_SYMBOL_CHANGE",
@@ -862,7 +862,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 118,
+            "line": 119,
             "description": "The APP\\_WIDTH\\_CHANGE event will be fired by the Container when the\nwidth of an App is changed. The App's instanceId should be concatenated\nto this constant.\nReturns an object with the gridSize and width in pixels:\n\n    { gridSize:8, width:620 }",
             "itemtype": "property",
             "name": "APP_WIDTH_CHANGE",
@@ -873,7 +873,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 132,
+            "line": 133,
             "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed\nat the Container level. This event should only be fired by the\nContainer or Container Provider.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "CONTAINER_SYMBOL_CHANGE",
@@ -884,7 +884,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 146,
+            "line": 147,
             "description": "The CONTAINER\\_WIDTH\\_CHANGE event will be fired by the Container when\nthe width of the Container has changed.",
             "itemtype": "property",
             "name": "CONTAINER_WIDTH_CHANGE",
@@ -895,8 +895,8 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 166,
-            "description": "The EVENT message is sent whenever\n{{#crossLink \"F2.Events\\emit\"}}{{/crossLink}} is fired",
+            "line": 167,
+            "description": "The EVENT message is sent whenever\nF2.Events.{{#crossLink \"F2.Events/emit\"}}{{/crossLink}} is fired",
             "itemtype": "property",
             "name": "EVENT",
             "type": "string",
@@ -906,7 +906,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 175,
+            "line": 176,
             "description": "The LOAD message is sent when an iframe socket initially loads.\nReturns a JSON string that represents:\n\n    [ App, AppManifest]",
             "itemtype": "property",
             "name": "LOAD",
@@ -917,7 +917,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 187,
+            "line": 188,
             "description": "The RPC message is sent when a method is passed up from within a secure\napp page.",
             "itemtype": "property",
             "name": "RPC",
@@ -928,7 +928,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 196,
+            "line": 197,
             "description": "The RPC\\_CALLBACK message is sent when a call back from an RPC method is\nfired.",
             "itemtype": "property",
             "name": "RPC_CALLBACK",
@@ -939,7 +939,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 205,
+            "line": 206,
             "description": "The UI\\_RPC message is sent when a UI method called.",
             "itemtype": "property",
             "name": "UI_RPC",
@@ -950,7 +950,8 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 224,
+            "line": 225,
+            "description": "The DATA_ATTRIBUTE should be placed on the DOM Element that contains the\nview.",
             "itemtype": "property",
             "name": "DATA_ATTRIBUTE",
             "type": "string",
@@ -960,7 +961,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 232,
+            "line": 234,
             "description": "The ABOUT view gives details about the App.",
             "itemtype": "property",
             "name": "ABOUT",
@@ -971,7 +972,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 240,
+            "line": 242,
             "description": "The HELP view provides users with help information for using an App.",
             "itemtype": "property",
             "name": "HELP",
@@ -982,7 +983,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 248,
+            "line": 250,
             "description": "The HOME view is the main view for an App. This view should always\nbe provided by an App.",
             "itemtype": "property",
             "name": "HOME",
@@ -993,7 +994,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 257,
+            "line": 259,
             "description": "The REMOVE view is a special view that handles the removal of an App\nfrom the Container.",
             "itemtype": "property",
             "name": "REMOVE",
@@ -1004,7 +1005,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 266,
+            "line": 268,
             "description": "The SETTINGS view provides users the ability to modify advanced settings\nfor an App.",
             "itemtype": "property",
             "name": "SETTINGS",
