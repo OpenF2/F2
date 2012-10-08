@@ -2,113 +2,37 @@
   background-color: @F2NavBackgroundColor;
 }
 
-body.openf2 { background: url(@F2FooterPattern) repeat; }
-body.f2Developer { background: url(@F2FooterPattern) repeat; }
-body .mainContainer {  
+body { 
   background-color: @white;
-  padding: 0;
-  margin-top: 0;
-  .AppRegistrationForm  {
-    min-height: 300px;
-    padding: 20px;
-    background: url(@F2TopBorderFade) top no-repeat;    
-  }
-  .description {
-    z-index: 2;
-    background: url(@F2TopBorderFade) top no-repeat;
-    background-color: @white;
-    position: relative;
-    height: 665px;
-    .mainBGImg {
-      z-index: -1;
-      position: absolute;
-      top: 0; left: 0;
-      margin: 0;
-      list-style: none;
-      width: 100%;
-      li img {height: 665px; width: 100%; }
+  .mainContainer {  
+    padding: 0;
+    margin-top: 0;
+    .AppRegistrationForm  {
+      min-height: 300px;
+      padding: 20px;
+      background: url(@F2TopBorderFade) top no-repeat;    
     }
-    .ImgIpad { background: url(@F2MainContainerBGIpad) no-repeat center; }
-    .ImgIscreens { background: url(@F2MainContainerBGIScreens) no-repeat center; }
-    .ImgIphone { background: url(@F2MainContainerBGIphone) no-repeat center; }    
-    .mainBGControl {
-      margin: 0;
-      list-style: none;
-      text-align: center;
-      padding: 10px 0;
-      li { display: inline-block; }
-      li a {
-        background: url(@F2bgControlDot) no-repeat center;
-        padding: 10px;
-      }
-      .selected a {
-        background: url(@F2bgControlDotSelected) no-repeat center;
-      }
-    }
-  }  
-  .overview {
-    background-color: @white;
-    h2 { text-align: center; margin-bottom: 20px;}
-    .container { background: url(@F2TopBorderFade) top no-repeat; }
-    .row { padding: 50px 0; }
-    .F2SunBullet { background: url(@F2WhiteSunIcon) center no-repeat; padding: 10px; }
-    #gradient > .vertical(@F2FooterBackgroundColor, @F2OverviewBackgroundColor);
-    .bulletPoints { .span4{ margin-left: 5px; } }
-    .bulletPointsLeft .span4 {float: right; }
-    .f2OverviewSummary {font-style: italic;}
-    .interactiveDisplay {
-      background: transparent;
-      .carousel-inner { height: 430px; }
-      .carousel .item { background: url(@F2bankeoSprite) no-repeat; height: 430px; max-width: 570px;}
-      .carousel .euro { background-position: -55px -34px; }
-      .carousel .sp500 { background-position: -685px -34px; }
-      .carousel .ft { background-position: -1325px -34px; }
-      .carousel .research { background-position: -1965px -34px; }
-      .carousel .stockPicks { background-position: -2615px -34px; }
-      .carousel .reuters { background-position: -3255px -34px; }
-      .carousel .video { background-position: -3895px -34px; }     
-      .carousel .search { background-position: -4555px -34px; }
-    }
-    .photoControl {
-      list-style: none;
-      text-align: center;
-      padding: 10px 0;
-      li { display: inline-block; cursor: pointer;}
-      li a {
-        background: url(@F2CarouselDot) no-repeat center;
-        padding: 13px;
-      }
-      .selected a {
-        background: url(@F2CarouselDotSelected) no-repeat center;
-      }
-    }
-    .captions {
-      list-style: none;
-      text-align: center;
-      padding: 10px 0;
-      li {display: none; }
-      li.selected { display: inline-block; }
-    }
-  }
-  .exampleContent{ padding-top: 40px; }
-  .exampleCaptions {
-    p {
-      padding: 0 0 40px 0; 
-      color: @F2NavLinkGray;
-      background: url(@smallShadowDivider) bottom no-repeat;
-    }
-  }
-  .exampleControls {
+    .description {
+      background: url(@F2TopBorderFade) top no-repeat;
       position: relative;
-      margin: 0;
-      padding: 20px 0;
-      text-align: center;
-      .arrow { height: 25px; width: 13px; cursor: pointer; position: absolute; top: 15px;}
-      .leftArrow { background: url(@leftArrow) center no-repeat; left: 0;}
-      .rightArrow { background: url(@rightArrow) center no-repeat; right: 0;}
-      ul {
+      height: 665px;
+      .mainBGImg {
+        z-index: -1;
+        position: absolute;
+        top: 0; left: 0;
         margin: 0;
         list-style: none;
+        width: 100%;
+        li img {height: 665px; width: 100%; }
+      }
+      .ImgIpad { background: url(@F2MainContainerBGIpad) no-repeat center; }
+      .ImgIscreens { background: url(@F2MainContainerBGIScreens) no-repeat center; }
+      .ImgIphone { background: url(@F2MainContainerBGIphone) no-repeat center; }    
+      .mainBGControl {
+        margin: 0;
+        list-style: none;
+        text-align: center;
+        padding: 10px 0;
         li { display: inline-block; }
         li a {
           background: url(@F2bgControlDot) no-repeat center;
@@ -118,42 +42,116 @@ body .mainContainer {
           background: url(@F2bgControlDotSelected) no-repeat center;
         }
       }
-  }
-  footer {
-    background: url(@F2FooterPattern) repeat;
-    .container { background: url(@F2BorderFade) top no-repeat; }
-    color: @F2FooterGray;
-    h1, h2, h3, h4, h5, h6 { font-family: @baseFontFamily; }
-    h5 { line-height: @baseLineHeight / 2; }
-    .diskIcon { background: url(@F2DownloadDiskIcon) no-repeat center; padding: 50px 75px; }
-    .docIcon { background: url(@F2DocIcon) no-repeat center; padding: 50px 60px; }
-    .span6, .span5 { padding: 20px; margin: 40px 0 0 0; }
-    .span5 {
-      //.box-shadow(20px 0 10px -10px rgba(0,0,0,.065));
-      background: url(@F2RightBorderFade) left no-repeat;
+    }  
+    .overview {
+      background-color: @white;
+      h2 { text-align: center; margin-bottom: 20px;}
+      .container { background: url(@F2TopBorderFade) top no-repeat; }
+      .row { padding: 50px 0; }
+      .F2SunBullet { background: url(@F2WhiteSunIcon) center no-repeat; padding: 10px; }
+      #gradient > .vertical(@F2FooterBackgroundColor, @F2OverviewBackgroundColor);
+      .bulletPoints { .span4{ margin-left: 5px; } }
+      .bulletPointsLeft .span4 {float: right; }
+      .f2OverviewSummary {font-style: italic;}
+      .interactiveDisplay {
+        background: transparent;
+        .carousel-inner { height: 430px; }
+        .carousel .item { background: url(@F2bankeoSprite) no-repeat; height: 430px; max-width: 570px;}
+        .carousel .euro { background-position: -55px -34px; }
+        .carousel .sp500 { background-position: -685px -34px; }
+        .carousel .ft { background-position: -1325px -34px; }
+        .carousel .research { background-position: -1965px -34px; }
+        .carousel .stockPicks { background-position: -2615px -34px; }
+        .carousel .reuters { background-position: -3255px -34px; }
+        .carousel .video { background-position: -3895px -34px; }     
+        .carousel .search { background-position: -4555px -34px; }
+      }
+      .photoControl {
+        list-style: none;
+        text-align: center;
+        padding: 10px 0;
+        li { display: inline-block; cursor: pointer;}
+        li a {
+          background: url(@F2CarouselDot) no-repeat center;
+          padding: 13px;
+        }
+        .selected a {
+          background: url(@F2CarouselDotSelected) no-repeat center;
+        }
+      }
+      .captions {
+        list-style: none;
+        text-align: center;
+        padding: 10px 0;
+        li {display: none; }
+        li.selected { display: inline-block; }
+      }
     }
-    .pull-left h2 { line-height: @baseLineHeight; }
-    a {
-      text-decoration: underline;
+    .exampleContent{ padding-top: 40px; }
+    .exampleCaptions {
+      p {
+        padding: 0 0 40px 0; 
+        color: @F2NavLinkGray;
+        background: url(@smallShadowDivider) bottom no-repeat;
+      }
+    }
+    .exampleControls {
+        position: relative;
+        margin: 0;
+        padding: 20px 0;
+        text-align: center;
+        .arrow { height: 25px; width: 13px; cursor: pointer; position: absolute; top: 15px;}
+        .leftArrow { background: url(@leftArrow) center no-repeat; left: 0;}
+        .rightArrow { background: url(@rightArrow) center no-repeat; right: 0;}
+        ul {
+          margin: 0;
+          list-style: none;
+          li { display: inline-block; }
+          li a {
+            background: url(@F2bgControlDot) no-repeat center;
+            padding: 10px;
+          }
+          .selected a {
+            background: url(@F2bgControlDotSelected) no-repeat center;
+          }
+        }
+    }
+    footer {
+      background: url(@F2FooterPattern) repeat;
+      .container { background: url(@F2BorderFade) top no-repeat; }
       color: @F2FooterGray;
-    }
-    .version {
-      padding: 0 10px;
-      font-size: 46px;
-    }
-    .socialWrap{
-      background: url(@F2BorderFade) bottom no-repeat;
-      padding-bottom: 40px;
-    }
-    .social{
-      padding: 20px 0 10px 0;
-    }
-    .span12 {
-      text-align: center;
-      color: @F2FooterInsetGray;
-      margin-bottom: 10px;
-    }
-  }  
+      h1, h2, h3, h4, h5, h6 { font-family: @baseFontFamily; }
+      h5 { line-height: @baseLineHeight / 2; }
+      .diskIcon { background: url(@F2DownloadDiskIcon) no-repeat center; padding: 50px 75px; }
+      .docIcon { background: url(@F2DocIcon) no-repeat center; padding: 50px 60px; }
+      .span6, .span5 { padding: 20px; margin: 40px 0 0 0; }
+      .span5 {
+        //.box-shadow(20px 0 10px -10px rgba(0,0,0,.065));
+        background: url(@F2RightBorderFade) left no-repeat;
+      }
+      .pull-left h2 { line-height: @baseLineHeight; }
+      a {
+        text-decoration: underline;
+        color: @F2FooterGray;
+      }
+      .version {
+        padding: 0 10px;
+        font-size: 46px;
+      }
+      .socialWrap{
+        background: url(@F2BorderFade) bottom no-repeat;
+        padding-bottom: 40px;
+      }
+      .social{
+        padding: 20px 0 10px 0;
+      }
+      .span12 {
+        text-align: center;
+        color: @F2FooterInsetGray;
+        margin-bottom: 10px;
+      }
+    }  
+  }
 }
 .footerLogoDark { background: url(@F2FooterLogoDark) center no-repeat; height: 24px; }
 .footerLogoLight { background: url(@F2FooterLogoLight) center no-repeat; height: 23px; }
@@ -162,3 +160,5 @@ body .mainContainer {
   background-color: @white;
   padding-bottom: 50px;
 }
+body.openf2Example { background: url(@F2FooterPattern) repeat; }
+body.f2Developer { background: url(@F2FooterPattern) repeat; }
