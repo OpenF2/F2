@@ -189,6 +189,7 @@ body.openf2{background:transparent url("../img/footerNoise.png") repeat;}
 body.f2Developer{background:transparent url("../img/footerNoise.png") repeat;}
 body.letterPage{background:transparent url("../img/footerNoise.png") repeat;}
 body .mainContainer{background-color:#ffffff;padding:0;margin-top:0;}body .mainContainer .AppRegistrationForm{min-height:300px;padding:20px;background:url("../img/F2TopShadowBorder.png") top no-repeat;}
+body .mainContainer .noiseWrap{background:transparent url("../img/footerNoise.png") repeat;}
 body .mainContainer .letter{background-color:transparent;background:url("../img/F2TopShadowBorder.png") top no-repeat;padding-bottom:20px;}body .mainContainer .letter .letterWrapper{background:url("../img/F2LetterImage.png") center no-repeat;}body .mainContainer .letter .letterWrapper .letterContent{width:875px;height:890px;margin:auto;}body .mainContainer .letter .letterWrapper .letterContent .date{text-align:right;}
 body .mainContainer .letter .letterWrapper .letterContent .first{padding-top:40px;}
 body .mainContainer .letter .letterWrapper .letterContent .row{padding-left:100px;}
