@@ -49,7 +49,9 @@ F2Docs.fn.privatize = function(){
 }
 
 F2Docs.fn.init = function() {
-	this.privatize();
+	
+	//this.privatize();
+	
 	this.mobile_hideAddressBar();
 	this.navbarDocsHelper();
 	this.bindEvents();
