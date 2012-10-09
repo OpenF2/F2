@@ -511,6 +511,20 @@ function yuidoc() {
 		return 'hide';
 	});
 
+	// title tag
+	Y.Handlebars.registerHelper('htmlTitle',function () {
+		var name  = this.displayName || this.name,
+				title = name;
+
+		if (title) {
+			title = 'F2 - ' + title;
+		} else {
+			title = 'F2 - The Open Financial Framework';
+		}
+
+		return title;
+	});
+
 	// insert readme markdown
 	Y.Handlebars.registerHelper('readme', function() {
 		return builder.markdown(readmeMd, true);	
