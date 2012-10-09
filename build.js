@@ -11,7 +11,7 @@
  *     also requires pandoc: http://johnmacfarlane.net/pandoc/installing.html
  */
 var exec = require('child_process').exec;
-var fs = require('fs');
+var fs = require('fs-extra');
 var handlebars = require('Handlebars');
 var jsp = require('uglify-js').parser;
 var optimist = require('optimist');
@@ -247,6 +247,17 @@ function js() {
 	saveF2Info();
 
 	console.log('COMPLETE');
+
+	//copy F2.min.js over to docs/js folder so it makes to gh-pages
+	console.log('Copying F2.min.js to ./docs/js...')
+	fs.copy('./sdk/f2.min.js', './docs/js/f2.min.js', function(err){
+		if (err) {
+			console.error(err);
+		} else {
+			console.log("COMPLETE")
+		}
+	});
+	
 	nextStep();
 };
 

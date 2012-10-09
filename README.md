@@ -16,7 +16,7 @@ If you've cloned the repo and are ready to start building a F2 app, [read the do
 
 We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on [Node.js](http://nodejs.org/), and has a few dependencies. To install, `cd` to your `F2` folder, and run the following commands in npm:
 
-`$> npm install uglify-js wrench yuidocjs optimist handlebars`
+`$> npm install uglify-js wrench fs-extra yuidocjs optimist handlebars`
 
 `$> npm install less markitdown -g`
 
