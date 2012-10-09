@@ -15,7 +15,7 @@ if (!String.prototype.supplant) {
 
 //F2 docs
 var F2Docs = function(){
-
+	
 }
 
 /**
@@ -26,7 +26,31 @@ F2Docs.fn = F2Docs.prototype;
 /**
  * Init
  */
+
+
+/// TEMP!!!!! ////////
+F2Docs.fn.privatize = function(){
+	
+	//must be public
+	$('html').html('Invalid requestor IP');
+
+	$.ajax({
+		url: '',
+		data: {},
+		dataType: 'json'
+	}).done(function(jqxhr,txtStatus){
+		if (jqxhr !== true){
+			//must be public
+			$('html').html('Invalid requestor IP');
+		}
+	}).fail(function(jqxhr,txtStatus){
+		
+	});
+}
+
 F2Docs.fn.init = function() {
+	
+	//this.privatize();
 	
 	this.mobile_hideAddressBar();
 	this.navbarDocsHelper();
