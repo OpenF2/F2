@@ -491,9 +491,9 @@ function yuidoc() {
 	json = (new Y.YUIDoc(docOptions)).run();
 	// massage in some meta information from F2.json
 	json.project = {
+		cacheBuster: f2Info.sdk.cacheBuster,
 		docsAssets: '../',
-		version: f2Info.sdk.version,
-		cacheBuster: f2Info.sdk.cacheBuster
+		version: f2Info.sdk.version
 	};
 	docOptions = Y.Project.mix(json, docOptions);
 
