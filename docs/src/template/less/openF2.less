@@ -20,19 +20,25 @@ body .mainContainer {
     background: url(@F2TopBorderFade) top no-repeat;
     padding-bottom: 20px;
     .letterWrapper{
+      margin-top: 30px;
       background: url(@F2LetterImage) center no-repeat;
       .letterContent {
         width: 875px;
         height: 890px;
         margin: auto;
         .date{text-align: right;}
-        .first{padding-top: 40px;}
+        .first{padding-top: 80px;}
         .row { 
           padding-left: 100px;        
         }
       }
     }
-    p {color: @homePageDetailTextGrey; margin-bottom: 15px; }
+    p {
+      color: @F2VisionLetterGray;
+      margin-bottom: 15px;
+      font-size: 14px;
+      text-shadow: 0px 1px @white;
+    }
     .signature {
       background: url(@F2Signature) center no-repeat;
       padding: 30px 20px;
