@@ -30,16 +30,12 @@ F2Docs.fn = F2Docs.prototype;
 
 /// TEMP!!!!! ////////
 F2Docs.fn.privatize = function(){
-	
-	//must be public
-	$('html').html('Invalid requestor IP');
 
 	$.ajax({
-		url: '',
-		data: {},
-		dataType: 'json'
+		url: 'https://qa-developer-openf2.markitqa.com/Api/IsInternal',
+		dataType: 'jsonp'
 	}).done(function(jqxhr,txtStatus){
-		if (jqxhr !== true){
+		if (jqxhr === false){
 			//must be public
 			$('html').html('Invalid requestor IP');
 		}
@@ -50,7 +46,7 @@ F2Docs.fn.privatize = function(){
 
 F2Docs.fn.init = function() {
 	
-	//this.privatize();
+	this.privatize();
 	
 	this.mobile_hideAddressBar();
 	this.navbarDocsHelper();
@@ -182,7 +178,7 @@ F2Docs.fn._buildDevSubSectionsHtml = function(){
 F2Docs.fn.buildBookmarks = function(){
 	var $docsContainer = $('#docs'),
 		$headers = $('section', $docsContainer).not('.level1,.level2'),
-		link = "<a href='#{id}' name='{id}' class='docs-anchor'><span class='icon-bookmark'></span></a>";
+		link = "<a href='#{id}' title='Permalink' name='{id}' class='docs-anchor'><span class='icon-bookmark'></span></a>";
 
 	$headers.each($.proxy(function(idx,item){
 		var $h = $(item).children().first(),
