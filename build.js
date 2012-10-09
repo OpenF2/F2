@@ -497,6 +497,21 @@ function yuidoc() {
 	};
 	docOptions = Y.Project.mix(json, docOptions);
 
+	// hasClassMembers
+	// ensures that the class has members and isn't just an empty namespace
+	Y.Handlebars.registerHelper('hasClassMembers', function() {
+
+		for (var i = 0, len = json.classitems.length; i < len; i++) {
+			//console.log(json.classitems[i].class, this.name);
+			if (json.classitems[i].class === this.name) {
+				return '';
+			}
+		}
+
+		return 'hide';
+	});
+
+	// insert readme markdown
 	Y.Handlebars.registerHelper('readme', function() {
 		return builder.markdown(readmeMd, true);	
 	});
