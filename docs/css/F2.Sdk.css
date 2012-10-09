@@ -1112,6 +1112,8 @@ h1.title{margin-top:0;}
 .level3{padding-top:82px;}
 .level4{margin-top:30px;}
 section>hr{margin:40px 0 0;}
+#docs section h2,#docs section h3,#docs section h4,#docs section h5,#docs section h6{position:relative;}
+section .docs-anchor{padding-left:12px;margin-left:-30px;cursor:pointer;position:absolute;top:0;left:0;bottom:0;opacity:0.2;filter:alpha(opacity=20);opacity:0.2;filter:alpha(opacity=20);margin-top:2px;}
 .nav-list{margin-top:9px;border-top:3px solid #737373;padding-left:15px;padding-right:15px;}
 .nav-list>li{position:relative;-webkit-animation:slideIn 900ms;-moz-animation:slideIn 900ms;-ms-animation:slideIn 900ms;-webkit-animation:slideIn 900ms;-moz-animation:slideIn 900ms;-ms-animation:slideIn 900ms;}
 .nav-list>li>a{font-family:rokkittregular;font-size:19px;}

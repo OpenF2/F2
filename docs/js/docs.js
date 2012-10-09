@@ -56,6 +56,7 @@ F2Docs.fn.init = function() {
 	this.navbarDocsHelper();
 	this.bindEvents();
 	this.buildLeftRailToc();
+	this.buildBookmarks();
 	
 	this.formatSourceCodeElements();
 
@@ -173,6 +174,24 @@ F2Docs.fn._buildDevSubSectionsHtml = function(){
 	},this));
 
 	return html;
+}
+
+/**
+ * Add bookmark links to each <h1/2/3/4/5/6>
+ */
+F2Docs.fn.buildBookmarks = function(){
+	var $docsContainer = $('#docs'),
+		$headers = $('section', $docsContainer).not('.level1,.level2'),
+		link = "<a href='#{id}' name='{id}' class='docs-anchor'><span class='icon-bookmark'></span></a>";
+
+	$headers.each($.proxy(function(idx,item){
+		var $h = $(item).children().first(),
+			//name = $h.text(),
+			anchor = $(item).prop("id"),
+			$link = $(link.supplant({id: anchor}));
+
+		$h.prepend($link);
+	},this));
 }
 
 /**

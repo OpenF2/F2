@@ -51,6 +51,36 @@ section > hr {
 	margin:40px 0 0;
 }
 
+#docs section h2,
+#docs section h3,
+#docs section h4,
+#docs section h5,
+#docs section h6 {
+	position: relative;
+}
+
+#docs section h2:hover .docs-anchor,
+#docs section h3:hover .docs-anchor,
+#docs section h4:hover .docs-anchor,
+#docs section h5:hover .docs-anchor,
+#docs section h6:hover .docs-anchor,
+section .docs-anchor:hover {
+	//display: block;
+}
+
+section .docs-anchor {
+	//display: none;
+	padding-left: 12px;
+	margin-left: -30px;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	.opacity(20);
+	margin-top: 2px;
+}
+
 //left rail/table of contents
 
 .nav-list {
