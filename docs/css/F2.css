@@ -203,7 +203,7 @@ body .mainContainer .description h2,body .mainContainer .description h3{color:#0
 body .mainContainer .description h3:first-child{margin-top:30px;}
 body .mainContainer .description h3 a{color:#0a6199;}
 body .mainContainer .description .overview h2,body .mainContainer .description .overview h3{color:#ffffff;}
-body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;}body .mainContainer .description .mainBGImg li img{height:665px;width:100%;}
+body .mainContainer .description .mainBGImg{z-index:-1;position:absolute;top:0;left:0;margin:0;list-style:none;width:100%;}body .mainContainer .description .mainBGImg li div.img{height:665px;width:100%;}
 body .mainContainer .description .ImgIpad{background:url("../img/F2_iPad.jpg") no-repeat center;}
 body .mainContainer .description .ImgIscreens{background:url("../img/F2_iScreens.jpg") no-repeat center;}
 body .mainContainer .description .ImgIphone{background:url("../img/F2_iPhone.jpg") no-repeat center;}
