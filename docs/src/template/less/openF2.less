@@ -4,7 +4,8 @@
 
 body.openf2 { background: transparent url(@F2FooterPattern) repeat; }
 body.f2Developer { background: transparent url(@F2FooterPattern) repeat; }
-body .mainContainer {  
+body.letterPage { background: transparent url(@F2FooterPattern) repeat; }
+body .mainContainer {
   background-color: @white;
   padding: 0;
   margin-top: 0;
@@ -12,6 +13,30 @@ body .mainContainer {
     min-height: 300px;
     padding: 20px;
     background: url(@F2TopBorderFade) top no-repeat;    
+  }
+
+  .letter {
+    background-color: transparent;
+    background: url(@F2TopBorderFade) top no-repeat;
+    padding-bottom: 20px;
+    .letterWrapper{
+      background: url(@F2LetterImage) center no-repeat;
+      .letterContent {
+        width: 875px;
+        height: 890px;
+        margin: auto;
+        .date{text-align: right;}
+        .first{padding-top: 40px;}
+        .row { 
+          padding-left: 100px;        
+        }
+      }
+    }
+    p {color: @homePageDetailTextGrey; margin-bottom: 15px; }
+    .signature {
+      background: url(@F2Signature) center no-repeat;
+      padding: 30px 20px;
+    }
   }
 
   .description {
@@ -92,13 +117,19 @@ body .mainContainer {
   }  
   .overview {
     background-color: @white;
-    h2 { text-align: center; margin-bottom: 20px;}
+    h2 { text-align: center; margin-bottom: 20px; color: @white;}
     .container { background: url(@F2TopBorderFade) top no-repeat; }
     .row { padding: 50px 0; }
     .F2SunBullet { background: url(@F2WhiteSunIcon) center no-repeat; padding: 10px; }
     #gradient > .vertical(@F2FooterBackgroundColor, @F2OverviewBackgroundColor);
-    .bulletPoints { .span4{ margin-left: 5px; } }
-    .bulletPointsLeft .span4 {float: right; }
+    .bulletPoints {
+      ul { 
+        list-style: none;
+        li { padding-left: 22px; background: url(@F2WhiteSunIcon) left top no-repeat; }
+      }
+      .span4 { margin-left: 5px; }
+    }
+    
     .f2OverviewSummary {font-style: italic;}
     .interactiveDisplay {
       background: transparent;
@@ -211,8 +242,6 @@ body .mainContainer {
   background-color: @white;
   padding-bottom: 50px;
 }
-
-
 
 .F2DottedLine {
   width: 100%;

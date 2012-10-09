@@ -187,7 +187,13 @@ a:hover{color:#005580;text-decoration:underline;}
 .openf2Header{background-color:#f0f0f0;}
 body.openf2{background:transparent url("../img/footerNoise.png") repeat;}
 body.f2Developer{background:transparent url("../img/footerNoise.png") repeat;}
+body.letterPage{background:transparent url("../img/footerNoise.png") repeat;}
 body .mainContainer{background-color:#ffffff;padding:0;margin-top:0;}body .mainContainer .AppRegistrationForm{min-height:300px;padding:20px;background:url("../img/F2TopShadowBorder.png") top no-repeat;}
+body .mainContainer .letter{background-color:transparent;background:url("../img/F2TopShadowBorder.png") top no-repeat;padding-bottom:20px;}body .mainContainer .letter .letterWrapper{background:url("../img/F2LetterImage.png") center no-repeat;}body .mainContainer .letter .letterWrapper .letterContent{width:875px;height:890px;margin:auto;}body .mainContainer .letter .letterWrapper .letterContent .date{text-align:right;}
+body .mainContainer .letter .letterWrapper .letterContent .first{padding-top:40px;}
+body .mainContainer .letter .letterWrapper .letterContent .row{padding-left:100px;}
+body .mainContainer .letter p{color:#535353;margin-bottom:15px;}
+body .mainContainer .letter .signature{background:url("../img/F2Signature.png") center no-repeat;padding:30px 20px;}
 body .mainContainer .description{z-index:2;background:url("../img/F2TopShadowBorder.png") top no-repeat;background-color:#ffffff;position:relative;height:665px;}body .mainContainer .description p{margin-bottom:0;line-height:1.5em;color:#535353;font-weight:200;font-size:17px;}
 body .mainContainer .description p.F2Indent{padding-left:10px;font-size:12px;}
 body .mainContainer .description p.F2Indent a{color:#535353;}
@@ -203,12 +209,12 @@ body .mainContainer .description .ImgIphone{background:url("../img/F2_iPhone.jpg
 body .mainContainer .description .mainBGControl{margin:30px 0 0 0;list-style:none;text-align:center;padding:10px 0;}body .mainContainer .description .mainBGControl li{display:inline-block;}
 body .mainContainer .description .mainBGControl li a{background:url("../img/bgControlDot.png") no-repeat center;padding:10px;}
 body .mainContainer .description .mainBGControl .selected a{background:url("../img/bgControlDotSelected.png") no-repeat center;}
-body .mainContainer .overview{background-color:#ffffff;background-color:#53585b;background-image:-moz-linear-gradient(top, #575d61, #4d5052);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#575d61), to(#4d5052));background-image:-webkit-linear-gradient(top, #575d61, #4d5052);background-image:-o-linear-gradient(top, #575d61, #4d5052);background-image:linear-gradient(to bottom, #575d61, #4d5052);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff575d61', endColorstr='#ff4d5052', GradientType=0);background-color:#53585b;background-image:-moz-linear-gradient(top, #575d61, #4d5052);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#575d61), to(#4d5052));background-image:-webkit-linear-gradient(top, #575d61, #4d5052);background-image:-o-linear-gradient(top, #575d61, #4d5052);background-image:linear-gradient(to bottom, #575d61, #4d5052);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff575d61', endColorstr='#ff4d5052', GradientType=0);}body .mainContainer .overview h2{text-align:center;margin-bottom:20px;}
+body .mainContainer .overview{background-color:#ffffff;background-color:#53585b;background-image:-moz-linear-gradient(top, #575d61, #4d5052);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#575d61), to(#4d5052));background-image:-webkit-linear-gradient(top, #575d61, #4d5052);background-image:-o-linear-gradient(top, #575d61, #4d5052);background-image:linear-gradient(to bottom, #575d61, #4d5052);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff575d61', endColorstr='#ff4d5052', GradientType=0);background-color:#53585b;background-image:-moz-linear-gradient(top, #575d61, #4d5052);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#575d61), to(#4d5052));background-image:-webkit-linear-gradient(top, #575d61, #4d5052);background-image:-o-linear-gradient(top, #575d61, #4d5052);background-image:linear-gradient(to bottom, #575d61, #4d5052);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff575d61', endColorstr='#ff4d5052', GradientType=0);}body .mainContainer .overview h2{text-align:center;margin-bottom:20px;color:#ffffff;}
 body .mainContainer .overview .container{background:url("../img/F2TopShadowBorder.png") top no-repeat;}
 body .mainContainer .overview .row{padding:50px 0;}
 body .mainContainer .overview .F2SunBullet{background:url("../img/F2SunIcon.png") center no-repeat;padding:10px;}
+body .mainContainer .overview .bulletPoints ul{list-style:none;}body .mainContainer .overview .bulletPoints ul li{padding-left:22px;background:url("../img/F2SunIcon.png") left top no-repeat;}
 body .mainContainer .overview .bulletPoints .span4{margin-left:5px;}
-body .mainContainer .overview .bulletPointsLeft .span4{float:right;}
 body .mainContainer .overview .f2OverviewSummary{font-style:italic;}
 body .mainContainer .overview .interactiveDisplay{background:transparent;}body .mainContainer .overview .interactiveDisplay .carousel-inner{height:430px;}
 body .mainContainer .overview .interactiveDisplay .carousel .item{background:url("../img/bankeoSprite.png") no-repeat;height:430px;max-width:570px;}
