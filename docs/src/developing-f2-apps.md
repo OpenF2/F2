@@ -1,12 +1,6 @@
 % Developing F2 Apps
 
-You've come to the right place if you want to start building F2 apps.
-
-Before continuing, make sure you’ve:
-
-Cloned the F2 repo on GitHub or downloaded the latest build.. Browse to the quick start guide to find out how.
-
-Read about the F2 Framework.There are a few important concepts to help you better understand apps, containers and context. 
+<p class="lead">You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context. </p>
 
 Defined very simply, an F2 app is a `javascript` file which contains your app manifest. Technically an F2 app is one of two things:
 
@@ -17,9 +11,7 @@ Defined very simply, an F2 app is a `javascript` file which contains your app ma
 	<dd>A Data App is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
 </dl>
 
-For the purposes of this documentation, we'll focus on developing **display apps**.
-
-Browse to [The Framework](index.html#framework) for more information about F2 apps.
+For the purposes of this documentation, we'll focus on developing **display apps**. Browse to [The Framework](index.html#framework) for more information about F2 apps.
 
 <!--
 <p class="lead">To understand how F2 apps work or to get started building apps, you've come to the right place. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
