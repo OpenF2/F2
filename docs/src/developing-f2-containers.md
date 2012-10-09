@@ -1,28 +1,14 @@
 % Developing F2 Containers
 
-<p class="lead">To understand how F2 Containers work or to get started building a Container, you've come to the right place. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
+<p class="lead">You've come to the right place if you want to begin building F2 containers. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
-## The Container
-
-To understand F2 and the role of Apps, you need to understand the role of the **Container**.
-
-![](./img/wwp_devices.png "Containers and Apps on desktop and mobile")
-
-The F2 Container is a web page that is "aware" of its contents (the Apps) and plays the role of a traffic cop managing context passing between F2 Apps (when more than one exists in a Container). It is also the layer between the browser and Apps, and the location where Apps reside.
-
-A Container can have any variation of intelligence on a wide spectrum which means it can provide data in-memory or via web services to Apps or simply host the [F2.js JavaScript SDK](https://github.com/OpenF2/F2/blob/master/sdk/f2.min.js). It is multi-channel so it can deliver capabilities via the Internet to desktops, tablets and smartphones.
-
-Each Container Provider, or person or company hosting a Container, is responsible for including the F2 JavaScript SDK. The SDK (F2.js) provides a consistent means for all App developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
-
-Read [more about The Container](index.html#framework) and the F2 Framework.
-
-### Get Started
+## Get Started
 
 To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps. Once you open the project repository, point your browser at:
 
 `http://localhost/F2/examples/container/`
 
-#### Configuration
+### Configuration
 
 It is assumed you will be developing a F2 Container locally and have a `localhost` setup. The URLs mentioned in this specification assume you have configured your F2 Container and Apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
@@ -32,18 +18,121 @@ It is assumed you will be developing a F2 Container locally and have a `localhos
 
 ## F2 Containers
 
+For a webpage to be considered an F2 container, it must first include the [F2.js JavaScript SDK](../sdk/classes/F2.html). This is as simple as [downloading the F2 project from GitHub](https://github.com/OpenF2/F2/zipball/master) and adding a `script` tag to the page. 
 
-## Developing a F2 Container
+```javascript
+<script src="/path/to/your/container/f2.min.js"></script>
+```
 
-### Container ID
+You will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps.
+
+Once the script tag has been added it is up to the Container Provider to configure and customize the container. Continue reading Developing Containers](#developing-containers) below.
+
+* * * *
+
+## Developing Containers
+
+A Container is a browser-based desktop-like application which brings F2 apps together onto a seamless user interface. It also can provide horsepower to its apps in the form of request-response web services or streaming data feeds.
+
+### F2 ContainerID
+
+To develop a F2 container, you need a unique identifier called an **ContainerID**. This ContainerID will be unique to _your container_ in the entire open financial framework ecosystem. While you don't need a unique ContainerID during the container development process, it is recommended you get one. The format of the ContainerID looks like this: `f2c_companyName_containerName`, where the `companyName` "namespace" is your company name and `containerName` is the name of your container.
+
+As an example, your ContainerID could look like this:
+
+`f2c_acmecorp_watchlist`
+
+If you built more than one container while working at Acme Corporation, you could create more ContainerIDs. All of these are valid:
+
+* `f2c_acmecorp_activetrader`
+* `f2c_acmecorp_retail`
+* `f2c_acmecorp_interactive_charts`
+
+To guarantee uniqueness, we have provided a ContainerID generation service that allows you to customize your ContainerID in the [Developer Center](index.html#developer-center).
+
+### Setting Up Your Project
+
+Once you have your ContainerID, start by setting up your container project. You will need at least one configuration in addition to an HTML page: the app configs. (In the GitHub repository, [an example](https://github.com/OpenF2/F2/blob/master/examples/container/js/sampleApps.js) is found in `/examples/container/js/sampleApps.js`.) This doesn't need to be a static javascript file like `sampleApps.js` but the structure and format of the app configs is important.
+
+### App Configs
+
+A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#l#developer-center). 
+
+Example `AppConfig` object from an _individual_ app:
+
+```javascript
+{
+	appId: "com_companyName_appName",
+	description: "App description",
+	height: 500,
+	manifestUrl: "http://www.domain.com/manifest.js",
+	name: "App name"
+}
+```
+
+Example array of `AppConfig` objects for a collection of apps:
+
+```javascript
+var _appConfigs = [
+	{
+		appId: "com_companyName_appName",
+		description: "App description",
+		height:500,
+		manifestUrl: "http://www.domain.com/manifest.js",
+		name: "App name"
+	},
+	{
+		appId: "com_companyName_appName2",
+		description: "App2 description",
+		height:100,
+		manifestUrl: "http://www.domain2.com/manifest.js",
+		name: "App2 name"
+	},
+	{
+		appId: "com_companyName_appName3",
+		description: "App3 description",
+		height:200,
+		manifestUrl: "http://www.domain3.com/manifest.js",
+		name: "App3 name"
+	}
+];
+```
+
+* * * *
+
+## Container Config
+
+The F2.js JavaScript SDK provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
+
+### AppRender
+
+The `appRender()` method allows the container to wrap an app in extra HTML. The function should accept an `F2.AppConfig` object and also a string of HTML. The extra HTML can provide links to edit app settings and remove an app from the Container. See `F2.Constants.Css` for CSS classes that should be applied to elements.
+
+### BeforeAppRender
+
+The `beforeAppRender()` method allows the container to render HTML for an app before the `AppManifest` for an app has loaded. This can be useful if the design calls for loading spinners to appear for each app before each app is loaded and rendered to the page.
+
+### AfterAppRender
+
+The `afterAppRender()` method allows the container to override how an app's HTML is inserted into the page. The function should accept an `F2.AppConfig` object and also a string of HTML.
+
+For more information on `F2.ContainerConfig`, [browse over to the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.html).
+
+### F2 UI Mask
+
+In version 1.0, Container Providers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is `F2.UI.Mask`. The `Mask` object contains configuration defaults for the `F2.UI.showMask()` and `F2.UI.hideMask()` methods.
+
+Included in the `F2.UI.Mask` configuration object are the following properties: `backgroundColor`, `loadingIcon`, `opacity`, `useClasses`, and `zIndex`. Each of these `F2.UI.Mask` properties is detailed in [the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html).
+
+For more information on `F2.UI`, [browse over to the F2.js SDK docs](../docs/sdk/classes/F2.UI.html).
+
 ### Customizing
 #### CSS
 ##### Namespacing
 #### JavaScript
 ##### Namespacing
 
-## Container Config
-### F2 UI Mask
+
 
 ## Registering Apps
 ## Secure Apps
