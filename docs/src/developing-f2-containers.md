@@ -104,6 +104,21 @@ var _appConfigs = [
 
 The F2.js JavaScript SDK provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
 
+In the container's `$(document).ready()`, add the `F2.init()`:
+
+```javascript
+$(document).ready(function(){
+	F2.init({
+		//define ContainerConfig properties
+		appRender: function(){},
+		beforeAppRender: function(){},
+		afterAppRender: function(){}
+	});
+});
+```
+
+To see an more detailed example of `F2.init()`, [look at the sample container javascript](https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js) in the F2 repo on GitHub.
+
 ### AppRender
 
 The `appRender()` method allows the container to wrap an app in extra HTML. The function should accept an `F2.AppConfig` object and also a string of HTML. The extra HTML can provide links to edit app settings and remove an app from the Container. See `F2.Constants.Css` for CSS classes that should be applied to elements.
@@ -122,37 +137,88 @@ For more information on `F2.ContainerConfig`, [browse over to the F2.js SDK docs
 
 In version 1.0, Container Providers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is `F2.UI.Mask`. The `Mask` object contains configuration defaults for the `F2.UI.showMask()` and `F2.UI.hideMask()` methods.
 
+An example of setting the mask in `F2.init()`:
+
+```javascript
+$(document).ready(function(){
+    F2.init({
+        //define ContainerConfig properties
+        appRender: function(){},
+        beforeAppRender: function(){},
+        afterAppRender: function(){},
+
+        //setup UI
+        UI:{
+			Mask:{
+				loadingIcon:'./img/spinner.gif'
+			}
+		}
+    });
+});
+```
+
 Included in the `F2.UI.Mask` configuration object are the following properties: `backgroundColor`, `loadingIcon`, `opacity`, `useClasses`, and `zIndex`. Each of these `F2.UI.Mask` properties is detailed in [the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html).
 
 For more information on `F2.UI`, [browse over to the F2.js SDK docs](../docs/sdk/classes/F2.UI.html).
 
-### Customizing
-#### CSS
-##### Namespacing
-#### JavaScript
-##### Namespacing
-
-
+* * * *
 
 ## Registering Apps
+
+The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html#methods-registerApps)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
+
+The two arguments provided to `registerApps()` are an array of `AppConfig` objects and an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved to the container.
+
+
+Remember, the `AppConfig` [includes a `manifestUrl` property](#app-configs).
+
+
+
+```
+//F2.registerApps(apps);
+```
+
+* * * *
+
 ## Secure Apps
+
+* * * *
+
+## Customizing
+
+### CSS
+
+#### Namespacing
+
+### JavaScript
+
+#### Namespacing
+
+* * * *
+
 ## Context
+
 ### Events
 
+* * * *
+
 ## Utils
+
 ### Get Container State
+
 ### IsInit
+
 ### RemoveAllApps
+
 ### RemoveApp
+
+* * * *
 
 ## F2 UI
 
+* * * *
+
 ## Extending F2
-
-
-
-
-
 
 * * * *
 
