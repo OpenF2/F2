@@ -6,17 +6,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349897345605"></script>
-	<script src="..&#x2F;../js/respond.min.js?1349897345605"></script>
+	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js?1349906985368"></script>
+	<script src="..&#x2F;../js/respond.min.js?1349906985368"></script>
 	
-	<link href="..&#x2F;../css/prettify.css?1349897345605" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1349897345605" rel="stylesheet">
+	<link href="..&#x2F;../css/prettify.css?1349906985368" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1349906985368" rel="stylesheet">
 
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349897345605" type="image/png"/>
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349897345605" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349897345605" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349897345605" />
-	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349897345605" />
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png?1349906985368" type="image/png"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png?1349906985368" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png?1349906985368" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png?1349906985368" />
+	<link rel="apple-touch-icon" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png?1349906985368" />
 
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -216,12 +216,12 @@ F2.extend(&#x27;&#x27;, (function(){
 	var _config = false;
 
 	&#x2F;**
-	 * Appends the App&#x27;s html to the DOM
+	 * Appends the app&#x27;s html to the DOM
 	 * @method _afterAppRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
-	 * @return {Element} The DOM Element that contains the App
+	 * @return {Element} The DOM Element that contains the app
 	 *&#x2F;
 	var _afterAppRender = function(appConfig, html) {
 
@@ -231,7 +231,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		var appContainer = handler(appConfig, html);
 
 		if (!!_config.afterAppRender &amp;&amp; !appContainer) {
-			F2.log(&#x27;F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the App&#x27;);
+			F2.log(&#x27;F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app&#x27;);
 			return;
 		} else {
 			&#x2F;&#x2F; apply APP class and Instance ID
@@ -241,7 +241,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
-	 * Renders the html for an App.
+	 * Renders the html for an app.
 	 * @method _appRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
@@ -266,12 +266,12 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
-	 * Rendering hook to allow Containers to render some html prior to an App
+	 * Rendering hook to allow containers to render some html prior to an app
 	 * loading
 	 * @method _beforeAppRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @return {Element} The DOM Element surrounding the App
+	 * @return {Element} The DOM Element surrounding the app
 	 *&#x2F;
 	var _beforeAppRender = function(appConfig) {
 		var handler = _config.beforeAppRender || $.noop;
@@ -286,7 +286,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	 *&#x2F;
 	var _hydrateAppConfig = function(appConfig) {
 
-		&#x2F;&#x2F; create the instanceId for the App
+		&#x2F;&#x2F; create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
 
 		&#x2F;&#x2F; default the views if not provided
@@ -297,7 +297,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
-	 * Attach App events
+	 * Attach app events
 	 * @method _initAppEvents
 	 * @private
 	 *&#x2F;
@@ -319,7 +319,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
-	 * Attach Container Events
+	 * Attach container Events
 	 * @method _initContainerEvents
 	 * @private
 	 *&#x2F;
@@ -337,17 +337,17 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
-	 * Has the Container been init?
+	 * Has the container been init?
 	 * @method _isInit
 	 * @private
-	 * @return {bool} True if the Container has been init
+	 * @return {bool} True if the container has been init
 	 *&#x2F;
 	var _isInit = function() {
 		return !!_config;
 	};
 
 	&#x2F;**
-	 * Loads the App&#x27;s html&#x2F;css&#x2F;javascript
+	 * Loads the app&#x27;s html&#x2F;css&#x2F;javascript
 	 * @method loadApp
 	 * @private
 	 * @param {Array} appConfigs An array of
@@ -366,7 +366,7 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; check that the number of apps in manifest matches the number requested
 		if (appConfigs.length != appManifest.apps.length) {
-			F2.log(&#x27;The number of Apps defined in the AppManifest do not match the number requested.&#x27;, appManifest);
+			F2.log(&#x27;The number of apps defined in the AppManifest do not match the number requested.&#x27;, appManifest);
 			return;
 		}
 
@@ -393,7 +393,7 @@ F2.extend(&#x27;&#x27;, (function(){
 						}, 0);
 						
 					} else {
-						F2.log(&#x27;App initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
+						F2.log(&#x27;app initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
 					}
 				}
 			});
@@ -430,7 +430,7 @@ F2.extend(&#x27;&#x27;, (function(){
 								F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + e);
 							}
 						});
-						&#x2F;&#x2F; fire the load event to tell the App it can proceed
+						&#x2F;&#x2F; fire the load event to tell the app it can proceed
 						appInit();
 					}
 				},
@@ -447,16 +447,16 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
-	 * Loads the App&#x27;s html&#x2F;css&#x2F;javascript into an iframe
+	 * Loads the app&#x27;s html&#x2F;css&#x2F;javascript into an iframe
 	 * @method loadSecureApp
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The App&#x27;s html&#x2F;css&#x2F;js to be loaded into the
+	 * @param {F2.AppManifest} appManifest The app&#x27;s html&#x2F;css&#x2F;js to be loaded into the
 	 * page.
 	 *&#x2F;
 	var _loadSecureApp = function(appConfig, appManifest) {
 
-		&#x2F;&#x2F; make sure the Container is configured for secure apps
+		&#x2F;&#x2F; make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			&#x2F;&#x2F; create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
@@ -472,20 +472,20 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
-	 * Checks if the App is valid
+	 * Checks if the app is valid
 	 * @method _validateApp
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @returns {bool} True if the App is valid
+	 * @returns {bool} True if the app is valid
 	 *&#x2F;
 	var _validateApp = function(appConfig) {
 
-		&#x2F;&#x2F; check for valid App configurations
+		&#x2F;&#x2F; check for valid app configurations
 		if (!appConfig.appId) {
-			F2.log(&#x27;&quot;appId&quot; missing from App object&#x27;);
+			F2.log(&#x27;&quot;appId&quot; missing from app object&#x27;);
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log(&#x27;manifestUrl&quot; missing from App object&#x27;);
+			F2.log(&#x27;manifestUrl&quot; missing from app object&#x27;);
 			return false;
 		}
 
@@ -494,7 +494,7 @@ F2.extend(&#x27;&#x27;, (function(){
 
 	return {
 		&#x2F;**
-		 * Gets the current list of Apps in the container
+		 * Gets the current list of apps in the container
 		 * @method getContainerState
 		 * @returns {Array} An array of objects containing the appId
 		 *&#x2F;
@@ -509,8 +509,8 @@ F2.extend(&#x27;&#x27;, (function(){
 			});
 		},
 		&#x2F;**
-		 * Initializes the Container. This method must be called before performing
-		 * any other actions in the Container.
+		 * Initializes the container. This method must be called before performing
+		 * any other actions in the container.
 		 * @method init
 		 * @param {F2.ContainerConfig} config The configuration object
 		 *&#x2F;
@@ -525,15 +525,15 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 		},
 		&#x2F;**
-		 * Has the Container been init?
+		 * Has the container been init?
 		 * @method isInit
-		 * @return {bool} True if the Container has been init
+		 * @return {bool} True if the container has been init
 		 *&#x2F;
 		isInit: _isInit,
 		&#x2F;**
-		 * Begins the loading process for all Apps. The App will
+		 * Begins the loading process for all apps. The app will
 		 * be passed the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object which will
-		 * contain the App&#x27;s unique instanceId within the Container. Optionally, the
+		 * contain the app&#x27;s unique instanceId within the container. Optionally, the
 		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}} can be passed in and those
 		 * assets will be used instead of making a request.
 		 * @method registerApps
@@ -543,7 +543,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}}
 		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
-		 * passed in. This can be useful if Apps are loaded on the server-side and
+		 * passed in. This can be useful if apps are loaded on the server-side and
 		 * passed down to the client.
 		 *&#x2F;
 		registerApps: function(appConfigs, appManifests) {
@@ -608,7 +608,7 @@ F2.extend(&#x27;&#x27;, (function(){
 					appStack.push({ url:i, apps:b })
 				});
 
-				&#x2F;&#x2F; if an App is being loaded more than once on the page, there is the
+				&#x2F;&#x2F; if an app is being loaded more than once on the page, there is the
 				&#x2F;&#x2F; potential that the jsonp callback will be clobbered if the request
 				&#x2F;&#x2F; for the AppManifest for the app comes back at the same time as
 				&#x2F;&#x2F; another request for the same app.  We&#x27;ll create a callbackStack
@@ -660,7 +660,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 		},
 		&#x2F;**
-		 * Removes all Apps from the Container
+		 * Removes all apps from the container
 		 * @method removeAllApps
 		 *&#x2F;
 		removeAllApps: function() {
@@ -675,9 +675,9 @@ F2.extend(&#x27;&#x27;, (function(){
 			});
 		},
 		&#x2F;**
-		 * Removes an App from the Container
+		 * Removes an app from the container
 		 * @method removeApp
-		 * @param {string} instanceId The App&#x27;s instanceId
+		 * @param {string} instanceId The app&#x27;s instanceId
 		 *&#x2F;
 		removeApp: function(instanceId) {
 
@@ -711,15 +711,15 @@ F2.extend(&#x27;&#x27;, (function(){
 	</div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349897345605"></script>
-<script src="..&#x2F;../js/prettify.js?1349897345605"></script>
-<script src="..&#x2F;assets/js/main.js?1349897345605"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.1.1.js?1349906985368"></script>
+<script src="..&#x2F;../js/prettify.js?1349906985368"></script>
+<script src="..&#x2F;assets/js/main.js?1349906985368"></script>
 <script>prettyPrint();</script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349897345605";</script>
+<script>var ghpagescachebuster = "1349906985368";</script>
 </body>
 </html>
