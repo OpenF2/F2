@@ -9,12 +9,12 @@ F2.extend('', (function(){
 	var _config = false;
 
 	/**
-	 * Appends the App's html to the DOM
+	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
-	 * @return {Element} The DOM Element that contains the App
+	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
 
@@ -24,7 +24,7 @@ F2.extend('', (function(){
 		var appContainer = handler(appConfig, html);
 
 		if (!!_config.afterAppRender && !appContainer) {
-			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the App');
+			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app');
 			return;
 		} else {
 			// apply APP class and Instance ID
@@ -34,7 +34,7 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Renders the html for an App.
+	 * Renders the html for an app.
 	 * @method _appRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
@@ -59,12 +59,12 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Rendering hook to allow Containers to render some html prior to an App
+	 * Rendering hook to allow containers to render some html prior to an app
 	 * loading
 	 * @method _beforeAppRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @return {Element} The DOM Element surrounding the App
+	 * @return {Element} The DOM Element surrounding the app
 	 */
 	var _beforeAppRender = function(appConfig) {
 		var handler = _config.beforeAppRender || $.noop;
@@ -79,7 +79,7 @@ F2.extend('', (function(){
 	 */
 	var _hydrateAppConfig = function(appConfig) {
 
-		// create the instanceId for the App
+		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
 
 		// default the views if not provided
@@ -90,7 +90,7 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Attach App events
+	 * Attach app events
 	 * @method _initAppEvents
 	 * @private
 	 */
@@ -112,7 +112,7 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Attach Container Events
+	 * Attach container Events
 	 * @method _initContainerEvents
 	 * @private
 	 */
@@ -130,17 +130,17 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Has the Container been init?
+	 * Has the container been init?
 	 * @method _isInit
 	 * @private
-	 * @return {bool} True if the Container has been init
+	 * @return {bool} True if the container has been init
 	 */
 	var _isInit = function() {
 		return !!_config;
 	};
 
 	/**
-	 * Loads the App's html/css/javascript
+	 * Loads the app's html/css/javascript
 	 * @method loadApp
 	 * @private
 	 * @param {Array} appConfigs An array of
@@ -159,7 +159,7 @@ F2.extend('', (function(){
 
 		// check that the number of apps in manifest matches the number requested
 		if (appConfigs.length != appManifest.apps.length) {
-			F2.log('The number of Apps defined in the AppManifest do not match the number requested.', appManifest);
+			F2.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
 			return;
 		}
 
@@ -186,7 +186,7 @@ F2.extend('', (function(){
 						}, 0);
 						
 					} else {
-						F2.log('App initialization class is defined but not a function. (' + a.appId + ')');
+						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
 					}
 				}
 			});
@@ -223,7 +223,7 @@ F2.extend('', (function(){
 								F2.log('Error loading inline script: ' + exception + '\n\n' + e);
 							}
 						});
-						// fire the load event to tell the App it can proceed
+						// fire the load event to tell the app it can proceed
 						appInit();
 					}
 				},
@@ -240,16 +240,16 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Loads the App's html/css/javascript into an iframe
+	 * Loads the app's html/css/javascript into an iframe
 	 * @method loadSecureApp
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The App's html/css/js to be loaded into the
+	 * @param {F2.AppManifest} appManifest The app's html/css/js to be loaded into the
 	 * page.
 	 */
 	var _loadSecureApp = function(appConfig, appManifest) {
 
-		// make sure the Container is configured for secure apps
+		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
@@ -265,20 +265,20 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Checks if the App is valid
+	 * Checks if the app is valid
 	 * @method _validateApp
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @returns {bool} True if the App is valid
+	 * @returns {bool} True if the app is valid
 	 */
 	var _validateApp = function(appConfig) {
 
-		// check for valid App configurations
+		// check for valid app configurations
 		if (!appConfig.appId) {
-			F2.log('"appId" missing from App object');
+			F2.log('"appId" missing from app object');
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log('manifestUrl" missing from App object');
+			F2.log('manifestUrl" missing from app object');
 			return false;
 		}
 
@@ -287,7 +287,7 @@ F2.extend('', (function(){
 
 	return {
 		/**
-		 * Gets the current list of Apps in the container
+		 * Gets the current list of apps in the container
 		 * @method getContainerState
 		 * @returns {Array} An array of objects containing the appId
 		 */
@@ -302,8 +302,8 @@ F2.extend('', (function(){
 			});
 		},
 		/**
-		 * Initializes the Container. This method must be called before performing
-		 * any other actions in the Container.
+		 * Initializes the container. This method must be called before performing
+		 * any other actions in the container.
 		 * @method init
 		 * @param {F2.ContainerConfig} config The configuration object
 		 */
@@ -318,15 +318,15 @@ F2.extend('', (function(){
 			}
 		},
 		/**
-		 * Has the Container been init?
+		 * Has the container been init?
 		 * @method isInit
-		 * @return {bool} True if the Container has been init
+		 * @return {bool} True if the container has been init
 		 */
 		isInit: _isInit,
 		/**
-		 * Begins the loading process for all Apps. The App will
+		 * Begins the loading process for all apps. The app will
 		 * be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
-		 * contain the App's unique instanceId within the Container. Optionally, the
+		 * contain the app's unique instanceId within the container. Optionally, the
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
 		 * assets will be used instead of making a request.
 		 * @method registerApps
@@ -336,7 +336,7 @@ F2.extend('', (function(){
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
 		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
-		 * passed in. This can be useful if Apps are loaded on the server-side and
+		 * passed in. This can be useful if apps are loaded on the server-side and
 		 * passed down to the client.
 		 */
 		registerApps: function(appConfigs, appManifests) {
@@ -401,7 +401,7 @@ F2.extend('', (function(){
 					appStack.push({ url:i, apps:b })
 				});
 
-				// if an App is being loaded more than once on the page, there is the
+				// if an app is being loaded more than once on the page, there is the
 				// potential that the jsonp callback will be clobbered if the request
 				// for the AppManifest for the app comes back at the same time as
 				// another request for the same app.  We'll create a callbackStack
@@ -453,7 +453,7 @@ F2.extend('', (function(){
 			}
 		},
 		/**
-		 * Removes all Apps from the Container
+		 * Removes all apps from the container
 		 * @method removeAllApps
 		 */
 		removeAllApps: function() {
@@ -468,9 +468,9 @@ F2.extend('', (function(){
 			});
 		},
 		/**
-		 * Removes an App from the Container
+		 * Removes an app from the container
 		 * @method removeApp
-		 * @param {string} instanceId The App's instanceId
+		 * @param {string} instanceId The app's instanceId
 		 */
 		removeApp: function(instanceId) {
 

@@ -1,5 +1,5 @@
 /**
- * Handles socket communication between the Container and secure Apps
+ * Handles socket communication between the container and secure apps
  * @class F2.Rpc
  */
 F2.extend('Rpc', (function(){
@@ -13,7 +13,7 @@ F2.extend('Rpc', (function(){
 	var _rUiCall = new RegExp('^' + F2.Constants.Sockets.UI_RPC);
 
 	/**
-	 * Creates a socket connection from the App to the Container using 
+	 * Creates a socket connection from the app to the container using 
 	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
 	 * @method _createAppToContainerSocket
 	 * @private
@@ -67,7 +67,7 @@ F2.extend('Rpc', (function(){
 	};
 
 	/**
-	 * Creates a socket connection from the Container to the App using 
+	 * Creates a socket connection from the container to the app using 
 	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
 	 * @method _createContainerToAppSocket
 	 * @private
@@ -116,7 +116,7 @@ F2.extend('Rpc', (function(){
 	/**
 	 * @method _createRpcCallback
 	 * @private
-	 * @param {string} instanceId The App's Instance ID
+	 * @param {string} instanceId The app's Instance ID
 	 * @param {function} callbackId The callback ID
 	 * @return {function} A function to make the RPC call
 	 */
@@ -242,7 +242,7 @@ F2.extend('Rpc', (function(){
 		/**
 		 * Calls a remote function
 		 * @method call
-		 * @param {string} instanceId The App's Instance ID
+		 * @param {string} instanceId The app's Instance ID
 		 * @param {string} messageType The message type
 		 * @param {string} functionName The name of the remote function
 		 * @param {Array} params An array of parameters to pass to the remote
@@ -270,8 +270,8 @@ F2.extend('Rpc', (function(){
 		},
 
 		/**
-		 * Init function which tells F2.Rpc whether it is running at the Container-
-		 * level or the App-level. This method is generally called by
+		 * Init function which tells F2.Rpc whether it is running at the container-
+		 * level or the app-level. This method is generally called by
 		 * F2.{{#crossLink "F2/init"}}{{/crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
@@ -287,7 +287,7 @@ F2.extend('Rpc', (function(){
 
 		/**
 		 * Determines whether the Instance ID is considered to be 'remote'. This is
-		 * determined by checking if 1) the App has an open socket and 2) whether
+		 * determined by checking if 1) the app has an open socket and 2) whether
 		 * F2.Rpc is running inside of an iframe
 		 * @method isRemote
 		 * @param {string} instanceId The Instance ID
@@ -295,9 +295,9 @@ F2.extend('Rpc', (function(){
 		 */
 		isRemote: function(instanceId) {
 			return (
-				// we have an App
+				// we have an app
 				_apps[instanceId] !== undefined &&
-				// the App is secure
+				// the app is secure
 				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
 				$(_apps[instanceId].config.root).find('iframe').length == 0
@@ -305,7 +305,7 @@ F2.extend('Rpc', (function(){
 		},
 
 		/**
-		 * Creates a Container-to-App or App-to-Container socket for communication
+		 * Creates a container-to-app or app-to-container socket for communication
 		 * @method register
 		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object

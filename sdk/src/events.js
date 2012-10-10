@@ -1,6 +1,6 @@
 /**
  * Handles [Context](../../developing-f2-apps.html#context) passing from
- * Containers to Apps and Apps to Apps.
+ * containers to apps and apps to apps.
  * @class F2.Events
  */
 F2.extend('Events', (function() {

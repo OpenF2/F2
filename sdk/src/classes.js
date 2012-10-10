@@ -10,10 +10,10 @@ F2.extend("", {
 	 * has more information on the usage of the App Class.
 	 * @class F2.App
 	 * @constructor
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object for the App
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object for the app
 	 * @param {F2.AppManifest.AppContent} appContent The F2.AppManifest.AppContent
 	 * object
-	 * @param {Element} root The root DOM Element for the App
+	 * @param {Element} root The root DOM Element for the app
 	 */
 	App: function(appConfig, appContent, root) {
 		return {
@@ -27,12 +27,12 @@ F2.extend("", {
 		};
 	},
 	/**
-	 * The AppConfig object represents an App's meta data
+	 * The AppConfig object represents an app's meta data
 	 * @class F2.AppConfig
 	 */
 	AppConfig: {
 		/**
-		 * The unique ID of the App. More information can be found
+		 * The unique ID of the app. More information can be found
 		 * [here](../../developing-f2-apps.html#f2-appid)
 		 * @property appId
 		 * @type string
@@ -40,20 +40,20 @@ F2.extend("", {
 		 */
 		appId: "",
 		/**
-		 * An object that represents the context of an App
+		 * An object that represents the context of an app
 		 * @property context
 		 * @type object
 		 */
 		context: {},
 		/**
-		 * True if the App should be requested in a single request with other Apps.
+		 * True if the app should be requested in a single request with other apps.
 		 * @property enableBatchRequests
 		 * @type bool
 		 * @default false
 		 */
 		enableBatchRequests: false,
 		/**
-		 * The height of the App. The initial height will be pulled from
+		 * The height of the app. The initial height will be pulled from
 		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later
 		 * modified by calling
 		 * F2.UI.{{#crossLink "F2.UI/updateHeight"}}{{/crossLink}}. This is used
@@ -63,7 +63,7 @@ F2.extend("", {
 		 */
 		height: 0,
 		/**
-		 * The unique runtime ID of the App.
+		 * The unique runtime ID of the app.
 		 *
 		 * **This property is populated during the
 		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
@@ -72,11 +72,11 @@ F2.extend("", {
 		 */
 		instanceId: "",
 		/**
-		 * True if the App will be loaded in an iframe. This property
+		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * sets isSecure = true. It will also be true if the
-		 * [Container](../../index-temp.html#container) has made the decision to run
-		 * Apps in iframes.
+		 * [container](../../index-temp.html#container) has made the decision to run
+		 * apps in iframes.
 		 * @property isSecure
 		 * @type bool
 		 * @default false
@@ -92,8 +92,8 @@ F2.extend("", {
 		manifestUrl: "",
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
-		 * **It is up to the [Container](../../index-temp.html#container) to
-		 * implement the logic to prevent an App from being run when the maxWidth
+		 * **It is up to the [container](../../index-temp.html#container) to
+		 * implement the logic to prevent an app from being run when the maxWidth
 		 * requirements are not met.**
 		 * @property maxWidth
 		 * @type int
@@ -102,8 +102,8 @@ F2.extend("", {
 		/**
 		 * The recommended minimum grid size that this app should be run. This
 		 * value corresponds to the 12-grid system that is used by the
-		 * [Container](../../index-temp.html#container). This property should be set
-		 * by Apps that require a certain number of columns in their layout.
+		 * [container](../../index-temp.html#container). This property should be set
+		 * by apps that require a certain number of columns in their layout.
 		 * @property minGridSize
 		 * @type int
 		 * @default 4
@@ -111,8 +111,8 @@ F2.extend("", {
 		minGridSize: 4,
 		/**
 		 * The recommended minimum width in pixels that this app should be run. **It
-		 * is up to the [Container](../../index-temp.html#container) to implement
-		 * the logic to prevent an App from being run when the minWidth requirements
+		 * is up to the [container](../../index-temp.html#container) to implement
+		 * the logic to prevent an app from being run when the minWidth requirements
 		 * are not met.
 		 * @property minWidth
 		 * @type int
@@ -120,14 +120,14 @@ F2.extend("", {
 		 */
 		minWidth: 300,
 		/**
-		 * The name of the App
+		 * The name of the app
 		 * @property name
 		 * @type string
 		 * @required
 		 */
 		name: "",
 		/**
-		 * The root DOM element that contains the App
+		 * The root DOM element that contains the app
 		 *
 		 * **This property is populated during the
 		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
@@ -145,7 +145,7 @@ F2.extend("", {
 		 */
 		ui: undefined,
 		/**
-		 * The views that this App supports. Available views
+		 * The views that this app supports. Available views
 		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
 		 * presence of a view can be checked via
 		 * F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
@@ -158,7 +158,7 @@ F2.extend("", {
 		views: []
 	},
 	/**
-	 * The assets needed to render an App on the page
+	 * The assets needed to render an app on the page
 	 * @class F2.AppManifest
 	 */
 	AppManifest: {
@@ -178,14 +178,14 @@ F2.extend("", {
 		 */
 		inlineScripts: [],
 		/**
-		 * Urls to javascript files required by the App
+		 * Urls to javascript files required by the app
 		 * @property scripts
 		 * @type Array
 		 * @optional
 		 */
 		scripts: [],
 		/**
-		 * Urls to CSS files required by the App
+		 * Urls to CSS files required by the app
 		 * @property styles
 		 * @type Array
 		 * @optional
@@ -198,14 +198,14 @@ F2.extend("", {
 	 **/
 	AppContent: {
 		/**
-		 * Arbitrary data to be passed along with the App
+		 * Arbitrary data to be passed along with the app
 		 * @property data
 		 * @type object
 		 * @optional
 		 */
 		data: {},
 		/**
-		 * The string of HTML representing the App
+		 * The string of HTML representing the app
 		 * @property html
 		 * @type string
 		 * @required
@@ -221,46 +221,46 @@ F2.extend("", {
 	},
 	/**
 	 * An object containing configuration information for the
-	 * [Container](../../index-temp.html#container)
+	 * [container](../../index-temp.html#container)
 	 * @class F2.ContainerConfig
 	 */
 	ContainerConfig: {		
 		/**
-		 * Allows the [Container](../../index-temp.html#container) to override how
-		 * an App's html is inserted into the page. The function should accept an
+		 * Allows the [container](../../index-temp.html#container) to override how
+		 * an app's html is inserted into the page. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html
 		 * @method afterAppRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @param {string} html The string of html representing the App 
-		 * @return {Element} The DOM Element surrounding the App
+		 * @param {string} html The string of html representing the app 
+		 * @return {Element} The DOM Element surrounding the app
 		 */
 		afterAppRender: function(appConfig, html) {},
 		/**
-		 * Allows the [Container](../../index-temp.html#container) to wrap an App in
+		 * Allows the [container](../../index-temp.html#container) to wrap an app in
 		 * extra html. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html. The extra html can provide links to edit app settings and remove an
-		 * app from the Container. See
+		 * app from the container. See
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @param {string} html The string of html representing the App
+		 * @param {string} html The string of html representing the app
 		 */
 		appRender: function(appConfig, html) {},
 		/**
-		 * Allows the Container to render html for an App before the AppManifest for
-		 * an App has loaded. This can be useful if the design calls for loading
-		 * icons to appear for each App before each App is loaded and rendered to
+		 * Allows the container to render html for an app before the AppManifest for
+		 * an app has loaded. This can be useful if the design calls for loading
+		 * icons to appear for each app before each app is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @return {Element} The DOM Element surrounding the App
+		 * @return {Element} The DOM Element surrounding the app
 		 */
 		beforeAppRender: function(appConfig) {},
 		/**
-		 * Tells the Container that it is currently running within
+		 * Tells the container that it is currently running within
 		 * a secure app page
 		 * @property isSecureAppPage
 		 * @type bool
@@ -300,7 +300,7 @@ F2.extend("", {
 				opacity: .6,
 				/**
 				 * Do not use inline styles for mask functinality. Instead classes will
-				 * be applied to the elements and it is up to the Container provider to
+				 * be applied to the elements and it is up to the container provider to
 				 * implement the class definitions.
 				 * @property useClasses
 				 * @type bool
@@ -317,18 +317,18 @@ F2.extend("", {
 			}
 		},
 		/**
-		 * Allows the Container to specify which page is used when
+		 * Allows the container to specify which page is used when
 		 * loading a secure app. The page must reside on a different domain than the
-		 * Container
+		 * container
 		 * @property secureAppPagePath
 		 * @type string
 		 * @for F2.ContainerConfig
 		 */
 		secureAppPagePath: '',
 		/**
-		 * Specifies what views a Container will provide buttons
-		 * or liks to. Generally, the views will be switched via buttons or links in
-		 * the App's header.
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links in
+		 * the app's header.
 		 * @property supportedViews
 		 * @type Array
 		 * @required

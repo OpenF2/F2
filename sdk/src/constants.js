@@ -16,8 +16,8 @@ F2.extend('Constants', {
 		return {
 			/**
 			 * The APP class should be applied to the DOM Element that surrounds the
-			 * entire App, including any extra html that surrounds the APP\_CONTAINER
-			 * that is inserted by the Container. See the 
+			 * entire app, including any extra html that surrounds the APP\_CONTAINER
+			 * that is inserted by the container. See the 
 			 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}} object.
 			 * @property APP
 			 * @type string
@@ -27,7 +27,7 @@ F2.extend('Constants', {
 			APP: _PREFIX + 'app',
 			/**
 			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
-			 * of the App.
+			 * of the app.
 			 * @property APP_CONTAINER
 			 * @type string
 			 * @static
@@ -36,7 +36,7 @@ F2.extend('Constants', {
 			APP_CONTAINER: _PREFIX + 'app-container',
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
-			 * the title for an App.  If this class is not present, then
+			 * the title for an app.  If this class is not present, then
 			 * F2.UI.{{#crossLink "F2.UI/setTitle"}}{{/crossLink}} will not function.
 			 * @property APP_TITLE
 			 * @type string
@@ -46,7 +46,7 @@ F2.extend('Constants', {
 			APP_TITLE: _PREFIX + 'app-title',
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an App. The DOM Element should also have a
+			 * a view for an app. The DOM Element should also have a
 			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
 			 * attribute that specifies which
 			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
@@ -105,7 +105,7 @@ F2.extend('Constants', {
 		return {
 			/**
 			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
-			 * App. It is up to the App developer to fire this event.
+			 * app. It is up to the app developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
@@ -117,8 +117,8 @@ F2.extend('Constants', {
 			 */
 			APP_SYMBOL_CHANGE: _APP_EVENT_PREFIX + 'symbolChange',
 			/**
-			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
-			 * width of an App is changed. The App's instanceId should be concatenated
+			 * The APP\_WIDTH\_CHANGE event will be fired by the container when the
+			 * width of an app is changed. The app's instanceId should be concatenated
 			 * to this constant.
 			 * Returns an object with the gridSize and width in pixels:
 			 *
@@ -132,8 +132,8 @@ F2.extend('Constants', {
 			APP_WIDTH_CHANGE: _APP_EVENT_PREFIX + 'widthChange.',
 			/**
 			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
-			 * at the Container level. This event should only be fired by the
-			 * Container or Container Provider.
+			 * at the container level. This event should only be fired by the
+			 * container or container provider.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
@@ -145,8 +145,8 @@ F2.extend('Constants', {
 			 */
 			CONTAINER_SYMBOL_CHANGE: _CONTAINER_EVENT_PREFIX + 'symbolChange',
 			/**
-			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
-			 * the width of the Container has changed.
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the container when
+			 * the width of the container has changed.
 			 * @property CONTAINER_WIDTH_CHANGE
 			 * @type string
 			 * @static
@@ -214,7 +214,7 @@ F2.extend('Constants', {
 	},
 
 	/**
-	 * The available view types to Apps. The view should be specified by applying
+	 * The available view types to apps. The view should be specified by applying
 	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP\_VIEW class to the
 	 * containing DOM Element. A DATA\_ATTRIBUTE attribute should be added to the
 	 * Element as well which defines what view type is represented.
@@ -232,7 +232,7 @@ F2.extend('Constants', {
 		 */
 		DATA_ATTRIBUTE: 'data-f2-view',
 		/**
-		 * The ABOUT view gives details about the App.
+		 * The ABOUT view gives details about the app.
 		 * @property ABOUT
 		 * @type string
 		 * @static
@@ -240,7 +240,7 @@ F2.extend('Constants', {
 		 */
 		ABOUT: 'about',
 		/**
-		 * The HELP view provides users with help information for using an App.
+		 * The HELP view provides users with help information for using an app.
 		 * @property HELP
 		 * @type string
 		 * @static
@@ -248,8 +248,8 @@ F2.extend('Constants', {
 		 */
 		HELP: 'help',
 		/**
-		 * The HOME view is the main view for an App. This view should always
-		 * be provided by an App.
+		 * The HOME view is the main view for an app. This view should always
+		 * be provided by an app.
 		 * @property HOME
 		 * @type string
 		 * @static
@@ -257,8 +257,8 @@ F2.extend('Constants', {
 		 */
 		HOME: 'home',
 		/**
-		 * The REMOVE view is a special view that handles the removal of an App
-		 * from the Container.
+		 * The REMOVE view is a special view that handles the removal of an app
+		 * from the container.
 		 * @property REMOVE
 		 * @type string
 		 * @static
@@ -267,7 +267,7 @@ F2.extend('Constants', {
 		REMOVE: 'remove',
 		/**
 		 * The SETTINGS view provides users the ability to modify advanced settings
-		 * for an App.
+		 * for an app.
 		 * @property SETTINGS
 		 * @type string
 		 * @static

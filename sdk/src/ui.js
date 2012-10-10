@@ -167,12 +167,12 @@ F2.extend('UI', (function(){
 				};
 			})(),
 			/**
-			 * Sets the title of the App as shown in the browser. Depending on the
-			 * Container HTML, this method may do nothing if the Container has not been
-			 * configured properly or else the Container Provider does not allow Title's
+			 * Sets the title of the app as shown in the browser. Depending on the
+			 * container HTML, this method may do nothing if the container has not been
+			 * configured properly or else the container provider does not allow Title's
 			 * to be set.
 			 * @method setTitle
-			 * @params {string} title The title of the App
+			 * @params {string} title The title of the app
 			 * @for F2.UI
 			 */
 			setTitle: function(title) {
@@ -202,10 +202,10 @@ F2.extend('UI', (function(){
 			},
 			/**
 			 * For secure apps, this method updates the size of the iframe that
-			 * contains the App. **Note: It is recommended that App developers call
+			 * contains the app. **Note: It is recommended that app developers call
 			 * this method anytime Elements are added or removed from the DOM**
 			 * @method updateHeight
-			 * @params {int} height The height of the App
+			 * @params {int} height The height of the app
 			 */
 			updateHeight: _updateHeight,
 			/**
@@ -232,10 +232,10 @@ F2.extend('UI', (function(){
 
 				return {
 					/**
-					 * Change the current view for the App or add an event listener
+					 * Change the current view for the app or add an event listener
 					 * @method change
 					 * @param {string|function} [input] If a string is passed in, the view
-					 * will be changed for the App. If a function is passed in, a change
+					 * will be changed for the app. If a function is passed in, a change
 					 * event listener will be added.
 					 * @for F2.UI.Views
 					 */
@@ -297,7 +297,7 @@ F2.extend('UI', (function(){
 	 * Removes a overlay from an Element on the page
 	 * @method hideMask
 	 * @static
-	 * @param {string} instanceId The Instance ID of the App
+	 * @param {string} instanceId The Instance ID of the app
 	 * @param {string|Element} selector The Element or selector to an Element
 	 * that currently contains the loader
 	 * @for F2.UI
@@ -352,7 +352,7 @@ F2.extend('UI', (function(){
 	 * Display an ovarlay over an Element on the page
 	 * @method showMask
 	 * @static
-	 * @param {string} instanceId The Instance ID of the App
+	 * @param {string} instanceId The Instance ID of the app
 	 * @param {string|Element} selector The Element or selector to an Element
 	 * over which to display the loader
 	 * @param {bool} showLoading Display a loading icon

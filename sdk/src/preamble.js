@@ -40,8 +40,8 @@ if (!window.F2) {
 			}
 		},
 		/**
-		 * The Apps namespace is a place for App developers to put the javascript
-		 * class that is used to initialize their App. The javascript classes should
+		 * The apps namespace is a place for app developers to put the javascript
+		 * class that is used to initialize their app. The javascript classes should
 		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. 
 		 * It is recommended that the code be placed in a closure to help keep the
 		 * global namespace clean.

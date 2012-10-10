@@ -40,8 +40,8 @@ if (!window.F2) {
 			}
 		},
 		/**
-		 * The Apps namespace is a place for App developers to put the javascript
-		 * class that is used to initialize their App. The javascript classes should
+		 * The apps namespace is a place for app developers to put the javascript
+		 * class that is used to initialize their app. The javascript classes should
 		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. 
 		 * It is recommended that the code be placed in a closure to help keep the
 		 * global namespace clean.
@@ -198,10 +198,10 @@ F2.extend("", {
 	 * has more information on the usage of the App Class.
 	 * @class F2.App
 	 * @constructor
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object for the App
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object for the app
 	 * @param {F2.AppManifest.AppContent} appContent The F2.AppManifest.AppContent
 	 * object
-	 * @param {Element} root The root DOM Element for the App
+	 * @param {Element} root The root DOM Element for the app
 	 */
 	App: function(appConfig, appContent, root) {
 		return {
@@ -215,12 +215,12 @@ F2.extend("", {
 		};
 	},
 	/**
-	 * The AppConfig object represents an App's meta data
+	 * The AppConfig object represents an app's meta data
 	 * @class F2.AppConfig
 	 */
 	AppConfig: {
 		/**
-		 * The unique ID of the App. More information can be found
+		 * The unique ID of the app. More information can be found
 		 * [here](../../developing-f2-apps.html#f2-appid)
 		 * @property appId
 		 * @type string
@@ -228,20 +228,20 @@ F2.extend("", {
 		 */
 		appId: "",
 		/**
-		 * An object that represents the context of an App
+		 * An object that represents the context of an app
 		 * @property context
 		 * @type object
 		 */
 		context: {},
 		/**
-		 * True if the App should be requested in a single request with other Apps.
+		 * True if the app should be requested in a single request with other apps.
 		 * @property enableBatchRequests
 		 * @type bool
 		 * @default false
 		 */
 		enableBatchRequests: false,
 		/**
-		 * The height of the App. The initial height will be pulled from
+		 * The height of the app. The initial height will be pulled from
 		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later
 		 * modified by calling
 		 * F2.UI.{{#crossLink "F2.UI/updateHeight"}}{{/crossLink}}. This is used
@@ -251,7 +251,7 @@ F2.extend("", {
 		 */
 		height: 0,
 		/**
-		 * The unique runtime ID of the App.
+		 * The unique runtime ID of the app.
 		 *
 		 * **This property is populated during the
 		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
@@ -260,11 +260,11 @@ F2.extend("", {
 		 */
 		instanceId: "",
 		/**
-		 * True if the App will be loaded in an iframe. This property
+		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * sets isSecure = true. It will also be true if the
-		 * [Container](../../index-temp.html#container) has made the decision to run
-		 * Apps in iframes.
+		 * [container](../../index-temp.html#container) has made the decision to run
+		 * apps in iframes.
 		 * @property isSecure
 		 * @type bool
 		 * @default false
@@ -280,8 +280,8 @@ F2.extend("", {
 		manifestUrl: "",
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
-		 * **It is up to the [Container](../../index-temp.html#container) to
-		 * implement the logic to prevent an App from being run when the maxWidth
+		 * **It is up to the [container](../../index-temp.html#container) to
+		 * implement the logic to prevent an app from being run when the maxWidth
 		 * requirements are not met.**
 		 * @property maxWidth
 		 * @type int
@@ -290,8 +290,8 @@ F2.extend("", {
 		/**
 		 * The recommended minimum grid size that this app should be run. This
 		 * value corresponds to the 12-grid system that is used by the
-		 * [Container](../../index-temp.html#container). This property should be set
-		 * by Apps that require a certain number of columns in their layout.
+		 * [container](../../index-temp.html#container). This property should be set
+		 * by apps that require a certain number of columns in their layout.
 		 * @property minGridSize
 		 * @type int
 		 * @default 4
@@ -299,8 +299,8 @@ F2.extend("", {
 		minGridSize: 4,
 		/**
 		 * The recommended minimum width in pixels that this app should be run. **It
-		 * is up to the [Container](../../index-temp.html#container) to implement
-		 * the logic to prevent an App from being run when the minWidth requirements
+		 * is up to the [container](../../index-temp.html#container) to implement
+		 * the logic to prevent an app from being run when the minWidth requirements
 		 * are not met.
 		 * @property minWidth
 		 * @type int
@@ -308,14 +308,14 @@ F2.extend("", {
 		 */
 		minWidth: 300,
 		/**
-		 * The name of the App
+		 * The name of the app
 		 * @property name
 		 * @type string
 		 * @required
 		 */
 		name: "",
 		/**
-		 * The root DOM element that contains the App
+		 * The root DOM element that contains the app
 		 *
 		 * **This property is populated during the
 		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
@@ -333,7 +333,7 @@ F2.extend("", {
 		 */
 		ui: undefined,
 		/**
-		 * The views that this App supports. Available views
+		 * The views that this app supports. Available views
 		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
 		 * presence of a view can be checked via
 		 * F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
@@ -346,7 +346,7 @@ F2.extend("", {
 		views: []
 	},
 	/**
-	 * The assets needed to render an App on the page
+	 * The assets needed to render an app on the page
 	 * @class F2.AppManifest
 	 */
 	AppManifest: {
@@ -366,14 +366,14 @@ F2.extend("", {
 		 */
 		inlineScripts: [],
 		/**
-		 * Urls to javascript files required by the App
+		 * Urls to javascript files required by the app
 		 * @property scripts
 		 * @type Array
 		 * @optional
 		 */
 		scripts: [],
 		/**
-		 * Urls to CSS files required by the App
+		 * Urls to CSS files required by the app
 		 * @property styles
 		 * @type Array
 		 * @optional
@@ -386,14 +386,14 @@ F2.extend("", {
 	 **/
 	AppContent: {
 		/**
-		 * Arbitrary data to be passed along with the App
+		 * Arbitrary data to be passed along with the app
 		 * @property data
 		 * @type object
 		 * @optional
 		 */
 		data: {},
 		/**
-		 * The string of HTML representing the App
+		 * The string of HTML representing the app
 		 * @property html
 		 * @type string
 		 * @required
@@ -409,46 +409,46 @@ F2.extend("", {
 	},
 	/**
 	 * An object containing configuration information for the
-	 * [Container](../../index-temp.html#container)
+	 * [container](../../index-temp.html#container)
 	 * @class F2.ContainerConfig
 	 */
 	ContainerConfig: {		
 		/**
-		 * Allows the [Container](../../index-temp.html#container) to override how
-		 * an App's html is inserted into the page. The function should accept an
+		 * Allows the [container](../../index-temp.html#container) to override how
+		 * an app's html is inserted into the page. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html
 		 * @method afterAppRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @param {string} html The string of html representing the App 
-		 * @return {Element} The DOM Element surrounding the App
+		 * @param {string} html The string of html representing the app 
+		 * @return {Element} The DOM Element surrounding the app
 		 */
 		afterAppRender: function(appConfig, html) {},
 		/**
-		 * Allows the [Container](../../index-temp.html#container) to wrap an App in
+		 * Allows the [container](../../index-temp.html#container) to wrap an app in
 		 * extra html. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html. The extra html can provide links to edit app settings and remove an
-		 * app from the Container. See
+		 * app from the container. See
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @param {string} html The string of html representing the App
+		 * @param {string} html The string of html representing the app
 		 */
 		appRender: function(appConfig, html) {},
 		/**
-		 * Allows the Container to render html for an App before the AppManifest for
-		 * an App has loaded. This can be useful if the design calls for loading
-		 * icons to appear for each App before each App is loaded and rendered to
+		 * Allows the container to render html for an app before the AppManifest for
+		 * an app has loaded. This can be useful if the design calls for loading
+		 * icons to appear for each app before each app is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @return {Element} The DOM Element surrounding the App
+		 * @return {Element} The DOM Element surrounding the app
 		 */
 		beforeAppRender: function(appConfig) {},
 		/**
-		 * Tells the Container that it is currently running within
+		 * Tells the container that it is currently running within
 		 * a secure app page
 		 * @property isSecureAppPage
 		 * @type bool
@@ -488,7 +488,7 @@ F2.extend("", {
 				opacity: .6,
 				/**
 				 * Do not use inline styles for mask functinality. Instead classes will
-				 * be applied to the elements and it is up to the Container provider to
+				 * be applied to the elements and it is up to the container provider to
 				 * implement the class definitions.
 				 * @property useClasses
 				 * @type bool
@@ -505,18 +505,18 @@ F2.extend("", {
 			}
 		},
 		/**
-		 * Allows the Container to specify which page is used when
+		 * Allows the container to specify which page is used when
 		 * loading a secure app. The page must reside on a different domain than the
-		 * Container
+		 * container
 		 * @property secureAppPagePath
 		 * @type string
 		 * @for F2.ContainerConfig
 		 */
 		secureAppPagePath: '',
 		/**
-		 * Specifies what views a Container will provide buttons
-		 * or liks to. Generally, the views will be switched via buttons or links in
-		 * the App's header.
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links in
+		 * the app's header.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
@@ -542,8 +542,8 @@ F2.extend('Constants', {
 		return {
 			/**
 			 * The APP class should be applied to the DOM Element that surrounds the
-			 * entire App, including any extra html that surrounds the APP\_CONTAINER
-			 * that is inserted by the Container. See the 
+			 * entire app, including any extra html that surrounds the APP\_CONTAINER
+			 * that is inserted by the container. See the 
 			 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}} object.
 			 * @property APP
 			 * @type string
@@ -553,7 +553,7 @@ F2.extend('Constants', {
 			APP: _PREFIX + 'app',
 			/**
 			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
-			 * of the App.
+			 * of the app.
 			 * @property APP_CONTAINER
 			 * @type string
 			 * @static
@@ -562,7 +562,7 @@ F2.extend('Constants', {
 			APP_CONTAINER: _PREFIX + 'app-container',
 			/**
 			 * The APP\_TITLE class should be applied to the DOM Element that contains
-			 * the title for an App.  If this class is not present, then
+			 * the title for an app.  If this class is not present, then
 			 * F2.UI.{{#crossLink "F2.UI/setTitle"}}{{/crossLink}} will not function.
 			 * @property APP_TITLE
 			 * @type string
@@ -572,7 +572,7 @@ F2.extend('Constants', {
 			APP_TITLE: _PREFIX + 'app-title',
 			/**
 			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an App. The DOM Element should also have a
+			 * a view for an app. The DOM Element should also have a
 			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
 			 * attribute that specifies which
 			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
@@ -631,7 +631,7 @@ F2.extend('Constants', {
 		return {
 			/**
 			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
-			 * App. It is up to the App developer to fire this event.
+			 * app. It is up to the app developer to fire this event.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
@@ -643,8 +643,8 @@ F2.extend('Constants', {
 			 */
 			APP_SYMBOL_CHANGE: _APP_EVENT_PREFIX + 'symbolChange',
 			/**
-			 * The APP\_WIDTH\_CHANGE event will be fired by the Container when the
-			 * width of an App is changed. The App's instanceId should be concatenated
+			 * The APP\_WIDTH\_CHANGE event will be fired by the container when the
+			 * width of an app is changed. The app's instanceId should be concatenated
 			 * to this constant.
 			 * Returns an object with the gridSize and width in pixels:
 			 *
@@ -658,8 +658,8 @@ F2.extend('Constants', {
 			APP_WIDTH_CHANGE: _APP_EVENT_PREFIX + 'widthChange.',
 			/**
 			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
-			 * at the Container level. This event should only be fired by the
-			 * Container or Container Provider.
+			 * at the container level. This event should only be fired by the
+			 * container or container provider.
 			 * Returns an object with the symbol and company name:
 			 *
 			 *     { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
@@ -671,8 +671,8 @@ F2.extend('Constants', {
 			 */
 			CONTAINER_SYMBOL_CHANGE: _CONTAINER_EVENT_PREFIX + 'symbolChange',
 			/**
-			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the Container when
-			 * the width of the Container has changed.
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the container when
+			 * the width of the container has changed.
 			 * @property CONTAINER_WIDTH_CHANGE
 			 * @type string
 			 * @static
@@ -740,7 +740,7 @@ F2.extend('Constants', {
 	},
 
 	/**
-	 * The available view types to Apps. The view should be specified by applying
+	 * The available view types to apps. The view should be specified by applying
 	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP\_VIEW class to the
 	 * containing DOM Element. A DATA\_ATTRIBUTE attribute should be added to the
 	 * Element as well which defines what view type is represented.
@@ -758,7 +758,7 @@ F2.extend('Constants', {
 		 */
 		DATA_ATTRIBUTE: 'data-f2-view',
 		/**
-		 * The ABOUT view gives details about the App.
+		 * The ABOUT view gives details about the app.
 		 * @property ABOUT
 		 * @type string
 		 * @static
@@ -766,7 +766,7 @@ F2.extend('Constants', {
 		 */
 		ABOUT: 'about',
 		/**
-		 * The HELP view provides users with help information for using an App.
+		 * The HELP view provides users with help information for using an app.
 		 * @property HELP
 		 * @type string
 		 * @static
@@ -774,8 +774,8 @@ F2.extend('Constants', {
 		 */
 		HELP: 'help',
 		/**
-		 * The HOME view is the main view for an App. This view should always
-		 * be provided by an App.
+		 * The HOME view is the main view for an app. This view should always
+		 * be provided by an app.
 		 * @property HOME
 		 * @type string
 		 * @static
@@ -783,8 +783,8 @@ F2.extend('Constants', {
 		 */
 		HOME: 'home',
 		/**
-		 * The REMOVE view is a special view that handles the removal of an App
-		 * from the Container.
+		 * The REMOVE view is a special view that handles the removal of an app
+		 * from the container.
 		 * @property REMOVE
 		 * @type string
 		 * @static
@@ -793,7 +793,7 @@ F2.extend('Constants', {
 		REMOVE: 'remove',
 		/**
 		 * The SETTINGS view provides users the ability to modify advanced settings
-		 * for an App.
+		 * for an app.
 		 * @property SETTINGS
 		 * @type string
 		 * @static
@@ -804,7 +804,7 @@ F2.extend('Constants', {
 });
 /**
  * Handles [Context](../../developing-f2-apps.html#context) passing from
- * Containers to Apps and Apps to Apps.
+ * containers to apps and apps to apps.
  * @class F2.Events
  */
 F2.extend('Events', (function() {
@@ -886,7 +886,7 @@ F2.extend('Events', (function() {
 	};
 })());
 /**
- * Handles socket communication between the Container and secure Apps
+ * Handles socket communication between the container and secure apps
  * @class F2.Rpc
  */
 F2.extend('Rpc', (function(){
@@ -900,7 +900,7 @@ F2.extend('Rpc', (function(){
 	var _rUiCall = new RegExp('^' + F2.Constants.Sockets.UI_RPC);
 
 	/**
-	 * Creates a socket connection from the App to the Container using 
+	 * Creates a socket connection from the app to the container using 
 	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
 	 * @method _createAppToContainerSocket
 	 * @private
@@ -954,7 +954,7 @@ F2.extend('Rpc', (function(){
 	};
 
 	/**
-	 * Creates a socket connection from the Container to the App using 
+	 * Creates a socket connection from the container to the app using 
 	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
 	 * @method _createContainerToAppSocket
 	 * @private
@@ -1003,7 +1003,7 @@ F2.extend('Rpc', (function(){
 	/**
 	 * @method _createRpcCallback
 	 * @private
-	 * @param {string} instanceId The App's Instance ID
+	 * @param {string} instanceId The app's Instance ID
 	 * @param {function} callbackId The callback ID
 	 * @return {function} A function to make the RPC call
 	 */
@@ -1129,7 +1129,7 @@ F2.extend('Rpc', (function(){
 		/**
 		 * Calls a remote function
 		 * @method call
-		 * @param {string} instanceId The App's Instance ID
+		 * @param {string} instanceId The app's Instance ID
 		 * @param {string} messageType The message type
 		 * @param {string} functionName The name of the remote function
 		 * @param {Array} params An array of parameters to pass to the remote
@@ -1157,8 +1157,8 @@ F2.extend('Rpc', (function(){
 		},
 
 		/**
-		 * Init function which tells F2.Rpc whether it is running at the Container-
-		 * level or the App-level. This method is generally called by
+		 * Init function which tells F2.Rpc whether it is running at the container-
+		 * level or the app-level. This method is generally called by
 		 * F2.{{#crossLink "F2/init"}}{{/crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
@@ -1174,7 +1174,7 @@ F2.extend('Rpc', (function(){
 
 		/**
 		 * Determines whether the Instance ID is considered to be 'remote'. This is
-		 * determined by checking if 1) the App has an open socket and 2) whether
+		 * determined by checking if 1) the app has an open socket and 2) whether
 		 * F2.Rpc is running inside of an iframe
 		 * @method isRemote
 		 * @param {string} instanceId The Instance ID
@@ -1182,9 +1182,9 @@ F2.extend('Rpc', (function(){
 		 */
 		isRemote: function(instanceId) {
 			return (
-				// we have an App
+				// we have an app
 				_apps[instanceId] !== undefined &&
-				// the App is secure
+				// the app is secure
 				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
 				$(_apps[instanceId].config.root).find('iframe').length == 0
@@ -1192,7 +1192,7 @@ F2.extend('Rpc', (function(){
 		},
 
 		/**
-		 * Creates a Container-to-App or App-to-Container socket for communication
+		 * Creates a container-to-app or app-to-container socket for communication
 		 * @method register
 		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
@@ -1378,12 +1378,12 @@ F2.extend('UI', (function(){
 				};
 			})(),
 			/**
-			 * Sets the title of the App as shown in the browser. Depending on the
-			 * Container HTML, this method may do nothing if the Container has not been
-			 * configured properly or else the Container Provider does not allow Title's
+			 * Sets the title of the app as shown in the browser. Depending on the
+			 * container HTML, this method may do nothing if the container has not been
+			 * configured properly or else the container provider does not allow Title's
 			 * to be set.
 			 * @method setTitle
-			 * @params {string} title The title of the App
+			 * @params {string} title The title of the app
 			 * @for F2.UI
 			 */
 			setTitle: function(title) {
@@ -1413,10 +1413,10 @@ F2.extend('UI', (function(){
 			},
 			/**
 			 * For secure apps, this method updates the size of the iframe that
-			 * contains the App. **Note: It is recommended that App developers call
+			 * contains the app. **Note: It is recommended that app developers call
 			 * this method anytime Elements are added or removed from the DOM**
 			 * @method updateHeight
-			 * @params {int} height The height of the App
+			 * @params {int} height The height of the app
 			 */
 			updateHeight: _updateHeight,
 			/**
@@ -1443,10 +1443,10 @@ F2.extend('UI', (function(){
 
 				return {
 					/**
-					 * Change the current view for the App or add an event listener
+					 * Change the current view for the app or add an event listener
 					 * @method change
 					 * @param {string|function} [input] If a string is passed in, the view
-					 * will be changed for the App. If a function is passed in, a change
+					 * will be changed for the app. If a function is passed in, a change
 					 * event listener will be added.
 					 * @for F2.UI.Views
 					 */
@@ -1508,7 +1508,7 @@ F2.extend('UI', (function(){
 	 * Removes a overlay from an Element on the page
 	 * @method hideMask
 	 * @static
-	 * @param {string} instanceId The Instance ID of the App
+	 * @param {string} instanceId The Instance ID of the app
 	 * @param {string|Element} selector The Element or selector to an Element
 	 * that currently contains the loader
 	 * @for F2.UI
@@ -1563,7 +1563,7 @@ F2.extend('UI', (function(){
 	 * Display an ovarlay over an Element on the page
 	 * @method showMask
 	 * @static
-	 * @param {string} instanceId The Instance ID of the App
+	 * @param {string} instanceId The Instance ID of the app
 	 * @param {string|Element} selector The Element or selector to an Element
 	 * over which to display the loader
 	 * @param {bool} showLoading Display a loading icon
@@ -1646,12 +1646,12 @@ F2.extend('', (function(){
 	var _config = false;
 
 	/**
-	 * Appends the App's html to the DOM
+	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
-	 * @return {Element} The DOM Element that contains the App
+	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
 
@@ -1661,7 +1661,7 @@ F2.extend('', (function(){
 		var appContainer = handler(appConfig, html);
 
 		if (!!_config.afterAppRender && !appContainer) {
-			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the App');
+			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app');
 			return;
 		} else {
 			// apply APP class and Instance ID
@@ -1671,7 +1671,7 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Renders the html for an App.
+	 * Renders the html for an app.
 	 * @method _appRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
@@ -1696,12 +1696,12 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Rendering hook to allow Containers to render some html prior to an App
+	 * Rendering hook to allow containers to render some html prior to an app
 	 * loading
 	 * @method _beforeAppRender
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @return {Element} The DOM Element surrounding the App
+	 * @return {Element} The DOM Element surrounding the app
 	 */
 	var _beforeAppRender = function(appConfig) {
 		var handler = _config.beforeAppRender || $.noop;
@@ -1716,7 +1716,7 @@ F2.extend('', (function(){
 	 */
 	var _hydrateAppConfig = function(appConfig) {
 
-		// create the instanceId for the App
+		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
 
 		// default the views if not provided
@@ -1727,7 +1727,7 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Attach App events
+	 * Attach app events
 	 * @method _initAppEvents
 	 * @private
 	 */
@@ -1749,7 +1749,7 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Attach Container Events
+	 * Attach container Events
 	 * @method _initContainerEvents
 	 * @private
 	 */
@@ -1767,17 +1767,17 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Has the Container been init?
+	 * Has the container been init?
 	 * @method _isInit
 	 * @private
-	 * @return {bool} True if the Container has been init
+	 * @return {bool} True if the container has been init
 	 */
 	var _isInit = function() {
 		return !!_config;
 	};
 
 	/**
-	 * Loads the App's html/css/javascript
+	 * Loads the app's html/css/javascript
 	 * @method loadApp
 	 * @private
 	 * @param {Array} appConfigs An array of
@@ -1796,7 +1796,7 @@ F2.extend('', (function(){
 
 		// check that the number of apps in manifest matches the number requested
 		if (appConfigs.length != appManifest.apps.length) {
-			F2.log('The number of Apps defined in the AppManifest do not match the number requested.', appManifest);
+			F2.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
 			return;
 		}
 
@@ -1823,7 +1823,7 @@ F2.extend('', (function(){
 						}, 0);
 						
 					} else {
-						F2.log('App initialization class is defined but not a function. (' + a.appId + ')');
+						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
 					}
 				}
 			});
@@ -1860,7 +1860,7 @@ F2.extend('', (function(){
 								F2.log('Error loading inline script: ' + exception + '\n\n' + e);
 							}
 						});
-						// fire the load event to tell the App it can proceed
+						// fire the load event to tell the app it can proceed
 						appInit();
 					}
 				},
@@ -1877,16 +1877,16 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Loads the App's html/css/javascript into an iframe
+	 * Loads the app's html/css/javascript into an iframe
 	 * @method loadSecureApp
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The App's html/css/js to be loaded into the
+	 * @param {F2.AppManifest} appManifest The app's html/css/js to be loaded into the
 	 * page.
 	 */
 	var _loadSecureApp = function(appConfig, appManifest) {
 
-		// make sure the Container is configured for secure apps
+		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
@@ -1902,20 +1902,20 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Checks if the App is valid
+	 * Checks if the app is valid
 	 * @method _validateApp
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @returns {bool} True if the App is valid
+	 * @returns {bool} True if the app is valid
 	 */
 	var _validateApp = function(appConfig) {
 
-		// check for valid App configurations
+		// check for valid app configurations
 		if (!appConfig.appId) {
-			F2.log('"appId" missing from App object');
+			F2.log('"appId" missing from app object');
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log('manifestUrl" missing from App object');
+			F2.log('manifestUrl" missing from app object');
 			return false;
 		}
 
@@ -1924,7 +1924,7 @@ F2.extend('', (function(){
 
 	return {
 		/**
-		 * Gets the current list of Apps in the container
+		 * Gets the current list of apps in the container
 		 * @method getContainerState
 		 * @returns {Array} An array of objects containing the appId
 		 */
@@ -1939,8 +1939,8 @@ F2.extend('', (function(){
 			});
 		},
 		/**
-		 * Initializes the Container. This method must be called before performing
-		 * any other actions in the Container.
+		 * Initializes the container. This method must be called before performing
+		 * any other actions in the container.
 		 * @method init
 		 * @param {F2.ContainerConfig} config The configuration object
 		 */
@@ -1955,15 +1955,15 @@ F2.extend('', (function(){
 			}
 		},
 		/**
-		 * Has the Container been init?
+		 * Has the container been init?
 		 * @method isInit
-		 * @return {bool} True if the Container has been init
+		 * @return {bool} True if the container has been init
 		 */
 		isInit: _isInit,
 		/**
-		 * Begins the loading process for all Apps. The App will
+		 * Begins the loading process for all apps. The app will
 		 * be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
-		 * contain the App's unique instanceId within the Container. Optionally, the
+		 * contain the app's unique instanceId within the container. Optionally, the
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
 		 * assets will be used instead of making a request.
 		 * @method registerApps
@@ -1973,7 +1973,7 @@ F2.extend('', (function(){
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
 		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
-		 * passed in. This can be useful if Apps are loaded on the server-side and
+		 * passed in. This can be useful if apps are loaded on the server-side and
 		 * passed down to the client.
 		 */
 		registerApps: function(appConfigs, appManifests) {
@@ -2038,7 +2038,7 @@ F2.extend('', (function(){
 					appStack.push({ url:i, apps:b })
 				});
 
-				// if an App is being loaded more than once on the page, there is the
+				// if an app is being loaded more than once on the page, there is the
 				// potential that the jsonp callback will be clobbered if the request
 				// for the AppManifest for the app comes back at the same time as
 				// another request for the same app.  We'll create a callbackStack
@@ -2090,7 +2090,7 @@ F2.extend('', (function(){
 			}
 		},
 		/**
-		 * Removes all Apps from the Container
+		 * Removes all apps from the container
 		 * @method removeAllApps
 		 */
 		removeAllApps: function() {
@@ -2105,9 +2105,9 @@ F2.extend('', (function(){
 			});
 		},
 		/**
-		 * Removes an App from the Container
+		 * Removes an app from the container
 		 * @method removeApp
-		 * @param {string} instanceId The App's instanceId
+		 * @param {string} instanceId The app's instanceId
 		 */
 		removeApp: function(instanceId) {
 
