@@ -26,6 +26,8 @@
           .transition(opacity 0.5s linear);//fade opacity
         }
 
+        .mainBGControl{ display: none; }
+
         h2:first-child {  
           margin-top:0; 
           font-size: 40px; 
@@ -34,12 +36,14 @@
         }
         h3:first-child { 
           margin-top: 40px; 
-        }
-        .mainBGControl {
-          margin-top: 7px;
+        }        
+      }
+      .overview{
+        .container {
+          padding: 10px;
+          .f2OverviewSummary {margin-left: 10px;}
         }
       }
-
     }
   }
 
@@ -219,18 +223,29 @@
         padding: 0 20px;
 
         h2:first-child {
-          font-size: 33px; 
+          font-size: 24px; 
           padding-top: 30px;
           line-height: 1;
         }
         h3:first-child { 
           margin-top: 40px; 
         }
-        .mainBGControl {
-          margin-top: 7px;
+        h3 {font-size: 20px;}
+        p {font-size: 14px;}
+      }
+      .overview{
+        .container {
+          padding: 10px;
+          .f2OverviewSummary {margin-left: 10px;}
         }
       }
-
+      footer{
+        .row { text-align: center; .pull-left, .pull-right {float: none;} }
+        h1 {font-size: 24px;}
+        h2 {font-size: 20px;}
+        .diskIcon, .docIcon {display: none;}
+        .span5 { margin-top: 0; }
+      }
     }
   }
 }
