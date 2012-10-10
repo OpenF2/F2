@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 - Developing F2 Apps</title>
+  <title>F2 - App Development</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -29,17 +29,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1349805332438"></script>
-  <script src="./js/respond.min.js?1349805332438"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1349897271817"></script>
+  <script src="./js/respond.min.js?1349897271817"></script>
   
-  <link href="./css/prettify.css?1349805332438" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1349805332438" rel="stylesheet">
+  <link href="./css/prettify.css?1349897271817" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1349897271817" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1349805332438" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349805332438" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349805332438" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349805332438" />
-  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349805332438" />
+  <link rel="icon" href="./img/favicon-32px.png?1349897271817" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349897271817" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349897271817" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349897271817" />
+  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349897271817" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -53,7 +53,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1349805332438";
+  	var ghpagescachebuster = "1349897271817";
   </script>
 </head>
 <body>
@@ -89,8 +89,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
             <li class="divider-vertical"></li>
             <li><a href="/F2/OpenF2/Examples">Examples</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.13.13</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.13.13)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.15.0</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.15.0)</a></li>
           </ul>
         </div>
       </div>
@@ -102,7 +102,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
           <div class="span12">
               <ul class="unstyled clearfix">
                 <li class="basics"><a href="./">The Basics</a></li>
-                <li class="dev"><a href="developing-f2-apps.html">Development</a></li>
+                <li class="dev"><a href="app-development.html">Development</a></li>
                 <li class="ref"><a href="./sdk/">Reference</a></li>
               </ul>
           </div>
@@ -117,23 +117,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <div class="row">
     <div class="span3" id="toc">
         <ul class="nav nav-list">
-          <!--
-          <li><a href="index.html">The Basics</a></li>
-          <li class="divider"></li>
-          <li><a href="developing-f2-apps.html">Developing F2 Apps</a></li>
-		      <li><a href="developing-f2-containers.html">Developing F2 Containers</a></li>
-          <li><a href="extending-f2.html">Extending F2</a></li>
-          <li class="divider"></li>
-          <li><a href="./sdk/">F2.js SDK Reference</a></li>
-          <li class="divider"></li>
-          -->
+          <!--nav generated in ./js/docs.js-->
         </ul>
     </div><!--/span3-->
 
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">Developing F2 Apps</h1>
+<h1 class="title">App Development</h1>
 </header>
 <p class="lead">
 You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
@@ -145,65 +136,40 @@ You've come to the right place if you want to start building F2 apps. Before con
 Display App
 </dt>
     <dd>
-A Display App presents information to users in the form of a visible widget (using HTML, CSS, and JavaScript).
+A display app presents information to users in the form of a visible widget (using HTML, CSS, and JavaScript).
 </dd>
     <dt>
 Data App
 </dt>
     <dd>
-A Data App is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.
+A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.
 </dd>
 </dl>
 
 <p>For the purposes of this documentation, we'll focus on developing <strong>display apps</strong>. Browse to <a href="index.html#framework">The Framework</a> for more information about F2 apps.</p>
-<!--
-<p class="lead">To understand how F2 apps work or to get started building apps, you've come to the right place. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
-
-## Overview
-
-Defined very simply, a F2 app is a `javascript` file which contains your [app manifest](./sdk/classes/F2.AppManifest.html). However, technically speaking, a F2 app is one of two things:
-
-<dl class="dl-horizontal">
-    <dt>Display App</dt>
-    <dd>A display app presents information to users in the form of a visible widget (using HTML, CSS, and JavaScript).</dd>
-    <dt>Data App</dt>
-    <dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
-</dl>
-
-For the purposes of this documentation and to get started, we'll focus on developing **display apps**. 
-
-<div class="well well-small">
-<h4>About  Apps</h4>
-<p>The term "app", in popular web parlance, is a compiled program that runs on your smartphone or tablet. In F2 context, apps are web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of F2 apps as a modules or widgets or components.</p>
-</div>
-
-### Understanding F2 Apps
-
-To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many [components of F2](index.html#framework), and apps and containers are only scratching the surface in terms of what is available to app developers within F2. Including concepts like [app context](index.html#apps) and standardizing the [creation of a common look and feel](index.html#creating-a-common-look-and-feel) across apps, apps form the cornerstone of F2-enabled multi-party web applications.
-
--->
-
-<section class="level4" id="designing-apps">
-<h4>Designing Apps</h4>
-<p><span class="label label-warning">EDITOR'S NOTE</span> This 'designing your app' section needs some TLC.</p>
-<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.</p>
-<p>If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.</p>
-</section>
-<section class="level4" id="get-started">
-<h4>Get Started</h4>
+<hr>
+<section class="level2" id="get-started">
+<h2>Get Started</h2>
 <p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you open the project repository, point your browser at:</p>
 <p><code>http://localhost/F2/examples/container/</code></p>
-</section>
-<section class="level4" id="configuration">
-<h4>Configuration</h4>
+<section class="level3" id="configuration">
+<h3>Configuration</h3>
 <p>It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
 <p><strong>Ready to start coding?</strong> <a href="#developing-a-f2-app">Jump to Developing F2 Apps</a>.</p>
 <p>To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, <a href="index.html#framework">read more about containers in the Framework</a>.</p>
-<p>To get started working with or developing containers, browse to the <a href="developing-f2-containers.html">documentation for developing the container</a>.</p>
+<p>To get started working with or developing containers, browse to the <a href="container-development.html">documentation for developing the container</a>.</p>
 <hr>
 </section>
-<section class="level2" id="f2-apps">
-<h2>F2 Apps</h2>
+</section>
+<section class="level2" id="app-design">
+<h2>App Design</h2>
+<p><span class="label label-warning">EDITOR'S NOTE</span> This 'designing your app' section needs some TLC.</p>
+<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.</p>
+<p>If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.</p>
+<hr>
+</section>
+<section class="level2" id="app-manifest">
+<h2>App Manifest</h2>
 <p>For an app to be considered F2-capable, it must first have this basic structure—called the <strong>App Manifest</strong>—represented in <a href="http://json.org">JSON</a>:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{
     <span class="st">&quot;inlineScripts&quot;</span>:[],  
@@ -336,17 +302,17 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
     }]
 })</code></pre>
-<p><span class="label">Note</span> You may have noticed the presence of the function name <code>F2_jsonpCallback_com_companyname_appname</code> on the first line of the example above. That function name is the callback and is explained in <a href="#developing-a-f2-app">Developing Your App</a>.</p>
+<p><span class="label">Note</span> You may have noticed the presence of the function name <code>F2_jsonpCallback_com_companyname_appname</code> on the first line of the example above. That function name is the callback and is explained in <a href="#developing-f2-apps">Developing F2 Apps</a>.</p>
 <hr>
 </section>
 </section>
-<section class="level2" id="developing-a-f2-app">
-<h2>Developing a F2 App</h2>
-<p>Now that we've detailed the <a href="#f2-apps">F2 app</a> and defined the <a href="#sample-app-manifest">App Manifest</a>, let's take a closer look at how to build <em>your</em> app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of <code>AppContent.html</code> work, and the two hooks for adding form and function to your app: <code>scripts</code> and <code>styles</code>.</p>
+<section class="level2" id="developing-f2-apps">
+<h2>Developing F2 Apps</h2>
+<p>Now that we've detailed the <a href="#app-manifest">App Manifest</a>, let's take a closer look at how to build an app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of the <code>AppContent.html</code> property work, and the two hooks for adding form and function to your app: <code>scripts</code> and <code>styles</code>.</p>
 <p>Before opening your editor, <a href="#configuration">read the configuration assumptions</a>.</p>
 <section class="level3" id="f2-appid">
 <h3>F2 AppID</h3>
-<p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. While you don't need a unique AppID during the app development process, it is recommended you get one. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
+<p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
 <p>As an example, your AppID could look like this:</p>
 <p><code>com_acmecorp_watchlist</code></p>
 <p>If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:</p>
@@ -622,9 +588,12 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <section class="level3" id="types-of-context">
 <h3>Types of Context</h3>
 <p>Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from <a href="#container-to-app-context">Container-to-App</a> or from <a href="#app-to-app-context">App-to-App</a> or from <a href="#app-to-container-context">App-to-Container</a>. In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container providers the option to define context within their container.</p>
+<section class="level4" id="universal-f2-instrument-id">
+<h4>Universal F2 Instrument ID</h4>
 <p>Said another way, while <code>{ symbol:&quot;AAPL&quot;, name: &quot;Apple, Inc&quot; }</code> can be used to communicate symbol context, developers could also use <code>{ symbol: &quot;123456789&quot; }</code> to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand <code>AAPL</code> but—given symbol lookup services—would understand <code>123456789</code> as the universal <em>F2</em> identifier for Apple, Inc. It is clear Container and App developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.</p>
-<p>F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols (more to come).</p>
+<p>F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols. <em>Further details will be forthcoming as the F2 specification evolves.</em></p>
 <hr>
+</section>
 </section>
 </section>
 <section class="level2" id="secure-apps">
@@ -646,11 +615,10 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p>The example container runs sample apps—defined in <code>sampleApps.js</code>—and that's where you'll find the <code>isSecure</code> flag defined in each of the <code>AppConfig</code> objects.</p>
 <hr>
 </section>
-<section class="level2" id="your-app-on-a-container">
-<h2>Your App On a Container</h2>
+<section class="level2" id="container-integration">
+<h2>Container Integration</h2>
 <p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working—and tested—app, you're pretty much done.</p>
-<p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../docs/sdk/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-f2-containers.html">read the container documentation</a>.</p>
-<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
+<p>If you're curious about <em>how</em> containers load apps, browse to the <a href="../docs/sdk/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="container-development.html">read the container documentation</a>.</p>
 <section class="level4" id="testing-your-app">
 <h4>Testing Your App</h4>
 <p>When you <a href="https://github.com/OpenF2/F2/#quick-start">cloned the F2 GitHub repo</a> you also got some example F2 containers for your app development and testing. Open the project repository and navigate to <code>~/F2/examples/containers</code> to find them or to jump-start your testing, point your browser at:</p>
@@ -824,7 +792,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <h3>Using Encrypted URLs</h3>
 <p>Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as <code>AES</code>) and the exchange of public keys.</p>
 <p>When the Container provider calls <code>F2.registerApps()</code>, custom logic should be added to append encrypted user credentials—on a need-to-know basis—to <em>each app</em> requiring authentication.</p>
-<p><a href="developing-f2-containers.html">Read more in Developing F2 Containers</a>.</p>
+<p><a href="container-development.html">Read more in Developing F2 Containers</a>.</p>
 </section>
 <section class="level3" id="considerations">
 <h3>Considerations</h3>
@@ -847,15 +815,15 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1349805332438"></script>
-<script src="./js/prettify.js?1349805332438"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1349897271817"></script>
+<script src="./js/prettify.js?1349897271817"></script>
 <script src="./js/f2.min.js?0.12.9"></script>
-<script src="./js/docs.js?1349805332438"></script>
+<script src="./js/docs.js?1349897271817"></script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349805332438";</script>
+<script>var ghpagescachebuster = "1349897271817";</script>
 </body>
 </html>

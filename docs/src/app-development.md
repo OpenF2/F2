@@ -1,24 +1,8 @@
-% Developing F2 Apps
+% App Development 
 
-<p class="lead">You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context. </p>
+<p class="lead">You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
 Defined very simply, an F2 app is a `javascript` file which contains your app manifest. Technically an F2 app is one of two things:
-
-<dl class="dl-horizontal">
-	<dt>Display App</dt>
-	<dd>A Display App presents information to users in the form of a visible widget (using HTML, CSS, and JavaScript).</dd>
-	<dt>Data App</dt>
-	<dd>A Data App is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
-</dl>
-
-For the purposes of this documentation, we'll focus on developing **display apps**. Browse to [The Framework](index.html#framework) for more information about F2 apps.
-
-<!--
-<p class="lead">To understand how F2 apps work or to get started building apps, you've come to the right place. If you have not yet cloned the F2 repo on GitHub or downloaded the latest build, you should do that now by reading the [quick start guide](https://github.com/OpenF2/F2#quick-start).</p>
-
-## Overview
-
-Defined very simply, a F2 app is a `javascript` file which contains your [app manifest](./sdk/classes/F2.AppManifest.html). However, technically speaking, a F2 app is one of two things:
 
 <dl class="dl-horizontal">
 	<dt>Display App</dt>
@@ -27,34 +11,17 @@ Defined very simply, a F2 app is a `javascript` file which contains your [app ma
 	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
 </dl>
 
-For the purposes of this documentation and to get started, we'll focus on developing **display apps**. 
+For the purposes of this documentation, we'll focus on developing **display apps**. Browse to [The Framework](index.html#framework) for more information about F2 apps.
 
-<div class="well well-small">
-<h4>About  Apps</h4>
-<p>The term "app", in popular web parlance, is a compiled program that runs on your smartphone or tablet. In F2 context, apps are web pages and consist of HTML, CSS, JavaScript and, of course, data. They are _not_ smartphone apps built for the Apple, Android or BlackBerry app stores. You could think of F2 apps as a modules or widgets or components.</p>
-</div>
+* * * *
 
-### Understanding F2 Apps
-
-To develop an app for F2, there are a few things you need to first understand about apps themselves. Apps are useless without a container to run in and likewise containers aren't much to look at without apps. There are many [components of F2](index.html#framework), and apps and containers are only scratching the surface in terms of what is available to app developers within F2. Including concepts like [app context](index.html#apps) and standardizing the [creation of a common look and feel](index.html#creating-a-common-look-and-feel) across apps, apps form the cornerstone of F2-enabled multi-party web applications.
-
--->
-
-#### Designing Apps
-
-<span class="label label-warning">EDITOR'S NOTE</span> This 'designing your app' section needs some TLC.
-
-Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.
-
-If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.
-
-#### Get Started
+## Get Started
 
 To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps. Once you open the project repository, point your browser at:
 
 `http://localhost/F2/examples/container/`
 
-#### Configuration
+### Configuration
 
 It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
@@ -62,11 +29,21 @@ It is assumed you will be developing F2 apps locally and have a localhost setup.
 
 To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, [read more about containers in the Framework](index.html#framework). 
 
-To get started working with or developing containers, browse to the [documentation for developing the container](developing-f2-containers.html).
+To get started working with or developing containers, browse to the [documentation for developing the container](container-development.html).
 
 * * * *
 
-## F2 Apps
+## App Design
+
+<span class="label label-warning">EDITOR'S NOTE</span> This 'designing your app' section needs some TLC.
+
+Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.
+
+If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.
+
+* * * *
+
+## App Manifest
 
 For an app to be considered F2-capable, it must first have this basic structure&mdash;called the **App Manifest**&mdash;represented in [JSON](http://json.org):
 
@@ -251,19 +228,19 @@ F2_jsonpCallback_com_companyname_appname({
 })
 ```
 
-<span class="label">Note</span> You may have noticed the presence of the function name `F2_jsonpCallback_com_companyname_appname` on the first line of the example above. That function name is the callback and is explained in [Developing Your App](#developing-a-f2-app).
+<span class="label">Note</span> You may have noticed the presence of the function name `F2_jsonpCallback_com_companyname_appname` on the first line of the example above. That function name is the callback and is explained in [Developing F2 Apps](#developing-f2-apps).
 
 * * * *
 
-## Developing a F2 App 
+## Developing F2 Apps
 
-Now that we've detailed the [F2 app](#f2-apps) and defined the [App Manifest](#sample-app-manifest), let's take a closer look at how to build _your_ app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of `AppContent.html` work, and the two hooks for adding form and function to your app: `scripts` and `styles`.
+Now that we've detailed the [App Manifest](#app-manifest), let's take a closer look at how to build an app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of the `AppContent.html` property work, and the two hooks for adding form and function to your app: `scripts` and `styles`.
 
 Before opening your editor, [read the configuration assumptions](#configuration).
 
 ### F2 AppID
 
-To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. While you don't need a unique AppID during the app development process, it is recommended you get one. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
 As an example, your AppID could look like this:
 
@@ -638,9 +615,11 @@ Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppI
 
 Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container providers the option to define context within their container.
 
+#### Universal F2 Instrument ID
+
 Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to communicate symbol context, developers could also use `{ symbol: "123456789" }` to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand `AAPL` but&mdash;given symbol lookup services&mdash;would understand `123456789` as the universal _F2_ identifier for Apple, Inc. It is clear Container and App developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.
 
-F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols (more to come).
+F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols.  _Further details will be forthcoming as the F2 specification evolves._
 
 * * * *
 
@@ -672,13 +651,11 @@ The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;an
 
 * * * *
 
-## Your App On a Container 
+## Container Integration
 
 Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working&mdash;and tested&mdash;app, you're pretty much done.
 
-If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read the container documentation](developing-f2-containers.html).
-
-<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
+If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read the container documentation](container-development.html).
 
 #### Testing Your App
 
@@ -930,7 +907,7 @@ Implementing SSO using encrypted URLs is a simple and straight-forward authentic
 
 When the Container provider calls `F2.registerApps()`, custom logic should be added to append encrypted user credentials&mdash;on a need-to-know basis&mdash;to _each app_ requiring authentication.
 
-[Read more in Developing F2 Containers](developing-f2-containers.html).
+[Read more in Developing F2 Containers](container-development.html).
 
 ### Considerations
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 - Extending F2</title>
+  <title>F2 - F2.js SDK</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -124,31 +124,49 @@ code > span.er { color: #ff0000; font-weight: bold; }
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">Extending F2</h1>
+<h1 class="title">F2.js SDK</h1>
 </header>
 <p class="lead">
-At its core, F2 is an open framework. To create a truly open and flexible foundation with F2.js (version 1.0), F2 can be extended with custom plugins. Extending F2 with plugins provides direct access to F2.js SDK methods and can save your teams a lot of time.
+F2 enables all of us to build exactly the financial solutions that our customers want. Using the F2 Framework, you can efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel apps and deploy them in as many app ecosystems as you want.
 </p>
 
-<section class="level2" id="plugins">
-<h2>Plugins</h2>
-<p><span class="label label-warning">EDITOR'S NOTE</span> Need content.</p>
+<p>Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.</p>
+<section class="level2" id="the-javascript">
+<h2>The JavaScript</h2>
+<p>F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK—called F2.js—in addition to example apps as part of an open-source project maintained on <a href="https://github.com/OpenF2/F2/">GitHub</a>.</p>
+<hr>
 </section>
-<section class="level2" id="example-plugin">
-<h2>Example Plugin</h2>
-<p>Plugins are encapsulated in JavaScript closures as demonstrated below. There are three arguments which can be passed into <code>F2.extend()</code>: <code>namespace</code>, <code>object</code>, and <code>overwrite</code>. For full details, <a href="../sdk/docs/classes/F2.html#method_extend">read the F2.js SDK documentation</a>.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">extend</span>(<span class="ch">&#39;YourPluginName&#39;</span>, (<span class="kw">function</span>(){
-    <span class="kw">return</span> {
-        <span class="dt">doSomething</span>: <span class="kw">function</span>(){
-            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Something has been done.&quot;</span>);
-        }
-    };
-})());</code></pre>
-<p>To call your custom method shown above:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">...
-<span class="fu">F2</span>.<span class="fu">YourPluginName</span>.<span class="fu">doSomething</span>();
-...</code></pre>
-<p>This method call writes <code>Something has been done.</code> to the Console.</p>
+<section class="level2" id="download">
+<h2>Download</h2>
+<p>Anyone is free to download F2.js from the <a href="https://github.com/OpenF2/F2/">F2 project repository on GitHub</a>. Once downloaded, F2.js can be added to any web page using a script tag:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">&lt;script src=<span class="st">&quot;/path/to/your/container/f2.js&quot;</span>&gt;&lt;/script&gt;</code></pre>
+<p><a href="https://github.com/OpenF2/F2/zipball/master" class="btn btn-primary">Download F2</a> <a href="https://github.com/OpenF2/F2/" class="btn" target="_blank">View on GitHub</a></p>
+<hr>
+</section>
+<section class="level2" id="versioning">
+<h2>Versioning</h2>
+<p>The latest version of F2.js will always be in the project root, and the version number is in the top of file. The version number is also available on the command line by using <code>node build -v</code>.</p>
+<p>To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.</p>
+<p>Releases will be numbered with the following format:</p>
+<p><code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></p>
+<p>For more information on SemVer, please visit <a href="http://semver.org/">SemVer.org</a>.</p>
+<hr>
+</section>
+<section class="level2" id="forum">
+<h2>Forum</h2>
+<p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a>.</p>
+<p><script type="text/javascript">
+<!--
+h='&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#114;&#x6f;&#x75;&#112;&#x73;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x6f;&#112;&#x65;&#110;&#102;&#50;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'OpenF2@googlegroups.com'+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x4f;&#112;&#x65;&#110;&#70;&#50;&#64;&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#114;&#x6f;&#x75;&#112;&#x73;&#46;&#x63;&#x6f;&#x6d;&#32;&#40;&#x6f;&#112;&#x65;&#110;&#102;&#50;&#32;&#x61;&#116;&#32;&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#114;&#x6f;&#x75;&#112;&#x73;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;&#x29;</noscript></p>
+<hr>
+</section>
+<section class="level2" id="bug-tracking">
+<h2>Bug Tracking</h2>
+<p>To track bugs or issues, F2 is using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>.</p>
+<hr>
 </section>
 			</div><!--/#docs-->
 		</div><!--/span9-->
