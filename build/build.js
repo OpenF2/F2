@@ -10,6 +10,9 @@
  *   - yuidocjs (npm install yuidocjs)
  *     also requires pandoc: http://johnmacfarlane.net/pandoc/installing.html
  */
+// change directory to root folder for simplicity
+process.chdir('../');
+
 var exec = require('child_process').exec;
 var fs = require('fs-extra');
 var handlebars = require('Handlebars');
@@ -252,13 +255,20 @@ function js() {
 	console.log('Copying F2.min.js to ./docs/js...')
 	fs.copy('./sdk/f2.min.js', './docs/js/f2.min.js', function(err){
 		if (err) {
-			console.error(err);
+			die(err);
 		} else {
-			console.log("COMPLETE")
+			console.log("COMPLETE");
+			// wouldn't it be nice if there was a copySync...
+			fs.copy('./sdk/f2.min.js', './f2.js', function(err){
+				if (err) {
+					die(err);
+				} else {
+					console.log("COMPLETE");
+					nextStep();
+				}
+			});
 		}
 	});
-	
-	nextStep();
 };
 
 /**
@@ -272,7 +282,7 @@ function less() {
 		{ cwd: './docs/src' },
 		function(error, stdout, stderr){
 			if (error){
-				die(stderr);
+				die(error);
 			} else {
 				console.log("COMPLETE");
 				nextStep();
@@ -447,7 +457,7 @@ function releaseSdk(v) {
  * @method saveF2Info
  */
 function saveF2Info() {
-	fs.writeFileSync('./F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
+	fs.writeFileSync('./build/F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
 };
 
 /**

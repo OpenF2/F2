@@ -20,7 +20,7 @@ Join the team and help contribute to F2 on GitHub. Begin by [forking the repo](h
 
 #### Build F2
 
-We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on [Node.js](http://nodejs.org/), and has a few dependencies. To install, `cd` to your `F2` folder, and run the following commands in npm:
+We've included a `build.js` file in the project which contains the logic for compiling F2.js and the documentation. The build script runs on [Node.js](http://nodejs.org/), and has a few dependencies. To install, `cd` to your `F2\build` folder, and run the following commands in npm:
 
 `$> npm install uglify-js wrench fs-extra yuidocjs optimist handlebars`
 
