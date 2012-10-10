@@ -29,17 +29,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1349825821826"></script>
-  <script src="./js/respond.min.js?1349825821826"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1349841524338"></script>
+  <script src="./js/respond.min.js?1349841524338"></script>
   
-  <link href="./css/prettify.css?1349825821826" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1349825821826" rel="stylesheet">
+  <link href="./css/prettify.css?1349841524338" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1349841524338" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1349825821826" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349825821826" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349825821826" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349825821826" />
-  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349825821826" />
+  <link rel="icon" href="./img/favicon-32px.png?1349841524338" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349841524338" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349841524338" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349841524338" />
+  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349841524338" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -53,7 +53,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1349825821826";
+  	var ghpagescachebuster = "1349841524338";
   </script>
 </head>
 <body>
@@ -89,8 +89,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
             <li class="divider-vertical"></li>
             <li><a href="/F2/OpenF2/Examples">Examples</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.14.0</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.14.0)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.14.1</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.14.1)</a></li>
           </ul>
         </div>
       </div>
@@ -219,6 +219,16 @@ You've come to the right place if you want to begin building F2 containers. Befo
 <section class="level2" id="container-config">
 <h2>Container Config</h2>
 <p>The F2.js JavaScript SDK provides an API for providers to configure their containers. Every container must be setup using <code>ContainerConfig</code> and the <a href="../docs/sdk/classes/F2.ContainerConfig.html">methods available</a>.</p>
+<p>In the container's <code>$(document).ready()</code>, add the <code>F2.init()</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="kw">function</span>(){
+    <span class="kw">F2</span>.<span class="fu">init</span>({
+        <span class="co">//define ContainerConfig properties</span>
+        <span class="dt">appRender</span>: <span class="kw">function</span>(){},
+        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(){},
+        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(){}
+    });
+});</code></pre>
+<p>To see an more detailed example of <code>F2.init()</code>, <a href="https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js">look at the sample container javascript</a> in the F2 repo on GitHub.</p>
 <section class="level3" id="apprender">
 <h3>AppRender</h3>
 <p>The <code>appRender()</code> method allows the container to wrap an app in extra HTML. The function should accept an <code>F2.AppConfig</code> object and also a string of HTML. The extra HTML can provide links to edit app settings and remove an app from the Container. See <code>F2.Constants.Css</code> for CSS classes that should be applied to elements.</p>
@@ -235,35 +245,60 @@ You've come to the right place if you want to begin building F2 containers. Befo
 <section class="level3" id="f2-ui-mask">
 <h3>F2 UI Mask</h3>
 <p>In version 1.0, Container Providers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is <code>F2.UI.Mask</code>. The <code>Mask</code> object contains configuration defaults for the <code>F2.UI.showMask()</code> and <code>F2.UI.hideMask()</code> methods.</p>
+<p>An example of setting the mask in <code>F2.init()</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">$(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="kw">function</span>(){
+    <span class="kw">F2</span>.<span class="fu">init</span>({
+        <span class="co">//define ContainerConfig properties</span>
+        <span class="dt">appRender</span>: <span class="kw">function</span>(){},
+        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(){},
+        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(){},
+
+        <span class="co">//setup UI</span>
+        <span class="dt">UI</span>:{
+            <span class="dt">Mask</span>:{
+                <span class="dt">loadingIcon</span>:<span class="ch">&#39;./img/spinner.gif&#39;</span>
+            }
+        }
+    });
+});</code></pre>
 <p>Included in the <code>F2.UI.Mask</code> configuration object are the following properties: <code>backgroundColor</code>, <code>loadingIcon</code>, <code>opacity</code>, <code>useClasses</code>, and <code>zIndex</code>. Each of these <code>F2.UI.Mask</code> properties is detailed in <a href="../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html">the F2.js SDK docs</a>.</p>
 <p>For more information on <code>F2.UI</code>, <a href="../docs/sdk/classes/F2.UI.html">browse over to the F2.js SDK docs</a>.</p>
-</section>
-<section class="level3" id="customizing">
-<h3>Customizing</h3>
-<section class="level4" id="css">
-<h4>CSS</h4>
-<section class="level5" id="namespacing">
-<h5>Namespacing</h5>
-</section>
-</section>
-<section class="level4" id="javascript">
-<h4>JavaScript</h4>
-<section class="level5" id="namespacing-1">
-<h5>Namespacing</h5>
-</section>
-</section>
+<hr>
 </section>
 </section>
 <section class="level2" id="registering-apps">
 <h2>Registering Apps</h2>
+<p>The process of loading apps on a container happens through a method called <code>F2.registerApps()</code>. The Container Provider must call <a href="../docs/sdk/classes/F2.html#methods-registerApps">this method</a>—which accepts two arguments, one required, one optional— after <code>F2.init()</code> is called. If this method isn't called, no apps can be loaded on the container.</p>
+<p>The two arguments provided to <code>registerApps()</code> are an array of <code>AppConfig</code> objects and an array of <code>AppManifest</code> objects. As F2.js parses each <code>AppConfig</code>, the apps are validated, hydrated with some additional properties, and saved to the container.</p>
+<p>Remember, the <code>AppConfig</code> <a href="#app-configs">includes a <code>manifestUrl</code> property</a>.</p>
+<pre><code>//F2.registerApps(apps);</code></pre>
+<hr>
 </section>
 <section class="level2" id="secure-apps">
 <h2>Secure Apps</h2>
+<hr>
+</section>
+<section class="level2" id="customizing">
+<h2>Customizing</h2>
+<section class="level3" id="css">
+<h3>CSS</h3>
+<section class="level4" id="namespacing">
+<h4>Namespacing</h4>
+</section>
+</section>
+<section class="level3" id="javascript">
+<h3>JavaScript</h3>
+<section class="level4" id="namespacing-1">
+<h4>Namespacing</h4>
+<hr>
+</section>
+</section>
 </section>
 <section class="level2" id="context">
 <h2>Context</h2>
 <section class="level3" id="events">
 <h3>Events</h3>
+<hr>
 </section>
 </section>
 <section class="level2" id="utils">
@@ -279,10 +314,12 @@ You've come to the right place if you want to begin building F2 containers. Befo
 </section>
 <section class="level3" id="removeapp">
 <h3>RemoveApp</h3>
+<hr>
 </section>
 </section>
 <section class="level2" id="f2-ui">
 <h2>F2 UI</h2>
+<hr>
 </section>
 <section class="level2" id="extending-f2">
 <h2>Extending F2</h2>
@@ -325,15 +362,15 @@ You've come to the right place if you want to begin building F2 containers. Befo
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1349825821826"></script>
-<script src="./js/prettify.js?1349825821826"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1349841524338"></script>
+<script src="./js/prettify.js?1349841524338"></script>
 <script src="./js/f2.min.js?0.12.9"></script>
-<script src="./js/docs.js?1349825821826"></script>
+<script src="./js/docs.js?1349841524338"></script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349825821826";</script>
+<script>var ghpagescachebuster = "1349841524338";</script>
 </body>
 </html>
