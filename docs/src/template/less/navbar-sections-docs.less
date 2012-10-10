@@ -1,0 +1,30 @@
+.navbar-docs-sections {
+	background-color: #292929;
+	margin: 0;
+}
+.navbar-docs-sections [data-toggle] {
+	border-bottom: 2px solid @F2Blue;
+	color: #9da6ac;
+	display: block;
+	font-weight: bold;
+	line-height: 32px;
+	text-align: center;
+	text-decoration: none;
+}
+.navbar-docs-sections [data-toggle] span {
+	margin-top: 5px;
+}
+
+@media (min-width: 980px) {
+	.navbar-docs-sections {
+		display:none;
+		visibility: hidden;
+	}
+}
+
+@media (max-width: 979px) {
+	.navbar-docs-sections {
+		display: block;
+	}
+}
+
