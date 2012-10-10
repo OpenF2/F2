@@ -117,7 +117,7 @@ $(document).ready(function(){
 });
 ```
 
-To see an more detailed example of `F2.init()`, [look at the sample container javascript](https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js) in the F2 repo on GitHub.
+To see an more detailed example of `F2.init()`, [look at the sample container javascript file](https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js) in the F2 repo on GitHub.
 
 ### AppRender
 
@@ -131,7 +131,7 @@ The `beforeAppRender()` method allows the container to render HTML for an app be
 
 The `afterAppRender()` method allows the container to override how an app's HTML is inserted into the page. The function should accept an `F2.AppConfig` object and also a string of HTML.
 
-For more information on `F2.ContainerConfig`, [browse over to the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.html).
+For more information on `F2.ContainerConfig`, [browse to the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.html).
 
 ### F2 UI Mask
 
@@ -159,7 +159,7 @@ $(document).ready(function(){
 
 Included in the `F2.UI.Mask` configuration object are the following properties: `backgroundColor`, `loadingIcon`, `opacity`, `useClasses`, and `zIndex`. Each of these `F2.UI.Mask` properties is detailed in [the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html).
 
-For more information on `F2.UI`, [browse over to the F2.js SDK docs](../docs/sdk/classes/F2.UI.html).
+For more information on `F2.UI`, [browse to the F2.js SDK docs](../docs/sdk/classes/F2.UI.html).
 
 * * * *
 
@@ -168,7 +168,6 @@ For more information on `F2.UI`, [browse over to the F2.js SDK docs](../docs/sdk
 The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html#methods-registerApps)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
 The two arguments provided to `registerApps()` are an array of `AppConfig` objects and an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved to the container.
-
 
 Remember, the `AppConfig` [includes a `manifestUrl` property](#app-configs).
 
@@ -198,19 +197,137 @@ Remember, the `AppConfig` [includes a `manifestUrl` property](#app-configs).
 
 ## Context
 
-### Events
+### What is Context? 
+
+Apps are capable of sharing "context" with the Container and other nearby Apps. All Apps have context which means the App "knows" who is using it and the content it contains. It is aware of an individual's data entitlements and user information that the Container is requested to share (name, email, company, etc).  
+
+Apps are capable of sharing context with their Container and other nearby Apps. This means if a user wants to create a ticker-focused workspace so they can keep a close eye on shares of Proctor & Gamble, the Container can send "symbol context" to any listening Apps that are smart enough to refresh when ticker symbol PG is entered in the Container's search box.
+
+While Apps can have context themselves, the responsibility for managing context switching or context passing falls on the Container. The Container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the Container can listen for events sent by Apps and likewise Apps can listen for events sent by the Container. To provide a layer of security, this means Apps cannot communicate directly with other Apps on their own; Apps must communicate via an F2 Container to other Apps.
+
+For more information about Context, [browse to the Framework](index.html#framework).
+
+### How to use Context
+
+Each Container will be responsible for hosting the [F2.js JavaScript SDK](f2js.html). The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an [event API](../docs/sdk/classes/F2.Events.html) for handling context.
+
+<span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop&mdash;managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means **apps cannot communicate directly with other apps on their own**; apps communicate via the container to other apps since the container controls the `F2.Events` API.
+
+Let's look at some code.
+
+### Container-to-App Context
+
+In this example, the container broadcasts, or emits, a javascript event defined in `F2.Events.Constants`. The `F2.Events.emit()` method accepts two arguments: the event name and an optional data object.
+
+```javascript
+F2.Events.emit(
+	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+	{ 
+		symbol: "AAPL", 
+		name: "Apple, Inc." 
+	}
+);
+```
+
+To listen to the `F2.Constants.Events.CONTAINER_SYMBOL_CHANGE` event inside your F2 app, you can use this code to trigger an alert dialog with the symbol:
+
+```javascript
+F2.Events.on(
+	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+	function(data){
+		F2.log("The symbol was changed to " + data.symbol);
+	}
+);
+```
+
+The `F2.Events.on()` method accepts the event name and listener function as arguments. [Read the SDK](../docs/sdk/classes/F2.Events.html) for more information.
+
+<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](../docs/sdk/classes/F2.Constants.Events.html).
+
+### App-to-Container Context
+
+In this example, your app emits an event indicating a user is looking at a different stock ticker _within your app_. Using `F2.Events.emit()` in your code, your app broadcasts the new symbol. As with container-to-app context passing, the `F2.Events.emit()` method accepts two arguments: the event name and an optional data object.
+
+```javascript
+F2.Events.emit(
+	F2.Constants.Events.APP_SYMBOL_CHANGE, 
+	{ 
+		symbol: "MSFT", 
+		name: "Microsoft, Inc." 
+	}
+);
+```
+
+The container would need to listen to your apps' broadcasted `F2.Constants.Events.APP_SYMBOL_CHANGE` event using code like this:
+
+```javascript
+F2.Events.on(
+	F2.Constants.Events.APP_SYMBOL_CHANGE, 
+	function(data){
+		F2.log("The symbol was changed to " + data.symbol);
+	}
+);
+```
+
+<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](../docs/sdk/classes/F2.Constants.Events.html).
+
+### App-to-App Context
+
+Apps can also pass context between apps. If there are two or more apps on a container with similar context and the ability to receive messages (yes, through event listeners, context receiving is opt-in), apps can communicate with each other. To communicate with another app, each app will have to know the event name along with the type of data being passed. Let's take a look.
+
+Within "App 1", context is _sent_ using `F2.Events.emit()`:
+
+```javascript
+F2.Events.emit(
+	"buy_stock", //custom event name
+	{ 
+		symbol: "GOOG", 
+		name: "Google Inc",
+		price: 682.68,
+		isAvailableToPurchase: true,
+		orderType: "Market Order"
+	}
+);
+```
+
+Within "App 2", context is _received_ using `F2.Events.on()`:
+
+```javascript
+F2.Events.on(
+	"buy_stock", 
+	function(data){
+		if (data.isAvailableToPurchase){
+			F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
+		} else {
+			F2.log("This stock is not available for purchase.")
+		}
+	}
+);
+```
+
+<!--
+### Using AppIDs to Secure Context Passing
+
+What if you want your app to only receive context emitted from apps you trust? 
+
+Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
+
+<span class="label label-warning">EDITOR'S NOTE</span> Needs attn.
+-->
+
+### Types of Context
+
+Context is a term used to describe the state of an F2 container and its apps. At the same time, context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize [F2.js](f2js.html) allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container providers the option to define context within their container.
+
+#### Universal F2 Instrument ID
+
+Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to communicate symbol context, developers could also use `{ symbol: "123456789" }` to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand `AAPL` but&mdash;given symbol lookup services&mdash;would understand `123456789` as the universal _F2_ identifier for Apple, Inc. It is clear Container and App Developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes. _Further details will be forthcoming as the F2 specification evolves._
 
 * * * *
 
 ## Utils
 
-### Get Container State
-
-### IsInit
-
-### RemoveAllApps
-
-### RemoveApp
+The F2.js JavaScript SDK provides utility methods for Container Developers. These are available within the `F2` namespace and complete details are in the [Reference documentation](../docs/sdk/classes/F2.html).
 
 * * * *
 
@@ -219,6 +336,10 @@ Remember, the `AppConfig` [includes a `manifestUrl` property](#app-configs).
 * * * *
 
 ## Extending F2
+
+At its core, F2 is an open framework. To create a truly open and flexible foundation with F2.js, F2 can be extended with custom plugins. Extending F2 with plugins provides direct access to F2.js SDK methods and can save development teams a lot of time. Container Developers will likely extend F2 frequently to apply customized client-side business logic to their browser-based applications. 
+
+[Read more about Extending F2](extending-f2.html).
 
 * * * *
 
