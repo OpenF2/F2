@@ -327,7 +327,7 @@ The F2.js JavaScript SDK provides utility methods for Container Developers. Thes
 
 ## F2 UI
 
-There are some utility methods provided within F2.js in the `UI` namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views withing apps, and more.  To see which `UI` helpers are available to App Developers, [read about F2.UI for apps](developing-f2-apps.html#f2-ui).
+There are some utility methods provided within F2.js in the `UI` namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views withing apps, and more.  To see which `UI` helpers are available to App Developers, [read about F2.UI for apps](app-development.html#f2-ui).
 
 For Container Developers, the use of F2's `UI` is more than likely limited to customizing the design aesthetic (CSS) and [configuring the UI properties](../). 
 

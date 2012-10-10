@@ -29,7 +29,7 @@ It is assumed you will be developing F2 apps locally and have a localhost setup.
 
 To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, [read more about containers in the Framework](index.html#framework). 
 
-To get started working with or developing containers, browse to the [documentation for developing the container](developing-f2-containers.html).
+To get started working with or developing containers, browse to the [documentation for developing the container](container-development.html).
 
 * * * *
 
@@ -655,7 +655,7 @@ The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;an
 
 Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working&mdash;and tested&mdash;app, you're pretty much done.
 
-If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read the container documentation](developing-f2-containers.html).
+If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read the container documentation](container-development.html).
 
 #### Testing Your App
 
@@ -907,7 +907,7 @@ Implementing SSO using encrypted URLs is a simple and straight-forward authentic
 
 When the Container provider calls `F2.registerApps()`, custom logic should be added to append encrypted user credentials&mdash;on a need-to-know basis&mdash;to _each app_ requiring authentication.
 
-[Read more in Developing F2 Containers](developing-f2-containers.html).
+[Read more in Developing F2 Containers](container-development.html).
 
 ### Considerations
 
