@@ -107,9 +107,10 @@ F2Docs.fn.navbarDocsHelper = function(){
 		file 	= location.pathname.split('/').pop(),
 		urlMap 	= {
 			"basics": 		"index.html",
-			"development": 	"developing-f2-apps.html",
-			"developmentC": "developing-f2-containers.html",
-			"developmentE": "extending-f2.html"
+			"development": 	"app-development.html",
+			"developmentC": "container-development.html",
+			"developmentE": "extending-f2.html",
+			"developmentF":	"f2js-sdk.html"
 		};
 
 	//remove all 
@@ -120,7 +121,12 @@ F2Docs.fn.navbarDocsHelper = function(){
 		_setActive(0,$toc);
 		_setActive(0,$collapsedNavToc);
 		this.currentPage = "basics";
-	} else if (file == urlMap.development || file == urlMap.developmentC || file == urlMap.developmentE){
+	} else if (
+			file == urlMap.development || 
+			file == urlMap.developmentC || 
+			file == urlMap.developmentE ||
+			file == urlMap.developmentF
+		){
 		_setActive(1,$toc);
 		_setActive(1,$collapsedNavToc);
 		this.currentPage = "development";
@@ -134,11 +140,13 @@ F2Docs.fn.navbarDocsHelper = function(){
 /**
  * Mapping 
  * Don't reorder these without consequences in this._getCurrentDevSubSection()
+ * Adding to them is fine.
  */
 F2Docs.fn.devSubSections = {
-	"App Development": 		"developing-f2-apps.html",
-	"Container Devlepment": "developing-f2-containers.html",
-	"Extending F2": 		"extending-f2.html"
+	"App Development": 		"app-development.html",
+	"Container Devlepment": "container-development.html",
+	"Extending F2": 		"extending-f2.html",
+	"F2.js SDK": 			"f2js-sdk.html"
 };
 
 /**
