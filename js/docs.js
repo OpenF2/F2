@@ -32,7 +32,7 @@ F2Docs.fn = F2Docs.prototype;
 F2Docs.fn.privatize = function(){
 
 	$.ajax({
-		url: 'https://qa-developer-openf2.markitqa.com/Api/IsInternal',
+		url: 'https://developer.openf2.org/Api/IsInternal',
 		dataType: 'jsonp'
 	}).done(function(jqxhr,txtStatus){
 		if (jqxhr === false){
