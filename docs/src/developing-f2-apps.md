@@ -1,4 +1,4 @@
-% Developing F2 Apps
+% App Development 
 
 <p class="lead">You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
@@ -240,7 +240,7 @@ Before opening your editor, [read the configuration assumptions](#configuration)
 
 ### F2 AppID
 
-To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. While you don't need a unique AppID during the app development process, it is recommended you get one. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
 As an example, your AppID could look like this:
 
@@ -651,13 +651,11 @@ The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;an
 
 * * * *
 
-## Your App On a Container 
+## Container Integration
 
 Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working&mdash;and tested&mdash;app, you're pretty much done.
 
-If you're curious about _how_ containers load apps, browse over to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read the container documentation](developing-f2-containers.html).
-
-<span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.
+If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read the container documentation](developing-f2-containers.html).
 
 #### Testing Your App
 

@@ -136,9 +136,9 @@ F2Docs.fn.navbarDocsHelper = function(){
  * Don't reorder these without consequences in this._getCurrentDevSubSection()
  */
 F2Docs.fn.devSubSections = {
-	"Developing F2 Apps": 		"developing-f2-apps.html",
-	"Developing F2 Containers": "developing-f2-containers.html",
-	"Extending F2": 			"extending-f2.html"
+	"App Development": 		"developing-f2-apps.html",
+	"Container Devlepment": "developing-f2-containers.html",
+	"Extending F2": 		"extending-f2.html"
 };
 
 /**

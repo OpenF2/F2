@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>F2 - Developing F2 Apps</title>
+  <title>F2 - App Development</title>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -29,17 +29,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1349880337010"></script>
-  <script src="./js/respond.min.js?1349880337010"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1349891054925"></script>
+  <script src="./js/respond.min.js?1349891054925"></script>
   
-  <link href="./css/prettify.css?1349880337010" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1349880337010" rel="stylesheet">
+  <link href="./css/prettify.css?1349891054925" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1349891054925" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1349880337010" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349880337010" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349880337010" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349880337010" />
-  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349880337010" />
+  <link rel="icon" href="./img/favicon-32px.png?1349891054925" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349891054925" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349891054925" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349891054925" />
+  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349891054925" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -53,7 +53,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1349880337010";
+  	var ghpagescachebuster = "1349891054925";
   </script>
 </head>
 <body>
@@ -89,8 +89,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
             <li class="divider-vertical"></li>
             <li><a href="/F2/OpenF2/Examples">Examples</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.14.2</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.14.2)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.14.3</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.14.3)</a></li>
           </ul>
         </div>
       </div>
@@ -133,7 +133,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 	<div class="span9">
 		<div id="docs">
 <header>
-<h1 class="title">Developing F2 Apps</h1>
+<h1 class="title">App Development</h1>
 </header>
 <p class="lead">
 You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
@@ -321,7 +321,7 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
 <p>Before opening your editor, <a href="#configuration">read the configuration assumptions</a>.</p>
 <section class="level3" id="f2-appid">
 <h3>F2 AppID</h3>
-<p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. While you don't need a unique AppID during the app development process, it is recommended you get one. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
+<p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
 <p>As an example, your AppID could look like this:</p>
 <p><code>com_acmecorp_watchlist</code></p>
 <p>If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:</p>
@@ -624,11 +624,10 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p>The example container runs sample apps—defined in <code>sampleApps.js</code>—and that's where you'll find the <code>isSecure</code> flag defined in each of the <code>AppConfig</code> objects.</p>
 <hr>
 </section>
-<section class="level2" id="your-app-on-a-container">
-<h2>Your App On a Container</h2>
+<section class="level2" id="container-integration">
+<h2>Container Integration</h2>
 <p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working—and tested—app, you're pretty much done.</p>
-<p>If you're curious about <em>how</em> containers load apps, browse over to the <a href="../docs/sdk/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-f2-containers.html">read the container documentation</a>.</p>
-<p><span class="label label-warning">EDITOR'S NOTE</span> We should probably say something about <em>how to contact a container provider</em> here.</p>
+<p>If you're curious about <em>how</em> containers load apps, browse to the <a href="../docs/sdk/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="developing-f2-containers.html">read the container documentation</a>.</p>
 <section class="level4" id="testing-your-app">
 <h4>Testing Your App</h4>
 <p>When you <a href="https://github.com/OpenF2/F2/#quick-start">cloned the F2 GitHub repo</a> you also got some example F2 containers for your app development and testing. Open the project repository and navigate to <code>~/F2/examples/containers</code> to find them or to jump-start your testing, point your browser at:</p>
@@ -825,15 +824,15 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1349880337010"></script>
-<script src="./js/prettify.js?1349880337010"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1349891054925"></script>
+<script src="./js/prettify.js?1349891054925"></script>
 <script src="./js/f2.min.js?0.12.9"></script>
-<script src="./js/docs.js?1349880337010"></script>
+<script src="./js/docs.js?1349891054925"></script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349880337010";</script>
+<script>var ghpagescachebuster = "1349891054925";</script>
 </body>
 </html>

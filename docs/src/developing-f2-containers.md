@@ -1,4 +1,4 @@
-% Developing F2 Containers
+% Container Development
 
 <p class="lead">You've come to the right place if you want to begin building F2 containers. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
@@ -16,7 +16,15 @@ It is assumed you will be developing a F2 Container locally and have a `localhos
 
 * * * *
 
-## F2 Containers
+## Container Design
+
+* * * *
+
+## Developing F2 Containers
+
+A Container is a browser-based desktop-like application which brings F2 apps together onto a seamless user interface. It also can provide horsepower to its apps in the form of request-response web services or streaming data feeds.
+
+### Including the SDK...>?!?!?!?!?
 
 For a webpage to be considered an F2 container, it must first include the [F2.js JavaScript SDK](../sdk/classes/F2.html). This is as simple as [downloading the F2 project from GitHub](https://github.com/OpenF2/F2/zipball/master) and adding a `script` tag to the page. 
 
@@ -27,12 +35,6 @@ For a webpage to be considered an F2 container, it must first include the [F2.js
 You will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps.
 
 Once the script tag has been added it is up to the Container Provider to configure and customize the container. Continue reading Developing Containers](#developing-containers) below.
-
-* * * *
-
-## Developing Containers
-
-A Container is a browser-based desktop-like application which brings F2 apps together onto a seamless user interface. It also can provide horsepower to its apps in the form of request-response web services or streaming data feeds.
 
 ### F2 ContainerID
 
@@ -98,9 +100,7 @@ var _appConfigs = [
 ];
 ```
 
-* * * *
-
-## Container Config
+### Container Config
 
 The F2.js JavaScript SDK provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
 
@@ -119,21 +119,21 @@ $(document).ready(function(){
 
 To see an more detailed example of `F2.init()`, [look at the sample container javascript file](https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js) in the F2 repo on GitHub.
 
-### AppRender
+#### AppRender
 
 The `appRender()` method allows the container to wrap an app in extra HTML. The function should accept an `F2.AppConfig` object and also a string of HTML. The extra HTML can provide links to edit app settings and remove an app from the Container. See `F2.Constants.Css` for CSS classes that should be applied to elements.
 
-### BeforeAppRender
+#### BeforeAppRender
 
 The `beforeAppRender()` method allows the container to render HTML for an app before the `AppManifest` for an app has loaded. This can be useful if the design calls for loading spinners to appear for each app before each app is loaded and rendered to the page.
 
-### AfterAppRender
+#### AfterAppRender
 
 The `afterAppRender()` method allows the container to override how an app's HTML is inserted into the page. The function should accept an `F2.AppConfig` object and also a string of HTML.
 
 For more information on `F2.ContainerConfig`, [browse to the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.html).
 
-### F2 UI Mask
+#### F2 UI Mask
 
 In version 1.0, Container Providers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is `F2.UI.Mask`. The `Mask` object contains configuration defaults for the `F2.UI.showMask()` and `F2.UI.hideMask()` methods.
 
@@ -163,7 +163,15 @@ For more information on `F2.UI`, [browse to the F2.js SDK docs](../docs/sdk/clas
 
 * * * *
 
-## Registering Apps
+## Namespacing
+
+### CSS
+
+### JavaScript
+
+* * * *
+
+## App Integration
 
 The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html#methods-registerApps)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
@@ -183,21 +191,7 @@ Remember, the `AppConfig` [includes a `manifestUrl` property](#app-configs).
 
 * * * *
 
-## Customizing
-
-### CSS
-
-#### Namespacing
-
-### JavaScript
-
-#### Namespacing
-
-* * * *
-
 ## Context
-
-### What is Context? 
 
 Apps are capable of sharing "context" with the Container and other nearby Apps. All Apps have context which means the App "knows" who is using it and the content it contains. It is aware of an individual's data entitlements and user information that the Container is requested to share (name, email, company, etc).  
 
@@ -325,7 +319,7 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 * * * *
 
-## Utils
+## Utilities
 
 The F2.js JavaScript SDK provides utility methods for Container Developers. These are available within the `F2` namespace and complete details are in the [Reference documentation](../docs/sdk/classes/F2.html).
 
@@ -333,13 +327,11 @@ The F2.js JavaScript SDK provides utility methods for Container Developers. Thes
 
 ## F2 UI
 
-* * * *
+There are some utility methods provided within F2.js in the `UI` namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views withing apps, and more.  To see which `UI` helpers are available to App Developers, [read about F2.UI for apps](developing-f2-apps.html#f2-ui).
 
-## Extending F2
+For Container Developers, the use of F2's `UI` is more than likely limited to customizing the design aesthetic (CSS) and [configuring the UI properties](../). 
 
-At its core, F2 is an open framework. To create a truly open and flexible foundation with F2.js, F2 can be extended with custom plugins. Extending F2 with plugins provides direct access to F2.js SDK methods and can save development teams a lot of time. Container Developers will likely extend F2 frequently to apply customized client-side business logic to their browser-based applications. 
-
-[Read more about Extending F2](extending-f2.html).
+For complete details on `F2.UI`, [browse to the SDK docs](../docs/sdk/classes/F2.UI.html).
 
 * * * *
 
