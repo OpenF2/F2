@@ -139,7 +139,10 @@ function docs() {
 		'./docs/src/template/style.html',
 		'./docs/src/template/header.html',
 		'./docs/src/template/footer.html',
-		'./docs/src/index.md'
+		'./docs/src/index.md',
+		'./docs/src/app-development.md',
+		'./docs/src/container-development.md',
+		'./docs/src/f2js-sdk.md'
 	];
 
 	processTemplateFile(templateFiles, f2Info, true);

@@ -1,6 +1,6 @@
 % App Development 
 
-<p class="lead">You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
+<p class="lead">You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v{{sdk.version}}). Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
 Defined very simply, an F2 app is a `javascript` file which contains your app manifest. Technically an F2 app is one of two things:
 
@@ -35,11 +35,17 @@ To get started working with or developing containers, browse to the [documentati
 
 ## App Design
 
-<span class="label label-warning">EDITOR'S NOTE</span> This 'designing your app' section needs some TLC.
+Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using [Progressive Enhancement]((http://www.alistapart.com/articles/understandingprogressiveenhancement/), [Mobile First](http://www.lukew.com/presos/preso.asp?26) and [Responsive Design](http://www.abookapart.com/products/responsive-web-design) methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. ([VideoJS](http://videojs.com/) is good example of open-source JavaScript and CSS "that makes it easier to work with and build on HTML5 video, today.")
 
-Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.
+If App Developers embed URLs back to their own websites or to third party sites, URLs must be opened in a new window as to not interrupt the experience of someone using the container. If authentication is required on an App Developer's site, this can be accomplished with pass-through authentication using encrypted URLs as discussed in [Single Sign On](#single-sign-on).
 
-If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.
+### Choices
+
+In order to ensure that apps built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
+
+[Read more about those choices in the Framework](index.html#choices).
+
+Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container providers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
 
 * * * *
 
@@ -435,13 +441,13 @@ If you don't want to think about any of this and would rather just start coding,
 
 ## Namespacing
 
-F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least _non-secure_ apps. Following this spec, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least _non-secure_ apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
 
-### Namespacing Your CSS
+### Namespacing CSS
 
-As discussed in [Developing a F2 App: F2 AppID](#f2-appid), to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app in the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+As discussed in [Developing F2 Apps: F2 AppID](#f2-appid), to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
-When Container Providers [register apps](../docs/sdk/classes/F2.html#methods-registerApps), F2.js draws each app as defined by the [ContainerConfig](../docs/sdk/classes/F2.ContainerConfig.html). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
+When Container Providers [register apps](#app-integration), F2.js draws each app as defined by the [ContainerConfig](../docs/sdk/classes/F2.ContainerConfig.html). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
 
 This example shows app HTML after it has been drawn on the container. Note the `com_companyName_appName` classname.
 
@@ -451,7 +457,7 @@ This example shows app HTML after it has been drawn on the container. Note the `
 </div>
 ```
 
-To avoid styling conflicts or other display issues related to app-provided style sheets, **app developers must namespace their CSS selectors.** Fortunately, this is quite easy. 
+To avoid styling conflicts or other display issues related to app-provided style sheets, **App Developers must namespace their CSS selectors.** Fortunately, this is quite easy. 
 
 Every selector in app-provided style sheets must look like this:
 
@@ -467,7 +473,7 @@ Every selector in app-provided style sheets must look like this:
 
 Note `.com_companyName_appName` is prefixed on both `p` and `.alert` selectors.
 
-While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and prefixing F2 AppIDs on your CSS selectors isn't required, it is recommended.
+While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and prefixing F2 AppIDs on CSS selectors isn't required, it is recommended.
 
 ```css
 .com_companyName_appName #notice {
@@ -475,7 +481,7 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 }
 ```
 
-### Keeping Your JavaScript Clean
+### Keeping JavaScript Clean
 
 Adhering to one of the [OpenAjax Alliance](http://www.openajax.org/) goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App developers alike, this means following this spec closely and ensuring javascript code is contained inside [closures](http://jibbering.com/faq/notes/closures/) or is extended as a new namespace on `F2`.
 

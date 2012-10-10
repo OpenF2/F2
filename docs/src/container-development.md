@@ -1,6 +1,6 @@
 % Container Development
 
-<p class="lead">You've come to the right place if you want to begin building F2 containers. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
+<p class="lead">You've come to the right place if you want to begin building F2 containers. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v{{sdk.version}}). Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
 ## Get Started
 
@@ -18,15 +18,27 @@ It is assumed you will be developing a F2 Container locally and have a `localhos
 
 ## Container Design
 
+Design considerations are an important first step when creating a new container. Content can range from news to research to multimedia, and content should be presented using [Progressive Enhancement]((http://www.alistapart.com/articles/understandingprogressiveenhancement/), [Mobile First](http://www.lukew.com/presos/preso.asp?26) and [Responsive Design](http://www.abookapart.com/products/responsive-web-design) methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. ([VideoJS](http://videojs.com/) is good example of open-source JavaScript and CSS "that makes it easier to work with and build on HTML5 video, today.")
+
+If App Developers embed URLs back to their own websites or to third party sites, URLs must be opened in a new window as to not interrupt the experience of someone using the container. If authentication is required on an App Developer's site, this can be accomplished with pass-through authentication using encrypted URLs as discussed in [Single Sign On](#single-sign-on).
+
+### Choices
+
+In order to ensure that apps built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
+
+[Read more about those choices in the Framework](index.html#choices).
+
+Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container providers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
+
 * * * *
 
 ## Developing F2 Containers
 
 A Container is a browser-based desktop-like application which brings F2 apps together onto a seamless user interface. It also can provide horsepower to its apps in the form of request-response web services or streaming data feeds.
 
-### Including the SDK...>?!?!?!?!?
+### Including the F2 SDK
 
-For a webpage to be considered an F2 container, it must first include the [F2.js JavaScript SDK](../sdk/classes/F2.html). This is as simple as [downloading the F2 project from GitHub](https://github.com/OpenF2/F2/zipball/master) and adding a `script` tag to the page. 
+For a webpage to be considered an F2 container, it must first include the [F2.js JavaScript SDK](f2js-sdk.html). This is as simple as [downloading the F2 project from GitHub](f2js-sdk.html#download) and adding a `script` tag to the page. 
 
 ```javascript
 <script src="/path/to/your/container/f2.min.js"></script>
@@ -34,21 +46,21 @@ For a webpage to be considered an F2 container, it must first include the [F2.js
 
 You will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps.
 
-Once the script tag has been added it is up to the Container Provider to configure and customize the container. Continue reading Developing Containers](#developing-containers) below.
+Once the script tag has been added, it is up to the Container Provider to configure and customize the container. The first step is getting a ContainerID.
 
 ### F2 ContainerID
 
-To develop a F2 container, you need a unique identifier called an **ContainerID**. This ContainerID will be unique to _your container_ in the entire open financial framework ecosystem. While you don't need a unique ContainerID during the container development process, it is recommended you get one. The format of the ContainerID looks like this: `f2c_companyName_containerName`, where the `companyName` "namespace" is your company name and `containerName` is the name of your container.
+To develop a production F2 container, you need a unique identifier called a ContainerID. This ContainerID will be unique to _your container_ across the entire open financial framework ecosystem. The format of the ContainerID looks like this: `com_container_companyName_containerName`, where the `companyName` "namespace" is your company name and `containerName` is the name of your container.
 
 As an example, your ContainerID could look like this:
 
-`f2c_acmecorp_watchlist`
+`com_container_acmecorp_watchlist`
 
 If you built more than one container while working at Acme Corporation, you could create more ContainerIDs. All of these are valid:
 
-* `f2c_acmecorp_activetrader`
-* `f2c_acmecorp_retail`
-* `f2c_acmecorp_interactive_charts`
+* `com_container_acmecorp_activetrader`
+* `com_container_acmecorp_retail`
+* `com_container_acmecorp_mobilestreamer`
 
 To guarantee uniqueness, we have provided a ContainerID generation service that allows you to customize your ContainerID in the [Developer Center](index.html#developer-center).
 
@@ -58,7 +70,7 @@ Once you have your ContainerID, start by setting up your container project. You 
 
 ### App Configs
 
-A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#l#developer-center). 
+A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#l#developer-center). 
 
 Example `AppConfig` object from an _individual_ app:
 
@@ -102,7 +114,7 @@ var _appConfigs = [
 
 ### Container Config
 
-The F2.js JavaScript SDK provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
+The [F2.js JavaScript SDK](f2js-sdk.html) provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
 
 In the container's `$(document).ready()`, add the `F2.init()`:
 
@@ -110,9 +122,9 @@ In the container's `$(document).ready()`, add the `F2.init()`:
 $(document).ready(function(){
 	F2.init({
 		//define ContainerConfig properties
-		appRender: function(){},
-		beforeAppRender: function(){},
-		afterAppRender: function(){}
+		appRender: function(){ ... },
+		beforeAppRender: function(){ ... },
+		afterAppRender: function(){ ... }
 	});
 });
 ```
@@ -143,14 +155,16 @@ An example of setting the mask in `F2.init()`:
 $(document).ready(function(){
     F2.init({
         //define ContainerConfig properties
-        appRender: function(){},
-        beforeAppRender: function(){},
-        afterAppRender: function(){},
+        appRender: function(){ ... },
+        beforeAppRender: function(){ ... },
+        afterAppRender: function(){ ... },
 
         //setup UI
         UI:{
 			Mask:{
-				loadingIcon:'./img/spinner.gif'
+				loadingIcon:'./img/spinner.gif',
+				backgroundColor: '#fff',
+				opacity: 0.5
 			}
 		}
     });
@@ -165,9 +179,55 @@ For more information on `F2.UI`, [browse to the F2.js SDK docs](../docs/sdk/clas
 
 ## Namespacing
 
-### CSS
+F2 is a _web_ integration framework which means are containers are inherently insecure&mdash;at least _non-secure_ apps. Following this spec, Container Developers must [join App Developers](app-development.html#namespacing) in avoiding CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
 
-### JavaScript
+### Namespacing CSS
+
+As discussed in [Developing F2 Containers: F2 ContainerID](#f2-containerid), to develop a F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: `com_container_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+
+To avoid styling conflicts or other display issues related to app-provided style sheets, App Developers [must namespace their CSS selectors](app-development.html#namespacing-css). While there are strict rules for App Developers, the same rules apply to Container Developers. This is especially true when implementing _mutliple containers_.
+
+In the event there are multiple containers, every CSS selector in container-provided style sheets must look like this:
+
+```css
+.com_container_companyName_appName p {
+	padding:5px;
+}
+
+.com_container_companyName_appName .alert {
+	color:red;
+}
+```
+
+Note `.com_container_companyName_appName` is prefixed on both `p` and `.alert` selectors.
+
+While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and prefixing F2 ContainerIDs on CSS selectors isn't required, it is recommended.
+
+```css
+.com_container_companyName_appName #notice {
+	background-color:yellow;
+}
+```
+
+### Keeping JavaScript Clean
+
+Adhering to one of the [OpenAjax Alliance](http://www.openajax.org/) goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App Developers alike, this means following this spec closely and ensuring javascript code is contained inside [closures](http://jibbering.com/faq/notes/closures/) or is extended as a new namespace on `F2`.
+
+The F2.js SDK was designed with extensibility in mind and therefore custom logic can be added on the `F2` namespace.
+
+Example:
+
+```javascript
+F2.extend('YourPluginName', (function(){
+    return {
+        doSomething: function(){
+            F2.log("Something has been done.");
+        }
+    };
+})());
+```
+
+For more information, read [Extending F2](extending-f2.html).
 
 * * * *
 
@@ -175,15 +235,138 @@ For more information on `F2.UI`, [browse to the F2.js SDK docs](../docs/sdk/clas
 
 The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html#methods-registerApps)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
-The two arguments provided to `registerApps()` are an array of `AppConfig` objects and an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved to the container.
+The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.
 
-Remember, the `AppConfig` [includes a `manifestUrl` property](#app-configs).
+Regardless of where the container's [AppConfig](#app-configs) comes from, integrating apps is a simple process. For the purposes of this example, we will use an Acme Corp news app. 
 
+Let's look at some container code.
 
+### Static App Configuration
 
+First, we define the `AppConfigs` in a _hard-coded_ `_appConfigs` array. Secondly, when the document is ready, we call `F2.init()` and subsequently `F2.registerApps()` with the single argument.
+
+```javascript
+//define app config
+var _appConfigs = [
+	{
+		appId: "com_acmecorp_news",
+		description: "Acme Corp News",
+		manifestUrl: "http://www.acme.com/apps/news-manifest.js",
+		name: "Acme News App"
+	}
+];
+
+$(document).ready(function(){
+
+	//init F2 container
+    F2.init({
+        //define ContainerConfig properties
+        appRender: function(){ ... },
+        beforeAppRender: function(){ ... },
+        afterAppRender: function(){ ... },
+
+        //setup UI
+        UI:{
+			Mask:{
+				loadingIcon:'./img/spinner.gif',
+				backgroundColor: '#fff',
+				opacity: 0.5
+			}
+		}
+    });
+
+    //load apps
+    F2.registerApps(_appConfigs);
+
+});
 ```
-//F2.registerApps(apps);
+
+This javascript code will insert the Acme Corp news app into the container's DOM, provided the `appRender` method is [configured correctly](#container-config).
+
+### Dynamic App Configuration
+
+Alternatively, `AppConfigs` could live in a database&mdash;eventually the [F2 Store](index.html#the-store)&mdash;at which time container developers could provide their containers with `AppManifests` instead of relying on each `AppConfig.manifestUrl` property to be retrieved and parsed at run time.
+
+Such an implementation would require the container developer to make a HTTP call to a Store web service to retrieve `AppConfigs` and `AppManifests`. You are already familiar with [what the `AppConfig` looks like](#app-configs), but if you aren't sure what an `AppManifest` looks like, take note of this empty manifest. 
+
+```javascript
+{
+    "inlineScripts":[],  
+    "scripts":[],    
+    "styles":[],     
+    "apps":[{
+            "data":{},
+            "html":"",
+            "status":""
+    }]
+}
 ```
+
+<span class="label">Note</span> [Read more about the AppManifest](app-development.html#app-manifest).
+
+An example of a container making a request to the F2 Store for `AppConfigs` and `AppManifests`:
+
+```javascript
+(function(){
+	
+	var _appConfigs = [], _appManifests = [];
+
+	//make request to Store web service
+	var $req = $.ajax({
+		url: 'https://store.openf2.org/getApps',
+		dataType: 'jsonp'
+	});
+
+	//parse successful response
+	$req.done(function(jqxhr,txtStatus){
+		jqxhr = jqxhr || {};
+		if (jqxhr.status == "good"){
+			_appConfigs = jqxhr.appConfigs || [];
+			_appManifests = jqxhr.appManifests || [];
+			//load
+			loadContainer();
+		} else {
+			F2.log("Store web service did not do something 'good'.", jqxhr, txtStatus);
+		}
+	});
+
+	//handle errors
+	$req.fail(function(jqxhr,txtStatus){
+		F2.log("Store web service failed.", jqxhr, txtStatus);
+	});
+
+	//wrap this up so we can call it in $req.done()
+	var loadContainer = function(){
+		$(document).ready(function(){
+			//init F2 container
+		    F2.init({
+		        //define ContainerConfig properties
+		        appRender: function(){ ... },
+		        beforeAppRender: function(){ ... },
+		        afterAppRender: function(){ ... },
+
+		        //setup UI
+		        UI:{
+					Mask:{
+						loadingIcon:'./img/spinner.gif',
+						backgroundColor: '#fff',
+						opacity: 0.5
+					}
+				}
+		    });
+
+		    //load apps
+		    F2.registerApps(_appConfigs, _appManifests);
+
+		});
+	}//loadContainer
+	
+})();
+```
+
+<span class="label label-important">Important</span> The `_appConfigs` and `_appManifests` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for Acme Corp's news app must be in `_appConfigs[0]` and `_appManifests[0]`.
+
+There are numerous benefits to dynamic app configuration, most notably performance and security. In the dynamic model, `AppManifests` have already been requested and loaded before a user opens the container reducing the overall number of outbound HTTP requests. Security is improved because Container Developers have the opportunity to parse and scrub `AppManifest` contents before F2.js injects markup in the `AppManifest.html` property into the container DOM.
 
 * * * *
 

@@ -29,17 +29,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1349909873870"></script>
-  <script src="./js/respond.min.js?1349909873870"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1349911820160"></script>
+  <script src="./js/respond.min.js?1349911820160"></script>
   
-  <link href="./css/prettify.css?1349909873870" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1349909873870" rel="stylesheet">
+  <link href="./css/prettify.css?1349911820160" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1349911820160" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1349909873870" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349909873870" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349909873870" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349909873870" />
-  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349909873870" />
+  <link rel="icon" href="./img/favicon-32px.png?1349911820160" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349911820160" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349911820160" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349911820160" />
+  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349911820160" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -53,7 +53,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1349909873870";
+  	var ghpagescachebuster = "1349911820160";
   </script>
 </head>
 <body>
@@ -83,10 +83,10 @@ code > span.er { color: #ff0000; font-weight: bold; }
                   </ul>
             </li>
             <li class="divider-vertical"></li>
-            <li><a href="/F2/OpenF2/Examples">Examples</a></li>
+            <li><a href="http://www.openf2.org/Examples">Examples</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.15.0</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.15.0)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.15.2</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.15.2)</a></li>
           </ul>
         </div>
       </div>
@@ -137,7 +137,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build. Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v0.12.10). Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
 <p>Defined very simply, an F2 app is a <code>javascript</code> file which contains your app manifest. Technically an F2 app is one of two things:</p>
@@ -173,10 +173,15 @@ A data app is a content feed available in industry-standard formats including JS
 </section>
 <section class="level2" id="app-design">
 <h2>App Design</h2>
-<p><span class="label label-warning">EDITOR'S NOTE</span> This 'designing your app' section needs some TLC.</p>
-<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using Progressive Enhancement development strategies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies.</p>
-<p>If App Providers embed URLs back to their own websites, URLs must be opened in a new window as to not interrupt the experience of someone using the Workspace. If authentication is required on App Providers’ site, this can be achieved with pass-through authentication using encrypted URLs as discussed in the Authentication API section of this specification.</p>
+<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using <a href="(http://www.alistapart.com/articles/understandingprogressiveenhancement/">Progressive Enhancement</a>, <a href="http://www.lukew.com/presos/preso.asp?26">Mobile First</a> and <a href="http://www.abookapart.com/products/responsive-web-design">Responsive Design</a> methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. (<a href="http://videojs.com/">VideoJS</a> is good example of open-source JavaScript and CSS &quot;that makes it easier to work with and build on HTML5 video, today.&quot;)</p>
+<p>If App Developers embed URLs back to their own websites or to third party sites, URLs must be opened in a new window as to not interrupt the experience of someone using the container. If authentication is required on an App Developer's site, this can be accomplished with pass-through authentication using encrypted URLs as discussed in <a href="#single-sign-on">Single Sign On</a>.</p>
+<section class="level3" id="choices">
+<h3>Choices</h3>
+<p>In order to ensure that apps built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters.</p>
+<p><a href="index.html#choices">Read more about those choices in the Framework</a>.</p>
+<p>Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container providers may also <a href="index.html#creating-a-common-look-and-feel">provide CSS for App Developers</a> to adhere to—which should be easy since F2 enforces a <a href="app-development.html#automatic-consistency">consistent HTML structure across all containers and apps</a>.</p>
 <hr>
+</section>
 </section>
 <section class="level2" id="app-manifest">
 <h2>App Manifest</h2>
@@ -473,16 +478,16 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level2" id="namespacing">
 <h2>Namespacing</h2>
-<p>F2 is a <em>web</em> integration framework which means are apps are inherently insecure—at least <em>non-secure</em> apps. Following this spec, app developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
-<section class="level3" id="namespacing-your-css">
-<h3>Namespacing Your CSS</h3>
-<p>As discussed in <a href="#f2-appid">Developing a F2 App: F2 AppID</a>, to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app in the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
-<p>When Container Providers <a href="../docs/sdk/classes/F2.html#methods-registerApps">register apps</a>, F2.js draws each app as defined by the <a href="../docs/sdk/classes/F2.ContainerConfig.html">ContainerConfig</a>. Before the app is added to the container DOM, F2 automatically wraps an outer HTML element—with the AppID used as a class—around the rendered app.</p>
+<p>F2 is a <em>web</em> integration framework which means are apps are inherently insecure—at least <em>non-secure</em> apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
+<section class="level3" id="namespacing-css">
+<h3>Namespacing CSS</h3>
+<p>As discussed in <a href="#f2-appid">Developing F2 Apps: F2 AppID</a>, to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
+<p>When Container Providers <a href="#app-integration">register apps</a>, F2.js draws each app as defined by the <a href="../docs/sdk/classes/F2.ContainerConfig.html">ContainerConfig</a>. Before the app is added to the container DOM, F2 automatically wraps an outer HTML element—with the AppID used as a class—around the rendered app.</p>
 <p>This example shows app HTML after it has been drawn on the container. Note the <code>com_companyName_appName</code> classname.</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;f2-app-container com_companyName_appName&quot;</span><span class="kw">&gt;</span>
     ...
 <span class="kw">&lt;/div&gt;</span></code></pre>
-<p>To avoid styling conflicts or other display issues related to app-provided style sheets, <strong>app developers must namespace their CSS selectors.</strong> Fortunately, this is quite easy.</p>
+<p>To avoid styling conflicts or other display issues related to app-provided style sheets, <strong>App Developers must namespace their CSS selectors.</strong> Fortunately, this is quite easy.</p>
 <p>Every selector in app-provided style sheets must look like this:</p>
 <pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_companyName_appName</span> p <span class="kw">{</span>
     <span class="kw">padding:</span><span class="dt">5px</span><span class="kw">;</span>
@@ -492,13 +497,13 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     <span class="kw">color:</span><span class="dt">red</span><span class="kw">;</span>
 <span class="kw">}</span></code></pre>
 <p>Note <code>.com_companyName_appName</code> is prefixed on both <code>p</code> and <code>.alert</code> selectors.</p>
-<p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and prefixing F2 AppIDs on your CSS selectors isn't required, it is recommended.</p>
+<p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and prefixing F2 AppIDs on CSS selectors isn't required, it is recommended.</p>
 <pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_companyName_appName</span> <span class="fl">#notice</span> <span class="kw">{</span>
     <span class="kw">background-color:</span><span class="dt">yellow</span><span class="kw">;</span>
 <span class="kw">}</span></code></pre>
 </section>
-<section class="level3" id="keeping-your-javascript-clean">
-<h3>Keeping Your JavaScript Clean</h3>
+<section class="level3" id="keeping-javascript-clean">
+<h3>Keeping JavaScript Clean</h3>
 <p>Adhering to one of the <a href="http://www.openajax.org/">OpenAjax Alliance</a> goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App developers alike, this means following this spec closely and ensuring javascript code is contained inside <a href="http://jibbering.com/faq/notes/closures/">closures</a> or is extended as a new namespace on <code>F2</code>.</p>
 <p>To ensure javascript bundled with F2 apps executes in a javascript closure, <a href="#app-class">follow the guidelines</a> for the <code>appclass.js</code> file and one of the two patterns described (prototypal inheritance or module).</p>
 <p>The F2.js SDK was designed with extensibility in mind and therefore custom logic can be added on the <code>F2</code> namespace.</p>
@@ -538,7 +543,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="kw">F2.Constants.Events</span>.<span class="fu">CONTAINER</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
     <span class="kw">function</span>(data){
-<span class="er">        F2.log(&quot;The symbol was changed to &quot; + data.symbol);</span>
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
     }
 );</code></pre>
 <p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="../docs/sdk/classes/F2.Events.html">Read the SDK</a> for more information.</p>
@@ -558,7 +563,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="kw">F2.Constants.Events</span>.<span class="fu">APP</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
     <span class="kw">function</span>(data){
-<span class="er">        F2.log(&quot;The symbol was changed to &quot; + data.symbol);</span>
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
     }
 );</code></pre>
 <p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="../docs/sdk/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
@@ -581,8 +586,8 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="st">&quot;buy_stock&quot;</span>, 
     <span class="kw">function</span>(data){
-<span class="er">        if (data.isAvailableToPurchase){</span>
-<span class="er">            F2.log(&quot;Trade ticket order for &quot; + data.symbol + &quot; at $&quot; + data.price);</span>
+        <span class="kw">if</span> (<span class="kw">data</span>.<span class="fu">isAvailableToPurchase</span>){
+            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Trade ticket order for &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span> + <span class="st">&quot; at $&quot;</span> + <span class="kw">data</span>.<span class="fu">price</span>);
         } <span class="kw">else</span> {
             <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;This stock is not available for purchase.&quot;</span>)
         }
@@ -685,7 +690,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     }).<span class="fu">done</span>(<span class="kw">function</span>(jqxhr){
         <span class="kw">F2</span>.<span class="fu">log</span>(jqxhr);
         <span class="co">//hide loading</span>
-<span class="er">        this.ui.hideMask(this.root);</span>
+        <span class="kw">this</span>.<span class="fu">ui</span>.<span class="fu">hideMask</span>(<span class="kw">this</span>.<span class="fu">root</span>);
     });
 ...</code></pre>
 <p>The <code>showMask()</code> method takes two arguments: a DOM element where to show the mask and a boolean indicating whether or not to show a spinning graphic.</p>
@@ -761,7 +766,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <h4>Controlling View State</h4>
 <p>The <code>F2.UI</code> namespace provides an API for developers to manage app View state.</p>
 <p>To programmatically change a View in javascript:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="er">appConfig.ui.Views.change(F2.Constants.Views.HOME);</span></code></pre>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">appConfig.ui.Views</span>.<span class="fu">change</span>(<span class="kw">F2.Constants.Views</span>.<span class="fu">HOME</span>);</code></pre>
 <p><span class="label label-info">Note</span> When <code>appConfig.ui.Views.change()</code> is called, the <code>hide</code> classname is automatically added or removed by F2.js depending on the visibility of the view. <a href="../docs/sdk/classes/F2.UI.Views.html#methods-change">Read more in the SDK docs</a>.</p>
 <p>In F2 app HTML, you can use a combination of CSS classnames and <code>data-</code> attributes to provide UI elements making it easy for users to navigate between Views.</p>
 <p>For example, an app has two views: &quot;home&quot; and &quot;about&quot;. On the &quot;home&quot; View, a button allows the user to navigate to the &quot;about&quot; view. In the presence of the classname <code>f2-app-view-trigger</code> and the <code>data-f2-view</code> data attribute, F2.js automatically adds a javascript event to the button.</p>
@@ -825,15 +830,15 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1349909873870"></script>
-<script src="./js/prettify.js?1349909873870"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1349911820160"></script>
+<script src="./js/prettify.js?1349911820160"></script>
 <script src="./js/f2.min.js?0.12.10"></script>
-<script src="./js/docs.js?1349909873870"></script>
+<script src="./js/docs.js?1349911820160"></script>
 <script type="text/javascript">
 window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
 
 	_waq.push(['_trackPageView', {category: 'Docs'}]);
 </script>
-<script>var ghpagescachebuster = "1349909873870";</script>
+<script>var ghpagescachebuster = "1349911820160";</script>
 </body>
 </html>

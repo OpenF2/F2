@@ -6,7 +6,7 @@ Developers who adhere to the F2 standard will make it possible for multiple apps
 
 ## The JavaScript 
 
-F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
+F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App Developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
 
 * * * *
 
@@ -17,6 +17,8 @@ Anyone is free to download F2.js from the [F2 project repository on GitHub](http
 ```javascript
 <script src="/path/to/your/container/f2.js"></script>
 ```
+
+The latest version of F2.js is **{{sdk.version}}**.
 
 <a href="https://github.com/OpenF2/F2/zipball/master" class="btn btn-primary">Download F2</a> <a href="https://github.com/OpenF2/F2/" class="btn" target="_blank">View on GitHub</a>
 

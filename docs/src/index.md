@@ -95,7 +95,7 @@ Following are definitions for the main F2 Framework components: The Apps, The Co
 
 ### Choices
 
-In order to ensure that applications built using F2 are successful it must be accessible. With this in mind, the front-end technology choice is HTML5. Using the [progressive enhancement methodology](http://www.alistapart.com/articles/understandingprogressiveenhancement/), F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 Apps built following the [mobile first](http://www.lukew.com/presos/preso.asp?26) design approach and with [responsive CSS](http://twitter.github.com/bootstrap/scaffolding.html#responsive), allow users to access the Apps on their desktop, tablet or smartphone and App developers only need to build a single App.
+In order to ensure that applications built using F2 are successful, they must be accessible. With this in mind, the front-end technology choice is HTML5. Using the [progressive enhancement methodology](http://www.alistapart.com/articles/understandingprogressiveenhancement/), F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 Apps built following the [mobile first](http://www.lukew.com/presos/preso.asp?26) design approach and with [responsive](http://www.abookapart.com/products/responsive-web-design) [CSS](http://twitter.github.com/bootstrap/scaffolding.html#responsive), allow users to access the Apps on their desktop, tablet or smartphone and App developers only need to build a single App.
 
 Support across all desktop browsers and mobile devices is sometimes limited so F2 includes some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?
 
@@ -194,7 +194,7 @@ F2 enables all of us to build exactly the financial solutions that our customers
 
 Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.
 
-F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
+F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App Developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
 
 If you are interested in building Apps, get started by [browsing through this technical documentation](developing-f2-apps.html) or follow the project on GitHub. If you are interested in building containers, [browse to the container documentation](developing-f2-containers.html).
 

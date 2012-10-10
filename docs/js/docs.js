@@ -144,7 +144,7 @@ F2Docs.fn.navbarDocsHelper = function(){
  */
 F2Docs.fn.devSubSections = {
 	"App Development": 		"app-development.html",
-	"Container Devlepment": "container-development.html",
+	"Container Development":"container-development.html",
 	"Extending F2": 		"extending-f2.html",
 	"F2.js SDK": 			"f2js-sdk.html"
 };

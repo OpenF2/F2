@@ -6,6 +6,8 @@
 
 <span class="label label-warning">EDITOR'S NOTE</span> Need content.
 
+* * * *
+
 ## Example Plugin
 
 Plugins are encapsulated in JavaScript closures as demonstrated below. There are three arguments which can be passed into `F2.extend()`: `namespace`, `object`, and `overwrite`. For full details, [read the F2.js SDK documentation](../sdk/docs/classes/F2.html#method_extend). 
@@ -29,3 +31,5 @@ F2.YourPluginName.doSomething();
 ```
 
 This method call writes `Something has been done.` to the Console. 
+
+* * * *
