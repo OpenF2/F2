@@ -169,10 +169,10 @@ function docs() {
 function ghp() {
 	console.log('Copying documentation to gh-pages...');
 	// temporary - do not overwrite the gh-pages index.html until launch
-	fs.renameSync('./docs/index.html', './docs/index-temp.html');
+	//fs.renameSync('./docs/index.html', './docs/index-temp.html');
 	wrench.copyDirSyncRecursive('./docs', '../gh-pages', { preserve:true });
 	// temporary - put index.html back to normal
-	fs.renameSync('./docs/index-temp.html', './docs/index.html');
+	//fs.renameSync('./docs/index-temp.html', './docs/index.html');
 	//wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk/docs');
 	//delete the /src on gh-pages, we don't need it.
 	wrench.rmdirSyncRecursive('../gh-pages/src');
