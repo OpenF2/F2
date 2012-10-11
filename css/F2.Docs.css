@@ -1107,7 +1107,8 @@ a.label:hover,a.badge:hover{color:#ffffff;text-decoration:none;cursor:pointer;}
 @media (min-width:768px) and (max-width:979px){.navbar-docs{display:none;visibility:hidden;}}@media (max-width:767px){.navbar-docs{display:none;visibility:hidden;}}.navbar-docs-sections{background-color:#292929;margin:0;}
 .navbar-docs-sections [data-toggle]{border-bottom:2px solid #0a6199;color:#9da6ac;display:block;font-weight:bold;line-height:32px;text-align:center;text-decoration:none;}
 .navbar-docs-sections [data-toggle] span{margin-top:5px;}
-@media (min-width:980px){.navbar-docs-sections{display:none;visibility:hidden;}}@media (max-width:979px){.navbar-docs-sections{display:block;}}body{padding-top:90px;}
+.navbar-docs-sections{display:none;visibility:hidden;}
+@media (max-width:979px){.navbar-docs-sections{display:block;visibility:visible;}}body{padding-top:90px;}
 .container .row{margin-bottom:20px;}
 .container .span9{padding-bottom:100px;}
 pre{font-size:12px;}

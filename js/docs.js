@@ -263,13 +263,11 @@ F2Docs.fn.buildLeftRailToc = function(){
 	//append links
 	$('#toc').html($navWrap);
 	var $responsiveItems = $navWrap.children().clone();
-	console.log($responsiveItems);
 	$('ul', $responsiveItems).removeClass('nav-list').addClass('navinset');
 	$('#tocResponsive').append($responsiveItems);
 
 	//add click event
 	$("a",$navWrap).on("click",$.proxy(this._handleTocNavigationClick,this));
-
 }
 
 /**
