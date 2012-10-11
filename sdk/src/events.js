@@ -1,5 +1,5 @@
 /**
- * Handles [Context](../../developing-f2-apps.html#context) passing from
+ * Handles [Context](../../app-development.html#context) passing from
  * containers to apps and apps to apps.
  * @class F2.Events
  */

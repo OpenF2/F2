@@ -6,7 +6,7 @@ F2.extend("", {
 	/**
 	 * The App Class is an optional class that can be namespaced onto the 
 	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
-	 * [F2 Docs](../../developing-f2-apps.html#app-class)
+	 * [F2 Docs](../../app-development.html#app-class)
 	 * has more information on the usage of the App Class.
 	 * @class F2.App
 	 * @constructor
@@ -33,7 +33,7 @@ F2.extend("", {
 	AppConfig: {
 		/**
 		 * The unique ID of the app. More information can be found
-		 * [here](../../developing-f2-apps.html#f2-appid)
+		 * [here](../../app-development.html#f2-appid)
 		 * @property appId
 		 * @type string
 		 * @required
@@ -75,7 +75,7 @@ F2.extend("", {
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * sets isSecure = true. It will also be true if the
-		 * [container](../../index-temp.html#container) has made the decision to run
+		 * [container](../../container-development.html) has made the decision to run
 		 * apps in iframes.
 		 * @property isSecure
 		 * @type bool
@@ -92,7 +92,7 @@ F2.extend("", {
 		manifestUrl: "",
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
-		 * **It is up to the [container](../../index-temp.html#container) to
+		 * **It is up to the [container](../../container-development.html) to
 		 * implement the logic to prevent an app from being run when the maxWidth
 		 * requirements are not met.**
 		 * @property maxWidth
@@ -102,7 +102,7 @@ F2.extend("", {
 		/**
 		 * The recommended minimum grid size that this app should be run. This
 		 * value corresponds to the 12-grid system that is used by the
-		 * [container](../../index-temp.html#container). This property should be set
+		 * [container](../../container-development.html). This property should be set
 		 * by apps that require a certain number of columns in their layout.
 		 * @property minGridSize
 		 * @type int
@@ -111,7 +111,7 @@ F2.extend("", {
 		minGridSize: 4,
 		/**
 		 * The recommended minimum width in pixels that this app should be run. **It
-		 * is up to the [container](../../index-temp.html#container) to implement
+		 * is up to the [container](../../container-development.html) to implement
 		 * the logic to prevent an app from being run when the minWidth requirements
 		 * are not met.
 		 * @property minWidth
@@ -221,12 +221,12 @@ F2.extend("", {
 	},
 	/**
 	 * An object containing configuration information for the
-	 * [container](../../index-temp.html#container)
+	 * [container](../../container-development.html)
 	 * @class F2.ContainerConfig
 	 */
 	ContainerConfig: {		
 		/**
-		 * Allows the [container](../../index-temp.html#container) to override how
+		 * Allows the [container](../../container-development.html) to override how
 		 * an app's html is inserted into the page. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html
@@ -237,7 +237,7 @@ F2.extend("", {
 		 */
 		afterAppRender: function(appConfig, html) {},
 		/**
-		 * Allows the [container](../../index-temp.html#container) to wrap an app in
+		 * Allows the [container](../../container-development.html) to wrap an app in
 		 * extra html. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html. The extra html can provide links to edit app settings and remove an
