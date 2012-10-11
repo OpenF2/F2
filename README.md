@@ -2,7 +2,7 @@
 
 F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The [essential components](http://docs.openf2.org/#framework) defined by the F2 specification are the Container, Apps, Context and Store&mdash;all supported under the hood by **F2.js**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. 
 
-F2 was started by and is maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information. Follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
+F2 is maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information. Follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
 
 ## Developers
 
