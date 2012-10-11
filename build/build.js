@@ -157,7 +157,8 @@ function docs() {
 				processTemplateFileCleanup(templateFiles);
 
 				// update Last Update Date and save F2.json
-				f2Info.docs.lastUpdateDate = (new Date()).toJSON();
+				f2Info.docs.lastUpdateDate = new Date().toJSON();
+				f2Info.docs.lastUpdateDateFormatted = dateFormat(new Date());
 				f2Info.docs.cacheBuster = String(new Date().getTime());
 				saveF2Info();
 
@@ -167,6 +168,19 @@ function docs() {
 		}
 	);
 };
+
+/**
+ * Date format helper for F2.json
+ * Returns date "October 15, 2012"
+ *
+ * @method dateFormat
+ * @param new Date() (optional)
+ */
+function dateFormat(dat){
+	var dat = dat || new Date(),
+		month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	return month[dat.getMonth()] + " " + dat.getDate() + ", " + dat.getFullYear();
+}
 
 /**
  * Copies all documentation to the gh-pages folder
@@ -255,13 +269,14 @@ function js() {
 	console.log('COMPLETE');
 
 	//copy F2.min.js over to docs/js folder so it makes to gh-pages
-	console.log('Copying F2.min.js to ./docs/js...')
+	console.log('Copying F2.min.js to ./docs/js...');
 	fs.copy('./sdk/f2.min.js', './docs/js/f2.min.js', function(err){
 		if (err) {
 			die(err);
 		} else {
 			console.log("COMPLETE");
 			// wouldn't it be nice if there was a copySync...
+			console.log('Copying F2.min.js to /f2.js...');
 			fs.copy('./sdk/f2.min.js', './f2.js', function(err){
 				if (err) {
 					die(err);
