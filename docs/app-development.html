@@ -29,17 +29,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1349930517803"></script>
-  <script src="./js/respond.min.js?1349930517803"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1349995049626"></script>
+  <script src="./js/respond.min.js?1349995049626"></script>
   
-  <link href="./css/prettify.css?1349930517803" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1349930517803" rel="stylesheet">
+  <link href="./css/prettify.css?1349995049626" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1349995049626" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1349930517803" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349930517803" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349930517803" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349930517803" />
-  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349930517803" />
+  <link rel="icon" href="./img/favicon-32px.png?1349995049626" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-iphone-57.png?1349995049626" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-ipad-72.png?1349995049626" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-iphone-114.png?1349995049626" />
+  <link rel="apple-touch-icon" sizes="144x144" href="./img/touch-icon-ipad-144.png?1349995049626" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -53,7 +53,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1349930517803";
+  	var ghpagescachebuster = "1349995049626";
   </script>
 </head>
 <body>
@@ -85,8 +85,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
             <li class="divider-vertical"></li>
             <li><a href="http://www.openf2.org/Examples">Examples</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.15.3</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.15.3)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 0.12.12</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 0.12.12)</a></li>
           </ul>
         </div>
       </div>
@@ -137,7 +137,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v0.12.11). Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v0.12.12). Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
 <p>Defined very simply, an F2 app is a <code>javascript</code> file which contains your app manifest. Technically an F2 app is one of two things:</p>
@@ -183,8 +183,35 @@ A data app is a content feed available in industry-standard formats including JS
 <hr>
 </section>
 </section>
-<section class="level2" id="app-manifest">
-<h2>App Manifest</h2>
+<section class="level2" id="developing-f2-apps">
+<h2>Developing F2 Apps</h2>
+<p>Let's take a close look at how to build an F2 app. We'll explain how to get an F2 AppID, what the <code>AppManifest</code> is all about, what output format your app needs to support, how the contents of the <code>AppContent.html</code> property work, and the two hooks for adding form and function to your app: <code>scripts</code> and <code>styles</code>.</p>
+<p>Before opening your editor, <a href="#configuration">read the configuration assumptions</a>.</p>
+<section class="level3" id="f2-appid">
+<h3>F2 AppID</h3>
+<p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
+<p>As an example, your AppID could look like this:</p>
+<p><code>com_acmecorp_watchlist</code></p>
+<p>If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:</p>
+<ul>
+<li><code>com_acmecorp_watchlist2</code></li>
+<li><code>com_acmecorp_watchlist_big_and_tall</code></li>
+<li><code>com_acmecorp_static_charts</code></li>
+<li><code>com_acmecorp_interactive_charts</code></li>
+</ul>
+<p>To guarantee uniqueness, we have provided an AppID generation service that allows you to customize your AppID.</p>
+<p><a href="https://developer.openf2.com/GetAppID" target="_blank" class="btn btn-primary">Get Your F2 AppID Now »</a></p>
+</section>
+<section class="level3" id="setting-up-your-project">
+<h3>Setting Up Your Project</h3>
+<p>Once you have your AppID, start by setting up your project. You will need at least one file: the <strong>App Manifest</strong>. Create a new file called <code>manifest.js</code>. Also, chances are you'll want custom styling and functionality, so go ahead and create <code>appclass.js</code> (for your app logic) and <code>app.css</code> for your CSS. Your project folder should look like this:</p>
+<figure>
+<img src="./img/project_folder.png" title="Setup your project"><figcaption></figcaption>
+</figure>
+<p><span class="label">Helper</span> <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">Download the F2 app starter zip</a></p>
+</section>
+<section class="level3" id="app-manifest">
+<h3>App Manifest</h3>
 <p>For an app to be considered F2-capable, it must first have this basic structure—called the <strong>App Manifest</strong>—represented in <a href="http://json.org">JSON</a>:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{
     <span class="st">&quot;inlineScripts&quot;</span>:[],  
@@ -216,6 +243,7 @@ A data app is a content feed available in industry-standard formats including JS
     }]
 })</code></pre>
 <p>Let's break the App Manifest object down and look at each property (in reverse order to keep it fun).</p>
+</section>
 <section class="level3" id="apps">
 <h3>Apps</h3>
 <p>The <code>apps</code> property is an array of <code>AppContent</code> objects. Each <code>AppContent</code> object contains three properties:</p>
@@ -299,7 +327,7 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
 </section>
 <section class="level3" id="sample-app-manifest">
 <h3>Sample App Manifest</h3>
-<p>If we use the examples above, our App Manifest would look like this:</p>
+<p>If we use the examples above, our <code>AppManifest</code> would look like this:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">F2_jsonpCallback_com_companyname_appname({
     <span class="st">&quot;inlineScripts&quot;</span>:[<span class="st">&quot;(function(){ var foo = bar; doSomething(); })()&quot;</span>],
     <span class="st">&quot;scripts&quot;</span>:[
@@ -317,40 +345,11 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
     }]
 })</code></pre>
-<p><span class="label">Note</span> You may have noticed the presence of the function name <code>F2_jsonpCallback_com_companyname_appname</code> on the first line of the example above. That function name is the callback and is explained in <a href="#developing-f2-apps">Developing F2 Apps</a>.</p>
-<hr>
-</section>
-</section>
-<section class="level2" id="developing-f2-apps">
-<h2>Developing F2 Apps</h2>
-<p>Now that we've detailed the <a href="#app-manifest">App Manifest</a>, let's take a closer look at how to build an app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of the <code>AppContent.html</code> property work, and the two hooks for adding form and function to your app: <code>scripts</code> and <code>styles</code>.</p>
-<p>Before opening your editor, <a href="#configuration">read the configuration assumptions</a>.</p>
-<section class="level3" id="f2-appid">
-<h3>F2 AppID</h3>
-<p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
-<p>As an example, your AppID could look like this:</p>
-<p><code>com_acmecorp_watchlist</code></p>
-<p>If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:</p>
-<ul>
-<li><code>com_acmecorp_watchlist2</code></li>
-<li><code>com_acmecorp_watchlist_big_and_tall</code></li>
-<li><code>com_acmecorp_static_charts</code></li>
-<li><code>com_acmecorp_interactive_charts</code></li>
-</ul>
-<p>To guarantee uniqueness, we have provided an AppID generation service that allows you to customize your AppID.</p>
-<p><a href="https://developer.openf2.com/GetAppID" target="_blank" class="btn btn-primary">Get Your F2 AppID Now »</a></p>
-</section>
-<section class="level3" id="setting-up-your-project">
-<h3>Setting Up Your Project</h3>
-<p>Once you have your AppID, start by setting up your project. You will need at least one file: the <strong>App Manifest</strong>. Create a new file called <code>manifest.js</code>. Also, chances are you'll want custom styling and functionality, so go ahead and create <code>appclass.js</code> (for your app logic) and <code>app.css</code> for your CSS. Your project folder should look like this:</p>
-<figure>
-<img src="./img/project_folder.png" title="Setup your project"><figcaption></figcaption>
-</figure>
-<p><span class="label">Helper</span> <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">Download the F2 app starter zip</a></p>
+<p><span class="label">Note</span> You may have noticed the presence of the function name <code>F2_jsonpCallback_com_companyname_appname</code> on the first line of the example above. That function name is the callback and is explained in <a href="#app-manifest-response">App Manifest Response</a>.</p>
 </section>
 <section class="level3" id="app-manifest-response">
 <h3>App Manifest Response</h3>
-<p>OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">download the F2 app starter zip</a>. Once you have your App Manifest defined (or at least stubbed out), there's one important detail you need to know now—the App Manifest response format.</p>
+<p>OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">download the F2 app starter zip</a>. Once you have your <code>AppManifest</code> defined (or at least stubbed out), there's one important detail you need to know now—the App Manifest response format.</p>
 <p>As part of F2, containers register apps—typically hosted on different domains—using JSONP. <strong>This means F2 App Manifest files must provide a JSONP callback function.</strong> (If you don't know what JSONP is or how it works, we recommend <a href="http://remysharp.com/2007/10/08/what-is-jsonp/">reading what Remy Sharp has to say</a> about it.)</p>
 <p>For security reasons, the App Manifest JSONP callback function must be a specific, reliable, and testable format. F2 has defined that using a combination of a string and your unique F2 AppID. The JSONP callback function name looks like this:</p>
 <p><code>F2_jsonpCallback_&lt;AppID&gt;</code></p>
@@ -372,7 +371,7 @@ F2_jsonpCallback_com_companyname_appname({
 </section>
 <section class="level3" id="app-html">
 <h3>App HTML</h3>
-<p>Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather <em>passed to the container</em> via the App's App Manifest. But that's not a problem because F2 has <a href="https://github.com/OpenF2/F2/tree/master/sdk/examples/apps">provided examples</a> to show you the way. Here are the steps for getting your app HTML into your <code>AppContent.html</code> property:</p>
+<p>Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather <em>passed to the container</em> via the App's <code>AppManifest</code>. But that's not a problem because F2 has <a href="https://github.com/OpenF2/F2/tree/master/examples/apps">provided examples</a> to show you the way. Here are the steps for getting your app HTML into your <code>AppContent.html</code> property:</p>
 <ol type="1">
 <li>Develop the web page or module or widget or component or portlet that will be your app.</li>
 <li>Take all the contents of it—that is, the HTML—and encode it. <em>(This step is optional.)</em></li>
@@ -459,8 +458,8 @@ F2_jsonpCallback_com_companyname_appname({
    };
 };</code></pre>
 </section>
-<section class="level4" id="patterns-eh.">
-<h4>Patterns, Eh.</h4>
+<section class="level4" id="patterns-eh">
+<h4>Patterns, Eh</h4>
 <p>Of course, you don't have to use either one of these patterns in your <code>appclass.js</code> file. What you <em>do</em> have to use is a <code>function</code>. That is to say the value assigned to <code>F2.Apps[&quot;com_companyname_appname&quot;]</code> by your App Class code <em>must be a function</em>. Within F2's <code>registerApps()</code> method, the <code>new</code> operator is used which produces an object (<a href="../docs/sdk/files/sdk_src_container.js.html#l175">check out the code</a>).</p>
 <div class="alert">
     <h5>
@@ -593,12 +592,16 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
         }
     }
 );</code></pre>
-</section>
-<section class="level3" id="using-appids-to-secure-context-passing">
-<h3>Using AppIDs to Secure Context Passing</h3>
-<p>What if you want your app to only receive context emitted from apps you trust?</p>
-<p>Every F2 app has a <a href="#developing-a-f2-app">unique AppID</a> and—using the AppID—apps can listen for events emitted from trusted sources.</p>
-<p><span class="label label-warning">EDITOR'S NOTE</span> Needs attn.</p>
+<!--
+### Using AppIDs to Secure Context Passing
+
+What if you want your app to only receive context emitted from apps you trust? 
+
+Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
+
+<span class="label label-warning">EDITOR'S NOTE</span> Needs attn.
+-->
+
 </section>
 <section class="level3" id="types-of-context">
 <h3>Types of Context</h3>
@@ -614,26 +617,26 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <section class="level2" id="secure-apps">
 <h2>Secure Apps</h2>
 <p>F2 fully supports secure apps. A secure app is one that exists inside an <code>iframe</code> on a container <em>and</em> is hosted on a different domain. The F2.js SDK provides developers with seamless handling of Context, UI and the other F2 APIs whether or not an app is secure. This means app developers do not have to code apps any differently if an app is secure.</p>
-<p>An app is defined as &quot;secure&quot; in the <a href="../docs/sdk/classes/F2.AppConfig.html#properties-isSecure">AppConfig</a>. Creating the <code>AppConfig</code> is something that is done when apps are registered on the (coming) Developer Center, or within the Container Developer's app catalog.</p>
+<p>An app is defined as &quot;secure&quot; in the <a href="../docs/sdk/classes/F2.AppConfig.html#properties-isSecure">AppConfig</a>. Creating the <code>AppConfig</code> is something that is done when apps are registered on the <a href="index.html#developer-center">Developer Center</a>.</p>
 <p>Noting the <code>isSecure</code> property, the <code>AppConfig</code> looks like this:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{
     <span class="st">&quot;appId&quot;</span>: <span class="st">&quot;com_f2_demo&quot;</span>,
     <span class="st">&quot;description&quot;</span>: <span class="st">&quot;A demo F2 app.&quot;</span>,
     <span class="st">&quot;height&quot;</span>:<span class="dv">250</span>,
     <span class="st">&quot;minGridSize&quot;</span>: <span class="dv">4</span>,
-    <span class="st">&quot;isSecure&quot;</span>: <span class="kw">true</span>, <span class="co">//secure boolean</span>
     <span class="st">&quot;manifestUrl&quot;</span>: <span class="st">&quot;manifest.js&quot;</span>,
-    <span class="st">&quot;name&quot;</span>: <span class="st">&quot;F2 App&quot;</span>
+    <span class="st">&quot;name&quot;</span>: <span class="st">&quot;F2 App&quot;</span>,
+    <span class="st">&quot;isSecure&quot;</span>: <span class="kw">true</span> <span class="co">//secure boolean</span>
 }</code></pre>
 <p>To see examples of secure apps, <a href="https://github.com/OpenF2/F2">fork F2 on GitHub</a> and point your browser at:</p>
 <p><code>http://localhost/F2/examples/container/</code></p>
-<p>The example container runs sample apps—defined in <code>sampleApps.js</code>—and that's where you'll find the <code>isSecure</code> flag defined in each of the <code>AppConfig</code> objects.</p>
+<p>The example container runs sample apps—defined in <code>sampleApps.js</code>—and that's where you'll find the <code>isSecure</code> flag defined in some of the <code>AppConfig</code> objects.</p>
 <hr>
 </section>
 <section class="level2" id="container-integration">
 <h2>Container Integration</h2>
 <p>Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for <a href="#f2-apps">App Manifests</a> and have a working—and tested—app, you're pretty much done.</p>
-<p>If you're curious about <em>how</em> containers load apps, browse to the <a href="../docs/sdk/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="container-development.html">read the container documentation</a>.</p>
+<p>If you're curious about <em>how</em> containers load apps, browse to the <a href="../docs/sdk/classes/F2.html#method_registerApps">F2.js SDK <code>registerApps()</code> method</a> or <a href="container-development.html">read Container Development</a>.</p>
 <section class="level4" id="testing-your-app">
 <h4>Testing Your App</h4>
 <p>When you <a href="https://github.com/OpenF2/F2/#quick-start">cloned the F2 GitHub repo</a> you also got some example F2 containers for your app development and testing. Open the project repository and navigate to <code>~/F2/examples/containers</code> to find them or to jump-start your testing, point your browser at:</p>
@@ -824,21 +827,16 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 0.15.4, October 11, 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1349930517803"></script>
-<script src="./js/prettify.js?1349930517803"></script>
-<script src="./js/f2.min.js?0.12.11"></script>
-<script src="./js/docs.js?1349930517803"></script>
-<script type="text/javascript">
-window._waq = window._waq || []; (function() {var domain = 'insite.wallst.com'; _waq.push(['_setup', {reportingid: '544506', domain: domain}]); var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
-
-	_waq.push(['_trackPageView', {category: 'Docs'}]);
-</script>
-<script>var ghpagescachebuster = "1349930517803";</script>
+<script src="./js/bootstrap.min.2.1.1.js?1349995049626"></script>
+<script src="./js/prettify.js?1349995049626"></script>
+<script src="./js/f2.min.js?0.12.12"></script>
+<script src="./js/docs.js?1349995049626"></script>
+<script>var ghpagescachebuster = "1349995049626";</script>
 </body>
 </html>

@@ -12,6 +12,8 @@ You can use the F2 framework to build:
 * Reusable Apps that you can develop once and use cross-platform on web, tablet and mobile devices,
 * A multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.
 
+* * * *
+
 ## Who
 
 The F2 concept was born in Boulder, Colorado at [Markit On Demand](http://www.markitondemand.com) (MOD). F2 was brought to life through conversations with industry partners who individually express common frustrations and desire a coordinated solution. 
@@ -99,9 +101,9 @@ In order to ensure that applications built using F2 are successful, they must be
 
 Support across all desktop browsers and mobile devices is sometimes limited so F2 includes some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?
 
-* F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for a consistent HTML & CSS structure for app development regardless of App developer ([we'll explain more later](developing-f2-apps.html#your-app-on-a-container)). 
+* F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for a consistent HTML & CSS structure for app development regardless of App developer ([we'll explain more later](app-development.html#container-integration)). 
 * F2 relies on data structures represented in JSON, so it incorporates Crockford's [JSON](http://www.json.org/). 
-* To support a secured Container environment, F2 needs cross-domain in-browser messaging. For this, it relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM).
+* To support a secured container environment, F2 needs cross-domain in-browser messaging. For this, it relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM).
 
 As either an App or a Container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2.js JavaScript SDK provides a consistent interface and easy-to-use API so you don't have to think about it.
 

@@ -49,7 +49,40 @@ Ultimately, the responsibility of app design falls on either the Container or Ap
 
 * * * *
 
-## App Manifest
+## Developing F2 Apps
+
+Let's take a close look at how to build an F2 app. We'll explain how to get an F2 AppID, what the `AppManifest` is all about, what output format your app needs to support, how the contents of the `AppContent.html` property work, and the two hooks for adding form and function to your app: `scripts` and `styles`.
+
+Before opening your editor, [read the configuration assumptions](#configuration).
+
+### F2 AppID
+
+To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+
+As an example, your AppID could look like this:
+
+`com_acmecorp_watchlist`
+
+If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:
+
+* `com_acmecorp_watchlist2`
+* `com_acmecorp_watchlist_big_and_tall`
+* `com_acmecorp_static_charts`
+* `com_acmecorp_interactive_charts`
+
+To guarantee uniqueness, we have provided an AppID generation service that allows you to customize your AppID.
+
+<a href="https://developer.openf2.com/GetAppID" target="_blank" class="btn btn-primary">Get Your F2 AppID Now &raquo;</a>
+
+### Setting Up Your Project
+
+Once you have your AppID, start by setting up your project. You will need at least one file: the **App Manifest**. Create a new file called `manifest.js`. Also, chances are you'll want custom styling and functionality, so go ahead and create `appclass.js` (for your app logic) and `app.css` for your CSS. Your project folder should look like this:
+
+![](./img/project_folder.png "Setup your project")
+
+<span class="label">Helper</span> [Download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip)
+
+### App Manifest
 
 For an app to be considered F2-capable, it must first have this basic structure&mdash;called the **App Manifest**&mdash;represented in [JSON](http://json.org):
 
@@ -212,7 +245,7 @@ Example:
 
 ### Sample App Manifest
 
-If we use the examples above, our App Manifest would look like this:
+If we use the examples above, our `AppManifest` would look like this:
 
 ```javascript
 F2_jsonpCallback_com_companyname_appname({
@@ -234,46 +267,12 @@ F2_jsonpCallback_com_companyname_appname({
 })
 ```
 
-<span class="label">Note</span> You may have noticed the presence of the function name `F2_jsonpCallback_com_companyname_appname` on the first line of the example above. That function name is the callback and is explained in [Developing F2 Apps](#developing-f2-apps).
+<span class="label">Note</span> You may have noticed the presence of the function name `F2_jsonpCallback_com_companyname_appname` on the first line of the example above. That function name is the callback and is explained in [App Manifest Response](#app-manifest-response).
 
-* * * *
-
-## Developing F2 Apps
-
-Now that we've detailed the [App Manifest](#app-manifest), let's take a closer look at how to build an app. We'll explain how to get a F2 AppID, what output format your app needs to support, how the contents of the `AppContent.html` property work, and the two hooks for adding form and function to your app: `scripts` and `styles`.
-
-Before opening your editor, [read the configuration assumptions](#configuration).
-
-### F2 AppID
-
-To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
-
-As an example, your AppID could look like this:
-
-`com_acmecorp_watchlist`
-
-If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:
-
-* `com_acmecorp_watchlist2`
-* `com_acmecorp_watchlist_big_and_tall`
-* `com_acmecorp_static_charts`
-* `com_acmecorp_interactive_charts`
-
-To guarantee uniqueness, we have provided an AppID generation service that allows you to customize your AppID.
-
-<a href="https://developer.openf2.com/GetAppID" target="_blank" class="btn btn-primary">Get Your F2 AppID Now &raquo;</a>
-
-### Setting Up Your Project
-
-Once you have your AppID, start by setting up your project. You will need at least one file: the **App Manifest**. Create a new file called `manifest.js`. Also, chances are you'll want custom styling and functionality, so go ahead and create `appclass.js` (for your app logic) and `app.css` for your CSS. Your project folder should look like this:
-
-![](./img/project_folder.png "Setup your project")
-
-<span class="label">Helper</span> [Download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip)
 
 ### App Manifest Response
 
-OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip). Once you have your App Manifest defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
+OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
 
 As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. **This means F2 App Manifest files must provide a JSONP callback function.** (If you don't know what JSONP is or how it works, we recommend [reading what Remy Sharp has to say](http://remysharp.com/2007/10/08/what-is-jsonp/) about it.)
 
@@ -304,7 +303,7 @@ F2_jsonpCallback_com_companyname_appname({
 
 ### App HTML
 
-Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather _passed to the container_ via the App's App Manifest. But that's not a problem because F2 has [provided examples](https://github.com/OpenF2/F2/tree/master/sdk/examples/apps) to show you the way. Here are the steps for getting your app HTML into your `AppContent.html` property:
+Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather _passed to the container_ via the App's `AppManifest`. But that's not a problem because F2 has [provided examples](https://github.com/OpenF2/F2/tree/master/examples/apps) to show you the way. Here are the steps for getting your app HTML into your `AppContent.html` property:
 
 1. Develop the web page or module or widget or component or portlet that will be your app.
 2. Take all the contents of it&mdash;that is, the HTML&mdash;and encode it. _(This step is optional.)_
@@ -426,7 +425,7 @@ F2.Apps["com_companyname_appname"] = function(appConfig, appContent, root) {
 };
 ```
 
-#### Patterns, Eh.
+#### Patterns, Eh
 
 Of course, you don't have to use either one of these patterns in your `appclass.js` file. What you _do_ have to use is a `function`. That is to say the value assigned to `F2.Apps["com_companyname_appname"]` by your App Class code _must be a function_. Within F2's `registerApps()` method, the `new` operator is used which produces an object ([check out the code](../docs/sdk/files/sdk_src_container.js.html#l175)).
 
@@ -609,6 +608,7 @@ F2.Events.on(
 );
 ```
 
+<!--
 ### Using AppIDs to Secure Context Passing
 
 What if you want your app to only receive context emitted from apps you trust? 
@@ -616,6 +616,7 @@ What if you want your app to only receive context emitted from apps you trust?
 Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
 
 <span class="label label-warning">EDITOR'S NOTE</span> Needs attn.
+-->
 
 ### Types of Context
 
@@ -633,7 +634,7 @@ F2 will be providing lookup web services in future releases that provide univers
 
 F2 fully supports secure apps. A secure app is one that exists inside an `iframe` on a container _and_ is hosted on a different domain. The F2.js SDK provides developers with seamless handling of Context, UI and the other F2 APIs whether or not an app is secure. This means app developers do not have to code apps any differently if an app is secure.
 
-An app is defined as "secure" in the [AppConfig](../docs/sdk/classes/F2.AppConfig.html#properties-isSecure). Creating the `AppConfig` is something that is done when apps are registered on the (coming) Developer Center, or within the Container Developer's app catalog.
+An app is defined as "secure" in the [AppConfig](../docs/sdk/classes/F2.AppConfig.html#properties-isSecure). Creating the `AppConfig` is something that is done when apps are registered on the [Developer Center](index.html#developer-center).
 
 Noting the `isSecure` property, the `AppConfig` looks like this:
 
@@ -643,9 +644,9 @@ Noting the `isSecure` property, the `AppConfig` looks like this:
 	"description": "A demo F2 app.",
 	"height":250,
 	"minGridSize": 4,
-	"isSecure": true, //secure boolean
 	"manifestUrl": "manifest.js",
-	"name": "F2 App"
+	"name": "F2 App",
+	"isSecure": true //secure boolean
 }
 ```
 
@@ -653,7 +654,7 @@ To see examples of secure apps, [fork F2 on GitHub](https://github.com/OpenF2/F2
 
 `http://localhost/F2/examples/container/`
 
-The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;and that's where you'll find the `isSecure` flag defined in each of the `AppConfig` objects.
+The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;and that's where you'll find the `isSecure` flag defined in some of the `AppConfig` objects.
 
 * * * *
 
@@ -661,7 +662,7 @@ The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;an
 
 Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working&mdash;and tested&mdash;app, you're pretty much done.
 
-If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read the container documentation](container-development.html).
+If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read Container Development](container-development.html).
 
 #### Testing Your App
 
