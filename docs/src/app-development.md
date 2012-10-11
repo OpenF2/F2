@@ -1,4 +1,4 @@
-% App Development 
+% App Development
 
 <p class="lead">You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v{{sdk.version}}). Browse to the [quick start guide](https://github.com/OpenF2/F2#quick-start) to find out how. Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
@@ -45,7 +45,7 @@ In order to ensure that apps built using F2 are successful, they must be accessi
 
 [Read more about those choices in the Framework](index.html#choices).
 
-Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container providers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
+Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
 
 * * * *
 
@@ -340,7 +340,7 @@ Step 3. App Manifest file.
 
 #### Automatic Consistency
 
-F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for Container and App developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container providers can write CSS they _know_ will style F2 Apps without engaging with the app developer to ensure compatability.
+F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they _know_ will style F2 Apps without engaging with the app developer to ensure compatability.
 
 This also means App developers must adhere to [Bootstrap's scaffolding guidelines](http://twitter.github.com/bootstrap/scaffolding.html) as defined on their website. 
 
@@ -447,7 +447,7 @@ F2 is a _web_ integration framework which means are apps are inherently insecure
 
 As discussed in [Developing F2 Apps: F2 AppID](#f2-appid), to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
-When Container Providers [register apps](#app-integration), F2.js draws each app as defined by the [ContainerConfig](../docs/sdk/classes/F2.ContainerConfig.html). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
+When Container Developers [register apps](#app-integration), F2.js draws each app as defined by the [ContainerConfig](../docs/sdk/classes/F2.ContainerConfig.html). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
 
 This example shows app HTML after it has been drawn on the container. Note the `com_companyName_appName` classname.
 
@@ -483,7 +483,7 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 
 ### Keeping JavaScript Clean
 
-Adhering to one of the [OpenAjax Alliance](http://www.openajax.org/) goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App developers alike, this means following this spec closely and ensuring javascript code is contained inside [closures](http://jibbering.com/faq/notes/closures/) or is extended as a new namespace on `F2`.
+Adhering to one of the [OpenAjax Alliance](http://www.openajax.org/) goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App Developers alike, this means following this spec closely and ensuring javascript code is contained inside [closures](http://jibbering.com/faq/notes/closures/) or is extended as a new namespace on `F2`.
 
 To ensure javascript bundled with F2 apps executes in a javascript closure, [follow the guidelines](#app-class) for the `appclass.js` file and one of the two patterns described (prototypal inheritance or module).
 
@@ -509,11 +509,11 @@ For more information, read [Extending F2](extending-f2.html).
 
 ### What is Context? 
 
-Apps are capable of sharing "context" with the Container and other nearby Apps. All Apps have context which means the App "knows" who is using it and the content it contains. It is aware of an individual's data entitlements and user information that the Container is requested to share (name, email, company, etc).
+Apps are capable of sharing "context" with the container and other nearby apps. All apps have context which means the app "knows" who is using it and the content it contains. It is aware of an individual's data entitlements and user information that the container is requested to share (name, email, company, etc).  
 
-Apps are capable of sharing context with their Container and other nearby Apps. This means if a user wants to create a ticker-focused workspace so they can keep a close eye on shares of Proctor & Gamble, the Container can send "symbol context" to any listening Apps that are smart enough to refresh when ticker symbol PG is entered in the Container's search box.
+This means if a user wants to create a ticker-focused container so they can keep a close eye on shares of Proctor & Gamble, the container can send "symbol context" to any listening apps that are smart enough to refresh when ticker symbol PG is entered in the container's search box.
 
-While Apps can have context themselves, the responsibility for managing context switching or context passing falls on the Container. The Container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the Container can listen for events sent by Apps and likewise Apps can listen for events sent by the Container. To provide a layer of security, this means Apps cannot communicate directly with other Apps on their own; Apps must communicate via an F2 Container to other Apps since the container controls the [F2.Events API](../docs/sdk/classes/F2.Events.html).
+While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the aontainer can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 aontainer to other apps since the container controls the [F2.Events API](../docs/sdk/classes/F2.Events.html).
 
 [Read more in the Framework](index.html#framework).
 
@@ -619,11 +619,11 @@ Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppI
 
 ### Types of Context
 
-Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container providers the option to define context within their container.
+Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Devleopers the option to define context within their container.
 
 #### Universal F2 Instrument ID
 
-Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to communicate symbol context, developers could also use `{ symbol: "123456789" }` to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand `AAPL` but&mdash;given symbol lookup services&mdash;would understand `123456789` as the universal _F2_ identifier for Apple, Inc. It is clear Container and App developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.
+Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to communicate symbol context, developers could also use `{ symbol: "123456789" }` to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand `AAPL` but&mdash;given symbol lookup services&mdash;would understand `123456789` as the universal _F2_ identifier for Apple, Inc. It is clear Container and App Developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.
 
 F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols.  _Further details will be forthcoming as the F2 specification evolves._
 
@@ -633,7 +633,7 @@ F2 will be providing lookup web services in future releases that provide univers
 
 F2 fully supports secure apps. A secure app is one that exists inside an `iframe` on a container _and_ is hosted on a different domain. The F2.js SDK provides developers with seamless handling of Context, UI and the other F2 APIs whether or not an app is secure. This means app developers do not have to code apps any differently if an app is secure.
 
-An app is defined as "secure" in the [AppConfig](../docs/sdk/classes/F2.AppConfig.html#properties-isSecure). Creating the `AppConfig` is something that is done when apps are registered on the (coming) Developer Center, or within the Container Provider's app catalog.
+An app is defined as "secure" in the [AppConfig](../docs/sdk/classes/F2.AppConfig.html#properties-isSecure). Creating the `AppConfig` is something that is done when apps are registered on the (coming) Developer Center, or within the Container Developer's app catalog.
 
 Noting the `isSecure` property, the `AppConfig` looks like this:
 
@@ -722,7 +722,7 @@ Assuming the example above is used, the `this.ui` property holds the instance of
 
 #### Showing or Hiding Loading Spinners
 
-Apps can show loading spinners&mdash;or "masks"&mdash;when they are being loaded by a container or afterwards when making data requests. Container Providers configure the `UI.Mask` as discussed in the SDK [F2.ContainerConfig.UI.Mask](../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html) docs, therefore it is simple for app developers to call `showMask()`. 
+Apps can show loading spinners&mdash;or "masks"&mdash;when they are being loaded by a container or afterwards when making data requests. Container Developers configure the `UI.Mask` as discussed in the SDK [F2.ContainerConfig.UI.Mask](../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html) docs, therefore it is simple for app developers to call `showMask()`. 
 
 To show a loading spinner when making an ajax request within an app:
 
@@ -901,23 +901,23 @@ _Further details around app entitlements will be forthcoming as the F2 specifica
 
 ## Single Sign-On
 
-Single sign-on (SSO) is a shared responsibility between the Container and App developer. In some cases, Containers will want all of its apps to be authenticated seamlessly for users;that will be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container providers will build and host their container access authentication. 
+Single sign-on (SSO) is a shared responsibility between the Container and App Developer. In some cases, Containers will want all of its apps to be authenticated seamlessly for users;that will be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container Developers will build and host their container access authentication. 
 
-Once a user is authenticated on the Container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).*
+Once a user is authenticated on the container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).*
 
-<span class="label">Note</span> The Container provider is free to utilize any app authentication method they deem fit. Container providers and app developers will need to work together to finalize the authentication details.
+<span class="label">Note</span> The Container Developer is free to utilize any app authentication method they deem fit. Container Developers and app developers will need to work together to finalize the authentication details.
 
 ### Using Encrypted URLs
 
-Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container provider and App provider, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as `AES`) and the exchange of public keys.
+Implementing SSO using encrypted URLs is a simple and straight-forward authentication mechanism for securing cross-domain multi-provider apps. To guarantee security between the Container and App Developer, secure API contracts must be negotiated. This includes, but is not limited to, the choice of cryptographic algorithm (such as `AES`) and the exchange of public keys.
 
-When the Container provider calls `F2.registerApps()`, custom logic should be added to append encrypted user credentials&mdash;on a need-to-know basis&mdash;to _each app_ requiring authentication.
+When the container provider calls `F2.registerApps()`, custom logic should be added to append encrypted user credentials&mdash;on a need-to-know basis&mdash;to _each app_ requiring authentication.
 
 [Read more in Developing F2 Containers](container-development.html).
 
 ### Considerations
 
-Authentication is a critical part of any Container-App relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App developers alike.
+Authentication is a critical part of any Container-App relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.
 
 _Further details around container and app single sign-on will be forthcoming as the F2 specification evolves._
 
