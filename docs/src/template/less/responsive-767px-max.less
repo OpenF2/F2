@@ -46,8 +46,7 @@
       }
       footer{
         .row{
-          .span6, .span5 {padding: 0; width: 400px; margin: 20px auto; h1 {font-size: 20px; } h2{font-size: 18px;}}
-          .span5 {padding-left: 10px; background: transparent;}          
+          .span6{padding: 0; width: 400px; margin: 20px auto; h1 {font-size: 20px; } h2{font-size: 18px;}}          
         }
         .socialWrap{
           .span4 {width: 400px; margin: auto;}
@@ -249,7 +248,14 @@
         }
       }
       footer{
-        .row { text-align: center; .pull-left, .pull-right {float: none;} }
+        .row { 
+          text-align: center;
+          .pull-left, .pull-right {float: none;}
+          .span6{width: 100%;}          
+        }
+        .socialWrap{
+          .span4 {width: 100%;}
+        }
         h1 {font-size: 20px;}
         h2 {font-size: 18px;}
         .diskIcon, .docIcon {display: none;}

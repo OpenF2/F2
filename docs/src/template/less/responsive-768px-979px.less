@@ -29,9 +29,9 @@
       .description {
 
         .slideshow {
-          .opacity(100);
-          .transition(opacity 0.5s linear);
-        }
+            .opacity(20);
+            .transition(opacity 0.5s linear);//fade opacity
+        }       
 
         h2:first-child {  
           margin-top:0; 
@@ -51,8 +51,8 @@
         .span12 p.f2OverviewSummary { margin-left: 130px; }
       }
       footer{
-        .span6, .span5 { float: none; margin: auto; }
-        .span5 { padding-left: 40px; width: 490px; background: transparent;}
+        .span6{ float: none; margin: auto; }
+        .span6 + .span6 { padding-left: 20px; }
         .socialWrap{
           .span4 {width: 100%;}
         }
