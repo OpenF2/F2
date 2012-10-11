@@ -14,7 +14,7 @@
 			"name": "Hello World (JavaScript)"
 		},
 		{
-			"appId": "com_openf2_examples_chart",
+			"appId": "com_openf2_examples_javascript_chart",
 			"height": 300,
 			"minGridSize": 6,
 			"isSecure": false,
