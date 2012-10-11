@@ -1,5 +1,5 @@
 /**
- * This code is only for the documentation site. Don't use it anywhere else.
+ * This code is only for the documentation site. Don't use it anywhere else, you really shouldn't.
  * (c) F2 / Markit On Demand 2012
  */
 if (!String.prototype.supplant) {
@@ -58,11 +58,6 @@ F2Docs.fn.init = function() {
 
 	//affix left nav
 	$("#toc > ul.nav").affix();
-
-	//not sure this is needed long-term
-	$("a[rel=tooltip]","#docs").tooltip();
-
-	//this.setupTablets();
 }
 
 /**
@@ -81,7 +76,7 @@ F2Docs.fn.mobile_hideAddressBar = function(){
 F2Docs.fn.bindEvents = function(){
 
 	this.handleHashchange();
-
+	this._setupBodyContentAnchorClick();
 }
 
 /**
@@ -165,6 +160,28 @@ F2Docs.fn._getCurrentDevSubSection = function(){
 	},this));
 
 	return currSection;
+}
+
+/**
+ * Lookup in devSubSections NAME for insite
+ */
+F2Docs.fn._getCurrentDevSectionName = function(){
+	var file = location.pathname.split('/').pop(),
+		currSection,
+		counter = 0;
+
+	$.each(this.devSubSections,$.proxy(function(idx,item){
+		if (item == file) {
+			currSection = idx;
+		}
+		counter++;
+	},this));
+
+	return currSection;
+}
+
+F2Docs.fn.getName = function(){
+	return this._getCurrentDevSectionName() || document.title.replace('F2 - ','');
 }
 
 /**
@@ -279,7 +296,7 @@ F2Docs.fn._handleTocNavigationClick = function(e){
 		$destination = $(destinationId),
 		offset;
 
-	$("li.active",$navWrap).removeClass("active");
+	$("li.active", "#toc ul").removeClass("active");
 	$this.parent().addClass("active");
 
 	//if we have a location.hash change, animate scrollTop to it.
@@ -289,6 +306,23 @@ F2Docs.fn._handleTocNavigationClick = function(e){
 		location.hash = destinationId;
 		return false
 	}
+}
+
+F2Docs.fn._setupBodyContentAnchorClick = function(){
+	$('a[href^="#"]','#docs').on("click",function(e){
+		var $this = $(e.currentTarget),
+			destinationId = $this.attr("href").replace(".","\\\\."),
+			$destination = $(destinationId),
+			offset;
+
+		//if we have a location.hash change, animate scrollTop to it.
+		if (destinationId.indexOf("#") > -1){
+			offset = $destination.offset() || {};
+			$('html,body').animate({ scrollTop: offset.top });
+			location.hash = destinationId;
+			return false
+		}
+	});
 }
 
 F2Docs.fn._getPgUrl = function (id) {
@@ -322,6 +356,23 @@ F2Docs.fn.formatSourceCodeElements = function(){
 	window.prettyPrint && prettyPrint();
 }
 
+F2Docs.fn.insite = function(){
+	window._waq = window._waq || []; 
+	(function() {
+		var domain = 'insite.wallst.com'; 
+		_waq.push(['_setup', {reportingid: '544506', domain: domain}]); 
+		var wa = document.createElement('script'); 
+		wa.type = 'text/javascript'; 
+		wa.async = true; 
+		wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; 
+		var s = document.getElementsByTagName('script')[0]; 
+		s.parentNode.insertBefore(wa, s);
+	})();
+	//F2.log(this.getName())
+	_waq.push(['_trackPageView', {category: 'Docs', name: this.getName() }]);
+	_waq.push(['_trackLinks']);
+}
+
 /*
  * Completely TEMPORARY addition for editors' notes only.
  */
@@ -336,6 +387,7 @@ $(function() {
 
 	F2Docs = new F2Docs();
 	F2Docs.init();
+	F2Docs.insite();
 	
 	makeEditorsNotesBold();
 
