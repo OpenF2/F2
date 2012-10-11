@@ -1,6 +1,6 @@
 /*!
- * F2 v0.12.10
- * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.com
+ * F2 v0.12.11
+ * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -183,7 +183,7 @@ if (!window.F2) {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return "0.12.10"; }
+		version: function() { return "0.12.11"; }
 	};
 };
 /**
