@@ -435,7 +435,7 @@ Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppI
 
 ### Types of Context
 
-Context is a term used to describe the state of an F2 container and its apps. At the same time, context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important realize [F2.js](f2js.html) allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords container providers the option to define context within their container.
+Context is a term used to describe the state of an F2 container and its apps. At the same time, context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize [F2.js](f2js.html) allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords container providers the option to define context within their container.
 
 #### Universal F2 Instrument ID
 
