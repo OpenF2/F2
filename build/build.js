@@ -52,7 +52,7 @@ var ENCODING = 'utf-8';
 var EOL = '\n';
 // files to be packaged
 var PACKAGE_FILES = [
-	'sdk/src/third-party/json3.js',
+	'sdk/src/third-party/json2.js',
 	'sdk/src/third-party/eventemitter2.js',
 	'sdk/src/third-party/easyXDM/easyXDM.min.js',
 	'sdk/f2.no-third-party.js' // this file is created by the build process
