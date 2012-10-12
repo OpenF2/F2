@@ -1,17 +1,17 @@
 {
 	"docs": {
-		"version": "0.15.11",
-		"shortVersion": "0.15",
+		"version": "1.0.0",
+		"shortVersion": "1.0",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-10-12T19:39:26.222Z",
-		"cacheBuster": "1350070766223",
+		"lastUpdateDate": "2012-10-12T22:24:18.301Z",
+		"cacheBuster": "1350080658302",
 		"lastUpdateDateFormatted": "October 12, 2012"
 	},
 	"sdk": {
-		"version": "0.13.0",
-		"shortVersion": "0.13",
+		"version": "1.0.0",
+		"shortVersion": "1.0",
 		"releaseDate": "2012-10-12T16:59:20.904Z",
-		"lastUpdateDate": "2012-10-12T16:59:21.655Z",
-		"cacheBuster": "1350061160910"
+		"lastUpdateDate": "2012-10-12T22:24:16.834Z",
+		"cacheBuster": "1350080656190"
 	}
 }
