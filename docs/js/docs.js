@@ -18,15 +18,7 @@ var F2Docs = function(){
 	
 }
 
-/**
- * Shortcut
- */
 F2Docs.fn = F2Docs.prototype;
-
-/**
- * Init
- */
-
 
 /// TEMP!!!!! ////////
 F2Docs.fn.privatize = function(){
@@ -35,7 +27,7 @@ F2Docs.fn.privatize = function(){
 		url: 'https://developer.openf2.org/Api/IsInternal',
 		dataType: 'jsonp'
 	}).done(function(jqxhr,txtStatus){
-		if (jqxhr === false){
+		if (jqxhr === false && document.domain != 'localhost'){
 			//must be public
 			$('html').html('Invalid requestor IP');
 		}
@@ -44,17 +36,22 @@ F2Docs.fn.privatize = function(){
 	});
 }
 
+/**
+ * Init
+ */
 F2Docs.fn.init = function() {
 	
 	this.privatize();
 	
-	this.mobile_hideAddressBar();
+	this.mobileHideAddressBar();
 	this.navbarDocsHelper();
 	this.bindEvents();
 	this.buildLeftRailToc();
 	this.buildBookmarks();
 	
 	this.formatSourceCodeElements();
+
+	$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0).scrollspy('refresh');
 
 	//affix left nav
 	$("#toc > ul.nav").affix();
@@ -64,7 +61,7 @@ F2Docs.fn.init = function() {
  * Hide address bar on page load
  * http://remysharp.com/2010/08/05/doing-it-right-skipping-the-iphone-url-bar/
  */
-F2Docs.fn.mobile_hideAddressBar = function(){
+F2Docs.fn.mobileHideAddressBar = function(){
 	/mobi/i.test(navigator.userAgent) && !location.hash && setTimeout(function () {
 	  if (!pageYOffset) window.scrollTo(0, 1);
 	}, 0);
@@ -75,22 +72,7 @@ F2Docs.fn.mobile_hideAddressBar = function(){
  */
 F2Docs.fn.bindEvents = function(){
 
-	this.handleHashchange();
 	this._setupBodyContentAnchorClick();
-}
-
-/**
- * Watch for hashchanges, animate
- */
-F2Docs.fn.handleHashchange = function(){
-
-	window.scrollTo(0, 1);
-	var $offset = $(location.hash),
-		pos = $offset.offset() || {};
-
-	if ($offset.length){
-		$('html,body').animate({ scrollTop: (pos.top) });
-	}
 }
 
 /** 
@@ -354,6 +336,11 @@ F2Docs.fn.formatSourceCodeElements = function(){
 		.addClass("lang-html")
 	;
 	window.prettyPrint && prettyPrint();
+
+	//fix mailto links from pandoc.
+	$('a[href^="mailto"]','#docs').each(function(idx,item){
+		$(item).html($(item).text());
+	});
 }
 
 F2Docs.fn.insite = function(){
@@ -373,13 +360,6 @@ F2Docs.fn.insite = function(){
 	_waq.push(['_trackLinks']);
 }
 
-/*
- * Completely TEMPORARY addition for editors' notes only.
- */
-function makeEditorsNotesBold(){
-	$("span.label-warning").parent().addClass("editors-note well well-large").css("border","3px solid red");
-}
-
 /**
  * Let's do this.
  */
@@ -388,11 +368,6 @@ $(function() {
 	F2Docs = new F2Docs();
 	F2Docs.init();
 	F2Docs.insite();
-	
-	makeEditorsNotesBold();
-
-	//scrollspy
-	//$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0);
 
 });
 
