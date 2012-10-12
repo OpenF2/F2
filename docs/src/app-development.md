@@ -199,7 +199,7 @@ In the case when multiple stylesheetes are needed, simply add to the array as sh
 
 ### Scripts
 
-The `scripts` property is an array of URLs. The `scripts` array refers to any JavaScript files needed by the app so it be function correctly on the container. The externally-referenced JS files should be fully-qualified.
+The `scripts` property is an array of URLs. The `scripts` array refers to any JavaScript files needed by the app so that it will function correctly on the container. The externally-referenced JS files should be fully-qualified.
 
 Example:
 
@@ -512,7 +512,7 @@ Apps are capable of sharing "context" with the container and other nearby apps. 
 
 This means if a user wants to create a ticker-focused container so they can keep a close eye on shares of Proctor & Gamble, the container can send "symbol context" to any listening apps that are smart enough to refresh when ticker symbol PG is entered in the container's search box.
 
-While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the aontainer can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 aontainer to other apps since the container controls the [F2.Events API](../docs/sdk/classes/F2.Events.html).
+While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the aontainer can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps since the container controls the [F2.Events API](../docs/sdk/classes/F2.Events.html).
 
 [Read more in the Framework](index.html#framework).
 
@@ -822,7 +822,7 @@ F2 apps can have one or more views. Every app will have at least one "home" view
 
 #### Setting Up Views
 
-Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Twitter Bootstrap's `hide` class should be applied to views are hidden on startup.
+Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Twitter Bootstrap's `hide` class should be applied to views that are hidden on startup.
 
 To setup a single view in your app, use this HTML on your app's outermost element noting the use of the `f2-app-view` classname and the `data-f2-view` attribute.
 
@@ -847,7 +847,7 @@ For details on `F2.Constants.Css.APPVIEW`, [browse to the SDK docs](../docs/sdk/
 
 #### Controlling View State
 
-The `F2.UI` namespace provides an API for developers to manage app View state. 
+The `F2.UI` namespace provides an API for developers to manage F2 app View state. 
 
 To programmatically change a View in javascript:
 
