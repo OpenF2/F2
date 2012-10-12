@@ -746,7 +746,7 @@ To show a loading spinner when making an ajax request within an app:
 
 The `showMask()` method takes two arguments: a DOM element where to show the mask and a boolean indicating whether or not to show a spinning graphic.
 
-If you do not want to show a spinning graphic, simply pass `false` to the `showMask()` method. A mask without a spinner is useful in the case when you want "lock" the view from user interaction.
+If you do not want to show a spinning graphic, simply pass `false` to the `showMask()` method. A mask without a spinner is useful in the case when you want to "lock" the view from user interaction.
 
 ```javascript
 //appclass.js snippet
