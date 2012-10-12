@@ -249,7 +249,8 @@ body .mainContainer footer .diskIcon{background:url("../img/diskIcon.png") no-re
 body .mainContainer footer .docIcon{background:url("../img/docIcon.png") no-repeat center;padding:50px 75px;}
 body .mainContainer footer .span6{padding:15px 0;margin-top:20px;}
 body .mainContainer footer .pull-left h2{line-height:20px;}
-body .mainContainer footer a{text-decoration:underline;color:#bfc7ce;}
+body .mainContainer footer a{text-decoration:none;color:#bfc7ce;}
+body .mainContainer footer a.releaseNotes{text-decoration:underline;}
 body .mainContainer footer .version{padding:0 10px;font-size:46px;}
 body .mainContainer footer .socialWrap{background:url("../img/bottomBorderFade.png") bottom no-repeat;padding-bottom:40px;}
 body .mainContainer footer .social{padding:20px 0 10px 0;}
