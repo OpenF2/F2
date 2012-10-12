@@ -72,7 +72,7 @@ If you built more than one app while working at Acme Corporation, you could crea
 
 To guarantee uniqueness, we have provided an AppID generation service that allows you to customize your AppID.
 
-<a href="https://developer.openf2.com/GetAppID" target="_blank" class="btn btn-primary">Get Your F2 AppID Now &raquo;</a>
+<a href="https://developer.openf2.com/GetAppID" class="btn btn-primary">Get Your F2 AppID Now &raquo;</a>
 
 ### Setting Up Your Project
 
