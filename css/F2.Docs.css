@@ -199,7 +199,7 @@ body .mainContainer .description{z-index:2;background:url("../img/F2TopShadowBor
 body .mainContainer .description p{margin-bottom:0;line-height:1.5em;color:#535353;font-weight:200;font-size:17px;}
 body .mainContainer .description p.F2Indent{padding-left:10px;font-size:12px;}
 body .mainContainer .description p.F2Indent a{color:#535353;}
-body .mainContainer .description h2:first-child{margin-top:0;padding-top:75px;font-size:35px;margin-bottom:30px;line-height:1.25em;}
+body .mainContainer .description h2:first-child{margin-top:0;padding-top:50px;font-size:35px;margin-bottom:30px;line-height:1.25em;}
 body .mainContainer .description h2,body .mainContainer .description h3{color:#0a6199;margin-bottom:0;line-height:1;}
 body .mainContainer .description h3:first-child{margin-top:30px;}
 body .mainContainer .description h3 a{color:#0a6199;}
