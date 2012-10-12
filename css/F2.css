@@ -258,7 +258,7 @@ body .mainContainer footer .span12{text-align:center;color:#3b4044;margin-bottom
 .footerLogoLight{background:url("../img/F2FooterLogoLight.png") center no-repeat;height:23px;}
 .examplePage{background:url("../img/F2TopShadowBorder.png") top no-repeat;background-color:#ffffff;padding-bottom:50px;}
 .F2DottedLine{width:100%;border-bottom:1px dotted #ffffff;}
-@font-face{font-family:'rokkittregular';src:url('rokkitt-webfont.eot');src:local('☺'), url('rokkitt-webfont.woff') format('woff'),url('rokkitt-webfont.ttf') format('truetype'),url('rokkitt-webfont.svg#rokkittregular') format('svg');}p{margin:0 0 10px;font-size:16px;}
+@font-face{font-family:'rokkittregular';src:url('rokkitt-webfont.eot');src:local('☺'), url('rokkitt-webfont.woff') format('woff'),url('rokkitt-webfont.ttf') format('truetype'),url('rokkitt-webfont.svg#rokkittregular') format('svg');font-weight:normal;font-style:normal;}p{margin:0 0 10px;font-size:16px;}
 .lead{margin-bottom:20px;font-size:21px;font-weight:200;line-height:30px;}
 small{font-size:85%;}
 strong{font-weight:bold;}
