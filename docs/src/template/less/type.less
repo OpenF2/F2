@@ -6,16 +6,29 @@
 // Body text
 // -------------------------
 
+//
+// http://paulirish.com/2009/bulletproof-font-face-implementation-syntax/
+// ResourceManager doesn't like doubl .eot references that are slightly
+// different, so we'll go with the smiley technique
 @font-face {
-    font-family: 'rokkittregular';
-    src: url('rokkitt-webfont.eot');
-    src: url('rokkitt-webfont.eot?#iefix') format('embedded-opentype'),
-         url('rokkitt-webfont.woff') format('woff'),
-         url('rokkitt-webfont.ttf') format('truetype'),
-         url('rokkitt-webfont.svg#rokkittregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'rokkittregular';
+	src: url('rokkitt-webfont.eot'); /* IE */
+	src: local('☺'), /* IE */
+		url('rokkitt-webfont.woff') format('woff'),
+		url('rokkitt-webfont.ttf') format('truetype'),
+		url('rokkitt-webfont.svg#rokkittregular') format('svg');
 }
+
+//@font-face {
+//    font-family: 'rokkittregular';
+//    src: url('rokkitt-webfont.eot');
+//    src: url('rokkitt-webfont.eot?#iefix') format('embedded-opentype'),
+//         url('rokkitt-webfont.woff') format('woff'),
+//         url('rokkitt-webfont.ttf') format('truetype'),
+//         url('rokkitt-webfont.svg#rokkittregular') format('svg');
+//    font-weight: normal;
+//    font-style: normal;
+//}
 
 p {
   margin: 0 0 @baseLineHeight / 2;
