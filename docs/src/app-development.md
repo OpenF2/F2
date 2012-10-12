@@ -686,7 +686,7 @@ For full details on these `F2.AppConfig` properties and all the others, [browse 
 
 ## F2 UI
 
-There are some utility methods provided within F2.js in the `UI` namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views withing your app, and more.
+There are some utility methods provided within F2.js in the `UI` namespace. These helpers are for controlling layout, showing (or hiding) loading spinners, modals, managing views within your app, and more.
 
 ### Basics
 
