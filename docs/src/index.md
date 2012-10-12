@@ -77,6 +77,8 @@ F2 will continuously evolve to bring the community the best features, services a
 
 To achieve steady growth and stable release cycles, F2 will be maintained under the Semantic Versioning guidelines as much as possible. For more information, [browse to the readme on GitHub](https://github.com/OpenF2/F2#readme).
 
+![](./img/bankeo/bankeo_cascade.png "F2 Framework")
+
 ### Track
 
 F2 v1.0 was released on October 15, 2012. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
@@ -113,6 +115,8 @@ F2 Apps are synonymous with modules, widgets and portlets. Think charts, portfol
 
 F2 Apps are small web pages, consisting of HTML, CSS, JavaScript and entitled data. Consumers of Apps may access, purchase or entitle them from the Store, and the Apps are displayed through the Container. An F2 App developer is the person or company that designs, develops, and hosts the App.
 
+![](./img/bankeo/bankeo_apps.png "F2 Apps")
+
 F2 Apps are either:
 
 <dl class="dl-horizontal">
@@ -132,9 +136,13 @@ The F2 design and development philosophy adheres to the Responsive Web Design Me
 
 Apps are capable of sharing "context" with the Container and other nearby apps. All Apps have context which means the App "knows" who is using it and the content it contains. It is aware of an individual's data entitlements and user information that the Container is requested to share (name, email, company, etc).  
 
+![](./img/bankeo/bankeo_context1.png "F2 Context")
+
 This means if a user wants to create a ticker-focused container so they can keep a close eye on shares of Proctor & Gamble, the container can send "symbol context" to any listening apps that are smart enough to refresh when ticker symbol PG is entered in the container's search box.
 
 While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the aontainer can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 aontainer to other apps.
+
+![](./img/bankeo/bankeo_context2.png "F2 Context")
 
 ### Container
 
@@ -144,9 +152,13 @@ A Container can have any variation of intelligence on a wide spectrum which mean
 
 Each Container Provider, or person or company hosting a Container, is responsible for including the F2 JavaScript SDK. The SDK (F2.js) provides a consistent means for all App developers to load their apps on any container regardless of where it is hosted, who developed it, or what back-end stack it uses.
 
+![](./img/bankeo/bankeo_cascade.png "F2 Framework")
+
 #### Grid
 
 In order to make it so that Apps look good together in a multi-provider environment, the spec recommends that each App adhere to a standard, Container-controlled grid. F2 relies on a responsive, 12-column grid system which is flexible enough to accommodate everyone's needs. 
+
+![](./img/bankeo/bankeo_grid.png "F2 Grid")
 
 #### Creating a Common Look and Feel
 
