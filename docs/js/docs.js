@@ -14,34 +14,14 @@ if (!String.prototype.supplant) {
 }
 
 //F2 docs
-var F2Docs = function(){
-	
-}
+var F2Docs = function(){ }
 
 F2Docs.fn = F2Docs.prototype;
-
-/// TEMP!!!!! ////////
-F2Docs.fn.privatize = function(){
-
-	$.ajax({
-		url: 'https://developer.openf2.org/Api/IsInternal',
-		dataType: 'jsonp'
-	}).done(function(jqxhr,txtStatus){
-		if (jqxhr === false && document.domain != 'localhost'){
-			//must be public
-			$('html').html('Invalid requestor IP');
-		}
-	}).fail(function(jqxhr,txtStatus){
-		
-	});
-}
 
 /**
  * Init
  */
 F2Docs.fn.init = function() {
-	
-	this.privatize();
 	
 	this.mobileHideAddressBar();
 	this.navbarDocsHelper();
