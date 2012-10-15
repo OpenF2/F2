@@ -1,4 +1,4 @@
-F2.Apps['com_f2_examples_javascript_watchlist'] = (function (appConfig, appContent, root) {
+	F2.Apps['com_f2_examples_javascript_watchlist'] = (function (appConfig, appContent, root) {
 
 	(function(){
 		//http://javascript.crockford.com/remedial.html
@@ -307,6 +307,16 @@ F2.Apps['com_f2_examples_javascript_watchlist'] = (function (appConfig, appConte
 			context: this
 		}).done(function(jqxhr,txtStatus){
 
+			//pretty bad response from yahoo when it fails.
+			//jqxhr = {"query":{"count":0,"created":"2012-10-15T21:23:19Z","lang":"en-US","results":null}};
+			
+			//trap failed yahoo api
+			if (jqxhr.query.results === null){
+				jqxhr.query.results = {
+					quote:{}
+				}
+			}
+			
 			//yahoo's API returns an array of objects if you ask for multiple symbols
 			//but a single object if you only ask for 1 symbol
 			if (jqxhr.query.count < 2){
