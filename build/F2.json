@@ -3,15 +3,15 @@
 		"version": "1.0.0",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-10-12T23:40:40.147Z",
-		"cacheBuster": "1350085240148",
-		"lastUpdateDateFormatted": "October 12, 2012"
+		"lastUpdateDate": "2012-10-15T05:01:44.363Z",
+		"cacheBuster": "1350277304364",
+		"lastUpdateDateFormatted": "October 14, 2012"
 	},
 	"sdk": {
 		"version": "1.0.0",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-10-12T16:59:20.904Z",
-		"lastUpdateDate": "2012-10-12T23:40:38.703Z",
-		"cacheBuster": "1350085238040"
+		"lastUpdateDate": "2012-10-15T05:01:42.833Z",
+		"cacheBuster": "1350277302188"
 	}
 }
