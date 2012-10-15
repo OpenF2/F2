@@ -234,7 +234,8 @@ body .mainContainer .overview .photoControl .selected a{background:url("../img/d
 body .mainContainer .overview .captions{list-style:none;text-align:center;padding:10px 0;}body .mainContainer .overview .captions li{display:none;}
 body .mainContainer .overview .captions li.selected{display:inline-block;}
 body .mainContainer .overview p{color:#ffffff;margin-bottom:20px;font-size:14px;}
-body .mainContainer .exampleContent{padding-top:40px;}
+body .mainContainer .exampleContent{padding-top:40px;}body .mainContainer .exampleContent #exampleAppContainer a{color:#417777;}
+body .mainContainer .exampleContent #exampleAppContainer footer{background:transparent;}
 body .mainContainer .exampleCaptions p{padding:0 0 40px 0;color:#6c6c6c;background:url("../img/smallShadowDivider.png") bottom no-repeat;}
 body .mainContainer .exampleControls{position:relative;margin:0;padding:20px 0;text-align:center;}body .mainContainer .exampleControls .arrow{height:25px;width:13px;cursor:pointer;position:absolute;top:15px;}
 body .mainContainer .exampleControls .leftArrow{background:url("../img/LeftArrow.png") center no-repeat;left:0;}
