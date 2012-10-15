@@ -154,8 +154,11 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		else downSeriesData.push( [ prevJSUTCDate, minVal ], [ currentJSUTCDate, minVal ] );
 
 		// Add the up month/down month data to the chart's series
-		hcChartObj.series[1].setData(upSeriesData, false);
-		hcChartObj.series[2].setData(downSeriesData, false);
+
+		//issue #1
+		//hcChartObj.series[1].setData(upSeriesData, false);
+		//hcChartObj.series[2].setData(downSeriesData, false);
+		
 		hcChartObj.yAxis[0].setExtremes(dataRanges.dataMin, dataRanges.dataMax, true, false);
 
 		this.ui.updateHeight();
