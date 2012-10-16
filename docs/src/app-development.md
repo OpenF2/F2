@@ -174,7 +174,7 @@ Example:
 
 ### Styles
 
-The `styles` property is an array of URLs. The `styles` array refers to any CSS files needed by the app so it be displayed properly on the container. The externally-referenced CSS files should be fully-qualified, including a protocol. 
+The `styles` property is an array of URLs. The `styles` array refers to any CSS files needed by the app so it will be displayed properly on the container. The externally-referenced CSS files should be fully-qualified, including a protocol. 
 
 Example:
 
