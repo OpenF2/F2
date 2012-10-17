@@ -14,9 +14,9 @@ _Since the example container is a website, this page requires a web server [conf
 
 ### Configuration
 
-It is assumed you will be developing a F2 container locally and have a `localhost` setup. The URLs mentioned in this specification assume you have configured your F2 container and apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
+It is assumed you will be developing an F2 container locally and have a `localhost` setup. The URLs mentioned in this specification assume you have configured your F2 container and apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
-**Ready to start coding?** [Jump to Developing a F2 Container](#developing-f2-containers).
+**Ready to start coding?** [Jump to Developing F2 Containers](#developing-f2-containers).
 
 * * * *
 
@@ -74,7 +74,7 @@ Once you have your ContainerID, start by setting up your container project. You 
 
 ### App Configs
 
-A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#developer-center). 
+An F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#developer-center). 
 
 Example `AppConfig` object from an _individual_ app:
 
@@ -151,7 +151,7 @@ For more information on `F2.ContainerConfig`, [browse to the F2.js SDK docs](../
 
 #### F2 UI Mask
 
-In version 1.0, Container Providers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is `F2.UI.Mask`. The `Mask` object contains configuration defaults for the `F2.UI.showMask()` and `F2.UI.hideMask()` methods.
+In version 1.0, Container Developers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is `F2.UI.Mask`. The `Mask` object contains configuration defaults for the `F2.UI.showMask()` and `F2.UI.hideMask()` methods.
 
 An example of setting the mask in `F2.init()`:
 
@@ -271,7 +271,7 @@ F2 is a _web_ integration framework which means are containers are inherently in
 
 ### Namespacing CSS
 
-As discussed in [Developing F2 Containers: F2 ContainerID](#f2-containerid), to develop a F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: `com_container_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+As discussed in [Developing F2 Containers: F2 ContainerID](#f2-containerid), to develop an F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: `com_container_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
 To avoid styling conflicts or other display issues related to app-provided style sheets, App Developers [must namespace their CSS selectors](app-development.html#namespacing-css). While there are strict rules for App Developers, the same rules apply to Container Developers. This is especially true when implementing _mutliple containers_.
 
@@ -439,7 +439,7 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 ## App Integration
 
-The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
+The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Developer must call [this method](../docs/sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
 The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.
 
@@ -584,7 +584,7 @@ To support a secured container environment, one of the [choices](index.html#choi
 
 ### Container Config
 
-The process of [configuring a F2 container](#container-config) to be secure is identical to that of an unsecure container. As such, every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
+The process of [configuring an F2 container](#container-config) to be secure is identical to that of an unsecure container. As such, every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
 
 In the secure container's `$(document).ready()`, add the `F2.init()`:
 
@@ -665,7 +665,7 @@ _Further details around app entitlements will be forthcoming as the F2 specifica
 
 ## Single Sign-On
 
-Single sign-on (SSO) will be a shared responsibility between the Container and App developer. In some cases, containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container Developers will build and host authentication for access to their container(s). 
+Single sign-on (SSO) will be a shared responsibility between the Container and App Developer. In some cases, containers will want all its apps to be authenticated seamlessly for users, and that will have to be negotiated between Container and App Developers. For the purposes of this documentation, it is assumed Container Developers will build and host authentication for access to their container(s). 
 
 Once a user is authenticated on the container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).*
 
@@ -679,7 +679,7 @@ When the Container Developer calls `F2.registerApps()`, custom logic should be a
 
 ### Considerations
 
-Authentication is a critical part of any Container-App relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.
+Authentication is a critical part of any container-app relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.
 
 _Further details around container and app single sign-on will be forthcoming as the F2 specification evolves._
 

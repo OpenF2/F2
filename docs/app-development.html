@@ -30,17 +30,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1350441589059"></script>
-  <script src="./js/respond.min.js?1350441589059"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1350501121173"></script>
+  <script src="./js/respond.min.js?1350501121173"></script>
   
-  <link href="./css/prettify.css?1350441589059" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1350441589059" rel="stylesheet">
+  <link href="./css/prettify.css?1350501121173" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1350501121173" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1350441589059" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1350441589059" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1350441589059" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1350441589059" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1350441589059" />
+  <link rel="icon" href="./img/favicon-32px.png?1350501121173" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1350501121173" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1350501121173" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1350501121173" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1350501121173" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1350441589059";
+  	var ghpagescachebuster = "1350501121173";
   </script>
 </head>
 <body>
@@ -192,7 +192,7 @@ A data app is a content feed available in industry-standard formats including JS
 <p>Before opening your editor, <a href="#configuration">read the configuration assumptions</a>.</p>
 <section class="level3" id="f2-appid">
 <h3>F2 AppID</h3>
-<p>To develop a F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
+<p>To develop an F2 app, you need a unique identifier called an <strong>AppID</strong>. This AppID will be unique to <em>your app</em> across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
 <p>As an example, your AppID could look like this:</p>
 <p><code>com_acmecorp_watchlist</code></p>
 <p>If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:</p>
@@ -374,7 +374,7 @@ F2_jsonpCallback_com_companyname_appname({
 </section>
 <section class="level3" id="app-html">
 <h3>App HTML</h3>
-<p>Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather <em>passed to the container</em> via the App's <code>AppManifest</code>. But that's not a problem because F2 has <a href="https://github.com/OpenF2/F2/tree/master/examples/apps">provided examples</a> to show you the way. Here are the steps for getting your app HTML into your <code>AppContent.html</code> property:</p>
+<p>Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather <em>passed to the container</em> via the app's <code>AppManifest</code>. But that's not a problem because F2 has <a href="https://github.com/OpenF2/F2/tree/master/examples/apps">provided examples</a> to show you the way. Here are the steps for getting your app HTML into your <code>AppContent.html</code> property:</p>
 <ol type="1">
 <li>Develop the web page or module or widget or component or portlet that will be your app.</li>
 <li>Take all the contents of it—that is, the HTML—and encode it. <em>(This step is optional.)</em></li>
@@ -393,11 +393,11 @@ F2_jsonpCallback_com_companyname_appname({
         ...
     }]
 }</code></pre>
-<p><span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding step.</p>
+<p><span class="label label-info">Note</span> You are not required to encode the app HTML, so follow steps 2 and 3 above omitting the encoding step.</p>
 <section class="level4" id="automatic-consistency">
 <h4>Automatic Consistency</h4>
-<p>F2 uses and recommends <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they <em>know</em> will style F2 Apps without engaging with the app developer to ensure compatability.</p>
-<p>This also means App developers must adhere to <a href="http://twitter.github.com/bootstrap/scaffolding.html">Bootstrap's scaffolding guidelines</a> as defined on their website.</p>
+<p>F2 uses and recommends <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they <em>know</em> will style F2 apps without engaging with the app developer to ensure compatability.</p>
+<p>This also means App Developers must adhere to <a href="http://twitter.github.com/bootstrap/scaffolding.html">Bootstrap's scaffolding guidelines</a> as defined on their website.</p>
 <p>An example two-column layout using Bootstrap-specifed markup:</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;row&quot;</span><span class="kw">&gt;</span>
   <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;span4&quot;</span><span class="kw">&gt;</span>...<span class="kw">&lt;/div&gt;</span>
@@ -483,7 +483,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p>F2 is a <em>web</em> integration framework which means are apps are inherently insecure—at least <em>non-secure</em> apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
 <section class="level3" id="namespacing-css">
 <h3>Namespacing CSS</h3>
-<p>As discussed in <a href="#f2-appid">Developing F2 Apps: F2 AppID</a>, to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
+<p>As discussed in <a href="#f2-appid">Developing F2 Apps: F2 AppID</a>, to develop an F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
 <p>When Container Developers <a href="container-development.html#app-integration">register apps</a>, F2.js draws each app as defined by the <a href="container-development.html#container-config">ContainerConfig</a>. Before the app is added to the container DOM, F2 automatically wraps an outer HTML element—with the AppID used as a class—around the rendered app.</p>
 <p>This example shows app HTML after it has been drawn on the container. Note the <code>com_companyName_appName</code> classname.</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;f2-app-container com_companyName_appName&quot;</span><span class="kw">&gt;</span>
@@ -598,7 +598,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level3" id="types-of-context">
 <h3>Types of Context</h3>
-<p>Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from <a href="#container-to-app-context">Container-to-App</a> or from <a href="#app-to-app-context">App-to-App</a> or from <a href="#app-to-container-context">App-to-Container</a>. In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Devleopers the option to define context within their container.</p>
+<p>Context is a term used to describe the state of an F2 container and its apps. At the same time, Context is also the information passed from <a href="#container-to-app-context">Container-to-App</a> or from <a href="#app-to-app-context">App-to-App</a> or from <a href="#app-to-container-context">App-to-Container</a>. In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Developers the option to define context within their container.</p>
 <section class="level4" id="universal-f2-instrument-id">
 <h4>Universal F2 Instrument ID</h4>
 <p>Said another way, while <code>{ symbol:&quot;AAPL&quot;, name: &quot;Apple, Inc&quot; }</code> can be used to communicate symbol context, developers could also use <code>{ symbol: &quot;123456789&quot; }</code> to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand <code>AAPL</code> but—given symbol lookup services—would understand <code>123456789</code> as the universal <em>F2</em> identifier for Apple, Inc. It is clear Container and App Developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.</p>
@@ -739,7 +739,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level3" id="f2.ui.views">
 <h3>F2.UI.Views</h3>
-<p>Adding and managing views within a F2 app is considered an <strong>advanced topic</strong>. If your app only needs a single view, you don't have to worry about reading this part of the F2 spec.</p>
+<p>Adding and managing views within an F2 app is considered an <strong>advanced topic</strong>. If your app only needs a single view, you don't have to worry about reading this part of the F2 spec.</p>
 <p>F2 apps can have one or more views. Every app will have at least one &quot;home&quot; view, while others will include views for settings, help or about. Inside the F2.js SDK, we've <a href="../docs/sdk/classes/F2.App.html#property_views">included support for views</a> and the list can be extended by the container provider.</p>
 <p><span class="label">Note</span> If the container doesn't support all the views you need inside your app, you will need to coordinate those additions with the container provider.</p>
 <section class="level4" id="setting-up-views">
@@ -790,13 +790,13 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level2" id="entitlements">
 <h2>Entitlements</h2>
-<p>User or content entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This could include apps like research aggregation, news filtering, streaming market data, etc. Similarly to how companies build their own websites today with their own authentication and access (or content) entitlements, F2 apps are no different.</p>
+<p>User or content entitlements are the responsibility of the App Developer. Many apps will need to be decoupled from the content that they need. This could include apps like research aggregation, news filtering, streaming market data, etc. Similarly to how companies build their own websites today with their own authentication and access (or content) entitlements, F2 apps are no different.</p>
 <p><em>Further details around app entitlements will be forthcoming as the F2 specification evolves.</em></p>
 <hr>
 </section>
 <section class="level2" id="single-sign-on">
 <h2>Single Sign-On</h2>
-<p>Single sign-on (SSO) is a shared responsibility between the Container and App Developer. In some cases, Containers will want all of its apps to be authenticated seamlessly for users;that will be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container Developers will build and host their container access authentication.</p>
+<p>Single sign-on (SSO) is a shared responsibility between the Container and App Developer. In some cases, containers will want all of its apps to be authenticated seamlessly for users;that will be negotiated between Container and App Developers. For the purposes of this documentation, it is assumed Container Developers will build and host their container access authentication.</p>
 <p>Once a user is authenticated on the container, how is the user then authenticated with all of the apps? <a href="#using-encrypted-urls">Encrypted URLs</a>.*</p>
 <p><span class="label">Note</span> The Container Developer is free to utilize any app authentication method they deem fit. Container Developers and app developers will need to work together to finalize the authentication details.</p>
 <section class="level3" id="using-encrypted-urls">
@@ -807,7 +807,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level3" id="considerations">
 <h3>Considerations</h3>
-<p>Authentication is a critical part of any Container-App relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.</p>
+<p>Authentication is a critical part of any container-app relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.</p>
 <p><em>Further details around container and app single sign-on will be forthcoming as the F2 specification evolves.</em></p>
 <hr>
 </section>
@@ -820,16 +820,16 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.1, October 16, 2012</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.2, October 17, 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1350441589059"></script>
-<script src="./js/prettify.js?1350441589059"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1350501121173"></script>
+<script src="./js/prettify.js?1350501121173"></script>
 <script src="./js/f2.min.js?1.0.0"></script>
-<script src="./js/docs.js?1350441589059"></script>
-<script>var ghpagescachebuster = "1350441589059";</script>
+<script src="./js/docs.js?1350501121173"></script>
+<script>var ghpagescachebuster = "1350501121173";</script>
 </body>
 </html>
