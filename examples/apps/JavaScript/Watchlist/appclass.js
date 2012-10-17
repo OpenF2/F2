@@ -216,7 +216,7 @@
 
 	App.prototype.drawSymbolList = function(){
 
-		var table = [], self = this;
+		var table = [];
 		table.push(
 			'<table class="table table-condensed">',
 				'<thead>',
@@ -232,9 +232,9 @@
 		);
 
 		if (this.data.length < 1){
-			table.push('<tr><td class="first" colspan="5">No symbols.</td></tr>')
+			table.push('<tr><td class="first" colspan="5">No symbols (or the Yahoo! API failed).</td></tr>')
 		} else {
-			$.each(this.data, function(idx,item){
+			$.each(this.data, $.proxy(function(idx,item){
 
 				item = item || {};
 
@@ -252,8 +252,9 @@
 					cap: 	 	item.MarketCapitalization
 				};
 
-				table.push(self.ROW.supplant(quoteData));
-			});
+				table.push(this.ROW.supplant(quoteData));
+
+			},this));
 		}		
 
 		table.push(
@@ -316,20 +317,25 @@
 					quote:{}
 				}
 			}
+
+			this.data = [];
 			
 			//yahoo's API returns an array of objects if you ask for multiple symbols
 			//but a single object if you only ask for 1 symbol
-			if (jqxhr.query.count < 2){
-				this.data = [jqxhr.query.results.quote] || [];
-			} else {
-				this.data = jqxhr.query.results.quote || [];
+			if (jqxhr.query.count !== 0){
+				if (jqxhr.query.count < 2){
+					this.data = [jqxhr.query.results.quote] || this.data;
+				} else {
+					this.data = jqxhr.query.results.quote || this.data;
+				}
 			}
+
 			this.drawSymbolList();
 
 		}).fail(function(jqxhr,txtStatus){
 			
 			F2.log("OOPS. Yahoo! didn't work.");
-			this.ui.Modals.alert("Your watchlist failed to load.");
+			this.ui.Modals.alert("Your watchlist failed to load. Refresh.");
 
 		});
 	}
