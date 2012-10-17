@@ -74,7 +74,7 @@ Once you have your ContainerID, start by setting up your container project. You 
 
 ### App Configs
 
-A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#developer-center). 
+A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](./sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#developer-center). 
 
 Example `AppConfig` object from an _individual_ app:
 
@@ -118,7 +118,7 @@ var _appConfigs = [
 
 ### Container Config
 
-The [F2.js JavaScript SDK](f2js-sdk.html) provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
+The [F2.js JavaScript SDK](f2js-sdk.html) provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](./sdk/classes/F2.ContainerConfig.html).
 
 In the container's `$(document).ready()`, add the `F2.init()`:
 
@@ -147,7 +147,7 @@ The `beforeAppRender()` method allows the container to render HTML for an app be
 
 The `afterAppRender()` method allows the container to override how an app's HTML is inserted into the page. The function should accept an `F2.AppConfig` object and also a string of HTML.
 
-For more information on `F2.ContainerConfig`, [browse to the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.html).
+For more information on `F2.ContainerConfig`, [browse to the F2.js SDK docs](./sdk/classes/F2.ContainerConfig.html).
 
 #### F2 UI Mask
 
@@ -175,9 +175,9 @@ $(document).ready(function(){
 });
 ```
 
-Included in the `F2.UI.Mask` configuration object are the following properties: `backgroundColor`, `loadingIcon`, `opacity`, `useClasses`, and `zIndex`. Each of these `F2.UI.Mask` properties is detailed in [the F2.js SDK docs](../docs/sdk/classes/F2.ContainerConfig.UI.Mask.html).
+Included in the `F2.UI.Mask` configuration object are the following properties: `backgroundColor`, `loadingIcon`, `opacity`, `useClasses`, and `zIndex`. Each of these `F2.UI.Mask` properties is detailed in [the F2.js SDK docs](./sdk/classes/F2.ContainerConfig.UI.Mask.html).
 
-For more information on `F2.UI`, [browse to the F2.js SDK docs](../docs/sdk/classes/F2.UI.html).
+For more information on `F2.UI`, [browse to the F2.js SDK docs](./sdk/classes/F2.UI.html).
 
 #### Basic Container Template
 
@@ -325,13 +325,13 @@ Apps are capable of sharing "context" with the container and other nearby apps. 
 
 This means if a user wants to create a ticker-focused container so they can keep a close eye on shares of Proctor & Gamble, the container can send "symbol context" to any listening apps that are smart enough to refresh when ticker symbol PG is entered in the container's search box.
 
-While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the aontainer can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps since the container controls the [F2.Events API](../docs/sdk/classes/F2.Events.html).
+While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the aontainer can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps since the container controls the [F2.Events API](./sdk/classes/F2.Events.html).
 
 [Read more in the Framework](index.html#framework).
 
 ### How to use Context
 
-Each container will be responsible for hosting the [F2.js JavaScript SDK](f2js-sdk.html). The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an [event API](../docs/sdk/classes/F2.Events.html) for handling context.
+Each container will be responsible for hosting the [F2.js JavaScript SDK](f2js-sdk.html). The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an [event API](./sdk/classes/F2.Events.html) for handling context.
 
 <span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop&mdash;managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means **apps cannot communicate directly with other apps on their own**; apps communicate via the container to other apps since the container controls the `F2.Events` API.
 
@@ -362,9 +362,9 @@ F2.Events.on(
 );
 ```
 
-The `F2.Events.on()` method accepts the event name and listener function as arguments. [Read the SDK](../docs/sdk/classes/F2.Events.html) for more information.
+The `F2.Events.on()` method accepts the event name and listener function as arguments. [Read the SDK](./sdk/classes/F2.Events.html) for more information.
 
-<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](../docs/sdk/classes/F2.Constants.Events.html).
+<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
 
 ### App-to-Container Context
 
@@ -391,7 +391,7 @@ F2.Events.on(
 );
 ```
 
-<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](../docs/sdk/classes/F2.Constants.Events.html).
+<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
 
 ### App-to-App Context
 
@@ -439,7 +439,7 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 ## App Integration
 
-The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
+The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](./sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
 The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.
 
@@ -584,7 +584,7 @@ To support a secured container environment, one of the [choices](index.html#choi
 
 ### Container Config
 
-The process of [configuring a F2 container](#container-config) to be secure is identical to that of an unsecure container. As such, every container must be setup using `ContainerConfig` and the [methods available](../docs/sdk/classes/F2.ContainerConfig.html).
+The process of [configuring a F2 container](#container-config) to be secure is identical to that of an unsecure container. As such, every container must be setup using `ContainerConfig` and the [methods available](./sdk/classes/F2.ContainerConfig.html).
 
 In the secure container's `$(document).ready()`, add the `F2.init()`:
 
@@ -641,7 +641,7 @@ When the parent container calls `registerApps()`, F2 looks at each `AppConfig` f
 
 ## Utilities
 
-The [F2.js JavaScript SDK](f2js-sdk.html) provides utility methods for Container Developers. These are available within the `F2` namespace and complete details are in the [Reference documentation](../docs/sdk/classes/F2.html).
+The [F2.js JavaScript SDK](f2js-sdk.html) provides utility methods for Container Developers. These are available within the `F2` namespace and complete details are in the [Reference documentation](./sdk/classes/F2.html).
 
 * * * *
 
@@ -651,7 +651,7 @@ There are some utility methods provided within F2.js in the `UI` namespace. Thes
 
 For Container Developers, the use of F2's `UI` is more than likely limited to customizing the design aesthetic (CSS) and [configuring the UI properties](#f2-ui-mask). 
 
-For complete details on `F2.UI`, [browse to the SDK docs](../docs/sdk/classes/F2.UI.html).
+For complete details on `F2.UI`, [browse to the SDK docs](./sdk/classes/F2.UI.html).
 
 * * * *
 
