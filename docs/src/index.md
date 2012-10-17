@@ -107,7 +107,7 @@ Support across all desktop browsers and mobile devices is sometimes limited so F
 * F2 relies on data structures represented in JSON, so it incorporates Crockford's [JSON](http://www.json.org/). 
 * To support a secured container environment, F2 needs cross-domain in-browser messaging. For this, it relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM).
 
-As either an App or a Container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the F2.js JavaScript SDK provides a consistent interface and easy-to-use API so you don't have to think about it.
+As either an App or a Container developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the [F2.js JavaScript SDK](f2js-sdk.html) provides a consistent interface and easy-to-use API so you don't have to think about it.
 
 ### Apps
 
@@ -126,7 +126,7 @@ F2 Apps are either:
 	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or custom-designed XML.</dd>
 </dl>
 
-The F2 specification furnishes App developers with JavaScript code (the F2.js SDK) which allows Apps to run on the Container and provides APIs for communication between the Container and nearby Apps.
+The F2 specification furnishes App developers with JavaScript code ([the F2.js SDK](f2js-sdk.html)) which allows Apps to run on the Container and provides APIs for communication between the Container and nearby Apps.
 
 #### Methodology
 
@@ -210,6 +210,6 @@ Developers who adhere to the F2 standard will make it possible for multiple apps
 
 F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App Developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
 
-If you are interested in building Apps, get started by [browsing through this technical documentation](developing-f2-apps.html) or follow the project on GitHub. If you are interested in building containers, [browse to the container documentation](developing-f2-containers.html).
+If you are interested in building Apps, get started by [browsing through this technical documentation](app-development.html) or follow the project on GitHub. If you are interested in building containers, [browse to the container documentation](container-development.html).
 
 * * * *

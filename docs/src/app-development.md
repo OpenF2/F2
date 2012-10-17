@@ -25,7 +25,7 @@ To help you get started, you will find a basic container in the [project repo on
 
 It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
-**Ready to start coding?** [Jump to Developing F2 Apps](#developing-a-f2-app).
+**Ready to start coding?** [Jump to Developing F2 Apps](#developing-f2-apps).
 
 To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, [read more about containers in the Framework](index.html#framework). 
 
@@ -135,7 +135,7 @@ The `apps` property is an array of `AppContent` objects. Each `AppContent` objec
 
 #### html
 
-The `html` property contains the view of your app represented in (optionally encoded) HTML. While you can modify the way your app appears or functions within the container, the `html` property is what the container will show when it [registers your app](./sdk/classes/F2.html#method_registerApps) and displays its contents for the first time.
+The `html` property contains the view of your app represented in (optionally encoded) HTML. While you can modify the way your app appears or functions within the container, the `html` property is what the container will show when it [registers your app](container-development.html#app-integration) and displays its contents for the first time.
 
 Example:
 
@@ -299,7 +299,7 @@ F2_jsonpCallback_com_companyname_appname({
 
 <span class="label">Note</span> the JSONP callback function name will _not_ be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container. This means you have to hard-code it in your `appmanifest.js`.
 
-<span class="label label-important">Required</span> Don't forget you need an AppID before you can run your app on a container. [Get your AppID now &raquo;](http://developer.openf2.com)
+<span class="label label-important">Required</span> Don't forget you need an AppID before you can run your app on a container. [Get your AppID now &raquo;](https://developer.openf2.org/GetAppID)
 
 ### App HTML
 
@@ -358,7 +358,7 @@ The `.span4` and `.span8` provide two columns in the [12-column grid](http://twi
 
 ### Scripts & Styles
 
-Once your app is on the container, chances are you'll want it to actually do something. As an app developer, it is entirely up to you to write your own stylesheets and javascript code to add form and function to your app. F2's standardized App Manifest provides hooks for your CSS and scripts to get onto the container&mdash;just use the `scripts` and `styles` arrays detailed above in the [App Manifest](#f2-apps).
+Once your app is on the container, chances are you'll want it to actually do something. As an app developer, it is entirely up to you to write your own stylesheets and javascript code to add form and function to your app. F2's standardized App Manifest provides hooks for your CSS and scripts to get onto the container&mdash;just use the `scripts` and `styles` arrays detailed above in the [App Manifest](#app-manifest).
 
 ### Styles
 
@@ -372,7 +372,7 @@ It is recommended you include your app styles in a file named `app.css`.
 
 While it isn't required, it's expected all F2 apps will ship with javascript. This code should be included in an `appclass.js` file as shown in [Setting Up Your Project](#setting-up-your-project). The `F2.Apps` property is a namespace for app developers to place the javascript class that is used to initialize their app. The javascript classes should be namepaced with the `F2.App.AppID`. It is recommended that the code be placed in a closure to help keep the global namespace clean.
 
-For more information on `F2.Apps`, [browse over to the F2.js SDK docs](../docs/sdk/classes/F2.html#property_Apps).
+For more information on `F2.Apps`, [browse over to the F2.js SDK docs](../docs/sdk/classes/F2.App.html).
 
 To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during `F2.registerApps()` (and the internal `_loadApps()` method). If the class has an `init()` function, it will be called automatically during execution of F2's `registerApps()` method.
 
@@ -427,7 +427,7 @@ F2.Apps["com_companyname_appname"] = function(appConfig, appContent, root) {
 
 #### Patterns, Eh
 
-Of course, you don't have to use either one of these patterns in your `appclass.js` file. What you _do_ have to use is a `function`. That is to say the value assigned to `F2.Apps["com_companyname_appname"]` by your App Class code _must be a function_. Within F2's `registerApps()` method, the `new` operator is used which produces an object ([check out the code](../docs/sdk/files/sdk_src_container.js.html#l175)).
+Of course, you don't have to use either one of these patterns in your `appclass.js` file. What you _do_ have to use is a `function`. That is to say the value assigned to `F2.Apps["com_companyname_appname"]` by your App Class code _must be a function_. Within F2's `registerApps()` method, the `new` operator is used which produces an object ([check out the code](https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js#L2893)).
 
 <div class="alert">
 	<h5>Important!</h5>
@@ -446,7 +446,7 @@ F2 is a _web_ integration framework which means are apps are inherently insecure
 
 As discussed in [Developing F2 Apps: F2 AppID](#f2-appid), to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
-When Container Developers [register apps](#app-integration), F2.js draws each app as defined by the [ContainerConfig](../docs/sdk/classes/F2.ContainerConfig.html). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
+When Container Developers [register apps](container-development.html#app-integration), F2.js draws each app as defined by the [ContainerConfig](container-development.html#container-config). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
 
 This example shows app HTML after it has been drawn on the container. Note the `com_companyName_appName` classname.
 
@@ -484,9 +484,9 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 
 Adhering to one of the [OpenAjax Alliance](http://www.openajax.org/) goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App Developers alike, this means following this spec closely and ensuring javascript code is contained inside [closures](http://jibbering.com/faq/notes/closures/) or is extended as a new namespace on `F2`.
 
-To ensure javascript bundled with F2 apps executes in a javascript closure, [follow the guidelines](#app-class) for the `appclass.js` file and one of the two patterns described (prototypal inheritance or module).
+To ensure javascript bundled with F2 apps executes in a javascript closure, [follow the guidelines](#scripts-1) for the `appclass.js` file and one of the two patterns described (prototypal inheritance or module).
 
-The F2.js SDK was designed with extensibility in mind and therefore custom logic can be added on the `F2` namespace.
+The [F2.js SDK](f2js-sdk.html) was designed with extensibility in mind and therefore custom logic can be added on the `F2` namespace.
 
 Example:
 
@@ -608,16 +608,6 @@ F2.Events.on(
 );
 ```
 
-<!--
-### Using AppIDs to Secure Context Passing
-
-What if you want your app to only receive context emitted from apps you trust? 
-
-Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
-
-<span class="label label-warning">EDITOR'S NOTE</span> Needs attn.
--->
-
 ### Types of Context
 
 Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Devleopers the option to define context within their container.
@@ -660,13 +650,13 @@ The example container runs sample apps&mdash;defined in `sampleApps.js`&mdash;an
 
 ## Container Integration
 
-Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#f2-apps) and have a working&mdash;and tested&mdash;app, you're pretty much done.
+Good news! The container is responsible for loading its apps, and as long as you've followed F2's standard for [App Manifests](#app-manifest) and have a working&mdash;and tested&mdash;app, you're pretty much done.
 
-If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read Container Development](container-development.html).
+If you're curious about _how_ containers load apps, browse to the [F2.js SDK `registerApps()` method](../docs/sdk/classes/F2.html#method_registerApps) or [read Container Development](container-development.html#app-integration).
 
 #### Testing Your App
 
-When you [cloned the F2 GitHub repo](https://github.com/OpenF2/F2/#quick-start) you also got some example F2 containers for your app development and testing. Open the project repository and navigate to `~/F2/examples/containers` to find them or to jump-start your testing, point your browser at:
+When you [cloned the F2 GitHub repo](https://github.com/OpenF2/F2/#quick-start) you also got an example F2 container for your app development and testing. Open the project repository and navigate to `~/F2/examples/container` to find them or to jump-start your testing, point your browser at:
 
 `http://localhost/F2/examples/container/`
 
@@ -760,7 +750,7 @@ For full details, read about [F2.UI in the SDK](../docs/sdk/classes/F2.UI.html).
 
 #### Changing the App Title
 
-To update the title of an app in the app's chrome ([as defined by the container in F2.ContainerConfig.appRender](../docs/sdk/classes/F2.ContainerConfig.html#methods-appRender)), very simply pass a string to the `setTitle()` method.
+To update the title of an app in the app's chrome ([as defined by the container in F2.ContainerConfig.appRender](container-development.html#container-config)), very simply pass a string to the `setTitle()` method.
 
 ```javascript
 //appclass.js snippet

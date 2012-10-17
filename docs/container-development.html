@@ -30,17 +30,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1350277304364"></script>
-  <script src="./js/respond.min.js?1350277304364"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1350441589059"></script>
+  <script src="./js/respond.min.js?1350441589059"></script>
   
-  <link href="./css/prettify.css?1350277304364" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1350277304364" rel="stylesheet">
+  <link href="./css/prettify.css?1350441589059" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1350441589059" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1350277304364" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1350277304364" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1350277304364" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1350277304364" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1350277304364" />
+  <link rel="icon" href="./img/favicon-32px.png?1350441589059" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1350441589059" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1350441589059" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1350441589059" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1350441589059" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1350277304364";
+  	var ghpagescachebuster = "1350441589059";
   </script>
 </head>
 <body>
@@ -146,12 +146,13 @@ You've come to the right place if you want to begin building F2 containers. Befo
 <hr>
 <section class="level2" id="get-started">
 <h2>Get Started</h2>
-<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you open the project repository, point your browser at:</p>
+<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you download and open the project repository, point your browser at:</p>
 <p><code>http://localhost/F2/examples/container/</code></p>
+<p><em>Since the example container is a website, this page requires a web server <a href="#configuration">configured locally</a>.</em></p>
 <section class="level3" id="configuration">
 <h3>Configuration</h3>
 <p>It is assumed you will be developing a F2 container locally and have a <code>localhost</code> setup. The URLs mentioned in this specification assume you have configured your F2 container and apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
-<p><strong>Ready to start coding?</strong> <a href="#developing-a-f2-container">Jump to Developing a F2 Container</a>.</p>
+<p><strong>Ready to start coding?</strong> <a href="#developing-f2-containers">Jump to Developing a F2 Container</a>.</p>
 <hr>
 </section>
 </section>
@@ -188,7 +189,7 @@ You've come to the right place if you want to begin building F2 containers. Befo
 <li><code>com_container_acmecorp_retail</code></li>
 <li><code>com_container_acmecorp_mobilestreamer</code></li>
 </ul>
-<p>To guarantee uniqueness, we have provided a ContainerID generation service that allows you to customize your ContainerID in the <a href="index.html#developer-center">Developer Center</a>.</p>
+<p>To guarantee uniqueness, we will provide a ContainerID generation service that allows customization of your ContainerID in the <a href="index.html#developer-center">Developer Center</a>.</p>
 </section>
 <section class="level3" id="setting-up-your-project">
 <h3>Setting Up Your Project</h3>
@@ -196,7 +197,7 @@ You've come to the right place if you want to begin building F2 containers. Befo
 </section>
 <section class="level3" id="app-configs">
 <h3>App Configs</h3>
-<p>A F2 Container Provider must deliver the app configs to its container before calling <code>F2.init()</code>. The app configurations are represented quite simply as a list of <a href="../docs/sdk/classes/F2.AppConfig.html">AppConfig objects</a>. These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the <a href="index.html#l#developer-center">Developer Center</a>.</p>
+<p>A F2 Container Provider must deliver the app configs to its container before calling <code>F2.init()</code>. The app configurations are represented quite simply as a list of <a href="../docs/sdk/classes/F2.AppConfig.html">AppConfig objects</a>. These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the <a href="index.html#developer-center">Developer Center</a>.</p>
 <p>Example <code>AppConfig</code> object from an <em>individual</em> app:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{
     <span class="dt">appId</span>: <span class="st">&quot;com_companyName_appName&quot;</span>,
@@ -289,14 +290,15 @@ You've come to the right place if you want to begin building F2 containers. Befo
         <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/js/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;https://dev.domain.com/css/site.css&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;/head&gt;</span>
     <span class="kw">&lt;body&gt;</span>
         
         <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
 
         <span class="co">&lt;!--include F2.js--&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/js/f2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/f2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
         <span class="co">&lt;!--init &amp; register--&gt;</span>
         <span class="kw">&lt;script&gt;</span>
             (<span class="kw">function</span>(){
@@ -319,7 +321,8 @@ You've come to the right place if you want to begin building F2 containers. Befo
         <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
         <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/js/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;https://dev.domain.com/css/site.css&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;/head&gt;</span>
     <span class="kw">&lt;body&gt;</span>
         <span class="kw">&lt;header&gt;</span>
@@ -336,7 +339,7 @@ You've come to the right place if you want to begin building F2 containers. Befo
         <span class="kw">&lt;/footer&gt;</span>
 
         <span class="co">&lt;!--include F2.js--&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://dev.domain.com/js/F2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/F2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
         <span class="co">&lt;!--init &amp; register--&gt;</span>
         <span class="kw">&lt;script&gt;</span>
             (<span class="kw">function</span>(){
@@ -402,7 +405,7 @@ You've come to the right place if you want to begin building F2 containers. Befo
 <p><a href="index.html#framework">Read more in the Framework</a>.</p>
 <section class="level3" id="how-to-use-context">
 <h3>How to use Context</h3>
-<p>Each container will be responsible for hosting the <a href="f2js.html">F2.js JavaScript SDK</a>. The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an <a href="../docs/sdk/classes/F2.Events.html">event API</a> for handling context.</p>
+<p>Each container will be responsible for hosting the <a href="f2js-sdk.html">F2.js JavaScript SDK</a>. The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an <a href="../docs/sdk/classes/F2.Events.html">event API</a> for handling context.</p>
 <p><span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means <strong>apps cannot communicate directly with other apps on their own</strong>; apps communicate via the container to other apps since the container controls the <code>F2.Events</code> API.</p>
 <p>Let's look at some code.</p>
 </section>
@@ -470,16 +473,6 @@ You've come to the right place if you want to begin building F2 containers. Befo
         }
     }
 );</code></pre>
-<!--
-### Using AppIDs to Secure Context Passing
-
-What if you want your app to only receive context emitted from apps you trust? 
-
-Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
-
-<span class="label label-warning">EDITOR'S NOTE</span> Needs attn.
--->
-
 </section>
 <section class="level3" id="types-of-context">
 <h3>Types of Context</h3>
@@ -493,7 +486,7 @@ Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppI
 </section>
 <section class="level2" id="app-integration">
 <h2>App Integration</h2>
-<p>The process of loading apps on a container happens through a method called <code>F2.registerApps()</code>. The Container Provider must call <a href="../docs/sdk/classes/F2.html#methods-registerApps">this method</a>—which accepts two arguments, one required, one optional— after <code>F2.init()</code> is called. If this method isn't called, no apps can be loaded on the container.</p>
+<p>The process of loading apps on a container happens through a method called <code>F2.registerApps()</code>. The Container Provider must call <a href="../docs/sdk/classes/F2.html">this method</a>—which accepts two arguments, one required, one optional— after <code>F2.init()</code> is called. If this method isn't called, no apps can be loaded on the container.</p>
 <p>The two arguments provided to <code>registerApps()</code> are an array of <code>AppConfig</code> objects and, optionally, an array of <code>AppManifest</code> objects. As F2.js parses each <code>AppConfig</code>, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.</p>
 <p>Regardless of where the container's <a href="#app-configs">AppConfig</a> comes from, integrating apps is a simple process. For the purposes of this example, we will use an Acme Corp news app.</p>
 <p>Let's look at some container code.</p>
@@ -700,16 +693,16 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.1, October 14, 2012</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.1, October 16, 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1350277304364"></script>
-<script src="./js/prettify.js?1350277304364"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1350441589059"></script>
+<script src="./js/prettify.js?1350441589059"></script>
 <script src="./js/f2.min.js?1.0.0"></script>
-<script src="./js/docs.js?1350277304364"></script>
-<script>var ghpagescachebuster = "1350277304364";</script>
+<script src="./js/docs.js?1350441589059"></script>
+<script>var ghpagescachebuster = "1350441589059";</script>
 </body>
 </html>

@@ -81,7 +81,7 @@ $(function() {
 			source: function (request, response) {
 
 				$.ajax({
-					url: "//dev.markitondemand.com/api/Lookup/jsonp",
+					url: "http://dev.markitondemand.com/api/Lookup/jsonp",
 					dataType: "jsonp",
 					data: {
 						input: request.term

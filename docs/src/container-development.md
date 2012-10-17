@@ -6,15 +6,17 @@
 
 ## Get Started
 
-To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps. Once you open the project repository, point your browser at:
+To help you get started, you will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps. Once you download and open the project repository, point your browser at:
 
 `http://localhost/F2/examples/container/`
+
+_Since the example container is a website, this page requires a web server [configured locally](#configuration)._
 
 ### Configuration
 
 It is assumed you will be developing a F2 container locally and have a `localhost` setup. The URLs mentioned in this specification assume you have configured your F2 container and apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
-**Ready to start coding?** [Jump to Developing a F2 Container](#developing-a-f2-container).
+**Ready to start coding?** [Jump to Developing a F2 Container](#developing-f2-containers).
 
 * * * *
 
@@ -64,7 +66,7 @@ If you built more than one container while working at Acme Corporation, you coul
 * `com_container_acmecorp_retail`
 * `com_container_acmecorp_mobilestreamer`
 
-To guarantee uniqueness, we have provided a ContainerID generation service that allows you to customize your ContainerID in the [Developer Center](index.html#developer-center).
+To guarantee uniqueness, we will provide a ContainerID generation service that allows customization of your ContainerID in the [Developer Center](index.html#developer-center).
 
 ### Setting Up Your Project
 
@@ -72,7 +74,7 @@ Once you have your ContainerID, start by setting up your container project. You 
 
 ### App Configs
 
-A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#l#developer-center). 
+A F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#developer-center). 
 
 Example `AppConfig` object from an _individual_ app:
 
@@ -188,14 +190,15 @@ The simplest template for a container looks like this:
 		<title>F2 Container</title>
 		<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta name="viewport" content="device-width" />
-		<script src="http://dev.domain.com/js/modernizr.js"></script>
+		<script src="https://dev.domain.com/js/modernizr.js"></script>
+		<link rel="stylesheet" href="https://dev.domain.com/css/site.css">
 	</head>
 	<body>
 		
 		<h1>Hello F2</h1>
 
 		<!--include F2.js-->
-		<script src="http://dev.domain.com/js/f2.js"></script>
+		<script src="https://dev.domain.com/js/f2.js"></script>
 		<!--init & register-->
 		<script>
 			(function(){
@@ -222,7 +225,8 @@ In developing a more advanced container, the HTML document's `body` element woul
 		<title>F2 Container</title>
 		<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta name="viewport" content="device-width" />
-		<script src="http://dev.domain.com/js/modernizr.js"></script>
+		<script src="https://dev.domain.com/js/modernizr.js"></script>
+		<link rel="stylesheet" href="https://dev.domain.com/css/site.css">
 	</head>
 	<body>
 		<header>
@@ -239,7 +243,7 @@ In developing a more advanced container, the HTML document's `body` element woul
 		</footer>
 
 		<!--include F2.js-->
-		<script src="http://dev.domain.com/js/F2.js"></script>
+		<script src="https://dev.domain.com/js/F2.js"></script>
 		<!--init & register-->
 		<script>
 			(function(){
@@ -327,7 +331,7 @@ While apps can have context themselves, the responsibility for managing context 
 
 ### How to use Context
 
-Each container will be responsible for hosting the [F2.js JavaScript SDK](f2js.html). The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an [event API](../docs/sdk/classes/F2.Events.html) for handling context.
+Each container will be responsible for hosting the [F2.js JavaScript SDK](f2js-sdk.html). The F2 SDK not only provides the consistent mechanism app developers have come to expect for loading their apps on the container, but also contains an [event API](../docs/sdk/classes/F2.Events.html) for handling context.
 
 <span class="label label-important">Important</span> It is important to note that while apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop&mdash;managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. This means **apps cannot communicate directly with other apps on their own**; apps communicate via the container to other apps since the container controls the `F2.Events` API.
 
@@ -423,16 +427,6 @@ F2.Events.on(
 );
 ```
 
-<!--
-### Using AppIDs to Secure Context Passing
-
-What if you want your app to only receive context emitted from apps you trust? 
-
-Every F2 app has a [unique AppID](#developing-a-f2-app) and&mdash;using the AppID&mdash;apps can listen for events emitted from trusted sources.
-
-<span class="label label-warning">EDITOR'S NOTE</span> Needs attn.
--->
-
 ### Types of Context
 
 Context is a term used to describe the state of an F2 container and its apps. At the same time, context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize [F2.js](f2js.html) allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords container providers the option to define context within their container.
@@ -445,7 +439,7 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 ## App Integration
 
-The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html#methods-registerApps)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
+The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Provider must call [this method](../docs/sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
 The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.
 

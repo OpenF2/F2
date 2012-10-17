@@ -1,5 +1,10 @@
 $(function(){
 
+	//ensure this is run from http://localhost
+	if (location.protocol === "file:"){
+		return;
+	}
+
 	// grab apps from storage
 	var requestedApps = F2.Storage.getItem('requestedApps') || [];
 
