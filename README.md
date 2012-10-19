@@ -10,7 +10,7 @@ F2 is maintained by [Markit On Demand](http://www.markitondemand.com). Visit [Op
 
 Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the latest version](https://github.com/OpenF2/F2/zipball/master).
 
-Now you've got F2, if you are ready to start building F2 containers or apps, [read the documentation](http://docs.openf2.org/app-development.html). If you just want to see examples? Point your browser at `http://path/to/your/clone/F2/examples/`.
+Now you've got F2, if you are ready to start building F2 containers or apps, [read the documentation](http://docs.openf2.org/app-development.html). If you just want to see examples point your browser at `http://path/to/your/clone/F2/examples/`.
 
 #### Notice ####
 
