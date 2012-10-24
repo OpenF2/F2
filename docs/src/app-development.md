@@ -57,7 +57,7 @@ Before opening your editor, [read the configuration assumptions](#configuration)
 
 ### F2 AppID
 
-To develop a F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+To develop an F2 app, you need a unique identifier called an **AppID**. This AppID will be unique to _your app_ across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
 As an example, your AppID could look like this:
 
@@ -303,7 +303,7 @@ F2_jsonpCallback_com_companyname_appname({
 
 ### App HTML
 
-Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather _passed to the container_ via the App's `AppManifest`. But that's not a problem because F2 has [provided examples](https://github.com/OpenF2/F2/tree/master/examples/apps) to show you the way. Here are the steps for getting your app HTML into your `AppContent.html` property:
+Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather _passed to the container_ via the app's `AppManifest`. But that's not a problem because F2 has [provided examples](https://github.com/OpenF2/F2/tree/master/examples/apps) to show you the way. Here are the steps for getting your app HTML into your `AppContent.html` property:
 
 1. Develop the web page or module or widget or component or portlet that will be your app.
 2. Take all the contents of it&mdash;that is, the HTML&mdash;and encode it. _(This step is optional.)_
@@ -335,13 +335,13 @@ Step 3. App Manifest file.
 }
 ```
 
-<span class="label label-info">Note</span> You are not required to encode the App HTML, so follow steps 2 and 3 above omitting the encoding step.
+<span class="label label-info">Note</span> You are not required to encode the app HTML, so follow steps 2 and 3 above omitting the encoding step.
 
 #### Automatic Consistency
 
-F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they _know_ will style F2 Apps without engaging with the app developer to ensure compatability.
+F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they _know_ will style F2 apps without engaging with the app developer to ensure compatability.
 
-This also means App developers must adhere to [Bootstrap's scaffolding guidelines](http://twitter.github.com/bootstrap/scaffolding.html) as defined on their website. 
+This also means App Developers must adhere to [Bootstrap's scaffolding guidelines](http://twitter.github.com/bootstrap/scaffolding.html) as defined on their website. 
 
 An example two-column layout using Bootstrap-specifed markup:
 
@@ -444,7 +444,7 @@ F2 is a _web_ integration framework which means are apps are inherently insecure
 
 ### Namespacing CSS
 
-As discussed in [Developing F2 Apps: F2 AppID](#f2-appid), to develop a F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+As discussed in [Developing F2 Apps: F2 AppID](#f2-appid), to develop an F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: `com_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
 
 When Container Developers [register apps](container-development.html#app-integration), F2.js draws each app as defined by the [ContainerConfig](container-development.html#container-config). Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.
 
@@ -512,7 +512,7 @@ Apps are capable of sharing "context" with the container and other nearby apps. 
 
 This means if a user wants to create a ticker-focused container so they can keep a close eye on shares of Proctor & Gamble, the container can send "symbol context" to any listening apps that are smart enough to refresh when ticker symbol PG is entered in the container's search box.
 
-While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the aontainer can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps since the container controls the [F2.Events API](./sdk/classes/F2.Events.html).
+While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps since the container controls the [F2.Events API](../docs/sdk/classes/F2.Events.html).
 
 [Read more in the Framework](index.html#framework).
 
@@ -610,7 +610,7 @@ F2.Events.on(
 
 ### Types of Context
 
-Context is a term used to describe the state of a F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Devleopers the option to define context within their container.
+Context is a term used to describe the state of an F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Developers the option to define context within their container.
 
 #### Universal F2 Instrument ID
 
@@ -804,7 +804,7 @@ Additionally, there is a `confirm` modal.
 
 ### F2.UI.Views
 
-Adding and managing views within a F2 app is considered an **advanced topic**. If your app only needs a single view, you don't have to worry about reading this part of the F2 spec.
+Adding and managing views within an F2 app is considered an **advanced topic**. If your app only needs a single view, you don't have to worry about reading this part of the F2 spec.
 
 F2 apps can have one or more views. Every app will have at least one "home" view, while others will include views for settings, help or about. Inside the F2.js SDK, we've [included support for views](./sdk/classes/F2.App.html#property_views) and the list can be extended by the container provider. 
 
@@ -884,7 +884,7 @@ For details on `F2.UI.Views`, [browse to the SDK docs](./sdk/classes/F2.UI.Views
 
 ## Entitlements
 
-User or content entitlements are the responsibility of the App developer. Many apps will need to be decoupled from the content that they need. This could include apps like research aggregation, news filtering, streaming market data, etc. Similarly to how companies build their own websites today with their own authentication and access (or content) entitlements, F2 apps are no different.
+User or content entitlements are the responsibility of the App Developer. Many apps will need to be decoupled from the content that they need. This could include apps like research aggregation, news filtering, streaming market data, etc. Similarly to how companies build their own websites today with their own authentication and access (or content) entitlements, F2 apps are no different.
 
 _Further details around app entitlements will be forthcoming as the F2 specification evolves._
 
@@ -892,7 +892,7 @@ _Further details around app entitlements will be forthcoming as the F2 specifica
 
 ## Single Sign-On
 
-Single sign-on (SSO) is a shared responsibility between the Container and App Developer. In some cases, Containers will want all of its apps to be authenticated seamlessly for users;that will be negotiated between Container and App developers. For the purposes of this documentation, it is assumed Container Developers will build and host their container access authentication. 
+Single sign-on (SSO) is a shared responsibility between the Container and App Developer. In some cases, containers will want all of its apps to be authenticated seamlessly for users;that will be negotiated between Container and App Developers. For the purposes of this documentation, it is assumed Container Developers will build and host their container access authentication. 
 
 Once a user is authenticated on the container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).*
 
@@ -908,7 +908,7 @@ When the container provider calls `F2.registerApps()`, custom logic should be ad
 
 ### Considerations
 
-Authentication is a critical part of any Container-App relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.
+Authentication is a critical part of any container-app relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.
 
 _Further details around container and app single sign-on will be forthcoming as the F2 specification evolves._
 

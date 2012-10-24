@@ -10,7 +10,7 @@ F2_jsonpCallback_com_f2_examples_javascript_watchlist({
 	"apps":[
 		{
 			"html":[
-				'<div',
+				'<div>',
 					'<div class="f2-app-view" data-f2-view="home">',
 						'<div class="watchlist"></div>',
 						'<div class="input-append">',

@@ -30,6 +30,7 @@ var argv = optimist
 	.boolean('g').alias('g', 'gh-pages').describe('g', 'Copy docs to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
 	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
 	.boolean('j').alias('j', 'js-sdk').describe('j', 'Build just the JS SDK')
+	.boolean('n').alias('n', 'nuget').describe('n', 'Build just the Nuget Package')
 	.boolean('v').alias('v', 'version').describe('v', 'Output the verison information for F2')
 	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
 	.string('release').describe('release', 'Updates the sdk release version in F2.json and creates a tag on GitHub')
@@ -64,6 +65,7 @@ var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
 // to be in order of dependency in case -a is passed
 var buildSteps = [
 	{ arg: 'j', f: js },
+	//{ arg: 'n', f: nuget },  Don't want to force users to have Nuget at this time
 	{ arg: 'l', f: less },
 	{ arg: 'd', f: docs },
 	{ arg: 'y', f: yuidoc },
@@ -91,6 +93,9 @@ if (argv.h) {
 // release
 } else if (argv.release) {
 	release();
+// Nuget
+} else if (argv.n) {
+	nuget();
 // version
 } else if (argv.v) {
 	version();
@@ -145,6 +150,14 @@ function docs() {
 		'./docs/src/f2js-sdk.md'
 	];
 
+	// update Last Update Date and save F2.json
+	console.log("Setting last updated date...")
+	f2Info.docs.lastUpdateDate = new Date().toJSON();
+	f2Info.docs.lastUpdateDateFormatted = dateFormat(new Date());
+	console.log("Setting cache buster...");
+	f2Info.docs.cacheBuster = String(new Date().getTime());
+	saveF2Info();
+
 	processTemplateFile(templateFiles, f2Info, true);
 
 	exec(
@@ -156,11 +169,7 @@ function docs() {
 			} else {
 				processTemplateFileCleanup(templateFiles);
 
-				// update Last Update Date and save F2.json
-				f2Info.docs.lastUpdateDate = new Date().toJSON();
-				f2Info.docs.lastUpdateDateFormatted = dateFormat(new Date());
-				f2Info.docs.cacheBuster = String(new Date().getTime());
-				saveF2Info();
+				
 
 				console.log('COMPLETE');
 				nextStep();
@@ -215,7 +224,7 @@ function help() {
  */
 function js() {
 
-	console.log("Setting cache buster...")
+	console.log("Setting cache buster...");
 	f2Info.sdk.cacheBuster = String(new Date().getTime());
 	saveF2Info();
 
@@ -304,6 +313,28 @@ function less() {
 			} else {
 				console.log("COMPLETE");
 				nextStep();
+			}
+		}
+	);
+};
+
+/**
+ * Build the Nuget package for publishing on Nuget.org
+ * @method nuget
+ */
+function nuget() {
+	console.log('Building Nuget Package...');
+	processTemplateFile('./sdk/f2.nuspec', f2Info, true);
+	exec(
+		'nuget pack f2.nuspec',
+		{ cwd: './sdk' },
+		function(error, stdout, stderr){
+			if (error){
+				die(error);
+			} else {
+				processTemplateFileCleanup('./sdk/f2.nuspec');
+				console.log("COMPLETE");
+				//nextStep();
 			}
 		}
 	);
@@ -519,9 +550,11 @@ function yuidoc() {
 	json = (new Y.YUIDoc(docOptions)).run();
 	// massage in some meta information from F2.json
 	json.project = {
-		cacheBuster: f2Info.sdk.cacheBuster,
+		cacheBuster: f2Info.docs.cacheBuster,
 		docsAssets: '../',
-		version: f2Info.sdk.version
+		version: f2Info.sdk.version,
+		docsVersion: f2Info.docs.version,
+		docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted
 	};
 	docOptions = Y.Project.mix(json, docOptions);
 
