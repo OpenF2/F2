@@ -6,3 +6,4 @@ obj
 *.suo
 protos
 *.temp
+*.nupkg

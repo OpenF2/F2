@@ -30,6 +30,7 @@ var argv = optimist
 	.boolean('g').alias('g', 'gh-pages').describe('g', 'Copy docs to gh-pages folder. Must have the gh-pages branch cloned to ../gh-pages')
 	.boolean('h').alias('h', 'help').describe('h', 'Display this help information')
 	.boolean('j').alias('j', 'js-sdk').describe('j', 'Build just the JS SDK')
+	.boolean('n').alias('n', 'nuget').describe('n', 'Build just the Nuget Package')
 	.boolean('v').alias('v', 'version').describe('v', 'Output the verison information for F2')
 	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
 	.string('release').describe('release', 'Updates the sdk release version in F2.json and creates a tag on GitHub')
@@ -64,6 +65,7 @@ var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
 // to be in order of dependency in case -a is passed
 var buildSteps = [
 	{ arg: 'j', f: js },
+	//{ arg: 'n', f: nuget },  Don't want to force users to have Nuget at this time
 	{ arg: 'l', f: less },
 	{ arg: 'd', f: docs },
 	{ arg: 'y', f: yuidoc },
@@ -91,6 +93,9 @@ if (argv.h) {
 // release
 } else if (argv.release) {
 	release();
+// Nuget
+} else if (argv.n) {
+	nuget();
 // version
 } else if (argv.v) {
 	version();
@@ -304,6 +309,28 @@ function less() {
 			} else {
 				console.log("COMPLETE");
 				nextStep();
+			}
+		}
+	);
+};
+
+/**
+ * Build the Nuget package for publishing on Nuget.org
+ * @method nuget
+ */
+function nuget() {
+	console.log('Building Nuget Package...');
+	processTemplateFile('./sdk/f2.nuspec', f2Info, true);
+	exec(
+		'nuget pack f2.nuspec',
+		{ cwd: './sdk' },
+		function(error, stdout, stderr){
+			if (error){
+				die(error);
+			} else {
+				processTemplateFileCleanup('./sdk/f2.nuspec');
+				console.log("COMPLETE");
+				//nextStep();
 			}
 		}
 	);
