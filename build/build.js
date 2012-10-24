@@ -150,6 +150,14 @@ function docs() {
 		'./docs/src/f2js-sdk.md'
 	];
 
+	// update Last Update Date and save F2.json
+	console.log("Setting last updated date...")
+	f2Info.docs.lastUpdateDate = new Date().toJSON();
+	f2Info.docs.lastUpdateDateFormatted = dateFormat(new Date());
+	console.log("Setting cache buster...");
+	f2Info.docs.cacheBuster = String(new Date().getTime());
+	saveF2Info();
+
 	processTemplateFile(templateFiles, f2Info, true);
 
 	exec(
@@ -161,11 +169,7 @@ function docs() {
 			} else {
 				processTemplateFileCleanup(templateFiles);
 
-				// update Last Update Date and save F2.json
-				f2Info.docs.lastUpdateDate = new Date().toJSON();
-				f2Info.docs.lastUpdateDateFormatted = dateFormat(new Date());
-				f2Info.docs.cacheBuster = String(new Date().getTime());
-				saveF2Info();
+				
 
 				console.log('COMPLETE');
 				nextStep();
@@ -220,7 +224,7 @@ function help() {
  */
 function js() {
 
-	console.log("Setting cache buster...")
+	console.log("Setting cache buster...");
 	f2Info.sdk.cacheBuster = String(new Date().getTime());
 	saveF2Info();
 
@@ -546,9 +550,11 @@ function yuidoc() {
 	json = (new Y.YUIDoc(docOptions)).run();
 	// massage in some meta information from F2.json
 	json.project = {
-		cacheBuster: f2Info.sdk.cacheBuster,
+		cacheBuster: f2Info.docs.cacheBuster,
 		docsAssets: '../',
-		version: f2Info.sdk.version
+		version: f2Info.sdk.version,
+		docsVersion: f2Info.docs.version,
+		docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted
 	};
 	docOptions = Y.Project.mix(json, docOptions);
 
