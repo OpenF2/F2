@@ -64,7 +64,7 @@ Because the spec is open, free, and exactly what the industry needs, we believe 
 			<td><br>F2 can entitle Apps without passing sensitive client information to a third party App provider. This multi-provider solution is more secure and less vulnerable than single-provider solutions.</td>
 		</tr>
 		<tr>
-			<td>*Over-Provisioning*<br>Over-provisioning of content happens frequently. It is expensive to pay for content that no one is using. This probably happens because it is difficult.</td>
+			<td>*Over-Provisioning*<br>Over-provisioning of content happens frequently. It is expensive to pay for content that no one is using. This probably happens because it is difficult to manage and change entitlements.</td>
 			<td><br>The F2 spec makes it easy to turn on or off entitlements as often as may be required.</td>
 		</tr>
 </table>
