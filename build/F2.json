@@ -1,11 +1,11 @@
 {
 	"docs": {
-		"version": "1.0.2",
+		"version": "1.0.3",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-10-24T22:09:57.720Z",
-		"cacheBuster": "1351116597722",
-		"lastUpdateDateFormatted": "October 24, 2012"
+		"lastUpdateDate": "2012-10-26T16:25:28.624Z",
+		"cacheBuster": "1351268728625",
+		"lastUpdateDateFormatted": "October 26, 2012"
 	},
 	"sdk": {
 		"version": "1.0.0",
