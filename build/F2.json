@@ -8,10 +8,10 @@
 		"lastUpdateDateFormatted": "October 26, 2012"
 	},
 	"sdk": {
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"shortVersion": "1.0",
-		"releaseDate": "2012-10-15T14:48:30.598Z",
-		"lastUpdateDate": "2012-10-24T21:28:36.309Z",
-		"cacheBuster": "1351114115662"
+		"releaseDate": "2012-10-26T17:36:03.926Z",
+		"lastUpdateDate": "2012-10-26T17:40:26.140Z",
+		"cacheBuster": "1351273225065"
 	}
 }

@@ -1,5 +1,5 @@
 /*!
- * F2 v1.0.0
+ * F2 v1.0.1
  * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -183,7 +183,7 @@ if (!window.F2) {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return "1.0.0"; }
+		version: function() { return "1.0.1"; }
 	};
 };
 /**
@@ -1897,7 +1897,7 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfig.');
+			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in F2.ContainerConfig.');
 		}
 	};
 
@@ -1945,9 +1945,12 @@ F2.extend('', (function(){
 		 * @param {F2.ContainerConfig} config The configuration object
 		 */
 		init: function(config) {
-			_config = config;
+			_config = config || {};
 
-			F2.Rpc.init(_config.secureAppPagePath);
+			if (!!_config.secureAppPagePath) {
+				F2.Rpc.init(_config.secureAppPagePath);
+			}
+			
 			F2.UI.init(_config);
 
 			if (!_config.isSecureAppPage) {
