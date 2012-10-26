@@ -380,7 +380,7 @@ F2.extend('UI', (function(){
 		} else {
 
 			if (showLoading && !_containerConfig.UI.Mask.loadingIcon) {
-				F2.log('Unable to display loading icon. Please use F2.UI.setMaskConfiguration to set the path to the loading icon');
+				F2.log('Unable to display loading icon. Please set F2.ContainerConfig.UI.Mask.loadingIcon	when calling F2.init();');
 			}
 
 			var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);

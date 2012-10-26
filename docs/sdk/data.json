@@ -231,7 +231,7 @@
             "module": "f2",
             "file": "sdk/src/classes.js",
             "line": 274,
-            "description": "An object containing configuration defaults for the \n{{#crossLink \"F2.UI\\showMask\"}}{{/crossLink}} and\n{{#crossLink \"F2.UI\\hideMask\"}}{{/crossLink}} methods."
+            "description": "An object containing configuration defaults for the \nF2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} and\nF2.UI.{{#crossLink \"F2.UI/hideMask\"}}{{/crossLink}} methods."
         },
         "F2.Constants": {
             "name": "F2.Constants",
@@ -464,7 +464,7 @@
         {
             "file": "sdk/src/classes.js",
             "line": 74,
-            "description": "True if the app will be loaded in an iframe. This property\nwill be true if the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object\nsets isSecure = true. It will also be true if the\n[container](../../container-development.html) has made the decision to run\napps in iframes.",
+            "description": "True if the app will be loaded in an iframe. This property\nwill be true if the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object\nsets isSecure = true. It will also be true if the\n[container](../../container-development.html) has made the decision to\nrun apps in iframes.",
             "itemtype": "property",
             "name": "isSecure",
             "type": "bool",
@@ -493,7 +493,7 @@
         {
             "file": "sdk/src/classes.js",
             "line": 102,
-            "description": "The recommended minimum grid size that this app should be run. This\nvalue corresponds to the 12-grid system that is used by the\n[container](../../container-development.html). This property should be set\nby apps that require a certain number of columns in their layout.",
+            "description": "The recommended minimum grid size that this app should be run. This\nvalue corresponds to the 12-grid system that is used by the\n[container](../../container-development.html). This property should be\nset by apps that require a certain number of columns in their layout.",
             "itemtype": "property",
             "name": "minGridSize",
             "type": "int",
@@ -644,7 +644,7 @@
         {
             "file": "sdk/src/classes.js",
             "line": 239,
-            "description": "Allows the [container](../../container-development.html) to wrap an app in\nextra html. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml. The extra html can provide links to edit app settings and remove an\napp from the container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
+            "description": "Allows the [container](../../container-development.html) to wrap an app\nin extra html. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml. The extra html can provide links to edit app settings and remove an\napp from the container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
             "itemtype": "method",
             "name": "appRender",
             "params": [
@@ -750,7 +750,7 @@
         {
             "file": "sdk/src/classes.js",
             "line": 328,
-            "description": "Specifies what views a container will provide buttons\nor links to. Generally, the views will be switched via buttons or links in\nthe app's header.",
+            "description": "Specifies what views a container will provide buttons\nor links to. Generally, the views will be switched via buttons or links\nin the app's header.",
             "itemtype": "property",
             "name": "supportedViews",
             "type": "Array",
@@ -1241,7 +1241,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 320,
+            "line": 323,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1254,7 +1254,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 326,
+            "line": 329,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1276,7 +1276,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 455,
+            "line": 458,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1285,7 +1285,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 470,
+            "line": 473,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
