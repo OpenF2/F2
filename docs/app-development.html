@@ -30,17 +30,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1351627725152"></script>
-  <script src="./js/respond.min.js?1351627725152"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1351640454928"></script>
+  <script src="./js/respond.min.js?1351640454928"></script>
   
-  <link href="./css/prettify.css?1351627725152" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1351627725152" rel="stylesheet">
+  <link href="./css/prettify.css?1351640454928" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1351640454928" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1351627725152" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1351627725152" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1351627725152" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1351627725152" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1351627725152" />
+  <link rel="icon" href="./img/favicon-32px.png?1351640454928" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1351640454928" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1351640454928" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1351640454928" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1351640454928" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1351627725152";
+  	var ghpagescachebuster = "1351640454928";
   </script>
 </head>
 <body>
@@ -140,10 +140,10 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v1.0.1). Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.0.1). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
-<p>Defined very simply, an F2 app is a <code>javascript</code> file which contains your app manifest. Technically an F2 app is one of two things:</p>
+<p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used. To start, F2 Apps are either:</p>
 <dl class="dl-horizontal">
     <dt>
 Display App
@@ -159,12 +159,97 @@ A data app is a content feed available in industry-standard formats including JS
 </dd>
 </dl>
 
-<p>For the purposes of this documentation, we'll focus on developing <strong>display apps</strong>. Browse to <a href="index.html#framework">The Framework</a> for more information about F2 apps.</p>
+<p>For the purposes of the documentation on this page, we'll focus on developing <strong>display apps</strong>. Browse to <a href="index.html#apps">The Basics: Framework</a> for more information about F2 apps.</p>
 <hr>
 <section class="level2" id="get-started">
 <h2>Get Started</h2>
-<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you open the project repository, point your browser at:</p>
+<p>To help you get started building an F2 app, browse through the resources below. To jump start your F2 app development, <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">download the F2 app template</a> or follow the instructions below.</p>
+<section class="level4" id="basic-container">
+<h4>Basic Container</h4>
+<p>To begin, download <a href="http://twitter.github.com/bootstrap/index.html">Bootstrap</a> and save a local copy of <a href="f2js-sdk.html">F2.js</a>.</p>
+<p>
+<a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn">Download F2.js</a> <a href="http://twitter.github.com/bootstrap/getting-started.html#download-bootstrap" class="btn">Download Bootstrap</a>
+</p>
+
+<p>Create your basic container HTML template:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+    <span class="kw">&lt;head&gt;</span>
+        <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;/path/to/your/bootstrap.min.css&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/head&gt;</span>
+    <span class="kw">&lt;body&gt;</span>
+        <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
+        <span class="co">&lt;!--include jQuery &amp; Bootstrap--&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://code.jquery.com/jquery-latest.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/path/to/your/bootstrap.min.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--include F2.js--&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/path/to/your/f2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--init &amp; register--&gt;</span>
+        <span class="kw">&lt;script&gt;</span>
+            (<span class="kw">function</span>(){
+                <span class="co">//define AppConfigs</span>
+                <span class="kw">var</span> _appConfigs = [{
+                    <span class="dt">appId</span>: <span class="st">&quot;com</span>_<span class="st">your</span>_<span class="st">app</span>_<span class="st">id&quot;</span>,
+                    <span class="dt">description</span>: <span class="st">&quot;F2</span> <span class="st">app</span> <span class="st">description&quot;</span>,
+                    <span class="dt">name</span>: <span class="st">&quot;F2</span> <span class="st">App&quot;</span>,
+                    <span class="dt">manifestUrl</span>: <span class="st">&quot;</span>/<span class="st">path</span>/<span class="st">to</span>/<span class="st">your</span>/<span class="st">manifest</span>.<span class="st">js&quot;</span> <span class="co">//note the path to your manifest</span>!<span class="co"> </span>
+                }];
+                <span class="co">/*</span>*
+                 * Setup ContainerConfig
+                 * The appRender() method allows for customizing where apps are inserted.
+                 * In this example, appRender() would insert apps after the &lt;h1&gt; element.
+                 <span class="co">*/</span>
+                <span class="kw">F2</span>.<span class="fu">init</span>({
+                    <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(app){
+                        app = app || {};
+                        <span class="kw">var</span> appTemplate = [
+                            <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">&#39;</span> ,<span class="kw">F2.Constants.Css</span>.<span class="fu">APP</span>, <span class="ch">&#39;</span> <span class="ch">span&#39;</span> ,(<span class="kw">app</span>.<span class="fu">minGridSize</span> || <span class="dv">3</span>), <span class="ch">&#39;</span>&quot;&gt;<span class="ch">&#39;</span>,
+                                <span class="ch">&#39;</span>&lt;<span class="ch">header</span> <span class="ch">class</span>=&quot;<span class="ch">clearfix</span>&quot;&gt;<span class="ch">&#39;</span>,
+                                    <span class="ch">&#39;</span>&lt;<span class="ch">h2</span> <span class="ch">class</span>=&quot;<span class="ch">pull</span>-<span class="ch">left</span> <span class="ch">&#39;</span>, <span class="kw">F2.Constants.Css</span>.<span class="fu">APP</span>_<span class="fu">TITLE</span>, <span class="ch">&#39;</span>&quot;&gt;<span class="ch">&#39;</span>, <span class="kw">app.name</span>.<span class="fu">toUpperCase</span>(), <span class="ch">&#39;</span>&lt;/<span class="ch">h2</span>&gt;<span class="ch">&#39;</span>,
+                                <span class="ch">&#39;</span>&lt;/<span class="ch">header</span>&gt;<span class="ch">&#39;</span>,
+                            <span class="ch">&#39;</span>&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>
+                        ];
+                        <span class="kw">var</span> $appRoot = $(<span class="kw">appRoot</span>.<span class="fu">join</span>(<span class="ch">&#39;&#39;</span>)).<span class="fu">appendTo</span>(<span class="ch">&#39;body&#39;</span>);
+                        <span class="kw">return</span> $appRoot;
+                    },
+                    
+                    <span class="dt">afterAppRender</span>: <span class="kw">function</span> (app, html) {
+                        <span class="kw">var</span> el = $(<span class="kw">app</span>.<span class="fu">root</span>).<span class="fu">append</span>(html);
+                        <span class="kw">return</span> el;
+                    },
+                }); 
+                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs to initialize apps</span>
+            })();
+        <span class="kw">&lt;/script&gt;</span>
+    <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+</section>
+<section class="level4" id="basic-app">
+<h4>Basic App</h4>
+<p>Create your basic F2 app manifest and save it as <code>/path/to/your/manifest.js</code> (which was the path specified in <code>manifestUrl</code> within the <code>_appConfigs</code> array in your basic container above).</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">F2_jsonpCallback_com_your_app_id({
+    <span class="st">&quot;scripts&quot;</span>:[],   
+    <span class="st">&quot;styles&quot;</span>:[],   
+    <span class="st">&quot;apps&quot;</span>:[{
+        <span class="st">&quot;data&quot;</span>:{},
+        <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&lt;h2&gt;Hello basic app&lt;/h2&gt;&quot;</span>
+    }]
+})</code></pre>
+<p><span class="label">Note</span> You can <a href="https://github.com/downloads/OpenF2/F2/F2-App-Template.zip">download the F2 app template</a> instead of creating the basic app by hand.</p>
+</section>
+<section class="level4" id="test">
+<h4>Test</h4>
+<p>Now with a basic container and a basic app, you can load your F2 container and expect to see:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;h1&gt;</span>Hello World<span class="kw">&lt;/h1&gt;</span>
+
+<span class="kw">&lt;h2&gt;</span>Hello basic app<span class="kw">&lt;/h2&gt;</span></code></pre>
+</section>
+<section class="level3" id="sample-apps-and-container">
+<h3>Sample Apps and Container</h3>
+<p>Good news! In the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a>, you will find a basic container along with a number of sample apps. Once you clone or download the project repository, open the sample container by pointing your browser at:</p>
 <p><code>http://localhost/F2/examples/container/</code></p>
+</section>
 <section class="level3" id="configuration">
 <h3>Configuration</h3>
 <p>It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
@@ -226,7 +311,7 @@ A data app is a content feed available in industry-standard formats including JS
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;&quot;</span>
     }]
 }</code></pre>
-<p>The <a href="./sdk/classes/F2.AppManifest.html">App Manifest</a> can be generated by the server-side code of your choice or be written-by-hand in your favorite text editor. In the <a href="https://www.github.com/OpenF2/F2">GitHub repository</a>, there are apps written in JavaScript, PHP, Ruby, Python and Classic ASP (JScript) to serve as examples to get you started.</p>
+<p>The <a href="./sdk/classes/F2.AppManifest.html">App Manifest</a> can be generated by the server-side code of your choice or be written-by-hand in your favorite text editor. In the <a href="https://www.github.com/OpenF2/F2">GitHub repository</a>, there are apps written in JavaScript, PHP, and C# to serve as examples to get you started.</p>
 <p>When it's complete (using the examples further below), the App Manifest looks like this:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">F2_jsonpCallback_com_companyname_appname({
     <span class="st">&quot;inlineScripts&quot;</span>:[<span class="st">&quot;(function(){ var foo = bar; doSomething(); })()&quot;</span>],
@@ -241,7 +326,7 @@ A data app is a content feed available in industry-standard formats including JS
                 <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
                 <span class="dt">value</span>: <span class="dv">12345</span>
             },
-            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&lt;div class=</span><span class="ch">\&quot;</span><span class="st">sunrise</span><span class="ch">\&quot;</span><span class="st">&gt;Hello world.&lt;/div&gt;&quot;</span>
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&lt;div class=</span><span class="ch">\&quot;</span><span class="st">sunrise</span><span class="ch">\&quot;</span><span class="st">&gt;Hello world.&lt;/div&gt;&quot;</span>,
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
     }]
 })</code></pre>
@@ -344,7 +429,7 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
                 <span class="dt">foo</span>: <span class="st">&quot;bar&quot;</span>,
                 <span class="dt">value</span>: <span class="dv">12345</span>
             },
-            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&lt;div class=</span><span class="ch">\&quot;</span><span class="st">sunrise</span><span class="ch">\&quot;</span><span class="st">&gt;Hello world.&lt;/div&gt;&quot;</span>
+            <span class="st">&quot;html&quot;</span>:<span class="st">&quot;&lt;div class=</span><span class="ch">\&quot;</span><span class="st">sunrise</span><span class="ch">\&quot;</span><span class="st">&gt;Hello world.&lt;/div&gt;&quot;</span>,
             <span class="st">&quot;status&quot;</span>:<span class="st">&quot;good&quot;</span>
     }]
 })</code></pre>
@@ -826,10 +911,10 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1351627725152"></script>
-<script src="./js/prettify.js?1351627725152"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1351640454928"></script>
+<script src="./js/prettify.js?1351640454928"></script>
 <script src="./js/f2.min.js?1.0.1"></script>
-<script src="./js/docs.js?1351627725152"></script>
-<script>var ghpagescachebuster = "1351627725152";</script>
+<script src="./js/docs.js?1351640454928"></script>
+<script>var ghpagescachebuster = "1351640454928";</script>
 </body>
 </html>
