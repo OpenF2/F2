@@ -91,6 +91,10 @@ The F2.js JavaScript library is an open-source front-end development SDK managed
 
 All contributors will be expected to follow consistent standards and guidelines when contributing to F2. Direct inquiries to [info@openf2.org](mailto:info@openf2.org).
 
+### Notational Conventions
+
+The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
+
 * * * *
 
 ## Framework 
@@ -213,9 +217,5 @@ Developers who adhere to the F2 standard will make it possible for multiple apps
 F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App Developers started, there is a JavaScript SDK&mdash;called [F2.js](f2js-sdk.html)&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
 
 If you are interested in building Apps, get started by [browsing through this technical documentation](app-development.html) or follow the project on GitHub. If you are interested in building containers, [browse to the container documentation](container-development.html).
-
-### Notational Conventions
-
-The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
 * * * *
