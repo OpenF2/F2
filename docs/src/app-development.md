@@ -11,7 +11,7 @@ F2 apps are synonymous with modules, widgets and portlets. Think charts, portfol
 	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
 </dl>
 
-For the purposes of the documentation on this page, we'll focus on developing **display apps**. Browse to [The Basics: Framework](index.html#apps) for more information about F2 apps.
+For the purposes of the documentation on this page, we'll focus on developing **display apps**. Browse to [The Basics: Framework](index.html#apps) for more background information about F2 apps.
 
 * * * *
 
@@ -40,7 +40,7 @@ Create your basic container HTML template:
         <h1>Hello F2</h1>
         <!--include jQuery & Bootstrap-->
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="/path/to/your/bootstrapbootstrap.js"></script>
+        <script src="/path/to/your/bootstrap.js"></script>
         <!--include F2.js-->
         <script src="/path/to/your/F2.js"></script>
         <!--init & register-->
@@ -56,19 +56,16 @@ Create your basic container HTML template:
                 //Setup ContainerConfig
                 F2.init({
                     beforeAppRender: function(app){
-                        app = app || {};
                         var appTemplate = [
                             '<section class="well ' ,F2.Constants.Css.APP, ' span' ,(app.minGridSize || 4), '">',
                                 '<h2 class="', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
                             '</section>'
                         ];
-                        var $appRoot = $(appTemplate.join('')).appendTo('body');
-                        return $appRoot;
+                        //return the 'app root'
+                        return $(appTemplate.join('')).appendTo('body');
                     },
-                    
                     afterAppRender: function (app, html) {
-                        var el = $(app.root).append(html);
-                        return el;
+                        return $(app.root).append(html);
                     }
                 }); 
                 F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
@@ -80,7 +77,7 @@ Create your basic container HTML template:
 
 ### Basic App
 
-Create your basic [F2 app manifest](#app-manifest) and save it as `/path/to/your/manifest.js` using this code below. Note the path to this file should be specified in `manifestUrl` property within the `_appConfigs` array in your basic container (shown above).
+Create your basic [F2 app manifest](#app-manifest) and save it as `/path/to/your/manifest.js` using this code below. Note the path to this file should be specified in the `manifestUrl` property within the `_appConfigs` array in your basic container (shown above).
 
 ```javascript
 F2_jsonpCallback_com_your_app_id({
@@ -101,23 +98,25 @@ Now with a basic container and a basic app, you can load your F2 container and e
 
 ![](./img/basic-f2-app-test.png "Basic F2 app")
 
-Continue reading the F2 spec and start customizing your app to build exactly the financial solutions that our customers want.
+In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that our customers want.
 
 ### Sample Apps and Container
 
-Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/), you will find a basic container along with a number of sample apps. Once you clone or download the project repository, open the sample container by pointing your browser at:
+Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/), you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:
 
 `http://localhost/F2/examples/container/`
 
 ### Configuration
 
-It is assumed you will be developing F2 apps locally and have a localhost setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
-
-**Ready to start coding?** [Jump to Developing F2 Apps](#developing-f2-apps).
+It is assumed you will be developing F2 apps locally and have a `localhost` setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
 To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, [read more about containers in the Framework](index.html#framework). 
 
 To get started working with or developing containers, browse to the [documentation for developing the container](container-development.html).
+
+**Ready to start coding?** 
+
+<p><a href="#developing-f2-apps" class="btn btn-primary">Developing F2 Apps</a> <a href="./sdk/" class="btn">F2.js SDK Reference</a></p>
 
 * * * *
 

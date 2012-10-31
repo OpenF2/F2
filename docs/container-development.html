@@ -30,17 +30,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1351656631372"></script>
-  <script src="./js/respond.min.js?1351656631372"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1351703195496"></script>
+  <script src="./js/respond.min.js?1351703195496"></script>
   
-  <link href="./css/prettify.css?1351656631372" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1351656631372" rel="stylesheet">
+  <link href="./css/prettify.css?1351703195496" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1351703195496" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1351656631372" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1351656631372" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1351656631372" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1351656631372" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1351656631372" />
+  <link rel="icon" href="./img/favicon-32px.png?1351703195496" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1351703195496" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1351703195496" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1351703195496" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1351703195496" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1351656631372";
+  	var ghpagescachebuster = "1351703195496";
   </script>
 </head>
 <body>
@@ -140,19 +140,105 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1 class="title">Container Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to begin building F2 containers. Before continuing, make sure you've cloned the F2 repo on GitHub or downloaded the latest build (v1.0.1). Browse to the <a href="https://github.com/OpenF2/F2#quick-start">quick start guide</a> to find out how. Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 containers. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.0.1). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
 <hr>
 <section class="level2" id="get-started">
 <h2>Get Started</h2>
-<p>To help you get started, you will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a> along with a number of sample apps. Once you download and open the project repository, point your browser at:</p>
+<p>To help you get started building an F2 container, browse through the resources below. To jump start your F2 container and app development, download the F2 template (which now includes a basic container) <em>or</em> follow the instructions below.</p>
+<p>
+<a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip" class="btn btn-primary">Download Basic F2 Container Template</a>
+</p>
+
+<section class="level3" id="basic-container">
+<h3>Basic Container</h3>
+<p>To begin, download <a href="http://twitter.github.com/bootstrap/index.html">Bootstrap</a> and save a local copy of <a href="f2js-sdk.html">F2.js</a>.</p>
+<p>
+<a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn">Download F2.js</a> <a href="http://twitter.github.com/bootstrap/getting-started.html#download-bootstrap" class="btn">Download Bootstrap</a>
+</p>
+
+<p>Create your basic container HTML template:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+    <span class="kw">&lt;head&gt;</span>
+        <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
+        <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;/path/to/your/bootstrap.css&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;/head&gt;</span>
+    <span class="kw">&lt;body&gt;</span>
+        <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
+        <span class="co">&lt;!--include jQuery &amp; Bootstrap--&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://code.jquery.com/jquery-latest.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/path/to/your/bootstrap.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--include F2.js--&gt;</span>
+        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/path/to/your/F2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+        <span class="co">&lt;!--init &amp; register--&gt;</span>
+        <span class="kw">&lt;script&gt;</span>
+            (<span class="kw">function</span>(){
+                <span class="co">//define AppConfigs</span>
+                <span class="kw">var</span> _appConfigs = [{
+                    <span class="dt">appId</span>: <span class="st">&quot;com</span>_<span class="st">your</span>_<span class="st">app</span>_<span class="st">id&quot;</span>,
+                    <span class="dt">description</span>: <span class="st">&quot;F2</span> <span class="st">app</span> <span class="st">description&quot;</span>,
+                    <span class="dt">name</span>: <span class="st">&quot;F2</span> <span class="st">App&quot;</span>,
+                    <span class="dt">manifestUrl</span>: <span class="st">&quot;</span>/<span class="st">path</span>/<span class="st">to</span>/<span class="st">your</span>/<span class="st">manifest</span>.<span class="st">js&quot;</span> <span class="co">//note the path to your manifest</span>!<span class="co"> </span>
+                }];
+                <span class="co">//Setup ContainerConfig</span>
+                <span class="kw">F2</span>.<span class="fu">init</span>({
+                    <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(app){
+                        <span class="kw">var</span> appTemplate = [
+                            <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">well</span> <span class="ch">&#39;</span> ,<span class="kw">F2.Constants.Css</span>.<span class="fu">APP</span>, <span class="ch">&#39;</span> <span class="ch">span&#39;</span> ,(<span class="kw">app</span>.<span class="fu">minGridSize</span> || <span class="dv">4</span>), <span class="ch">&#39;</span>&quot;&gt;<span class="ch">&#39;</span>,
+                                <span class="ch">&#39;</span>&lt;<span class="ch">h2</span> <span class="ch">class</span>=&quot;<span class="ch">&#39;</span>, <span class="kw">F2.Constants.Css</span>.<span class="fu">APP</span>_<span class="fu">TITLE</span>, <span class="ch">&#39;</span>&quot;&gt;<span class="ch">&#39;</span>, <span class="kw">app.name</span>.<span class="fu">toUpperCase</span>(), <span class="ch">&#39;</span>&lt;/<span class="ch">h2</span>&gt;<span class="ch">&#39;</span>,
+                            <span class="ch">&#39;</span>&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>
+                        ];
+                        <span class="co">//return the </span>&#39;<span class="co">app root</span>&#39;
+<span class="co">                        return </span>$(<span class="co">appTemplate</span>.<span class="co">join</span>(&#39;&#39;)).<span class="co">appendTo</span>(&#39;<span class="co">body</span>&#39;);
+<span class="co">                    </span>},
+<span class="co">                    afterAppRender</span>:<span class="co"> function </span>(<span class="co">app</span>,<span class="co"> html</span>)<span class="co"> </span>{
+<span class="co">                        return </span>$(<span class="co">app</span>.<span class="co">root</span>).<span class="co">append</span>(<span class="co">html</span>);
+<span class="co">                    </span>}
+<span class="co">                </span>});<span class="co"> </span>
+                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs to initialize apps</span>
+            })();
+        <span class="kw">&lt;/script&gt;</span>
+    <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+</section>
+<section class="level3" id="basic-app">
+<h3>Basic App</h3>
+<p>Create your basic <a href="app-development.html#app-manifest">F2 app manifest</a> and save it as <code>/path/to/your/manifest.js</code> using this code below. Note the path to this file should be specified in the <code>manifestUrl</code> property within the <code>_appConfigs</code> array in your basic container (shown above).</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">F2_jsonpCallback_com_your_app_id({
+    <span class="st">&quot;scripts&quot;</span>: [],   
+    <span class="st">&quot;styles&quot;</span>: [],   
+    <span class="st">&quot;apps&quot;</span>: [{
+        <span class="st">&quot;data&quot;</span>: {},
+        <span class="st">&quot;html&quot;</span>: <span class="st">&quot;&lt;div&gt;&lt;p&gt;Hello, world. I&#39;m an F2 app.&lt;/p&gt;&lt;/div&gt;&quot;</span>
+    }]
+})</code></pre>
+<p><span class="label">Note</span> You can <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip">download the F2 container/app template</a> instead of creating the basic app by hand.</p>
+</section>
+<section class="level3" id="testing-the-basics">
+<h3>Testing the Basics</h3>
+<p>Now with a basic container and a basic app, you can load your F2 container and expect to see:</p>
+<figure>
+<img src="./img/basic-f2-app-test.png" title="Basic F2 app"><figcaption></figcaption>
+</figure>
+<p>In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that our customers want.</p>
+</section>
+<section class="level3" id="sample-apps-and-container">
+<h3>Sample Apps and Container</h3>
+<p>Good news! In the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a>, you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:</p>
 <p><code>http://localhost/F2/examples/container/</code></p>
-<p><em>Since the example container is a website, this page requires a web server <a href="#configuration">configured locally</a>.</em></p>
+</section>
 <section class="level3" id="configuration">
 <h3>Configuration</h3>
-<p>It is assumed you will be developing an F2 container locally and have a <code>localhost</code> setup. The URLs mentioned in this specification assume you have configured your F2 container and apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
-<p><strong>Ready to start coding?</strong> <a href="#developing-f2-containers">Jump to Developing F2 Containers</a>.</p>
+<p>It is assumed you will be developing an F2 container locally and have a <code>localhost</code> setup. The URLs mentioned in this specification also assume you have configured your F2 container to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
+<p>To better understand F2 and the role of containers, you need to understand the role of apps. If you haven’t already, <a href="index.html#framework">read more about apps in the Framework</a>.</p>
+<p>To get started working with or developing apps, browse to the <a href="app-development.html">documentation for developing apps</a>.</p>
+<p><strong>Ready to start coding?</strong></p>
+<p>
+<a href="#developing-f2-containers" class="btn btn-primary">Developing F2 Containers</a> <a href="./sdk/" class="btn">F2.js SDK Reference</a>
+</p>
+
 <hr>
 </section>
 </section>
@@ -693,16 +779,16 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.3, October 30, 2012</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.3, October 31, 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1351656631372"></script>
-<script src="./js/prettify.js?1351656631372"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1351703195496"></script>
+<script src="./js/prettify.js?1351703195496"></script>
 <script src="./js/f2.min.js?1.0.1"></script>
-<script src="./js/docs.js?1351656631372"></script>
-<script>var ghpagescachebuster = "1351656631372";</script>
+<script src="./js/docs.js?1351703195496"></script>
+<script>var ghpagescachebuster = "1351703195496";</script>
 </body>
 </html>

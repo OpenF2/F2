@@ -253,6 +253,7 @@ F2Docs.fn.buildLeftRailToc = function(){
  * Click handler for left nav
  */
 F2Docs.fn._handleTocNavigationClick = function(e){
+
 	var $this = $(e.currentTarget),
 		destinationId = $this.attr("href").replace(".","\\\\."),
 		$destination = $(destinationId),
@@ -264,8 +265,9 @@ F2Docs.fn._handleTocNavigationClick = function(e){
 	//if we have a location.hash change, animate scrollTop to it.
 	if (destinationId.indexOf("#") > -1){
 		offset = $destination.offset() || {};
-		$('html,body').animate({ scrollTop: offset.top });
-		location.hash = destinationId;
+		$('html,body').animate({ scrollTop: offset.top },function(){
+			location.hash = destinationId;
+		});
 		return false
 	}
 }
@@ -297,12 +299,12 @@ F2Docs.fn._getPgUrl = function (id) {
  * Takes <pre><code>something();</code></pre> and converts to <pre>something();</pre>
  * Removes unneeded CSS classnames, adds correct ones for prettify.js
  * Calls prettyPrint()
- *
+ * Changes out mailto links that pandoc turns into <code> elements.
  */
 F2Docs.fn.formatSourceCodeElements = function(){
 	$("pre")
 		.removeClass("sourceCode")
-		.addClass("prettyprint")
+		.addClass("prettyprint linenums")
 		.find("code").replaceWith(function() {
 			return $(this).contents();
 		})
