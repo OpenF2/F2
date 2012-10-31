@@ -38,7 +38,6 @@ F2's goal is to create a development standard for the financial services industr
 
 Because the spec is open, free, and exactly what the industry needs, we believe that it will be widely adopted, which will create new markets for app developers, content providers, and create vibrant app ecosystems for participants.
 
-
 <table class="table table-bordered">
 	<thead>
 		<tr>

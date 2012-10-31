@@ -17,9 +17,11 @@ For the purposes of the documentation on this page, we'll focus on developing **
 
 ## Get Started
 
-To help you get started building an F2 app, browse through the resources below. To jump start your F2 app development, [download the F2 app template](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip) or follow the instructions below.
+To help you get started building an F2 app, browse through the resources below. To jump start your F2 app development, download the F2 app template (which now includes a basic container) _or_ follow the instructions below.
 
-#### Basic Container
+<p><a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip" class="btn btn-primary">Download Basic F2 App Template</a></p>
+
+### Basic Container
 
 To begin, download [Bootstrap](http://twitter.github.com/bootstrap/index.html) and save a local copy of [F2.js](f2js-sdk.html).
 
@@ -30,84 +32,76 @@ Create your basic container HTML template:
 ```html
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>F2 Container</title>
-		<link rel="stylesheet" href="/path/to/your/bootstrap.min.css">
-	</head>
-	<body>
-		<h1>Hello F2</h1>
-		<!--include jQuery & Bootstrap-->
-		<script src="http://code.jquery.com/jquery-latest.js"></script>
-		<script src="/path/to/your/bootstrap.min.js"></script>
-		<!--include F2.js-->
-		<script src="/path/to/your/f2.js"></script>
-		<!--init & register-->
-		<script>
-			(function(){
-				//define AppConfigs
-				var _appConfigs = [{
-			        appId: "com_your_app_id",
-			        description: "F2 app description",
-			        name: "F2 App",
-			        manifestUrl: "/path/to/your/manifest.js" //note the path to your manifest! 
-   				}];
-				/**
-				 * Setup ContainerConfig
-				 * The appRender() method allows for customizing where apps are inserted.
-				 * In this example, appRender() would insert apps after the <h1> element.
-				 */
-				F2.init({
-					beforeAppRender: function(app){
-						app = app || {};
-						var appTemplate = [
-							'<section class="' ,F2.Constants.Css.APP, ' span' ,(app.minGridSize || 3), '">',
-								'<header class="clearfix">',
-									'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
-								'</header>',
-							'</section>'
-						];
-						var $appRoot = $(appRoot.join('')).appendTo('body');
-						return $appRoot;
-					},
-					
-					afterAppRender: function (app, html) {
-						var el = $(app.root).append(html);
-						return el;
-					},
-				}); 
-				F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
-			})();
-		</script>
-	</body>
+    <head>
+        <title>F2 Container</title>
+        <link rel="stylesheet" href="/path/to/your/bootstrap.css">
+    </head>
+    <body>
+        <h1>Hello F2</h1>
+        <!--include jQuery & Bootstrap-->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="/path/to/your/bootstrapbootstrap.js"></script>
+        <!--include F2.js-->
+        <script src="/path/to/your/F2.js"></script>
+        <!--init & register-->
+        <script>
+            (function(){
+                //define AppConfigs
+                var _appConfigs = [{
+                    appId: "com_your_app_id",
+                    description: "F2 app description",
+                    name: "F2 App",
+                    manifestUrl: "/path/to/your/manifest.js" //note the path to your manifest! 
+                }];
+                //Setup ContainerConfig
+                F2.init({
+                    beforeAppRender: function(app){
+                        app = app || {};
+                        var appTemplate = [
+                            '<section class="well ' ,F2.Constants.Css.APP, ' span' ,(app.minGridSize || 4), '">',
+                                '<h2 class="', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
+                            '</section>'
+                        ];
+                        var $appRoot = $(appTemplate.join('')).appendTo('body');
+                        return $appRoot;
+                    },
+                    
+                    afterAppRender: function (app, html) {
+                        var el = $(app.root).append(html);
+                        return el;
+                    }
+                }); 
+                F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
+            })();
+        </script>
+    </body>
 </html>
 ```
 
-#### Basic App
+### Basic App
 
-Create your basic F2 app manifest and save it as `/path/to/your/manifest.js` (which was the path specified in `manifestUrl` within the `_appConfigs` array in your basic container above).
+Create your basic [F2 app manifest](#app-manifest) and save it as `/path/to/your/manifest.js` using this code below. Note the path to this file should be specified in `manifestUrl` property within the `_appConfigs` array in your basic container (shown above).
 
 ```javascript
 F2_jsonpCallback_com_your_app_id({
-    "scripts":[],   
-    "styles":[],   
-    "apps":[{
-        "data":{},
-        "html":"<h2>Hello basic app</h2>"
+    "scripts": [],   
+    "styles": [],   
+    "apps": [{
+        "data": {},
+        "html": "<div><p>Hello, world. I'm an F2 app.</p></div>"
     }]
 })
 ```
 
-<span class="label">Note</span> You can [download the F2 app template](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip) instead of creating the basic app by hand.
+<span class="label">Note</span> You can [download the F2 app template](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip) instead of creating the basic app by hand.
 
-#### Test
+### Testing the Basics
 
 Now with a basic container and a basic app, you can load your F2 container and expect to see:
 
-```html
-<h1>Hello World</h1>
+![](./img/basic-f2-app-test.png "Basic F2 app")
 
-<h2>Hello basic app</h2>
-```
+Continue reading the F2 spec and start customizing your app to build exactly the financial solutions that our customers want.
 
 ### Sample Apps and Container
 
@@ -174,7 +168,7 @@ Once you have your AppID, start by setting up your project. You will need at lea
 
 ![](./img/project_folder.png "Setup your project")
 
-<span class="label">Helper</span> [Download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip)
+<span class="label">Helper</span> [Download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
 
 ### App Manifest
 
@@ -366,7 +360,7 @@ F2_jsonpCallback_com_companyname_appname({
 
 ### App Manifest Response
 
-OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
+OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
 
 As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. **This means F2 App Manifest files must provide a JSONP callback function.** (If you don't know what JSONP is or how it works, we recommend [reading what Remy Sharp has to say](http://remysharp.com/2007/10/08/what-is-jsonp/) about it.)
 
@@ -528,7 +522,7 @@ Of course, you don't have to use either one of these patterns in your `appclass.
 	<p>In the absence of a function in your `appclass.js`, F2 will be unable to load your app on a container.</p>
 </div>
 
-If you don't want to think about any of this and would rather just start coding, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/F2-App-Template.zip).
+If you don't want to think about any of this and would rather just start coding, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip).
 
 * * * *
 

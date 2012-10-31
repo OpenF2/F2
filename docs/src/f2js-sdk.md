@@ -22,7 +22,7 @@ Anyone is free to download F2.js from the [F2 project repository on GitHub](http
 
 The latest version of F2.js is **{{sdk.version}}**.
 
-<a href="https://github.com/OpenF2/F2/zipball/master" class="btn btn-primary">Download F2</a> <a href="https://github.com/OpenF2/F2/" class="btn" target="_blank">View on GitHub</a>
+<p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-primary">Download F2.js {{sdk.version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn" target="_blank">View on GitHub</a></p>
 
 * * * *
 
