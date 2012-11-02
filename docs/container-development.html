@@ -30,17 +30,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1351833239487"></script>
-  <script src="./js/respond.min.js?1351833239487"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1351836410439"></script>
+  <script src="./js/respond.min.js?1351836410439"></script>
   
-  <link href="./css/prettify.css?1351833239487" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1351833239487" rel="stylesheet">
+  <link href="./css/prettify.css?1351836410439" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1351836410439" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1351833239487" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1351833239487" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1351833239487" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1351833239487" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1351833239487" />
+  <link rel="icon" href="./img/favicon-32px.png?1351836410439" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1351836410439" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1351836410439" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1351836410439" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1351836410439" />
   
   <script type="text/javascript">
   	var _gaq = _gaq || [];
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   	})();
   
-  	var ghpagescachebuster = "1351833239487";
+  	var ghpagescachebuster = "1351836410439";
   </script>
 </head>
 <body>
@@ -202,6 +202,7 @@ You've come to the right place if you want to start building F2 containers. Befo
         <span class="kw">&lt;/script&gt;</span>
     <span class="kw">&lt;/body&gt;</span>
 <span class="kw">&lt;/html&gt;</span></code></pre>
+<p>In developing a more advanced container, the HTML document's <code>body</code> element would contain additional markup and allow for specific positioning or placement of apps. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the <a href="#container-design">F2 design guidelines</a>.</p>
 </section>
 <section class="level3" id="basic-app">
 <h3>Basic App</h3>
@@ -324,15 +325,15 @@ You've come to the right place if you want to start building F2 containers. Befo
 <pre class="sourceCode javascript"><code class="sourceCode javascript">$(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="kw">function</span>(){
     <span class="kw">F2</span>.<span class="fu">init</span>({
         <span class="co">//define ContainerConfig properties</span>
-        <span class="dt">appRender</span>: <span class="kw">function</span>(){ ... },
-        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(){ ... },
-        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(){ ... }
+        <span class="dt">appRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(appConfig){ ... }
     });
 });</code></pre>
 <p>To see an more detailed example of <code>F2.init()</code>, <a href="https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js">look at the sample container javascript file</a> in the F2 repo on GitHub.</p>
 <section class="level4" id="apprender">
 <h4>AppRender</h4>
-<p>The <code>appRender()</code> method allows the container to wrap an app in extra HTML. The function should accept an <code>F2.AppConfig</code> object and also a string of HTML. The extra HTML can provide links to edit app settings and remove an app from the container. See <code>F2.Constants.Css</code> for CSS classes that should be applied to elements.</p>
+<p>The <code>appRender()</code> method allows the container to wrap an app in extra HTML. The function should accept an <code>F2.AppConfig</code> object and also a string of <code>HTML</code>. The extra HTML can provide links to edit app settings and remove an app from the container. See <code>F2.Constants.Css</code> for CSS classes that should be applied to elements.</p>
 </section>
 <section class="level4" id="beforeapprender">
 <h4>BeforeAppRender</h4>
@@ -340,19 +341,19 @@ You've come to the right place if you want to start building F2 containers. Befo
 </section>
 <section class="level4" id="afterapprender">
 <h4>AfterAppRender</h4>
-<p>The <code>afterAppRender()</code> method allows the container to override how an app's HTML is inserted into the page. The function should accept an <code>F2.AppConfig</code> object and also a string of HTML.</p>
+<p>The <code>afterAppRender()</code> method allows the container to override how an app's HTML is inserted into the page. The function should accept an <code>F2.AppConfig</code> object and also a string of <code>HTML</code>.</p>
 <p>For more information on <code>F2.ContainerConfig</code>, <a href="./sdk/classes/F2.ContainerConfig.html">browse to the F2.js SDK docs</a>.</p>
 </section>
 <section class="level4" id="f2-ui-mask">
 <h4>F2 UI Mask</h4>
-<p>In version 1.0, Container Developers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is <code>F2.UI.Mask</code>. The <code>Mask</code> object contains configuration defaults for the <code>F2.UI.showMask()</code> and <code>F2.UI.hideMask()</code> methods.</p>
+<p>Container Developers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is <code>F2.UI.Mask</code>. The <code>Mask</code> object contains configuration defaults for the <code>F2.UI.showMask()</code> and <code>F2.UI.hideMask()</code> methods.</p>
 <p>An example of setting the mask in <code>F2.init()</code>:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">$(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="kw">function</span>(){
     <span class="kw">F2</span>.<span class="fu">init</span>({
         <span class="co">//define ContainerConfig properties</span>
-        <span class="dt">appRender</span>: <span class="kw">function</span>(){ ... },
-        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(){ ... },
-        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(){ ... },
+        <span class="dt">appRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(appConfig){ ... },
 
         <span class="co">//setup UI</span>
         <span class="dt">UI</span>:{
@@ -367,81 +368,9 @@ You've come to the right place if you want to start building F2 containers. Befo
 <p>Included in the <code>F2.UI.Mask</code> configuration object are the following properties: <code>backgroundColor</code>, <code>loadingIcon</code>, <code>opacity</code>, <code>useClasses</code>, and <code>zIndex</code>. Each of these <code>F2.UI.Mask</code> properties is detailed in <a href="./sdk/classes/F2.ContainerConfig.UI.Mask.html">the F2.js SDK docs</a>.</p>
 <p>For more information on <code>F2.UI</code>, <a href="./sdk/classes/F2.UI.html">browse to the F2.js SDK docs</a>.</p>
 </section>
-<section class="level4" id="basic-container-template">
-<h4>Basic Container Template</h4>
-<p>The simplest template for a container looks like this:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
-<span class="kw">&lt;html&gt;</span>
-    <span class="kw">&lt;head&gt;</span>
-        <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
-        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
-        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;https://dev.domain.com/css/site.css&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">&lt;/head&gt;</span>
-    <span class="kw">&lt;body&gt;</span>
-        
-        <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
-
-        <span class="co">&lt;!--include F2.js--&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/f2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="co">&lt;!--init &amp; register--&gt;</span>
-        <span class="kw">&lt;script&gt;</span>
-            (<span class="kw">function</span>(){
-                <span class="kw">var</span> _appConfigs = [...]; <span class="co">//define AppConfigs</span>
-                <span class="co">/*</span>*
-                 * Setup ContainerConfig
-                 * The appRender() method allows for customizing where apps are inserted.
-                 * In this example, appRender() would insert apps after the &lt;h1&gt; element.
-                 <span class="co">*/</span>
-                <span class="kw">F2</span>.<span class="fu">init</span>(...); 
-                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs to initialize apps</span>
-            })();
-        <span class="kw">&lt;/script&gt;</span>
-    <span class="kw">&lt;/body&gt;</span>
-<span class="kw">&lt;/html&gt;</span></code></pre>
-<p>In developing a more advanced container, the HTML document's <code>body</code> element would contain additional markup and allow for specific positioning or placement of apps. Such an example might look like this:</p>
-<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
-<span class="kw">&lt;html&gt;</span>
-    <span class="kw">&lt;head&gt;</span>
-        <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
-        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;X-UA-Compatible&quot;</span><span class="ot"> content=</span><span class="st">&quot;IE=edge,chrome=1&quot;</span> <span class="kw">/&gt;</span>
-        <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;device-width&quot;</span> <span class="kw">/&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/modernizr.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;https://dev.domain.com/css/site.css&quot;</span><span class="kw">&gt;</span>
-    <span class="kw">&lt;/head&gt;</span>
-    <span class="kw">&lt;body&gt;</span>
-        <span class="kw">&lt;header&gt;</span>
-            <span class="kw">&lt;nav&gt;</span>
-                <span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;/home&quot;</span><span class="kw">&gt;</span>Home<span class="kw">&lt;/a&gt;</span>
-            <span class="kw">&lt;/nav&gt;</span>
-        <span class="kw">&lt;/header&gt;</span>
-        <span class="kw">&lt;section&gt;</span>
-            <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
-            <span class="kw">&lt;p&gt;</span>Hi.<span class="kw">&lt;/p&gt;</span>
-        <span class="kw">&lt;/section&gt;</span>
-        <span class="kw">&lt;footer&gt;</span>
-            <span class="dv">&amp;copy;</span> 2012 F2 Container.
-        <span class="kw">&lt;/footer&gt;</span>
-
-        <span class="co">&lt;!--include F2.js--&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;https://dev.domain.com/js/F2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="co">&lt;!--init &amp; register--&gt;</span>
-        <span class="kw">&lt;script&gt;</span>
-            (<span class="kw">function</span>(){
-                <span class="kw">var</span> _appConfigs = [...]; <span class="co">//define AppConfigs</span>
-                <span class="co">/*</span>*
-                 * Setup ContainerConfig
-                 * The appRender() method allows for customizing where apps are inserted.
-                 * In this example, appRender() would insert apps within the &lt;section&gt; and after the &lt;p&gt; element.
-                 <span class="co">*/</span>
-                <span class="kw">F2</span>.<span class="fu">init</span>(...);
-                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs to initialize apps</span>
-            })();
-        <span class="kw">&lt;/script&gt;</span>
-    <span class="kw">&lt;/body&gt;</span>
-<span class="kw">&lt;/html&gt;</span></code></pre>
-<p>Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the <a href="#container-design">F2 design guidelines</a>.</p>
+<section class="level4" id="container-templates">
+<h4>Container Templates</h4>
+<p>If you're looking for sample container HTML template code, jump to the <a href="#get-started">Get Started section</a>. There is also a basic F2 container/app template <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip">available for download on GitHub</a>.</p>
 <hr>
 </section>
 </section>
@@ -594,9 +523,9 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
     <span class="co">//init F2 container</span>
     <span class="kw">F2</span>.<span class="fu">init</span>({
         <span class="co">//define ContainerConfig properties</span>
-        <span class="dt">appRender</span>: <span class="kw">function</span>(){ ... },
-        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(){ ... },
-        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(){ ... },
+        <span class="dt">appRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+        <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+        <span class="dt">afterAppRender</span>: <span class="kw">function</span>(appConfig){ ... },
 
         <span class="co">//setup UI</span>
         <span class="dt">UI</span>:{
@@ -664,9 +593,9 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
             <span class="co">//init F2 container</span>
             <span class="kw">F2</span>.<span class="fu">init</span>({
                 <span class="co">//define ContainerConfig properties</span>
-                <span class="dt">appRender</span>: <span class="kw">function</span>(){ ... },
-                <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(){ ... },
-                <span class="dt">afterAppRender</span>: <span class="kw">function</span>(){ ... },
+                <span class="dt">appRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+                <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(appConfig, html){ ... },
+                <span class="dt">afterAppRender</span>: <span class="kw">function</span>(appConfig){ ... },
 
                 <span class="co">//setup UI</span>
                 <span class="dt">UI</span>:{
@@ -779,16 +708,16 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.3, November 1, 2012</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.3, November 2, 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1351833239487"></script>
-<script src="./js/prettify.js?1351833239487"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1351836410439"></script>
+<script src="./js/prettify.js?1351836410439"></script>
 <script src="./js/f2.min.js?1.0.1"></script>
-<script src="./js/docs.js?1351833239487"></script>
-<script>var ghpagescachebuster = "1351833239487";</script>
+<script src="./js/docs.js?1351836410439"></script>
+<script>var ghpagescachebuster = "1351836410439";</script>
 </body>
 </html>

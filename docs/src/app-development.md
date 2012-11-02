@@ -13,6 +13,8 @@ F2 apps are synonymous with modules, widgets and portlets. Think charts, portfol
 
 For the purposes of the documentation on this page, we'll focus on developing **display apps**. Browse to [The Basics: Framework](index.html#apps) for more background information about F2 apps.
 
+_Interested in developing F2 containers? [Browse to Container Development](container-development.html)._
+
 * * * *
 
 ## Get Started
@@ -74,6 +76,8 @@ Create your basic container HTML template:
     </body>
 </html>
 ```
+
+In developing a more advanced container, the HTML document's `body` element would contain additional markup and allow for specific positioning or placement of apps. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](container-development.html#container-design).
 
 ### Basic App
 

@@ -76,19 +76,19 @@ F2 will continuously evolve to bring the community the best features, services a
 
 To achieve steady growth and stable release cycles, F2 will be maintained under the Semantic Versioning guidelines as much as possible. For more information, [browse to the readme on GitHub](https://github.com/OpenF2/F2#readme).
 
-![](./img/bankeo/bankeo_cascade.png "F2 Framework")
+![](./img/bankeo/bankeo_cascade.png "F2 Framework").
 
 ### Track
 
 F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is {{docs.version}} released on {{docs.lastUpdateDateFormatted}}. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Docs-Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
 
-<span class="label">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html).
+<span class="label">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html) which is currently version {{sdk.version}}.
 
 ### Collaborate
 
-The F2.js JavaScript library is an open-source front-end development SDK managed on GitHub. F2 chose this route to allow developers to contribute to the success of both the open standard and SDKs. GitHub's tools make collaboration easy, and you can get started contributing today.
+The F2 specification and the F2.js JavaScript library are open-source projects managed on GitHub. F2 chose this route to allow developers to contribute to the success of both the open standard and SDKs. GitHub's tools make collaboration easy, and you can get started contributing today.
 
-All contributors will be expected to follow consistent standards and guidelines when contributing to F2. Direct inquiries to [info@openf2.org](mailto:info@openf2.org).
+All contributors will be expected to follow consistent standards and guidelines when contributing to F2. Direct inquiries to [info@openf2.org](mailto:info@openf2.org) or post a question on the [F2 mailing list](https://groups.google.com/forum/#!forum/OpenF2).
 
 ### Notational Conventions
 
@@ -216,5 +216,7 @@ Developers who adhere to the F2 standard will make it possible for multiple apps
 F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App Developers started, there is a JavaScript SDK&mdash;called [F2.js](f2js-sdk.html)&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
 
 If you are interested in building Apps, get started by [browsing through this technical documentation](app-development.html) or follow the project on GitHub. If you are interested in building containers, [browse to the container documentation](container-development.html).
+
+<p><a class="btn btn-primary" href="app-development.html">Build an F2 App</a> or <a class="btn btn-primary" href="container-development.html">Build an F2 Container</a>
 
 * * * *
