@@ -44,17 +44,17 @@ Create your basic container HTML template:
                 }];
                 //Setup ContainerConfig
                 F2.init({
-                    beforeAppRender: function(app){
+                    beforeAppRender: function(appConfig){
                         var appTemplate = [
-                            '<section class="well ' ,F2.Constants.Css.APP, ' span' ,(app.minGridSize || 4), '">',
-                                '<h2 class="', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
+                            '<section class="well ' ,F2.Constants.Css.APP, ' span' ,(appConfig.minGridSize || 4), '">',
+                                '<h2 class="', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
                             '</section>'
                         ];
                         //return the 'app root'
                         return $(appTemplate.join('')).appendTo('body');
                     },
-                    afterAppRender: function (app, html) {
-                        return $(app.root).append(html);
+                    afterAppRender: function (appConfig, html) {
+                        return $(appConfig.root).append(html);
                     }
                 }); 
                 F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
@@ -603,9 +603,9 @@ In the secure container's `$(document).ready()`, add the `F2.init()`:
 $(document).ready(function(){
 	F2.init({
 		//define ContainerConfig properties
-		appRender: function(){ ... },
-		beforeAppRender: function(){ ... },
-		afterAppRender: function(){ ... }
+		appRender: function(appConfig, html){ ... },
+		beforeAppRender: function(appConfig, html){ ... },
+		afterAppRender: function(appConfig){ ... }
 	});
 });
 ```
@@ -616,9 +616,9 @@ For secure containers, an additional property must be set on the `ContainerConfi
 $(document).ready(function(){
 	F2.init({
 		//define ContainerConfig properties
-		appRender: function(){ ... },
-		beforeAppRender: function(){ ... },
-		afterAppRender: function(){ ... },
+		appRender: function(appConfig, html){ ... },
+		beforeAppRender: function(appConfig, html){ ... },
+		afterAppRender: function(appConfig){ ... },
 		secureAppPagePath: "https://secure.domain.com/container" //define secure page path
 	});
 });
@@ -632,14 +632,14 @@ Since it will be loaded in an iframe and like its parent, the secure child conta
 
 ```javascript
 F2.init({
-	appRender:function(appContext, html) {
+	appRender:function(appConfig, html) {
 		return [
 			'<div class="span4">',
 				html,
 			'</div>'
 		].join('');
 	},
-	afterAppRender:function(appContext, html) { ... },
+	afterAppRender:function(appConfig, html) { ... },
 
 	//now set this property to true to tell F2 this is the secure child frame.
 	isSecureAppPage:true
