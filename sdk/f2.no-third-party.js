@@ -829,8 +829,8 @@ F2.extend('Events', (function() {
 			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
-		 * Execute each of the listeners tha may be listening for the specified
-		 * event name in order with the list of arguments
+		 * Execute each of the listeners that may be listening for the specified
+		 * event name in order with the list of arguments.
 		 * @method emit
 		 * @param {string} event The event name
 		 * @param {object} [arg]* The arguments to be passed

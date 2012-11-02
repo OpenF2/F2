@@ -1327,7 +1327,7 @@
         {
             "file": "sdk/src/events.js",
             "line": 27,
-            "description": "Execute each of the listeners tha may be listening for the specified\nevent name in order with the list of arguments",
+            "description": "Execute each of the listeners that may be listening for the specified\nevent name in order with the list of arguments.",
             "itemtype": "method",
             "name": "emit",
             "params": [
