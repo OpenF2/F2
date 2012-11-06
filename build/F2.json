@@ -3,9 +3,9 @@
 		"version": "1.0.3",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-11-05T03:51:56.168Z",
-		"cacheBuster": "1352087516170",
-		"lastUpdateDateFormatted": "November 4, 2012"
+		"lastUpdateDate": "2012-11-06T15:42:00.542Z",
+		"cacheBuster": "1352216520543",
+		"lastUpdateDateFormatted": "November 6, 2012"
 	},
 	"sdk": {
 		"version": "1.0.1",

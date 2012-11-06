@@ -16,6 +16,7 @@ if (!String.prototype.supplant) {
 //F2 docs
 var F2Docs = function(){ }
 
+//shortcut
 F2Docs.fn = F2Docs.prototype;
 
 /**
@@ -23,28 +24,17 @@ F2Docs.fn = F2Docs.prototype;
  */
 F2Docs.fn.init = function() {
 	
-	this.mobileHideAddressBar();
 	this.navbarDocsHelper();
 	this.bindEvents();
 	this.buildLeftRailToc();
 	this.buildBookmarks();
-	
 	this.formatSourceCodeElements();
 
+	//eh
 	$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0).scrollspy('refresh');
 
 	//affix left nav
 	$("#toc > ul.nav").affix();
-}
-
-/**
- * Hide address bar on page load
- * http://remysharp.com/2010/08/05/doing-it-right-skipping-the-iphone-url-bar/
- */
-F2Docs.fn.mobileHideAddressBar = function(){
-	/mobi/i.test(navigator.userAgent) && !location.hash && setTimeout(function () {
-	  if (!pageYOffset) window.scrollTo(0, 1);
-	}, 0);
 }
 
 /**
@@ -53,6 +43,7 @@ F2Docs.fn.mobileHideAddressBar = function(){
 F2Docs.fn.bindEvents = function(){
 
 	this._setupBodyContentAnchorClick();
+	this._watchScrollSpy();
 }
 
 /** 
@@ -152,11 +143,11 @@ F2Docs.fn.getName = function(){
 F2Docs.fn._buildDevSubSectionsHtml = function(){
 	var html = [];
 
-	$.each(this.devSubSections,$.proxy(function(idx,item){
+	$.each(this.devSubSections,function(idx,item){
 		html.push("<li><a href='{url}' data-parent='true'>{label}</a></li>".supplant({url:item, label: idx}));
-	},this));
+	});
 
-	return html;
+	return html.join('');
 }
 
 /**
@@ -172,7 +163,10 @@ F2Docs.fn.buildBookmarks = function(){
 			//name = $h.text(),
 			anchor = $(item).prop("id"),
 			$link = $(link.supplant({id: anchor}));
-
+			//animate click
+			$link.on('click',$.proxy(function(e){
+				this._animateAnchor(e,false);
+			},this));
 		$h.prepend($link);
 	},this));
 }
@@ -239,6 +233,9 @@ F2Docs.fn.buildLeftRailToc = function(){
 		}
 	}
 
+	//cache inner nav for this page
+	this.$currentSectionNavList = $navWrap.find('li.active > ul.nav-list');
+
 	//append links
 	$('#toc').html($navWrap);
 	var $responsiveItems = $navWrap.children().clone();
@@ -246,21 +243,32 @@ F2Docs.fn.buildLeftRailToc = function(){
 	$('#tocResponsive').append($responsiveItems);
 
 	//add click event
-	$("a",$navWrap).on("click",$.proxy(this._handleTocNavigationClick,this));
+	$("a",$navWrap).on("click",$.proxy(function(e){
+		this._animateAnchor(e,true);
+	},this));
 }
 
-/**
- * Click handler for left nav
- */
-F2Docs.fn._handleTocNavigationClick = function(e){
+F2Docs.fn._setupBodyContentAnchorClick = function(){
+	$('a[href^="#"]','#docs').on('click',$.proxy(function(e){
+		this._animateAnchor(e,false);
+	},this));
+}
 
+F2Docs.fn._animateAnchor = function(e, isTableOfContentsLink){
 	var $this = $(e.currentTarget),
 		destinationId = $this.attr("href").replace(".","\\\\."),
 		$destination = $(destinationId),
 		offset;
 
-	$("li.active", "#toc ul").removeClass("active");
-	$this.parent().addClass("active");
+	//don't stop top-level (non-anchor) links from going to their location
+	if (destinationId.indexOf("#") > -1){
+		e.preventDefault();
+	}
+
+	if (isTableOfContentsLink){
+		$("li.active", "#toc ul").removeClass("active");
+		$this.parent().addClass("active");
+	}
 
 	//if we have a location.hash change, animate scrollTop to it.
 	if (destinationId.indexOf("#") > -1){
@@ -270,23 +278,21 @@ F2Docs.fn._handleTocNavigationClick = function(e){
 		});
 		return false
 	}
-}
+};
 
-F2Docs.fn._setupBodyContentAnchorClick = function(){
-	$('a[href^="#"]','#docs').on("click",function(e){
-		var $this = $(e.currentTarget),
-			destinationId = $this.attr("href").replace(".","\\\\."),
-			$destination = $(destinationId),
-			offset;
-
-		//if we have a location.hash change, animate scrollTop to it.
-		if (destinationId.indexOf("#") > -1){
-			offset = $destination.offset() || {};
-			$('html,body').animate({ scrollTop: offset.top });
-			location.hash = destinationId;
-			return false
+/**
+ * Because of our page layout, bootstrap scrollspy doesn't pick up H1 
+ * and the active class never gets added back when you scroll to top of page
+ * This fixes that.
+ */
+F2Docs.fn._watchScrollSpy = function(){
+	$(window).on('scroll',$.proxy(function(e){
+		var $nav = this.$currentSectionNavList;
+		if (document.body.scrollTop < 1 && !$nav.parent().hasClass('active')){
+			$('li',$nav).removeClass('active');
+			$nav.parent().addClass('active');
 		}
-	});
+	},this));
 }
 
 F2Docs.fn._getPgUrl = function (id) {
@@ -319,7 +325,7 @@ F2Docs.fn.formatSourceCodeElements = function(){
 	;
 	window.prettyPrint && prettyPrint();
 
-	//fix mailto links from pandoc.
+	//fix mailto links from pandoc so they don't have <code> around them.
 	$('a[href^="mailto"]','#docs').each(function(idx,item){
 		$(item).html($(item).text());
 	});
@@ -352,5 +358,3 @@ $(function() {
 	F2Docs.insite();
 
 });
-
-

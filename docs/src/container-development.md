@@ -12,7 +12,7 @@ To help you get started building an F2 container, browse through the resources b
 
 ### Basic Container
 
-To begin, download [Bootstrap](http://twitter.github.com/bootstrap/index.html) and save a local copy of [F2.js](f2js-sdk.html).
+To begin, you **do not need to build F2** [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [Bootstrap](http://twitter.github.com/bootstrap/index.html) and save a local copy of [F2.js](f2js-sdk.html). Also ensure you're [properly configured](#configuration).
 
 <p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn">Download F2.js</a> <a href="http://twitter.github.com/bootstrap/getting-started.html#download-bootstrap" class="btn">Download Bootstrap</a></p>
 
@@ -26,7 +26,12 @@ Create your basic container HTML template:
         <link rel="stylesheet" href="/path/to/your/bootstrap.css">
     </head>
     <body>
-        <h1>Hello F2</h1>
+        <div class="container">
+            <div class="hero-unit">
+                <h1>Hello F2</h1>
+            </div>
+            <div class="row"><!--apps go here--></div>
+        </div>
         <!--include jQuery & Bootstrap-->
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="/path/to/your/bootstrap.js"></script>
@@ -44,17 +49,13 @@ Create your basic container HTML template:
                 }];
                 //Setup ContainerConfig
                 F2.init({
-                    beforeAppRender: function(appConfig){
-                        var appTemplate = [
-                            '<section class="well ' ,F2.Constants.Css.APP, ' span' ,(appConfig.minGridSize || 4), '">',
-                                '<h2 class="', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
-                            '</section>'
-                        ];
-                        //return the 'app root'
-                        return $(appTemplate.join('')).appendTo('body');
+                    beforeAppRender: function(app){
+                        var appShell = '<section class="well span' +(app.minGridSize || 4)+ '"></section>';
+                        return $(appShell).appendTo('div.row');
                     },
-                    afterAppRender: function (appConfig, html) {
-                        return $(appConfig.root).append(html);
+                    afterAppRender: function (app, html) {
+                        //app.root is `appShell` from beforeAppRender()
+                        return $(app.root).append(html);
                     }
                 }); 
                 F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
