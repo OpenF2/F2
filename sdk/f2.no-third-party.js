@@ -1,5 +1,5 @@
 /*!
- * F2 v1.0.0
+ * F2 v1.0.1
  * Copyright (c) 2012 Markit On Demand, Inc. http://www.openf2.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -183,7 +183,7 @@ if (!window.F2) {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return "1.0.0"; }
+		version: function() { return "1.0.1"; }
 	};
 };
 /**
@@ -263,8 +263,8 @@ F2.extend("", {
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * sets isSecure = true. It will also be true if the
-		 * [container](../../container-development.html) has made the decision to run
-		 * apps in iframes.
+		 * [container](../../container-development.html) has made the decision to
+		 * run apps in iframes.
 		 * @property isSecure
 		 * @type bool
 		 * @default false
@@ -290,8 +290,8 @@ F2.extend("", {
 		/**
 		 * The recommended minimum grid size that this app should be run. This
 		 * value corresponds to the 12-grid system that is used by the
-		 * [container](../../container-development.html). This property should be set
-		 * by apps that require a certain number of columns in their layout.
+		 * [container](../../container-development.html). This property should be
+		 * set by apps that require a certain number of columns in their layout.
 		 * @property minGridSize
 		 * @type int
 		 * @default 4
@@ -425,8 +425,8 @@ F2.extend("", {
 		 */
 		afterAppRender: function(appConfig, html) {},
 		/**
-		 * Allows the [container](../../container-development.html) to wrap an app in
-		 * extra html. The function should accept an
+		 * Allows the [container](../../container-development.html) to wrap an app
+		 * in extra html. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html. The extra html can provide links to edit app settings and remove an
 		 * app from the container. See
@@ -461,8 +461,8 @@ F2.extend("", {
 		UI: {
 			/**
 			 * An object containing configuration defaults for the 
-			 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
-			 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods.
+			 * F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} and
+			 * F2.UI.{{#crossLink "F2.UI/hideMask"}}{{/crossLink}} methods.
 			 * @class F2.ContainerConfig.UI.Mask
 			 */
 			Mask: {
@@ -515,8 +515,8 @@ F2.extend("", {
 		secureAppPagePath: '',
 		/**
 		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links in
-		 * the app's header.
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app's header.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
@@ -829,8 +829,8 @@ F2.extend('Events', (function() {
 			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
-		 * Execute each of the listeners tha may be listening for the specified
-		 * event name in order with the list of arguments
+		 * Execute each of the listeners that may be listening for the specified
+		 * event name in order with the list of arguments.
 		 * @method emit
 		 * @param {string} event The event name
 		 * @param {object} [arg]* The arguments to be passed
@@ -1591,7 +1591,7 @@ F2.extend('UI', (function(){
 		} else {
 
 			if (showLoading && !_containerConfig.UI.Mask.loadingIcon) {
-				F2.log('Unable to display loading icon. Please use F2.UI.setMaskConfiguration to set the path to the loading icon');
+				F2.log('Unable to display loading icon. Please set F2.ContainerConfig.UI.Mask.loadingIcon	when calling F2.init();');
 			}
 
 			var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
@@ -1897,7 +1897,7 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfig.');
+			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in F2.ContainerConfig.');
 		}
 	};
 
@@ -1945,9 +1945,12 @@ F2.extend('', (function(){
 		 * @param {F2.ContainerConfig} config The configuration object
 		 */
 		init: function(config) {
-			_config = config;
+			_config = config || {};
 
-			F2.Rpc.init(_config.secureAppPagePath);
+			if (!!_config.secureAppPagePath) {
+				F2.Rpc.init(_config.secureAppPagePath);
+			}
+			
 			F2.UI.init(_config);
 
 			if (!_config.isSecureAppPage) {

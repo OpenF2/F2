@@ -260,7 +260,7 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in ContainerConfig.');
+			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in F2.ContainerConfig.');
 		}
 	};
 
@@ -308,9 +308,12 @@ F2.extend('', (function(){
 		 * @param {F2.ContainerConfig} config The configuration object
 		 */
 		init: function(config) {
-			_config = config;
+			_config = config || {};
 
-			F2.Rpc.init(_config.secureAppPagePath);
+			if (!!_config.secureAppPagePath) {
+				F2.Rpc.init(_config.secureAppPagePath);
+			}
+			
 			F2.UI.init(_config);
 
 			if (!_config.isSecureAppPage) {

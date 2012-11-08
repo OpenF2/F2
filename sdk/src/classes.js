@@ -75,8 +75,8 @@ F2.extend("", {
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * sets isSecure = true. It will also be true if the
-		 * [container](../../container-development.html) has made the decision to run
-		 * apps in iframes.
+		 * [container](../../container-development.html) has made the decision to
+		 * run apps in iframes.
 		 * @property isSecure
 		 * @type bool
 		 * @default false
@@ -102,8 +102,8 @@ F2.extend("", {
 		/**
 		 * The recommended minimum grid size that this app should be run. This
 		 * value corresponds to the 12-grid system that is used by the
-		 * [container](../../container-development.html). This property should be set
-		 * by apps that require a certain number of columns in their layout.
+		 * [container](../../container-development.html). This property should be
+		 * set by apps that require a certain number of columns in their layout.
 		 * @property minGridSize
 		 * @type int
 		 * @default 4
@@ -237,8 +237,8 @@ F2.extend("", {
 		 */
 		afterAppRender: function(appConfig, html) {},
 		/**
-		 * Allows the [container](../../container-development.html) to wrap an app in
-		 * extra html. The function should accept an
+		 * Allows the [container](../../container-development.html) to wrap an app
+		 * in extra html. The function should accept an
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html. The extra html can provide links to edit app settings and remove an
 		 * app from the container. See
@@ -273,8 +273,8 @@ F2.extend("", {
 		UI: {
 			/**
 			 * An object containing configuration defaults for the 
-			 * {{#crossLink "F2.UI\showMask"}}{{/crossLink}} and
-			 * {{#crossLink "F2.UI\hideMask"}}{{/crossLink}} methods.
+			 * F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} and
+			 * F2.UI.{{#crossLink "F2.UI/hideMask"}}{{/crossLink}} methods.
 			 * @class F2.ContainerConfig.UI.Mask
 			 */
 			Mask: {
@@ -327,8 +327,8 @@ F2.extend("", {
 		secureAppPagePath: '',
 		/**
 		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links in
-		 * the app's header.
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app's header.
 		 * @property supportedViews
 		 * @type Array
 		 * @required
