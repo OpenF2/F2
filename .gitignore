@@ -7,3 +7,4 @@ obj
 protos
 *.temp
 *.nupkg
+*.yml
