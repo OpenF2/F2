@@ -29,7 +29,7 @@
 			"minGridSize": 3
 		},
 		{
-			"appId": "com_f2_examples_javascript_watchlist",
+			"appId": "com_openf2_examples_javascript_watchlist",
 			"manifestUrl": "../apps/JavaScript/Watchlist/manifest.js",
 			"name": "Watchlist",
 			"views": ["home", "settings"],

@@ -1,4 +1,4 @@
-	F2.Apps['com_f2_examples_javascript_watchlist'] = (function (appConfig, appContent, root) {
+	F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appContent, root) {
 
 	(function(){
 		//http://javascript.crockford.com/remedial.html

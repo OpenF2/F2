@@ -1,4 +1,4 @@
-F2_jsonpCallback_com_f2_examples_javascript_watchlist({
+F2_jsonpCallback_com_openf2_examples_javascript_watchlist({
 	"scripts":[
 		"../apps/JavaScript/Watchlist/jquery.cookie.js",
 		"../apps/JavaScript/Watchlist/moment.1.7.0.min.js",
