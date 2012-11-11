@@ -234,7 +234,7 @@ F2Docs.fn.buildLeftRailToc = function(){
 	}
 
 	//cache inner nav for this page
-	this.$currentSectionNavList = $navWrap.find('li.active > ul.nav-list');
+	this.$currentSectionNavList = ("development" == this.currentPage) ? $navWrap.find('li.active > ul.nav-list') : $navWrap;
 
 	//append links
 	$('#toc').html($navWrap);
@@ -288,9 +288,10 @@ F2Docs.fn._animateAnchor = function(e, isTableOfContentsLink){
 F2Docs.fn._watchScrollSpy = function(){
 	$(window).on('scroll',$.proxy(function(e){
 		var $nav = this.$currentSectionNavList;
-		if (document.body.scrollTop < 1 && !$nav.parent().hasClass('active')){
+		var $activeNav = ("development" == this.currentPage) ? $nav.parent() : $('li',$nav).first();
+		if (document.body.scrollTop < 1 && !$activeNav.hasClass('active')){
 			$('li',$nav).removeClass('active');
-			$nav.parent().addClass('active');
+			$activeNav.addClass('active');
 		}
 	},this));
 }
