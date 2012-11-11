@@ -278,8 +278,8 @@ function js() {
 	console.log('COMPLETE');
 
 	//copy F2.min.js over to docs/js folder so it makes to gh-pages
-	console.log('Copying F2.min.js to ./docs/js...');
-	fs.copy('./sdk/f2.min.js', './docs/js/f2.min.js', function(err){
+	console.log('Copying F2.js to ./docs/js...');
+	fs.copy('./sdk/f2.min.js', './docs/js/f2.js', function(err){
 		if (err) {
 			die(err);
 		} else {

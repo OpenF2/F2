@@ -33,7 +33,7 @@ if (!window.F2) {
 		 * @method appConfigReplacer
 		 */
 		appConfigReplacer: function(key, value) {
-			if (key == 'root' || key == 'ui') {
+			if (key == 'root' || key == 'ui' || key == 'height') {
 				return undefined;
 			} else {
 				return value;
