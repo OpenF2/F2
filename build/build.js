@@ -131,6 +131,15 @@ function die(message) {
 }
 
 /**
+ * Handlebars helper for precompilation
+ */
+handlebars.registerHelper('if', function(conditional, options) {
+	if (options.hash.desired === options.hash.test) {
+		return options.fn(this);
+	}
+});
+
+/**
  * Build the documentation for GitHub Pages. The documentation generation is
  * asynchronous, so if anything needs to execute after the generation is
  * complete, those functions can be passed as parameters.
@@ -141,6 +150,7 @@ function docs() {
 
 	// files to run handlebar substitutions
 	var templateFiles = [
+		'./docs/src/template/baseTemplate.html',
 		'./docs/src/template/style.html',
 		'./docs/src/template/header.html',
 		'./docs/src/template/footer.html',
@@ -148,30 +158,29 @@ function docs() {
 		'./docs/src/app-development.md',
 		'./docs/src/container-development.md',
 		'./docs/src/f2js-sdk.md'
-	];
+	],
+	dat = new Date();
 
 	// update Last Update Date and save F2.json
-	console.log("Setting last updated date...")
-	f2Info.docs.lastUpdateDate = new Date().toJSON();
-	f2Info.docs.lastUpdateDateFormatted = dateFormat(new Date());
+	console.log("Setting last updated date...");
+	f2Info.docs.lastUpdateDate = dat.toJSON();
+	f2Info.docs.lastUpdateDateFormatted = dateFormat(dat);
 	console.log("Setting cache buster...");
-	f2Info.docs.cacheBuster = String(new Date().getTime());
+	f2Info.docs.cacheBuster = String(dat.getTime());
 	saveF2Info();
 
 	processTemplateFile(templateFiles, f2Info, true);
-
+	console.log("Markitdown...");
 	exec(
-		'markitdown ./ --output-path ../ --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2"',
+		'markitdown ./ --output-path ../ --docTemplate ./template/baseTemplate.html --header ./template/header.html --footer ./template/footer.html --head ./template/style.html --title "F2"',
 		{ cwd:'./docs/src' },
 		function(error, stdout, stderr) {
 			if (error) {
 				die(stderr);
 			} else {
 				processTemplateFileCleanup(templateFiles);
-
-				
-
 				console.log('COMPLETE');
+
 				nextStep();
 			}
 		}
@@ -188,7 +197,7 @@ function docs() {
 function dateFormat(dat){
 	var dat = dat || new Date(),
 		month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	return month[dat.getMonth()] + " " + dat.getDate() + ", " + dat.getFullYear();
+	return dat.getDate() + " " + month[dat.getMonth()] + " " + dat.getFullYear();
 }
 
 /**
@@ -197,12 +206,7 @@ function dateFormat(dat){
  */
 function ghp() {
 	console.log('Copying documentation to gh-pages...');
-	// temporary - do not overwrite the gh-pages index.html until launch
-	//fs.renameSync('./docs/index.html', './docs/index-temp.html');
 	wrench.copyDirSyncRecursive('./docs', '../gh-pages', { preserve:true });
-	// temporary - put index.html back to normal
-	//fs.renameSync('./docs/index-temp.html', './docs/index.html');
-	//wrench.copyDirSyncRecursive('./sdk/docs', '../gh-pages/sdk/docs');
 	//delete the /src on gh-pages, we don't need it.
 	wrench.rmdirSyncRecursive('../gh-pages/src');
 	console.log('COMPLETE');
@@ -502,11 +506,35 @@ function releaseSdk(v) {
 };
 
 /**
+ * Gets and sets current git branch to F2.json
+ * @method setCurrentBranch
+ */
+function setCurrentBranch(callback){
+	exec(
+		'git rev-parse --abbrev-ref HEAD',
+		function(error,stdout,stderr){
+			if (error){
+				die(stderr);
+			} else {
+				//add git branch to F2Info
+				f2Info.branch = String(stdout).replace(/^\s*|\s*$/g, '');//replace empty strings
+				if (typeof callback == 'function'){
+					callback();
+				}
+			}
+		}
+	);
+}
+
+/**
  * Saves the F2.json object back to a file
+ * Adds current git branch to file
  * @method saveF2Info
  */
 function saveF2Info() {
-	fs.writeFileSync('./build/F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
+	setCurrentBranch(function(){
+		fs.writeFileSync('./build/F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
+	});
 };
 
 /**
@@ -554,7 +582,8 @@ function yuidoc() {
 		docsAssets: '../',
 		version: f2Info.sdk.version,
 		docsVersion: f2Info.docs.version,
-		docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted
+		docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted,
+		branch: f2Info.branch
 	};
 	docOptions = Y.Project.mix(json, docOptions);
 

@@ -30,8 +30,7 @@ F2Docs.fn.init = function() {
 	this.buildBookmarks();
 	this.formatSourceCodeElements();
 
-	//eh
-	$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0).scrollspy('refresh');
+	$("body").scrollspy();
 
 	//affix left nav
 	$("#toc > ul.nav").affix();
