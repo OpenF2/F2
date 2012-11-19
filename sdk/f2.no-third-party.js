@@ -2092,16 +2092,6 @@ F2.extend('', (function(){
 						});
 					};
 
-					var hasNoCacheAppManifestSet = function(req){
-						if (!req.apps || !req.apps.length){ return; }
-						for (var i=0, len = req.apps.length;i<len; i++){
-							if (req.apps[i].hasOwnProperty('cacheAppManifest')){
-								return req.apps[i].cacheAppManifest;
-							}
-						}
-						return false;
-					};
-
 					manifestRequest(i, requests.pop());
 				});
 			}
