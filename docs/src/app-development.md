@@ -63,11 +63,11 @@ Create your basic container HTML template:
                 //Setup ContainerConfig
                 F2.init({
                     beforeAppRender: function(app){
-                        var appShell = '<section class="well span' +(app.minGridSize || 4)+ '"></section>';
-                        return $(appShell).appendTo('div.row');
+                        var appRoot = '<section class="well span12"></section>';
+                        return $(appRoot).appendTo('div.row');
                     },
                     afterAppRender: function (app, html) {
-                        //app.root is `appShell` from beforeAppRender()
+                        //app.root is `appRoot` from beforeAppRender()
                         return $(app.root).append(html);
                     }
                 }); 

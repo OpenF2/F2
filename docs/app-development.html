@@ -13,17 +13,17 @@
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="home" href="http://www.openf2.org/" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1353341535009"></script>
-  <script src="./js/respond.min.js?1353341535009"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js?1353357392654"></script>
+  <script src="./js/respond.min.js?1353357392654"></script>
   
-  <link href="./css/prettify.css?1353341535009" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1353341535009" rel="stylesheet">
+  <link href="./css/prettify.css?1353357392654" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1353357392654" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1353341535009" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1353341535009" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1353341535009" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1353341535009" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1353341535009" />
+  <link rel="icon" href="./img/favicon-32px.png?1353357392654" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1353357392654" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1353357392654" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1353357392654" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1353357392654" />
   
 </head>
 <body data-spy="scroll" data-target="#toc" data-offset="0">
@@ -177,11 +177,11 @@ A data app is a content feed available in industry-standard formats including JS
                 <span class="co">//Setup ContainerConfig</span>
                 <span class="kw">F2</span>.<span class="fu">init</span>({
                     <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(app){
-                        <span class="kw">var</span> appShell = <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">well</span> <span class="ch">span&#39;</span> +(<span class="kw">app</span>.<span class="fu">minGridSize</span> || <span class="dv">4</span>)+ <span class="ch">&#39;</span>&quot;&gt;&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>;
-                        <span class="kw">return</span> $(appShell).<span class="fu">appendTo</span>(<span class="ch">&#39;div</span>.<span class="ch">row&#39;</span>);
+                        <span class="kw">var</span> appRoot = <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">well</span> <span class="ch">span12</span>&quot;&gt;&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>;
+                        <span class="kw">return</span> $(appRoot).<span class="fu">appendTo</span>(<span class="ch">&#39;div</span>.<span class="ch">row&#39;</span>);
                     },
                     <span class="dt">afterAppRender</span>: <span class="kw">function</span> (app, html) {
-                        <span class="co">//app</span>.<span class="co">root is </span>`<span class="co">appShell</span>`<span class="co"> from beforeAppRender</span>()
+                        <span class="co">//app</span>.<span class="co">root is </span>`<span class="co">appRoot</span>`<span class="co"> from beforeAppRender</span>()
 <span class="co">                        return </span>$(<span class="co">app</span>.<span class="co">root</span>).<span class="co">append</span>(<span class="co">html</span>);
 <span class="co">                    </span>}
 <span class="co">                </span>});<span class="co"> </span>
@@ -882,11 +882,11 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 
 </div><!--/.container-->
 
-<script>var ghpagescachebuster = "1353341535009", gitbranch = "1.0.4-wip";</script>
+<script>var ghpagescachebuster = "1353357392654", gitbranch = "1.0.4-wip";</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1353341535009"></script>
-<script src="./js/prettify.js?1353341535009"></script>
+<script src="./js/bootstrap.min.2.1.1.js?1353357392654"></script>
+<script src="./js/prettify.js?1353357392654"></script>
 <script src="./js/f2.js?1.0.2"></script>
-<script src="./js/docs.js?1353341535009"></script>
+<script src="./js/docs.js?1353357392654"></script>
 </body>
 </html>
