@@ -165,8 +165,6 @@ function docs() {
 	console.log("Setting last updated date...");
 	f2Info.docs.lastUpdateDate = dat.toJSON();
 	f2Info.docs.lastUpdateDateFormatted = dateFormat(dat);
-	console.log("Setting cache buster...");
-	f2Info.docs.cacheBuster = String(dat.getTime());
 	saveF2Info();
 
 	processTemplateFile(templateFiles, f2Info, true);
@@ -227,10 +225,6 @@ function help() {
  * @method js
  */
 function js() {
-
-	console.log("Setting cache buster...");
-	f2Info.sdk.cacheBuster = String(new Date().getTime());
-	saveF2Info();
 
 	console.log('Building f2.no-third-party.js...');
 	var contents = CORE_FILES.map(function(f) {
@@ -578,7 +572,6 @@ function yuidoc() {
 	json = (new Y.YUIDoc(docOptions)).run();
 	// massage in some meta information from F2.json
 	json.project = {
-		cacheBuster: f2Info.docs.cacheBuster,
 		docsAssets: '../',
 		version: f2Info.sdk.version,
 		docsVersion: f2Info.docs.version,
