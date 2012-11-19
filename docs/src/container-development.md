@@ -8,7 +8,7 @@
 
 To help you get started building an F2 container, browse through the resources below. To jump start your F2 container and app development, download the F2 template (which now includes a basic container) _or_ follow the instructions below.
 
-<p><a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip" class="btn btn-primary">Download Basic F2 Container Template</a></p>
+<p><a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip" class="btn btn-primary">Download Basic F2 Container Template</a></p>
 
 ### Basic Container
 
@@ -82,7 +82,7 @@ F2_jsonpCallback_com_your_app_id({
 })
 ```
 
-<span class="label">Note</span> You can [download the F2 container/app template](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip) instead of creating the basic app by hand.
+<span class="label">Note</span> You can [download the F2 container/app template](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip) instead of creating the basic app by hand.
 
 ### Testing the Basics
 
@@ -273,7 +273,7 @@ For more information on `F2.UI`, [browse to the F2.js SDK docs](./sdk/classes/F2
 
 #### Container Templates
 
-If you're looking for sample container HTML template code, jump to the [Get Started section](#get-started). There is also a basic F2 container/app template [available for download on GitHub](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip).
+If you're looking for sample container HTML template code, jump to the [Get Started section](#get-started). There is also a basic F2 container/app template [available for download on GitHub](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip).
 
 * * * *
 

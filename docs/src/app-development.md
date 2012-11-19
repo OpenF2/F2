@@ -21,7 +21,7 @@ _Interested in developing F2 containers? [Browse to Container Development](conta
 
 To help you get started building an F2 app, browse through the resources below. To jump start your F2 app development, download the F2 app template (which now includes a basic container) _or_ follow the instructions below.
 
-<p><a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip" class="btn btn-primary">Download Basic F2 App Template</a></p>
+<p><a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip" class="btn btn-primary">Download Basic F2 App Template</a></p>
 
 ### Basic Container
 
@@ -95,7 +95,7 @@ F2_jsonpCallback_com_your_app_id({
 })
 ```
 
-<span class="label">Note</span> You can [download the F2 app template](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip) instead of creating the basic app by hand.
+<span class="label">Note</span> You can [download the F2 app template](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip) instead of creating the basic app by hand.
 
 ### Testing the Basics
 
@@ -172,7 +172,7 @@ Once you have your AppID, start by setting up your project. You will need at lea
 
 ![](./img/project_folder.png "Setup your project")
 
-<span class="label">Helper</span> [Download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
+<span class="label">Helper</span> [Download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
 
 ### App Manifest
 
@@ -364,7 +364,7 @@ F2_jsonpCallback_com_companyname_appname({
 
 ### App Manifest Response
 
-OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
+OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
 
 As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. **This means F2 App Manifest files must provide a JSONP callback function.** (If you don't know what JSONP is or how it works, we recommend [reading what Remy Sharp has to say](http://remysharp.com/2007/10/08/what-is-jsonp/) about it.)
 
@@ -526,7 +526,7 @@ Of course, you don't have to use either one of these patterns in your `appclass.
 	<p>In the absence of a function in your `appclass.js`, F2 will be unable to load your app on a container.</p>
 </div>
 
-If you don't want to think about any of this and would rather just start coding, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip).
+If you don't want to think about any of this and would rather just start coding, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip).
 
 * * * *
 
