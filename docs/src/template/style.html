@@ -1,29 +1,27 @@
 
-<script src="./js/modernizr.2.6.2.custom.min.js?{{docs.cacheBuster}}"></script>
-<script src="./js/respond.min.js?{{docs.cacheBuster}}"></script>
+<script src="./js/modernizr.2.6.2.custom.min.js"></script>
+<script src="./js/respond.min.js"></script>
 
-<link href="./css/prettify.css?{{docs.cacheBuster}}" rel="stylesheet">
-<link href="./css/F2.Docs.css?{{docs.cacheBuster}}" rel="stylesheet">
+<link href="./css/prettify.css" rel="stylesheet">
+<link href="./css/F2.Docs.css?{{docs.version}}" rel="stylesheet">
 
-<link rel="icon" href="./img/favicon-32px.png?{{docs.cacheBuster}}" type="image/png"/>
-<link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?{{docs.cacheBuster}}" />
-<link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?{{docs.cacheBuster}}" />
-<link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?{{docs.cacheBuster}}" />
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?{{docs.cacheBuster}}" />
+<link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png" />
 
-{{#if branch desired="master" branch="{{branch}}"}}
 <script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-35230380-1']);
-	_gaq.push(['_setDomainName', 'openf2.org']);
-	_gaq.push(['_trackPageview']);
+	if ('{{branch}}' === 'master'){
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-35230380-1']);
+		_gaq.push(['_setDomainName', 'openf2.org']);
+		_gaq.push(['_trackPageview']);
 
-	(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-
-	var ghpagescachebuster = "{{docs.cacheBuster}}";
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	}
 </script>
-{{/if}}
