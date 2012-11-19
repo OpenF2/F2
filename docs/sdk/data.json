@@ -31,6 +31,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "sdk/src/container-appStack-cache.js": {
+            "name": "sdk/src/container-appStack-cache.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "sdk/src/container.js": {
             "name": "sdk/src/container.js",
             "modules": {},
@@ -1015,6 +1022,291 @@
             "class": "F2.Constants.Views"
         },
         {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 11,
+            "description": "Appends the app's html to the DOM",
+            "itemtype": "method",
+            "name": "_afterAppRender",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfig",
+                    "description": "The F2.AppConfig object",
+                    "type": "F2.AppConfig"
+                },
+                {
+                    "name": "html",
+                    "description": "The string of html",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The DOM Element that contains the app",
+                "type": "Element"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 36,
+            "description": "Renders the html for an app.",
+            "itemtype": "method",
+            "name": "_appRender",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfig",
+                    "description": "The F2.AppConfig object",
+                    "type": "F2.AppConfig"
+                },
+                {
+                    "name": "html",
+                    "description": "The string of html",
+                    "type": "String"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 61,
+            "description": "Rendering hook to allow containers to render some html prior to an app\nloading",
+            "itemtype": "method",
+            "name": "_beforeAppRender",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfig",
+                    "description": "The F2.AppConfig object",
+                    "type": "F2.AppConfig"
+                }
+            ],
+            "return": {
+                "description": "The DOM Element surrounding the app",
+                "type": "Element"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 74,
+            "description": "Adds properties to the AppConfig object",
+            "itemtype": "method",
+            "name": "_hydrateAppConfig",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfig",
+                    "description": "The F2.AppConfig object",
+                    "type": "F2.AppConfig"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 92,
+            "description": "Attach app events",
+            "itemtype": "method",
+            "name": "_initAppEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 114,
+            "description": "Attach container Events",
+            "itemtype": "method",
+            "name": "_initContainerEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 132,
+            "description": "Has the container been init?",
+            "itemtype": "method",
+            "name": "_isInit",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "True if the container has been init",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 142,
+            "description": "Loads the app's html/css/javascript",
+            "itemtype": "method",
+            "name": "loadApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfigs",
+                    "description": "An array of\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} objects",
+                    "type": "Array"
+                },
+                {
+                    "name": "appManifest",
+                    "description": "The AppManifest object",
+                    "type": "F2.AppManifest",
+                    "optional": true
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 243,
+            "description": "Loads the app's html/css/javascript into an iframe",
+            "itemtype": "method",
+            "name": "loadSecureApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfig",
+                    "description": "The F2.AppConfig object",
+                    "type": "F2.AppConfig"
+                },
+                {
+                    "name": "appManifest",
+                    "description": "The app's html/css/js to be loaded into the\npage.",
+                    "type": "F2.AppManifest"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 268,
+            "description": "Checks if the app is valid",
+            "itemtype": "method",
+            "name": "_validateApp",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfig",
+                    "description": "The F2.AppConfig object",
+                    "type": "F2.AppConfig"
+                }
+            ],
+            "return": {
+                "description": "True if the app is valid",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 290,
+            "description": "Gets the current list of apps in the container",
+            "itemtype": "method",
+            "name": "getContainerState",
+            "return": {
+                "description": "An array of objects containing the appId",
+                "type": "Array"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 305,
+            "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "The configuration object",
+                    "type": "F2.ContainerConfig"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 324,
+            "description": "Has the container been init?",
+            "itemtype": "method",
+            "name": "isInit",
+            "return": {
+                "description": "True if the container has been init",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 330,
+            "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
+            "itemtype": "method",
+            "name": "registerApps",
+            "params": [
+                {
+                    "name": "appConfigs",
+                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}\nobjects",
+                    "type": "Array"
+                },
+                {
+                    "name": "appManifests",
+                    "description": "An array of\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}}\nobjects. This array must be the same length as the apps array that is\nobjects. This array must be the same length as the apps array that is\npassed in. This can be useful if apps are loaded on the server-side and\npassed down to the client.",
+                    "type": "Array",
+                    "optional": true
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 471,
+            "description": "Removes all apps from the container",
+            "itemtype": "method",
+            "name": "removeAllApps",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container-appStack-cache.js",
+            "line": 486,
+            "description": "Removes an app from the container",
+            "itemtype": "method",
+            "name": "removeApp",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The app's instanceId",
+                    "type": "String"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
             "file": "sdk/src/container.js",
             "line": 11,
             "description": "Appends the app's html to the DOM",
@@ -1167,7 +1459,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 242,
+            "line": 245,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1190,7 +1482,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 267,
+            "line": 270,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1212,7 +1504,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 289,
+            "line": 292,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1225,7 +1517,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 304,
+            "line": 307,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -1241,7 +1533,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 323,
+            "line": 326,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1254,7 +1546,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 329,
+            "line": 332,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1276,7 +1568,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 458,
+            "line": 472,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1285,7 +1577,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 473,
+            "line": 487,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",

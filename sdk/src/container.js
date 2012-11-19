@@ -211,6 +211,9 @@ F2.extend('', (function(){
 		$.each(scripts, function(i, e) {
 			$.ajax({
 				url:e,
+				/*	we want any scripts added this way to be cached by the browser. 
+				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				cache:true,
 				async:false,
 				dataType:'script',
 				type:'GET',
@@ -451,6 +454,17 @@ F2.extend('', (function(){
 							}
 						});
 					};
+
+					var hasNoCacheAppManifestSet = function(req){
+						if (!req.apps || !req.apps.length){ return; }
+						for (var i=0, len = req.apps.length;i<len; i++){
+							if (req.apps[i].hasOwnProperty('cacheAppManifest')){
+								return req.apps[i].cacheAppManifest;
+							}
+						}
+						return false;
+					};
+
 					manifestRequest(i, requests.pop());
 				});
 			}

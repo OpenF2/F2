@@ -3,16 +3,16 @@
 		"version": "1.0.4",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-11-16T15:33:34.667Z",
-		"cacheBuster": "1353080014667",
-		"lastUpdateDateFormatted": "16 November 2012"
+		"lastUpdateDate": "2012-11-19T16:12:15.009Z",
+		"cacheBuster": "1353341535009",
+		"lastUpdateDateFormatted": "19 November 2012"
 	},
 	"sdk": {
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-11-11T06:09:36.490Z",
-		"lastUpdateDate": "2012-11-11T05:51:14.716Z",
-		"cacheBuster": "1352613074066"
+		"lastUpdateDate": "2012-11-19T16:12:14.059Z",
+		"cacheBuster": "1353341533371"
 	},
 	"branch": "1.0.4-wip"
 }
