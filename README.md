@@ -62,7 +62,7 @@ We are using [markitdown](https://github.com/markitondemand/markitdown), a light
 
 Join our team and help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
 
-### Copyright and License
+## Copyright and License
 
 F2 is released under the MIT License.
 
