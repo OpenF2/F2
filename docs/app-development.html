@@ -643,7 +643,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p>The <code>appConfig</code> object is sent to the server using the <code>params</code> querystring name as shown in the example below. This is the complete app manifest request sent by <code>F2.registerApps()</code> with the <code>appConfig</code> URL-encoded, of course:</p>
 <pre class="sourceCode html"><code class="sourceCode html">http://www.acme.com/apps/news-manifest.js?params=%7B%22appId%22%3A%22com_acmecorp_news%22%2C%22description%22%3A%22Acme%20Corp%20News%22%2C%22manifestUrl%22%3A%22http%3A%2F%2Fwww.acme.com%2Fapps%2Fnews-manifest.js%22%2C%22name%22%3A%22Acme%20News%20App%22%2C%22context%22%3A%7B%22sessionId%22%3A%2212345%22%2C%20%22someArray%22%3A%5B%22value1%22%2C%22value2%22%5D%7D%7D</code></pre>
 <p>This demonstrates complete flexibility of passing arbitrary context values from the container to any F2 app.</p>
-<p><span class="warning">Important</span> As an F2 App Developer, it is your responsibility to build object deserialization for the <code>params</code> value into your app code.</p>
+<p><span class="label label-important">Important</span> To receive context from a container during app initialization, F2 App Developers are required to build object deserialization for the <code>params</code> value into their app code.</p>
 </section>
 <section class="level3" id="app-to-container-context">
 <h3>App-to-Container Context</h3>

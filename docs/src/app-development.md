@@ -673,7 +673,7 @@ http://www.acme.com/apps/news-manifest.js?params=%7B%22appId%22%3A%22com_acmecor
 
 This demonstrates complete flexibility of passing arbitrary context values from the container to any F2 app.
 
-<span class="warning">Important</span> As an F2 App Developer, it is your responsibility to build object deserialization for the `params` value into your app code. 
+<span class="label label-important">Important</span> To receive context from a container during app initialization, F2 App Developers are required to build object deserialization for the `params` value into their app code.
 
 ### App-to-Container Context
 
