@@ -428,6 +428,28 @@ You've come to the right place if you want to start building F2 containers. Befo
 <p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="./sdk/classes/F2.Events.html">Read the SDK</a> for more information.</p>
 <p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="./sdk/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
 </section>
+<section class="level3" id="container-to-app-context-server">
+<h3>Container-to-App Context (Server)</h3>
+<p>Often times containers will want to send context to apps during <a href="./sdk/classes/F2.html#methods-registerApps">app registration</a>. This is possible through the <code>AppConfig.context</code> property. This <a href="./sdk/classes/F2.AppConfig.html#properties-context">property</a> can contain any javascript object—a string, a number, an array or an object.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//define app config</span>
+<span class="kw">var</span> _appConfigs = [
+    {
+        <span class="dt">appId</span>: <span class="st">&quot;com_acmecorp_news&quot;</span>,
+        <span class="dt">description</span>: <span class="st">&quot;Acme Corp News&quot;</span>,
+        <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.acme.com/apps/news-manifest.js&quot;</span>,
+        <span class="dt">name</span>: <span class="st">&quot;Acme News App&quot;</span>,
+        <span class="dt">context</span>: {
+            <span class="dt">sessionId</span>: <span class="kw">myApp</span>.<span class="fu">sessionId</span>,
+            <span class="dt">someArray</span>: [value1,value2]
+        }
+    }
+];</code></pre>
+<p>When <code>F2.registerApps()</code> is called, the <code>appConfig</code> is serialized and posted to the app's manifest URL. The serialized object converts to <a href="./sdk/classes/F2.html#methods-stringify">stringified JSON</a>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{<span class="st">&quot;appId&quot;</span>:<span class="st">&quot;com_acmecorp_news&quot;</span>,<span class="st">&quot;description&quot;</span>:<span class="st">&quot;Acme Corp News&quot;</span>,<span class="st">&quot;manifestUrl&quot;</span>:<span class="st">&quot;http://www.acme.com/apps/news-manifest.js&quot;</span>,<span class="st">&quot;name&quot;</span>:<span class="st">&quot;Acme News App&quot;</span>,<span class="st">&quot;context&quot;</span>:{<span class="st">&quot;sessionId&quot;</span>:<span class="st">&quot;12345&quot;</span>, <span class="st">&quot;someArray&quot;</span>:[<span class="st">&quot;value1&quot;</span>,<span class="st">&quot;value2&quot;</span>]}}</code></pre>
+<p>The <code>appConfig</code> object is sent to the server using the <code>params</code> querystring name as shown in the example below. This is the complete app manifest request sent by <code>F2.registerApps()</code> with the <code>appConfig</code> URL-encoded, of course:</p>
+<pre class="sourceCode html"><code class="sourceCode html">http://www.acme.com/apps/news-manifest.js?params=%7B%22appId%22%3A%22com_acmecorp_news%22%2C%22description%22%3A%22Acme%20Corp%20News%22%2C%22manifestUrl%22%3A%22http%3A%2F%2Fwww.acme.com%2Fapps%2Fnews-manifest.js%22%2C%22name%22%3A%22Acme%20News%20App%22%2C%22context%22%3A%7B%22sessionId%22%3A%2212345%22%2C%20%22someArray%22%3A%5B%22value1%22%2C%22value2%22%5D%7D%7D</code></pre>
+<p>This demonstrates complete flexibility of passing arbitrary context values from the container to any F2 app.</p>
+</section>
 <section class="level3" id="app-to-container-context">
 <h3>App-to-Container Context</h3>
 <p>In this example, your app emits an event indicating a user is looking at a different stock ticker <em>within your app</em>. Using <code>F2.Events.emit()</code> in your code, your app broadcasts the new symbol. As with container-to-app context passing, the <code>F2.Events.emit()</code> method accepts two arguments: the event name and an optional data object.</p>
@@ -478,14 +500,14 @@ You've come to the right place if you want to start building F2 containers. Befo
 <p>Context is a term used to describe the state of an F2 container and its apps. At the same time, context is also the information passed from <a href="#container-to-app-context">Container-to-App</a> or from <a href="#app-to-app-context">App-to-App</a> or from <a href="#app-to-container-context">App-to-Container</a>. In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize <a href="f2js.html">F2.js</a> allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords container providers the option to define context within their container.</p>
 <section class="level4" id="universal-f2-instrument-id">
 <h4>Universal F2 Instrument ID</h4>
-<p>Said another way, while <code>{ symbol:&quot;AAPL&quot;, name: &quot;Apple, Inc&quot; }</code> can be used to communicate symbol context, developers could also use <code>{ symbol: &quot;123456789&quot; }</code> to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand <code>AAPL</code> but—given symbol lookup services—would understand <code>123456789</code> as the universal <em>F2</em> identifier for Apple, Inc. It is clear container and App Developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes. <em>Further details will be forthcoming as the F2 specification evolves.</em></p>
+<p>Said another way, while <code>{ symbol:&quot;AAPL&quot;, name: &quot;Apple, Inc&quot; }</code> can be used to communicate symbol context, developers could also use <code>{ symbol: &quot;123456789&quot; }</code> to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand <code>AAPL</code> but—given symbol lookup services—would understand <code>123456789</code> as the universal <em>F2</em> identifier for Apple, Inc. It is clear Container and App Developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes. <em>Further details will be forthcoming as the F2 specification evolves.</em></p>
 <hr>
 </section>
 </section>
 </section>
 <section class="level2" id="app-integration">
 <h2>App Integration</h2>
-<p>The process of loading apps on a container happens through a method called <code>F2.registerApps()</code>. The Container Developer must call <a href="../docs/sdk/classes/F2.html">this method</a>—which accepts two arguments, one required, one optional— after <code>F2.init()</code> is called. If this method isn't called, no apps can be loaded on the container.</p>
+<p>The process of loading apps on a container happens through a method called <code>F2.registerApps()</code>. The Container Developer must call <a href="./sdk/classes/F2.html">this method</a>—which accepts two arguments, one required, one optional— after <code>F2.init()</code> is called. If this method isn't called, no apps can be loaded on the container.</p>
 <p>The two arguments provided to <code>registerApps()</code> are an array of <code>AppConfig</code> objects and, optionally, an array of <code>AppManifest</code> objects. As F2.js parses each <code>AppConfig</code>, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.</p>
 <p>Regardless of where the container's <a href="#app-configs">AppConfig</a> comes from, integrating apps is a simple process. For the purposes of this example, we will use an Acme Corp news app.</p>
 <p>Let's look at some container code.</p>

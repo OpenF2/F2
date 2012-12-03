@@ -639,6 +639,42 @@ The `F2.Events.on()` method accepts the event name and listener function as argu
 
 <span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
 
+### Container-to-App Context (Server)
+
+Often times containers will want to send context to apps during [app registration](./sdk/classes/F2.html#methods-registerApps). This is possible through the `AppConfig.context` property. This [property](./sdk/classes/F2.AppConfig.html#properties-context) can contain any javascript object&mdash;a string, a number, an array or an object. 
+
+```javascript
+//define app config
+var _appConfigs = [
+    {
+        appId: "com_acmecorp_news",
+        description: "Acme Corp News",
+        manifestUrl: "http://www.acme.com/apps/news-manifest.js",
+        name: "Acme News App",
+        context: {
+            sessionId: myApp.sessionId,
+            someArray: [value1,value2]
+        }
+    }
+];
+```
+
+When `F2.registerApps()` is called, the `appConfig` is serialized and posted to the app's manifest URL. The serialized object converts to [stringified JSON](./sdk/classes/F2.html#methods-stringify):
+
+```javascript
+{"appId":"com_acmecorp_news","description":"Acme Corp News","manifestUrl":"http://www.acme.com/apps/news-manifest.js","name":"Acme News App","context":{"sessionId":"12345", "someArray":["value1","value2"]}}
+```
+
+The `appConfig` object is sent to the server using the `params` querystring name as shown in the example below. This is the complete app manifest request sent by `F2.registerApps()` with the `appConfig` URL-encoded, of course:
+
+```html
+http://www.acme.com/apps/news-manifest.js?params=%7B%22appId%22%3A%22com_acmecorp_news%22%2C%22description%22%3A%22Acme%20Corp%20News%22%2C%22manifestUrl%22%3A%22http%3A%2F%2Fwww.acme.com%2Fapps%2Fnews-manifest.js%22%2C%22name%22%3A%22Acme%20News%20App%22%2C%22context%22%3A%7B%22sessionId%22%3A%2212345%22%2C%20%22someArray%22%3A%5B%22value1%22%2C%22value2%22%5D%7D%7D
+```
+
+This demonstrates complete flexibility of passing arbitrary context values from the container to any F2 app.
+
+<span class="warning">Important</span> As an F2 App Developer, it is your responsibility to build object deserialization for the `params` value into your app code. 
+
 ### App-to-Container Context
 
 In this example, your app emits an event indicating a user is looking at a different stock ticker _within your app_. Using `F2.Events.emit()` in your code, your app broadcasts the new symbol. As with container-to-app context passing, the `F2.Events.emit()` method accepts two arguments: the event name and an optional data object.
