@@ -1,63 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="pandoc">
   <title>F2 - App Development</title>
-  <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <style type="text/css">
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
-  </style>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <meta name="dcterms.date" content="11 December 2012">
+  <meta name="gitbranch" content="1.0.4-wip">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
+  <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
+  <meta name="robots" content="all, index, follow" />
+  <meta name="distribution" content="global" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="home" href="http://www.openf2.org/" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1352613075628"></script>
-  <script src="./js/respond.min.js?1352613075628"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js"></script>
+  <script src="./js/respond.min.js"></script>
   
-  <link href="./css/prettify.css?1352613075628" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1352613075628" rel="stylesheet">
+  <link href="./css/prettify.css" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.0.4" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1352613075628" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1352613075628" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1352613075628" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1352613075628" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1352613075628" />
+  <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png" />
   
   <script type="text/javascript">
-  	var _gaq = _gaq || [];
-  	_gaq.push(['_setAccount', 'UA-35230380-1']);
-  	_gaq.push(['_setDomainName', 'openf2.org']);
-  	_gaq.push(['_trackPageview']);
+  	if ('1.0.4-wip' === 'master'){
+  		var _gaq = _gaq || [];
+  		_gaq.push(['_setAccount', 'UA-35230380-1']);
+  		_gaq.push(['_setDomainName', 'openf2.org']);
+  		_gaq.push(['_trackPageview']);
   
-  	(function() {
-  	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  	})();
-  
-  	var ghpagescachebuster = "1352613075628";
+  		(function() {
+  		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  		})();
+  	}
   </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc" data-offset="0">
 <header class="openf2Header navbarmini clearfix">
   <nav class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -88,8 +71,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
             <li class="divider-vertical"></li>
             <li><a href="https://developer.openf2.org">Developer</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.0.1</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.0.1)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.0.2</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.0.2)</a></li>
           </ul>
         </div>
       </div>
@@ -140,7 +123,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.0.1). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.0.2). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
 <p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used. To start, F2 Apps are either:</p>
@@ -166,7 +149,7 @@ A data app is a content feed available in industry-standard formats including JS
 <h2>Get Started</h2>
 <p>To help you get started building an F2 app, browse through the resources below. To jump start your F2 app development, download the F2 app template (which now includes a basic container) <em>or</em> follow the instructions below.</p>
 <p>
-<a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip" class="btn btn-primary">Download Basic F2 App Template</a>
+<a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip" class="btn btn-primary">Download Basic F2 App Template</a>
 </p>
 
 <section class="level3" id="basic-container">
@@ -208,11 +191,11 @@ A data app is a content feed available in industry-standard formats including JS
                 <span class="co">//Setup ContainerConfig</span>
                 <span class="kw">F2</span>.<span class="fu">init</span>({
                     <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(app){
-                        <span class="kw">var</span> appShell = <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">well</span> <span class="ch">span&#39;</span> +(<span class="kw">app</span>.<span class="fu">minGridSize</span> || <span class="dv">4</span>)+ <span class="ch">&#39;</span>&quot;&gt;&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>;
-                        <span class="kw">return</span> $(appShell).<span class="fu">appendTo</span>(<span class="ch">&#39;div</span>.<span class="ch">row&#39;</span>);
+                        <span class="kw">var</span> appRoot = <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">well</span> <span class="ch">span12</span>&quot;&gt;&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>;
+                        <span class="kw">return</span> $(appRoot).<span class="fu">appendTo</span>(<span class="ch">&#39;div</span>.<span class="ch">row&#39;</span>);
                     },
                     <span class="dt">afterAppRender</span>: <span class="kw">function</span> (app, html) {
-                        <span class="co">//app</span>.<span class="co">root is </span>`<span class="co">appShell</span>`<span class="co"> from beforeAppRender</span>()
+                        <span class="co">//app</span>.<span class="co">root is </span>`<span class="co">appRoot</span>`<span class="co"> from beforeAppRender</span>()
 <span class="co">                        return </span>$(<span class="co">app</span>.<span class="co">root</span>).<span class="co">append</span>(<span class="co">html</span>);
 <span class="co">                    </span>}
 <span class="co">                </span>});<span class="co"> </span>
@@ -234,7 +217,7 @@ A data app is a content feed available in industry-standard formats including JS
         <span class="st">&quot;html&quot;</span>: <span class="st">&quot;&lt;div&gt;&lt;p&gt;Hello, world. I&#39;m an F2 app.&lt;/p&gt;&lt;/div&gt;&quot;</span>
     }]
 })</code></pre>
-<p><span class="label">Note</span> You can <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip">download the F2 app template</a> instead of creating the basic app by hand.</p>
+<p><span class="label">Note</span> You can <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">download the F2 app template</a> instead of creating the basic app by hand.</p>
 </section>
 <section class="level3" id="testing-the-basics">
 <h3>Testing the Basics</h3>
@@ -299,7 +282,7 @@ A data app is a content feed available in industry-standard formats including JS
 <figure>
 <img src="./img/project_folder.png" title="Setup your project"><figcaption></figcaption>
 </figure>
-<p><span class="label">Helper</span> <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip">Download the F2 app starter zip</a> or read about <a href="#get-started">setting up a basic container and app</a> in Getting Started.</p>
+<p><span class="label">Helper</span> <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">Download the F2 app starter zip</a> or read about <a href="#get-started">setting up a basic container and app</a> in Getting Started.</p>
 </section>
 <section class="level3" id="app-manifest">
 <h3>App Manifest</h3>
@@ -440,7 +423,7 @@ While the use of <code>inlineScripts</code> is supported by F2's App Manifest, i
 </section>
 <section class="level3" id="app-manifest-response">
 <h3>App Manifest Response</h3>
-<p>OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip">download the F2 app starter zip</a>. Once you have your <code>AppManifest</code> defined (or at least stubbed out), there's one important detail you need to know now—the App Manifest response format.</p>
+<p>OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">download the F2 app starter zip</a>. Once you have your <code>AppManifest</code> defined (or at least stubbed out), there's one important detail you need to know now—the App Manifest response format.</p>
 <p>As part of F2, containers register apps—typically hosted on different domains—using JSONP. <strong>This means F2 App Manifest files must provide a JSONP callback function.</strong> (If you don't know what JSONP is or how it works, we recommend <a href="http://remysharp.com/2007/10/08/what-is-jsonp/">reading what Remy Sharp has to say</a> about it.)</p>
 <p>For security reasons, the App Manifest JSONP callback function must be a specific, reliable, and testable format. F2 has defined that using a combination of a string and your unique F2 AppID. The JSONP callback function name looks like this:</p>
 <p><code>F2_jsonpCallback_&lt;AppID&gt;</code></p>
@@ -561,7 +544,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </p>
 </div>
 
-<p>If you don't want to think about any of this and would rather just start coding, <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template.zip">download the F2 app starter zip</a>.</p>
+<p>If you don't want to think about any of this and would rather just start coding, <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">download the F2 app starter zip</a>.</p>
 <hr>
 </section>
 </section>
@@ -639,6 +622,29 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="./sdk/classes/F2.Events.html">Read the SDK</a> for more information.</p>
 <p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="./sdk/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
 </section>
+<section class="level3" id="container-to-app-context-server">
+<h3>Container-to-App Context (Server)</h3>
+<p>Often times containers will want to send context to apps during <a href="./sdk/classes/F2.html#methods-registerApps">app registration</a>. This is possible through the <code>AppConfig.context</code> property. This <a href="./sdk/classes/F2.AppConfig.html#properties-context">property</a> can contain any javascript object—a string, a number, an array or an object.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//define app config</span>
+<span class="kw">var</span> _appConfigs = [
+    {
+        <span class="dt">appId</span>: <span class="st">&quot;com_acmecorp_news&quot;</span>,
+        <span class="dt">description</span>: <span class="st">&quot;Acme Corp News&quot;</span>,
+        <span class="dt">manifestUrl</span>: <span class="st">&quot;http://www.acme.com/apps/news-manifest.js&quot;</span>,
+        <span class="dt">name</span>: <span class="st">&quot;Acme News App&quot;</span>,
+        <span class="dt">context</span>: {
+            <span class="dt">sessionId</span>: <span class="kw">myApp</span>.<span class="fu">sessionId</span>,
+            <span class="dt">someArray</span>: [value1,value2]
+        }
+    }
+];</code></pre>
+<p>When <code>F2.registerApps()</code> is called, the <code>appConfig</code> is serialized and posted to the app's manifest URL. The serialized object converts to <a href="./sdk/classes/F2.html#methods-stringify">stringified JSON</a>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{<span class="st">&quot;appId&quot;</span>:<span class="st">&quot;com_acmecorp_news&quot;</span>,<span class="st">&quot;description&quot;</span>:<span class="st">&quot;Acme Corp News&quot;</span>,<span class="st">&quot;manifestUrl&quot;</span>:<span class="st">&quot;http://www.acme.com/apps/news-manifest.js&quot;</span>,<span class="st">&quot;name&quot;</span>:<span class="st">&quot;Acme News App&quot;</span>,<span class="st">&quot;context&quot;</span>:{<span class="st">&quot;sessionId&quot;</span>:<span class="st">&quot;12345&quot;</span>, <span class="st">&quot;someArray&quot;</span>:[<span class="st">&quot;value1&quot;</span>,<span class="st">&quot;value2&quot;</span>]}}</code></pre>
+<p>The <code>appConfig</code> object is sent to the server using the <code>params</code> querystring name as shown in the example below. This is the complete app manifest request sent by <code>F2.registerApps()</code> with the <code>appConfig</code> URL-encoded, of course:</p>
+<pre class="sourceCode html"><code class="sourceCode html">http://www.acme.com/apps/news-manifest.js?params=%7B%22appId%22%3A%22com_acmecorp_news%22%2C%22description%22%3A%22Acme%20Corp%20News%22%2C%22manifestUrl%22%3A%22http%3A%2F%2Fwww.acme.com%2Fapps%2Fnews-manifest.js%22%2C%22name%22%3A%22Acme%20News%20App%22%2C%22context%22%3A%7B%22sessionId%22%3A%2212345%22%2C%20%22someArray%22%3A%5B%22value1%22%2C%22value2%22%5D%7D%7D</code></pre>
+<p>This demonstrates complete flexibility of passing arbitrary context values from the container to any F2 app.</p>
+<p><span class="label label-important">Important</span> To receive context from a container during app initialization, F2 App Developers are required to build object deserialization for the <code>params</code> value into their app code.</p>
+</section>
 <section class="level3" id="app-to-container-context">
 <h3>App-to-Container Context</h3>
 <p>In this example, your app emits an event indicating a user is looking at a different stock ticker <em>within your app</em>. Using <code>F2.Events.emit()</code> in your code, your app broadcasts the new symbol. As with container-to-app context passing, the <code>F2.Events.emit()</code> method accepts two arguments: the event name and an optional data object.</p>
@@ -680,6 +686,60 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
             <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Trade ticket order for &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span> + <span class="st">&quot; at $&quot;</span> + <span class="kw">data</span>.<span class="fu">price</span>);
         } <span class="kw">else</span> {
             <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;This stock is not available for purchase.&quot;</span>)
+        }
+    }
+);</code></pre>
+</section>
+<section class="level3" id="more-complex-context">
+<h3>More Complex Context</h3>
+<p>The examples above demonstrate <em>simple</em> Context objects. In the event more complex data and/or data types are needed, F2 Context can support any JavaScript object—a string, a number, a function, an array or an object.</p>
+<p>This is an example Context object demonstrating arbitrary JavaScript objects:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="st">&quot;example_event&quot;</span>, <span class="co">//custom event name</span>
+    { 
+        <span class="co">//number</span>
+        <span class="dt">price</span>: <span class="dv">100</span>,
+        <span class="co">//string</span>
+        <span class="dt">name</span>: <span class="ch">&#39;John Smith&#39;</span>,
+        <span class="co">//function</span>
+        <span class="dt">callback</span>: <span class="kw">function</span>(){
+            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="ch">&#39;Callback!&#39;</span>);
+        },
+        <span class="co">//array</span>
+        <span class="dt">watchlist</span>: [<span class="ch">&#39;AAPL&#39;</span>,<span class="ch">&#39;MSFT&#39;</span>,<span class="ch">&#39;GE&#39;</span>],
+        <span class="co">//object</span>
+        <span class="dt">userInfo</span>: {
+            <span class="dt">name</span>: <span class="ch">&#39;John Smith&#39;</span>,
+            <span class="dt">title</span>: <span class="ch">&#39;Managing Director&#39;</span>,
+            <span class="dt">groups</span>: [<span class="ch">&#39;Alpha&#39;</span>,<span class="ch">&#39;Beta&#39;</span>],
+            <span class="dt">sessionId</span>: <span class="dv">1234567890</span>
+        }
+    }
+);</code></pre>
+<p>If two apps want to communicate data for populating a trade ticket <em>and</em> execute a <code>callback</code>, <a href="#scripts-1">appclass.js</a> code might look like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="st">&quot;buy_stock&quot;</span>, <span class="co">//custom event name</span>
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;GOOG&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Google Inc&quot;</span>,
+        <span class="dt">price</span>: <span class="fl">682.68</span>,
+        <span class="dt">isAvailableToPurchase</span>: <span class="kw">true</span>,
+        <span class="dt">orderType</span>: <span class="st">&quot;Market Order&quot;</span>,
+        <span class="co">//define callback</span>
+        <span class="dt">callback</span>: <span class="kw">function</span>(data){
+            alert(<span class="ch">&#39;Trade ticket populated&#39;</span>);
+        }
+    }
+);</code></pre>
+<p>The F2 app listening for the <code>buy_stock</code> event would fire the <code>callback</code> function.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
+    <span class="st">&quot;buy_stock&quot;</span>, 
+    <span class="kw">function</span>(data){
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Trade ticket order for &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span> + <span class="st">&quot; at $&quot;</span> + <span class="kw">data</span>.<span class="fu">price</span>);
+        <span class="co">//..populate the trade ticket...</span>
+        <span class="co">//fire the callback</span>
+        <span class="kw">if</span> (<span class="kw">typeof</span> <span class="kw">data</span>.<span class="fu">callback</span> === <span class="ch">&#39;function&#39;</span>){
+            <span class="kw">data</span>.<span class="fu">callback</span>();
         }
     }
 );</code></pre>
@@ -908,16 +968,16 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.3, November 10, 2012</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.4, 11 December 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1352613075628"></script>
-<script src="./js/prettify.js?1352613075628"></script>
-<script src="./js/f2.js?1.0.1"></script>
-<script src="./js/docs.js?1352613075628"></script>
-<script>var ghpagescachebuster = "1352613075628";</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="./js/bootstrap.min.2.1.1.js"></script>
+<script src="./js/prettify.js"></script>
+<script src="./js/f2.js?1.0.2"></script>
+<script src="./js/docs.js?1.0.4"></script>
+<script>F2.extend('gitbranch', (function(){ return '1.0.4-wip'; }));</script>
 </body>
 </html>

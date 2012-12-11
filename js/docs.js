@@ -1,5 +1,5 @@
 /**
- * This code is only for the documentation site. Don't use it anywhere else, you really shouldn't.
+ * This code is only for the F2 documentation site. Don't use it anywhere else, you really shouldn't.
  * (c) F2 / Markit On Demand 2012
  */
 if (!String.prototype.supplant) {
@@ -30,8 +30,7 @@ F2Docs.fn.init = function() {
 	this.buildBookmarks();
 	this.formatSourceCodeElements();
 
-	//eh
-	$("body").attr("data-spy","scroll").attr("data-target","#toc").attr("data-offset",0).scrollspy('refresh');
+	$("body").scrollspy();
 
 	//affix left nav
 	$("#toc > ul.nav").affix();
@@ -41,7 +40,6 @@ F2Docs.fn.init = function() {
  * Events
  */
 F2Docs.fn.bindEvents = function(){
-
 	this._setupBodyContentAnchorClick();
 	this._watchScrollSpy();
 }
@@ -65,7 +63,7 @@ F2Docs.fn.navbarDocsHelper = function(){
 	$toc.find("a").removeClass("active");
 
 	//add active class to blue,green or orange subnav item
-	if (file == urlMap.basics || !file || file == "index-temp.html"){
+	if (file == urlMap.basics || !file){
 		_setActive(0,$toc);
 		_setActive(0,$collapsedNavToc);
 		this.currentPage = "basics";
@@ -327,12 +325,19 @@ F2Docs.fn.formatSourceCodeElements = function(){
 	window.prettyPrint && prettyPrint();
 
 	//fix mailto links from pandoc so they don't have <code> around them.
+	//pandoc supports a param to disable this, need to fix that in the build
 	$('a[href^="mailto"]','#docs').each(function(idx,item){
-		$(item).html($(item).text());
+		$(item)
+			.html($(this).text())
+			.prev('script').remove()
+			.end()
+			.next('noscript').remove()
+		;
 	});
 }
 
 F2Docs.fn.insite = function(){
+	if (F2.gitbranch() !== 'master') { return; }
 	window._waq = window._waq || []; 
 	(function() {
 		var domain = 'insite.wallst.com'; 
@@ -353,9 +358,7 @@ F2Docs.fn.insite = function(){
  * Let's do this.
  */
 $(function() {
-
 	F2Docs = new F2Docs();
 	F2Docs.init();
 	F2Docs.insite();
-
 });

@@ -1,63 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="pandoc">
   <title>F2 - Extending F2</title>
-  <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <style type="text/css">
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
-  </style>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <meta name="dcterms.date" content="11 December 2012">
+  <meta name="gitbranch" content="1.0.4-wip">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
+  <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
+  <meta name="robots" content="all, index, follow" />
+  <meta name="distribution" content="global" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
   <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <link rel="home" href="http://www.openf2.org/" />
   
-  <script src="./js/modernizr.2.6.2.custom.min.js?1352613075628"></script>
-  <script src="./js/respond.min.js?1352613075628"></script>
+  <script src="./js/modernizr.2.6.2.custom.min.js"></script>
+  <script src="./js/respond.min.js"></script>
   
-  <link href="./css/prettify.css?1352613075628" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1352613075628" rel="stylesheet">
+  <link href="./css/prettify.css" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.0.4" rel="stylesheet">
   
-  <link rel="icon" href="./img/favicon-32px.png?1352613075628" type="image/png"/>
-  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png?1352613075628" />
-  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png?1352613075628" />
-  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png?1352613075628" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png?1352613075628" />
+  <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="./img/touch-icon-72.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="./img/touch-icon-114.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png" />
   
   <script type="text/javascript">
-  	var _gaq = _gaq || [];
-  	_gaq.push(['_setAccount', 'UA-35230380-1']);
-  	_gaq.push(['_setDomainName', 'openf2.org']);
-  	_gaq.push(['_trackPageview']);
+  	if ('1.0.4-wip' === 'master'){
+  		var _gaq = _gaq || [];
+  		_gaq.push(['_setAccount', 'UA-35230380-1']);
+  		_gaq.push(['_setDomainName', 'openf2.org']);
+  		_gaq.push(['_trackPageview']);
   
-  	(function() {
-  	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  	})();
-  
-  	var ghpagescachebuster = "1352613075628";
+  		(function() {
+  		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  		})();
+  	}
   </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc" data-offset="0">
 <header class="openf2Header navbarmini clearfix">
   <nav class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -88,8 +71,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
             <li class="divider-vertical"></li>
             <li><a href="https://developer.openf2.org">Developer</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.0.1</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.0.1)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.0.2</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.0.2)</a></li>
           </ul>
         </div>
       </div>
@@ -199,16 +182,16 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'OpenF2@googlegroups.com'+'
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.3, November 10, 2012</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.4, 11 December 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js?1352613075628"></script>
-<script src="./js/prettify.js?1352613075628"></script>
-<script src="./js/f2.js?1.0.1"></script>
-<script src="./js/docs.js?1352613075628"></script>
-<script>var ghpagescachebuster = "1352613075628";</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="./js/bootstrap.min.2.1.1.js"></script>
+<script src="./js/prettify.js"></script>
+<script src="./js/f2.js?1.0.2"></script>
+<script src="./js/docs.js?1.0.4"></script>
+<script>F2.extend('gitbranch', (function(){ return '1.0.4-wip'; }));</script>
 </body>
 </html>
