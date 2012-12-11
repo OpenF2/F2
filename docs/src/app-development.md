@@ -736,6 +736,50 @@ F2.Events.on(
 );
 ```
 
+### More Complex Context 
+
+The examples above demonstrate simple Context objects. In the event more complex data and/or data types are needed, F2 Context can support any JavaScript object&mdash;a string, a number, a function, an array or an object. 
+
+This is an example Context object demonstrating arbitrary JavaScript objects:
+
+```javascript
+F2.Events.emit(
+	"example_event", //custom event name
+	{ 
+		price: 100, 			//number
+		name: 'John Smith', 	//string
+		callback: function(){ 	//function
+			F2.log('Callback!');
+		},
+		watchlist: ['AAPL','MSFT','GE'], //array
+		userInfo: { //object
+			name: 'John Smith',
+			title: 'Managing Director',
+			groups: ['Alpha','Beta'],
+			sessionId: 1234567890
+		}
+	}
+);
+```
+
+If two apps want to communicate data for populating a trade ticket _and_ execute a `callback`, [appclass.js](#scripts-1) code might look like this:
+
+```javascript
+F2.Events.emit(
+	"buy_stock", //custom event name
+	{ 
+		symbol: "GOOG", 
+		name: "Google Inc",
+		price: 682.68,
+		isAvailableToPurchase: true,
+		orderType: "Market Order",
+		callback: function(data){
+			alert('Trade ticket populated');//receiving app calls 'callback()'
+		}
+	}
+);
+```
+
 ### Types of Context
 
 Context is a term used to describe the state of an F2 container and its apps. At the same time, Context is also the information passed from [Container-to-App](#container-to-app-context) or from [App-to-App](#app-to-app-context) or from [App-to-Container](#app-to-container-context). In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Developers the option to define context within their container.

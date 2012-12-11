@@ -3,7 +3,7 @@
 <head>
   <title>F2 - App Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="7 December 2012">
+  <meta name="dcterms.date" content="10 December 2012">
   <meta name="gitbranch" content="1.0.4-wip">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
@@ -690,6 +690,42 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     }
 );</code></pre>
 </section>
+<section class="level3" id="more-complex-context">
+<h3>More Complex Context</h3>
+<p>The examples above demonstrate simple Context objects. In the event more complex data and/or data types are needed, F2 Context can support any JavaScript object—a string, a number, a function, an array or an object.</p>
+<p>This is an example Context object demonstrating arbitrary JavaScript objects:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="st">&quot;example_event&quot;</span>, <span class="co">//custom event name</span>
+    { 
+        <span class="dt">price</span>: <span class="dv">100</span>,             <span class="co">//number</span>
+        <span class="dt">name</span>: <span class="ch">&#39;John Smith&#39;</span>,     <span class="co">//string</span>
+        <span class="dt">callback</span>: <span class="kw">function</span>(){   <span class="co">//function</span>
+            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="ch">&#39;Callback!&#39;</span>);
+        },
+        <span class="dt">watchlist</span>: [<span class="ch">&#39;AAPL&#39;</span>,<span class="ch">&#39;MSFT&#39;</span>,<span class="ch">&#39;GE&#39;</span>], <span class="co">//array</span>
+        <span class="dt">userInfo</span>: { <span class="co">//object</span>
+            <span class="dt">name</span>: <span class="ch">&#39;John Smith&#39;</span>,
+            <span class="dt">title</span>: <span class="ch">&#39;Managing Director&#39;</span>,
+            <span class="dt">groups</span>: [<span class="ch">&#39;Alpha&#39;</span>,<span class="ch">&#39;Beta&#39;</span>],
+            <span class="dt">sessionId</span>: <span class="dv">1234567890</span>
+        }
+    }
+);</code></pre>
+<p>If two apps want to communicate data for populating a trade ticket <em>and</em> execute a <code>callback</code>, <a href="#scripts-1">appclass.js</a> code might look like this:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">emit</span>(
+    <span class="st">&quot;buy_stock&quot;</span>, <span class="co">//custom event name</span>
+    { 
+        <span class="dt">symbol</span>: <span class="st">&quot;GOOG&quot;</span>, 
+        <span class="dt">name</span>: <span class="st">&quot;Google Inc&quot;</span>,
+        <span class="dt">price</span>: <span class="fl">682.68</span>,
+        <span class="dt">isAvailableToPurchase</span>: <span class="kw">true</span>,
+        <span class="dt">orderType</span>: <span class="st">&quot;Market Order&quot;</span>,
+        <span class="dt">callback</span>: <span class="kw">function</span>(data){
+            alert(<span class="ch">&#39;Trade ticket populated&#39;</span>);<span class="co">//receiving app calls &#39;callback()&#39;</span>
+        }
+    }
+);</code></pre>
+</section>
 <section class="level3" id="types-of-context">
 <h3>Types of Context</h3>
 <p>Context is a term used to describe the state of an F2 container and its apps. At the same time, Context is also the information passed from <a href="#container-to-app-context">Container-to-App</a> or from <a href="#app-to-app-context">App-to-App</a> or from <a href="#app-to-container-context">App-to-Container</a>. In the examples shown above, two types of context were shown: symbol and trade ticket context. It is important to realize F2.js allows client-side messaging between third parties using a collection of arbitrary name-value pairs. This provides the utmost flexibility and affords Container Developers the option to define context within their container.</p>
@@ -914,7 +950,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.4, 7 December 2012</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.4, 10 December 2012</em></small></p>
 	</footer>
 
 </div><!--/.container-->
