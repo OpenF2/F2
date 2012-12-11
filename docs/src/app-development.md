@@ -738,7 +738,7 @@ F2.Events.on(
 
 ### More Complex Context 
 
-The examples above demonstrate simple Context objects. In the event more complex data and/or data types are needed, F2 Context can support any JavaScript object&mdash;a string, a number, a function, an array or an object. 
+The examples above demonstrate _simple_ Context objects. In the event more complex data and/or data types are needed, F2 Context can support any JavaScript object&mdash;a string, a number, a function, an array or an object. 
 
 This is an example Context object demonstrating arbitrary JavaScript objects:
 
@@ -746,13 +746,18 @@ This is an example Context object demonstrating arbitrary JavaScript objects:
 F2.Events.emit(
 	"example_event", //custom event name
 	{ 
-		price: 100, 			//number
-		name: 'John Smith', 	//string
-		callback: function(){ 	//function
+		//number
+		price: 100,
+		//string
+		name: 'John Smith',
+		//function
+		callback: function(){
 			F2.log('Callback!');
 		},
-		watchlist: ['AAPL','MSFT','GE'], //array
-		userInfo: { //object
+		//array
+		watchlist: ['AAPL','MSFT','GE'],
+		//object
+		userInfo: {
 			name: 'John Smith',
 			title: 'Managing Director',
 			groups: ['Alpha','Beta'],
@@ -773,8 +778,25 @@ F2.Events.emit(
 		price: 682.68,
 		isAvailableToPurchase: true,
 		orderType: "Market Order",
+		//define callback
 		callback: function(data){
-			alert('Trade ticket populated');//receiving app calls 'callback()'
+			alert('Trade ticket populated');
+		}
+	}
+);
+```
+
+The F2 app listening for the `buy_stock` event would fire the `callback` function.
+
+```javascript
+F2.Events.on(
+	"buy_stock", 
+	function(data){
+		F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
+		//..populate the trade ticket...
+		//fire the callback
+		if (typeof data.callback === 'function'){
+			data.callback();
 		}
 	}
 );

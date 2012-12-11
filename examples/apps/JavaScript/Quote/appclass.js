@@ -33,7 +33,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 	};
 
 	var _hasWatchListApp = function() {
-		return !!$(".com_f2_examples_javascript_watchlist").length;
+		return !!$("div.com_openf2_examples_javascript_watchlist").length;
 	};
 
 	var _initTypeahead = function() {
