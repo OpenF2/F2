@@ -53,10 +53,10 @@ var ENCODING = 'utf-8';
 var EOL = '\n';
 // files to be packaged
 var PACKAGE_FILES = [
-	'sdk/src/third-party/json2.js',
-	'sdk/src/third-party/eventemitter2.js',
-	'sdk/src/third-party/easyXDM/easyXDM.min.js',
-	'sdk/f2.no-third-party.js' // this file is created by the build process
+	{ src: 'sdk/src/third-party/json2.js', minify: true },
+	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
+	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false },
+	{ src: 'sdk/f2.no-third-party.js', minify: true } // this file is created by the build process
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
 
@@ -237,7 +237,7 @@ function js() {
 
 	console.log('Building Debug Package...');
 	var contents = PACKAGE_FILES.map(function(f) {
-		return fs.readFileSync(f, ENCODING);
+		return fs.readFileSync(f.src, ENCODING);
 	});
 	fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
 	console.log('COMPLETE');
@@ -246,28 +246,32 @@ function js() {
 	console.log('Building Minified Package...');
 	var contents = PACKAGE_FILES.map(function(f) {
 
-		var code = fs.readFileSync(f, ENCODING);
-		var comments = [];
-		var token = '"F2: preserved commment block"';
+		var code = fs.readFileSync(f.src, ENCODING);
 
-		// borrowed from ender-js
-		code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
-			comments.push(comment)
-			return ';' + token + ';';
-		});
+		if (f.minify) {
+			var comments = [];
+			var token = '"F2: preserved commment block"';
 
-		var ast = jsp.parse(code); // parse code and get the initial AST
-		ast = pro.ast_mangle(ast); // get a new AST with mangled names
-		ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
-		code = pro.gen_code(ast); // compressed code here
+			// borrowed from ender-js
+			code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
+				comments.push(comment);
+				return token;
+				//return ';' + token + ';';
+			});
 
-		code = code.replace(RegExp(token, 'g'), function() {
-			return EOL + comments.shift() + EOL;
-		});
+			var ast = jsp.parse(code); // parse code and get the initial AST
+			ast = pro.ast_mangle(ast); // get a new AST with mangled names
+			ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
+			code = pro.gen_code(ast); // compressed code here
+
+			code = code.replace(RegExp(token, 'g'), function() {
+				return EOL + comments.shift() + EOL;
+			});
+		}
 
 		return code;
 	});
-	fs.writeFileSync('./sdk/f2.min.js', contents.join(EOL), ENCODING);
+	fs.writeFileSync('./sdk/f2.min.js', contents.join(';' + EOL), ENCODING);
 
 	// update Last Update Date and save F2.json
 	f2Info.sdk.lastUpdateDate = (new Date()).toJSON();
