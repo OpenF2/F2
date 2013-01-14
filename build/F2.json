@@ -1,16 +1,16 @@
 {
 	"docs": {
-		"version": "1.0.4",
+		"version": "1.0.5",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2012-12-20T15:43:06.626Z",
-		"lastUpdateDateFormatted": "20 December 2012"
+		"lastUpdateDate": "2013-01-14T15:04:19.282Z",
+		"lastUpdateDateFormatted": "14 January 2013"
 	},
 	"sdk": {
-		"version": "1.0.2",
+		"version": "1.0.3",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-11-11T06:09:36.490Z",
-		"lastUpdateDate": "2013-01-03T20:25:48.619Z"
+		"lastUpdateDate": "2013-01-14T15:04:17.848Z"
 	},
 	"branch": "1.0.5-wip"
 }
