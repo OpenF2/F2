@@ -49,7 +49,7 @@ F2.extend('Rpc', (function(){
 						F2.registerApps([appConfig], [appParts[1]]);
 
 						// socket message playback
-						$.each(messagePlayback, function(i, e) {
+						jQuery.each(messagePlayback, function(i, e) {
 							_onMessage(appConfig, message, origin);
 						});
 						
@@ -76,7 +76,7 @@ F2.extend('Rpc', (function(){
 	 */
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
-		var container = $(appConfig.root);
+		var container = jQuery(appConfig.root);
 		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
 			? container
 			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
@@ -164,8 +164,8 @@ F2.extend('Rpc', (function(){
 			//       if callback matches param
 			//        replace param with _createRpcCallback(app.instanceId, callback)
 			if (o.params && o.params.length && o.callbacks && o.callbacks.length) {
-				$.each(o.callbacks, function(i, c) {
-					$.each(o.params, function(i, p) {
+				jQuery.each(o.callbacks, function(i, c) {
+					jQuery.each(o.params, function(i, p) {
 						if (c == p) {
 							o.params[i] = _createRpcCallback(instanceId, c);
 						}
@@ -235,7 +235,7 @@ F2.extend('Rpc', (function(){
 		broadcast: function(messageType, params) {
 			// check valid messageType
 			var message = messageType + F2.stringify(params);
-			$.each(_apps, function(i, a) {
+			jQuery.each(_apps, function(i, a) {
 				a.socket.postMessage(message);
 			});
 		},
@@ -252,7 +252,7 @@ F2.extend('Rpc', (function(){
 		call: function(instanceId, messageType, functionName, params) {
 			// loop through params and find functions and convert them to callbacks
 			var callbacks = [];
-			$.each(params, function(i, e) {
+			jQuery.each(params, function(i, e) {
 				if (typeof e === "function") {
 					var cid = _registerCallback(e);
 					params[i] = cid;
@@ -300,7 +300,7 @@ F2.extend('Rpc', (function(){
 				// the app is secure
 				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
-				$(_apps[instanceId].config.root).find('iframe').length == 0
+				jQuery(_apps[instanceId].config.root).find('iframe').length == 0
 			);
 		},
 

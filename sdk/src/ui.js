@@ -11,10 +11,10 @@ F2.extend('UI', (function(){
 	var UI_Class = function(appConfig) {
 
 		var _appConfig = appConfig;
-		var $root = $(appConfig.root);
+		var $root = jQuery(appConfig.root);
 
 		var _updateHeight = function(height) {
-			height = height || $(_appConfig.root).outerHeight();
+			height = height || jQuery(_appConfig.root).outerHeight();
 
 			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
@@ -110,12 +110,12 @@ F2.extend('UI', (function(){
 							);
 						} else {
 							// display the alert
-							$(_renderAlert(message))
+							jQuery(_renderAlert(message))
 								.on('show', function() {
 									var modal = this;
-									$(modal).find('.btn-primary').on('click', function() {
-										$(modal).modal('hide').remove();
-										(callback || $.noop)();
+									jQuery(modal).find('.btn-primary').on('click', function() {
+										jQuery(modal).modal('hide').remove();
+										(callback || jQuery.noop)();
 									});
 								})
 								.modal({backdrop:true});
@@ -147,18 +147,18 @@ F2.extend('UI', (function(){
 							);
 						} else {
 							// display the alert
-							$(_renderConfirm(message))
+							jQuery(_renderConfirm(message))
 								.on('show', function() {
 									var modal = this;
 
-									$(modal).find('.btn-ok').on('click', function() {
-										$(modal).modal('hide').remove();
-										(okCallback || $.noop)();
+									jQuery(modal).find('.btn-ok').on('click', function() {
+										jQuery(modal).modal('hide').remove();
+										(okCallback || jQuery.noop)();
 									});
 
-									$(modal).find('.btn-cancel').on('click', function() {
-										$(modal).modal('hide').remove();
-										(cancelCallback || $.noop)();
+									jQuery(modal).find('.btn-cancel').on('click', function() {
+										jQuery(modal).modal('hide').remove();
+										(cancelCallback || jQuery.noop)();
 									});
 								})
 								.modal({backdrop:true});
@@ -187,7 +187,7 @@ F2.extend('UI', (function(){
 						]
 					);
 				} else {
-					$(_appConfig.root).find('.' + F2.Constants.Css.APP_TITLE).text(title);
+					jQuery(_appConfig.root).find('.' + F2.Constants.Css.APP_TITLE).text(title);
 				}
 			},
 			/**
@@ -253,7 +253,7 @@ F2.extend('UI', (function(){
 									[].slice.call(arguments)
 								);
 							} else if (F2.inArray(input, _appConfig.views)) {
-								$('.' + F2.Constants.Css.APP_VIEW, $root)
+								jQuery('.' + F2.Constants.Css.APP_VIEW, $root)
 									.addClass('hide')
 									.filter('[data-f2-view="' + input + '"]', $root)
 									.removeClass('hide');
@@ -309,7 +309,7 @@ F2.extend('UI', (function(){
 			return;
 		}
 
-		if (F2.Rpc.isRemote(instanceId) && !$(selector).is('.' + F2.Constants.Css.APP)) {
+		if (F2.Rpc.isRemote(instanceId) && !jQuery(selector).is('.' + F2.Constants.Css.APP)) {
 			F2.Rpc.call(
 				instanceId,
 				F2.Constants.Sockets.RPC,
@@ -318,12 +318,12 @@ F2.extend('UI', (function(){
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
 					// will be F2.stringify() errors
-					$(selector).selector
+					jQuery(selector).selector
 				]
 			);
 		} else {
 			
-			var container = $(selector);
+			var container = jQuery(selector);
 			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
@@ -345,7 +345,7 @@ F2.extend('UI', (function(){
 		_containerConfig = containerConfig;
 
 		// set defaults
-		_containerConfig.UI = $.extend(true, {}, F2.ContainerConfig.UI, _containerConfig.UI || {});
+		_containerConfig.UI = jQuery.extend(true, {}, F2.ContainerConfig.UI, _containerConfig.UI || {});
 	};
 
 	/**
@@ -364,7 +364,7 @@ F2.extend('UI', (function(){
 			return;
 		}
 
-		if (F2.Rpc.isRemote(instanceId) && $(selector).is('.' + F2.Constants.Css.APP)) {
+		if (F2.Rpc.isRemote(instanceId) && jQuery(selector).is('.' + F2.Constants.Css.APP)) {
 			F2.Rpc.call(
 				instanceId,
 				F2.Constants.Sockets.RPC,
@@ -373,7 +373,7 @@ F2.extend('UI', (function(){
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
 					// will be F2.stringify() errors
-					$(selector).selector,
+					jQuery(selector).selector,
 					showLoading
 				]
 			);
@@ -383,8 +383,8 @@ F2.extend('UI', (function(){
 				F2.log('Unable to display loading icon. Please set F2.ContainerConfig.UI.Mask.loadingIcon	when calling F2.init();');
 			}
 
-			var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
-			var mask = $('<div>')
+			var container = jQuery(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
+			var mask = jQuery('<div>')
 				.height('100%' /*container.outerHeight()*/)
 				.width('100%' /*container.outerWidth()*/)
 				.addClass(F2.Constants.Css.MASK);

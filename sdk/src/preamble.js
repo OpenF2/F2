@@ -135,7 +135,7 @@ if (!window.F2) {
 		 * @return {bool} True if the item is in the array
 		 */
 		inArray: function(value, array) {
-			return $.inArray(value, array) > -1;
+			return jQuery.inArray(value, array) > -1;
 		},
 		/**
 		 * Wrapper logging function.
