@@ -17,19 +17,15 @@ You can use the F2 framework to build:
 
 ## Who
 
-The F2 concept was born in Boulder, Colorado at [Markit On Demand](http://www.markitondemand.com) (MOD). F2 was brought to life through conversations with industry partners who individually express common frustrations and desire a coordinated solution. 
+The F2 concept was born in Boulder, Colorado at [Markit On Demand](http://www.markitondemand.com) (MOD). F2 was brought to life through conversations with industry partners who individually express common frustrations and desire a coordinated solution.
 
 MOD's development team is committed to following the technical guidelines defined by the F2 standard and actively contribute enhancements to future F2 releases.
 
 ### Advisory Board 
 
-F2 is forming an Advisory Board that will steer and shape the future of F2.  Advice, guidance and thought-leadership from the collective community are integral to the success of F2. 
+The F2 Advisory Board is an independent forum comprised of supportive industry participants. The Board’s purpose is to ensure that the F2 specification evolves to meet the needs of the industry.  Advice, guidance and thought-leadership from the collective community are integral to the success of F2. 
 
-Industry experts from financial firms, information providers, content owners, media outlets, research providers, technology firms and developers, designers and technology owners (did we forget anyone?!) are all welcome. 
-
-Please direct inquiries to [info@openf2.org](mailto:info@openf2.org).
-
-By shifting the industry's development efforts towards a common specification that allows for complete customization, everyone wins. The greater the participation in F2 the richer, smarter and more effective it will be as an industry-wide integration framework to help reduce labor, time to market and costs.
+For more information about the F2 Advisory Board please contact [info@openf2.org](mailto:info@openf2.org).
 
 * * * *
 
