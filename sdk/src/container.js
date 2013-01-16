@@ -19,7 +19,7 @@ F2.extend('', (function(){
 	var _afterAppRender = function(appConfig, html) {
 
 		var handler = _config.afterAppRender || function(appConfig, html) {
-			return $(html).appendTo('body');
+			return jQuery(html).appendTo('body');
 		};
 		var appContainer = handler(appConfig, html);
 
@@ -28,7 +28,7 @@ F2.extend('', (function(){
 			return;
 		} else {
 			// apply APP class and Instance ID
-			$(appContainer).addClass(F2.Constants.Css.APP);
+			jQuery(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
 		}
 	};
@@ -43,11 +43,11 @@ F2.extend('', (function(){
 	var _appRender = function(appConfig, html) {
 
 		function outerHtml(html) {
-			return $('<div></div>').append(html).html();
+			return jQuery('<div></div>').append(html).html();
 		}
 
 		// apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
 		if (_config.appRender) {
@@ -67,7 +67,7 @@ F2.extend('', (function(){
 	 * @return {Element} The DOM Element surrounding the app
 	 */
 	var _beforeAppRender = function(appConfig) {
-		var handler = _config.beforeAppRender || $.noop;
+		var handler = _config.beforeAppRender || jQuery.noop;
 		return handler(appConfig);
 	};
 
@@ -96,11 +96,11 @@ F2.extend('', (function(){
 	 */
 	var _initAppEvents = function (appConfig) {
 
-		$(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
+		jQuery(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
 
 			event.preventDefault();
 
-			var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
+			var view = jQuery(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
 
 			// handle the special REMOVE view
 			if (view == F2.Constants.Views.REMOVE) {
@@ -123,7 +123,7 @@ F2.extend('', (function(){
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
-		$(window).on('resize', function() {
+		jQuery(window).on('resize', function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
@@ -169,7 +169,7 @@ F2.extend('', (function(){
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
 		var appInit = function() {
-			$.each(appConfigs, function(i, a) {
+			jQuery.each(appConfigs, function(i, a) {
 				// instantiate F2.UI
 				a.ui = new F2.UI(a);
 
@@ -194,13 +194,13 @@ F2.extend('', (function(){
 
 		// load styles
 		var stylesFragment = [];
-		$.each(styles, function(i, e) {
+		jQuery.each(styles, function(i, e) {
 			stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
 		});
-		$('head').append(stylesFragment.join(''));
+		jQuery('head').append(stylesFragment.join(''));
 
 		// load html
-		$.each(appManifest.apps, function(i, a) {
+		jQuery.each(appManifest.apps, function(i, a) {
 			// load html and save the root node
 			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			// init events
@@ -208,8 +208,8 @@ F2.extend('', (function(){
 		});
 
 		// load scripts and eval inlines once complete
-		$.each(scripts, function(i, e) {
-			$.ajax({
+		jQuery.each(scripts, function(i, e) {
+			jQuery.ajax({
 				url:e,
 				/*	we want any scripts added this way to be cached by the browser. 
 				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
@@ -219,7 +219,7 @@ F2.extend('', (function(){
 				type:'GET',
 				success:function() {
 					if (++scriptsLoaded == scriptCount) {
-						$.each(inlines, function(i, e) {
+						jQuery.each(inlines, function(i, e) {
 							try {
 								eval(e);
 							} catch (exception) {
@@ -300,7 +300,7 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return $.map(_apps, function(e, i) {
+			return jQuery.map(_apps, function(e, i) {
 				return { appId: e.config.appId };
 			});
 		},
@@ -368,7 +368,7 @@ F2.extend('', (function(){
 
 			// validate each app and assign it an instanceId
 			// then determine which apps can be batched together
-			$.each(appConfigs, function(i, a) {
+			jQuery.each(appConfigs, function(i, a) {
 
 				if (!_validateApp(a)) {
 					return; // move to the next app
@@ -403,7 +403,7 @@ F2.extend('', (function(){
 			// we don't have the manifests, go ahead and load them
 			if (!haveManifests) {
 				// add the batches to the appStack
-				$.each(batches, function(i, b) {
+				jQuery.each(batches, function(i, b) {
 					appStack.push({ url:i, apps:b })
 				});
 
@@ -413,7 +413,7 @@ F2.extend('', (function(){
 				// another request for the same app.  We'll create a callbackStack
 				// that will ensure that requests for the same app are loaded in order
 				// rather than at the same time
-				$.each(appStack, function(i, req) {
+				jQuery.each(appStack, function(i, req) {
 					// define the callback function based on the first app's App ID
 					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
 
@@ -425,12 +425,12 @@ F2.extend('', (function(){
 				// loop through each item in the callback stack and make the request
 				// for the AppManifest. When the request is complete, pop the next 
 				// request off the stack and make the request.
-				$.each(callbackStack, function(i, requests) {
+				jQuery.each(callbackStack, function(i, requests) {
 
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) { return; }
 
-						$.ajax({
+						jQuery.ajax({
 							url:req.url,
 							data:{
 								params:F2.stringify(req.apps, F2.appConfigReplacer)
@@ -444,7 +444,7 @@ F2.extend('', (function(){
 							error:function(jqxhr, settings, exception) {
 								F2.log('Failed to load app(s)', exception.toString(), req.apps);
 								//remove failed app(s)
-								$.each(req.apps, function(idx,item){
+								jQuery.each(req.apps, function(idx,item){
 									F2.log('Removed failed ' +item.name+ ' app', item);
 									F2.removeApp(item.instanceId);
 								});
@@ -470,7 +470,7 @@ F2.extend('', (function(){
 				return;
 			}
 
-			$.each(_apps, function(i, a) {
+			jQuery.each(_apps, function(i, a) {
 				F2.removeApp(a.config.instanceId);
 			});
 		},
@@ -487,8 +487,8 @@ F2.extend('', (function(){
 			}
 
 			if (_apps[instanceId]) {
-				$(_apps[instanceId].config.root).fadeOut(function() {
-					$(this).remove();
+				jQuery(_apps[instanceId].config.root).fadeOut(function() {
+					jQuery(this).remove();
 				});
 
 				delete _apps[instanceId];
