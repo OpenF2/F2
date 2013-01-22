@@ -71,7 +71,7 @@ F2.Apps["com_openf2_examples_php_news"] = (function() {
 		})
 	};
 
-	App_Class.prototype._propulateSettings = function() {
+	App_Class.prototype._populateSettings = function() {
 
 		$.each(this.appConfig.context, $.proxy(function(key, value) {
 
