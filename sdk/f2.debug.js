@@ -3067,6 +3067,9 @@ F2.extend('', (function(){
 			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.registerApps()');
 				return;
+			} else if (!appConfigs) {
+				F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
+				return;
 			}
 
 			var appStack = [];
@@ -3077,8 +3080,12 @@ F2.extend('', (function(){
 			appManifests = appManifests || [];
 			haveManifests = !!appManifests.length;
 
+			// appConfigs must have a length
+			if (!appConfigs.length) {
+				F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
+				return;
 			// ensure that the array of apps and manifests are qual
-			if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
+			} else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
 				F2.log('The length of "apps" does not equal the length of "appManifests"');
 				return;
 			}
