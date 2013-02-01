@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk&#x2F;src&#x2F;ui.js</title>
-	<meta name="dcterms.date" content="11 December 2012">
-	<meta name="gitbranch" content="1.0.4-wip">
+	<meta name="dcterms.date" content="1 February 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
 	<script src="..&#x2F;../js/respond.min.js"></script>
 	
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.0.2" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1.0.3" rel="stylesheet">
 
 	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.0.4-wip' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -72,8 +72,8 @@
 							<li class="divider-vertical"></li>
             				<li><a href="https://developer.openf2.org">Developer</a></li>
 							<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.0.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.0.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.0.3</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.0.3)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -228,10 +228,10 @@ F2.extend(&#x27;UI&#x27;, (function(){
 	var UI_Class = function(appConfig) {
 
 		var _appConfig = appConfig;
-		var $root = $(appConfig.root);
+		var $root = jQuery(appConfig.root);
 
 		var _updateHeight = function(height) {
-			height = height || $(_appConfig.root).outerHeight();
+			height = height || jQuery(_appConfig.root).outerHeight();
 
 			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
@@ -327,12 +327,12 @@ F2.extend(&#x27;UI&#x27;, (function(){
 							);
 						} else {
 							&#x2F;&#x2F; display the alert
-							$(_renderAlert(message))
+							jQuery(_renderAlert(message))
 								.on(&#x27;show&#x27;, function() {
 									var modal = this;
-									$(modal).find(&#x27;.btn-primary&#x27;).on(&#x27;click&#x27;, function() {
-										$(modal).modal(&#x27;hide&#x27;).remove();
-										(callback || $.noop)();
+									jQuery(modal).find(&#x27;.btn-primary&#x27;).on(&#x27;click&#x27;, function() {
+										jQuery(modal).modal(&#x27;hide&#x27;).remove();
+										(callback || jQuery.noop)();
 									});
 								})
 								.modal({backdrop:true});
@@ -364,18 +364,18 @@ F2.extend(&#x27;UI&#x27;, (function(){
 							);
 						} else {
 							&#x2F;&#x2F; display the alert
-							$(_renderConfirm(message))
+							jQuery(_renderConfirm(message))
 								.on(&#x27;show&#x27;, function() {
 									var modal = this;
 
-									$(modal).find(&#x27;.btn-ok&#x27;).on(&#x27;click&#x27;, function() {
-										$(modal).modal(&#x27;hide&#x27;).remove();
-										(okCallback || $.noop)();
+									jQuery(modal).find(&#x27;.btn-ok&#x27;).on(&#x27;click&#x27;, function() {
+										jQuery(modal).modal(&#x27;hide&#x27;).remove();
+										(okCallback || jQuery.noop)();
 									});
 
-									$(modal).find(&#x27;.btn-cancel&#x27;).on(&#x27;click&#x27;, function() {
-										$(modal).modal(&#x27;hide&#x27;).remove();
-										(cancelCallback || $.noop)();
+									jQuery(modal).find(&#x27;.btn-cancel&#x27;).on(&#x27;click&#x27;, function() {
+										jQuery(modal).modal(&#x27;hide&#x27;).remove();
+										(cancelCallback || jQuery.noop)();
 									});
 								})
 								.modal({backdrop:true});
@@ -404,7 +404,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 						]
 					);
 				} else {
-					$(_appConfig.root).find(&#x27;.&#x27; + F2.Constants.Css.APP_TITLE).text(title);
+					jQuery(_appConfig.root).find(&#x27;.&#x27; + F2.Constants.Css.APP_TITLE).text(title);
 				}
 			},
 			&#x2F;**
@@ -470,7 +470,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 									[].slice.call(arguments)
 								);
 							} else if (F2.inArray(input, _appConfig.views)) {
-								$(&#x27;.&#x27; + F2.Constants.Css.APP_VIEW, $root)
+								jQuery(&#x27;.&#x27; + F2.Constants.Css.APP_VIEW, $root)
 									.addClass(&#x27;hide&#x27;)
 									.filter(&#x27;[data-f2-view=&quot;&#x27; + input + &#x27;&quot;]&#x27;, $root)
 									.removeClass(&#x27;hide&#x27;);
@@ -526,7 +526,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			return;
 		}
 
-		if (F2.Rpc.isRemote(instanceId) &amp;&amp; !$(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
+		if (F2.Rpc.isRemote(instanceId) &amp;&amp; !jQuery(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
 			F2.Rpc.call(
 				instanceId,
 				F2.Constants.Sockets.RPC,
@@ -535,12 +535,12 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					instanceId,
 					&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
 					&#x2F;&#x2F; will be F2.stringify() errors
-					$(selector).selector
+					jQuery(selector).selector
 				]
 			);
 		} else {
 			
-			var container = $(selector);
+			var container = jQuery(selector);
 			var mask = container.find(&#x27;&gt; .&#x27; + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
@@ -562,7 +562,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 		_containerConfig = containerConfig;
 
 		&#x2F;&#x2F; set defaults
-		_containerConfig.UI = $.extend(true, {}, F2.ContainerConfig.UI, _containerConfig.UI || {});
+		_containerConfig.UI = jQuery.extend(true, {}, F2.ContainerConfig.UI, _containerConfig.UI || {});
 	};
 
 	&#x2F;**
@@ -581,7 +581,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			return;
 		}
 
-		if (F2.Rpc.isRemote(instanceId) &amp;&amp; $(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
+		if (F2.Rpc.isRemote(instanceId) &amp;&amp; jQuery(selector).is(&#x27;.&#x27; + F2.Constants.Css.APP)) {
 			F2.Rpc.call(
 				instanceId,
 				F2.Constants.Sockets.RPC,
@@ -590,7 +590,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					instanceId,
 					&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
 					&#x2F;&#x2F; will be F2.stringify() errors
-					$(selector).selector,
+					jQuery(selector).selector,
 					showLoading
 				]
 			);
@@ -600,8 +600,8 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				F2.log(&#x27;Unable to display loading icon. Please set F2.ContainerConfig.UI.Mask.loadingIcon	when calling F2.init();&#x27;);
 			}
 
-			var container = $(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
-			var mask = $(&#x27;&lt;div&gt;&#x27;)
+			var container = jQuery(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
+			var mask = jQuery(&#x27;&lt;div&gt;&#x27;)
 				.height(&#x27;100%&#x27; &#x2F;*container.outerHeight()*&#x2F;)
 				.width(&#x27;100%&#x27; &#x2F;*container.outerWidth()*&#x2F;)
 				.addClass(F2.Constants.Css.MASK);
@@ -651,7 +651,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 
 		<footer>
 			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.4, 11 December 2012</em></small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 1 February 2013</em></small></p>
 		</footer>
 	</div>
 </div>
@@ -663,7 +663,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.0.4-wip'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

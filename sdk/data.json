@@ -1276,7 +1276,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 462,
+            "line": 469,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1285,7 +1285,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 477,
+            "line": 484,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
