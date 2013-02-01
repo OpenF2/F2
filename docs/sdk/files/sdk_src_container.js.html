@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk&#x2F;src&#x2F;container.js</title>
-	<meta name="dcterms.date" content="14 January 2013">
-	<meta name="gitbranch" content="1.0.5-wip">
+	<meta name="dcterms.date" content="1 February 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.0.5-wip' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -236,7 +236,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	var _afterAppRender = function(appConfig, html) {
 
 		var handler = _config.afterAppRender || function(appConfig, html) {
-			return $(html).appendTo(&#x27;body&#x27;);
+			return jQuery(html).appendTo(&#x27;body&#x27;);
 		};
 		var appContainer = handler(appConfig, html);
 
@@ -245,7 +245,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			return;
 		} else {
 			&#x2F;&#x2F; apply APP class and Instance ID
-			$(appContainer).addClass(F2.Constants.Css.APP);
+			jQuery(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
 		}
 	};
@@ -260,11 +260,11 @@ F2.extend(&#x27;&#x27;, (function(){
 	var _appRender = function(appConfig, html) {
 
 		function outerHtml(html) {
-			return $(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
+			return jQuery(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
 		}
 
 		&#x2F;&#x2F; apply APP_CONTAINER class
-		html = outerHtml($(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId));
+		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId));
 
 		&#x2F;&#x2F; optionally apply wrapper html
 		if (_config.appRender) {
@@ -284,7 +284,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * @return {Element} The DOM Element surrounding the app
 	 *&#x2F;
 	var _beforeAppRender = function(appConfig) {
-		var handler = _config.beforeAppRender || $.noop;
+		var handler = _config.beforeAppRender || jQuery.noop;
 		return handler(appConfig);
 	};
 
@@ -313,11 +313,11 @@ F2.extend(&#x27;&#x27;, (function(){
 	 *&#x2F;
 	var _initAppEvents = function (appConfig) {
 
-		$(appConfig.root).on(&#x27;click&#x27;, &#x27;.&#x27; + F2.Constants.Css.APP_VIEW_TRIGGER + &#x27;[&#x27; + F2.Constants.Views.DATA_ATTRIBUTE + &#x27;]&#x27;, function(event) {
+		jQuery(appConfig.root).on(&#x27;click&#x27;, &#x27;.&#x27; + F2.Constants.Css.APP_VIEW_TRIGGER + &#x27;[&#x27; + F2.Constants.Views.DATA_ATTRIBUTE + &#x27;]&#x27;, function(event) {
 
 			event.preventDefault();
 
-			var view = $(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
+			var view = jQuery(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
 
 			&#x2F;&#x2F; handle the special REMOVE view
 			if (view == F2.Constants.Views.REMOVE) {
@@ -340,7 +340,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
-		$(window).on(&#x27;resize&#x27;, function() {
+		jQuery(window).on(&#x27;resize&#x27;, function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
@@ -386,7 +386,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
 		var appInit = function() {
-			$.each(appConfigs, function(i, a) {
+			jQuery.each(appConfigs, function(i, a) {
 				&#x2F;&#x2F; instantiate F2.UI
 				a.ui = new F2.UI(a);
 
@@ -411,13 +411,13 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; load styles
 		var stylesFragment = [];
-		$.each(styles, function(i, e) {
+		jQuery.each(styles, function(i, e) {
 			stylesFragment.push(&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text&#x2F;css&quot; href=&quot;&#x27; + e + &#x27;&quot;&#x2F;&gt;&#x27;);
 		});
-		$(&#x27;head&#x27;).append(stylesFragment.join(&#x27;&#x27;));
+		jQuery(&#x27;head&#x27;).append(stylesFragment.join(&#x27;&#x27;));
 
 		&#x2F;&#x2F; load html
-		$.each(appManifest.apps, function(i, a) {
+		jQuery.each(appManifest.apps, function(i, a) {
 			&#x2F;&#x2F; load html and save the root node
 			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			&#x2F;&#x2F; init events
@@ -425,8 +425,8 @@ F2.extend(&#x27;&#x27;, (function(){
 		});
 
 		&#x2F;&#x2F; load scripts and eval inlines once complete
-		$.each(scripts, function(i, e) {
-			$.ajax({
+		jQuery.each(scripts, function(i, e) {
+			jQuery.ajax({
 				url:e,
 				&#x2F;*	we want any scripts added this way to be cached by the browser. 
 				 	if you don&#x27;t add &#x27;cache:true&#x27; here, jquery adds a number on a URL param (?_=1353339224904)*&#x2F;
@@ -436,7 +436,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				type:&#x27;GET&#x27;,
 				success:function() {
 					if (++scriptsLoaded == scriptCount) {
-						$.each(inlines, function(i, e) {
+						jQuery.each(inlines, function(i, e) {
 							try {
 								eval(e);
 							} catch (exception) {
@@ -517,7 +517,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				return;
 			}
 
-			return $.map(_apps, function(e, i) {
+			return jQuery.map(_apps, function(e, i) {
 				return { appId: e.config.appId };
 			});
 		},
@@ -567,6 +567,9 @@ F2.extend(&#x27;&#x27;, (function(){
 			if (!_isInit()) {
 				F2.log(&#x27;F2.init() must be called before F2.registerApps()&#x27;);
 				return;
+			} else if (!appConfigs) {
+				F2.log(&#x27;At least one AppConfig must be passed when calling F2.registerApps()&#x27;);
+				return;
 			}
 
 			var appStack = [];
@@ -577,15 +580,19 @@ F2.extend(&#x27;&#x27;, (function(){
 			appManifests = appManifests || [];
 			haveManifests = !!appManifests.length;
 
+			&#x2F;&#x2F; appConfigs must have a length
+			if (!appConfigs.length) {
+				F2.log(&#x27;At least one AppConfig must be passed when calling F2.registerApps()&#x27;);
+				return;
 			&#x2F;&#x2F; ensure that the array of apps and manifests are qual
-			if (appConfigs.length &amp;&amp; haveManifests &amp;&amp; appConfigs.length != appManifests.length) {
+			} else if (appConfigs.length &amp;&amp; haveManifests &amp;&amp; appConfigs.length != appManifests.length) {
 				F2.log(&#x27;The length of &quot;apps&quot; does not equal the length of &quot;appManifests&quot;&#x27;);
 				return;
 			}
 
 			&#x2F;&#x2F; validate each app and assign it an instanceId
 			&#x2F;&#x2F; then determine which apps can be batched together
-			$.each(appConfigs, function(i, a) {
+			jQuery.each(appConfigs, function(i, a) {
 
 				if (!_validateApp(a)) {
 					return; &#x2F;&#x2F; move to the next app
@@ -620,7 +627,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			&#x2F;&#x2F; we don&#x27;t have the manifests, go ahead and load them
 			if (!haveManifests) {
 				&#x2F;&#x2F; add the batches to the appStack
-				$.each(batches, function(i, b) {
+				jQuery.each(batches, function(i, b) {
 					appStack.push({ url:i, apps:b })
 				});
 
@@ -630,7 +637,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				&#x2F;&#x2F; another request for the same app.  We&#x27;ll create a callbackStack
 				&#x2F;&#x2F; that will ensure that requests for the same app are loaded in order
 				&#x2F;&#x2F; rather than at the same time
-				$.each(appStack, function(i, req) {
+				jQuery.each(appStack, function(i, req) {
 					&#x2F;&#x2F; define the callback function based on the first app&#x27;s App ID
 					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
 
@@ -642,12 +649,12 @@ F2.extend(&#x27;&#x27;, (function(){
 				&#x2F;&#x2F; loop through each item in the callback stack and make the request
 				&#x2F;&#x2F; for the AppManifest. When the request is complete, pop the next 
 				&#x2F;&#x2F; request off the stack and make the request.
-				$.each(callbackStack, function(i, requests) {
+				jQuery.each(callbackStack, function(i, requests) {
 
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) { return; }
 
-						$.ajax({
+						jQuery.ajax({
 							url:req.url,
 							data:{
 								params:F2.stringify(req.apps, F2.appConfigReplacer)
@@ -661,7 +668,7 @@ F2.extend(&#x27;&#x27;, (function(){
 							error:function(jqxhr, settings, exception) {
 								F2.log(&#x27;Failed to load app(s)&#x27;, exception.toString(), req.apps);
 								&#x2F;&#x2F;remove failed app(s)
-								$.each(req.apps, function(idx,item){
+								jQuery.each(req.apps, function(idx,item){
 									F2.log(&#x27;Removed failed &#x27; +item.name+ &#x27; app&#x27;, item);
 									F2.removeApp(item.instanceId);
 								});
@@ -687,7 +694,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				return;
 			}
 
-			$.each(_apps, function(i, a) {
+			jQuery.each(_apps, function(i, a) {
 				F2.removeApp(a.config.instanceId);
 			});
 		},
@@ -704,8 +711,8 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 
 			if (_apps[instanceId]) {
-				$(_apps[instanceId].config.root).fadeOut(function() {
-					$(this).remove();
+				jQuery(_apps[instanceId].config.root).fadeOut(function() {
+					jQuery(this).remove();
 				});
 
 				delete _apps[instanceId];
@@ -723,7 +730,7 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		<footer>
 			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 14 January 2013</em></small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 1 February 2013</em></small></p>
 		</footer>
 	</div>
 </div>
@@ -735,7 +742,7 @@ F2.extend(&#x27;&#x27;, (function(){
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.0.5-wip'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

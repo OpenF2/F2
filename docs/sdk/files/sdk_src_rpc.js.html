@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk&#x2F;src&#x2F;rpc.js</title>
-	<meta name="dcterms.date" content="14 January 2013">
-	<meta name="gitbranch" content="1.0.5-wip">
+	<meta name="dcterms.date" content="1 February 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.0.5-wip' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -266,7 +266,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 						F2.registerApps([appConfig], [appParts[1]]);
 
 						&#x2F;&#x2F; socket message playback
-						$.each(messagePlayback, function(i, e) {
+						jQuery.each(messagePlayback, function(i, e) {
 							_onMessage(appConfig, message, origin);
 						});
 						
@@ -293,7 +293,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	 *&#x2F;
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
-		var container = $(appConfig.root);
+		var container = jQuery(appConfig.root);
 		container = container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)
 			? container
 			: container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
@@ -381,8 +381,8 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			&#x2F;&#x2F;       if callback matches param
 			&#x2F;&#x2F;        replace param with _createRpcCallback(app.instanceId, callback)
 			if (o.params &amp;&amp; o.params.length &amp;&amp; o.callbacks &amp;&amp; o.callbacks.length) {
-				$.each(o.callbacks, function(i, c) {
-					$.each(o.params, function(i, p) {
+				jQuery.each(o.callbacks, function(i, c) {
+					jQuery.each(o.params, function(i, p) {
 						if (c == p) {
 							o.params[i] = _createRpcCallback(instanceId, c);
 						}
@@ -452,7 +452,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		broadcast: function(messageType, params) {
 			&#x2F;&#x2F; check valid messageType
 			var message = messageType + F2.stringify(params);
-			$.each(_apps, function(i, a) {
+			jQuery.each(_apps, function(i, a) {
 				a.socket.postMessage(message);
 			});
 		},
@@ -469,7 +469,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		call: function(instanceId, messageType, functionName, params) {
 			&#x2F;&#x2F; loop through params and find functions and convert them to callbacks
 			var callbacks = [];
-			$.each(params, function(i, e) {
+			jQuery.each(params, function(i, e) {
 				if (typeof e === &quot;function&quot;) {
 					var cid = _registerCallback(e);
 					params[i] = cid;
@@ -517,7 +517,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				&#x2F;&#x2F; the app is secure
 				_apps[instanceId].config.isSecure &amp;&amp;
 				&#x2F;&#x2F; we can&#x27;t access the iframe
-				$(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length == 0
+				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length == 0
 			);
 		},
 
@@ -549,7 +549,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 
 		<footer>
 			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 14 January 2013</em></small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 1 February 2013</em></small></p>
 		</footer>
 	</div>
 </div>
@@ -561,7 +561,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.0.5-wip'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){
