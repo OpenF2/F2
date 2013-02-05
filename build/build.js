@@ -58,8 +58,8 @@ var EOL = '\n';
 var PACKAGE_FILES = [
 	// requirejs not yet necessary
 	// { src: 'sdk/src/third-party/require.min.js', minify: false },
-	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
 	{ src: 'sdk/src/third-party/json2.js', minify: true },
+	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
 	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false }
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
