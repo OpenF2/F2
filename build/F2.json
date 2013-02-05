@@ -1,16 +1,16 @@
 {
 	"docs": {
-		"version": "1.0.5",
+		"version": "1.0.6",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2013-02-01T19:18:35.487Z",
-		"lastUpdateDateFormatted": "1 February 2013"
+		"lastUpdateDate": "2013-02-05T22:52:31.094Z",
+		"lastUpdateDateFormatted": "5 February 2013"
 	},
 	"sdk": {
 		"version": "1.0.3",
 		"shortVersion": "1.0",
 		"releaseDate": "2012-11-11T06:09:36.490Z",
-		"lastUpdateDate": "2013-02-05T22:22:48.857Z"
+		"lastUpdateDate": "2013-02-05T22:52:30.053Z"
 	},
 	"branch": "amd-eval"
 }
