@@ -9,10 +9,6 @@
 
 	"js": [
 		{
-			"appId": "com_openf2_examples_javascript_f2id",
-			"manifestUrl": "../apps/JavaScript/F2Id/manifest.js",
-			"name": "F2 ID"
-		},{
 			"appId": "com_openf2_examples_javascript_helloworld",
 			"manifestUrl": "../apps/JavaScript/HelloWorld/manifest.js",
 			"name": "Hello World (JavaScript)"
