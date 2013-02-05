@@ -1151,7 +1151,8 @@ footer .pull-right{text-align:right;}
 .navbar-docs .dev a{border-left:1px solid #e2e2e2;border-right:1px solid #e2e2e2;color:#b1e27e;}
 .navbar-docs .ref{border-top:3px solid #fabb5d;}
 .navbar-docs .ref a{border-right:1px solid #e2e2e2;color:#fabb5d;}
-@media (min-width:768px) and (max-width:979px){.navbar-docs{display:none;visibility:hidden;}}@media (max-width:767px){.navbar-docs{display:none;visibility:hidden;}}.hide-deprecated .deprecated,.hide-inherited .inherited,.hide-private .private,.hide-protected .protected{display:none;}
+@media (min-width:768px) and (max-width:979px){.navbar-docs{display:none;visibility:hidden;}}@media (max-width:767px){.navbar-docs{display:none;visibility:hidden;}}.nav-list>li>a{color:#737373;}
+.hide-deprecated .deprecated,.hide-inherited .inherited,.hide-private .private,.hide-protected .protected{display:none;}
 .dl-horizontal{margin:0;}
 .level2{margin-bottom:35px;padding-top:0;}
 table.table-members td.name{white-space:nowrap;}
