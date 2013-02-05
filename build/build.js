@@ -39,24 +39,28 @@ var argv = optimist
 	.argv;
 
 // constants
+var JS_HEADER = { src: 'sdk/src/template/header.js.tmpl', minify: false };
+var JS_FOOTER = { src: 'sdk/src/template/footer.js.tmpl', minify: false };
+
 // only the files that represent f2
 var CORE_FILES = [
-	'sdk/src/preamble.js',
-	'sdk/src/classes.js',
-	'sdk/src/constants.js',
-	'sdk/src/events.js',
-	'sdk/src/rpc.js',
-	'sdk/src/ui.js',
-	'sdk/src/container.js'
+	{ src: 'sdk/src/F2.js', minify: true },
+	{ src: 'sdk/src/classes.js', minify: true },
+	{ src: 'sdk/src/constants.js', minify: true },
+	{ src: 'sdk/src/events.js', minify: true },
+	{ src: 'sdk/src/rpc.js', minify: true },
+	{ src: 'sdk/src/ui.js', minify: true },
+	{ src: 'sdk/src/container.js', minify: true }
 ];
 var ENCODING = 'utf-8';
 var EOL = '\n';
 // files to be packaged
 var PACKAGE_FILES = [
-	{ src: 'sdk/src/third-party/json2.js', minify: true },
+	// requirejs not yet necessary
+	// { src: 'sdk/src/third-party/require.min.js', minify: false },
 	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
-	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false },
-	{ src: 'sdk/f2.no-third-party.js', minify: true } // this file is created by the build process
+	{ src: 'sdk/src/third-party/json2.js', minify: true },
+	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false }
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
 
@@ -225,18 +229,29 @@ function help() {
  * @method js
  */
 function js() {
-
+	var files, contents;
 	console.log('Building f2.no-third-party.js...');
-	var contents = CORE_FILES.map(function(f) {
-		return fs.readFileSync(f, ENCODING);
+	
+	files = [JS_HEADER]
+		.concat(CORE_FILES)
+		.concat([JS_FOOTER]);
+
+	contents = files.map(function(f) {
+		return fs.readFileSync(f.src, ENCODING);
 	});
+
 	contents = processTemplate(contents.join(EOL), f2Info);
 	fs.writeFileSync('./sdk/f2.no-third-party.js', contents, ENCODING);
 	console.log('COMPLETE');
 
 
 	console.log('Building Debug Package...');
-	var contents = PACKAGE_FILES.map(function(f) {
+	files = [JS_HEADER]
+		.concat(PACKAGE_FILES)
+		.concat(CORE_FILES)
+		.concat([JS_FOOTER]);
+
+	contents = files.map(function(f) {
 		return fs.readFileSync(f.src, ENCODING);
 	});
 	fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
@@ -244,7 +259,7 @@ function js() {
 
 
 	console.log('Building Minified Package...');
-	var contents = PACKAGE_FILES.map(function(f) {
+	contents = files.map(function(f) {
 
 		var code = fs.readFileSync(f.src, ENCODING);
 
