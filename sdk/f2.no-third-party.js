@@ -2153,14 +2153,15 @@ F2.extend('', (function(){
 
   exports.F2 = F2;
 
-  // if (typeof require !== 'undefined' && require.amd) {
-  //   define(function() {
-  //     return F2;
-  //   });
+  if (typeof define !== 'undefined' && define.amd) {
 
-  //   exports.requirejs = requirejs;
-  //   exports.require = require;
-  //   exports.define = define;
-  // }
+    define(function() {
+      return F2;
+    });
+
+    // exports.requirejs = requirejs;
+    // exports.require = require;
+    // exports.define = define;
+  }
 
 })(typeof exports !== 'undefined' ? exports : window);
