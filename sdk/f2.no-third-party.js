@@ -534,7 +534,6 @@ F2.extend("", {
 		supportedViews: []
 	}
 });
-
 /**
  * Constants used throughout the Open Financial Framework
  * @class F2.Constants
@@ -896,7 +895,6 @@ F2.extend('Events', (function() {
 		}
 	};
 })());
-
 /**
  * Handles socket communication between the container and secure apps
  * @class F2.Rpc
