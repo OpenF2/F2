@@ -7,9 +7,9 @@
 		"lastUpdateDateFormatted": "5 February 2013"
 	},
 	"sdk": {
-		"version": "1.0.3",
-		"shortVersion": "1.0",
-		"releaseDate": "2012-11-11T06:09:36.490Z",
+		"version": "1.1.0",
+		"shortVersion": "1.1",
+		"releaseDate": "2013-02-06T15:47:36.110Z",
 		"lastUpdateDate": "2013-02-05T22:52:30.053Z"
 	},
 	"branch": "amd-eval"
