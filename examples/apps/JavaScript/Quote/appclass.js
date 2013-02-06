@@ -30,11 +30,25 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 				appConfig.ui.hideMask($root);
 			}
 		});
+
+		_getWatchListSymbols()
 	};
 
 	var _hasWatchListApp = function() {
 		return !!$("div.com_openf2_examples_javascript_watchlist").length;
 	};
+
+	var _watchListHasSymbol = function(){
+		return F2.inArray(appConfig.context.symbol, _getWatchListSymbols());
+	};
+
+	var _getWatchListSymbols = function(){
+		var list = [];
+		$('div.com_openf2_examples_javascript_watchlist tr[data-row]').each(function(idx,item){
+			list.push($(item).attr('data-row'))
+		});
+		return list;
+	}
 
 	var _initTypeahead = function() {
 
@@ -116,7 +130,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			$('span', $addToWatchlist).text(quoteData.Data.Symbol);
 			$addToWatchlist
 				.data('watchlist-add', quoteData.Data.Symbol)
-				.closest('tr').toggleClass('hide', !_hasWatchListApp());			
+				.closest('tr').toggleClass('hide', (!_hasWatchListApp() || _watchListHasSymbol()));
 
 		} else {
 			F2.log('Un problemo!');
