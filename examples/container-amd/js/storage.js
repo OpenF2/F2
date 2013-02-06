@@ -1,7 +1,7 @@
 define(
 
 	[
-		'/sdk/f2.min.js'
+		'../../sdk/f2.debug.js'
 	],
 
 	function(F2) {

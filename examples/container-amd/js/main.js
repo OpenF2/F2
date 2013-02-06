@@ -1,6 +1,6 @@
 require(
   [
-    '/sdk/f2.min.js',
+    '../../sdk/f2.debug.js',
     'storage',
     'container'
   ], 
