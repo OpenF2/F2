@@ -1,12 +1,11 @@
 ;(function(exports) {
 
-  if (exports.F2) {
-    return;
-  }
-  
+	if (exports.F2) {
+		return;
+	}
 
 /*!
- * F2 v1.0.3
+ * F2 v1.1.0
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -192,7 +191,7 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return "1.0.3"; }
+	version: function() { return "1.1.0"; }
 };
 
 
@@ -2150,16 +2149,15 @@ F2.extend('', (function(){
 		}
 	};
 })());
-  
-  jQuery.noConflict();
-  exports.F2 = F2;
+	
+	exports.F2 = F2;
 
-  if (typeof define !== 'undefined' && define.amd) {
+	if (typeof define !== 'undefined' && define.amd) {
 
-    define(function() {
-      return F2;
-    });
-    
-  }
+		define(function() {
+			return F2;
+		});
+		
+	}
 
 })(typeof exports !== 'undefined' ? exports : window);
