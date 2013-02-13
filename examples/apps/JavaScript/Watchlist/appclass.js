@@ -1,4 +1,4 @@
-	F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appContent, root) {
+F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appContent, root) {
 
 	(function(){
 		//http://javascript.crockford.com/remedial.html
@@ -72,24 +72,24 @@
 	App.prototype.initEvents = function(){
 
 		//remove sym
-		$(this.root).on("click", "a[data-remove]", $.proxy(function(e){
+		this.$root.on("click", "a[data-remove]", $.proxy(function(e){
 			e.preventDefault();
 			this.deleteSymbol($(e.currentTarget).attr("data-remove"));
 		}, this));
 
 		//add sym
-		$(this.root).on("click", "button.add", $.proxy(function(e){
+		this.$root.on("click", "button.add", $.proxy(function(e){
 			this.addSymbol($("input[name='lookup']", this.$root).val());
 		}, this));
 
 		//expand row
-		$(this.root).on("click", "tr[data-row]", $.proxy(function(e){
+		this.$root.on("click", "tr[data-row]", $.proxy(function(e){
 			var $this = $(e.currentTarget);
 			$this.next().toggle();
 		}, this));
  	
  		//change container context
- 		$(this.root).on("click", "a[data-context]", $.proxy(function(e){
+ 		this.$root.on("click", "a[data-context]", $.proxy(function(e){
  			e.preventDefault();
 			F2.Events.emit(
     			F2.Constants.Events.APP_SYMBOL_CHANGE, {
