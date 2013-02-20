@@ -36,7 +36,7 @@ To track bugs and issues, we are using [Issues on GitHub](https://github.com/Ope
 
 ## Developers
 
-If you just want to build F2 [containers](http://docs.openf2.org/container-development.html) or [apps](http://docs.openf2.org/app-development.html), you can **skip the [Build F2](#build-f2)** section below. You don't need the command line to work with F2.
+If you just want to build F2 [containers](http://docs.openf2.org/container-development.html) and/or [apps](http://docs.openf2.org/app-development.html), you can **skip the [Build F2](#build-f2)** section below. You do not need the command line to work with F2.
 
 ### Build F2
 
@@ -60,7 +60,7 @@ We are using [markitdown](https://github.com/markitondemand/markitdown), a light
 
 ### Collaboration 
 
-Join our team and help contribute to F2 on GitHub. Begin by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+Join our team and help contribute to F2 on GitHub. Begin by reading our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
 
 ## Copyright and License
 

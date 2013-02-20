@@ -16,6 +16,8 @@ For help, run:
 
 `$> node build -h`
 
+Before you begin coding, familiarize yourself with our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+
 ## Versioning
 
 To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.
