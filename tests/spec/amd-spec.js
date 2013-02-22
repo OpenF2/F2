@@ -19,4 +19,5 @@ describe('AMD', function() {
 	it('should still globally define F2', function() {
 		expect(F2).toBeDefined();
 	});
+	
 });
