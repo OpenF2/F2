@@ -3,7 +3,7 @@
 <head>
   <title>F2 - App Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="1 February 2013">
+  <meta name="dcterms.date" content="21 February 2013">
   <meta name="gitbranch" content="master">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
@@ -144,7 +144,7 @@ A data app is a content feed available in industry-standard formats including JS
 
 <p>For the purposes of the documentation on this page, we'll focus on developing <strong>display apps</strong>. Browse to <a href="index.html#apps">The Basics: Framework</a> for more background information about F2 apps.</p>
 <p><em>Interested in developing F2 containers? <a href="container-development.html">Browse to Container Development</a>.</em></p>
-<hr>
+<hr />
 <section class="level2" id="get-started">
 <h2>Get Started</h2>
 <p>To help you get started building an F2 app, browse through the resources below. To jump start your F2 app development, download the F2 app template (which now includes a basic container) <em>or</em> follow the instructions below.</p>
@@ -180,27 +180,27 @@ A data app is a content feed available in industry-standard formats including JS
         <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/path/to/your/F2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
         <span class="co">&lt;!--init &amp; register--&gt;</span>
         <span class="kw">&lt;script&gt;</span>
-            (<span class="kw">function</span>(){
+<span class="er">            (function(){</span>
                 <span class="co">//define AppConfigs</span>
                 <span class="kw">var</span> _appConfigs = [{
-                    <span class="dt">appId</span>: <span class="st">&quot;com</span>_<span class="st">your</span>_<span class="st">app</span>_<span class="st">id&quot;</span>,
-                    <span class="dt">description</span>: <span class="st">&quot;F2</span> <span class="st">app</span> <span class="st">description&quot;</span>,
-                    <span class="dt">name</span>: <span class="st">&quot;F2</span> <span class="st">App&quot;</span>,
-                    <span class="dt">manifestUrl</span>: <span class="st">&quot;</span>/<span class="st">path</span>/<span class="st">to</span>/<span class="st">your</span>/<span class="st">manifest</span>.<span class="st">js&quot;</span> <span class="co">//note the path to your manifest</span>!<span class="co"> </span>
+                    <span class="dt">appId</span>: <span class="st">&quot;com_your_app_id&quot;</span>,
+                    <span class="dt">description</span>: <span class="st">&quot;F2 app description&quot;</span>,
+                    <span class="dt">name</span>: <span class="st">&quot;F2 App&quot;</span>,
+                    <span class="dt">manifestUrl</span>: <span class="st">&quot;/path/to/your/manifest.js&quot;</span> <span class="co">//note the path to your manifest! </span>
                 }];
                 <span class="co">//Setup ContainerConfig</span>
                 <span class="kw">F2</span>.<span class="fu">init</span>({
                     <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(app){
-                        <span class="kw">var</span> appRoot = <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">well</span> <span class="ch">span12</span>&quot;&gt;&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>;
-                        <span class="kw">return</span> $(appRoot).<span class="fu">appendTo</span>(<span class="ch">&#39;div</span>.<span class="ch">row&#39;</span>);
+                        <span class="kw">var</span> appRoot = <span class="ch">&#39;&lt;section class=&quot;well span12&quot;&gt;&lt;/section&gt;&#39;</span>;
+                        <span class="kw">return</span> $(appRoot).<span class="fu">appendTo</span>(<span class="ch">&#39;div.row&#39;</span>);
                     },
                     <span class="dt">afterAppRender</span>: <span class="kw">function</span> (app, html) {
-                        <span class="co">//app</span>.<span class="co">root is </span>`<span class="co">appRoot</span>`<span class="co"> from beforeAppRender</span>()
-<span class="co">                        return </span>$(<span class="co">app</span>.<span class="co">root</span>).<span class="co">append</span>(<span class="co">html</span>);
-<span class="co">                    </span>}
-<span class="co">                </span>});<span class="co"> </span>
-                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs to initialize apps</span>
-            })();
+                        <span class="co">//app.root is `appRoot` from beforeAppRender()</span>
+                        <span class="kw">return</span> $(<span class="kw">app</span>.<span class="fu">root</span>).<span class="fu">append</span>(html);
+                    }
+                }); 
+<span class="er">                F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps</span>
+<span class="er">            })();</span>
         <span class="kw">&lt;/script&gt;</span>
     <span class="kw">&lt;/body&gt;</span>
 <span class="kw">&lt;/html&gt;</span></code></pre>
@@ -223,9 +223,9 @@ A data app is a content feed available in industry-standard formats including JS
 <h3>Testing the Basics</h3>
 <p>Now with a basic container and a basic app, you can load your F2 container and expect to see:</p>
 <figure>
-<img src="./img/basic-f2-app-test.png" title="Basic F2 app"><figcaption></figcaption>
+<img src="./img/basic-f2-app-test.png" title="Basic F2 app" />
 </figure>
-<p>In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that our customers want.</p>
+<p>In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that your customers want.</p>
 </section>
 <section class="level3" id="sample-apps-and-container">
 <h3>Sample Apps and Container</h3>
@@ -242,19 +242,19 @@ A data app is a content feed available in industry-standard formats including JS
 <a href="#developing-f2-apps" class="btn btn-primary">Developing F2 Apps</a> <a href="./sdk/" class="btn">F2.js SDK Reference</a>
 </p>
 
-<hr>
+<hr />
 </section>
 </section>
 <section class="level2" id="app-design">
 <h2>App Design</h2>
-<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using <a href="(http://www.alistapart.com/articles/understandingprogressiveenhancement/">Progressive Enhancement</a>, <a href="http://www.lukew.com/presos/preso.asp?26">Mobile First</a> and <a href="http://www.abookapart.com/products/responsive-web-design">Responsive Design</a> methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. (<a href="http://videojs.com/">VideoJS</a> is good example of open-source JavaScript and CSS &quot;that makes it easier to work with and build on HTML5 video, today.&quot;)</p>
+<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using <a href="http://www.alistapart.com/articles/understandingprogressiveenhancement/">Progressive Enhancement</a>, <a href="http://www.lukew.com/presos/preso.asp?26">Mobile First</a> and <a href="http://www.abookapart.com/products/responsive-web-design">Responsive Design</a> methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. (<a href="http://videojs.com/">VideoJS</a> is good example of open-source JavaScript and CSS &quot;that makes it easier to work with and build on HTML5 video, today.&quot;)</p>
 <p>If App Developers embed URLs back to their own websites or to third party sites, URLs must be opened in a new window as to not interrupt the experience of someone using the container. If authentication is required on an App Developer's site, this can be accomplished with pass-through authentication using encrypted URLs as discussed in <a href="#single-sign-on">Single Sign On</a>.</p>
 <section class="level3" id="choices">
 <h3>Choices</h3>
 <p>In order to ensure that apps built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters.</p>
 <p><a href="index.html#choices">Read more about those choices in the Framework</a>.</p>
 <p>Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also <a href="index.html#creating-a-common-look-and-feel">provide CSS for App Developers</a> to adhere to—which should be easy since F2 enforces a <a href="app-development.html#automatic-consistency">consistent HTML structure across all containers and apps</a>.</p>
-<hr>
+<hr />
 </section>
 </section>
 <section class="level2" id="developing-f2-apps">
@@ -280,7 +280,7 @@ A data app is a content feed available in industry-standard formats including JS
 <h3>Setting Up Your Project</h3>
 <p>Once you have your AppID, start by setting up your project. You will need at least one file: the <strong>App Manifest</strong>. Create a new file called <code>manifest.js</code>. Also, chances are you'll want custom styling and functionality, so go ahead and create <code>appclass.js</code> (for your app logic) and <code>app.css</code> for your CSS. Your project folder should look like this:</p>
 <figure>
-<img src="./img/project_folder.png" title="Setup your project"><figcaption></figcaption>
+<img src="./img/project_folder.png" title="Setup your project" />
 </figure>
 <p><span class="label">Helper</span> <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">Download the F2 app starter zip</a> or read about <a href="#get-started">setting up a basic container and app</a> in Getting Started.</p>
 </section>
@@ -545,7 +545,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </div>
 
 <p>If you don't want to think about any of this and would rather just start coding, <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">download the F2 app starter zip</a>.</p>
-<hr>
+<hr />
 </section>
 </section>
 </section>
@@ -589,7 +589,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     };
 })());</code></pre>
 <p>For more information, read <a href="extending-f2.html">Extending F2</a>.</p>
-<hr>
+<hr />
 </section>
 </section>
 <section class="level2" id="context">
@@ -751,7 +751,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <h4>Universal F2 Instrument ID</h4>
 <p>Said another way, while <code>{ symbol:&quot;AAPL&quot;, name: &quot;Apple, Inc&quot; }</code> can be used to communicate symbol context, developers could also use <code>{ symbol: &quot;123456789&quot; }</code> to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand <code>AAPL</code> but—given symbol lookup services—would understand <code>123456789</code> as the universal <em>F2</em> identifier for Apple, Inc. It is clear Container and App Developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.</p>
 <p>F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols. <em>Further details will be forthcoming as the F2 specification evolves.</em></p>
-<hr>
+<hr />
 </section>
 </section>
 </section>
@@ -772,7 +772,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <p>To see examples of secure apps, <a href="https://github.com/OpenF2/F2">fork F2 on GitHub</a> and point your browser at:</p>
 <p><code>http://localhost/F2/examples/container/</code></p>
 <p>The example container runs sample apps—defined in <code>sampleApps.js</code>—and that's where you'll find the <code>isSecure</code> flag defined in some of the <code>AppConfig</code> objects.</p>
-<hr>
+<hr />
 </section>
 <section class="level2" id="container-integration">
 <h2>Container Integration</h2>
@@ -789,7 +789,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     <span class="dt">name</span>: <span class="st">&quot;App name&quot;</span>
 }</code></pre>
 <p>For full details on these <code>F2.AppConfig</code> properties and all the others, <a href="./sdk/classes/F2.AppConfig.html">browse the F2.js SDK documentation</a>.</p>
-<hr>
+<hr />
 </section>
 </section>
 <section class="level2" id="f2-ui">
@@ -932,7 +932,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;View changed to &quot;</span>, view);
 });</code></pre>
 <p>For details on <code>F2.UI.Views</code>, <a href="./sdk/classes/F2.UI.Views.html">browse to the SDK docs</a> and for details on <code>F2.Constants.Views</code>, <a href="./sdk/classes/F2.Constants.Views.html">head over to the F2.Constants docs</a>.</p>
-<hr>
+<hr />
 </section>
 </section>
 </section>
@@ -940,7 +940,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <h2>Entitlements</h2>
 <p>User or content entitlements are the responsibility of the App Developer. Many apps will need to be decoupled from the content that they need. This could include apps like research aggregation, news filtering, streaming market data, etc. Similarly to how companies build their own websites today with their own authentication and access (or content) entitlements, F2 apps are no different.</p>
 <p><em>Further details around app entitlements will be forthcoming as the F2 specification evolves.</em></p>
-<hr>
+<hr />
 </section>
 <section class="level2" id="single-sign-on">
 <h2>Single Sign-On</h2>
@@ -957,7 +957,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <h3>Considerations</h3>
 <p>Authentication is a critical part of any container-app relationship. There are a plethora of SSO implementations and there are many considerations for both Container and App Developers alike.</p>
 <p><em>Further details around container and app single sign-on will be forthcoming as the F2 specification evolves.</em></p>
-<hr>
+<hr />
 </section>
 </section>
 			</div><!--/#docs-->
@@ -968,7 +968,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 1 February 2013</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 21 February 2013</em></small></p>
 	</footer>
 
 </div><!--/.container-->
