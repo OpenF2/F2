@@ -4,13 +4,7 @@ var SDK_Manager = function() {
 
 SDK_Manager.prototype.init = function() {
 
-	// Quick address bar hide on devices like the iPhone
-	//---------------------------------------------------
-	//http://remysharp.com/2010/08/05/doing-it-right-skipping-the-iphone-url-bar/
-	/mobi/i.test(navigator.userAgent) && !location.hash && setTimeout(function () {
-		if (!pageYOffset) window.scrollTo(0, 1);
-	}, 0);
-
+	this.highlightNav();
 
 	// optionally apply .affix() if the window height is big enough
 	var winHeight = $(window).height();
@@ -41,6 +35,24 @@ SDK_Manager.prototype.init = function() {
 	$('#doc').on('click', '.backToTop a', function() {
 		$('html, body').animate({scrollTop:0});
 	});
+};
+
+/**
+ * Highlights left nav based on current page
+ */
+SDK_Manager.prototype.highlightNav = function(){
+
+	var file = location.pathname.split('/').pop(),
+		pageName = file.replace('.html','')
+	;
+
+	$('#toc a').each($.proxy(function(idx,item){
+		var $this = $(item);
+		if ($this.text() == pageName){
+			$this.parent().addClass('active');
+			return false;
+		}
+	},this));
 };
 
 SDK_Manager.prototype._handleHashChange = function() {

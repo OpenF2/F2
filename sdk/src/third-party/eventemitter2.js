@@ -557,12 +557,12 @@
 
   };
 
-  if (typeof define === 'function' && define.amd) {
-    define(function() {
-      return EventEmitter;
-    });
-  } else {
+  // if (typeof define === 'function' && define.amd) {
+  //   define('EventEmitter2', [], function() {
+  //     return EventEmitter;
+  //   });
+  // } else {
     exports.EventEmitter2 = EventEmitter; 
-  }
+  // }
 
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);

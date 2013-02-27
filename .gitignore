@@ -42,3 +42,4 @@ src/UpgradeLog.XML
 *.gpState
 src/_UpgradeReport_Files/
 *.dbmdl
+tmp
