@@ -532,7 +532,9 @@ If you don't want to think about any of this and would rather just start coding,
 
 ## Namespacing
 
-F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least _non-secure_ apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+F2 is a _web_ integration framework which means apps are inherently insecure&mdash;at least those _non-secure_ apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+
+<span class="label">Note</span> Continue reading for [more specifics about secure apps](#secure-apps).
 
 ### Namespacing CSS
 
