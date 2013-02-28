@@ -3,8 +3,8 @@
 <head>
   <title>F2 - Container Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="27 February 2013">
-  <meta name="gitbranch" content="1.1-wip">
+  <meta name="dcterms.date" content="28 February 2013">
+  <meta name="gitbranch" content="issue37">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
   <meta name="robots" content="all, index, follow" />
@@ -26,7 +26,7 @@
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png" />
   
   <script type="text/javascript">
-  	if ('1.1-wip' === 'master'){
+  	if ('issue37' === 'master'){
   		var _gaq = _gaq || [];
   		_gaq.push(['_setAccount', 'UA-35230380-1']);
   		_gaq.push(['_setDomainName', 'openf2.org']);
@@ -366,21 +366,26 @@ You've come to the right place if you want to start building F2 containers. Befo
 <p>F2 is a <em>web</em> integration framework which means are containers are inherently insecure—at least <em>non-secure</em> apps. Following this spec, Container Developers must <a href="app-development.html#namespacing">join App Developers</a> in avoiding CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
 <section class="level3" id="namespacing-css">
 <h3>Namespacing CSS</h3>
-<p>As discussed in <a href="#f2-containerid">Developing F2 Containers: F2 ContainerID</a>, to develop an F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: <code>com_container_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
-<p>To avoid styling conflicts or other display issues related to app-provided style sheets, App Developers <a href="app-development.html#namespacing-css">must namespace their CSS selectors</a>. While there are strict rules for App Developers, the same rules apply to Container Developers. This is especially true when implementing <em>mutliple containers</em>.</p>
-<p>In the event there are multiple containers, every CSS selector in container-provided style sheets must look like this:</p>
-<pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_container_companyName_appName</span> p <span class="kw">{</span>
+<p>As discussed in <a href="#f2-containerid">Developing F2 Containers: F2 ContainerID</a>, to develop an F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: <code>com_container_companyName_containerName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>containerName</code> is the name of your container.</p>
+<p>To avoid styling conflicts or other display issues related to injecting app-provided style sheets into your container when <code>F2.registerApps()</code> is called, App Developers <a href="app-development.html#namespacing-css">must namespace their CSS selectors</a>. <strong>While there are strict rules for App Developers, the same is true for Container Developers</strong>. This is especially true when nesting multiple F2 apps inside an existing container where that container already has a CSS framework in place. (This is often called the &quot;mutliple container&quot; issue, and a conversation about existing problems and enhancements to F2.js is being discussed in <a href="https://github.com/OpenF2/F2/issues/37">#37</a> and <a href="https://github.com/OpenF2/F2/issues/38">#38</a>.)</p>
+<p>In the event there are multiple containers, every CSS selector in container-provided style sheets must be properly namespaced. The <a href="https://github.com/OpenF2/F2/tree/master/examples/container/css">CSS files bundled with the example containers in the F2 project on GitHub</a> demonstrate this concept, and we have included a <a href="https://github.com/OpenF2/F2/tree/master/examples/container/css/readme.md">readme</a> for how to use a LESS compiler to automate the namespacing of Bootstrap's CSS.</p>
+<p>In this simple example, container-provided CSS should be namespaced as shown below.</p>
+<pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_container_companyName_containerName</span> p <span class="kw">{</span>
     <span class="kw">padding:</span><span class="dt">5px</span><span class="kw">;</span>
 <span class="kw">}</span>
 
-<span class="fl">.com_container_companyName_appName</span> <span class="fl">.alert</span> <span class="kw">{</span>
+<span class="fl">.com_container_companyName_containerName</span> <span class="fl">.alert</span> <span class="kw">{</span>
     <span class="kw">color:</span><span class="dt">red</span><span class="kw">;</span>
 <span class="kw">}</span></code></pre>
-<p>Note <code>.com_container_companyName_appName</code> is prefixed on both <code>p</code> and <code>.alert</code> selectors.</p>
-<p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and prefixing F2 ContainerIDs on CSS selectors isn't required, it is recommended.</p>
-<pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_container_companyName_appName</span> <span class="fl">#notice</span> <span class="kw">{</span>
+<p>Note <code>.com_container_companyName_containerName</code> is prefixed on both <code>p</code> and <code>.alert</code> selectors.</p>
+<p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and while prefixing F2 ContainerIDs on CSS selectors isn't required, it is recommended.</p>
+<pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_container_companyName_containerName</span> <span class="fl">#notice</span> <span class="kw">{</span>
     <span class="kw">background-color:</span><span class="dt">yellow</span><span class="kw">;</span>
 <span class="kw">}</span></code></pre>
+<section class="level4" id="about-css-resets">
+<h4>About CSS Resets</h4>
+<p>It is a common web development practice to use <a href="http://meyerweb.com/eric/tools/css/reset/">CSS resets</a>, and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including <a href="http://necolas.github.com/normalize.css/">Normalize.css</a> which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.</p>
+</section>
 </section>
 <section class="level3" id="keeping-javascript-clean">
 <h3>Keeping JavaScript Clean</h3>
@@ -770,7 +775,7 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.1.0, 27 February 2013</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.1.0, 28 February 2013</em></small></p>
 	</footer>
 
 </div><!--/.container-->
@@ -780,6 +785,6 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
 <script src="./js/prettify.js"></script>
 <script src="./js/f2.js?1.1.0"></script>
 <script src="./js/docs.js?1.1.0"></script>
-<script>F2.extend('gitbranch', (function(){ return '1.1-wip'; }));</script>
+<script>F2.extend('gitbranch', (function(){ return 'issue37'; }));</script>
 </body>
 </html>
