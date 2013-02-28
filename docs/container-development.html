@@ -3,7 +3,7 @@
 <head>
   <title>F2 - Container Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="27 February 2013">
+  <meta name="dcterms.date" content="28 February 2013">
   <meta name="gitbranch" content="1.1-wip">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
@@ -363,7 +363,8 @@ You've come to the right place if you want to start building F2 containers. Befo
 </section>
 <section class="level2" id="namespacing">
 <h2>Namespacing</h2>
-<p>F2 is a <em>web</em> integration framework which means are containers are inherently insecure—at least <em>non-secure</em> apps. Following this spec, Container Developers must <a href="app-development.html#namespacing">join App Developers</a> in avoiding CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
+<p>F2 is a <em>web</em> integration framework which means apps are inherently insecure—at least those <em>non-secure</em> apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
+<p><span class="label">Note</span> Continue reading for <a href="#secure-apps">more specifics about secure apps</a>.</p>
 <section class="level3" id="namespacing-css">
 <h3>Namespacing CSS</h3>
 <p>As discussed in <a href="#f2-containerid">Developing F2 Containers: F2 ContainerID</a>, to develop an F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: <code>com_container_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
@@ -770,7 +771,7 @@ $(<span class="kw">document</span>).<span class="fu">ready</span>(<span class="k
 
 	<footer>
 		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.1.0, 27 February 2013</em></small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.1.0, 28 February 2013</em></small></p>
 	</footer>
 
 </div><!--/.container-->
