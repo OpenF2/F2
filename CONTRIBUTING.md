@@ -47,7 +47,7 @@ If you have any questions while writing code to contribute back to F2, contact u
 ## Resources
 
 * [F2 Google Group](https://groups.google.com/forum/#!forum/OpenF2)
-* [F2 Coding Standards](https://github.com/OpenF2/F2/wiki/Contributing-to-F2)
+* [F2 Coding Standards](https://github.com/OpenF2/F2/wiki/Coding-Standards)
 * [GitHub Documentation: Using Pull Requests](https://help.github.com/articles/using-pull-requests)
 * [GitHub Documentation](https://help.github.com/)
 * [Markit On Demand](http://www.markitondemand.com/)
