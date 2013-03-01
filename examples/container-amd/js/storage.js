@@ -1,7 +1,7 @@
 define(
 
 	[
-		'../../sdk/f2.debug.js'
+		'F2'
 	],
 
 	function(F2) {
@@ -10,7 +10,7 @@ define(
 			return 'F2-' + key;
 		};
 
-		F2.extend('Storage', {
+		return {
 			/**
 			 * @method getItem
 			 * @param {string} key The key of the item to retrieve
@@ -77,7 +77,6 @@ define(
 					document.cookie = escape(key) + '=' + escape(value) + '; expires=' + exp.toUTCString() + '; path=/';
 				}
 			}
-		});	
+		};	
 	}
-
 );

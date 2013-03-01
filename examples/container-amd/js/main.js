@@ -1,96 +1,151 @@
 require(
-  [
-    '../../sdk/f2.debug.js',
-    'storage',
-    'container'
-  ], 
-  function(F2) {
-    //ensure this is run from http://localhost
-    if (location.protocol === "file:"){
-      return;
-    }
+	{
+		basePath: 'js',
+		paths: {
+			'bootstrap': 'bootstrap.min',
+			'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min',
+			'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min',
+			'F2': '../../../sdk/f2.debug'
+		},
+		shim: {
+			'bootstrap': {
+				deps: ['jquery'],
+				exports: 'jQuery'
+			},
+			'jquery-ui': {
+				deps: ['jquery'],
+				exports: 'jQuery'
+			}
+		}
+	},
+	[
+		'jquery-ui',
+		'F2',
+		'appSelector',
+		'bootstrap'
+	], 
+	function($, F2, AppSelector) {
 
-    // grab apps from storage
-    var requestedApps = F2.Storage.getItem('requestedApps') || [];
+		// wait for DOM ready
+		$(function() {
 
-    // setup modal
-    var $modal = $('#languageSelect').modal({
-      backdrop: 'static',
-      keyboard: false, 
-      show: false
-    });
+			//can't run this container from a file:// protocol
+			if (location.protocol === "file:"){
+				var $m = $("#notice").modal();
+				// bind save button
+				$m.on('click', 'button.btn', function() {
+					$m.modal('hide');
+					window.close();
+					});
+				return;
+			}
 
-    // bind select apps
-    $('#btnSelectApps').on('click', function() {
-      $modal.modal('show');
-    });
+			// init the app selector
+			new AppSelector();
 
-    // bind checkbox events
-    $modal.on('change', 'input:checkbox', function() {
-      if ($('input:checkbox:checked', $modal).length) {
-        $('button.btn-primary', $modal).removeClass('disabled');
-      } else {
-        $('button.btn-primary', $modal).addClass('disabled');
-      }
-    });
+			/**
+			 * Init Container
+			 */
+			F2.init({
 
-    // bind save button
-    $modal.on('click', 'button.btn-primary:not(.disabled)', function() {
-      var apps = [];
-      var storageItems = [];
+				afterAppRender: function (app, html) {
+					var el = $(app.root).append(html);
+					F2.UI.hideMask(app.instanceId, el);
+					return el;
+				},
 
-      $('input:checked', $modal).map(function(i, el) {
-        apps.push($(el).data('f2-app'));
-        storageItems.push($(el).val());
-      });
+				beforeAppRender: function(app) {
 
-      $modal.modal('hide');
+					var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, app.views);
+					var hasHelp = F2.inArray(F2.Constants.Views.HELP, app.views);
+					var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, app.views);
+					var showDivider = hasSettings || hasHelp || hasAbout;
+					var gridWidth = app.minGridSize || 3;
 
-      // save apps to storage
-      F2.Storage.setItem('requestedApps', storageItems);
+					var appRoot = $([
+						'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '">',
+							'<header class="clearfix">',
+								'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
+								'<div class="btn-group pull-right">',
+									'<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown">',
+										'<i class="icon-cog"></i>',
+									'</button>',
+									'<ul class="dropdown-menu">',
+										hasSettings ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.SETTINGS + '">Edit Settings</a></li>' : '',
+										hasHelp ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.HELP + '">Help</a></li>' : '',
+										hasAbout ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.ABOUT + '">About</a></li>' : '',
+										showDivider ? '<li class="divider"></li>' : '',
+										'<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.REMOVE + '">Remove App</a></li>',
+									'</ul>',
+								'</div>',
+							'</header>',
+						'</section>'
+					].join('')).appendTo($('#mainContent div.row'));
 
-      // remove all apps and add only the selected ones
-      F2.removeAllApps();
-      F2.registerApps(apps);
-    });
+					// show loader
+					F2.UI.showMask(app.instanceId, appRoot, true);
 
-    // show a loading mask and the modal if there were no requested apps
-    if (!requestedApps.length) {
-      F2.UI.showMask('', $('#languageSelect'), true);
-      $modal.modal('show');
-    }
+					return appRoot;
+				},
 
-    // load in app json
-    $.getJSON('./js/sampleApps.js', function(allApps) {
-      $.each(allApps, function(language, apps) {
-        $('[data-language="' + language + '"]', $modal).append(
-          $.map(apps, function(app, i) {
-            return $('<label class="checkbox"></label>').append(
-              $('<input type="checkbox" name="app" value="' + app.appId + '">').data('f2-app', app),
-              ' ' + app.name + (app.isSecure ? ' (Secure)' : '')
-            );
-          })
-        );
-      })
+				UI:{
+					Mask:{
+						loadingIcon:'./img/ajax-loader.gif'
+					}
+				},
 
-      // if no requested apps, hide the loader, otherwise register the apps
-      if (!requestedApps.length) {
-        F2.UI.hideMask('', $modal);
+				supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],
+				secureAppPagePath: "secure.html" // this should go on a separate domain from index.html
+			});
 
-      } else {
-        // check the appropriate boxes
-        $.each(requestedApps, function(i, a) {
-          $('input[name="app"][value="' + a + '"]', $modal).prop('checked', true);
-        });
+			//listen for app symbol change events and re-broadcast
+			F2.Events.on(
+				F2.Constants.Events.APP_SYMBOL_CHANGE,
+				function(data){
+					F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: data.symbol, name: data.name || "" });
+				}
+			);
 
-        // fire change event which should enable the Save button
-        $('input:checkbox:first', $modal).change();
+			/**
+			 * init symbol lookup in navbar
+			 */
+			$("#symbolLookup")
+				.on('keypress', function(event) {
+					if (event.keyCode == 13) {
+						event.preventDefault();
+					}
+				})
+				.autocomplete({
+					autoFocus:true,
+					minLength: 0,
+					select: function (event, ui) {
+						F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
+					},
+					source: function (request, response) {
 
-        // click the Save button
-        $('button.btn-primary', $modal).click();
-      }
-    });
-
-    
-  }
+						$.ajax({
+							url: "http://dev.markitondemand.com/api/Lookup/jsonp",
+							dataType: "jsonp",
+							data: {
+								input: request.term
+							},
+							success: function (data) {
+								response($.map(data, function (item) {
+									return {
+										label: item.Name + " (" + item.Exchange + ")",
+										value: item.Symbol
+									}
+								}));
+							},
+							open: function() {
+								$(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+							},
+							close: function() {
+								$(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+							}
+						});
+					}
+				});
+		});
+	}
 );
