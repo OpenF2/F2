@@ -3293,8 +3293,9 @@ F2.extend('', (function(){
 		init: function(config) {
 			_config = config || {};
 
-			if (!!_config.secureAppPagePath) {
-				F2.Rpc.init(_config.secureAppPagePath);
+			// only establish RPC connection if the container supports the secure app page
+			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
+				F2.Rpc.init(!!_config.secureAppPagePath ? _config.secureAppPagePath : false);
 			}
 			
 			F2.UI.init(_config);
