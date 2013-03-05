@@ -298,20 +298,29 @@ function js() {
 	console.log('COMPLETE');
 
 	//copy F2.min.js over to docs/js folder so it makes to gh-pages
-	console.log('Copying F2.js to ./docs/js...');
+	console.log('Copying f2.min.js to ./docs/js/f2.js...');
 	fs.copy('./sdk/f2.min.js', './docs/js/f2.js', function(err){
 		if (err) {
 			die(err);
 		} else {
 			console.log("COMPLETE");
-			// wouldn't it be nice if there was a copySync...
-			console.log('Copying F2.min.js to /f2.js...');
-			fs.copy('./sdk/f2.min.js', './f2.js', function(err){
+			// Issue #35
+			console.log('Copying f2.min.js to ./docs/js/f2.min.js...');
+			fs.copy('./sdk/f2.min.js', './docs/js/f2.min.js', function(err){
 				if (err) {
 					die(err);
 				} else {
 					console.log("COMPLETE");
-					nextStep();
+
+					console.log('Copying F2.min.js to /f2.js...');
+					fs.copy('./sdk/f2.min.js', './f2.js', function(err){
+						if (err) {
+							die(err);
+						} else {
+							console.log("COMPLETE");
+							nextStep();
+						}
+					});
 				}
 			});
 		}
