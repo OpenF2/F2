@@ -1,6 +1,6 @@
 ;(function(exports) {
 
-	if (exports.F2) {
+	if (exports.F2 && !exports.F2_TESTING_MODE) {
 		return;
 	}
 ;
