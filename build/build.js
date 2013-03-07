@@ -33,33 +33,41 @@ var argv = optimist
 	.boolean('n').alias('n', 'nuget').describe('n', 'Build just the Nuget Package')
 	.boolean('v').alias('v', 'version').describe('v', 'Output the verison information for F2')
 	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
+	.string('prep').describe('prep', 'Updates F2Info, does \'build -a\' including rebuild of templates')
 	.string('release').describe('release', 'Updates the sdk release version in F2.json and creates a tag on GitHub')
 	.string('release-docs').describe('release-docs', 'Update the docs release version in F2.json')
 	.string('release-sdk').describe('release-sdk', 'Update the sdk release version in F2.json')
 	.argv;
 
 // constants
+var JS_HEADER = { src: 'sdk/src/template/header.js.tmpl', minify: false };
+var JS_FOOTER = { src: 'sdk/src/template/footer.js.tmpl', minify: false };
+
 // only the files that represent f2
 var CORE_FILES = [
-	'sdk/src/preamble.js',
-	'sdk/src/classes.js',
-	'sdk/src/constants.js',
-	'sdk/src/events.js',
-	'sdk/src/rpc.js',
-	'sdk/src/ui.js',
-	'sdk/src/container.js'
+	{ src: 'sdk/src/F2.js', minify: true },
+	{ src: 'sdk/src/classes.js', minify: true },
+	{ src: 'sdk/src/constants.js', minify: true },
+	{ src: 'sdk/src/events.js', minify: true },
+	{ src: 'sdk/src/rpc.js', minify: true },
+	{ src: 'sdk/src/ui.js', minify: true },
+	{ src: 'sdk/src/container.js', minify: true }
 ];
 var ENCODING = 'utf-8';
 var EOL = '\n';
 // files to be packaged
 var PACKAGE_FILES = [
+	// requirejs not yet necessary
+	// { src: 'sdk/src/third-party/require.min.js', minify: false },
 	{ src: 'sdk/src/third-party/json2.js', minify: true },
+	{ src: 'sdk/src/third-party/jquery.min.js', minify: false },
+	{ src: 'sdk/src/third-party/bootstrap-modal.js', minify: false },
+	{ src: 'sdk/src/third-party/jquery.noconflict.js', minify: false },
 	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
-	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false },
-	{ src: 'sdk/f2.no-third-party.js', minify: true } // this file is created by the build process
+	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false }
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
-
+var globalUpdateBranch = true;
 
 // a list of buildSteps that maps an argument to a function. the buildSteps need
 // to be in order of dependency in case -a is passed
@@ -82,6 +90,11 @@ if (argv['release-docs']) {
 }
 if (argv['release-sdk']) {
 	buildSteps.unshift({ arg: 'release-sdk', f: releaseSdk });
+}
+
+if (argv['prep']){
+	argv.a = true;
+	buildSteps.unshift({ arg: 'prepareBranch', f: prepBranch });
 }
 
 // process -l if -d or -y is passed
@@ -225,18 +238,29 @@ function help() {
  * @method js
  */
 function js() {
-
+	var files, contents;
 	console.log('Building f2.no-third-party.js...');
-	var contents = CORE_FILES.map(function(f) {
-		return fs.readFileSync(f, ENCODING);
+	
+	files = [JS_HEADER]
+		.concat(CORE_FILES)
+		.concat([JS_FOOTER]);
+
+	contents = files.map(function(f) {
+		return fs.readFileSync(f.src, ENCODING);
 	});
+
 	contents = processTemplate(contents.join(EOL), f2Info);
 	fs.writeFileSync('./sdk/f2.no-third-party.js', contents, ENCODING);
 	console.log('COMPLETE');
 
 
 	console.log('Building Debug Package...');
-	var contents = PACKAGE_FILES.map(function(f) {
+	files = [JS_HEADER]
+		.concat(PACKAGE_FILES)
+		.concat(CORE_FILES)
+		.concat([JS_FOOTER]);
+
+	contents = files.map(function(f) {
 		return fs.readFileSync(f.src, ENCODING);
 	});
 	fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
@@ -244,7 +268,7 @@ function js() {
 
 
 	console.log('Building Minified Package...');
-	var contents = PACKAGE_FILES.map(function(f) {
+	contents = files.map(function(f) {
 
 		var code = fs.readFileSync(f.src, ENCODING);
 
@@ -280,20 +304,29 @@ function js() {
 	console.log('COMPLETE');
 
 	//copy F2.min.js over to docs/js folder so it makes to gh-pages
-	console.log('Copying F2.js to ./docs/js...');
+	console.log('Copying f2.min.js to ./docs/js/f2.js...');
 	fs.copy('./sdk/f2.min.js', './docs/js/f2.js', function(err){
 		if (err) {
 			die(err);
 		} else {
 			console.log("COMPLETE");
-			// wouldn't it be nice if there was a copySync...
-			console.log('Copying F2.min.js to /f2.js...');
-			fs.copy('./sdk/f2.min.js', './f2.js', function(err){
+			// Issue #35
+			console.log('Copying f2.min.js to ./docs/js/f2.min.js...');
+			fs.copy('./sdk/f2.min.js', './docs/js/f2.min.js', function(err){
 				if (err) {
 					die(err);
 				} else {
 					console.log("COMPLETE");
-					nextStep();
+
+					console.log('Copying F2.min.js to /f2.js...');
+					fs.copy('./sdk/f2.min.js', './f2.js', function(err){
+						if (err) {
+							die(err);
+						} else {
+							console.log("COMPLETE");
+							nextStep();
+						}
+					});
 				}
 			});
 		}
@@ -530,6 +563,11 @@ function setCurrentBranch(callback){
  * @method saveF2Info
  */
 function saveF2Info() {
+	//sometimes we don't want to update the F2Info.branch property
+	if (!globalUpdateBranch){
+		fs.writeFileSync('./build/F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
+		return;
+	}
 	setCurrentBranch(function(){
 		fs.writeFileSync('./build/F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
 	});
@@ -623,3 +661,44 @@ function yuidoc() {
 		nextStep();
 	});
 };
+
+/**
+ * Added new build step to prepare branches refd in pull requests so they 
+ * can more easily be merged from Github without re-building templates in 'master'.
+ * 
+ * This step is just for @markhealey and @brianbaker
+ */
+function prepBranch(){
+	console.log("Preparing current branch for merging into master...");
+	//set this to false to tell docs() not to touch branch prop 
+	//before compiling templates
+	globalUpdateBranch = false;
+	//add FIRST step to update F2.json
+	buildSteps.unshift({
+		arg: 'updateF2Info', 
+		f: function() {
+			//sync-up dates
+			var dat = new Date();
+			f2Info.docs.releaseDate = f2Info.sdk.releaseDate = dat.toJSON();
+			f2Info.docs.lastUpdateDate = f2Info.sdk.lastUpdateDate = dat.toJSON();
+			f2Info.docs.lastUpdateDateFormatted = dateFormat(dat);
+			//set branch name
+			f2Info.branch = 'master';
+			//save
+			saveF2Info();
+			//go
+			nextStep();
+		}
+	});
+	//add step to display version # (serenity now)...and then we're done.
+	buildSteps.push({
+		arg: 'versCheck',
+		f: function(){
+			version();
+			console.log("PREP COMPLETE -- You can now commit changes & merge with 'master'.");
+		}
+	});
+	//run all build steps
+	//start queue
+	nextStep();
+}

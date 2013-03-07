@@ -279,7 +279,9 @@ If you're looking for sample container HTML template code, jump to the [Get Star
 
 ## Namespacing
 
-F2 is a _web_ integration framework which means are containers are inherently insecure&mdash;at least _non-secure_ apps. Following this spec, Container Developers must [join App Developers](app-development.html#namespacing) in avoiding CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+F2 is a _web_ integration framework which means apps are inherently insecure&mdash;at least those _non-secure_ apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+
+<span class="label">Note</span> Continue reading for [more specifics about secure apps](#secure-apps).
 
 ### Namespacing CSS
 

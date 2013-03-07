@@ -93,7 +93,7 @@ section .docs-anchor {
 
 .nav-list > li {
 	position: relative;
-	.animation(slideIn, 900ms);
+	//.animation(slideIn, 900ms); //uncomment to enable left-rail navigation fade/slide into view
 }
 
 .nav-list > li > a {
@@ -125,7 +125,11 @@ section .docs-anchor {
 
 .nav-list > li > a {
   padding: 8px 15px;
-  color: @grayAlt;
+  color: #333;
+}
+
+.nav-list > li > ul a {
+	color: @grayAlt;
 }
 
 .nav-list > .active > a,
