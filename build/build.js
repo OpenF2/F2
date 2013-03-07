@@ -33,6 +33,7 @@ var argv = optimist
 	.boolean('n').alias('n', 'nuget').describe('n', 'Build just the Nuget Package')
 	.boolean('v').alias('v', 'version').describe('v', 'Output the verison information for F2')
 	.boolean('y').alias('y', 'yuidoc').describe('y', 'Build the YUIDoc for the SDK')
+	.string('prep').describe('prep', 'Updates F2Info, does \'build -a\' including rebuild of templates')
 	.string('release').describe('release', 'Updates the sdk release version in F2.json and creates a tag on GitHub')
 	.string('release-docs').describe('release-docs', 'Update the docs release version in F2.json')
 	.string('release-sdk').describe('release-sdk', 'Update the sdk release version in F2.json')
@@ -66,7 +67,7 @@ var PACKAGE_FILES = [
 	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false }
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
-
+var globalUpdateBranch = true;
 
 // a list of buildSteps that maps an argument to a function. the buildSteps need
 // to be in order of dependency in case -a is passed
@@ -89,6 +90,11 @@ if (argv['release-docs']) {
 }
 if (argv['release-sdk']) {
 	buildSteps.unshift({ arg: 'release-sdk', f: releaseSdk });
+}
+
+if (argv['prep']){
+	argv.a = true;
+	buildSteps.unshift({ arg: 'prepareBranch', f: prepBranch });
 }
 
 // process -l if -d or -y is passed
@@ -557,6 +563,11 @@ function setCurrentBranch(callback){
  * @method saveF2Info
  */
 function saveF2Info() {
+	//sometimes we don't want to update the F2Info.branch property
+	if (!globalUpdateBranch){
+		fs.writeFileSync('./build/F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
+		return;
+	}
 	setCurrentBranch(function(){
 		fs.writeFileSync('./build/F2.json', JSON.stringify(f2Info, null, '\t'), ENCODING);
 	});
@@ -650,3 +661,44 @@ function yuidoc() {
 		nextStep();
 	});
 };
+
+/**
+ * Added new build step to prepare branches refd in pull requests so they 
+ * can more easily be merged from Github without re-building templates in 'master'.
+ * 
+ * This step is just for @markhealey and @brianbaker
+ */
+function prepBranch(){
+	console.log("Preparing current branch for merging into master...");
+	//set this to false to tell docs() not to touch branch prop 
+	//before compiling templates
+	globalUpdateBranch = false;
+	//add FIRST step to update F2.json
+	buildSteps.unshift({
+		arg: 'updateF2Info', 
+		f: function() {
+			//sync-up dates
+			var dat = new Date();
+			f2Info.docs.releaseDate = f2Info.sdk.releaseDate = dat.toJSON();
+			f2Info.docs.lastUpdateDate = f2Info.sdk.lastUpdateDate = dat.toJSON();
+			f2Info.docs.lastUpdateDateFormatted = dateFormat(dat);
+			//set branch name
+			f2Info.branch = 'master';
+			//save
+			saveF2Info();
+			//go
+			nextStep();
+		}
+	});
+	//add step to display version # (serenity now)...and then we're done.
+	buildSteps.push({
+		arg: 'versCheck',
+		f: function(){
+			version();
+			console.log("PREP COMPLETE -- You can now commit changes & merge with 'master'.");
+		}
+	});
+	//run all build steps
+	//start queue
+	nextStep();
+}
