@@ -1490,7 +1490,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 326,
+            "line": 327,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1503,7 +1503,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 332,
+            "line": 333,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1525,7 +1525,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 469,
+            "line": 470,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1534,7 +1534,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 484,
+            "line": 485,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
