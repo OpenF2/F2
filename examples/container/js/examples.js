@@ -1,4 +1,4 @@
-$(function(){
+(function($){
 
 	//ensure this is run from http://localhost
 	if (location.protocol === "file:"){
@@ -86,4 +86,4 @@ $(function(){
 		}
 	});
 
-});
+})(window.jQuery);

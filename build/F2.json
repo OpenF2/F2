@@ -1,16 +1,16 @@
 {
 	"docs": {
-		"version": "1.0.5",
-		"shortVersion": "1.0",
-		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2013-02-01T19:18:35.487Z",
-		"lastUpdateDateFormatted": "1 February 2013"
+		"version": "1.1.0",
+		"shortVersion": "1.1",
+		"releaseDate": "2013-03-07T19:10:50.102Z",
+		"lastUpdateDate": "2013-03-07T19:10:51.648Z",
+		"lastUpdateDateFormatted": "7 March 2013"
 	},
 	"sdk": {
-		"version": "1.0.3",
-		"shortVersion": "1.0",
-		"releaseDate": "2012-11-11T06:09:36.490Z",
-		"lastUpdateDate": "2013-02-01T19:18:34.480Z"
+		"version": "1.1.0",
+		"shortVersion": "1.1",
+		"releaseDate": "2013-03-07T19:10:50.102Z",
+		"lastUpdateDate": "2013-03-07T19:10:50.589Z"
 	},
 	"branch": "master"
 }

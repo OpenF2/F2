@@ -127,7 +127,7 @@ To get started working with or developing containers, browse to the [documentati
 
 ## App Design
 
-Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using [Progressive Enhancement]((http://www.alistapart.com/articles/understandingprogressiveenhancement/), [Mobile First](http://www.lukew.com/presos/preso.asp?26) and [Responsive Design](http://www.abookapart.com/products/responsive-web-design) methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. ([VideoJS](http://videojs.com/) is good example of open-source JavaScript and CSS "that makes it easier to work with and build on HTML5 video, today.")
+Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using [Progressive Enhancement](http://www.alistapart.com/articles/understandingprogressiveenhancement/), [Mobile First](http://www.lukew.com/presos/preso.asp?26) and [Responsive Design](http://www.abookapart.com/products/responsive-web-design) methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. ([VideoJS](http://videojs.com/) is good example of open-source JavaScript and CSS "that makes it easier to work with and build on HTML5 video, today.")
 
 If App Developers embed URLs back to their own websites or to third party sites, URLs must be opened in a new window as to not interrupt the experience of someone using the container. If authentication is required on an App Developer's site, this can be accomplished with pass-through authentication using encrypted URLs as discussed in [Single Sign On](#single-sign-on).
 
@@ -532,7 +532,9 @@ If you don't want to think about any of this and would rather just start coding,
 
 ## Namespacing
 
-F2 is a _web_ integration framework which means are apps are inherently insecure&mdash;at least _non-secure_ apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+F2 is a _web_ integration framework which means apps are inherently insecure&mdash;at least those _non-secure_ apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
+
+<span class="label">Note</span> Continue reading for [more specifics about secure apps](#secure-apps).
 
 ### Namespacing CSS
 

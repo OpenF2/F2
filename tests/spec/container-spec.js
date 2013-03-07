@@ -1,27 +1,37 @@
 describe('F2.init', function() {
 
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
 	it('should allow for no parameters', function() {
 		F2.init();
-		//assert.pass();
 	});
 
 	it('should allow for an empty object parameter', function() {
 		F2.init({});
-		//assert.pass();
 	});
 
 });
 
 describe('F2.isInit', function() {
+
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	it('should return false when F2.init has not been called', function() {
+		expect(F2.isInit()).toBeFalsy();
+	});
+
 	it('should return true when F2.init has been called', function() {
+		F2.init();
 		expect(F2.isInit()).toBeTruthy();
-		//assert.pass();
 	});
 });
 
 describe('F2.registerApps', function() {
 
-	beforeEach(function() {
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2(function() {
 		F2.init();
 	});
 

@@ -1,6 +1,23 @@
-beforeEach(function() {
+/**
+ * Addition to Jasmine Async that reloads F2
+ */
+AsyncSpec.prototype.beforeEachReloadF2 = function(callback) {
+	this.beforeEach(function(done) {
+		$.ajax({
+			url: '../sdk/f2.debug.js',
+			dataType: 'script',
+			complete: function() {
+				callback && callback();
+				done();
+			}
+		});
+	});
+};
 
-	console.log('beforeEach:', this.description);
+/**
+ * Adds a .toLog matcher for checking for F2.log messages
+ */
+beforeEach(function() {
 
 	this.addMatchers({
 
