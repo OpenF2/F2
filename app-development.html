@@ -3,7 +3,7 @@
 <head>
   <title>F2 - App Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="1 February 2013">
+  <meta name="dcterms.date" content="7 March 2013">
   <meta name="gitbranch" content="master">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
@@ -17,7 +17,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.0.5" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.1.0" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -71,8 +71,10 @@
             <li class="divider-vertical"></li>
             <li><a href="https://developer.openf2.org">Developer</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.0.3</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.0.3)</a></li>
+            <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
+            <li class="divider-vertical"></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.0</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.0)</a></li>
           </ul>
         </div>
       </div>
@@ -123,7 +125,7 @@
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.0.3). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.1.0). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
 <p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used. To start, F2 Apps are either:</p>
@@ -247,7 +249,7 @@ A data app is a content feed available in industry-standard formats including JS
 </section>
 <section class="level2" id="app-design">
 <h2>App Design</h2>
-<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using <a href="(http://www.alistapart.com/articles/understandingprogressiveenhancement/">Progressive Enhancement</a>, <a href="http://www.lukew.com/presos/preso.asp?26">Mobile First</a> and <a href="http://www.abookapart.com/products/responsive-web-design">Responsive Design</a> methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. (<a href="http://videojs.com/">VideoJS</a> is good example of open-source JavaScript and CSS &quot;that makes it easier to work with and build on HTML5 video, today.&quot;)</p>
+<p>Design considerations are an important first step when creating a new app. Content can range from news to research to multimedia, and content should be presented using <a href="http://www.alistapart.com/articles/understandingprogressiveenhancement/">Progressive Enhancement</a>, <a href="http://www.lukew.com/presos/preso.asp?26">Mobile First</a> and <a href="http://www.abookapart.com/products/responsive-web-design">Responsive Design</a> methodologies. That is to say multimedia content, for example, should be shown plugin-free (using HTML5 video or audio elements) for capable browsers and fallback to Flash-based players for browsers that do not yet support HTML5 related technologies. (<a href="http://videojs.com/">VideoJS</a> is good example of open-source JavaScript and CSS &quot;that makes it easier to work with and build on HTML5 video, today.&quot;)</p>
 <p>If App Developers embed URLs back to their own websites or to third party sites, URLs must be opened in a new window as to not interrupt the experience of someone using the container. If authentication is required on an App Developer's site, this can be accomplished with pass-through authentication using encrypted URLs as discussed in <a href="#single-sign-on">Single Sign On</a>.</p>
 <section class="level3" id="choices">
 <h3>Choices</h3>
@@ -551,7 +553,8 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 </section>
 <section class="level2" id="namespacing">
 <h2>Namespacing</h2>
-<p>F2 is a <em>web</em> integration framework which means are apps are inherently insecure—at least <em>non-secure</em> apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
+<p>F2 is a <em>web</em> integration framework which means apps are inherently insecure—at least those <em>non-secure</em> apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
+<p><span class="label">Note</span> Continue reading for <a href="#secure-apps">more specifics about secure apps</a>.</p>
 <section class="level3" id="namespacing-css">
 <h3>Namespacing CSS</h3>
 <p>As discussed in <a href="#f2-appid">Developing F2 Apps: F2 AppID</a>, to develop an F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> &quot;namespace&quot; is your company name and <code>appName</code> is the name of your app.</p>
@@ -967,17 +970,17 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a></small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a><br><em>Specification 1.0.5, 1 February 2013</em></small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 7 March 2013</small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
 </div><!--/.container-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="./js/bootstrap.min.2.1.1.js"></script>
+<script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.0.3"></script>
-<script src="./js/docs.js?1.0.5"></script>
+<script src="./js/f2.js?1.1.0"></script>
+<script src="./js/docs.js?1.1.0"></script>
 <script>F2.extend('gitbranch', (function(){ return 'master'; }));</script>
 </body>
 </html>

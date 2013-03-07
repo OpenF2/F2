@@ -1,6 +1,17 @@
 {
     "project": {},
     "files": {
+        "sdk/src/F2.js": {
+            "name": "sdk/src/F2.js",
+            "modules": {
+                "f2": 1
+            },
+            "classes": {},
+            "fors": {
+                "F2": 1
+            },
+            "namespaces": {}
+        },
         "sdk/src/classes.js": {
             "name": "sdk/src/classes.js",
             "modules": {},
@@ -49,17 +60,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "sdk/src/preamble.js": {
-            "name": "sdk/src/preamble.js",
-            "modules": {
-                "f2": 1
-            },
-            "classes": {},
-            "fors": {
-                "F2": 1
-            },
-            "namespaces": {}
-        },
         "sdk/src/rpc.js": {
             "name": "sdk/src/rpc.js",
             "modules": {},
@@ -90,6 +90,7 @@
             "name": "f2",
             "submodules": {},
             "classes": {
+                "F2": 1,
                 "F2.App": 1,
                 "F2.AppConfig": 1,
                 "F2.AppManifest": 1,
@@ -102,7 +103,6 @@
                 "F2.Constants.Events": 1,
                 "F2.Constants.Sockets": 1,
                 "F2.Constants.Views": 1,
-                "F2": 1,
                 "F2.Events": 1,
                 "F2.Rpc": 1,
                 "F2.UI": 1,
@@ -111,6 +111,7 @@
             },
             "fors": {
                 "F2": 1,
+                "F2.ContainerConfig": 1,
                 "F2.UI": 1,
                 "F2.UI.Modals": 1,
                 "F2.UI.Views": 1
@@ -124,6 +125,20 @@
         }
     },
     "classes": {
+        "F2": {
+            "name": "F2",
+            "shortname": "F2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "namespace": "",
+            "file": "sdk/src/container.js",
+            "line": 1,
+            "description": "Root namespace of the F2 SDK"
+        },
         "F2.App": {
             "name": "F2.App",
             "shortname": "F2.App",
@@ -133,6 +148,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/classes.js",
             "line": 6,
             "description": "The App Class is an optional class that can be namespaced onto the \n{{#crossLink \"F2\\Apps\"}}{{/crossLink}} namespace.  The \n[F2 Docs](../../app-development.html#app-class)\nhas more information on the usage of the App Class.",
@@ -164,6 +180,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/classes.js",
             "line": 29,
             "description": "The AppConfig object represents an app's meta data"
@@ -177,6 +194,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/classes.js",
             "line": 160,
             "description": "The assets needed to render an app on the page"
@@ -190,6 +208,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/classes.js",
             "line": 195,
             "description": "The AppContent object"
@@ -203,6 +222,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/classes.js",
             "line": 222,
             "description": "An object containing configuration information for the\n[container](../../container-development.html)"
@@ -216,6 +236,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/classes.js",
             "line": 269,
             "description": "An object containing configuration defaults for F2.UI"
@@ -229,6 +250,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/classes.js",
             "line": 274,
             "description": "An object containing configuration defaults for the \nF2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} and\nF2.UI.{{#crossLink \"F2.UI/hideMask\"}}{{/crossLink}} methods."
@@ -242,6 +264,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/constants.js",
             "line": 1,
             "description": "Constants used throughout the Open Financial Framework",
@@ -256,6 +279,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/constants.js",
             "line": 7,
             "description": "CSS class constants"
@@ -269,6 +293,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/constants.js",
             "line": 95,
             "description": "Events constants"
@@ -282,6 +307,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/constants.js",
             "line": 161,
             "description": "Constants for use with cross-domain sockets",
@@ -297,23 +323,10 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "f2",
+            "namespace": "",
             "file": "sdk/src/constants.js",
             "line": 216,
             "description": "The available view types to apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP\\_VIEW class to the\ncontaining DOM Element. A DATA\\_ATTRIBUTE attribute should be added to the\nElement as well which defines what view type is represented.\nThe `hide` class can be applied to views that should be hidden by default."
-        },
-        "F2": {
-            "name": "F2",
-            "shortname": "F2",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "f2",
-            "namespace": "",
-            "file": "sdk/src/container.js",
-            "line": 1,
-            "description": "Root namespace of the F2 SDK"
         },
         "F2.Events": {
             "name": "F2.Events",
@@ -396,6 +409,183 @@
     },
     "classitems": [
         {
+            "file": "sdk/src/F2.js",
+            "line": 32,
+            "description": "A function to pass into F2.stringify which will prevent circular\nreference errors when serializing objects",
+            "itemtype": "method",
+            "name": "appConfigReplacer",
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 44,
+            "description": "The apps namespace is a place for app developers to put the javascript\nclass that is used to initialize their app. The javascript classes should\nbe namepaced with the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.appId. \nIt is recommended that the code be placed in a closure to help keep the\nglobal namespace clean.\n\nIf the class has an 'init' function, that function will be called \nautomatically by F2.",
+            "itemtype": "property",
+            "name": "Apps",
+            "type": "object",
+            "example": [
+                "\n    F2.Apps[\"com_example_helloworld\"] = (function() {\n        var App_Class = function(appConfig, appContent, root) {\n            this._app = appConfig; // the F2.AppConfig object\n            this._appContent = appContent // the F2.AppManifest.AppContent object\n            this.$root = $(root); // the root DOM Element that contains this app\n        }\n\n        App_Class.prototype.init = function() {\n            // perform init actions\n        }\n\n        return App_Class;\n    })();",
+                "\n    F2.Apps[\"com_example_helloworld\"] = function(appConfig, appContent, root) {\n       return {\n           init:function() {\n               // perform init actions\n           }\n       };\n    };"
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 80,
+            "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
+            "itemtype": "method",
+            "name": "extend",
+            "params": [
+                {
+                    "name": "ns",
+                    "description": "The namespace to create. Pass a falsy value to \nadd properties to the F2 namespace directly.",
+                    "type": "String"
+                },
+                {
+                    "name": "obj",
+                    "description": "The object to copy into the namespace.",
+                    "type": "Object"
+                },
+                {
+                    "name": "overwrite",
+                    "description": "True if object properties should be overwritten",
+                    "type": "Bool"
+                }
+            ],
+            "return": {
+                "description": "The created object",
+                "type": "Object"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 120,
+            "description": "Generates a somewhat random id",
+            "itemtype": "method",
+            "name": "guid",
+            "return": {
+                "description": "A random id",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 132,
+            "description": "Search for a value within an array.",
+            "itemtype": "method",
+            "name": "inArray",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The value to search for",
+                    "type": "Object"
+                },
+                {
+                    "name": "array",
+                    "description": "The array to search",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "True if the item is in the array",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 142,
+            "description": "Wrapper logging function.",
+            "itemtype": "method",
+            "name": "log",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "An object to be logged",
+                    "type": "Object"
+                },
+                {
+                    "name": "obj2",
+                    "description": "An object to be logged",
+                    "type": "Object",
+                    "optional": true,
+                    "multiple": true
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 153,
+            "description": "Wrapper to convert a JSON string to an object",
+            "itemtype": "method",
+            "name": "parse",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "The JSON string to convert",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The parsed object",
+                "type": "Object"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 162,
+            "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
+            "itemtype": "method",
+            "name": "stringify",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The object to convert",
+                    "type": "Object"
+                },
+                {
+                    "name": "replacer",
+                    "description": "An optional parameter that determines\nhow object values are stringified for objects. It can be a function or an \narray of strings.",
+                    "type": "Function|Array"
+                },
+                {
+                    "name": "space",
+                    "description": "An optional parameter that specifies the\nindentation of nested structures. If it is omitted, the text will be\npacked without extra whitespace. If it is a number, it will specify the\nnumber of spaces to indent at each level. If it is a string (such as '\\t'\nor '&nbsp;'), it contains the characters used to indent at each level.",
+                    "type": "Int|string"
+                }
+            ],
+            "return": {
+                "description": "The JSON string",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 183,
+            "description": "Function to get the F2 version number",
+            "itemtype": "method",
+            "name": "version",
+            "return": {
+                "description": "F2 version number",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
             "file": "sdk/src/classes.js",
             "line": 1,
             "description": "Class stubs for documentation purposes",
@@ -403,7 +593,8 @@
             "tag": "main",
             "itemtype": "main",
             "_main": true,
-            "class": "F2.App"
+            "class": "F2.App",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -412,7 +603,8 @@
             "itemtype": "method",
             "name": "init",
             "optional": 1,
-            "class": "F2.App"
+            "class": "F2.App",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -422,7 +614,8 @@
             "name": "appId",
             "type": "string",
             "required": 1,
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -431,7 +624,8 @@
             "itemtype": "property",
             "name": "context",
             "type": "object",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -441,7 +635,8 @@
             "name": "enableBatchRequests",
             "type": "bool",
             "default": "false",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -450,7 +645,8 @@
             "itemtype": "property",
             "name": "height",
             "type": "int",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -459,7 +655,8 @@
             "itemtype": "property",
             "name": "instanceId",
             "type": "string",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -469,7 +666,8 @@
             "name": "isSecure",
             "type": "bool",
             "default": "false",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -479,7 +677,8 @@
             "name": "manifestUrl",
             "type": "string",
             "required": 1,
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -488,7 +687,8 @@
             "itemtype": "property",
             "name": "maxWidth",
             "type": "int",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -498,7 +698,8 @@
             "name": "minGridSize",
             "type": "int",
             "default": "4",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -508,7 +709,8 @@
             "name": "minWidth",
             "type": "int",
             "default": "300",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -518,7 +720,8 @@
             "name": "name",
             "type": "string",
             "required": 1,
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -527,7 +730,8 @@
             "itemtype": "property",
             "name": "root",
             "type": "Element",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -536,7 +740,8 @@
             "itemtype": "property",
             "name": "ui",
             "type": "F2.UI",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -545,7 +750,8 @@
             "itemtype": "property",
             "name": "views",
             "type": "Array",
-            "class": "F2.AppConfig"
+            "class": "F2.AppConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -555,7 +761,8 @@
             "name": "apps",
             "type": "Array",
             "required": 1,
-            "class": "F2.AppManifest"
+            "class": "F2.AppManifest",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -565,7 +772,8 @@
             "name": "inlineScripts",
             "type": "Array",
             "optional": 1,
-            "class": "F2.AppManifest"
+            "class": "F2.AppManifest",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -575,7 +783,8 @@
             "name": "scripts",
             "type": "Array",
             "optional": 1,
-            "class": "F2.AppManifest"
+            "class": "F2.AppManifest",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -585,7 +794,8 @@
             "name": "styles",
             "type": "Array",
             "optional": 1,
-            "class": "F2.AppManifest"
+            "class": "F2.AppManifest",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -595,7 +805,8 @@
             "name": "data",
             "type": "object",
             "optional": 1,
-            "class": "F2.AppManifest.AppContent"
+            "class": "F2.AppManifest.AppContent",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -605,7 +816,8 @@
             "name": "html",
             "type": "string",
             "required": 1,
-            "class": "F2.AppManifest.AppContent"
+            "class": "F2.AppManifest.AppContent",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -615,7 +827,8 @@
             "name": "status",
             "type": "string",
             "optional": 1,
-            "class": "F2.AppManifest.AppContent"
+            "class": "F2.AppManifest.AppContent",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -639,7 +852,8 @@
                 "description": "The DOM Element surrounding the app",
                 "type": "Element"
             },
-            "class": "F2.ContainerConfig"
+            "class": "F2.ContainerConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -659,7 +873,8 @@
                     "type": "String"
                 }
             ],
-            "class": "F2.ContainerConfig"
+            "class": "F2.ContainerConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -678,7 +893,8 @@
                 "description": "The DOM Element surrounding the app",
                 "type": "Element"
             },
-            "class": "F2.ContainerConfig"
+            "class": "F2.ContainerConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -687,7 +903,8 @@
             "itemtype": "property",
             "name": "isSecureAppPage",
             "type": "bool",
-            "class": "F2.ContainerConfig"
+            "class": "F2.ContainerConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -697,7 +914,8 @@
             "name": "backgroundColor",
             "type": "string",
             "default": "#FFF",
-            "class": "F2.ContainerConfig.UI.Mask"
+            "class": "F2.ContainerConfig.UI.Mask",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -706,7 +924,8 @@
             "itemtype": "property",
             "name": "loadingIcon",
             "type": "string",
-            "class": "F2.ContainerConfig.UI.Mask"
+            "class": "F2.ContainerConfig.UI.Mask",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -716,7 +935,8 @@
             "name": "opacity",
             "type": "int",
             "default": ".6",
-            "class": "F2.ContainerConfig.UI.Mask"
+            "class": "F2.ContainerConfig.UI.Mask",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -726,7 +946,8 @@
             "name": "useClasses",
             "type": "bool",
             "default": "false",
-            "class": "F2.ContainerConfig.UI.Mask"
+            "class": "F2.ContainerConfig.UI.Mask",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -736,7 +957,8 @@
             "name": "zIndex",
             "type": "int",
             "default": "2",
-            "class": "F2.ContainerConfig.UI.Mask"
+            "class": "F2.ContainerConfig.UI.Mask",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -745,7 +967,8 @@
             "itemtype": "property",
             "name": "secureAppPagePath",
             "type": "string",
-            "class": "F2.ContainerConfig"
+            "class": "F2.ContainerConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/classes.js",
@@ -755,12 +978,14 @@
             "name": "supportedViews",
             "type": "Array",
             "required": 1,
-            "class": "F2.ContainerConfig"
+            "class": "F2.ContainerConfig",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
             "line": 13,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -771,7 +996,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -782,7 +1008,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -793,7 +1020,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -804,7 +1032,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -815,7 +1044,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -826,7 +1056,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -837,17 +1068,20 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Css"
+            "class": "F2.Constants.Css",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
             "line": 100,
-            "class": "F2.Constants.Events"
+            "class": "F2.Constants.Events",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
             "line": 102,
-            "class": "F2.Constants.Events"
+            "class": "F2.Constants.Events",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -858,7 +1092,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Events"
+            "class": "F2.Constants.Events",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -869,7 +1104,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Events"
+            "class": "F2.Constants.Events",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -880,7 +1116,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Events"
+            "class": "F2.Constants.Events",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -891,7 +1128,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Events"
+            "class": "F2.Constants.Events",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -902,7 +1140,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Sockets"
+            "class": "F2.Constants.Sockets",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -913,7 +1152,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Sockets"
+            "class": "F2.Constants.Sockets",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -924,7 +1164,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Sockets"
+            "class": "F2.Constants.Sockets",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -935,7 +1176,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Sockets"
+            "class": "F2.Constants.Sockets",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -946,7 +1188,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Sockets"
+            "class": "F2.Constants.Sockets",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -957,7 +1200,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Views"
+            "class": "F2.Constants.Views",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -968,7 +1212,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Views"
+            "class": "F2.Constants.Views",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -979,7 +1224,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Views"
+            "class": "F2.Constants.Views",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -990,7 +1236,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Views"
+            "class": "F2.Constants.Views",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -1001,7 +1248,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Views"
+            "class": "F2.Constants.Views",
+            "module": "f2"
         },
         {
             "file": "sdk/src/constants.js",
@@ -1012,7 +1260,8 @@
             "type": "string",
             "static": 1,
             "final": 1,
-            "class": "F2.Constants.Views"
+            "class": "F2.Constants.Views",
+            "module": "f2"
         },
         {
             "file": "sdk/src/container.js",
@@ -1241,7 +1490,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 326,
+            "line": 327,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1254,7 +1503,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 332,
+            "line": 333,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1276,7 +1525,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 469,
+            "line": 470,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1285,7 +1534,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 484,
+            "line": 485,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -1434,183 +1683,6 @@
                 }
             ],
             "class": "F2.Events",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 30,
-            "description": "A function to pass into F2.stringify which will prevent circular\nreference errors when serializing objects",
-            "itemtype": "method",
-            "name": "appConfigReplacer",
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 42,
-            "description": "The apps namespace is a place for app developers to put the javascript\nclass that is used to initialize their app. The javascript classes should\nbe namepaced with the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.appId. \nIt is recommended that the code be placed in a closure to help keep the\nglobal namespace clean.\n\nIf the class has an 'init' function, that function will be called \nautomatically by F2.",
-            "itemtype": "property",
-            "name": "Apps",
-            "type": "object",
-            "example": [
-                "\n    F2.Apps[\"com_example_helloworld\"] = (function() {\n        var App_Class = function(appConfig, appContent, root) {\n            this._app = appConfig; // the F2.AppConfig object\n            this._appContent = appContent // the F2.AppManifest.AppContent object\n            this.$root = $(root); // the root DOM Element that contains this app\n        }\n\n        App_Class.prototype.init = function() {\n            // perform init actions\n        }\n\n        return App_Class;\n    })();",
-                "\n    F2.Apps[\"com_example_helloworld\"] = function(appConfig, appContent, root) {\n       return {\n           init:function() {\n               // perform init actions\n           }\n       };\n    };"
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 78,
-            "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
-            "itemtype": "method",
-            "name": "extend",
-            "params": [
-                {
-                    "name": "ns",
-                    "description": "The namespace to create. Pass a falsy value to \nadd properties to the F2 namespace directly.",
-                    "type": "String"
-                },
-                {
-                    "name": "obj",
-                    "description": "The object to copy into the namespace.",
-                    "type": "Object"
-                },
-                {
-                    "name": "overwrite",
-                    "description": "True if object properties should be overwritten",
-                    "type": "Bool"
-                }
-            ],
-            "return": {
-                "description": "The created object",
-                "type": "Object"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 118,
-            "description": "Generates a somewhat random id",
-            "itemtype": "method",
-            "name": "guid",
-            "return": {
-                "description": "A random id",
-                "type": "String"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 130,
-            "description": "Search for a value within an array.",
-            "itemtype": "method",
-            "name": "inArray",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "The value to search for",
-                    "type": "Object"
-                },
-                {
-                    "name": "array",
-                    "description": "The array to search",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "True if the item is in the array",
-                "type": "Bool"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 140,
-            "description": "Wrapper logging function.",
-            "itemtype": "method",
-            "name": "log",
-            "params": [
-                {
-                    "name": "obj",
-                    "description": "An object to be logged",
-                    "type": "Object"
-                },
-                {
-                    "name": "obj2",
-                    "description": "An object to be logged",
-                    "type": "Object",
-                    "optional": true,
-                    "multiple": true
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 151,
-            "description": "Wrapper to convert a JSON string to an object",
-            "itemtype": "method",
-            "name": "parse",
-            "params": [
-                {
-                    "name": "str",
-                    "description": "The JSON string to convert",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "The parsed object",
-                "type": "Object"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 160,
-            "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
-            "itemtype": "method",
-            "name": "stringify",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "The object to convert",
-                    "type": "Object"
-                },
-                {
-                    "name": "replacer",
-                    "description": "An optional parameter that determines\nhow object values are stringified for objects. It can be a function or an \narray of strings.",
-                    "type": "Function|Array"
-                },
-                {
-                    "name": "space",
-                    "description": "An optional parameter that specifies the\nindentation of nested structures. If it is omitted, the text will be\npacked without extra whitespace. If it is a number, it will specify the\nnumber of spaces to indent at each level. If it is a string (such as '\\t'\nor '&nbsp;'), it contains the characters used to indent at each level.",
-                    "type": "Int|string"
-                }
-            ],
-            "return": {
-                "description": "The JSON string",
-                "type": "String"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk/src/preamble.js",
-            "line": 181,
-            "description": "Function to get the F2 version number",
-            "itemtype": "method",
-            "name": "version",
-            "return": {
-                "description": "F2 version number",
-                "type": "String"
-            },
-            "class": "F2",
             "module": "f2"
         },
         {
