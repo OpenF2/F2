@@ -2,15 +2,15 @@
 	"docs": {
 		"version": "1.1.0",
 		"shortVersion": "1.1",
-		"releaseDate": "2012-09-25T22:40:16.217Z",
-		"lastUpdateDate": "2013-03-07T16:57:24.556Z",
+		"releaseDate": "2013-03-07T19:10:50.102Z",
+		"lastUpdateDate": "2013-03-07T19:10:51.648Z",
 		"lastUpdateDateFormatted": "7 March 2013"
 	},
 	"sdk": {
 		"version": "1.1.0",
 		"shortVersion": "1.1",
-		"releaseDate": "2013-02-06T15:47:36.110Z",
-		"lastUpdateDate": "2013-03-07T16:57:23.376Z"
+		"releaseDate": "2013-03-07T19:10:50.102Z",
+		"lastUpdateDate": "2013-03-07T19:10:50.589Z"
 	},
-	"branch": "1.1-wip"
+	"branch": "master"
 }
