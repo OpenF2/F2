@@ -263,7 +263,8 @@ function js() {
 	contents = files.map(function(f) {
 		return fs.readFileSync(f.src, ENCODING);
 	});
-	fs.writeFileSync('./sdk/f2.debug.js', contents.join(EOL), ENCODING);
+	contents = processTemplate(contents.join(EOL), f2Info);
+	fs.writeFileSync('./sdk/f2.debug.js', contents, ENCODING);
 	console.log('COMPLETE');
 
 
@@ -295,7 +296,8 @@ function js() {
 
 		return code;
 	});
-	fs.writeFileSync('./sdk/f2.min.js', contents.join(';' + EOL), ENCODING);
+	contents = processTemplate(contents.join(';' + EOL), f2Info);
+	fs.writeFileSync('./sdk/f2.min.js', contents, ENCODING);
 
 	// update Last Update Date and save F2.json
 	f2Info.sdk.lastUpdateDate = (new Date()).toJSON();
