@@ -61,7 +61,7 @@ var PACKAGE_FILES = [
 	// { src: 'sdk/src/third-party/require.min.js', minify: false },
 	{ src: 'sdk/src/third-party/json2.js', minify: true },
 	{ src: 'sdk/src/third-party/jquery.min.js', minify: false },
-	{ src: 'sdk/src/third-party/bootstrap-modal.js', minify: false },
+	{ src: 'sdk/src/third-party/bootstrap-modal.js', minify: true },
 	{ src: 'sdk/src/third-party/jquery.noconflict.js', minify: false },
 	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
 	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false }
