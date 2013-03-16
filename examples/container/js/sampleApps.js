@@ -41,6 +41,12 @@
 			"name": "CDS Sovereign Big Movers",
 			"views": ["home", "about"],
 			"minGridSize": 4
+		},
+		{
+			"appId": "com_openf2_examples_javascript_compareTool",
+			"manifestUrl": "../apps/JavaScript/CompareTool/manifest.js",
+			"name": "Compare Tool",
+			"minGridSize": 12
 		}
 	],
 
