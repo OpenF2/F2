@@ -1853,17 +1853,6 @@ F2.extend('', (function(){
 			_initAppEvents(appConfigs[i]);
 		});
 
-		//eval inlines
-		var evalInlines = function(){
-			jQuery.each(inlines, function(i, e) {
-				try {
-					eval(e);
-				} catch (exception) {
-					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
-				}
-			});
-		}
-
 		// load scripts and eval inlines once complete
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
@@ -1876,7 +1865,13 @@ F2.extend('', (function(){
 				type:'GET',
 				success:function() {
 					if (++scriptsLoaded == scriptCount) {
-						evalInlines();
+						jQuery.each(inlines, function(i, e) {
+							try {
+								eval(e);
+							} catch (exception) {
+								F2.log('Error loading inline script: ' + exception + '\n\n' + e);
+							}
+						});
 						// fire the load event to tell the app it can proceed
 						appInit();
 					}
@@ -1889,7 +1884,6 @@ F2.extend('', (function(){
 
 		// if no scripts were to be processed, fire the appLoad event
 		if (!scriptCount) {
-			evalInlines();
 			appInit();
 		}
 	};
@@ -2013,7 +2007,7 @@ F2.extend('', (function(){
 			var callbackStack = {};
 			var haveManifests = false;
 			appConfigs = [].concat(appConfigs);
-			appManifests = appManifests || [];
+			appManifests = [].concat(appManifests || []);
 			haveManifests = !!appManifests.length;
 
 			// appConfigs must have a length

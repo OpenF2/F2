@@ -28,7 +28,7 @@ describe('F2.isInit', function() {
 	});
 });
 
-describe('F2.registerApps', function() {
+describe('F2.registerApps - basic', function() {
 
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() {
@@ -69,14 +69,23 @@ describe('F2.registerApps', function() {
 		}).toLog('The length of "apps" does not equal the length of "appManifests"');
 	});
 
-	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'./'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["./js/test.js"],"apps":[{}]}]);
-		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
-	});
+	it('should not fail when a single appManifest is passed (#55)', function() {
 
-	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'./'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":[],"apps":[{}]}]);
-		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
-	});
+		var passedMessage = false;
+		F2.log = function(message) {
+			passedMessage = true;
+		};
 
+		runs(function() {
+			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://www.openf2.org'}, {apps:[{html:'<div></div>'}]});
+		})
+
+		// wait long enough for registerApps to have failed
+		waits(1000);
+
+		// F2.log should not have run
+		runs(function() {
+			expect(passedMessage).toBeFalsy();
+		})
+	});
 });
