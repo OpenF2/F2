@@ -89,3 +89,64 @@ describe('F2.registerApps - basic', function() {
 		})
 	});
 });
+
+describe('F2.registerApps - rendering', function() {
+
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2(function() {
+		// nothing to do after reload
+	});
+
+	var appConfig = {
+		appId: 'com_openf2_tests_helloworld',
+		manifestUrl: 'http://www.openf2.org'
+	};
+	var appManifest = {
+		scripts:[],
+		styles:[],
+		inlineScripts:[],
+		apps:[
+			{
+				html: '<div class="test-app">Testing</div>'
+			}
+		]
+	};
+
+	it('should fire beforeAppRender when it is defined', function() {
+		var isFired = false;
+		F2.init({
+			beforeAppRender: function() {
+				isFired = true;
+			}
+		});
+		F2.registerApps(appConfig, [appManifest]);
+		waitsFor(function() {
+			return isFired;
+		}, 'beforeAppRender was never fired', 10000);
+		runs(function() {
+			expect(isFired).toBeTruthy();
+		})
+	});
+
+	it('should allow beforeAppRender to return null', function() {
+		F2.init({
+			beforeAppRender: function() {
+				return null;
+			}
+		});
+
+		F2.registerApps(appConfig, [appManifest]);
+	});
+
+	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
+		F2.init();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'./'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["./js/test.js"],"apps":[{}]}]);
+		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
+	});
+
+	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
+		F2.init();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'./'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"],"apps":[{}]}]);
+		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
+	});
+});
