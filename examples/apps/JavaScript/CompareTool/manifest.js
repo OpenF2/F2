@@ -31,7 +31,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_compareTool({
 								'<th ng-repeat="issue in [] | range:numRemaining()">',
 									'<form ng-submit="addCompany(searchSymbol)">',
 										'<input type="text" name="searchSymbol" placeholder="Enter symbol..." ng-model="searchSymbol" ng-class="{loading: this.isLoading}" required />',
-										'<input type="submit" value="Compare" />',
+										'<input type="submit" value="Compare" class="btn" />',
 									'</form>',
 								'</th>',
 							'</tr>',
