@@ -3341,7 +3341,7 @@ F2.extend('', (function(){
 			var callbackStack = {};
 			var haveManifests = false;
 			appConfigs = [].concat(appConfigs);
-			appManifests = appManifests || [];
+			appManifests = [].concat(appManifests || []);
 			haveManifests = !!appManifests.length;
 
 			// appConfigs must have a length
