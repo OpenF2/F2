@@ -15,7 +15,14 @@ AsyncSpec.prototype.beforeEachReloadF2 = function(callback) {
 };
 
 /**
- * Adds a .toLog matcher for checking for F2.log messages
+ * Clean out the test fixture before each spec
+ */
+beforeEach(function() {
+	document.getElementById('test-fixture').innerHTML = '';
+});
+
+/**
+ * Adds .toLog matcher for checking for F2.log messages
  */
 beforeEach(function() {
 
