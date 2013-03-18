@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - F2.Constants.Css</title>
+	<title>F2 - sdk\src\F2.js</title>
 	<meta name="dcterms.date" content="18 March 2013">
 	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
@@ -213,547 +213,204 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.Constants.Css</h1>
+				<h1 class="file-heading">File: sdk\src\F2.js</h1>
 
-<p>
-	<p>CSS class constants</p>
-</p>
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;*!
+ * F2 v{{sdk.version}}
+ * Copyright (c) 2013 Markit On Demand, Inc. http:&#x2F;&#x2F;www.openf2.org
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the &quot;Software&quot;), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and&#x2F;or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *&#x2F;
 
-<div class="well well-small">
-	<dl class="dl-horizontal">
-		
+var F2;
+&#x2F;**
+ * Open F2
+ * @module f2
+ * @main f2
+ *&#x2F;
 
+F2 = {
+	&#x2F;**
+	 * A function to pass into F2.stringify which will prevent circular
+	 * reference errors when serializing objects
+	 * @method appConfigReplacer
+	 *&#x2F;
+	appConfigReplacer: function(key, value) {
+		if (key == &#x27;root&#x27; || key == &#x27;ui&#x27; || key == &#x27;height&#x27;) {
+			return undefined;
+		} else {
+			return value;
+		}
+	},
+	&#x2F;**
+	 * The apps namespace is a place for app developers to put the javascript
+	 * class that is used to initialize their app. The javascript classes should
+	 * be namepaced with the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}.appId. 
+	 * It is recommended that the code be placed in a closure to help keep the
+	 * global namespace clean.
+	 *
+	 * If the class has an &#x27;init&#x27; function, that function will be called 
+	 * automatically by F2.
+	 * @property Apps
+	 * @type object
+	 * @example
+	 *     F2.Apps[&quot;com_example_helloworld&quot;] = (function() {
+	 *         var App_Class = function(appConfig, appContent, root) {
+	 *             this._app = appConfig; &#x2F;&#x2F; the F2.AppConfig object
+	 *             this._appContent = appContent &#x2F;&#x2F; the F2.AppManifest.AppContent object
+	 *             this.$root = $(root); &#x2F;&#x2F; the root DOM Element that contains this app
+	 *         }
+	 *
+	 *         App_Class.prototype.init = function() {
+	 *             &#x2F;&#x2F; perform init actions
+	 *         }
+	 *
+	 *         return App_Class;
+	 *     })();
+	 * @example
+	 *     F2.Apps[&quot;com_example_helloworld&quot;] = function(appConfig, appContent, root) {
+	 *        return {
+	 *            init:function() {
+	 *                &#x2F;&#x2F; perform init actions
+	 *            }
+	 *        };
+	 *     };
+	 * @for F2
+	 *&#x2F;
+	Apps: {},
+	&#x2F;**
+	 * Creates a namespace on F2 and copies the contents of an object into
+	 * that namespace optionally overwriting existing properties.
+	 * @method extend
+	 * @param {string} ns The namespace to create. Pass a falsy value to 
+	 * add properties to the F2 namespace directly.
+	 * @param {object} obj The object to copy into the namespace.
+	 * @param {bool} overwrite True if object properties should be overwritten
+	 * @return {object} The created object
+	 *&#x2F;
+	extend: function (ns, obj, overwrite) {
+		var isFunc = typeof obj === &#x27;function&#x27;;
+		var parts = ns ? ns.split(&#x27;.&#x27;) : [];
+		var parent = this;
+		obj = obj || {};
 		
+		&#x2F;&#x2F; ignore leading global
+		if (parts[0] === &#x27;F2&#x27;) {
+			parts = parts.slice(1);
+		}
 
-		
-			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l7"><code>sdk\src\constants.js:7</code></a></dd>
-		
+		&#x2F;&#x2F; create namespaces
+		for (var i = 0, len = parts.length; i &lt; len; i++) {
+			if (!parent[parts[i]]) {
+				parent[parts[i]] = isFunc &amp;&amp; i + 1 == len ? obj : {};
+			}
+			parent = parent[parts[i]];
+		}
 
-		
-	</dl>
+		&#x2F;&#x2F; copy object into namespace
+		if (!isFunc) {
+			for (var prop in obj) {
+				if (typeof parent[prop] === &#x27;undefined&#x27; || overwrite) {
+					parent[prop] = obj[prop];
+				} 
+			}
+		}
+
+		return parent;
+	},
+	&#x2F;** 
+	 * Generates a somewhat random id
+	 * @method guid
+	 * @return {string} A random id
+	 * @for F2
+	 *&#x2F;
+	guid: function() {
+		var S4 = function() {
+			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+		};
+		return (S4()+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+S4()+S4());
+	},
+	&#x2F;**
+	 * Search for a value within an array.
+	 * @method inArray
+	 * @param {object} value The value to search for
+	 * @param {Array} array The array to search
+	 * @return {bool} True if the item is in the array
+	 *&#x2F;
+	inArray: function(value, array) {
+		return jQuery.inArray(value, array) &gt; -1;
+	},
+	&#x2F;**
+	 * Wrapper logging function.
+	 * @method log
+	 * @param {object} obj An object to be logged
+	 * @param {object} [obj2]* An object to be logged
+	 *&#x2F;
+	log: function() {
+		if (window.console &amp;&amp; window.console.log) {
+			console.log([].slice.call(arguments));
+		}
+	},
+	&#x2F;**
+	 * Wrapper to convert a JSON string to an object
+	 * @method parse
+	 * @param {string} str The JSON string to convert
+	 * @return {object} The parsed object
+	 *&#x2F;
+	parse: function(str) {
+		return JSON.parse(str);
+	},
+	&#x2F;**
+	 * Wrapper to convert an object to JSON
+	 *
+	 * **Note: When using F2.stringify on an F2.AppConfig object, it is
+	 * recommended to pass F2.appConfigReplacer as the replacer function in
+	 * order to prevent circular serialization errors.**
+	 * @method stringify
+	 * @param {object} value The object to convert
+	 * @param {function|Array} replacer An optional parameter that determines
+	 * how object values are stringified for objects. It can be a function or an 
+	 * array of strings.
+	 * @param {int|string} space An optional parameter that specifies the
+	 * indentation of nested structures. If it is omitted, the text will be
+	 * packed without extra whitespace. If it is a number, it will specify the
+	 * number of spaces to indent at each level. If it is a string (such as &#x27;\t&#x27;
+	 * or &#x27;&amp;nbsp;&#x27;), it contains the characters used to indent at each level.
+	 * @return {string} The JSON string
+	 *&#x2F;
+	stringify: function(value, replacer, space) {
+		return JSON.stringify(value, replacer, space);
+	},
+	&#x2F;** 
+	 * Function to get the F2 version number
+	 * @method version
+	 * @return {string} F2 version number
+	 *&#x2F;
+	version: function() { return &quot;{{sdk.version}}&quot;; }
+};
+
+
+    </pre>
 </div>
 
-
-
-<ul id="classTabs" class="nav nav-tabs">
-	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
-	
-	
-		<li><a href="#properties" data-toggle="tab">Properties</a></li>
-	
-	
-	
-</ul>
-
-<div class="tab-content">
-	<!-- SUMMARY TAB -->
-	<div id="summary" class="tab-pane active">
-		
-
-		
-
-		
-		<div class="index-section properties">
-			<h3>Properties</h3>
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-APP">APP</a>
-						</td>
-						<td><p>The APP class should be applied to the DOM Element that surrounds the
-entire app, including any extra html that surrounds the APP_CONTAINER
-that is inserted by the container. See the 
-<a href="..\classes\F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> object.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-APP_CONTAINER">APP_CONTAINER</a>
-						</td>
-						<td><p>The APP_CONTAINER class should be applied to the outermost DOM Element
-of the app.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-APP_TITLE">APP_TITLE</a>
-						</td>
-						<td><p>The APP_TITLE class should be applied to the DOM Element that contains
-the title for an app.  If this class is not present, then
-F2.UI.<a href="..\classes\F2.UI.html#method_setTitle" class="crosslink">setTitle</a> will not function.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-APP_VIEW">APP_VIEW</a>
-						</td>
-						<td><p>The APP_VIEW class should be applied to the DOM Element that contains
-a view for an app. The DOM Element should also have a
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
-attribute that specifies which
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it is.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-APP_VIEW_TRIGGER">APP_VIEW_TRIGGER</a>
-						</td>
-						<td><p>APP_VIEW_TRIGGER class should be applied to the DOM Elements that
-trigger an
-<a href="..\classes\F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP_VIEW_CHANGE
-event. The DOM Element should also have a
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
-attribute that specifies which
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it will trigger.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-MASK">MASK</a>
-						</td>
-						<td><p>The MASK class is applied to the overlay element that is created
-when the F2.UI.<a href="..\classes\F2.UI.html#method_showMask" class="crosslink">showMask</a> method is
-fired.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-MASK_CONTAINER">MASK_CONTAINER</a>
-						</td>
-						<td><p>The MASK_CONTAINER class is applied to the Element that is passed into
-the F2.UI.<a href="..\classes\F2.UI.html#method_showMask" class="crosslink">showMask</a> method.</p></td>
-					</tr>
-					
-				</tbody>
-			</table>
-		</div>
-		
-
-		
-
-		
-	</div>
-	<!-- SUMMARY TAB -->
-
-	<!-- METHODS TAB -->
-	
-	<!-- METHODS TAB -->
-
-	<!-- PROPERTIES TAB -->
-	
-	<div id="properties" class="tab-pane">
-		
-		<section id="properties-APP" class="level2 ">
-	<h3>
-		APP
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-			<span class="label final">final</span>
-		
-
-		
-			<span class="label static">static</span>
-		
-	</h3>
-
-	<p>
-		<p>The APP class should be applied to the DOM Element that surrounds the
-entire app, including any extra html that surrounds the APP_CONTAINER
-that is inserted by the container. See the 
-<a href="..\classes\F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> object.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l17"><code>sdk\src\constants.js:17</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-APP_CONTAINER" class="level2 ">
-	<h3>
-		APP_CONTAINER
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-			<span class="label final">final</span>
-		
-
-		
-			<span class="label static">static</span>
-		
-	</h3>
-
-	<p>
-		<p>The APP_CONTAINER class should be applied to the outermost DOM Element
-of the app.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l28"><code>sdk\src\constants.js:28</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-APP_TITLE" class="level2 ">
-	<h3>
-		APP_TITLE
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-			<span class="label final">final</span>
-		
-
-		
-			<span class="label static">static</span>
-		
-	</h3>
-
-	<p>
-		<p>The APP_TITLE class should be applied to the DOM Element that contains
-the title for an app.  If this class is not present, then
-F2.UI.<a href="..\classes\F2.UI.html#method_setTitle" class="crosslink">setTitle</a> will not function.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l37"><code>sdk\src\constants.js:37</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-APP_VIEW" class="level2 ">
-	<h3>
-		APP_VIEW
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-			<span class="label final">final</span>
-		
-
-		
-			<span class="label static">static</span>
-		
-	</h3>
-
-	<p>
-		<p>The APP_VIEW class should be applied to the DOM Element that contains
-a view for an app. The DOM Element should also have a
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
-attribute that specifies which
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it is.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l47"><code>sdk\src\constants.js:47</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-APP_VIEW_TRIGGER" class="level2 ">
-	<h3>
-		APP_VIEW_TRIGGER
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-			<span class="label final">final</span>
-		
-
-		
-			<span class="label static">static</span>
-		
-	</h3>
-
-	<p>
-		<p>APP_VIEW_TRIGGER class should be applied to the DOM Elements that
-trigger an
-<a href="..\classes\F2.Constants.Events.html" class="crosslink">F2.Constants.Events</a>.APP_VIEW_CHANGE
-event. The DOM Element should also have a
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
-attribute that specifies which
-<a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it will trigger.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l59"><code>sdk\src\constants.js:59</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-MASK" class="level2 ">
-	<h3>
-		MASK
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-			<span class="label final">final</span>
-		
-
-		
-			<span class="label static">static</span>
-		
-	</h3>
-
-	<p>
-		<p>The MASK class is applied to the overlay element that is created
-when the F2.UI.<a href="..\classes\F2.UI.html#method_showMask" class="crosslink">showMask</a> method is
-fired.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l73"><code>sdk\src\constants.js:73</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-MASK_CONTAINER" class="level2 ">
-	<h3>
-		MASK_CONTAINER
-
-		<span class="label type">String</span>
-
-		
-
-		
-
-		
-			<span class="label final">final</span>
-		
-
-		
-			<span class="label static">static</span>
-		
-	</h3>
-
-	<p>
-		<p>The MASK_CONTAINER class is applied to the Element that is passed into
-the F2.UI.<a href="..\classes\F2.UI.html#method_showMask" class="crosslink">showMask</a> method.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_constants.js.html#l83"><code>sdk\src\constants.js:83</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
-	
-
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-	</div>
-	
-	<!-- PROPERTIES TAB -->
-
-	<!-- ATTRIBUTES TAB -->
-	
-	<!-- ATTRIBUTES TAB -->
-
-	<!-- EVENTS TAB -->
-	
-	<!-- EVENTS TAB -->
-</div>
 			</div>
 		</div>
 
