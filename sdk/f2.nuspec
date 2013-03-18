@@ -12,7 +12,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>An open framework created for the financial services industry.</summary>
 		<description>F2 is an open and free web integration framework that has been designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.</description>
-		<releaseNotes>Initial release. October 15, 2012</releaseNotes>
+		<releaseNotes>https://github.com/OpenF2/F2/wiki/Changelog</releaseNotes>
 		<tags>javascript js html css jquery twitter bootstrap</tags>
 		<language>en-US</language>
 		<dependencies>
