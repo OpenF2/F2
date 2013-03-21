@@ -1516,38 +1516,24 @@ F2.extend("", {
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app
 		 */
-		appRender: function (appConfig, html) { },
+		appRender: function(appConfig, html) {},
 		/**
-		* Tells the [container](../../container-development.html) to request apps
-		* that are hosted on the same domain using JSON rather than JSONP
-		* @property allowLocalDomainJSON
-		* @type bool
-		*/
-		allowLocalDomainJSON: false,
-		/**
-		* Allows the [container](../../container-development.html) to render html for an app before the AppManifest for
-		* an app has loaded. This can be useful if the design calls for loading
-		* icons to appear for each app before each app is loaded and rendered to
-		* the page.
-		* @method beforeAppRender
-		* @param {F2.AppConfig} appConfig The F2.AppConfig object
-		* @return {Element} The DOM Element surrounding the app
-		*/
+		 * Allows the container to render html for an app before the AppManifest for
+		 * an app has loaded. This can be useful if the design calls for loading
+		 * icons to appear for each app before each app is loaded and rendered to
+		 * the page.
+		 * @method beforeAppRender
+		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+		 * @return {Element} The DOM Element surrounding the app
+		 */
 		beforeAppRender: function(appConfig) {},
 		/**
-		 * Tells the [container](../../container-development.html) that it is currently running within
+		 * Tells the container that it is currently running within
 		 * a secure app page
 		 * @property isSecureAppPage
 		 * @type bool
 		 */
 		isSecureAppPage: false,
-		/**
-		* Allows [container](../../container-development.html) using allowLocalDomainJSON=true to override the domain
-		* comparison that is done to determine whether an app can be accessed via JSON vs JSONP. Defaulted to null.
-		* @property localDomain
-		* @type string
-		*/
-		localDomain: null,
 		/**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
@@ -2303,29 +2289,25 @@ F2.extend('Rpc', (function(){
 		}
 	};
 })());
-F2.extend('UI', (function ()
-{
+F2.extend('UI', (function(){
 
 	var _containerConfig;
 
 	/**
-	* UI helper methods
-	* @class F2.UI
-	* @constructor
-	* @param {F2.AppConfig} appConfig The F2.AppConfig object
-	*/
-	var UI_Class = function (appConfig)
-	{
+	 * UI helper methods
+	 * @class F2.UI
+	 * @constructor
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 */
+	var UI_Class = function(appConfig) {
 
 		var _appConfig = appConfig;
 		var $root = jQuery(appConfig.root);
 
-		var _updateHeight = function (height)
-		{
+		var _updateHeight = function(height) {
 			height = height || jQuery(_appConfig.root).outerHeight();
 
-			if (F2.Rpc.isRemote(_appConfig.instanceId))
-			{
+			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 				F2.Rpc.call(
 					_appConfig.instanceId,
 					F2.Constants.Sockets.UI_RPC,
@@ -2334,8 +2316,7 @@ F2.extend('UI', (function ()
 						height
 					]
 				);
-			} else
-			{
+			} else {
 				_appConfig.height = height;
 				$root.find('iframe').height(_appConfig.height);
 			}
@@ -2343,25 +2324,22 @@ F2.extend('UI', (function ()
 
 		return {
 			/**
-			* Removes a overlay from an Element on the page
-			* @method hideMask
-			* @param {string|Element} selector The Element or selector to an Element
-			* that currently contains the loader
-			*/
-			hideMask: function (selector)
-			{
+			 * Removes a overlay from an Element on the page
+			 * @method hideMask
+			 * @param {string|Element} selector The Element or selector to an Element
+			 * that currently contains the loader
+			 */
+			hideMask: function(selector) {
 				F2.UI.hideMask(_appConfig.instanceId, selector);
 			},
 			/**
-			* Helper methods for creating and using Modals
-			* @class F2.UI.Modals
-			* @for F2.UI
-			*/
-			Modals: (function ()
-			{
+			 * Helper methods for creating and using Modals
+			 * @class F2.UI.Modals
+			 * @for F2.UI
+			 */
+			Modals: (function(){
 
-				var _renderAlert = function (message)
-				{
+				var _renderAlert = function(message) {
 					return [
 						'<div class="modal">',
 							'<header class="modal-header">',
@@ -2379,8 +2357,7 @@ F2.extend('UI', (function ()
 					].join('');
 				};
 
-				var _renderConfirm = function (message)
-				{
+				var _renderConfirm = function(message) {
 					return [
 						'<div class="modal">',
 							'<header class="modal-header">',
@@ -2401,112 +2378,97 @@ F2.extend('UI', (function ()
 
 				return {
 					/**
-					* Display an alert message on the page
-					* @method alert
-					* @param {string} message The message to be displayed
-					* @param {function} [callback] The callback to be fired when the user
-					* closes the dialog
-					* @for F2.UI.Modals
-					*/
-					alert: function (message, callback)
-					{
+					 * Display an alert message on the page
+					 * @method alert
+					 * @param {string} message The message to be displayed
+					 * @param {function} [callback] The callback to be fired when the user
+					 * closes the dialog
+					 * @for F2.UI.Modals
+					 */
+					alert: function(message, callback) {
 
-						if (!F2.isInit())
-						{
+						if (!F2.isInit()) {
 							F2.log('F2.init() must be called before F2.UI.Modals.alert()');
 							return;
 						}
 
-						if (F2.Rpc.isRemote(_appConfig.instanceId))
-						{
+						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 							F2.Rpc.call(
 								_appConfig.instanceId,
 								F2.Constants.Sockets.UI_RPC,
 								'Modals.alert',
 								[].slice.call(arguments)
 							);
-						} else
-						{
+						} else {
 							// display the alert
 							jQuery(_renderAlert(message))
-								.on('show', function ()
-								{
+								.on('show', function() {
 									var modal = this;
-									jQuery(modal).find('.btn-primary').on('click', function ()
-									{
+									jQuery(modal).find('.btn-primary').on('click', function() {
 										jQuery(modal).modal('hide').remove();
 										(callback || jQuery.noop)();
 									});
 								})
-								.modal({ backdrop: true });
+								.modal({backdrop:true});
 						}
 					},
 					/**
-					* Display a confirm message on the page
-					* @method confirm
-					* @param {string} message The message to be displayed
-					* @param {function} okCallback The function that will be called when the OK
-					* button is pressed
-					* @param {function} cancelCallback The function that will be called when
-					* the Cancel button is pressed
-					* @for F2.UI.Modals
-					*/
-					confirm: function (message, okCallback, cancelCallback)
-					{
+					 * Display a confirm message on the page
+					 * @method confirm
+					 * @param {string} message The message to be displayed
+					 * @param {function} okCallback The function that will be called when the OK
+					 * button is pressed
+					 * @param {function} cancelCallback The function that will be called when
+					 * the Cancel button is pressed
+					 * @for F2.UI.Modals
+					 */
+					confirm: function(message, okCallback, cancelCallback) {
 
-						if (!F2.isInit())
-						{
+						if (!F2.isInit()) {
 							F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
 							return;
 						}
 
-						if (F2.Rpc.isRemote(_appConfig.instanceId))
-						{
+						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 							F2.Rpc.call(
 								_appConfig.instanceId,
 								F2.Constants.Sockets.UI_RPC,
 								'Modals.confirm',
 								[].slice.call(arguments)
 							);
-						} else
-						{
+						} else {
 							// display the alert
 							jQuery(_renderConfirm(message))
-								.on('show', function ()
-								{
+								.on('show', function() {
 									var modal = this;
 
-									jQuery(modal).find('.btn-ok').on('click', function ()
-									{
+									jQuery(modal).find('.btn-ok').on('click', function() {
 										jQuery(modal).modal('hide').remove();
 										(okCallback || jQuery.noop)();
 									});
 
-									jQuery(modal).find('.btn-cancel').on('click', function ()
-									{
+									jQuery(modal).find('.btn-cancel').on('click', function() {
 										jQuery(modal).modal('hide').remove();
 										(cancelCallback || jQuery.noop)();
 									});
 								})
-								.modal({ backdrop: true });
+								.modal({backdrop:true});
 						}
 					}
 				};
 			})(),
 			/**
-			* Sets the title of the app as shown in the browser. Depending on the
-			* container HTML, this method may do nothing if the container has not been
-			* configured properly or else the container provider does not allow Title's
-			* to be set.
-			* @method setTitle
-			* @params {string} title The title of the app
-			* @for F2.UI
-			*/
-			setTitle: function (title)
-			{
+			 * Sets the title of the app as shown in the browser. Depending on the
+			 * container HTML, this method may do nothing if the container has not been
+			 * configured properly or else the container provider does not allow Title's
+			 * to be set.
+			 * @method setTitle
+			 * @params {string} title The title of the app
+			 * @for F2.UI
+			 */
+			setTitle: function(title) {
 
-				if (F2.Rpc.isRemote(_appConfig.instanceId))
-				{
+				if (F2.Rpc.isRemote(_appConfig.instanceId)) {
 					F2.Rpc.call(
 						_appConfig.instanceId,
 						F2.Constants.Sockets.UI_RPC,
@@ -2515,37 +2477,34 @@ F2.extend('UI', (function ()
 							title
 						]
 					);
-				} else
-				{
+				} else {
 					jQuery(_appConfig.root).find('.' + F2.Constants.Css.APP_TITLE).text(title);
 				}
 			},
 			/**
-			* Display an ovarlay over an Element on the page
-			* @method showMask
-			* @param {string|Element} selector The Element or selector to an Element
-			* over which to display the loader
-			* @param {bool} showLoading Display a loading icon
-			*/
-			showMask: function (selector, showLoader)
-			{
+			 * Display an ovarlay over an Element on the page
+			 * @method showMask
+			 * @param {string|Element} selector The Element or selector to an Element
+			 * over which to display the loader
+			 * @param {bool} showLoading Display a loading icon
+			 */
+			showMask: function(selector, showLoader) {
 				F2.UI.showMask(_appConfig.instanceId, selector, showLoader);
 			},
 			/**
-			* For secure apps, this method updates the size of the iframe that
-			* contains the app. **Note: It is recommended that app developers call
-			* this method anytime Elements are added or removed from the DOM**
-			* @method updateHeight
-			* @params {int} height The height of the app
-			*/
+			 * For secure apps, this method updates the size of the iframe that
+			 * contains the app. **Note: It is recommended that app developers call
+			 * this method anytime Elements are added or removed from the DOM**
+			 * @method updateHeight
+			 * @params {int} height The height of the app
+			 */
 			updateHeight: _updateHeight,
 			/**
-			* Helper methods for creating and using Views
-			* @class F2.UI.Views
-			* @for F2.UI
-			*/
-			Views: (function ()
-			{
+			 * Helper methods for creating and using Views
+			 * @class F2.UI.Views
+			 * @for F2.UI
+			 */
+			Views: (function(){
 
 				var _events = new EventEmitter2();
 				var _rValidEvents = /change/i;
@@ -2553,13 +2512,10 @@ F2.extend('UI', (function ()
 				// unlimited listeners, set to > 0 for debugging
 				_events.setMaxListeners(0);
 
-				var _isValid = function (eventName)
-				{
-					if (_rValidEvents.test(eventName))
-					{
+				var _isValid = function(eventName) {
+					if (_rValidEvents.test(eventName)) {
 						return true;
-					} else
-					{
+					} else {
 						F2.log('"' + eventName + '" is not a valid F2.UI.Views event name');
 						return false;
 					}
@@ -2567,68 +2523,59 @@ F2.extend('UI', (function ()
 
 				return {
 					/**
-					* Change the current view for the app or add an event listener
-					* @method change
-					* @param {string|function} [input] If a string is passed in, the view
-					* will be changed for the app. If a function is passed in, a change
-					* event listener will be added.
-					* @for F2.UI.Views
-					*/
-					change: function (input)
-					{
+					 * Change the current view for the app or add an event listener
+					 * @method change
+					 * @param {string|function} [input] If a string is passed in, the view
+					 * will be changed for the app. If a function is passed in, a change
+					 * event listener will be added.
+					 * @for F2.UI.Views
+					 */
+					change: function(input) {
 
-						if (typeof input === 'function')
-						{
+						if (typeof input === 'function') {
 							this.on('change', input);
-						} else if (typeof input === 'string')
-						{
+						} else if (typeof input === 'string') {
 
-							if (_appConfig.isSecure && !F2.Rpc.isRemote(_appConfig.instanceId))
-							{
+							if (_appConfig.isSecure && !F2.Rpc.isRemote(_appConfig.instanceId)) {
 								F2.Rpc.call(
 									_appConfig.instanceId,
 									F2.Constants.Sockets.UI_RPC,
 									'Views.change',
 									[].slice.call(arguments)
 								);
-							} else if (F2.inArray(input, _appConfig.views))
-							{
+							} else if (F2.inArray(input, _appConfig.views)) {
 								jQuery('.' + F2.Constants.Css.APP_VIEW, $root)
 									.addClass('hide')
 									.filter('[data-f2-view="' + input + '"]', $root)
 									.removeClass('hide');
-
+								
 								_updateHeight();
 								_events.emit('change', input);
-							}
+							}							
 						}
 					},
 					/**
-					* Removes a view event listener
-					* @method off
-					* @param {string} event The event name
-					* @param {function} listener The function that will be removed
-					* @for F2.UI.Views
-					*/
-					off: function (event, listener)
-					{
-						if (_isValid(event))
-						{
+					 * Removes a view event listener
+					 * @method off
+					 * @param {string} event The event name
+		 			 * @param {function} listener The function that will be removed
+		 			 * @for F2.UI.Views
+					 */
+					off: function(event, listener) {
+						if (_isValid(event)) {
 							_events.off(event, listener);
 						}
 					},
 					/**
-					* Adds a view event listener
-					* @method on
-					* @param {string} event The event name
-					* @param {function} listener The function to be fired when the event is
-					* emitted
-					* @for F2.UI.Views
-					*/
-					on: function (event, listener)
-					{
-						if (_isValid(event))
-						{
+					 * Adds a view event listener
+					 * @method on
+					 * @param {string} event The event name
+					 * @param {function} listener The function to be fired when the event is
+					 * emitted
+					 * @for F2.UI.Views
+					 */
+					on: function(event, listener) {
+						if (_isValid(event)) {
 							_events.on(event, listener);
 						}
 					}
@@ -2638,60 +2585,54 @@ F2.extend('UI', (function ()
 	};
 
 	/**
-	* Removes a overlay from an Element on the page
-	* @method hideMask
-	* @static
-	* @param {string} instanceId The Instance ID of the app
-	* @param {string|Element} selector The Element or selector to an Element
-	* that currently contains the loader
-	* @for F2.UI
-	*/
-	UI_Class.hideMask = function (instanceId, selector)
-	{
+	 * Removes a overlay from an Element on the page
+	 * @method hideMask
+	 * @static
+	 * @param {string} instanceId The Instance ID of the app
+	 * @param {string|Element} selector The Element or selector to an Element
+	 * that currently contains the loader
+	 * @for F2.UI
+	 */
+	UI_Class.hideMask = function(instanceId, selector) {
 
-		if (!F2.isInit())
-		{
+		if (!F2.isInit()) {
 			F2.log('F2.init() must be called before F2.UI.hideMask()');
 			return;
 		}
 
-		if (F2.Rpc.isRemote(instanceId) && !jQuery(selector).is('.' + F2.Constants.Css.APP))
-		{
+		if (F2.Rpc.isRemote(instanceId) && !jQuery(selector).is('.' + F2.Constants.Css.APP)) {
 			F2.Rpc.call(
 				instanceId,
 				F2.Constants.Sockets.RPC,
 				'F2.UI.hideMask',
 				[
 					instanceId,
-			// must only pass the selector argument. if we pass an Element there
-			// will be F2.stringify() errors
+					// must only pass the selector argument. if we pass an Element there
+					// will be F2.stringify() errors
 					jQuery(selector).selector
 				]
 			);
-		} else
-		{
-
+		} else {
+			
 			var container = jQuery(selector);
 			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
 			// if the element contains this data property, we need to reset static
 			// position
-			if (container.data(F2.Constants.Css.MASK_CONTAINER))
-			{
-				container.css({ 'position': 'static' });
+			if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
+				container.css({'position':'static'});
 			}
 		}
 	};
 
 	/**
-	*
-	* @method init
-	* @static
-	* @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
-	*/
-	UI_Class.init = function (containerConfig)
-	{
+	 *
+	 * @method init
+	 * @static
+	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
+	 */
+	UI_Class.init = function(containerConfig) {
 		_containerConfig = containerConfig;
 
 		// set defaults
@@ -2699,42 +2640,37 @@ F2.extend('UI', (function ()
 	};
 
 	/**
-	* Display an ovarlay over an Element on the page
-	* @method showMask
-	* @static
-	* @param {string} instanceId The Instance ID of the app
-	* @param {string|Element} selector The Element or selector to an Element
-	* over which to display the loader
-	* @param {bool} showLoading Display a loading icon
-	*/
-	UI_Class.showMask = function (instanceId, selector, showLoading)
-	{
+	 * Display an ovarlay over an Element on the page
+	 * @method showMask
+	 * @static
+	 * @param {string} instanceId The Instance ID of the app
+	 * @param {string|Element} selector The Element or selector to an Element
+	 * over which to display the loader
+	 * @param {bool} showLoading Display a loading icon
+	 */
+	UI_Class.showMask = function(instanceId, selector, showLoading) {
 
-		if (!F2.isInit())
-		{
+		if (!F2.isInit()) {
 			F2.log('F2.init() must be called before F2.UI.showMask()');
 			return;
 		}
 
-		if (F2.Rpc.isRemote(instanceId) && jQuery(selector).is('.' + F2.Constants.Css.APP))
-		{
+		if (F2.Rpc.isRemote(instanceId) && jQuery(selector).is('.' + F2.Constants.Css.APP)) {
 			F2.Rpc.call(
 				instanceId,
 				F2.Constants.Sockets.RPC,
 				'F2.UI.showMask',
 				[
 					instanceId,
-			// must only pass the selector argument. if we pass an Element there
-			// will be F2.stringify() errors
+					// must only pass the selector argument. if we pass an Element there
+					// will be F2.stringify() errors
 					jQuery(selector).selector,
 					showLoading
 				]
 			);
-		} else
-		{
+		} else {
 
-			if (showLoading && !_containerConfig.UI.Mask.loadingIcon)
-			{
+			if (showLoading && !_containerConfig.UI.Mask.loadingIcon) {
 				F2.log('Unable to display loading icon. Please set F2.ContainerConfig.UI.Mask.loadingIcon	when calling F2.init();');
 			}
 
@@ -2745,30 +2681,28 @@ F2.extend('UI', (function ()
 				.addClass(F2.Constants.Css.MASK);
 
 			// set inline styles if useClasses is false
-			if (!_containerConfig.UI.Mask.useClasses)
-			{
+			if (!_containerConfig.UI.Mask.useClasses) {
 				mask.css({
-					'background-color': _containerConfig.UI.Mask.backgroundColor,
+					'background-color':_containerConfig.UI.Mask.backgroundColor,
 					'background-image': !!_containerConfig.UI.Mask.loadingIcon ? ('url(' + _containerConfig.UI.Mask.loadingIcon + ')') : '',
-					'background-position': '50% 50%',
-					'background-repeat': 'no-repeat',
-					'display': 'block',
-					'left': 0,
-					'min-height': 30,
-					'padding': 0,
-					'position': 'absolute',
-					'top': 0,
-					'z-index': _containerConfig.UI.Mask.zIndex,
+					'background-position':'50% 50%',
+					'background-repeat':'no-repeat',
+					'display':'block',
+					'left':0,
+					'min-height':30,
+					'padding':0,
+					'position':'absolute',
+					'top':0,
+					'z-index':_containerConfig.UI.Mask.zIndex,
 
-					'filter': 'alpha(opacity=' + (_containerConfig.UI.Mask.opacity * 100) + ')',
-					'opacity': _containerConfig.UI.Mask.opacity
+					'filter':'alpha(opacity=' + (_containerConfig.UI.Mask.opacity * 100) + ')',
+					'opacity':_containerConfig.UI.Mask.opacity
 				});
 			}
 
 			// only set the position if the container is currently static
-			if (container.css('position') === 'static')
-			{
-				container.css({ 'position': 'relative' });
+			if (container.css('position') === 'static') {
+				container.css({'position':'relative'});
 				// setting this data property tells hideMask to set the position
 				// back to static
 				container.data(F2.Constants.Css.MASK_CONTAINER, true);
@@ -2786,35 +2720,30 @@ F2.extend('UI', (function ()
  * @module f2
  * @class F2
  */
-F2.extend('', (function ()
-{
+F2.extend('', (function(){
 
 	var _apps = {};
 	var _config = false;
 
 	/**
-	* Appends the app's html to the DOM
-	* @method _afterAppRender
-	* @private
-	* @param {F2.AppConfig} appConfig The F2.AppConfig object
-	* @param {string} html The string of html
-	* @return {Element} The DOM Element that contains the app
-	*/
-	var _afterAppRender = function (appConfig, html)
-	{
+	 * Appends the app's html to the DOM
+	 * @method _afterAppRender
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param {string} html The string of html
+	 * @return {Element} The DOM Element that contains the app
+	 */
+	var _afterAppRender = function(appConfig, html) {
 
-		var handler = _config.afterAppRender || function (appConfig, html)
-		{
+		var handler = _config.afterAppRender || function(appConfig, html) {
 			return jQuery(html).appendTo('body');
 		};
 		var appContainer = handler(appConfig, html);
 
-		if (!!_config.afterAppRender && !appContainer)
-		{
+		if (!!_config.afterAppRender && !appContainer) {
 			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app');
 			return;
-		} else
-		{
+		} else {
 			// apply APP class and Instance ID
 			jQuery(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
@@ -2822,17 +2751,15 @@ F2.extend('', (function ()
 	};
 
 	/**
-	* Renders the html for an app.
-	* @method _appRender
-	* @private
-	* @param {F2.AppConfig} appConfig The F2.AppConfig object
-	* @param {string} html The string of html
-	*/
-	var _appRender = function (appConfig, html)
-	{
+	 * Renders the html for an app.
+	 * @method _appRender
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param {string} html The string of html
+	 */
+	var _appRender = function(appConfig, html) {
 
-		function outerHtml(html)
-		{
+		function outerHtml(html) {
 			return jQuery('<div></div>').append(html).html();
 		}
 
@@ -2840,8 +2767,7 @@ F2.extend('', (function ()
 		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
-		if (_config.appRender)
-		{
+		if (_config.appRender) {
 			html = _config.appRender(appConfig, html);
 		}
 
@@ -2850,120 +2776,106 @@ F2.extend('', (function ()
 	};
 
 	/**
-	* Rendering hook to allow containers to render some html prior to an app
-	* loading
-	* @method _beforeAppRender
-	* @private
-	* @param {F2.AppConfig} appConfig The F2.AppConfig object
-	* @return {Element} The DOM Element surrounding the app
-	*/
-	var _beforeAppRender = function (appConfig)
-	{
+	 * Rendering hook to allow containers to render some html prior to an app
+	 * loading
+	 * @method _beforeAppRender
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @return {Element} The DOM Element surrounding the app
+	 */
+	var _beforeAppRender = function(appConfig) {
 		var handler = _config.beforeAppRender || jQuery.noop;
 		return handler(appConfig);
 	};
 
 	/**
-	* Adds properties to the AppConfig object
-	* @method _hydrateAppConfig
-	* @private
-	* @param {F2.AppConfig} appConfig The F2.AppConfig object
-	*/
-	var _hydrateAppConfig = function (appConfig)
-	{
+	 * Adds properties to the AppConfig object
+	 * @method _hydrateAppConfig
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 */
+	var _hydrateAppConfig = function(appConfig) {
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
 
 		// default the views if not provided
 		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views))
-		{
+		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 	};
 
 	/**
-	* Attach app events
-	* @method _initAppEvents
-	* @private
-	*/
-	var _initAppEvents = function (appConfig)
-	{
+	 * Attach app events
+	 * @method _initAppEvents
+	 * @private
+	 */
+	var _initAppEvents = function (appConfig) {
 
-		jQuery(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function (event)
-		{
+		jQuery(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
 
 			event.preventDefault();
 
 			var view = jQuery(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
 
 			// handle the special REMOVE view
-			if (view == F2.Constants.Views.REMOVE)
-			{
+			if (view == F2.Constants.Views.REMOVE) {
 				F2.removeApp(appConfig.instanceId);
-			} else
-			{
+			} else {
 				appConfig.ui.Views.change(view);
 			}
 		});
 	};
 
 	/**
-	* Attach container Events
-	* @method _initContainerEvents
-	* @private
-	*/
-	var _initContainerEvents = function ()
-	{
+	 * Attach container Events
+	 * @method _initContainerEvents
+	 * @private
+	 */
+	var _initContainerEvents = function() {
 
 		var resizeTimeout;
-		var resizeHandler = function ()
-		{
+		var resizeHandler = function() {
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
-		jQuery(window).on('resize', function ()
-		{
+		jQuery(window).on('resize', function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
 	};
 
 	/**
-	* Has the container been init?
-	* @method _isInit
-	* @private
-	* @return {bool} True if the container has been init
-	*/
-	var _isInit = function ()
-	{
+	 * Has the container been init?
+	 * @method _isInit
+	 * @private
+	 * @return {bool} True if the container has been init
+	 */
+	var _isInit = function() {
 		return !!_config;
 	};
 
 	/**
-	* Loads the app's html/css/javascript
-	* @method loadApp
-	* @private
-	* @param {Array} appConfigs An array of
-	* {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
-	* @param {F2.AppManifest} [appManifest] The AppManifest object
-	*/
-	var _loadApps = function (appConfigs, appManifest)
-	{
+	 * Loads the app's html/css/javascript
+	 * @method loadApp
+	 * @private
+	 * @param {Array} appConfigs An array of
+	 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
+	 * @param {F2.AppManifest} [appManifest] The AppManifest object
+	 */
+	var _loadApps = function(appConfigs, appManifest) {
 
 		appConfigs = [].concat(appConfigs);
 
 		// check for secure app
-		if (appConfigs.length == 1 && appConfigs[0].isSecure && !_config.isSecureAppPage)
-		{
+		if (appConfigs.length == 1 && appConfigs[0].isSecure && !_config.isSecureAppPage) {
 			_loadSecureApp(appConfigs[0], appManifest);
 			return;
 		}
 
 		// check that the number of apps in manifest matches the number requested
-		if (appConfigs.length != appManifest.apps.length)
-		{
+		if (appConfigs.length != appManifest.apps.length) {
 			F2.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
 			return;
 		}
@@ -2973,31 +2885,24 @@ F2.extend('', (function ()
 		var inlines = appManifest.inlineScripts || [];
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
-		var appInit = function ()
-		{
-			jQuery.each(appConfigs, function (i, a)
-			{
+		var appInit = function() {
+			jQuery.each(appConfigs, function(i, a) {
 				// instantiate F2.UI
 				a.ui = new F2.UI(a);
 
 				// instantiate F2.App
-				if (F2.Apps[a.appId] !== undefined)
-				{
-					if (typeof F2.Apps[a.appId] === 'function')
-					{
+				if (F2.Apps[a.appId] !== undefined) {
+					if (typeof F2.Apps[a.appId] === 'function') {
 
 						// 
-						setTimeout(function ()
-						{
+						setTimeout(function() {
 							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-							if (_apps[a.instanceId].app['init'] !== undefined)
-							{
+							if (_apps[a.instanceId].app['init'] !== undefined) {
 								_apps[a.instanceId].app.init();
 							}
 						}, 0);
-
-					} else
-					{
+						
+					} else {
 						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
 					}
 				}
@@ -3006,15 +2911,13 @@ F2.extend('', (function ()
 
 		// load styles
 		var stylesFragment = [];
-		jQuery.each(styles, function (i, e)
-		{
+		jQuery.each(styles, function(i, e) {
 			stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
 		});
 		jQuery('head').append(stylesFragment.join(''));
 
 		// load html
-		jQuery.each(appManifest.apps, function (i, a)
-		{
+		jQuery.each(appManifest.apps, function(i, a) {
 			// load html and save the root node
 			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			// init events
@@ -3022,27 +2925,21 @@ F2.extend('', (function ()
 		});
 
 		// load scripts and eval inlines once complete
-		jQuery.each(scripts, function (i, e)
-		{
+		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
-				url: e,
+				url:e,
 				/*	we want any scripts added this way to be cached by the browser. 
-				if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
-				cache: true,
-				async: false,
-				dataType: 'script',
-				type: 'GET',
-				success: function ()
-				{
-					if (++scriptsLoaded == scriptCount)
-					{
-						jQuery.each(inlines, function (i, e)
-						{
-							try
-							{
+				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				cache:true,
+				async:false,
+				dataType:'script',
+				type:'GET',
+				success:function() {
+					if (++scriptsLoaded == scriptCount) {
+						jQuery.each(inlines, function(i, e) {
+							try {
 								eval(e);
-							} catch (exception)
-							{
+							} catch (exception) {
 								F2.log('Error loading inline script: ' + exception + '\n\n' + e);
 							}
 						});
@@ -3050,34 +2947,30 @@ F2.extend('', (function ()
 						appInit();
 					}
 				},
-				error: function (jqxhr, settings, exception)
-				{
-					F2.log(['Failed to load script (' + e + ')', exception.toString()]);
+				error:function(jqxhr, settings, exception) {
+					F2.log(['Failed to load script (' + e +')', exception.toString()]);
 				}
 			});
 		});
 
 		// if no scripts were to be processed, fire the appLoad event
-		if (!scriptCount)
-		{
+		if (!scriptCount) {
 			appInit();
 		}
 	};
 
 	/**
-	* Loads the app's html/css/javascript into an iframe
-	* @method loadSecureApp
-	* @private
-	* @param {F2.AppConfig} appConfig The F2.AppConfig object
-	* @param {F2.AppManifest} appManifest The app's html/css/js to be loaded into the
-	* page.
-	*/
-	var _loadSecureApp = function (appConfig, appManifest)
-	{
+	 * Loads the app's html/css/javascript into an iframe
+	 * @method loadSecureApp
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param {F2.AppManifest} appManifest The app's html/css/js to be loaded into the
+	 * page.
+	 */
+	var _loadSecureApp = function(appConfig, appManifest) {
 
 		// make sure the container is configured for secure apps
-		if (_config.secureAppPagePath)
-		{
+		if (_config.secureAppPagePath) {
 			// create the html container for the iframe
 			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			// instantiate F2.UI
@@ -3086,29 +2979,25 @@ F2.extend('', (function ()
 			_initAppEvents(appConfig);
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
-		} else
-		{
+		} else {
 			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in F2.ContainerConfig.');
 		}
 	};
 
 	/**
-	* Checks if the app is valid
-	* @method _validateApp
-	* @private
-	* @param {F2.AppConfig} appConfig The F2.AppConfig object
-	* @returns {bool} True if the app is valid
-	*/
-	var _validateApp = function (appConfig)
-	{
+	 * Checks if the app is valid
+	 * @method _validateApp
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @returns {bool} True if the app is valid
+	 */
+	var _validateApp = function(appConfig) {
 
 		// check for valid app configurations
-		if (!appConfig.appId)
-		{
+		if (!appConfig.appId) {
 			F2.log('"appId" missing from app object');
 			return false;
-		} else if (!appConfig.manifestUrl)
-		{
+		} else if (!appConfig.manifestUrl) {
 			F2.log('manifestUrl" missing from app object');
 			return false;
 		}
@@ -3118,75 +3007,67 @@ F2.extend('', (function ()
 
 	return {
 		/**
-		* Gets the current list of apps in the container
-		* @method getContainerState
-		* @returns {Array} An array of objects containing the appId
-		*/
-		getContainerState: function ()
-		{
-			if (!_isInit())
-			{
+		 * Gets the current list of apps in the container
+		 * @method getContainerState
+		 * @returns {Array} An array of objects containing the appId
+		 */
+		getContainerState: function() {
+			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.getContainerState()');
 				return;
 			}
 
-			return jQuery.map(_apps, function (e, i)
-			{
+			return jQuery.map(_apps, function(e, i) {
 				return { appId: e.config.appId };
 			});
 		},
 		/**
-		* Initializes the container. This method must be called before performing
-		* any other actions in the container.
-		* @method init
-		* @param {F2.ContainerConfig} config The configuration object
-		*/
-		init: function (config)
-		{
+		 * Initializes the container. This method must be called before performing
+		 * any other actions in the container.
+		 * @method init
+		 * @param {F2.ContainerConfig} config The configuration object
+		 */
+		init: function(config) {
 			_config = config || {};
 
-			if (!!_config.secureAppPagePath)
-			{
+			if (!!_config.secureAppPagePath) {
 				F2.Rpc.init(_config.secureAppPagePath);
 			}
-
+			
 			F2.UI.init(_config);
 
-			if (!_config.isSecureAppPage)
-			{
+			if (!_config.isSecureAppPage) {
 				_initContainerEvents();
 			}
 		},
 		/**
-		* Has the container been init?
-		* @method isInit
-		* @return {bool} True if the container has been init
-		*/
+		 * Has the container been init?
+		 * @method isInit
+		 * @return {bool} True if the container has been init
+		 */
 		isInit: _isInit,
 		/**
-		* Begins the loading process for all apps. The app will
-		* be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
-		* contain the app's unique instanceId within the container. Optionally, the
-		* {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
-		* assets will be used instead of making a request.
-		* @method registerApps
-		* @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-		* objects
-		* @param {Array} [appManifests] An array of
-		* {{#crossLink "F2.AppManifest"}}{{/crossLink}}
-		* objects. This array must be the same length as the apps array that is
-		* objects. This array must be the same length as the apps array that is
-		* passed in. This can be useful if apps are loaded on the server-side and
-		* passed down to the client.
-		*/
-		registerApps: function (appConfigs, appManifests)
-		{
-			if (!_isInit())
-			{
+		 * Begins the loading process for all apps. The app will
+		 * be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
+		 * contain the app's unique instanceId within the container. Optionally, the
+		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
+		 * assets will be used instead of making a request.
+		 * @method registerApps
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+		 * objects
+		 * @param {Array} [appManifests] An array of
+		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
+		 * objects. This array must be the same length as the apps array that is
+		 * objects. This array must be the same length as the apps array that is
+		 * passed in. This can be useful if apps are loaded on the server-side and
+		 * passed down to the client.
+		 */
+		registerApps: function(appConfigs, appManifests) {
+
+			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.registerApps()');
 				return;
-			} else if (!appConfigs)
-			{
+			} else if (!appConfigs) {
 				F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
 				return;
 			}
@@ -3200,24 +3081,20 @@ F2.extend('', (function ()
 			haveManifests = !!appManifests.length;
 
 			// appConfigs must have a length
-			if (!appConfigs.length)
-			{
+			if (!appConfigs.length) {
 				F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
 				return;
-				// ensure that the array of apps and manifests are qual
-			} else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length)
-			{
+			// ensure that the array of apps and manifests are qual
+			} else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
 				F2.log('The length of "apps" does not equal the length of "appManifests"');
 				return;
 			}
 
 			// validate each app and assign it an instanceId
 			// then determine which apps can be batched together
-			jQuery.each(appConfigs, function (i, a)
-			{
+			jQuery.each(appConfigs, function(i, a) {
 
-				if (!_validateApp(a))
-				{
+				if (!_validateApp(a)) {
 					return; // move to the next app
 				}
 
@@ -3228,36 +3105,30 @@ F2.extend('', (function ()
 				a.root = _beforeAppRender(a);
 
 				// save app
-				_apps[a.instanceId] = { config: a };
+				_apps[a.instanceId] = { config:a };
 
 				// if we have the manifest, go ahead and load the app
-				if (haveManifests)
-				{
+				if (haveManifests) {
 					_loadApps(a, appManifests[i]);
-				} else
-				{
+				} else {
 					// check if this app can be batched
-					if (a.enableBatchRequests && !a.isSecure)
-					{
+					if (a.enableBatchRequests && !a.isSecure) {
 						batches[a.manifestUrl.toLowerCase()] = batches[a.manifestUrl.toLowerCase()] || [];
 						batches[a.manifestUrl.toLowerCase()].push(a);
-					} else
-					{
+					} else {
 						appStack.push({
-							apps: [a],
-							url: a.manifestUrl
+							apps:[a],
+							url:a.manifestUrl
 						});
 					}
 				}
 			});
 
 			// we don't have the manifests, go ahead and load them
-			if (!haveManifests)
-			{
+			if (!haveManifests) {
 				// add the batches to the appStack
-				jQuery.each(batches, function (i, b)
-				{
-					appStack.push({ url: i, apps: b })
+				jQuery.each(batches, function(i, b) {
+					appStack.push({ url:i, apps:b })
 				});
 
 				// if an app is being loaded more than once on the page, there is the
@@ -3266,8 +3137,7 @@ F2.extend('', (function ()
 				// another request for the same app.  We'll create a callbackStack
 				// that will ensure that requests for the same app are loaded in order
 				// rather than at the same time
-				jQuery.each(appStack, function (i, req)
-				{
+				jQuery.each(appStack, function(i, req) {
 					// define the callback function based on the first app's App ID
 					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
 
@@ -3279,66 +3149,34 @@ F2.extend('', (function ()
 				// loop through each item in the callback stack and make the request
 				// for the AppManifest. When the request is complete, pop the next 
 				// request off the stack and make the request.
-				jQuery.each(callbackStack, function (i, requests)
-				{
+				jQuery.each(callbackStack, function(i, requests) {
 
-					var manifestRequest = function (jsonpCallback, req)
-					{
+					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) { return; }
 
-						var ajaxData = {
-							url: req.url,
-							data: {
-								params: F2.stringify(req.apps, F2.appConfigReplacer)
+						jQuery.ajax({
+							url:req.url,
+							data:{
+								params:F2.stringify(req.apps, F2.appConfigReplacer)
 							},
-							success: function (appManifest)
-							{
+							jsonp:false, /* do not put 'callback=' in the query string */
+							jsonpCallback:jsonpCallback, /* Unique function name */
+							dataType:'jsonp',
+							success:function(appManifest) {
 								_loadApps(req.apps, appManifest);
 							},
-							error: function (jqxhr, settings, exception)
-							{
+							error:function(jqxhr, settings, exception) {
 								F2.log('Failed to load app(s)', exception.toString(), req.apps);
 								//remove failed app(s)
-								jQuery.each(req.apps, function (idx, item)
-								{
-									F2.log('Removed failed ' + item.name + ' app', item);
+								jQuery.each(req.apps, function(idx,item){
+									F2.log('Removed failed ' +item.name+ ' app', item);
 									F2.removeApp(item.instanceId);
 								});
 							},
-							complete: function ()
-							{
+							complete:function() {
 								manifestRequest(i, requests.pop());
 							}
-						};
-
-						F2.log(_config.localDomain);
-						if (
-							_config &&
-							_config.allowLocalDomainJSON &&
-							(
-								req.url.toLowerCase().indexOf("/") == 0 ||
-								req.url.toLowerCase().indexOf("~/") == 0 ||
-								req.url.toLowerCase().indexOf(document.domain.toLowerCase()) > -1 ||
-								(
-									_config.localDomain &&
-									req.url.toLowerCase().indexOf(_config.localDomain.toLowerCase()) > -1
-								)
-							)
-						)
-						{
-
-							if (req.url.toLowerCase().indexOf("~/") == 0) { req.url = req.url.substring(1); }
-							ajaxData.dataType = 'json';
-							ajaxData.type = "POST";
-						}
-						else
-						{
-							ajaxData.jsonp = false; /* do not put 'callback=' in the query string */
-							ajaxData.jsonpCallback = jsonpCallback; /* Unique function name */
-							ajaxData.dataType = 'jsonp';
-						}
-
-						jQuery.ajax(ajaxData);
+						});
 					};
 
 					manifestRequest(i, requests.pop());
@@ -3346,41 +3184,34 @@ F2.extend('', (function ()
 			}
 		},
 		/**
-		* Removes all apps from the container
-		* @method removeAllApps
-		*/
-		removeAllApps: function ()
-		{
+		 * Removes all apps from the container
+		 * @method removeAllApps
+		 */
+		removeAllApps: function() {
 
-			if (!_isInit())
-			{
+			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.removeAllApps()');
 				return;
 			}
 
-			jQuery.each(_apps, function (i, a)
-			{
+			jQuery.each(_apps, function(i, a) {
 				F2.removeApp(a.config.instanceId);
 			});
 		},
 		/**
-		* Removes an app from the container
-		* @method removeApp
-		* @param {string} instanceId The app's instanceId
-		*/
-		removeApp: function (instanceId)
-		{
+		 * Removes an app from the container
+		 * @method removeApp
+		 * @param {string} instanceId The app's instanceId
+		 */
+		removeApp: function(instanceId) {
 
-			if (!_isInit())
-			{
+			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.removeApp()');
 				return;
 			}
 
-			if (_apps[instanceId])
-			{
-				jQuery(_apps[instanceId].config.root).fadeOut(function ()
-				{
+			if (_apps[instanceId]) {
+				jQuery(_apps[instanceId].config.root).fadeOut(function() {
 					jQuery(this).remove();
 				});
 
