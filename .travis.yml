@@ -2,5 +2,5 @@ language: node_js
 node_js:
   - "0.10"
   - "0.8"
-before_install: sudo npm install phantom-jasmine -g
+before_install: npm install phantom-jasmine -g
 script: phantom-jasmine tests/index.html
