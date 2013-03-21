@@ -51,7 +51,8 @@ var CORE_FILES = [
 	{ src: 'sdk/src/events.js', minify: true },
 	{ src: 'sdk/src/rpc.js', minify: true },
 	{ src: 'sdk/src/ui.js', minify: true },
-	{ src: 'sdk/src/container.js', minify: true }
+	{ src: 'sdk/src/container.js', minify: true },
+	{ src: 'sdk/src/app_handlers.js', minify: true }
 ];
 var ENCODING = 'utf-8';
 var EOL = '\n';

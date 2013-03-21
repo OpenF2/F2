@@ -38,7 +38,7 @@ describe('F2.registerApps', function() {
 	it('should fail on empty parameters', function() {
 		expect(function() {
 			F2.registerApps();
-		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
+		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');		
 	});
 
 	it('should fail when passed an empty array', function() {

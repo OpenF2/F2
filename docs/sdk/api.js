@@ -4,6 +4,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "F2",
         "F2.App",
         "F2.AppConfig",
+        "F2.AppHandlers",
         "F2.AppManifest",
         "F2.AppManifest.AppContent",
         "F2.Constants",

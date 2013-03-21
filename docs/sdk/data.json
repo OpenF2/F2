@@ -12,6 +12,15 @@
             },
             "namespaces": {}
         },
+        "sdk\\src\\app_handlers.js": {
+            "name": "sdk\\src\\app_handlers.js",
+            "modules": {},
+            "classes": {
+                "F2.AppHandlers": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "sdk\\src\\classes.js": {
             "name": "sdk\\src\\classes.js",
             "modules": {},
@@ -91,6 +100,7 @@
             "submodules": {},
             "classes": {
                 "F2": 1,
+                "F2.AppHandlers": 1,
                 "F2.App": 1,
                 "F2.AppConfig": 1,
                 "F2.AppManifest": 1,
@@ -138,6 +148,20 @@
             "file": "sdk\\src\\container.js",
             "line": 1,
             "description": "Root namespace of the F2 SDK"
+        },
+        "F2.AppHandlers": {
+            "name": "F2.AppHandlers",
+            "shortname": "F2.AppHandlers",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "f2",
+            "namespace": "",
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 1,
+            "description": "Allows container developers more flexibility when it comes to handling app interaction."
         },
         "F2.App": {
             "name": "F2.App",
@@ -583,6 +607,17 @@
                 "type": "String"
             },
             "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 220,
+            "description": "Allows F2 to get a token internally",
+            "itemtype": "method",
+            "name": "__f2GetToken",
+            "access": "private",
+            "tagname": "",
+            "class": "F2.AppHandlers",
             "module": "f2"
         },
         {

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>F2 - sdk\src\app_handlers.js</title>
+	<meta name="dcterms.date" content="18 March 2013">
+	<meta name="gitbranch" content="master">
+	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
+	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
+	<meta name="robots" content="all, index, follow" />
+	<meta name="distribution" content="global" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<link rel="home" href="http://www.openf2.org/" />
+
+	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js"></script>
+	<script src="..&#x2F;../js/respond.min.js"></script>
+	
+	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1.1.1" rel="stylesheet">
+
+	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
+	<script type="text/javascript">
+		if ('master' === 'master'){
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-35230380-1']);
+			_gaq.push(['_setDomainName', 'openf2.org']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		}
+	</script>
+</head>
+<body>
+
+<div id="doc">
+	<header class="openf2Header navbarmini clearfix">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse.main-nav">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-triangleDown"></span>
+					</button>
+					<a class="brand" href="http://www.openf2.org"></a>
+					<div class="tagline-divider"></div>
+					<div class="navbar-text pull-left">The Open Financial Framework</div>
+					<div class="collapse nav-collapse main-nav">
+						<ul class="nav pull-right">
+							<li><a href="http://www.openF2.org">Home</a></li>
+							<li class="divider-vertical"></li>
+							<li class="active">
+								<a href="..&#x2F;../">Docs <i class="icon-triangleDown"></i></a>
+								<ul class="nav navinset">
+									<li><a href="..&#x2F;../">The Basics</a></li>
+									<li><a href="..&#x2F;../app-development.html">Development</a></li>
+									<li><a href="./" class="active">Reference</a></li>
+								</ul>
+							</li>
+							<li class="divider-vertical"></li>
+							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
+							<li class="divider-vertical"></li>
+            				<li><a href="https://developer.openf2.org">Developer</a></li>
+							<li class="divider-vertical"></li>
+							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
+            				<li class="divider-vertical"></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.1)</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="navbar-docs">
+				<nav class="container">
+					<div class="row">
+						<div class="span12">
+								<ul class="unstyled clearfix">
+									<li class="basics"><a href="..&#x2F;../">The Basics</a></li>
+									<li class="dev"><a href="..&#x2F;../app-development.html">Development</a></li>
+									<li class="ref"><a href="..&#x2F;./" class="active">Reference</a></li>
+								</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+
+			<div class="navbar-docs-sections">
+				<div class="container">
+					<a href="javascript:;" data-toggle="collapse" data-target=".nav-collapse.toc">
+						SECTIONS
+						<span class="icon-triangleDown"></span>
+					</a>
+					<div class="collapse nav-collapse toc">
+						<ul class="nav pull-right">
+								
+		<li class=""><a href="..&#x2F;classes/F2.html">F2</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+	
+		<li class="hide"><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+	
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</header>
+
+	<div class="container">
+		<div class="row">
+			<div id="toc" class="span3">
+				<ul class="nav nav-list">
+						
+		<li class=""><a href="..&#x2F;classes/F2.html">F2</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+	
+		<li class="hide"><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+	
+
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
+			</div>
+			<div id="main" class="span9">
+				<h1 class="file-heading">File: sdk\src\app_handlers.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ * Allows container developers more flexibility when it comes to handling app interaction.
+ * @class F2.AppHandlers
+ *&#x2F;
+F2.extend(&#x27;AppHandlers&#x27;, (function() {
+	
+	&#x2F;&#x2F; the hidden token that we will check against every time someone tries to add, remove, fire handler
+	var _ct = F2.guid();
+	var _f2t = F2.guid();
+	
+	var _handlerCollection = {		
+		beforeApp:
+		{
+			render: [],
+			remove: [],
+			reload: [],
+			destroy: []
+		},
+		afterApp:
+		{
+			render: [],
+			remove: [],
+			reload: [],
+			destroy: []
+		},
+		app:
+		{
+			render: [],
+			remove: [],
+			reload: [],
+			destroy: []
+		}			
+	};
+	
+	&#x2F;&#x2F;Returns true if it is a DOM node
+	function _isNode(o){
+		return (
+			typeof Node === &quot;object&quot; ? o instanceof Node : 
+			o &amp;&amp; typeof o === &quot;object&quot; &amp;&amp; typeof o.nodeType === &quot;number&quot; &amp;&amp; typeof o.nodeName===&quot;string&quot;
+		);
+	}
+
+	&#x2F;&#x2F;Returns true if it is a DOM element    
+	function _isElement(o){
+		return (
+			typeof HTMLElement === &quot;object&quot; ? o instanceof HTMLElement : &#x2F;&#x2F;DOM2
+			o &amp;&amp; typeof o === &quot;object&quot; &amp;&amp; o.nodeType === 1 &amp;&amp; typeof o.nodeName===&quot;string&quot;
+		);
+	}
+	
+	var _createHandler = function(arOriginalArgs, bDomNodeAppropriate)
+	{
+		if(!arOriginalArgs || !arOriginalArgs.length) { throw &quot;Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again.&quot; }
+		
+		&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
+		_validateToken(arOriginalArgs[0]);
+		
+		var iArgCount = arOriginalArgs.length;
+		
+		&#x2F;&#x2F; TODO: pop off first arg
+		
+		&#x2F;&#x2F; create handler structure. Not all arguments properties will be populated&#x2F;used.
+		var handler = {
+			func: null,
+			namespace: null,
+			app_id: null,
+			domNode: null
+		};
+		
+		&#x2F;&#x2F; based on the argument count try to create a handler.
+		switch(iArgCount)
+		{
+			case 1:
+				&#x2F;&#x2F; method signature(oDomNode)
+				if(arOriginalArgs[0] &amp;&amp; bDomNodeAppropriate &amp;&amp; (_isNode(arOriginalArgs[0]) || _isElement(arOriginalArgs[0]))
+				{
+					handler.domNode = arOriginalArgs[0];
+				}
+				&#x2F;&#x2F; method signature (function(){})
+				else if(arOriginalArgs[0] &amp;&amp; typeof(arOriginalArgs[0]) == &quot;function&quot;)
+				{
+					handler.func = arOriginalArgs[0];
+				}
+				&#x2F;&#x2F; error
+				else
+				{
+					throw &quot;Invalid or null argument passed. Argument must be of type function or a native dom node&quot;;
+				}
+				break;
+			case 2:
+				&#x2F;&#x2F; method signature (&quot;APP_ID&quot; ,oDomNode)
+				if(
+					arOriginalArgs[0] &amp;&amp;
+					arOriginalArgs[1] &amp;&amp;				
+					typeof(arOriginalArgs[0]) == &quot;string&quot; &amp;&amp;
+					bDomNodeAppropriate	&amp;&amp;
+					(_isNode(arOriginalArgs[1]) || _isElement(arOriginalArgs[1]))
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.domNode = arOriginalArgs[1];
+				}
+				&#x2F;&#x2F; method signature (&quot;APP_ID&quot; ,function(){})
+				else if(
+					arOriginalArgs[0] &amp;&amp;
+					arOriginalArgs[1] &amp;&amp;					
+					typeof(arOriginalArgs[0]) == &quot;string&quot; &amp;&amp;
+					typeof(arOriginalArgs[1]) == &quot;function&quot;
+				)
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.func = arOriginalArgs[1];
+				}
+				&#x2F;&#x2F; method signature (function(){} ,&quot;NAMESPACE&quot;)
+				else if(
+					arOriginalArgs[0] &amp;&amp;
+					arOriginalArgs[1] &amp;&amp;					
+					typeof(arOriginalArgs[0]) == &quot;function&quot; &amp;&amp;
+					typeof(arOriginalArgs[1]) == &quot;string&quot;					
+				)
+				{
+					handler.func = arOriginalArgs[0];
+					handler.namespace = arOriginalArgs[1];					
+				}
+				&#x2F;&#x2F; error
+				else
+				{
+					throw &quot;Invalid or null argument(s) passed. Argument[0] must be of type function or string (to represent app_id). Argument[1] must be native domnode, function, or string (to represent namespace)&quot;;
+				}			
+				break;			
+			case 3:
+				&#x2F;&#x2F; method signature (&quot;APP_ID&quot;, oDomNode, &quot;NAMESPACE&quot;)
+				if(
+					arOriginalArgs[0] &amp;&amp;
+					arOriginalArgs[1] &amp;&amp;					
+					typeof(arOriginalArgs[0]) == &quot;string&quot; &amp;&amp;
+					bDomNodeAppropriate	&amp;&amp;
+					(_isNode(arOriginalArgs[1]) || _isElement(arOriginalArgs[1])) &amp;&amp;
+					typeof(arOriginalArgs[2]) == &quot;string&quot;
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.domNode = arOriginalArgs[1];
+					handler.namespace = arOriginalArgs[2];
+				}
+				&#x2F;&#x2F; method signature (&quot;APP_ID&quot;, function(){}, &quot;NAMESPACE&quot;)
+				else if(
+					arOriginalArgs[0] &amp;&amp;
+					arOriginalArgs[1] &amp;&amp;					
+					typeof(arOriginalArgs[0]) == &quot;string&quot; &amp;&amp;
+					typeof(arOriginalArgs[1]) == &quot;function&quot; &amp;&amp;
+					typeof(arOriginalArgs[2]) == &quot;string&quot;
+				)
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.func = arOriginalArgs[1];
+					handler.namespace = arOriginalArgs[2];
+				}
+				else
+				{
+					throw &quot;Invalid or null argument(s) passed. Argument[0] must be of type string that represents the app_id. Argument[1] must be native domnode or function. Argument[2] must be of type string to represent a namespace.&quot;;
+				}
+				break;
+				&#x2F;&#x2F; throw exception if there are 0 or 4+ arguments
+			default:
+				throw &quot;Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again.&quot;
+		}
+		
+		return handler;
+	};
+	
+	var _validateToken = function(sToken)
+	{
+		&#x2F;&#x2F; check token against F2 and Container
+		if(_ct != sToken &amp;&amp; _f2t != sToken) { throw &quot;Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken().&quot;; }
+	};
+	
+	var _removeHandler = function(arHandleCollection, sNamespaceOrApp_ID, sToken)
+	{
+		&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
+		_validateToken(sToken);
+		
+		if(!sNamespaceOrApp_ID &amp;&amp; !arHandleCollection)
+		{			
+			return;
+		}
+		else if(!sNamespaceOrApp_ID &amp;&amp; arHandleCollection)
+		{
+			arHandleCollection = [];
+		}
+		else if(sNamespaceOrApp_ID &amp;&amp; arHandleCollection)
+		{
+			sNamespaceOrApp_ID = sNamespaceOrApp_ID.toLowerCase();		
+		
+			var newEvents = [];
+			
+			for(var i = 0, j = arHandleCollection.length; i &lt; j; i++)
+			{
+				var currentHandler = arHandleCollection[i];
+				if(currentHandler)
+				{
+					if(currentHandler.app_id != sNamespaceOrApp_ID) &amp;&amp; currentHandler.namespace != sNamespaceOrApp_ID)
+					{
+						newEvents.push(currentHandler);
+					}
+				}
+			}
+			
+			arHandleCollection = newEvents;
+		}
+	};
+	
+	return {
+		getToken: function()
+		{
+			&#x2F;&#x2F; delete this method for security that way only the container has access to the token 1 time.
+			&#x2F;&#x2F; kind of James Bond-ish, this message will self destruct immediately.
+			delete this.getToken;
+			&#x2F;&#x2F; return the token, which we validate against.
+			return _ct;
+		},
+		&#x2F;**
+		 * Allows F2 to get a token internally
+		 * @method __f2GetToken
+		 * @private
+		 *&#x2F;
+		__f2GetToken: function()
+		{
+			&#x2F;&#x2F; delete this method for security that way only the F2 internally has access to the token 1 time.
+			&#x2F;&#x2F; kind of James Bond-ish, this message will self destruct immediately.
+			delete this.__f2GetToken;
+			&#x2F;&#x2F; return the token, which we validate against.
+			return _f2t;
+		},
+		__f2Trigger:
+		{
+			beforeApp:
+				{
+					render: function(sToken) { _handlerCollection.beforeApp.render.push(_createHandler(arguments)); },
+					remove: function(sToken) { _handlerCollection.beforeApp.remove.push(_createHandler(arguments)); },
+					reload: function(sToken) { _handlerCollection.beforeApp.reload.push(_createHandler(arguments)); },
+					destroy: function(sToken) { _handlerCollection.beforeApp.destroy.push(_createHandler(arguments)); }
+				},
+				afterApp:
+				{
+					render: function(sToken) { _handlerCollection.afterApp.render.push(_createHandler(arguments)); },
+					remove: function(sToken) { _handlerCollection.afterApp.remove.push(_createHandler(arguments)); },
+					reload: function(sToken) { _handlerCollection.afterApp.reload.push(_createHandler(arguments)); },
+					destroy: function(sToken) { _handlerCollection.afterApp.destroy.push(_createHandler(arguments)); }
+				},
+				app:
+				{
+					render: function(sToken) { _handlerCollection.app.render.push(_createHandler(arguments), true); },
+					remove: function(sToken) { _handlerCollection.app.remove.push(_createHandler(arguments)); },
+					reload: function(sToken) { _handlerCollection.app.reload.push(_createHandler(arguments)); },
+					destroy: function(sToken) { _handlerCollection.app.destroy.push(_createHandler(arguments)); }
+				}
+		},
+		on: {
+				beforeApp:
+				{
+					render: function() { _handlerCollection.beforeApp.render.push(_createHandler(arguments)); },
+					remove: function(){ _handlerCollection.beforeApp.remove.push(_createHandler(arguments)); },
+					reload: function(){ _handlerCollection.beforeApp.reload.push(_createHandler(arguments)); },
+					destroy: function(){ _handlerCollection.beforeApp.destroy.push(_createHandler(arguments)); }
+				},
+				afterApp:
+				{
+					render: function() { _handlerCollection.afterApp.render.push(_createHandler(arguments)); },
+					remove: function(){ _handlerCollection.afterApp.remove.push(_createHandler(arguments)); },
+					reload: function(){ _handlerCollection.afterApp.reload.push(_createHandler(arguments)); },
+					destroy: function(){ _handlerCollection.afterApp.destroy.push(_createHandler(arguments)); }
+				},
+				app:
+				{
+					render: function() { _handlerCollection.app.render.push(_createHandler(arguments), true); },
+					remove: function(){ _handlerCollection.app.remove.push(_createHandler(arguments)); },
+					reload: function(){ _handlerCollection.app.reload.push(_createHandler(arguments)); },
+					destroy: function(){ _handlerCollection.app.destroy.push(_createHandler(arguments)); }
+				}
+		},
+		off: {
+				beforeApp:
+				{
+					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.render, sNamespaceOrApp_ID, sToken); },
+					remove: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.remove, sNamespaceOrApp_ID, sToken); },
+					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.reload, sNamespaceOrApp_ID, sToken); },
+					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.beforeApp.destroy, sNamespaceOrApp_ID, sToken); }
+				},
+				afterApp:
+				{
+					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.render, sNamespaceOrApp_ID, sToken); },
+					remove: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.remove, sNamespaceOrApp_ID, sToken); },
+					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.reload, sNamespaceOrApp_ID, sToken); },
+					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.afterApp.destroy, sNamespaceOrApp_ID, sToken); }
+				},
+				app:
+				{
+					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.render, sNamespaceOrApp_ID, sToken); },
+					remove: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.remove, sNamespaceOrApp_ID, sToken); },
+					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.reload, sNamespaceOrApp_ID, sToken); },
+					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.app.destroy, sNamespaceOrApp_ID, sToken); }
+				}
+		}
+	};
+})());
+    </pre>
+</div>
+
+			</div>
+		</div>
+
+		<hr>
+
+		<footer>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 18 March 2013</small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		</footer>
+	</div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="..&#x2F;../js/bootstrap.min.2.3.0.js"></script>
+<script src="..&#x2F;../js/prettify.js"></script>
+<script src="..&#x2F;assets/js/main.js"></script>
+<script src="..&#x2F;../js/f2.js?"></script>
+<script type="text/javascript">
+	window.prettyPrint && prettyPrint();
+	F2.extend('gitbranch', (function(){ return 'master'; }));
+</script>
+<script type="text/javascript">
+	if (F2.gitbranch() === 'master'){
+		window._waq = window._waq || []; 
+		(function() {
+			var domain = 'insite.wallst.com'; 
+			_waq.push(['_setup', {reportingid: '544506', domain: domain}]); 
+			var wa = document.createElement('script'); 
+			wa.type = 'text/javascript'; 
+			wa.async = true; 
+			wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; 
+			var s = document.getElementsByTagName('script')[0]; 
+			s.parentNode.insertBefore(wa, s);
+		})();
+		_waq.push(['_trackPageView', {category: 'SDK'}]);
+		_waq.push(['_trackLinks']);
+	}
+</script>
+</body>
+</html>
