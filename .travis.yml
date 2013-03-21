@@ -3,4 +3,4 @@ node_js:
   - "0.10"
   - "0.8"
 before_install: npm install phantom-jasmine -g
-script: phantom-jasmine /tests/index.html
+script: phantom-jasmine tests/index-console.html
