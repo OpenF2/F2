@@ -20,4 +20,4 @@ script:
   # Change these to jasmine or mocha if necessary
   - "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
   # Make sure to change test/test.html to the path to your test page
-  - "phantomjs phantom-qunit.js tests/index.html"
+  - "phantomjs phantom-jasmine.js tests/index.html"
