@@ -7,12 +7,8 @@ describe("Console", function() {
     expect(true).toBeTruthy();
   });
   
-  it ("$.ajax exists", function() {
-    expect(!!$.ajax).toBeTruthy();
-  });
-  
-  it ("jQuery.ajax exists", function() {
-    expect(!!jQuery.ajax).toBeTruthy();
+  it ("jQuery exists", function() {
+    expect(!!jQuery).toBeTruthy();
   });
   
 });
