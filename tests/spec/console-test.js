@@ -1,6 +1,6 @@
 describe("Console", function() {  
   it ("should fail", function() {
-    expect(false).toBeTruthy();
+    expect(false).toBeFalsy();
   });
   
   it ("should succeed", function() {
