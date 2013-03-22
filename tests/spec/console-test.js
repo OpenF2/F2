@@ -11,4 +11,8 @@ describe("Console", function() {
     expect(!!$.ajax).toBeTruthy();
   });
   
+  it ("jQuery.ajax exists", function() {
+    expect(!!jQuery.ajax).toBeTruthy();
+  });
+  
 });
