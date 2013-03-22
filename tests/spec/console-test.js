@@ -6,4 +6,9 @@ describe("Console", function() {
   it ("should succeed", function() {
     expect(true).toBeTruthy();
   });
+  
+  it ("$.ajax exists", function() {
+    expect(!!$.ajax).toBeTruthy();
+  });
+  
 });
