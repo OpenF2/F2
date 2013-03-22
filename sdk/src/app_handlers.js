@@ -3,7 +3,7 @@
  * @class F2.AppHandlers
  */
 F2.extend('AppHandlers', (function() {
-	
+
 	// the hidden token that we will check against every time someone tries to add, remove, fire handler
 	var _ct = F2.guid();
 	var _f2t = F2.guid();
@@ -11,22 +11,19 @@ F2.extend('AppHandlers', (function() {
 	var _handlerCollection = {		
 		beforeApp:
 		{
-			render: [],
-			remove: [],
+			render: [],			
 			reload: [],
 			destroy: []
 		},
 		afterApp:
 		{
 			render: [],
-			remove: [],
 			reload: [],
 			destroy: []
 		},
 		app:
 		{
 			render: [],
-			remove: [],
 			reload: [],
 			destroy: []
 		}			
@@ -50,14 +47,15 @@ F2.extend('AppHandlers', (function() {
 	
 	var _createHandler = function(arOriginalArgs, bDomNodeAppropriate)
 	{
-		if(!arOriginalArgs || !arOriginalArgs.length) { throw "Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again." }
+		if(!arOriginalArgs || !arOriginalArgs.length) { throw ("Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again."); }
 		
 		// will throw an exception and stop execution if the token is invalid
 		_validateToken(arOriginalArgs[0]);
 		
-		var iArgCount = arOriginalArgs.length;
+		// remove the token from the arguments since we have validated it and no longer need it
+		arOriginalArgs.shift();
 		
-		// TODO: pop off first arg
+		var iArgCount = arOriginalArgs.length;				
 		
 		// create handler structure. Not all arguments properties will be populated/used.
 		var handler = {
@@ -72,7 +70,7 @@ F2.extend('AppHandlers', (function() {
 		{
 			case 1:
 				// method signature(oDomNode)
-				if(arOriginalArgs[0] && bDomNodeAppropriate && (_isNode(arOriginalArgs[0]) || _isElement(arOriginalArgs[0]))
+				if(arOriginalArgs[0] && bDomNodeAppropriate && (_isNode(arOriginalArgs[0]) || _isElement(arOriginalArgs[0])))
 				{
 					handler.domNode = arOriginalArgs[0];
 				}
@@ -84,7 +82,7 @@ F2.extend('AppHandlers', (function() {
 				// error
 				else
 				{
-					throw "Invalid or null argument passed. Argument must be of type function or a native dom node";
+					throw ("Invalid or null argument passed. Argument must be of type function or a native dom node");
 				}
 				break;
 			case 2:
@@ -95,6 +93,7 @@ F2.extend('AppHandlers', (function() {
 					typeof(arOriginalArgs[0]) == "string" &&
 					bDomNodeAppropriate	&&
 					(_isNode(arOriginalArgs[1]) || _isElement(arOriginalArgs[1]))
+				)
 				{
 					handler.app_id = arOriginalArgs[0];
 					handler.domNode = arOriginalArgs[1];
@@ -124,7 +123,7 @@ F2.extend('AppHandlers', (function() {
 				// error
 				else
 				{
-					throw "Invalid or null argument(s) passed. Argument[0] must be of type function or string (to represent app_id). Argument[1] must be native domnode, function, or string (to represent namespace)";
+					throw ("Invalid or null argument(s) passed. Argument[0] must be of type function or string (to represent app_id). Argument[1] must be native domnode, function, or string (to represent namespace)");
 				}			
 				break;			
 			case 3:
@@ -136,6 +135,7 @@ F2.extend('AppHandlers', (function() {
 					bDomNodeAppropriate	&&
 					(_isNode(arOriginalArgs[1]) || _isElement(arOriginalArgs[1])) &&
 					typeof(arOriginalArgs[2]) == "string"
+				)
 				{
 					handler.app_id = arOriginalArgs[0];
 					handler.domNode = arOriginalArgs[1];
@@ -156,12 +156,12 @@ F2.extend('AppHandlers', (function() {
 				}
 				else
 				{
-					throw "Invalid or null argument(s) passed. Argument[0] must be of type string that represents the app_id. Argument[1] must be native domnode or function. Argument[2] must be of type string to represent a namespace.";
+					throw ("Invalid or null argument(s) passed. Argument[0] must be of type string that represents the app_id. Argument[1] must be native domnode or function. Argument[2] must be of type string to represent a namespace.");
 				}
 				break;
 				// throw exception if there are 0 or 4+ arguments
 			default:
-				throw "Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again."
+				throw ("Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again.");
 		}
 		
 		return handler;
@@ -170,7 +170,7 @@ F2.extend('AppHandlers', (function() {
 	var _validateToken = function(sToken)
 	{
 		// check token against F2 and Container
-		if(_ct != sToken && _f2t != sToken) { throw "Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken()."; }
+		if(_ct != sToken && _f2t != sToken) { throw ("Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken()."); }
 	};
 	
 	var _removeHandler = function(arHandleCollection, sNamespaceOrApp_ID, sToken)
@@ -197,7 +197,7 @@ F2.extend('AppHandlers', (function() {
 				var currentHandler = arHandleCollection[i];
 				if(currentHandler)
 				{
-					if(currentHandler.app_id != sNamespaceOrApp_ID) && currentHandler.namespace != sNamespaceOrApp_ID)
+					if(currentHandler.app_id != sNamespaceOrApp_ID && currentHandler.namespace != sNamespaceOrApp_ID)
 					{
 						newEvents.push(currentHandler);
 					}
@@ -209,6 +209,12 @@ F2.extend('AppHandlers', (function() {
 	};
 	
 	return {
+		/**
+		 * Allows container developer to retrieve a special token which must be passed to
+		 * all On and Off methods. This function will self destruct so be sure to keep the response
+		 * inside of a closure somewhere.
+		 * @method getToken		 
+		 */
 		getToken: function()
 		{
 			// delete this method for security that way only the container has access to the token 1 time.
@@ -230,49 +236,29 @@ F2.extend('AppHandlers', (function() {
 			// return the token, which we validate against.
 			return _f2t;
 		},
-		__f2Trigger:
-		{
-			beforeApp:
-				{
-					render: function(sToken) { _handlerCollection.beforeApp.render.push(_createHandler(arguments)); },
-					remove: function(sToken) { _handlerCollection.beforeApp.remove.push(_createHandler(arguments)); },
-					reload: function(sToken) { _handlerCollection.beforeApp.reload.push(_createHandler(arguments)); },
-					destroy: function(sToken) { _handlerCollection.beforeApp.destroy.push(_createHandler(arguments)); }
-				},
-				afterApp:
-				{
-					render: function(sToken) { _handlerCollection.afterApp.render.push(_createHandler(arguments)); },
-					remove: function(sToken) { _handlerCollection.afterApp.remove.push(_createHandler(arguments)); },
-					reload: function(sToken) { _handlerCollection.afterApp.reload.push(_createHandler(arguments)); },
-					destroy: function(sToken) { _handlerCollection.afterApp.destroy.push(_createHandler(arguments)); }
-				},
-				app:
-				{
-					render: function(sToken) { _handlerCollection.app.render.push(_createHandler(arguments), true); },
-					remove: function(sToken) { _handlerCollection.app.remove.push(_createHandler(arguments)); },
-					reload: function(sToken) { _handlerCollection.app.reload.push(_createHandler(arguments)); },
-					destroy: function(sToken) { _handlerCollection.app.destroy.push(_createHandler(arguments)); }
-				}
+		/**
+		 * Allows F2 to trigger events internally
+		 * @method __f2Trigger
+		 * @private
+		 */
+		__f2Trigger: {			
 		},
 		on: {
 				beforeApp:
 				{
-					render: function() { _handlerCollection.beforeApp.render.push(_createHandler(arguments)); },
-					remove: function(){ _handlerCollection.beforeApp.remove.push(_createHandler(arguments)); },
+					render: function() { _handlerCollection.beforeApp.render.push(_createHandler(arguments)); },					
 					reload: function(){ _handlerCollection.beforeApp.reload.push(_createHandler(arguments)); },
 					destroy: function(){ _handlerCollection.beforeApp.destroy.push(_createHandler(arguments)); }
 				},
 				afterApp:
 				{
 					render: function() { _handlerCollection.afterApp.render.push(_createHandler(arguments)); },
-					remove: function(){ _handlerCollection.afterApp.remove.push(_createHandler(arguments)); },
 					reload: function(){ _handlerCollection.afterApp.reload.push(_createHandler(arguments)); },
 					destroy: function(){ _handlerCollection.afterApp.destroy.push(_createHandler(arguments)); }
 				},
 				app:
 				{
 					render: function() { _handlerCollection.app.render.push(_createHandler(arguments), true); },
-					remove: function(){ _handlerCollection.app.remove.push(_createHandler(arguments)); },
 					reload: function(){ _handlerCollection.app.reload.push(_createHandler(arguments)); },
 					destroy: function(){ _handlerCollection.app.destroy.push(_createHandler(arguments)); }
 				}
@@ -281,21 +267,18 @@ F2.extend('AppHandlers', (function() {
 				beforeApp:
 				{
 					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.render, sNamespaceOrApp_ID, sToken); },
-					remove: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.remove, sNamespaceOrApp_ID, sToken); },
 					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.reload, sNamespaceOrApp_ID, sToken); },
 					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.beforeApp.destroy, sNamespaceOrApp_ID, sToken); }
 				},
 				afterApp:
 				{
 					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.render, sNamespaceOrApp_ID, sToken); },
-					remove: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.remove, sNamespaceOrApp_ID, sToken); },
 					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.reload, sNamespaceOrApp_ID, sToken); },
 					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.afterApp.destroy, sNamespaceOrApp_ID, sToken); }
 				},
 				app:
 				{
 					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.render, sNamespaceOrApp_ID, sToken); },
-					remove: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.remove, sNamespaceOrApp_ID, sToken); },
 					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.reload, sNamespaceOrApp_ID, sToken); },
 					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.app.destroy, sNamespaceOrApp_ID, sToken); }
 				}

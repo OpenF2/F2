@@ -120,7 +120,292 @@ F2.extend("Constants",{Css:function(){var e="f2-";return{APP:e+"app",APP_CONTAIN
 F2.extend("Events",function(){var e=new EventEmitter2({wildcard:!0});return e.setMaxListeners(0),{_socketEmit:function(){return EventEmitter2.prototype.emit.apply(e,[].slice.call(arguments))},emit:function(){return F2.Rpc.broadcast(F2.Constants.Sockets.EVENT,[].slice.call(arguments)),EventEmitter2.prototype.emit.apply(e,[].slice.call(arguments))},many:function(t,n,r){return e.many(t,n,r)},off:function(t,n){return e.off(t,n)},on:function(t,n){return e.on(t,n)},once:function(t,n){return e.once(t,n)}}}());
 F2.extend("Rpc",function(){var e={},t="",n={},r=new RegExp("^"+F2.Constants.Sockets.EVENT),i=new RegExp("^"+F2.Constants.Sockets.RPC),s=new RegExp("^"+F2.Constants.Sockets.RPC_CALLBACK),o=new RegExp("^"+F2.Constants.Sockets.LOAD),u=new RegExp("^"+F2.Constants.Sockets.UI_RPC),a=function(){var e,t=!1,r=[],i=new easyXDM.Socket({onMessage:function(s,u){if(!t&&o.test(s)){s=s.replace(o,"");var a=F2.parse(s);a.length==2&&(e=a[0],n[e.instanceId]={config:e,socket:i},F2.registerApps([e],[a[1]]),jQuery.each(r,function(t,n){c(e,s,u)}),t=!0)}else t?c(e,s,u):r.push(s)}})},f=function(e,n){var r=jQuery(e.root);r=r.is("."+F2.Constants.Css.APP_CONTAINER)?r:r.find("."+F2.Constants.Css.APP_CONTAINER);if(!r.length){F2.log("Unable to locate app in order to establish secure connection.");return}var i={scrolling:"no",style:{width:"100%"}};e.height&&(i.style.height=e.height+"px");var s=new easyXDM.Socket({remote:t,container:r.get(0),props:i,onMessage:function(t,n){c(e,t,n)},onReady:function(){s.postMessage(F2.Constants.Sockets.LOAD+F2.stringify([e,n],F2.appConfigReplacer))}});return s},l=function(e,t){return function(){F2.Rpc.call(e,F2.Constants.Sockets.RPC_CALLBACK,t,[].slice.call(arguments).slice(2))}},c=function(t,n,o){function f(e,t){var n=String(t).split(".");for(var r=0;r<n.length;r++){if(e[n[r]]===undefined){e=undefined;break}e=e[n[r]]}return e}function c(e,t,n){var r=F2.parse(t.replace(e,""));return r.params&&r.params.length&&r.callbacks&&r.callbacks.length&&jQuery.each(r.callbacks,function(e,t){jQuery.each(r.params,function(e,i){t==i&&(r.params[e]=l(n,t))})}),r}var a;if(u.test(n)){a=c(u,n,t.instanceId);var h=f(t.ui,a.functionName);h!==undefined?h.apply(t.ui,a.params):F2.log("Unable to locate UI RPC function: "+a.functionName)}else if(i.test(n)){a=c(i,n,t.instanceId);var h=f(window,a.functionName);h!==undefined?h.apply(h,a.params):F2.log("Unable to locate RPC function: "+a.functionName)}else s.test(n)?(a=c(s,n,t.instanceId),e[a.functionName]!==undefined&&(e[a.functionName].apply(e[a.functionName],a.params),delete e[a.functionName])):r.test(n)&&(a=c(r,n,t.instanceId),F2.Events._socketEmit.apply(F2.Events,a))},h=function(t){var n=F2.guid();return e[n]=t,n};return{broadcast:function(e,t){var r=e+F2.stringify(t);jQuery.each(n,function(e,t){t.socket.postMessage(r)})},call:function(e,t,r,i){var s=[];jQuery.each(i,function(e,t){if(typeof t=="function"){var n=h(t);i[e]=n,s.push(n)}}),n[e].socket.postMessage(t+F2.stringify({functionName:r,params:i,callbacks:s}))},init:function(e){t=e,t||a()},isRemote:function(e){return n[e]!==undefined&&n[e].config.isSecure&&jQuery(n[e].config.root).find("iframe").length==0},register:function(e,t){!e||!t?F2.log("Unable to register socket connection. Please check container configuration."):n[e.instanceId]={config:e,socket:f(e,t)}}}}());
 F2.extend("UI",function(){var e,t=function(e){var t=e,n=jQuery(e.root),r=function(e){e=e||jQuery(t.root).outerHeight(),F2.Rpc.isRemote(t.instanceId)?F2.Rpc.call(t.instanceId,F2.Constants.Sockets.UI_RPC,"updateHeight",[e]):(t.height=e,n.find("iframe").height(t.height))};return{hideMask:function(e){F2.UI.hideMask(t.instanceId,e)},Modals:function(){var e=function(e){return['<div class="modal">','<header class="modal-header">',"<h3>Alert!</h3>","</header>",'<div class="modal-body">',"<p>",e,"</p>","</div>",'<div class="modal-footer">','<button class="btn btn-primary btn-ok">OK</button>',"</div>","</div>"].join("")},n=function(e){return['<div class="modal">','<header class="modal-header">',"<h3>Confirm</h3>","</header>",'<div class="modal-body">',"<p>",e,"</p>","</div>",'<div class="modal-footer">','<button type="button" class="btn btn-primary btn-ok">OK</button>','<button type="button" class="btn btn-cancel">Cancel</button">',"</div>","</div>"].join("")};return{alert:function(n,r){if(!F2.isInit()){F2.log("F2.init() must be called before F2.UI.Modals.alert()");return}F2.Rpc.isRemote(t.instanceId)?F2.Rpc.call(t.instanceId,F2.Constants.Sockets.UI_RPC,"Modals.alert",[].slice.call(arguments)):jQuery(e(n)).on("show",function(){var e=this;jQuery(e).find(".btn-primary").on("click",function(){jQuery(e).modal("hide").remove(),(r||jQuery.noop)()})}).modal({backdrop:!0})},confirm:function(e,r,i){if(!F2.isInit()){F2.log("F2.init() must be called before F2.UI.Modals.confirm()");return}F2.Rpc.isRemote(t.instanceId)?F2.Rpc.call(t.instanceId,F2.Constants.Sockets.UI_RPC,"Modals.confirm",[].slice.call(arguments)):jQuery(n(e)).on("show",function(){var e=this;jQuery(e).find(".btn-ok").on("click",function(){jQuery(e).modal("hide").remove(),(r||jQuery.noop)()}),jQuery(e).find(".btn-cancel").on("click",function(){jQuery(e).modal("hide").remove(),(i||jQuery.noop)()})}).modal({backdrop:!0})}}}(),setTitle:function(e){F2.Rpc.isRemote(t.instanceId)?F2.Rpc.call(t.instanceId,F2.Constants.Sockets.UI_RPC,"setTitle",[e]):jQuery(t.root).find("."+F2.Constants.Css.APP_TITLE).text(e)},showMask:function(e,n){F2.UI.showMask(t.instanceId,e,n)},updateHeight:r,Views:function(){var e=new EventEmitter2,i=/change/i;e.setMaxListeners(0);var s=function(e){return i.test(e)?!0:(F2.log('"'+e+'" is not a valid F2.UI.Views event name'),!1)};return{change:function(i){typeof i=="function"?this.on("change",i):typeof i=="string"&&(t.isSecure&&!F2.Rpc.isRemote(t.instanceId)?F2.Rpc.call(t.instanceId,F2.Constants.Sockets.UI_RPC,"Views.change",[].slice.call(arguments)):F2.inArray(i,t.views)&&(jQuery("."+F2.Constants.Css.APP_VIEW,n).addClass("hide").filter('[data-f2-view="'+i+'"]',n).removeClass("hide"),r(),e.emit("change",i)))},off:function(t,n){s(t)&&e.off(t,n)},on:function(t,n){s(t)&&e.on(t,n)}}}()}};return t.hideMask=function(e,t){if(!F2.isInit()){F2.log("F2.init() must be called before F2.UI.hideMask()");return}if(F2.Rpc.isRemote(e)&&!jQuery(t).is("."+F2.Constants.Css.APP))F2.Rpc.call(e,F2.Constants.Sockets.RPC,"F2.UI.hideMask",[e,jQuery(t).selector]);else{var n=jQuery(t),r=n.find("> ."+F2.Constants.Css.MASK).remove();n.removeClass(F2.Constants.Css.MASK_CONTAINER),n.data(F2.Constants.Css.MASK_CONTAINER)&&n.css({position:"static"})}},t.init=function(t){e=t,e.UI=jQuery.extend(!0,{},F2.ContainerConfig.UI,e.UI||{})},t.showMask=function(t,n,r){if(!F2.isInit()){F2.log("F2.init() must be called before F2.UI.showMask()");return}if(F2.Rpc.isRemote(t)&&jQuery(n).is("."+F2.Constants.Css.APP))F2.Rpc.call(t,F2.Constants.Sockets.RPC,"F2.UI.showMask",[t,jQuery(n).selector,r]);else{r&&!e.UI.Mask.loadingIcon&&F2.log("Unable to display loading icon. Please set F2.ContainerConfig.UI.Mask.loadingIcon	when calling F2.init();");var i=jQuery(n).addClass(F2.Constants.Css.MASK_CONTAINER),s=jQuery("<div>").height("100%").width("100%").addClass(F2.Constants.Css.MASK);e.UI.Mask.useClasses||s.css({"background-color":e.UI.Mask.backgroundColor,"background-image":e.UI.Mask.loadingIcon?"url("+e.UI.Mask.loadingIcon+")":"","background-position":"50% 50%","background-repeat":"no-repeat",display:"block",left:0,"min-height":30,padding:0,position:"absolute",top:0,"z-index":e.UI.Mask.zIndex,filter:"alpha(opacity="+e.UI.Mask.opacity*100+")",opacity:e.UI.Mask.opacity}),i.css("position")==="static"&&(i.css({position:"relative"}),i.data(F2.Constants.Css.MASK_CONTAINER,!0)),i.append(s)}},t}());
-F2.extend("",function(){var _apps={},_config=!1,_afterAppRender=function(e,t){var n=_config.afterAppRender||function(e,t){return jQuery(t).appendTo("body")},r=n(e,t);if(!!_config.afterAppRender&&!r){F2.log("F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app");return}return jQuery(r).addClass(F2.Constants.Css.APP),r.get(0)},_appRender=function(e,t){function n(e){return jQuery("<div></div>").append(e).html()}return t=n(jQuery(t).addClass(F2.Constants.Css.APP_CONTAINER+" "+e.appId)),_config.appRender&&(t=_config.appRender(e,t)),n(t)},_beforeAppRender=function(e){var t=_config.beforeAppRender||jQuery.noop;return t(e)},_hydrateAppConfig=function(e){e.instanceId=e.instanceId||F2.guid(),e.views=e.views||[],F2.inArray(F2.Constants.Views.HOME,e.views)||e.views.push(F2.Constants.Views.HOME)},_initAppEvents=function(e){jQuery(e.root).on("click","."+F2.Constants.Css.APP_VIEW_TRIGGER+"["+F2.Constants.Views.DATA_ATTRIBUTE+"]",function(t){t.preventDefault();var n=jQuery(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();n==F2.Constants.Views.REMOVE?F2.removeApp(e.instanceId):e.ui.Views.change(n)})},_initContainerEvents=function(){var e,t=function(){F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE)};jQuery(window).on("resize",function(){clearTimeout(e),e=setTimeout(t,100)})},_isInit=function(){return!!_config},_loadApps=function(appConfigs,appManifest){appConfigs=[].concat(appConfigs);if(appConfigs.length==1&&appConfigs[0].isSecure&&!_config.isSecureAppPage){_loadSecureApp(appConfigs[0],appManifest);return}if(appConfigs.length!=appManifest.apps.length){F2.log("The number of apps defined in the AppManifest do not match the number requested.",appManifest);return}var scripts=appManifest.scripts||[],styles=appManifest.styles||[],inlines=appManifest.inlineScripts||[],scriptCount=scripts.length,scriptsLoaded=0,appInit=function(){jQuery.each(appConfigs,function(e,t){t.ui=new F2.UI(t),F2.Apps[t.appId]!==undefined&&(typeof F2.Apps[t.appId]=="function"?setTimeout(function(){_apps[t.instanceId].app=new F2.Apps[t.appId](t,appManifest.apps[e],t.root),_apps[t.instanceId].app.init!==undefined&&_apps[t.instanceId].app.init()},0):F2.log("app initialization class is defined but not a function. ("+t.appId+")"))})},stylesFragment=[];jQuery.each(styles,function(e,t){stylesFragment.push('<link rel="stylesheet" type="text/css" href="'+t+'"/>')}),jQuery("head").append(stylesFragment.join("")),jQuery.each(appManifest.apps,function(e,t){appConfigs[e].root=_afterAppRender(appConfigs[e],_appRender(appConfigs[e],t.html)),_initAppEvents(appConfigs[e])}),jQuery.each(scripts,function(i,e){jQuery.ajax({url:e,cache:!0,async:!1,dataType:"script",type:"GET",success:function(){++scriptsLoaded==scriptCount&&(jQuery.each(inlines,function(i,e){try{eval(e)}catch(exception){F2.log("Error loading inline script: "+exception+"\n\n"+e)}}),appInit())},error:function(t,n,r){F2.log(["Failed to load script ("+e+")",r.toString()])}})}),scriptCount||appInit()},_loadSecureApp=function(e,t){_config.secureAppPagePath?(e.root=_afterAppRender(e,_appRender(e,"<div></div>")),e.ui=new F2.UI(e),_initAppEvents(e),F2.Rpc.register(e,t)):F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.')},_validateApp=function(e){return e.appId?e.manifestUrl?!0:(F2.log('manifestUrl" missing from app object'),!1):(F2.log('"appId" missing from app object'),!1)};return{getContainerState:function(){if(!_isInit()){F2.log("F2.init() must be called before F2.getContainerState()");return}return jQuery.map(_apps,function(e,t){return{appId:e.config.appId}})},init:function(e){_config=e||{},(!!_config.secureAppPagePath||_config.isSecureAppPage)&&F2.Rpc.init(_config.secureAppPagePath?_config.secureAppPagePath:!1),F2.UI.init(_config),_config.isSecureAppPage||_initContainerEvents()},isInit:_isInit,IAmFromAli:function(){},registerApps:function(e,t){if(!_isInit()){F2.log("F2.init() must be called before F2.registerApps()");return}if(!e){F2.log("At least one AppConfig must be passed when calling F2.registerApps()");return}var n=[],r={},i={},s=!1;e=[].concat(e),t=t||[],s=!!t.length;if(!e.length){F2.log("At least one AppConfig must be passed when calling F2.registerApps()");return}if(e.length&&s&&e.length!=t.length){F2.log('The length of "apps" does not equal the length of "appManifests"');return}jQuery.each(e,function(e,i){if(!_validateApp(i))return;_hydrateAppConfig(i),i.root=_beforeAppRender(i),_apps[i.instanceId]={config:i},s?_loadApps(i,t[e]):i.enableBatchRequests&&!i.isSecure?(r[i.manifestUrl.toLowerCase()]=r[i.manifestUrl.toLowerCase()]||[],r[i.manifestUrl.toLowerCase()].push(i)):n.push({apps:[i],url:i.manifestUrl})}),s||(jQuery.each(r,function(e,t){n.push({url:e,apps:t})}),jQuery.each(n,function(e,t){var n=F2.Constants.JSONP_CALLBACK+t.apps[0].appId;i[n]=i[n]||[],i[n].push(t)}),jQuery.each(i,function(e,t){var n=function(r,i){if(!i)return;jQuery.ajax({url:i.url,data:{params:F2.stringify(i.apps,F2.appConfigReplacer)},jsonp:!1,jsonpCallback:r,dataType:"jsonp",success:function(e){_loadApps(i.apps,e)},error:function(e,t,n){F2.log("Failed to load app(s)",n.toString(),i.apps),jQuery.each(i.apps,function(e,t){F2.log("Removed failed "+t.name+" app",t),F2.removeApp(t.instanceId)})},complete:function(){n(e,t.pop())}})};n(e,t.pop())}))},removeAllApps:function(){if(!_isInit()){F2.log("F2.init() must be called before F2.removeAllApps()");return}jQuery.each(_apps,function(e,t){F2.removeApp(t.config.instanceId)})},removeApp:function(e){if(!_isInit()){F2.log("F2.init() must be called before F2.removeApp()");return}_apps[e]&&(jQuery(_apps[e].config.root).fadeOut(function(){jQuery(this).remove()}),delete _apps[e])}}}());
+F2.extend("",function(){var _apps={},_config=!1,_afterAppRender=function(e,t){var n=_config.afterAppRender||function(e,t){return jQuery(t).appendTo("body")},r=n(e,t);if(!!_config.afterAppRender&&!r){F2.log("F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app");return}return jQuery(r).addClass(F2.Constants.Css.APP),r.get(0)},_appRender=function(e,t){function n(e){return jQuery("<div></div>").append(e).html()}return t=n(jQuery(t).addClass(F2.Constants.Css.APP_CONTAINER+" "+e.appId)),_config.appRender&&(t=_config.appRender(e,t)),n(t)},_beforeAppRender=function(e){var t=_config.beforeAppRender||jQuery.noop;return t(e)},_hydrateAppConfig=function(e){e.instanceId=e.instanceId||F2.guid(),e.views=e.views||[],F2.inArray(F2.Constants.Views.HOME,e.views)||e.views.push(F2.Constants.Views.HOME)},_initAppEvents=function(e){jQuery(e.root).on("click","."+F2.Constants.Css.APP_VIEW_TRIGGER+"["+F2.Constants.Views.DATA_ATTRIBUTE+"]",function(t){t.preventDefault();var n=jQuery(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();n==F2.Constants.Views.REMOVE?F2.removeApp(e.instanceId):e.ui.Views.change(n)})},_initContainerEvents=function(){var e,t=function(){F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE)};jQuery(window).on("resize",function(){clearTimeout(e),e=setTimeout(t,100)})},_isInit=function(){return!!_config},_loadApps=function(appConfigs,appManifest){appConfigs=[].concat(appConfigs);if(appConfigs.length==1&&appConfigs[0].isSecure&&!_config.isSecureAppPage){_loadSecureApp(appConfigs[0],appManifest);return}if(appConfigs.length!=appManifest.apps.length){F2.log("The number of apps defined in the AppManifest do not match the number requested.",appManifest);return}var scripts=appManifest.scripts||[],styles=appManifest.styles||[],inlines=appManifest.inlineScripts||[],scriptCount=scripts.length,scriptsLoaded=0,appInit=function(){jQuery.each(appConfigs,function(e,t){t.ui=new F2.UI(t),F2.Apps[t.appId]!==undefined&&(typeof F2.Apps[t.appId]=="function"?setTimeout(function(){_apps[t.instanceId].app=new F2.Apps[t.appId](t,appManifest.apps[e],t.root),_apps[t.instanceId].app.init!==undefined&&_apps[t.instanceId].app.init()},0):F2.log("app initialization class is defined but not a function. ("+t.appId+")"))})},stylesFragment=[];jQuery.each(styles,function(e,t){stylesFragment.push('<link rel="stylesheet" type="text/css" href="'+t+'"/>')}),jQuery("head").append(stylesFragment.join("")),jQuery.each(appManifest.apps,function(e,t){appConfigs[e].root=_afterAppRender(appConfigs[e],_appRender(appConfigs[e],t.html)),_initAppEvents(appConfigs[e])}),jQuery.each(scripts,function(i,e){jQuery.ajax({url:e,cache:!0,async:!1,dataType:"script",type:"GET",success:function(){++scriptsLoaded==scriptCount&&(jQuery.each(inlines,function(i,e){try{eval(e)}catch(exception){F2.log("Error loading inline script: "+exception+"\n\n"+e)}}),appInit())},error:function(t,n,r){F2.log(["Failed to load script ("+e+")",r.toString()])}})}),scriptCount||appInit()},_loadSecureApp=function(e,t){_config.secureAppPagePath?(e.root=_afterAppRender(e,_appRender(e,"<div></div>")),e.ui=new F2.UI(e),_initAppEvents(e),F2.Rpc.register(e,t)):F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.')},_validateApp=function(e){return e.appId?e.manifestUrl?!0:(F2.log('manifestUrl" missing from app object'),!1):(F2.log('"appId" missing from app object'),!1)};return{getContainerState:function(){if(!_isInit()){F2.log("F2.init() must be called before F2.getContainerState()");return}return jQuery.map(_apps,function(e,t){return{appId:e.config.appId}})},init:function(e){_config=e||{},(!!_config.secureAppPagePath||_config.isSecureAppPage)&&F2.Rpc.init(_config.secureAppPagePath?_config.secureAppPagePath:!1),F2.UI.init(_config),_config.isSecureAppPage||_initContainerEvents()},isInit:_isInit,registerApps:function(e,t){if(!_isInit()){F2.log("F2.init() must be called before F2.registerApps()");return}if(!e){F2.log("At least one AppConfig must be passed when calling F2.registerApps()");return}var n=[],r={},i={},s=!1;e=[].concat(e),t=t||[],s=!!t.length;if(!e.length){F2.log("At least one AppConfig must be passed when calling F2.registerApps()");return}if(e.length&&s&&e.length!=t.length){F2.log('The length of "apps" does not equal the length of "appManifests"');return}jQuery.each(e,function(e,i){if(!_validateApp(i))return;_hydrateAppConfig(i),i.root=_beforeAppRender(i),_apps[i.instanceId]={config:i},s?_loadApps(i,t[e]):i.enableBatchRequests&&!i.isSecure?(r[i.manifestUrl.toLowerCase()]=r[i.manifestUrl.toLowerCase()]||[],r[i.manifestUrl.toLowerCase()].push(i)):n.push({apps:[i],url:i.manifestUrl})}),s||(jQuery.each(r,function(e,t){n.push({url:e,apps:t})}),jQuery.each(n,function(e,t){var n=F2.Constants.JSONP_CALLBACK+t.apps[0].appId;i[n]=i[n]||[],i[n].push(t)}),jQuery.each(i,function(e,t){var n=function(r,i){if(!i)return;jQuery.ajax({url:i.url,data:{params:F2.stringify(i.apps,F2.appConfigReplacer)},jsonp:!1,jsonpCallback:r,dataType:"jsonp",success:function(e){_loadApps(i.apps,e)},error:function(e,t,n){F2.log("Failed to load app(s)",n.toString(),i.apps),jQuery.each(i.apps,function(e,t){F2.log("Removed failed "+t.name+" app",t),F2.removeApp(t.instanceId)})},complete:function(){n(e,t.pop())}})};n(e,t.pop())}))},removeAllApps:function(){if(!_isInit()){F2.log("F2.init() must be called before F2.removeAllApps()");return}jQuery.each(_apps,function(e,t){F2.removeApp(t.config.instanceId)})},removeApp:function(e){if(!_isInit()){F2.log("F2.init() must be called before F2.removeApp()");return}_apps[e]&&(jQuery(_apps[e].config.root).fadeOut(function(){jQuery(this).remove()}),delete _apps[e])}}}());
+/**
+ * Allows container developers more flexibility when it comes to handling app interaction.
+ * @class F2.AppHandlers
+ */
+F2.extend('AppHandlers', (function() {
+	
+	// the hidden token that we will check against every time someone tries to add, remove, fire handler
+	var _ct = F2.guid();
+	var _f2t = F2.guid();
+	
+	var _handlerCollection = {		
+		beforeApp:
+		{
+			render: [],			
+			reload: [],
+			destroy: []
+		},
+		afterApp:
+		{
+			render: [],
+			reload: [],
+			destroy: []
+		},
+		app:
+		{
+			render: [],
+			reload: [],
+			destroy: []
+		}			
+	};
+	
+	//Returns true if it is a DOM node
+	function _isNode(o){
+		return (
+			typeof Node === "object" ? o instanceof Node : 
+			o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
+		);
+	}
+
+	//Returns true if it is a DOM element    
+	function _isElement(o){
+		return (
+			typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+			o && typeof o === "object" && o.nodeType === 1 && typeof o.nodeName==="string"
+		);
+	}
+	
+	var _createHandler = function(arOriginalArgs, bDomNodeAppropriate)
+	{
+		if(!arOriginalArgs || !arOriginalArgs.length) { throw "Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again." }
+		
+		// will throw an exception and stop execution if the token is invalid
+		_validateToken(arOriginalArgs[0]);
+		
+		// remove the token from the arguments since we have validated it and no longer need it
+		arOriginalArgs.shift();
+		
+		var iArgCount = arOriginalArgs.length;				
+		
+		// create handler structure. Not all arguments properties will be populated/used.
+		var handler = {
+			func: null,
+			namespace: null,
+			app_id: null,
+			domNode: null
+		};
+		
+		// based on the argument count try to create a handler.
+		switch(iArgCount)
+		{
+			case 1:
+				// method signature(oDomNode)
+				if(arOriginalArgs[0] && bDomNodeAppropriate && (_isNode(arOriginalArgs[0]) || _isElement(arOriginalArgs[0]))
+				{
+					handler.domNode = arOriginalArgs[0];
+				}
+				// method signature (function(){})
+				else if(arOriginalArgs[0] && typeof(arOriginalArgs[0]) == "function")
+				{
+					handler.func = arOriginalArgs[0];
+				}
+				// error
+				else
+				{
+					throw "Invalid or null argument passed. Argument must be of type function or a native dom node";
+				}
+				break;
+			case 2:
+				// method signature ("APP_ID" ,oDomNode)
+				if(
+					arOriginalArgs[0] &&
+					arOriginalArgs[1] &&				
+					typeof(arOriginalArgs[0]) == "string" &&
+					bDomNodeAppropriate	&&
+					(_isNode(arOriginalArgs[1]) || _isElement(arOriginalArgs[1]))
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.domNode = arOriginalArgs[1];
+				}
+				// method signature ("APP_ID" ,function(){})
+				else if(
+					arOriginalArgs[0] &&
+					arOriginalArgs[1] &&					
+					typeof(arOriginalArgs[0]) == "string" &&
+					typeof(arOriginalArgs[1]) == "function"
+				)
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.func = arOriginalArgs[1];
+				}
+				// method signature (function(){} ,"NAMESPACE")
+				else if(
+					arOriginalArgs[0] &&
+					arOriginalArgs[1] &&					
+					typeof(arOriginalArgs[0]) == "function" &&
+					typeof(arOriginalArgs[1]) == "string"					
+				)
+				{
+					handler.func = arOriginalArgs[0];
+					handler.namespace = arOriginalArgs[1];					
+				}
+				// error
+				else
+				{
+					throw "Invalid or null argument(s) passed. Argument[0] must be of type function or string (to represent app_id). Argument[1] must be native domnode, function, or string (to represent namespace)";
+				}			
+				break;			
+			case 3:
+				// method signature ("APP_ID", oDomNode, "NAMESPACE")
+				if(
+					arOriginalArgs[0] &&
+					arOriginalArgs[1] &&					
+					typeof(arOriginalArgs[0]) == "string" &&
+					bDomNodeAppropriate	&&
+					(_isNode(arOriginalArgs[1]) || _isElement(arOriginalArgs[1])) &&
+					typeof(arOriginalArgs[2]) == "string"
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.domNode = arOriginalArgs[1];
+					handler.namespace = arOriginalArgs[2];
+				}
+				// method signature ("APP_ID", function(){}, "NAMESPACE")
+				else if(
+					arOriginalArgs[0] &&
+					arOriginalArgs[1] &&					
+					typeof(arOriginalArgs[0]) == "string" &&
+					typeof(arOriginalArgs[1]) == "function" &&
+					typeof(arOriginalArgs[2]) == "string"
+				)
+				{
+					handler.app_id = arOriginalArgs[0];
+					handler.func = arOriginalArgs[1];
+					handler.namespace = arOriginalArgs[2];
+				}
+				else
+				{
+					throw "Invalid or null argument(s) passed. Argument[0] must be of type string that represents the app_id. Argument[1] must be native domnode or function. Argument[2] must be of type string to represent a namespace.";
+				}
+				break;
+				// throw exception if there are 0 or 4+ arguments
+			default:
+				throw "Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again.";
+		}
+		
+		return handler;
+	};
+	
+	var _validateToken = function(sToken)
+	{
+		// check token against F2 and Container
+		if(_ct != sToken && _f2t != sToken) { throw "Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken()."; }
+	};
+	
+	var _removeHandler = function(arHandleCollection, sNamespaceOrApp_ID, sToken)
+	{
+		// will throw an exception and stop execution if the token is invalid
+		_validateToken(sToken);
+		
+		if(!sNamespaceOrApp_ID && !arHandleCollection)
+		{			
+			return;
+		}
+		else if(!sNamespaceOrApp_ID && arHandleCollection)
+		{
+			arHandleCollection = [];
+		}
+		else if(sNamespaceOrApp_ID && arHandleCollection)
+		{
+			sNamespaceOrApp_ID = sNamespaceOrApp_ID.toLowerCase();		
+		
+			var newEvents = [];
+			
+			for(var i = 0, j = arHandleCollection.length; i < j; i++)
+			{
+				var currentHandler = arHandleCollection[i];
+				if(currentHandler)
+				{
+					if(currentHandler.app_id != sNamespaceOrApp_ID) && currentHandler.namespace != sNamespaceOrApp_ID)
+					{
+						newEvents.push(currentHandler);
+					}
+				}
+			}
+			
+			arHandleCollection = newEvents;
+		}
+	};
+	
+	return {
+		/**
+		 * Allows container developer to retrieve a special token which must be passed to
+		 * all On and Off methods. This function will self destruct so be sure to keep the response
+		 * inside of a closure somewhere.
+		 * @method getToken		 
+		 */
+		getToken: function()
+		{
+			// delete this method for security that way only the container has access to the token 1 time.
+			// kind of James Bond-ish, this message will self destruct immediately.
+			delete this.getToken;
+			// return the token, which we validate against.
+			return _ct;
+		},
+		/**
+		 * Allows F2 to get a token internally
+		 * @method __f2GetToken
+		 * @private
+		 */
+		__f2GetToken: function()
+		{
+			// delete this method for security that way only the F2 internally has access to the token 1 time.
+			// kind of James Bond-ish, this message will self destruct immediately.
+			delete this.__f2GetToken;
+			// return the token, which we validate against.
+			return _f2t;
+		},
+		/**
+		 * Allows F2 to trigger events internally
+		 * @method __f2Trigger
+		 * @private
+		 */
+		__f2Trigger: {			
+		},
+		on: {
+				beforeApp:
+				{
+					render: function() { _handlerCollection.beforeApp.render.push(_createHandler(arguments)); },					
+					reload: function(){ _handlerCollection.beforeApp.reload.push(_createHandler(arguments)); },
+					destroy: function(){ _handlerCollection.beforeApp.destroy.push(_createHandler(arguments)); }
+				},
+				afterApp:
+				{
+					render: function() { _handlerCollection.afterApp.render.push(_createHandler(arguments)); },
+					reload: function(){ _handlerCollection.afterApp.reload.push(_createHandler(arguments)); },
+					destroy: function(){ _handlerCollection.afterApp.destroy.push(_createHandler(arguments)); }
+				},
+				app:
+				{
+					render: function() { _handlerCollection.app.render.push(_createHandler(arguments), true); },
+					reload: function(){ _handlerCollection.app.reload.push(_createHandler(arguments)); },
+					destroy: function(){ _handlerCollection.app.destroy.push(_createHandler(arguments)); }
+				}
+		},
+		off: {
+				beforeApp:
+				{
+					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.render, sNamespaceOrApp_ID, sToken); },
+					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.beforeApp.reload, sNamespaceOrApp_ID, sToken); },
+					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.beforeApp.destroy, sNamespaceOrApp_ID, sToken); }
+				},
+				afterApp:
+				{
+					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.render, sNamespaceOrApp_ID, sToken); },
+					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.afterApp.reload, sNamespaceOrApp_ID, sToken); },
+					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.afterApp.destroy, sNamespaceOrApp_ID, sToken); }
+				},
+				app:
+				{
+					render: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.render, sNamespaceOrApp_ID, sToken); },
+					reload: function(sNamespaceOrApp_ID, sToken) { _removeHandler(_handlerCollection.app.reload, sNamespaceOrApp_ID, sToken); },
+					destroy: function(sNamespaceOrApp_ID, sToken){ _removeHandler(_handlerCollection.app.destroy, sNamespaceOrApp_ID, sToken); }
+				}
+		}
+	};
+})());;
 	
 	exports.F2 = F2;
 
