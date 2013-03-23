@@ -611,12 +611,127 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 220,
+            "line": 170,
+            "description": "Allows container developer to retrieve a special token which must be passed to\nall On and Off methods. This function will self destruct so be sure to keep the response\ninside of a closure somewhere.",
+            "itemtype": "method",
+            "name": "getToken",
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 184,
             "description": "Allows F2 to get a token internally",
             "itemtype": "method",
             "name": "__f2GetToken",
             "access": "private",
             "tagname": "",
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 197,
+            "description": "Allows F2 to trigger specific app events internally.",
+            "itemtype": "method",
+            "name": "__f2Trigger",
+            "access": "private",
+            "tagname": "",
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 230,
+            "description": "Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.",
+            "itemtype": "method",
+            "name": "on",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "token",
+                    "description": "The token received from {{#crossLink \"F2.AppHandlers/getToken:methods\"}}{{/crossLink}}.",
+                    "type": "String"
+                },
+                {
+                    "name": "eventKey",
+                    "description": "The event key to remove handler from {{#crossLink \"F2.AppHandlers/CONSTANTS:property\"}}{{/crossLink}}.",
+                    "type": "String"
+                },
+                {
+                    "name": "element",
+                    "description": "Specific element to append your app to.",
+                    "type": "HTMLElement|Node"
+                }
+            ],
+            "example": [
+                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', $(\"#my-container\").get(0));\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.my_app_id', $(\"#my-container\").get(0));"
+            ],
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 241,
+            "description": "Allows you to add listener method that will be triggered when a specific event happens.",
+            "itemtype": "method",
+            "name": "on",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "token",
+                    "description": "The token received from {{#crossLink \"F2.AppHandlers/getToken:methods\"}}{{/crossLink}}.",
+                    "type": "String"
+                },
+                {
+                    "name": "eventKey",
+                    "description": "The event key to remove handler from {{#crossLink \"F2.AppHandlers/CONSTANTS:property\"}}{{/crossLink}}.",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "A function that will be triggered when a specific event happens.",
+                    "type": "Function"
+                }
+            ],
+            "example": [
+                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log(\"before app rendered!\"); });\t\t"
+            ],
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 274,
+            "description": "Allows you to remove listener methods for specific events",
+            "itemtype": "method",
+            "name": "off",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "token",
+                    "description": "The token received from {{#crossLink \"F2.AppHandlers/getToken:methods\"}}{{/crossLink}}.",
+                    "type": "String"
+                },
+                {
+                    "name": "eventKey{.namespace}",
+                    "description": "The event key to determine what listeners need to be removed. If no namespace is provided all listeners for the specified event type will be removed.",
+                    "type": "String"
+                }
+            ],
+            "example": [
+                "\n\t\tF2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');"
+            ],
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 306,
+            "description": "A collection of constants for the on/off method names. Basically just here to help you.",
+            "itemtype": "property",
+            "name": "CONSTANTS",
+            "type": "Object",
             "class": "F2.AppHandlers",
             "module": "f2"
         },
@@ -2185,6 +2300,14 @@
         }
     ],
     "warnings": [
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " sdk\\src\\app_handlers.js:230"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " sdk\\src\\app_handlers.js:241"
+        },
         {
             "message": "replacing incorrect tag: returns with return",
             "line": " sdk\\src\\container.js:270"

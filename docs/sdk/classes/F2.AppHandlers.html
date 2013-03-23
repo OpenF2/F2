@@ -246,6 +246,8 @@
 		<li><a href="#methods" data-toggle="tab">Methods</a></li>
 	
 	
+		<li><a href="#properties" data-toggle="tab">Properties</a></li>
+	
 	
 	
 </ul>
@@ -279,11 +281,155 @@
 						<td><p>Allows F2 to get a token internally</p></td>
 					</tr>
 					
+					<tr class=" private">
+						<td class="name">
+							<a href="#methods-__f2Trigger">
+								__f2Trigger
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows F2 to trigger specific app events internally.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-getToken">
+								getToken
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows container developer to retrieve a special token which must be passed to
+all On and Off methods. This function will self destruct so be sure to keep the response
+inside of a closure somewhere.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-off">
+								off
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												token
+											
+										</li>
+										
+										<li>
+											
+												eventKey{.namespace}
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows you to remove listener methods for specific events</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-on">
+								on
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												token
+											
+										</li>
+										
+										<li>
+											
+												eventKey
+											
+										</li>
+										
+										<li>
+											
+												element
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-on">
+								on
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												token
+											
+										</li>
+										
+										<li>
+											
+												eventKey
+											
+										</li>
+										
+										<li>
+											
+												listener
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows you to add listener method that will be triggered when a specific event happens.</p></td>
+					</tr>
+					
 				</tbody>
 			</table>
 		</div>
 		
 
+		
+		<div class="index-section properties">
+			<h3>Properties</h3>
+			<table class="table table-bordered table-striped table-members">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-CONSTANTS">CONSTANTS</a>
+						</td>
+						<td><p>A collection of constants for the on/off method names. Basically just here to help you.</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
 		
 
 		
@@ -332,7 +478,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l220"><code>sdk\src\app_handlers.js:220</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l184"><code>sdk\src\app_handlers.js:184</code></a></dd>
 			
 
 			
@@ -354,11 +500,577 @@
 	
 </section>
 		
+		<section id="methods-__f2Trigger" class="level2  private">
+	<h3>
+		__f2Trigger
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows F2 to trigger specific app events internally.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l197"><code>sdk\src\app_handlers.js:197</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-getToken" class="level2 ">
+	<h3>
+		getToken
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows container developer to retrieve a special token which must be passed to
+all On and Off methods. This function will self destruct so be sure to keep the response
+inside of a closure somewhere.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l170"><code>sdk\src\app_handlers.js:170</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-off" class="level2 ">
+	<h3>
+		off
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						token
+					
+				</li>
+				
+				<li>
+					
+						eventKey{.namespace}
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+			<span class="label chainable">chainable</span>
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows you to remove listener methods for specific events</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l274"><code>sdk\src\app_handlers.js:274</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">token</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The token received from F2.AppHandlers/getToken:methods.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">eventKey{.namespace}</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The event key to determine what listeners need to be removed. If no namespace is provided all listeners for the specified event type will be removed.</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>    F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
+</code></pre>
+		</div>
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-on" class="level2 ">
+	<h3>
+		on
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						token
+					
+				</li>
+				
+				<li>
+					
+						eventKey
+					
+				</li>
+				
+				<li>
+					
+						element
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+			<span class="label chainable">chainable</span>
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l230"><code>sdk\src\app_handlers.js:230</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">token</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The token received from F2.AppHandlers/getToken:methods.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">eventKey</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The event key to remove handler from <a href="..\classes\F2.AppHandlers.html#property_CONSTANTS" class="crosslink">CONSTANTS</a>.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">element</code>
+						<span class="label type">HTMLElement | Node</span>
+					
+
+					
+
+					<p>
+						<p>Specific element to append your app to.</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', $("#my-container").get(0));
+    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.my_app_id', $("#my-container").get(0));
+</code></pre>
+		</div>
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-on" class="level2 ">
+	<h3>
+		on
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						token
+					
+				</li>
+				
+				<li>
+					
+						eventKey
+					
+				</li>
+				
+				<li>
+					
+						listener
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+			<span class="label chainable">chainable</span>
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows you to add listener method that will be triggered when a specific event happens.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l241"><code>sdk\src\app_handlers.js:241</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">token</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The token received from F2.AppHandlers/getToken:methods.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">eventKey</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The event key to remove handler from <a href="..\classes\F2.AppHandlers.html#property_CONSTANTS" class="crosslink">CONSTANTS</a>.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">listener</code>
+						<span class="label type">Function</span>
+					
+
+					
+
+					<p>
+						<p>A function that will be triggered when a specific event happens.</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log("before app rendered!"); });       
+</code></pre>
+		</div>
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
 	</div>
 	
 	<!-- METHODS TAB -->
 
 	<!-- PROPERTIES TAB -->
+	
+	<div id="properties" class="tab-pane">
+		
+		<section id="properties-CONSTANTS" class="level2 ">
+	<h3>
+		CONSTANTS
+
+		<span class="label type">Object</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>A collection of constants for the on/off method names. Basically just here to help you.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l306"><code>sdk\src\app_handlers.js:306</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+	</div>
 	
 	<!-- PROPERTIES TAB -->
 
