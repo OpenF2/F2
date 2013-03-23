@@ -21,5 +21,4 @@ script:
   - "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
   # Make sure to change test/test.html to the path to your test page
   - "phantomjs phantom-jasmine.js tests/index.html"
-  - "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
   - "phantomjs phantom-jasmine.js tests/index-amd.html"
