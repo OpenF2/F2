@@ -526,6 +526,26 @@
         {
             "file": "sdk\\src\\F2.js",
             "line": 142,
+            "description": "Utility method to determine whether or not the argument passed in is or is not a native dom node.",
+            "itemtype": "method",
+            "name": "isNativeDOMNode",
+            "params": [
+                {
+                    "name": "testObject",
+                    "description": "The object you want to check as native dom node.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Returns true if the object passed is a native dom node.",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\F2.js",
+            "line": 161,
             "description": "Wrapper logging function.",
             "itemtype": "method",
             "name": "log",
@@ -548,7 +568,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 153,
+            "line": 172,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -568,7 +588,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 162,
+            "line": 181,
             "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
             "itemtype": "method",
             "name": "stringify",
@@ -598,7 +618,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 183,
+            "line": 202,
             "description": "Function to get the F2 version number",
             "itemtype": "method",
             "name": "version",
@@ -611,7 +631,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 170,
+            "line": 154,
             "description": "Allows container developer to retrieve a special token which must be passed to\nall On and Off methods. This function will self destruct so be sure to keep the response\ninside of a closure somewhere.",
             "itemtype": "method",
             "name": "getToken",
@@ -620,7 +640,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 184,
+            "line": 168,
             "description": "Allows F2 to get a token internally",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -631,10 +651,10 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 197,
+            "line": 181,
             "description": "Allows F2 to trigger specific app events internally.",
             "itemtype": "method",
-            "name": "__f2Trigger",
+            "name": "__trigger",
             "access": "private",
             "tagname": "",
             "class": "F2.AppHandlers",
@@ -642,7 +662,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 230,
+            "line": 235,
             "description": "Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.",
             "itemtype": "method",
             "name": "on",
@@ -672,7 +692,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 241,
+            "line": 246,
             "description": "Allows you to add listener method that will be triggered when a specific event happens.",
             "itemtype": "method",
             "name": "on",
@@ -702,7 +722,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 274,
+            "line": 286,
             "description": "Allows you to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -727,7 +747,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 306,
+            "line": 322,
             "description": "A collection of constants for the on/off method names. Basically just here to help you.",
             "itemtype": "property",
             "name": "CONSTANTS",
@@ -1415,10 +1435,12 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 11,
+            "line": 13,
             "description": "Appends the app's html to the DOM",
             "itemtype": "method",
             "name": "_afterAppRender",
+            "deprecated": true,
+            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
             "access": "private",
             "tagname": "",
             "params": [
@@ -1442,10 +1464,12 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 36,
+            "line": 39,
             "description": "Renders the html for an app.",
             "itemtype": "method",
             "name": "_appRender",
+            "deprecated": true,
+            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
             "access": "private",
             "tagname": "",
             "params": [
@@ -1465,10 +1489,12 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 61,
+            "line": 65,
             "description": "Rendering hook to allow containers to render some html prior to an app\nloading",
             "itemtype": "method",
             "name": "_beforeAppRender",
+            "deprecated": true,
+            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
             "access": "private",
             "tagname": "",
             "params": [
@@ -1487,7 +1513,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 74,
+            "line": 79,
             "description": "Adds properties to the AppConfig object",
             "itemtype": "method",
             "name": "_hydrateAppConfig",
@@ -1505,7 +1531,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 92,
+            "line": 97,
             "description": "Attach app events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -1516,7 +1542,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 114,
+            "line": 119,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -1527,7 +1553,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 132,
+            "line": 137,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -1542,7 +1568,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 142,
+            "line": 147,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -1566,7 +1592,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 245,
+            "line": 298,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1589,7 +1615,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 270,
+            "line": 361,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1611,7 +1637,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 292,
+            "line": 383,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1624,7 +1650,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 307,
+            "line": 398,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -1640,7 +1666,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 327,
+            "line": 422,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1653,7 +1679,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 333,
+            "line": 428,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1675,7 +1701,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 470,
+            "line": 586,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1684,7 +1710,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 485,
+            "line": 601,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2302,19 +2328,19 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:230"
+            "line": " sdk\\src\\app_handlers.js:235"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:241"
+            "line": " sdk\\src\\app_handlers.js:246"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:270"
+            "line": " sdk\\src\\container.js:361"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:292"
+            "line": " sdk\\src\\container.js:383"
         },
         {
             "message": "replacing incorrect tag: params with param",

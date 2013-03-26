@@ -7,10 +7,13 @@ F2.extend('', (function(){
 
 	var _apps = {};
 	var _config = false;
+	var _bUsesAppHandlers = false;
+	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
 
 	/**
 	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
@@ -36,6 +39,7 @@ F2.extend('', (function(){
 	/**
 	 * Renders the html for an app.
 	 * @method _appRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
@@ -62,6 +66,7 @@ F2.extend('', (function(){
 	 * Rendering hook to allow containers to render some html prior to an app
 	 * loading
 	 * @method _beforeAppRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @return {Element} The DOM Element surrounding the app
@@ -201,8 +206,56 @@ F2.extend('', (function(){
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			// load html and save the root node
-			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			if(!_bUsesAppHandlers)
+			{
+				// load html and save the root node
+				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			}
+			else
+			{				
+				// if no app root is defined use the apps outter most node
+				if(!F2.isNativeDOMNode(appConfigs[i].root))
+				{
+					appConfigs[i].root = jQuery(outerHtml(a.html)).get(0);
+				}
+				
+				var $root = jQuery(appConfigs[i].root);
+				
+				function outerHtml(html) {
+					return jQuery('<div></div>').append(html).html();
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.AppHandlers.CONSTANTS.APP_RENDER,
+					appConfigs[i], // the app config
+					outerHtml(a.html)
+				);
+				
+				if($root.parents("body:first").length == 0)
+				{
+					throw("App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.");
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.AppHandlers.CONSTANTS.APP_RENDER_AFTER,
+					appConfigs[i] // the app config
+				);
+				
+				if(!appConfigs[i].root)
+				{
+					throw("App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+				}
+				
+				if(!F2.isNativeDOMNode(appConfigs[i].root))
+				{
+					throw("App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+				}
+				
+				jQuery(appConfigs[i].root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId);
+			}
+			
 			// init events
 			_initAppEvents(appConfigs[i]);
 		});
@@ -254,8 +307,46 @@ F2.extend('', (function(){
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			// create the html container for the iframe
-			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			if(!_bUsesAppHandlers)
+			{
+				// create the html container for the iframe
+				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			}
+			else
+			{
+				var $root = jQuery(appConfig.root);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.AppHandlers.CONSTANTS.APP_RENDER,
+					appConfig, // the app config
+					appManifest.html
+				);
+				
+				if($root.parents("body:first").length == 0)
+				{
+					throw("App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.");
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.AppHandlers.CONSTANTS.APP_RENDER_AFTER,
+					appConfig // the app config
+				);
+				
+				if(!appConfig.root)
+				{
+					throw("App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+				}
+				
+				if(!F2.isNativeDOMNode(appConfig.root))
+				{
+					throw("App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+				}
+				
+				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
+			}
+			
 			// instantiate F2.UI
 			appConfig.ui = new F2.UI(appConfig);
 			// init events
@@ -312,7 +403,11 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
-
+			
+			// dictates whether we use the old logic or the new logic.
+			// TODO: Remove in v2.0
+			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
+			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
 				F2.Rpc.init(!!_config.secureAppPagePath ? _config.secureAppPagePath : false);
@@ -384,10 +479,31 @@ F2.extend('', (function(){
 
 				// add properties and methods
 				_hydrateAppConfig(a);
-
-				// fire beforeAppRender
-				a.root = _beforeAppRender(a);
-
+				
+				// create just a generic div. To squash the jQuery dependency we will turn
+				// app.root will only be a dom node
+				a.root = null;
+				
+				if(!_bUsesAppHandlers)
+				{
+					// fire beforeAppRender
+					a.root = _beforeAppRender(a);
+				}
+				else
+				{
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.AppHandlers.CONSTANTS.APP_CREATE_ROOT,
+						a // the app config
+					);
+					
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.AppHandlers.CONSTANTS.APP_RENDER_BEFORE,
+						a // the app config
+					);
+				}
+				
 				// save app
 				_apps[a.instanceId] = { config:a };
 

@@ -231,88 +231,72 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 	var _ct = F2.guid();
 	var _f2t = F2.guid();
 	
-	var _handlerCollection = {		
-		beforeApp:
-		{
-			render: [],			
-			reload: [],
-			destroy: []
-		},
-		afterApp:
-		{
-			render: [],
-			reload: [],
-			destroy: []
-		},
-		app:
-		{
-			render: [],
-			reload: [],
-			destroy: []
-		}			
+	var _handlerCollection = {
+		appCreateRoot: [],
+		appRenderBefore: [],			
+		appReloadBefore: [],
+		appDestroyBefore: [],
+		appRenderAfter: [],
+		appReloadAfter: [],
+		appDestroyAfter: [],
+		appRender: [],
+		appReload: [],
+		appDestroy: []			
 	};
 	
-	var _offMethods = {
-		appRenderBefore: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.beforeApp.render, sNamespaceOrApp_ID, sToken); },
-		appRender: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.app.render, sNamespaceOrApp_ID, sToken); },
-		appRenderAfter: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.afterApp.render, sNamespaceOrApp_ID, sToken); },
+	var _defaultMethods = {
+		appRenderBefore: function(appConfig, html)
+		{
+			&#x2F;&#x2F; do nothing before an app is rendered
+		},
+		appRender: function()
+		{
+			&#x2F;&#x2F; do something
+		},
+		appRenderAfter: function()
+		{
+			&#x2F;&#x2F; do nothing after an app is rendered
+		},
 		
-		appReloadBefore: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.beforeApp.reload, sNamespaceOrApp_ID, sToken); },
-		appReload: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.app.reload, sNamespaceOrApp_ID, sToken); },
-		appReloadAfter: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.afterApp.reload, sNamespaceOrApp_ID, sToken); },
+		appReloadBefore: function()
+		{
+			&#x2F;&#x2F; do nothing before an app reloads
+		},
+		appReload: function()
+		{
+			&#x2F;&#x2F; re-request the app?
+			&#x2F;&#x2F; re-add files?
+			&#x2F;&#x2F; re init js ?
+		},
+		appReloadAfter: function()
+		{
+			&#x2F;&#x2F; do nothing after an app reloads
+		},
 		
-		appDestroyBefore: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.beforeApp.destroy, sNamespaceOrApp_ID, sToken); },
-		appDestroy: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.app.destroy, sNamespaceOrApp_ID, sToken); },
-		appDestroyAfter: function(sToken, sNamespaceOrApp_ID) { _removeHandler(_handlerCollection.afterApp.destroy, sNamespaceOrApp_ID, sToken); }
+		appDestroyBefore: function()
+		{
+			&#x2F;&#x2F; do nothing before destroying app
+		},
+		appDestroy: function()
+		{
+			&#x2F;&#x2F; remove the app from the dom
+		},
+		appDestroyAfter: function()
+		{
+			&#x2F;&#x2F; do nothing after an app is destroyed
+		}
 	};
-	
-	var _onMethods = {
-		appRenderBefore: function(token, sNamespace, func_or_element) { _handlerCollection.beforeApp.render.push(_createHandler(token, sNamespace, func_or_element)); },					
-		appRender: function(token, sNamespace, func_or_element) { _handlerCollection.app.render.push(_createHandler(token, sNamespace, func_or_element, true)); },
-		appRenderAfter: function(token, sNamespace, func_or_element) { _handlerCollection.afterApp.render.push(_createHandler(token, sNamespace, func_or_element)); },
-		
-		appReloadBefore: function(token, sNamespace, func_or_element) { _handlerCollection.beforeApp.reload.push(_createHandler(token, sNamespace, func_or_element)); },
-		appReload: function(token, sNamespace, func_or_element) { _handlerCollection.app.reload.push(_createHandler(token, sNamespace, func_or_element)); },
-		appReloadAfter: function(token, sNamespace, func_or_element) { _handlerCollection.afterApp.reload.push(_createHandler(token, sNamespace, func_or_element)); },
-		
-		appDestroyBefore: function(token, sNamespace, func_or_element) { _handlerCollection.beforeApp.destroy.push(_createHandler(token, sNamespace, func_or_element)); },				
-		appDestroy: function(token, sNamespace, func_or_element) { _handlerCollection.app.destroy.push(_createHandler(token, sNamespace, func_or_element)); },
-		appDestroyAfter: function(token, sNamespace, func_or_element) { _handlerCollection.afterApp.destroy.push(_createHandler(token, sNamespace, func_or_element)); }
-	};	
-	
-	&#x2F;&#x2F;Returns true if it is a DOM node
-	function _isNode(o){
-		return (
-			typeof Node === &quot;object&quot; ? o instanceof Node : 
-			o &amp;&amp; typeof o === &quot;object&quot; &amp;&amp; typeof o.nodeType === &quot;number&quot; &amp;&amp; typeof o.nodeName===&quot;string&quot;
-		);
-	}
-
-	&#x2F;&#x2F;Returns true if it is a DOM element    
-	function _isElement(o){
-		return (
-			typeof HTMLElement === &quot;object&quot; ? o instanceof HTMLElement : &#x2F;&#x2F;DOM2
-			o &amp;&amp; typeof o === &quot;object&quot; &amp;&amp; o.nodeType === 1 &amp;&amp; typeof o.nodeName===&quot;string&quot;
-		);
-	}
 	
 	var _createHandler = function(token, sNamespace, func_or_element, bDomNodeAppropriate)
-	{
-		if(!arOriginalArgs || !arOriginalArgs.length) { throw (&quot;Invalid or null argument(s) passed. Handler will not be added to collection. Please check your inputs and try again.&quot;); }
-		
+	{	
 		&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
-		_validateToken(arOriginalArgs[0]);
-		
-		&#x2F;&#x2F; remove the token from the arguments since we have validated it and no longer need it
-		arOriginalArgs.shift();
-		
-		var iArgCount = arOriginalArgs.length;				
+		_validateToken(token);			
 		
 		&#x2F;&#x2F; create handler structure. Not all arguments properties will be populated&#x2F;used.
 		var handler = {
 			func: (typeof(func_or_element)) ? func_or_element : null,
 			namespace: sNamespace,			
-			domNode: (_isNode(func_or_element) || _isElement(func_or_element)) ? func_or_element : null
+			domNode: (F2.isNativeDOMNode(func_or_element)) ? func_or_element : null
 		};
 		
 		if(!handler.func &amp;&amp; !handler.domNode)
@@ -419,28 +403,49 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		},
 		&#x2F;**
 		* Allows F2 to trigger specific app events internally.
-		* @method __f2Trigger
+		* @method __trigger
 		* @private
 		**&#x2F;
-		__f2Trigger: function(token, eventKey) &#x2F;&#x2F; additional arguments will likely be passed
-		{
-			var sNamespace = null;
+		__trigger: function(token, eventKey, appConfig, html) &#x2F;&#x2F; additional arguments will likely be passed
+		{			
+			&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
+			_validateToken(token);
 			
-			&#x2F;&#x2F; we need to check the key for a namespace
-			if(eventKey.indexOf(&quot;.&quot;) &gt; -1)
-			{
-				var arData = eventKey.split(&quot;.&quot;);
-				eventKey = arData[0];
-				sNamespace = arData[1];
-			}
-			
-			if(_onMethods &amp;&amp; _onMethods[eventKey])
+			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
 			{				
-				for(var i = 0, j = _onMethods[eventKey]; i &lt; j; i++)
+				&#x2F;&#x2F; create a collection of arguments that are safe to pass to the callback.
+				var passableArgs = [];
+				
+				&#x2F;&#x2F; populate that collection with all arguments except token and eventKey
+				for(var i = 2, j = arguments.length; i &lt; j; i++)
 				{
-					var handler = _onMethods[eventKey][i];
+					passableArgs.push(arguments[i]);
+				}
+				
+				if(_handlerCollection[eventKey].length == 0 &amp;&amp; _defaultMethods[eventKey])
+				{
+					_defaultMethods[eventKey].apply(F2, passableArgs);
+					return this;
+				}
+				else if(_handlerCollection[eventKey].length == 0 &amp;&amp; !_handlerCollection[eventKey])
+				{
+					return this;
+				}
+				
+				&#x2F;&#x2F; fire all event listeners in the order that they were added.
+				for(var i = 0, j = _handlerCollection[eventKey].length; i &lt; j; i++)
+				{
+					var handler = _handlerCollection[eventKey][i];
 					
-					_onMethods[eventKey][i].apply(F2, [token, sNamespace, func_or_element])
+					if (handler.domNode)
+					{
+						var $appRoot = jQuery(appConfig.root).append(html);
+						jQuery(handler.domNode).append($appRoot);
+					}
+					else
+					{
+						handler.func.apply(F2, passableArgs);
+					}
 				}
 			}
 			else
@@ -483,9 +488,16 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 				sNamespace = arData[1];
 			}
 			
-			if(_onMethods &amp;&amp; _onMethods[eventKey])
-			{				
-				_onMethods[eventKey].apply(F2, [token, sNamespace, func_or_element])
+			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
+			{
+				_handlerCollection[eventKey].push(
+					_createHandler(
+						token,
+						sNamespace,
+						func_or_element,
+						(eventKey == &quot;appRender&quot;)
+					)
+				);
 			}
 			else
 			{
@@ -515,9 +527,13 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 				sNamespace = arData[1];
 			}
 			
-			if(_offMethods &amp;&amp; _offMethods[eventKey])
+			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
 			{				
-				_offMethods[eventKey].apply(F2, [token, sNamespace])
+				_removeHandler(
+					_handlerCollection[eventKey],
+					sNamespace,
+					token
+				);
 			}
 			else
 			{
@@ -532,6 +548,8 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		**&#x2F;
 		CONSTANTS:
 		{
+			APP_CREATE_ROOT: &quot;appCreateRoot&quot;,
+			
 			APP_RENDER_BEFORE: &quot;appRenderBefore&quot;,					
 			APP_RENDER: &quot;appRender&quot;,
 			APP_RENDER_AFTER: &quot;appRenderAfter&quot;,
