@@ -631,7 +631,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 180,
+            "line": 192,
             "description": "Allows container developer to retrieve a special token which must be passed to\nall On and Off methods. This function will self destruct so be sure to keep the response\ninside of a closure somewhere.",
             "itemtype": "method",
             "name": "getToken",
@@ -640,7 +640,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 194,
+            "line": 206,
             "description": "Allows F2 to get a token internally",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -651,7 +651,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 207,
+            "line": 219,
             "description": "Allows F2 to trigger specific app events internally.",
             "itemtype": "method",
             "name": "__trigger",
@@ -662,7 +662,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 261,
+            "line": 276,
             "description": "Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.",
             "itemtype": "method",
             "name": "on",
@@ -692,7 +692,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 272,
+            "line": 287,
             "description": "Allows you to add listener method that will be triggered when a specific event happens.",
             "itemtype": "method",
             "name": "on",
@@ -722,7 +722,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 319,
+            "line": 334,
             "description": "Allows you to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -747,7 +747,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 366,
+            "line": 381,
             "description": "A collection of constants for the on/off method names in F2.AppHandlers.",
             "itemtype": "property",
             "name": "AppHandlers",
@@ -757,7 +757,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 372,
+            "line": 387,
             "description": "Identifies the create root method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_CREATE_ROOT",
@@ -769,7 +769,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 380,
+            "line": 395,
             "description": "Identifies the before app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_BEFORE",
@@ -781,7 +781,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 388,
+            "line": 403,
             "description": "Identifies the app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER",
@@ -793,7 +793,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 396,
+            "line": 411,
             "description": "Identifies the after app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_AFTER",
@@ -805,7 +805,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 404,
+            "line": 419,
             "description": "Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_BEFORE",
@@ -817,7 +817,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 412,
+            "line": 427,
             "description": "Identifies the app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY",
@@ -829,7 +829,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 420,
+            "line": 435,
             "description": "Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_AFTER",
@@ -2412,11 +2412,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:261"
+            "line": " sdk\\src\\app_handlers.js:276"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:272"
+            "line": " sdk\\src\\app_handlers.js:287"
         },
         {
             "message": "replacing incorrect tag: returns with return",

@@ -14,10 +14,9 @@ $(function() {
 		supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],
 		secureAppPagePath: "secure.html" // this should go on a separate domain from index.html
 	});
-	
+		
 	// Define these prior to init
-	/*
-	F2.AppHandlers	
+	F2.AppHandlers
 	.on(
 		containerAppHandlerToken,
 		F2.Constants.AppHandlers.APP_CREATE_ROOT,
@@ -53,7 +52,7 @@ $(function() {
 	.on(
 		containerAppHandlerToken,
 		F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-		function(appConfig){
+		function(appConfig){			
 			F2.UI.hideMask(appConfig.instanceId, appConfig.root);
 			$(appConfig.root).addClass("render-before-testing");			
 		}
@@ -75,13 +74,15 @@ $(function() {
 		containerAppHandlerToken,
 		F2.Constants.AppHandlers.APP_DESTROY,
 		function(appInstance) {
+			if(!appInstance) { return; }
+			
 			// call the apps destroy method, if it has one
-			if(appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
+			if(appInstance.app && appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
 			{
 				appInstance.app.Destroy();
 			}
 			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
-			else if(appInstance.app.Destroy)
+			else if(appInstance.app && appInstance.app.Destroy)
 			{
 				F2.log(app.config.appId + " has a Destroy property, but Destroy is not of type function and as such will not be executed.");
 			}
@@ -92,7 +93,7 @@ $(function() {
 			});
 		}
 	);
-	*/
+	
 	
 	//listen for app symbol change events and re-broadcast
 	F2.Events.on(

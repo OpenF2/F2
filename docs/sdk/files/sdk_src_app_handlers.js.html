@@ -256,14 +256,26 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		},
 		appRender: function(appConfig, html)
 		{
+			var $root = null;
+			
 			&#x2F;&#x2F; if no app root is defined use the apps outter most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
 				appConfig.root = jQuery(html).get(0);
+				&#x2F;&#x2F; get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);				
 			}
+			else
+			{
+				&#x2F;&#x2F; get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);			
+				
+				&#x2F;&#x2F; append the app html to the root
+				$root.append(html);
+			}			
 			
 			&#x2F;&#x2F; append the root to the body by default.
-			jQuery(&quot;body&quot;).append(appConfig.root);
+			jQuery(&quot;body&quot;).append($root);
 		},
 		appRenderAfter: function()
 		{
@@ -292,12 +304,12 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		appDestroy: function(appInstance)
 		{			
 			&#x2F;&#x2F; call the apps destroy method, if it has one
-			if(appInstance.app.Destroy &amp;&amp; typeof(appInstance.app.Destroy) == &quot;function&quot;)
+			if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.Destroy &amp;&amp; typeof(appInstance.app.Destroy) == &quot;function&quot;)
 			{
 				appInstance.app.Destroy();
 			}
 			&#x2F;&#x2F; warn the container developer&#x2F;app developer that even though they have a destroy method it hasn&#x27;t been 
-			else if(appInstance.app.Destroy)
+			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.Destroy)
 			{
 				F2.log(app.config.appId + &quot; has a Destroy property, but Destroy is not of type function and as such will not be executed.&quot;);
 			}
@@ -435,7 +447,10 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		__trigger: function(token, eventKey) &#x2F;&#x2F; additional arguments will likely be passed
 		{			
 			&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
-			_validateToken(token);
+			if(token != _f2t)
+			{
+				throw (&quot;Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().&quot;)
+			}
 			
 			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
 			{				

@@ -33,14 +33,26 @@ F2.extend('AppHandlers', (function() {
 		},
 		appRender: function(appConfig, html)
 		{
+			var $root = null;
+			
 			// if no app root is defined use the apps outter most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
 				appConfig.root = jQuery(html).get(0);
+				// get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);				
 			}
+			else
+			{
+				// get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);			
+				
+				// append the app html to the root
+				$root.append(html);
+			}			
 			
 			// append the root to the body by default.
-			jQuery("body").append(appConfig.root);
+			jQuery("body").append($root);
 		},
 		appRenderAfter: function()
 		{
@@ -69,12 +81,12 @@ F2.extend('AppHandlers', (function() {
 		appDestroy: function(appInstance)
 		{			
 			// call the apps destroy method, if it has one
-			if(appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
+			if(appInstance && appInstance.app && appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
 			{
 				appInstance.app.Destroy();
 			}
 			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
-			else if(appInstance.app.Destroy)
+			else if(appInstance && appInstance.app && appInstance.app.Destroy)
 			{
 				F2.log(app.config.appId + " has a Destroy property, but Destroy is not of type function and as such will not be executed.");
 			}
@@ -212,7 +224,10 @@ F2.extend('AppHandlers', (function() {
 		__trigger: function(token, eventKey) // additional arguments will likely be passed
 		{			
 			// will throw an exception and stop execution if the token is invalid
-			_validateToken(token);
+			if(token != _f2t)
+			{
+				throw ("Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().")
+			}
 			
 			if(_handlerCollection && _handlerCollection[eventKey])
 			{				
