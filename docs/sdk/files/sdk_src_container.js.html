@@ -419,6 +419,16 @@ F2.extend(&#x27;&#x27;, (function(){
 				}
 			});
 		};
+		&#x2F;&#x2F;eval inlines
+		var evalInlines = function(){
+			jQuery.each(inlines, function(i, e) {
+				try {
+					eval(e);
+				} catch (exception) {
+					F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + e);
+				}
+			});
+		};
 
 		&#x2F;&#x2F; load styles
 		var stylesFragment = [];
@@ -495,13 +505,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				type:&#x27;GET&#x27;,
 				success:function() {
 					if (++scriptsLoaded == scriptCount) {
-						jQuery.each(inlines, function(i, e) {
-							try {
-								eval(e);
-							} catch (exception) {
-								F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + e);
-							}
-						});
+						evalInlines();
 						&#x2F;&#x2F; fire the load event to tell the app it can proceed
 						appInit();
 					}
@@ -514,6 +518,7 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; if no scripts were to be processed, fire the appLoad event
 		if (!scriptCount) {
+			evalInlines();
 			appInit();
 		}
 	};
@@ -679,7 +684,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			var callbackStack = {};
 			var haveManifests = false;
 			appConfigs = [].concat(appConfigs);
-			appManifests = appManifests || [];
+			appManifests = [].concat(appManifests || []);
 			haveManifests = !!appManifests.length;
 
 			&#x2F;&#x2F; appConfigs must have a length

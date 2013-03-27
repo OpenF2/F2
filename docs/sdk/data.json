@@ -1676,7 +1676,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 298,
+            "line": 303,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1699,7 +1699,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 361,
+            "line": 366,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1721,7 +1721,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 383,
+            "line": 388,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1734,7 +1734,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 398,
+            "line": 403,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -1750,7 +1750,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 422,
+            "line": 427,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1763,7 +1763,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 428,
+            "line": 433,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1785,7 +1785,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 586,
+            "line": 591,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1794,7 +1794,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 601,
+            "line": 606,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2420,11 +2420,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:361"
+            "line": " sdk\\src\\container.js:366"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:383"
+            "line": " sdk\\src\\container.js:388"
         },
         {
             "message": "replacing incorrect tag: params with param",
