@@ -18,11 +18,11 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../sdk/f2.debug.js"></script>
 
-	<!-- include spec files here... -->	
+	<!-- include spec files here... -->
 	<script type="text/javascript" src="spec/spec-helpers.js"></script>
 	<script type="text/javascript" src="spec/misc-spec.js"></script>
 	<script type="text/javascript" src="spec/preamble-spec.js"></script>
-	<script type="text/javascript" src="spec/container-spec.js"></script>	
+	<script type="text/javascript" src="spec/container-spec.js"></script>
 
 	<script type="text/javascript">
 	(function() {
@@ -36,11 +36,9 @@
 		jasmineEnv.specFilter = function(spec) {
 			return htmlReporter.specFilter(spec);
 		};
-		
-		// standard Jasmine init code
+								
 		jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-
-		// what you need to add
+		
 		var console_reporter = new jasmine.ConsoleReporter()
 		jasmine.getEnv().addReporter(console_reporter);
 
@@ -64,5 +62,6 @@
 
 	</head>
 	<body>
+		<div id="test-fixture" style="display: none;">Testing</div>
 	</body>
 </html>

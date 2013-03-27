@@ -36,8 +36,9 @@
 				jasmineEnv.specFilter = function(spec) {
 					return htmlReporter.specFilter(spec);
 				};
-				
-				// what you need to add
+								
+				jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+		
 				var console_reporter = new jasmine.ConsoleReporter()
 				jasmine.getEnv().addReporter(console_reporter);
 
@@ -62,5 +63,6 @@
 </head>
 
 <body>
+	<div id="test-fixture" style="display: none;">Testing</div>
 </body>
 </html>
