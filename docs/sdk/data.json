@@ -631,7 +631,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 154,
+            "line": 169,
             "description": "Allows container developer to retrieve a special token which must be passed to\nall On and Off methods. This function will self destruct so be sure to keep the response\ninside of a closure somewhere.",
             "itemtype": "method",
             "name": "getToken",
@@ -640,7 +640,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 168,
+            "line": 183,
             "description": "Allows F2 to get a token internally",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -651,7 +651,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 181,
+            "line": 196,
             "description": "Allows F2 to trigger specific app events internally.",
             "itemtype": "method",
             "name": "__trigger",
@@ -662,7 +662,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 235,
+            "line": 250,
             "description": "Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.",
             "itemtype": "method",
             "name": "on",
@@ -692,7 +692,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 246,
+            "line": 261,
             "description": "Allows you to add listener method that will be triggered when a specific event happens.",
             "itemtype": "method",
             "name": "on",
@@ -704,8 +704,8 @@
                     "type": "String"
                 },
                 {
-                    "name": "eventKey",
-                    "description": "The event key to remove handler from {{#crossLink \"F2.AppHandlers/CONSTANTS:property\"}}{{/crossLink}}.",
+                    "name": "eventKey{.namespace}",
+                    "description": "The event key to determine what listeners need to be removed. If no namespace is provided all\n listeners for the specified event type will be removed.\n Complete list available in {{#crossLink \"F2.Constants/AppHandlers:property\"}}{{/crossLink}}.",
                     "type": "String"
                 },
                 {
@@ -722,7 +722,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 286,
+            "line": 308,
             "description": "Allows you to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -735,7 +735,7 @@
                 },
                 {
                     "name": "eventKey{.namespace}",
-                    "description": "The event key to determine what listeners need to be removed. If no namespace is provided all listeners for the specified event type will be removed.",
+                    "description": "The event key to determine what listeners need to be removed. If no namespace is provided all\n listeners for the specified event type will be removed.\n Complete list available in {{#crossLink \"F2.Constants/AppHandlers:property\"}}{{/crossLink}}.",
                     "type": "String"
                 }
             ],
@@ -747,11 +747,95 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 322,
-            "description": "A collection of constants for the on/off method names. Basically just here to help you.",
+            "line": 355,
+            "description": "A collection of constants for the on/off method names in F2.AppHandlers.",
             "itemtype": "property",
-            "name": "CONSTANTS",
+            "name": "AppHandlers",
             "type": "Object",
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 361,
+            "description": "Identifies the create root method for use in AppHandlers.on/off/__trigger().",
+            "itemtype": "property",
+            "name": "APP_CREATE_ROOT",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 369,
+            "description": "Identifies the before app render method for use in AppHandlers.on/off/__trigger().",
+            "itemtype": "property",
+            "name": "APP_RENDER_BEFORE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 377,
+            "description": "Identifies the app render method for use in AppHandlers.on/off/__trigger().",
+            "itemtype": "property",
+            "name": "APP_RENDER",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 385,
+            "description": "Identifies the after app render method for use in AppHandlers.on/off/__trigger().",
+            "itemtype": "property",
+            "name": "APP_RENDER_AFTER",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 393,
+            "description": "Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().",
+            "itemtype": "property",
+            "name": "APP_DESTROY_BEFORE",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 401,
+            "description": "Identifies the app destroy method for use in AppHandlers.on/off/__trigger().",
+            "itemtype": "property",
+            "name": "APP_DESTROY",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\app_handlers.js",
+            "line": 409,
+            "description": "Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().",
+            "itemtype": "property",
+            "name": "APP_DESTROY_AFTER",
+            "type": "string",
+            "static": 1,
+            "final": 1,
             "class": "F2.AppHandlers",
             "module": "f2"
         },
@@ -2328,11 +2412,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:235"
+            "line": " sdk\\src\\app_handlers.js:250"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:246"
+            "line": " sdk\\src\\app_handlers.js:261"
         },
         {
             "message": "replacing incorrect tag: returns with return",

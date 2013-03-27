@@ -385,7 +385,7 @@ inside of a closure somewhere.</p></td>
 										
 										<li>
 											
-												eventKey
+												eventKey{.namespace}
 											
 										</li>
 										
@@ -422,9 +422,58 @@ inside of a closure somewhere.</p></td>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#properties-CONSTANTS">CONSTANTS</a>
+							<a href="#properties-APP_CREATE_ROOT">APP_CREATE_ROOT</a>
 						</td>
-						<td><p>A collection of constants for the on/off method names. Basically just here to help you.</p></td>
+						<td><p>Identifies the create root method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-APP_DESTROY">APP_DESTROY</a>
+						</td>
+						<td><p>Identifies the app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-APP_DESTROY_AFTER">APP_DESTROY_AFTER</a>
+						</td>
+						<td><p>Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-APP_DESTROY_BEFORE">APP_DESTROY_BEFORE</a>
+						</td>
+						<td><p>Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-APP_RENDER">APP_RENDER</a>
+						</td>
+						<td><p>Identifies the app render method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-APP_RENDER_AFTER">APP_RENDER_AFTER</a>
+						</td>
+						<td><p>Identifies the after app render method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-APP_RENDER_BEFORE">APP_RENDER_BEFORE</a>
+						</td>
+						<td><p>Identifies the before app render method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-AppHandlers">AppHandlers</a>
+						</td>
+						<td><p>A collection of constants for the on/off method names in F2.AppHandlers.</p></td>
 					</tr>
 					
 				</tbody>
@@ -478,7 +527,7 @@ inside of a closure somewhere.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l168"><code>sdk\src\app_handlers.js:168</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l183"><code>sdk\src\app_handlers.js:183</code></a></dd>
 			
 
 			
@@ -536,7 +585,7 @@ inside of a closure somewhere.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l181"><code>sdk\src\app_handlers.js:181</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l196"><code>sdk\src\app_handlers.js:196</code></a></dd>
 			
 
 			
@@ -594,7 +643,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l154"><code>sdk\src\app_handlers.js:154</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l169"><code>sdk\src\app_handlers.js:169</code></a></dd>
 			
 
 			
@@ -668,7 +717,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l286"><code>sdk\src\app_handlers.js:286</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l308"><code>sdk\src\app_handlers.js:308</code></a></dd>
 			
 
 			
@@ -707,7 +756,9 @@ inside of a closure somewhere.</p>
 					
 
 					<p>
-						<p>The event key to determine what listeners need to be removed. If no namespace is provided all listeners for the specified event type will be removed.</p>
+						<p>The event key to determine what listeners need to be removed. If no namespace is provided all
+ listeners for the specified event type will be removed.
+ Complete list available in F2.Constants/AppHandlers:property.</p>
 					</p>
 
 					
@@ -792,7 +843,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l235"><code>sdk\src\app_handlers.js:235</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l250"><code>sdk\src\app_handlers.js:250</code></a></dd>
 			
 
 			
@@ -831,7 +882,7 @@ inside of a closure somewhere.</p>
 					
 
 					<p>
-						<p>The event key to remove handler from <a href="..\classes\F2.AppHandlers.html#property_CONSTANTS" class="crosslink">CONSTANTS</a>.</p>
+						<p>The event key to remove handler from F2.AppHandlers/CONSTANTS:property.</p>
 					</p>
 
 					
@@ -889,7 +940,7 @@ inside of a closure somewhere.</p>
 				
 				<li>
 					
-						eventKey
+						eventKey{.namespace}
 					
 				</li>
 				
@@ -932,7 +983,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l246"><code>sdk\src\app_handlers.js:246</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l261"><code>sdk\src\app_handlers.js:261</code></a></dd>
 			
 
 			
@@ -964,14 +1015,16 @@ inside of a closure somewhere.</p>
 				
 				<li class="param">
 					
-						<code class="param-name">eventKey</code>
+						<code class="param-name">eventKey{.namespace}</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The event key to remove handler from <a href="..\classes\F2.AppHandlers.html#property_CONSTANTS" class="crosslink">CONSTANTS</a>.</p>
+						<p>The event key to determine what listeners need to be removed. If no namespace is provided all
+ listeners for the specified event type will be removed.
+ Complete list available in F2.Constants/AppHandlers:property.</p>
 					</p>
 
 					
@@ -1021,9 +1074,380 @@ inside of a closure somewhere.</p>
 	
 	<div id="properties" class="tab-pane">
 		
-		<section id="properties-CONSTANTS" class="level2 ">
+		<section id="properties-APP_CREATE_ROOT" class="level2 ">
 	<h3>
-		CONSTANTS
+		APP_CREATE_ROOT
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the create root method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l361"><code>sdk\src\app_handlers.js:361</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_DESTROY" class="level2 ">
+	<h3>
+		APP_DESTROY
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the app destroy method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l401"><code>sdk\src\app_handlers.js:401</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_DESTROY_AFTER" class="level2 ">
+	<h3>
+		APP_DESTROY_AFTER
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l409"><code>sdk\src\app_handlers.js:409</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_DESTROY_BEFORE" class="level2 ">
+	<h3>
+		APP_DESTROY_BEFORE
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l393"><code>sdk\src\app_handlers.js:393</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_RENDER" class="level2 ">
+	<h3>
+		APP_RENDER
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the app render method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l377"><code>sdk\src\app_handlers.js:377</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_RENDER_AFTER" class="level2 ">
+	<h3>
+		APP_RENDER_AFTER
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the after app render method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l385"><code>sdk\src\app_handlers.js:385</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_RENDER_BEFORE" class="level2 ">
+	<h3>
+		APP_RENDER_BEFORE
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the before app render method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l369"><code>sdk\src\app_handlers.js:369</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-AppHandlers" class="level2 ">
+	<h3>
+		AppHandlers
 
 		<span class="label type">Object</span>
 
@@ -1037,7 +1461,7 @@ inside of a closure somewhere.</p>
 	</h3>
 
 	<p>
-		<p>A collection of constants for the on/off method names. Basically just here to help you.</p>
+		<p>A collection of constants for the on/off method names in F2.AppHandlers.</p>
 	</p>
 
 	<div class="well well-small">
@@ -1050,7 +1474,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l322"><code>sdk\src\app_handlers.js:322</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l355"><code>sdk\src\app_handlers.js:355</code></a></dd>
 			
 
 			

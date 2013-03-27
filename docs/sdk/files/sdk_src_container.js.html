@@ -450,7 +450,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
-					F2.AppHandlers.CONSTANTS.APP_RENDER,
+					F2.Constants.AppHandlers.APP_RENDER,
 					appConfigs[i], &#x2F;&#x2F; the app config
 					outerHtml(a.html)
 				);
@@ -462,7 +462,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
-					F2.AppHandlers.CONSTANTS.APP_RENDER_AFTER,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
 					appConfigs[i] &#x2F;&#x2F; the app config
 				);
 				
@@ -541,7 +541,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
-					F2.AppHandlers.CONSTANTS.APP_RENDER,
+					F2.Constants.AppHandlers.APP_RENDER,
 					appConfig, &#x2F;&#x2F; the app config
 					appManifest.html
 				);
@@ -553,7 +553,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
-					F2.AppHandlers.CONSTANTS.APP_RENDER_AFTER,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
 					appConfig &#x2F;&#x2F; the app config
 				);
 				
@@ -716,13 +716,13 @@ F2.extend(&#x27;&#x27;, (function(){
 				{
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
-						F2.AppHandlers.CONSTANTS.APP_CREATE_ROOT,
+						F2.Constants.AppHandlers.APP_CREATE_ROOT,
 						a &#x2F;&#x2F; the app config
 					);
 					
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
-						F2.AppHandlers.CONSTANTS.APP_RENDER_BEFORE,
+						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
 						a &#x2F;&#x2F; the app config
 					);
 				}
@@ -834,11 +834,35 @@ F2.extend(&#x27;&#x27;, (function(){
 			}
 
 			if (_apps[instanceId]) {
-				jQuery(_apps[instanceId].config.root).fadeOut(function() {
-					jQuery(this).remove();
-				});
-
-				delete _apps[instanceId];
+				
+				if(!_bUsesAppHandlers)
+				{				
+					jQuery(_apps[instanceId].config.root).fadeOut(function() {
+						jQuery(this).remove();
+					});
+				}
+				else
+				{
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+						_apps[instanceId] &#x2F;&#x2F; the app instance
+					);
+					
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_DESTROY,
+						_apps[instanceId] &#x2F;&#x2F; the app instance
+					);
+					
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+						_apps[instanceId] &#x2F;&#x2F; the app instance
+					);
+				}
+				
+				&#x2F;&#x2F;delete _apps[instanceId];
 			}
 		}
 	};

@@ -19,15 +19,39 @@ $(function() {
 	F2.AppHandlers
 	.on(
 		containerAppHandlerToken,
-		F2.AppHandlers.CONSTANTS.APP_CREATE_ROOT,
+		F2.Constants.AppHandlers.APP_CREATE_ROOT,
 		function(appConfig)
-		{
-			appConfig.root = $("<section></section>").get(0);
+		{			
+			var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, appConfig.views);
+			var hasHelp = F2.inArray(F2.Constants.Views.HELP, appConfig.views);
+			var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, appConfig.views);
+			var showDivider = hasSettings || hasHelp || hasAbout;
+			var gridWidth = appConfig.minGridSize || 3;
+
+			appConfig.root = $([
+				'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '">',
+					'<header class="clearfix">',
+						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
+						'<div class="btn-group pull-right">',
+							'<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown">',
+								'<i class="icon-cog"></i>',
+							'</button>',
+							'<ul class="dropdown-menu">',
+								hasSettings ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.SETTINGS + '">Edit Settings</a></li>' : '',
+								hasHelp ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.HELP + '">Help</a></li>' : '',
+								hasAbout ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.ABOUT + '">About</a></li>' : '',
+								showDivider ? '<li class="divider"></li>' : '',
+								'<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.REMOVE + '">Remove App</a></li>',
+							'</ul>',
+						'</div>',
+					'</header>',
+				'</section>'
+			].join('')).get(0);			
 		}
 	)
 	.on(
 		containerAppHandlerToken,
-		F2.AppHandlers.CONSTANTS.APP_RENDER_BEFORE,
+		F2.Constants.AppHandlers.APP_RENDER_BEFORE,
 		function(appConfig){
 			F2.UI.hideMask(appConfig.instanceId, appConfig.root);
 			$(appConfig.root).addClass("render-before-testing");			
@@ -35,15 +59,36 @@ $(function() {
 	)
 	.on(
 		containerAppHandlerToken,
-		F2.AppHandlers.CONSTANTS.APP_RENDER,
+		F2.Constants.AppHandlers.APP_RENDER,
 		$("body").get(0)
 	)
 	.on(
 		containerAppHandlerToken,
-		F2.AppHandlers.CONSTANTS.APP_RENDER_AFTER,
+		F2.Constants.AppHandlers.APP_RENDER_AFTER,
 		function(appConfig){			
 			$(appConfig.root).addClass("render-after-testing");
 			F2.UI.hideMask(appConfig.instanceId, appConfig.root);
+		}
+	)
+	.on(
+		containerAppHandlerToken,
+		F2.Constants.AppHandlers.APP_DESTROY,
+		function(appInstance) {
+			// call the apps destroy method, if it has one
+			if(appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
+			{
+				appInstance.app.Destroy();
+			}
+			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
+			else if(appInstance.app.Destroy)
+			{
+				F2.log(app.config.appId + " has a Destroy property, but Destroy is not of type function and as such will not be executed.");
+			}
+			
+			// fade out and remove the root
+			jQuery(appInstance.config.root).slideUp(100, function() {
+				jQuery(this).remove();
+			});
 		}
 	);
 

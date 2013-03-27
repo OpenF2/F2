@@ -2,6 +2,7 @@
  * Allows container developers more flexibility when it comes to handling app interaction.
  * @class F2.AppHandlers
  */
+
 F2.extend('AppHandlers', (function() {
 
 	// the hidden token that we will check against every time someone tries to add, remove, fire handler
@@ -11,13 +12,13 @@ F2.extend('AppHandlers', (function() {
 	var _handlerCollection = {
 		appCreateRoot: [],
 		appRenderBefore: [],			
-		appReloadBefore: [],
+		//appReloadBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
-		appReloadAfter: [],
+		//appReloadAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
-		appReload: [],
+		//appReload: [],
 		appDestroy: []			
 	};
 	
@@ -54,9 +55,23 @@ F2.extend('AppHandlers', (function() {
 		{
 			// do nothing before destroying app
 		},
-		appDestroy: function()
-		{
-			// remove the app from the dom
+		appDestroy: function(appInstance)
+		{			
+			// call the apps destroy method, if it has one
+			if(appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
+			{
+				appInstance.app.Destroy();
+			}
+			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
+			else if(appInstance.app.Destroy)
+			{
+				F2.log(app.config.appId + " has a Destroy property, but Destroy is not of type function and as such will not be executed.");
+			}
+			
+			// fade out and remove the root
+			jQuery(appInstance.config.root).fadeOut(function() {
+				jQuery(this).remove();
+			});
 		},
 		appDestroyAfter: function()
 		{
@@ -183,7 +198,7 @@ F2.extend('AppHandlers', (function() {
 		* @method __trigger
 		* @private
 		**/
-		__trigger: function(token, eventKey, appConfig, html) // additional arguments will likely be passed
+		__trigger: function(token, eventKey) // additional arguments will likely be passed
 		{			
 			// will throw an exception and stop execution if the token is invalid
 			_validateToken(token);
@@ -214,9 +229,9 @@ F2.extend('AppHandlers', (function() {
 				{
 					var handler = _handlerCollection[eventKey][i];
 					
-					if (handler.domNode)
+					if (handler.domNode && arguments[2] && arguments[2].root && arguments[3])
 					{
-						var $appRoot = jQuery(appConfig.root).append(html);
+						var $appRoot = jQuery(arguments[2].root).append(arguments[3]);
 						jQuery(handler.domNode).append($appRoot);
 					}
 					else
@@ -248,7 +263,9 @@ F2.extend('AppHandlers', (function() {
 		* @method on
 		* @chainable
 		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}}.
-		* @param {String} eventKey The event key to remove handler from {{#crossLink "F2.AppHandlers/CONSTANTS:property"}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key to determine what listeners need to be removed. If no namespace is provided all
+		*  listeners for the specified event type will be removed.
+		*  Complete list available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {Function} listener A function that will be triggered when a specific event happens.
 		* @example
 		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log("before app rendered!"); });		
@@ -256,6 +273,11 @@ F2.extend('AppHandlers', (function() {
 		on: function(token, eventKey, func_or_element)
 		{
 			var sNamespace = null;
+			
+			if(!eventKey)
+			{
+				throw ("eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.");
+			}
 			
 			// we need to check the key for a namespace
 			if(eventKey.indexOf(".") > -1)
@@ -288,13 +310,20 @@ F2.extend('AppHandlers', (function() {
 		* @method off
 		* @chainable
 		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}}.
-		* @param {String} eventKey{.namespace} The event key to determine what listeners need to be removed. If no namespace is provided all listeners for the specified event type will be removed.
+		* @param {String} eventKey{.namespace} The event key to determine what listeners need to be removed. If no namespace is provided all
+		*  listeners for the specified event type will be removed.
+		*  Complete list available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @example
 		* 		F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
 		**/
 		off: function(token, eventKey)
 		{
 			var sNamespace = null;
+			
+			if(!eventKey)
+			{
+				throw ("eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.");
+			}
 			
 			// we need to check the key for a namespace
 			if(eventKey.indexOf(".") > -1)
@@ -318,26 +347,72 @@ F2.extend('AppHandlers', (function() {
 			}
 			
 			return this;
-		},
-		/**
-		* A collection of constants for the on/off method names. Basically just here to help you.
-		* @property {Object} CONSTANTS
-		**/
-		CONSTANTS:
-		{
-			APP_CREATE_ROOT: "appCreateRoot",
-			
-			APP_RENDER_BEFORE: "appRenderBefore",					
-			APP_RENDER: "appRender",
-			APP_RENDER_AFTER: "appRenderAfter",
-			
-			APP_RELOAD_BEFORE: "appReloadBefore",
-			APP_RELOAD: "appReload",
-			APP_RELOAD_AFTER: "appReloadAfter",			
-			
-			APP_DESTROY_BEFORE: "appDestroyBefore",				
-			APP_DESTROY: "appDestroy",
-			APP_DESTROY_AFTER: "appDestroyAfter"
 		}
 	};
 })());
+
+F2.extend('Constants', {
+	/**
+	* A collection of constants for the on/off method names in F2.AppHandlers.
+	* @property {Object} AppHandlers
+	**/
+	AppHandlers:
+	{
+		/**
+		 * Identifies the create root method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_CREATE_ROOT
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_CREATE_ROOT: "appCreateRoot",
+		/**
+		 * Identifies the before app render method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_RENDER_BEFORE
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_RENDER_BEFORE: "appRenderBefore",
+		/**
+		 * Identifies the app render method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_RENDER
+		 * @type string
+		 * @static
+		 * @final
+		 */		
+		APP_RENDER: "appRender",
+		/**
+		 * Identifies the after app render method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_RENDER_AFTER
+		 * @type string
+		 * @static
+		 * @final
+		 */	
+		APP_RENDER_AFTER: "appRenderAfter",
+		/**
+		 * Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_DESTROY_BEFORE
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_DESTROY_BEFORE: "appDestroyBefore",
+		/**
+		 * Identifies the app destroy method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_DESTROY
+		 * @type string
+		 * @static
+		 * @final
+		 */		
+		APP_DESTROY: "appDestroy",
+		/**
+		 * Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_DESTROY_AFTER
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_DESTROY_AFTER: "appDestroyAfter"
+	}
+});
