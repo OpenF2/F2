@@ -1573,13 +1573,24 @@ F2.extend('AppHandlers', (function() {
 	};
 	
 	var _defaultMethods = {
-		appRenderBefore: function(appConfig, html)
+		appCreateRoot: function()
+		{
+			// do nothing to create root. F2.Container will automatically create the root in the default appRender
+		},
+		appRenderBefore: function(appConfig)
 		{
 			// do nothing before an app is rendered
 		},
-		appRender: function()
+		appRender: function(appConfig, html)
 		{
-			// do something
+			// if no app root is defined use the apps outter most node
+			if(!F2.isNativeDOMNode(appConfig.root))
+			{
+				appConfig.root = jQuery(html).get(0);
+			}
+			
+			// append the root to the body by default.
+			jQuery("body").append(appConfig.root);
 		},
 		appRenderAfter: function()
 		{
@@ -2235,6 +2246,24 @@ F2.extend("", {
 		 */
 		isSecureAppPage: false,
 		/**
+		 * Allows the container to specify which page is used when
+		 * loading a secure app. The page must reside on a different domain than the
+		 * container
+		 * @property secureAppPagePath
+		 * @type string
+		 * @for F2.ContainerConfig
+		 */
+		secureAppPagePath: '',
+		/**
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app's header.
+		 * @property supportedViews
+		 * @type Array
+		 * @required
+		 */
+		supportedViews: [],
+		/**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
 		 */
@@ -2283,25 +2312,7 @@ F2.extend("", {
 				 */
 				zIndex: 2
 			}
-		},
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
-		/**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app's header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 */
-		supportedViews: []
+		}
 	}
 });
 /**
@@ -3639,15 +3650,7 @@ F2.extend('', (function(){
 				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			}
 			else
-			{				
-				// if no app root is defined use the apps outter most node
-				if(!F2.isNativeDOMNode(appConfigs[i].root))
-				{
-					appConfigs[i].root = jQuery(outerHtml(a.html)).get(0);
-				}
-				
-				var $root = jQuery(appConfigs[i].root);
-				
+			{
 				function outerHtml(html) {
 					return jQuery('<div></div>').append(html).html();
 				}
@@ -3658,6 +3661,13 @@ F2.extend('', (function(){
 					appConfigs[i], // the app config
 					outerHtml(a.html)
 				);
+				
+				if(!appConfigs[i].root)
+				{
+					throw("App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+				}
+				
+				var $root = jQuery(appConfigs[i].root);
 				
 				if($root.parents("body:first").length == 0)
 				{
@@ -3670,17 +3680,12 @@ F2.extend('', (function(){
 					appConfigs[i] // the app config
 				);
 				
-				if(!appConfigs[i].root)
-				{
-					throw("App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
-				}
-				
 				if(!F2.isNativeDOMNode(appConfigs[i].root))
 				{
 					throw("App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
 				}
 				
-				jQuery(appConfigs[i].root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId);
+				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId);
 			}
 			
 			// init events

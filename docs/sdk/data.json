@@ -262,7 +262,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk\\src\\classes.js",
-            "line": 269,
+            "line": 287,
             "description": "An object containing configuration defaults for F2.UI"
         },
         "F2.ContainerConfig.UI.Mask": {
@@ -276,7 +276,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk\\src\\classes.js",
-            "line": 274,
+            "line": 292,
             "description": "An object containing configuration defaults for the \nF2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} and\nF2.UI.{{#crossLink \"F2.UI/hideMask\"}}{{/crossLink}} methods."
         },
         "F2.Constants": {
@@ -631,7 +631,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 169,
+            "line": 180,
             "description": "Allows container developer to retrieve a special token which must be passed to\nall On and Off methods. This function will self destruct so be sure to keep the response\ninside of a closure somewhere.",
             "itemtype": "method",
             "name": "getToken",
@@ -640,7 +640,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 183,
+            "line": 194,
             "description": "Allows F2 to get a token internally",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -651,7 +651,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 196,
+            "line": 207,
             "description": "Allows F2 to trigger specific app events internally.",
             "itemtype": "method",
             "name": "__trigger",
@@ -662,7 +662,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 250,
+            "line": 261,
             "description": "Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.",
             "itemtype": "method",
             "name": "on",
@@ -692,7 +692,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 261,
+            "line": 272,
             "description": "Allows you to add listener method that will be triggered when a specific event happens.",
             "itemtype": "method",
             "name": "on",
@@ -722,7 +722,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 308,
+            "line": 319,
             "description": "Allows you to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -747,7 +747,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 355,
+            "line": 366,
             "description": "A collection of constants for the on/off method names in F2.AppHandlers.",
             "itemtype": "property",
             "name": "AppHandlers",
@@ -757,7 +757,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 361,
+            "line": 372,
             "description": "Identifies the create root method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_CREATE_ROOT",
@@ -769,7 +769,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 369,
+            "line": 380,
             "description": "Identifies the before app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_BEFORE",
@@ -781,7 +781,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 377,
+            "line": 388,
             "description": "Identifies the app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER",
@@ -793,7 +793,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 385,
+            "line": 396,
             "description": "Identifies the after app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_AFTER",
@@ -805,7 +805,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 393,
+            "line": 404,
             "description": "Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_BEFORE",
@@ -817,7 +817,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 401,
+            "line": 412,
             "description": "Identifies the app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY",
@@ -829,7 +829,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 409,
+            "line": 420,
             "description": "Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_AFTER",
@@ -1162,7 +1162,28 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 281,
+            "line": 269,
+            "description": "Allows the container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the\ncontainer",
+            "itemtype": "property",
+            "name": "secureAppPagePath",
+            "type": "string",
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\classes.js",
+            "line": 278,
+            "description": "Specifies what views a container will provide buttons\nor links to. Generally, the views will be switched via buttons or links\nin the app's header.",
+            "itemtype": "property",
+            "name": "supportedViews",
+            "type": "Array",
+            "required": 1,
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\classes.js",
+            "line": 299,
             "description": "The backround color of the overlay",
             "itemtype": "property",
             "name": "backgroundColor",
@@ -1173,7 +1194,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 288,
+            "line": 306,
             "description": "The path to the loading icon",
             "itemtype": "property",
             "name": "loadingIcon",
@@ -1183,7 +1204,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 294,
+            "line": 312,
             "description": "The opacity of the background overlay",
             "itemtype": "property",
             "name": "opacity",
@@ -1194,7 +1215,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 301,
+            "line": 319,
             "description": "Do not use inline styles for mask functinality. Instead classes will\nbe applied to the elements and it is up to the container provider to\nimplement the class definitions.",
             "itemtype": "property",
             "name": "useClasses",
@@ -1205,34 +1226,13 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 310,
+            "line": 328,
             "description": "The z-index to use for the overlay",
             "itemtype": "property",
             "name": "zIndex",
             "type": "int",
             "default": "2",
             "class": "F2.ContainerConfig.UI.Mask",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\classes.js",
-            "line": 319,
-            "description": "Allows the container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the\ncontainer",
-            "itemtype": "property",
-            "name": "secureAppPagePath",
-            "type": "string",
-            "class": "F2.ContainerConfig",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\classes.js",
-            "line": 328,
-            "description": "Specifies what views a container will provide buttons\nor links to. Generally, the views will be switched via buttons or links\nin the app's header.",
-            "itemtype": "property",
-            "name": "supportedViews",
-            "type": "Array",
-            "required": 1,
-            "class": "F2.ContainerConfig",
             "module": "f2"
         },
         {
@@ -1676,7 +1676,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 303,
+            "line": 297,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1699,7 +1699,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 366,
+            "line": 360,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1721,7 +1721,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 388,
+            "line": 382,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1734,7 +1734,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 403,
+            "line": 397,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -1750,7 +1750,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 427,
+            "line": 421,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1763,7 +1763,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 433,
+            "line": 427,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1785,7 +1785,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 591,
+            "line": 585,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1794,7 +1794,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 606,
+            "line": 600,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2412,19 +2412,19 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:250"
-        },
-        {
-            "message": "replacing incorrect tag: params with param",
             "line": " sdk\\src\\app_handlers.js:261"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:366"
+            "message": "replacing incorrect tag: params with param",
+            "line": " sdk\\src\\app_handlers.js:272"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:388"
+            "line": " sdk\\src\\container.js:360"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " sdk\\src\\container.js:382"
         },
         {
             "message": "replacing incorrect tag: params with param",

@@ -23,13 +23,24 @@ F2.extend('AppHandlers', (function() {
 	};
 	
 	var _defaultMethods = {
-		appRenderBefore: function(appConfig, html)
+		appCreateRoot: function()
+		{
+			// do nothing to create root. F2.Container will automatically create the root in the default appRender
+		},
+		appRenderBefore: function(appConfig)
 		{
 			// do nothing before an app is rendered
 		},
-		appRender: function()
+		appRender: function(appConfig, html)
 		{
-			// do something
+			// if no app root is defined use the apps outter most node
+			if(!F2.isNativeDOMNode(appConfig.root))
+			{
+				appConfig.root = jQuery(html).get(0);
+			}
+			
+			// append the root to the body by default.
+			jQuery("body").append(appConfig.root);
 		},
 		appRenderAfter: function()
 		{

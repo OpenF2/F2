@@ -16,7 +16,8 @@ $(function() {
 	});
 	
 	// Define these prior to init
-	F2.AppHandlers
+	/*
+	F2.AppHandlers	
 	.on(
 		containerAppHandlerToken,
 		F2.Constants.AppHandlers.APP_CREATE_ROOT,
@@ -91,7 +92,8 @@ $(function() {
 			});
 		}
 	);
-
+	*/
+	
 	//listen for app symbol change events and re-broadcast
 	F2.Events.on(
 		F2.Constants.Events.APP_SYMBOL_CHANGE,

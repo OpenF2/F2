@@ -267,6 +267,24 @@ F2.extend("", {
 		 */
 		isSecureAppPage: false,
 		/**
+		 * Allows the container to specify which page is used when
+		 * loading a secure app. The page must reside on a different domain than the
+		 * container
+		 * @property secureAppPagePath
+		 * @type string
+		 * @for F2.ContainerConfig
+		 */
+		secureAppPagePath: '',
+		/**
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app's header.
+		 * @property supportedViews
+		 * @type Array
+		 * @required
+		 */
+		supportedViews: [],
+		/**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
 		 */
@@ -315,24 +333,6 @@ F2.extend("", {
 				 */
 				zIndex: 2
 			}
-		},
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
-		/**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app's header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 */
-		supportedViews: []
+		}
 	}
 });

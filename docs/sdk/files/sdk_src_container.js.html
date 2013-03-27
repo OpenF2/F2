@@ -445,15 +445,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			}
 			else
-			{				
-				&#x2F;&#x2F; if no app root is defined use the apps outter most node
-				if(!F2.isNativeDOMNode(appConfigs[i].root))
-				{
-					appConfigs[i].root = jQuery(outerHtml(a.html)).get(0);
-				}
-				
-				var $root = jQuery(appConfigs[i].root);
-				
+			{
 				function outerHtml(html) {
 					return jQuery(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
 				}
@@ -464,6 +456,13 @@ F2.extend(&#x27;&#x27;, (function(){
 					appConfigs[i], &#x2F;&#x2F; the app config
 					outerHtml(a.html)
 				);
+				
+				if(!appConfigs[i].root)
+				{
+					throw(&quot;App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&quot;);
+				}
+				
+				var $root = jQuery(appConfigs[i].root);
 				
 				if($root.parents(&quot;body:first&quot;).length == 0)
 				{
@@ -476,17 +475,12 @@ F2.extend(&#x27;&#x27;, (function(){
 					appConfigs[i] &#x2F;&#x2F; the app config
 				);
 				
-				if(!appConfigs[i].root)
-				{
-					throw(&quot;App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&quot;);
-				}
-				
 				if(!F2.isNativeDOMNode(appConfigs[i].root))
 				{
 					throw(&quot;App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&quot;);
 				}
 				
-				jQuery(appConfigs[i].root).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfigs[i].appId);
+				$root.addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfigs[i].appId);
 			}
 			
 			&#x2F;&#x2F; init events
