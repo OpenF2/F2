@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - The Open Financial Framework</title>
-	<meta name="dcterms.date" content="13 March 2013">
-	<meta name="gitbranch" content="1.2-wip">
+	<meta name="dcterms.date" content="18 March 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
 	<script src=".&#x2F;../js/respond.min.js"></script>
 	
 	<link href=".&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href=".&#x2F;../css/F2.Sdk.css?1.2.0" rel="stylesheet">
+	<link href=".&#x2F;../css/F2.Sdk.css?1.1.1" rel="stylesheet">
 
 	<link rel="icon" href=".&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href=".&#x2F;../img/touch-icon-iphone-57.png" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href=".&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href=".&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.2-wip' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.1)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -110,11 +110,15 @@
 	
 		<li class=""><a href=".&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href=".&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href=".&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href=".&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href=".&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href=".&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href=".&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -160,11 +164,15 @@
 	
 		<li class=""><a href=".&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href=".&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href=".&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href=".&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href=".&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href=".&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href=".&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -213,7 +221,9 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>An open framework for the financial services industry.</h1>
+				<p><a href="https://travis-ci.org/Ali-Khatami/F2"><img src="https://travis-ci.org/Ali-Khatami/F2.png?branch=Container-Event_Rendering-Additions" alt="Build Status" title="" /></a></p>
+
+<h1>An open framework for the financial services industry.</h1>
 
 <p>F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The <a href="http://docs.openf2.org/index.html#framework">essential components</a> defined by the F2 specification are the Container, Apps, Context and Store&mdash;all supported under the hood by <strong><a href="http://docs.openf2.org/f2js-sdk.html">F2.js</a></strong>, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. </p>
 
@@ -243,7 +253,7 @@
 
 <h2>Talk</h2>
 
-<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;:&#105;&#110;&#102;&#111;&#64;o&#112;&#x65;&#110;&#x66;2&#x2E;&#111;&#x72;&#x67;">&#105;&#110;&#102;&#111;&#64;o&#112;&#x65;&#110;&#x66;2&#x2E;&#111;&#x72;&#x67;</a>.</p>
+<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="m&#x61;&#x69;&#x6C;t&#111;:&#x69;&#110;&#102;&#x6F;&#x40;op&#x65;&#x6E;&#102;&#50;.&#x6F;&#114;&#x67;">&#x69;&#110;&#102;&#x6F;&#x40;op&#x65;&#x6E;&#102;&#50;.&#x6F;&#114;&#x67;</a>.</p>
 
 <h2>Bug Tracking</h2>
 
@@ -273,6 +283,12 @@
 
 <p>We are using <a href="https://github.com/markitondemand/markitdown">markitdown</a>, a lightweight pandoc wrapper, for converting markdown files to HTML for the <a href="http://docs.openf2.org">docs</a>.</p>
 
+NuGet Package
+
+<p>Good news if you're using C#! We have an <a href="https://nuget.org/packages/F2/">F2 NuGet package available</a>. In the Package Manager Console run:</p>
+
+<p><code>PM&gt; Install-Package F2</code></p>
+
 <h3>Collaboration</h3>
 
 <p>Join our team and help contribute to F2 on GitHub. Begin by reading our <a href="CONTRIBUTING.md">contribution guidelines</a>, and then start by <a href="https://github.com/OpenF2/F2/fork_select">forking the repo</a>, sending <a href="https://help.github.com/articles/using-pull-requests">pull requests</a>, or <a href="https://github.com/OpenF2/F2/issues">submitting issues</a>.</p>
@@ -294,7 +310,7 @@
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 13 March 2013</small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 18 March 2013</small></p>
 			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
@@ -307,7 +323,7 @@
 <script src=".&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.2-wip'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

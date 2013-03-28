@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - F2.UI</title>
-	<meta name="dcterms.date" content="13 March 2013">
-	<meta name="gitbranch" content="1.2-wip">
+	<title>F2 - F2.AppHandlers</title>
+	<meta name="dcterms.date" content="18 March 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
 	<script src="..&#x2F;../js/respond.min.js"></script>
 	
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.2.0" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1.1.1" rel="stylesheet">
 
 	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.2-wip' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.1)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -221,10 +221,12 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.UI</h1>
+				<h1>F2.AppHandlers</h1>
 
 <p>
-	<p>UI helper methods</p>
+	<p>Allows container developers more flexibility when it comes to handling app interaction. Starting with version 1.3 this is the preferred method
+for choosing how app rendering/interaction happens. This replaces the config versions of beforeAppRender, appRender, and afterAppRender. It also
+adds hooks into an app being removed/destroyed. As F2 evolves more hooks will be added to aid in container development.</p>
 </p>
 
 <div class="well well-small">
@@ -235,7 +237,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l5"><code>sdk&#x2F;src&#x2F;ui.js:5</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l1"><code>sdk\src\app_handlers.js:1</code></a></dd>
 		
 
 		
@@ -258,92 +260,6 @@
 	<!-- SUMMARY TAB -->
 	<div id="summary" class="tab-pane active">
 		
-			<h3>Constructor</h3>
-			<section id="methods-F2.UI" class="level2 ">
-	<h3>
-		F2.UI
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						appConfig
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l5"><code>sdk&#x2F;src&#x2F;ui.js:5</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-					
-
-					
-
-					<p>
-						<p>The F2.AppConfig object</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-</section>
-		
 
 		
 		<div class="index-section methods">
@@ -357,17 +273,37 @@
 				</thead>
 				<tbody>
 					
-					<tr class="">
+					<tr class=" private">
 						<td class="name">
-							<a href="#methods-hideMask">
-								hideMask
+							<a href="#methods-__f2GetToken">
+								__f2GetToken
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows F2 to get a token internally. Token is required to call <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+and other internal methods.</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a href="#methods-__trigger">
+								__trigger
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												selector
+												token
+											
+										</li>
+										
+										<li>
+											
+												eventKey
 											
 										</li>
 										
@@ -376,48 +312,40 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Removes a overlay from an Element on the page</p></td>
+						<td><p>Allows F2 to trigger specific app events internally.</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-hideMask">
-								hideMask
+							<a href="#methods-getToken">
+								getToken
 								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												instanceId
-											
-										</li>
-										
-										<li>
-											
-												selector
-											
-										</li>
-										
-									</ul>
 								
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Removes a overlay from an Element on the page</p></td>
+						<td><p>Allows container developer to retrieve a special token which must be passed to
+all On and Off methods. This function will self destruct so be sure to keep the response
+inside of a closure somewhere.</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-init">
-								init
+							<a href="#methods-off">
+								off
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												containerConfig
+												token
+											
+										</li>
+										
+										<li>
+											
+												eventKey{.namespace}
 											
 										</li>
 										
@@ -426,20 +354,32 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td></td>
+						<td><p>Allows you to remove listener methods for specific events</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-setTitle">
-								setTitle
+							<a href="#methods-on">
+								on
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												title
+												token
+											
+										</li>
+										
+										<li>
+											
+												eventKey{.namespace}
+											
+										</li>
+										
+										<li>
+											
+												element
 											
 										</li>
 										
@@ -448,29 +388,32 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Sets the title of the app as shown in the browser. Depending on the
-container HTML, this method may do nothing if the container has not been
-configured properly or else the container provider does not allow Title's
-to be set.</p></td>
+						<td><p>Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-showMask">
-								showMask
+							<a href="#methods-on">
+								on
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												selector
+												token
 											
 										</li>
 										
 										<li>
 											
-												showLoading
+												eventKey{.namespace}
+											
+										</li>
+										
+										<li>
+											
+												listener
 											
 										</li>
 										
@@ -479,65 +422,7 @@ to be set.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Display an ovarlay over an Element on the page</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#methods-showMask">
-								showMask
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												instanceId
-											
-										</li>
-										
-										<li>
-											
-												selector
-											
-										</li>
-										
-										<li>
-											
-												showLoading
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>Display an ovarlay over an Element on the page</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#methods-updateHeight">
-								updateHeight
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												height
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>For secure apps, this method updates the size of the iframe that
-contains the app. <strong>Note: It is recommended that app developers call
-this method anytime Elements are added or removed from the DOM</strong></p></td>
+						<td><p>Allows you to add listener method that will be triggered when a specific event happens.</p></td>
 					</tr>
 					
 				</tbody>
@@ -557,25 +442,17 @@ this method anytime Elements are added or removed from the DOM</strong></p></td>
 	
 	<div id="methods" class="tab-pane">
 		
-		<section id="methods-hideMask" class="level2 ">
+		<section id="methods-__f2GetToken" class="level2  private">
 	<h3>
-		hideMask
+		__f2GetToken
 		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						selector
-					
-				</li>
-				
-			</ul>
 		
 		<span class="paren">)</span>
 
 		
 
+		
+			<span class="label private">private</span>
 		
 
 		
@@ -588,7 +465,9 @@ this method anytime Elements are added or removed from the DOM</strong></p></td>
 	</h3>
 
 	<p>
-		<p>Removes a overlay from an Element on the page</p>
+		<p>Allows F2 to get a token internally. Token is required to call <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+and other internal methods.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -601,7 +480,7 @@ this method anytime Elements are added or removed from the DOM</strong></p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l35"><code>sdk&#x2F;src&#x2F;ui.js:35</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l207"><code>sdk\src\app_handlers.js:207</code></a></dd>
 			
 
 			
@@ -610,30 +489,6 @@ this method anytime Elements are added or removed from the DOM</strong></p></td>
 		</dl>
 	</div>
 
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
-					
-
-					
-
-					<p>
-						<p>The Element or selector to an Element
-that currently contains the loader</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
 	
 
 	
@@ -647,22 +502,22 @@ that currently contains the loader</p>
 	
 </section>
 		
-		<section id="methods-hideMask" class="level2 ">
+		<section id="methods-__trigger" class="level2  private">
 	<h3>
-		hideMask
+		__trigger
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
 				
 				<li>
 					
-						instanceId
+						token
 					
 				</li>
 				
 				<li>
 					
-						selector
+						eventKey
 					
 				</li>
 				
@@ -673,20 +528,22 @@ that currently contains the loader</p>
 		
 
 		
+			<span class="label private">private</span>
+		
+
+		
 
 		
 
 		
-			<span class="label static">static</span>
-		
-
+			<span class="label chainable">chainable</span>
 		
 
 		
 	</h3>
 
 	<p>
-		<p>Removes a overlay from an Element on the page</p>
+		<p>Allows F2 to trigger specific app events internally.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -699,7 +556,7 @@ that currently contains the loader</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l296"><code>sdk&#x2F;src&#x2F;ui.js:296</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l222"><code>sdk\src\app_handlers.js:222</code></a></dd>
 			
 
 			
@@ -716,14 +573,14 @@ that currently contains the loader</p>
 				
 				<li class="param">
 					
-						<code class="param-name">instanceId</code>
+						<code class="param-name">token</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The Instance ID of the app</p>
+						<p>The token received from <a href="..\classes\F2.AppHandlers.html#method___f2GetToken" class="crosslink">__f2GetToken</a>.</p>
 					</p>
 
 					
@@ -731,198 +588,14 @@ that currently contains the loader</p>
 				
 				<li class="param">
 					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
-					
-
-					
-
-					<p>
-						<p>The Element or selector to an Element
-that currently contains the loader</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-init" class="level2 ">
-	<h3>
-		init
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						containerConfig
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-			<span class="label static">static</span>
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l338"><code>sdk&#x2F;src&#x2F;ui.js:338</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">containerConfig</code>
-						<span class="label type"><a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a></span>
-					
-
-					
-
-					<p>
-						<p>The F2.ContainerConfig object</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-setTitle" class="level2 ">
-	<h3>
-		setTitle
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						title
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Sets the title of the app as shown in the browser. Depending on the
-container HTML, this method may do nothing if the container has not been
-configured properly or else the container provider does not allow Title's
-to be set.</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l169"><code>sdk&#x2F;src&#x2F;ui.js:169</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">title</code>
+						<code class="param-name">eventKey</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The title of the app</p>
+						<p>The event you want to fire. Complete list of event keys available in F2.Constants/AppHandlers:property.</p>
 					</p>
 
 					
@@ -943,26 +616,10 @@ to be set.</p>
 	
 </section>
 		
-		<section id="methods-showMask" class="level2 ">
+		<section id="methods-getToken" class="level2 ">
 	<h3>
-		showMask
+		getToken
 		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						selector
-					
-				</li>
-				
-				<li>
-					
-						showLoading
-					
-				</li>
-				
-			</ul>
 		
 		<span class="paren">)</span>
 
@@ -980,7 +637,9 @@ to be set.</p>
 	</h3>
 
 	<p>
-		<p>Display an ovarlay over an Element on the page</p>
+		<p>Allows container developer to retrieve a special token which must be passed to
+all On and Off methods. This function will self destruct so be sure to keep the response
+inside of a closure somewhere.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -993,7 +652,7 @@ to be set.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l193"><code>sdk&#x2F;src&#x2F;ui.js:193</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l193"><code>sdk\src\app_handlers.js:193</code></a></dd>
 			
 
 			
@@ -1002,45 +661,6 @@ to be set.</p>
 		</dl>
 	</div>
 
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
-					
-
-					
-
-					<p>
-						<p>The Element or selector to an Element
-over which to display the loader</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">showLoading</code>
-						<span class="label type">Bool</span>
-					
-
-					
-
-					<p>
-						<p>Display a loading icon</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
 	
 
 	
@@ -1054,28 +674,22 @@ over which to display the loader</p>
 	
 </section>
 		
-		<section id="methods-showMask" class="level2 ">
+		<section id="methods-off" class="level2 ">
 	<h3>
-		showMask
+		off
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
 				
 				<li>
 					
-						instanceId
+						token
 					
 				</li>
 				
 				<li>
 					
-						selector
-					
-				</li>
-				
-				<li>
-					
-						showLoading
+						eventKey{.namespace}
 					
 				</li>
 				
@@ -1090,16 +704,16 @@ over which to display the loader</p>
 		
 
 		
-			<span class="label static">static</span>
-		
 
+		
+			<span class="label chainable">chainable</span>
 		
 
 		
 	</h3>
 
 	<p>
-		<p>Display an ovarlay over an Element on the page</p>
+		<p>Allows you to remove listener methods for specific events</p>
 	</p>	
 
 	<div class="well well-small">
@@ -1112,7 +726,7 @@ over which to display the loader</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l351"><code>sdk&#x2F;src&#x2F;ui.js:351</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l343"><code>sdk\src\app_handlers.js:343</code></a></dd>
 			
 
 			
@@ -1129,14 +743,14 @@ over which to display the loader</p>
 				
 				<li class="param">
 					
-						<code class="param-name">instanceId</code>
+						<code class="param-name">token</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The Instance ID of the app</p>
+						<p>The token received from <a href="..\classes\F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
 					</p>
 
 					
@@ -1144,30 +758,16 @@ over which to display the loader</p>
 				
 				<li class="param">
 					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
+						<code class="param-name">eventKey{.namespace}</code>
+						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The Element or selector to an Element
-over which to display the loader</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">showLoading</code>
-						<span class="label type">Bool</span>
-					
-
-					
-
-					<p>
-						<p>Display a loading icon</p>
+						<p>The event key to determine what listeners need to be removed. If no namespace is provided all
+ listeners for the specified event type will be removed.
+ Complete list available in F2.Constants/AppHandlers:property.</p>
 					</p>
 
 					
@@ -1180,6 +780,12 @@ over which to display the loader</p>
 	
 
 	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>    F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
+</code></pre>
+		</div>
+	
 
 	
 	<div class="backToTop">
@@ -1188,16 +794,28 @@ over which to display the loader</p>
 	
 </section>
 		
-		<section id="methods-updateHeight" class="level2 ">
+		<section id="methods-on" class="level2 ">
 	<h3>
-		updateHeight
+		on
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
 				
 				<li>
 					
-						height
+						token
+					
+				</li>
+				
+				<li>
+					
+						eventKey{.namespace}
+					
+				</li>
+				
+				<li>
+					
+						element
 					
 				</li>
 				
@@ -1214,14 +832,14 @@ over which to display the loader</p>
 		
 
 		
+			<span class="label chainable">chainable</span>
+		
 
 		
 	</h3>
 
 	<p>
-		<p>For secure apps, this method updates the size of the iframe that
-contains the app. <strong>Note: It is recommended that app developers call
-this method anytime Elements are added or removed from the DOM</strong></p>
+		<p>Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -1234,7 +852,7 @@ this method anytime Elements are added or removed from the DOM</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l203"><code>sdk&#x2F;src&#x2F;ui.js:203</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l282"><code>sdk\src\app_handlers.js:282</code></a></dd>
 			
 
 			
@@ -1251,14 +869,46 @@ this method anytime Elements are added or removed from the DOM</strong></p>
 				
 				<li class="param">
 					
-						<code class="param-name">height</code>
-						<span class="label type">Int</span>
+						<code class="param-name">token</code>
+						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The height of the app</p>
+						<p>The token received from F2.AppHandlers/getToken:methods or <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">eventKey{.namespace}</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The event key to determine what event you want to bind to. The namespace is useful for removal 
+purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+F2.Constants/AppHandlers:property.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">element</code>
+						<span class="label type">HTMLElement | Node</span>
+					
+
+					
+
+					<p>
+						<p>Specific element to append your app to.</p>
 					</p>
 
 					
@@ -1270,6 +920,155 @@ this method anytime Elements are added or removed from the DOM</strong></p>
 
 	
 
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', $("#my-container").get(0));
+    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', $("#my-container").get(0));
+</code></pre>
+		</div>
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-on" class="level2 ">
+	<h3>
+		on
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						token
+					
+				</li>
+				
+				<li>
+					
+						eventKey{.namespace}
+					
+				</li>
+				
+				<li>
+					
+						listener
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+			<span class="label chainable">chainable</span>
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows you to add listener method that will be triggered when a specific event happens.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l295"><code>sdk\src\app_handlers.js:295</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">token</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The token received from <a href="..\classes\F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a> or <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">eventKey{.namespace}</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The event key to determine what event you want to bind to. The namespace is useful for removal 
+purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+F2.Constants/AppHandlers:property.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">listener</code>
+						<span class="label type">Function</span>
+					
+
+					
+
+					<p>
+						<p>A function that will be triggered when a specific event happens.</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log("before app rendered!"); });
+    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log("before app rendered!"); });
+</code></pre>
+		</div>
 	
 
 	
@@ -1301,7 +1100,7 @@ this method anytime Elements are added or removed from the DOM</strong></p>
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 13 March 2013</small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 18 March 2013</small></p>
 			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
@@ -1314,7 +1113,7 @@ this method anytime Elements are added or removed from the DOM</strong></p>
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.2-wip'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

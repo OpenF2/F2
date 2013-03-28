@@ -110,11 +110,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -160,11 +164,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -486,6 +494,24 @@ F2.extend(&quot;&quot;, {
 		 *&#x2F;
 		isSecureAppPage: false,
 		&#x2F;**
+		 * Allows the container to specify which page is used when
+		 * loading a secure app. The page must reside on a different domain than the
+		 * container
+		 * @property secureAppPagePath
+		 * @type string
+		 * @for F2.ContainerConfig
+		 *&#x2F;
+		secureAppPagePath: &#x27;&#x27;,
+		&#x2F;**
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app&#x27;s header.
+		 * @property supportedViews
+		 * @type Array
+		 * @required
+		 *&#x2F;
+		supportedViews: [],
+		&#x2F;**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
 		 *&#x2F;
@@ -534,25 +560,7 @@ F2.extend(&quot;&quot;, {
 				 *&#x2F;
 				zIndex: 2
 			}
-		},
-		&#x2F;**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 *&#x2F;
-		secureAppPagePath: &#x27;&#x27;,
-		&#x2F;**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app&#x27;s header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 *&#x2F;
-		supportedViews: []
+		}
 	}
 });
     </pre>

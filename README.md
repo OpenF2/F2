@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Ali-Khatami/F2.png?branch=Container-Event_Rendering-Additions)](https://travis-ci.org/Ali-Khatami/F2)
+
 # An open framework for the financial services industry.
 
 F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The [essential components](http://docs.openf2.org/index.html#framework) defined by the F2 specification are the Container, Apps, Context and Store&mdash;all supported under the hood by **[F2.js](http://docs.openf2.org/f2js-sdk.html)**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. 

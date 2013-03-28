@@ -110,11 +110,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -160,11 +164,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -357,6 +365,25 @@ F2 = {
 	 *&#x2F;
 	inArray: function(value, array) {
 		return jQuery.inArray(value, array) &gt; -1;
+	},
+	&#x2F;**
+	 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
+	 * @method isNativeDOMNode
+	 * @param {object} testObject The object you want to check as native dom node.
+	 * @return {bool} Returns true if the object passed is a native dom node.
+	 *&#x2F;
+	isNativeDOMNode: function(testObject) {
+		var bIsNode = (
+			typeof Node === &quot;object&quot; ? testObject instanceof Node : 
+			testObject &amp;&amp; typeof testObject === &quot;object&quot; &amp;&amp; typeof testObject.nodeType === &quot;number&quot; &amp;&amp; typeof testObject.nodeName ===&quot;string&quot;
+		);
+		
+		var bIsElement = (
+			typeof HTMLElement === &quot;object&quot; ? testObject instanceof HTMLElement : &#x2F;&#x2F;DOM2
+			testObject &amp;&amp; typeof testObject === &quot;object&quot; &amp;&amp; testObject.nodeType === 1 &amp;&amp; typeof testObject.nodeName ===&quot;string&quot;
+		);
+		
+		return (bIsNode || bIsElement);
 	},
 	&#x2F;**
 	 * Wrapper logging function.

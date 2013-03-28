@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - F2.UI</title>
-	<meta name="dcterms.date" content="13 March 2013">
-	<meta name="gitbranch" content="1.2-wip">
+	<title>F2 - F2.Constants.AppHandlers</title>
+	<meta name="dcterms.date" content="18 March 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
 	<script src="..&#x2F;../js/respond.min.js"></script>
 	
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.2.0" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1.1.1" rel="stylesheet">
 
 	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.2-wip' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.1)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -221,10 +221,10 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.UI</h1>
+				<h1>F2.Constants.AppHandlers</h1>
 
 <p>
-	<p>UI helper methods</p>
+	<p>A convenient collection of all available appHandler events.</p>
 </p>
 
 <div class="well well-small">
@@ -235,7 +235,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l5"><code>sdk&#x2F;src&#x2F;ui.js:5</code></a></dd>
+			<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l389"><code>sdk\src\app_handlers.js:389</code></a></dd>
 		
 
 		
@@ -247,8 +247,8 @@
 <ul id="classTabs" class="nav nav-tabs">
 	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
 	
-		<li><a href="#methods" data-toggle="tab">Methods</a></li>
 	
+		<li><a href="#properties" data-toggle="tab">Properties</a></li>
 	
 	
 	
@@ -258,96 +258,12 @@
 	<!-- SUMMARY TAB -->
 	<div id="summary" class="tab-pane active">
 		
-			<h3>Constructor</h3>
-			<section id="methods-F2.UI" class="level2 ">
-	<h3>
-		F2.UI
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						appConfig
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
 
 		
 
 		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l5"><code>sdk&#x2F;src&#x2F;ui.js:5</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-					
-
-					
-
-					<p>
-						<p>The F2.AppConfig object</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-</section>
-		
-
-		
-		<div class="index-section methods">
-			<h3>Methods</h3>
+		<div class="index-section properties">
+			<h3>Properties</h3>
 			<table class="table table-bordered table-striped table-members">
 				<thead>
 					<tr>
@@ -359,185 +275,58 @@
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-hideMask">
-								hideMask
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												selector
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
+							<a href="#properties-APP_CREATE_ROOT">APP_CREATE_ROOT</a>
 						</td>
-						<td><p>Removes a overlay from an Element on the page</p></td>
+						<td><p>Identifies the create root method for use in AppHandlers.on/off/__trigger().</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-hideMask">
-								hideMask
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												instanceId
-											
-										</li>
-										
-										<li>
-											
-												selector
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
+							<a href="#properties-APP_DESTROY">APP_DESTROY</a>
 						</td>
-						<td><p>Removes a overlay from an Element on the page</p></td>
+						<td><p>Identifies the app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-init">
-								init
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												containerConfig
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
+							<a href="#properties-APP_DESTROY_AFTER">APP_DESTROY_AFTER</a>
 						</td>
-						<td></td>
+						<td><p>Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-setTitle">
-								setTitle
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												title
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
+							<a href="#properties-APP_DESTROY_BEFORE">APP_DESTROY_BEFORE</a>
 						</td>
-						<td><p>Sets the title of the app as shown in the browser. Depending on the
-container HTML, this method may do nothing if the container has not been
-configured properly or else the container provider does not allow Title's
-to be set.</p></td>
+						<td><p>Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-showMask">
-								showMask
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												selector
-											
-										</li>
-										
-										<li>
-											
-												showLoading
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
+							<a href="#properties-APP_RENDER">APP_RENDER</a>
 						</td>
-						<td><p>Display an ovarlay over an Element on the page</p></td>
+						<td><p>Identifies the app render method for use in AppHandlers.on/off/__trigger().</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-showMask">
-								showMask
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												instanceId
-											
-										</li>
-										
-										<li>
-											
-												selector
-											
-										</li>
-										
-										<li>
-											
-												showLoading
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
+							<a href="#properties-APP_RENDER_AFTER">APP_RENDER_AFTER</a>
 						</td>
-						<td><p>Display an ovarlay over an Element on the page</p></td>
+						<td><p>Identifies the after app render method for use in AppHandlers.on/off/__trigger().</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-updateHeight">
-								updateHeight
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												height
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
+							<a href="#properties-APP_RENDER_BEFORE">APP_RENDER_BEFORE</a>
 						</td>
-						<td><p>For secure apps, this method updates the size of the iframe that
-contains the app. <strong>Note: It is recommended that app developers call
-this method anytime Elements are added or removed from the DOM</strong></p></td>
+						<td><p>Identifies the before app render method for use in AppHandlers.on/off/__trigger().</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-AppHandlers">AppHandlers</a>
+						</td>
+						<td><p>A collection of constants for the on/off method names in F2.AppHandlers.</p></td>
 					</tr>
 					
 				</tbody>
@@ -548,742 +337,438 @@ this method anytime Elements are added or removed from the DOM</strong></p></td>
 		
 
 		
-
-		
 	</div>
 	<!-- SUMMARY TAB -->
 
 	<!-- METHODS TAB -->
 	
-	<div id="methods" class="tab-pane">
-		
-		<section id="methods-hideMask" class="level2 ">
-	<h3>
-		hideMask
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						selector
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Removes a overlay from an Element on the page</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l35"><code>sdk&#x2F;src&#x2F;ui.js:35</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
-					
-
-					
-
-					<p>
-						<p>The Element or selector to an Element
-that currently contains the loader</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-hideMask" class="level2 ">
-	<h3>
-		hideMask
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						instanceId
-					
-				</li>
-				
-				<li>
-					
-						selector
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-			<span class="label static">static</span>
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Removes a overlay from an Element on the page</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l296"><code>sdk&#x2F;src&#x2F;ui.js:296</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">instanceId</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The Instance ID of the app</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
-					
-
-					
-
-					<p>
-						<p>The Element or selector to an Element
-that currently contains the loader</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-init" class="level2 ">
-	<h3>
-		init
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						containerConfig
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-			<span class="label static">static</span>
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l338"><code>sdk&#x2F;src&#x2F;ui.js:338</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">containerConfig</code>
-						<span class="label type"><a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a></span>
-					
-
-					
-
-					<p>
-						<p>The F2.ContainerConfig object</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-setTitle" class="level2 ">
-	<h3>
-		setTitle
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						title
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Sets the title of the app as shown in the browser. Depending on the
-container HTML, this method may do nothing if the container has not been
-configured properly or else the container provider does not allow Title's
-to be set.</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l169"><code>sdk&#x2F;src&#x2F;ui.js:169</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">title</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The title of the app</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-showMask" class="level2 ">
-	<h3>
-		showMask
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						selector
-					
-				</li>
-				
-				<li>
-					
-						showLoading
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Display an ovarlay over an Element on the page</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l193"><code>sdk&#x2F;src&#x2F;ui.js:193</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
-					
-
-					
-
-					<p>
-						<p>The Element or selector to an Element
-over which to display the loader</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">showLoading</code>
-						<span class="label type">Bool</span>
-					
-
-					
-
-					<p>
-						<p>Display a loading icon</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-showMask" class="level2 ">
-	<h3>
-		showMask
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						instanceId
-					
-				</li>
-				
-				<li>
-					
-						selector
-					
-				</li>
-				
-				<li>
-					
-						showLoading
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-			<span class="label static">static</span>
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Display an ovarlay over an Element on the page</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l351"><code>sdk&#x2F;src&#x2F;ui.js:351</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">instanceId</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The Instance ID of the app</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">selector</code>
-						<span class="label type">String | Element</span>
-					
-
-					
-
-					<p>
-						<p>The Element or selector to an Element
-over which to display the loader</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">showLoading</code>
-						<span class="label type">Bool</span>
-					
-
-					
-
-					<p>
-						<p>Display a loading icon</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-updateHeight" class="level2 ">
-	<h3>
-		updateHeight
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						height
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>For secure apps, this method updates the size of the iframe that
-contains the app. <strong>Note: It is recommended that app developers call
-this method anytime Elements are added or removed from the DOM</strong></p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_ui.js.html#l203"><code>sdk&#x2F;src&#x2F;ui.js:203</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">height</code>
-						<span class="label type">Int</span>
-					
-
-					
-
-					<p>
-						<p>The height of the app</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-	</div>
-	
 	<!-- METHODS TAB -->
 
 	<!-- PROPERTIES TAB -->
+	
+	<div id="properties" class="tab-pane">
+		
+		<section id="properties-APP_CREATE_ROOT" class="level2 ">
+	<h3>
+		APP_CREATE_ROOT
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the create root method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l400"><code>sdk\src\app_handlers.js:400</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_DESTROY" class="level2 ">
+	<h3>
+		APP_DESTROY
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the app destroy method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l440"><code>sdk\src\app_handlers.js:440</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_DESTROY_AFTER" class="level2 ">
+	<h3>
+		APP_DESTROY_AFTER
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l448"><code>sdk\src\app_handlers.js:448</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_DESTROY_BEFORE" class="level2 ">
+	<h3>
+		APP_DESTROY_BEFORE
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l432"><code>sdk\src\app_handlers.js:432</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_RENDER" class="level2 ">
+	<h3>
+		APP_RENDER
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the app render method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l416"><code>sdk\src\app_handlers.js:416</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_RENDER_AFTER" class="level2 ">
+	<h3>
+		APP_RENDER_AFTER
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the after app render method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l424"><code>sdk\src\app_handlers.js:424</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-APP_RENDER_BEFORE" class="level2 ">
+	<h3>
+		APP_RENDER_BEFORE
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>Identifies the before app render method for use in AppHandlers.on/off/__trigger().</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l408"><code>sdk\src\app_handlers.js:408</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-AppHandlers" class="level2 ">
+	<h3>
+		AppHandlers
+
+		<span class="label type">Object</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>A collection of constants for the on/off method names in F2.AppHandlers.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l394"><code>sdk\src\app_handlers.js:394</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+	</div>
 	
 	<!-- PROPERTIES TAB -->
 
@@ -1301,7 +786,7 @@ this method anytime Elements are added or removed from the DOM</strong></p>
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 13 March 2013</small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 18 March 2013</small></p>
 			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
@@ -1314,7 +799,7 @@ this method anytime Elements are added or removed from the DOM</strong></p>
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.2-wip'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){
