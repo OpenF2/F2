@@ -8,6 +8,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "F2.AppManifest",
         "F2.AppManifest.AppContent",
         "F2.Constants",
+        "F2.Constants.AppHandlers",
         "F2.Constants.Css",
         "F2.Constants.Events",
         "F2.Constants.Sockets",

@@ -1549,10 +1549,11 @@ F2 = {
 
 
 /**
- * Allows container developers more flexibility when it comes to handling app interaction.
+ * Allows container developers more flexibility when it comes to handling app interaction. Starting with version 1.3 this is the preferred method
+ * for choosing how app rendering/interaction happens. This replaces the config versions of beforeAppRender, appRender, and afterAppRender. It also
+ * adds hooks into an app being removed/destroyed. As F2 evolves more hooks will be added to aid in container development.
  * @class F2.AppHandlers
  */
-
 F2.extend('AppHandlers', (function() {
 
 	// the hidden token that we will check against every time someone tries to add, remove, fire handler
@@ -1754,7 +1755,9 @@ F2.extend('AppHandlers', (function() {
 			return _ct;
 		},
 		/**
-		* Allows F2 to get a token internally
+		* Allows F2 to get a token internally. Token is required to call {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}.
+		* This function will self destruct to eliminate other sources from using the {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}
+		* and other internal methods.
 		* @method __f2GetToken
 		* @private
 		**/
@@ -1770,6 +1773,9 @@ F2.extend('AppHandlers', (function() {
 		* Allows F2 to trigger specific app events internally.
 		* @method __trigger
 		* @private
+		* @chainable
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/\_\_f2GetToken:method"}}{{/crossLink}}.
+		* @param {String} eventKey The event you want to fire. Complete list of event keys available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		**/
 		__trigger: function(token, eventKey) // additional arguments will likely be passed
 		{			
@@ -1827,24 +1833,27 @@ F2.extend('AppHandlers', (function() {
 		* Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.
 		* @method on
 		* @chainable
-		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}}.
-		* @param {String} eventKey The event key to remove handler from {{#crossLink "F2.AppHandlers/CONSTANTS:property"}}{{/crossLink}}.
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}} or {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key to determine what event you want to bind to. The namespace is useful for removal 
+		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {HTMLElement|Node} element Specific element to append your app to.
 		* @example
 		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', $("#my-container").get(0));
-		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.my_app_id', $("#my-container").get(0));
+		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', $("#my-container").get(0));
 		**/
 		/**
 		* Allows you to add listener method that will be triggered when a specific event happens.
 		* @method on
 		* @chainable
-		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}}.
-		* @param {String} eventKey{.namespace} The event key to determine what listeners need to be removed. If no namespace is provided all
-		*  listeners for the specified event type will be removed.
-		*  Complete list available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:method"}}{{/crossLink}} or {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key to determine what event you want to bind to. The namespace is useful for removal 
+		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {Function} listener A function that will be triggered when a specific event happens.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log("before app rendered!"); });		
+		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log("before app rendered!"); });
+		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log("before app rendered!"); });
 		**/
 		on: function(token, eventKey, func_or_element)
 		{
@@ -1885,7 +1894,7 @@ F2.extend('AppHandlers', (function() {
 		* Allows you to remove listener methods for specific events
 		* @method off
 		* @chainable
-		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}}.
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:method"}}{{/crossLink}}.
 		* @param {String} eventKey{.namespace} The event key to determine what listeners need to be removed. If no namespace is provided all
 		*  listeners for the specified event type will be removed.
 		*  Complete list available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
@@ -1927,6 +1936,10 @@ F2.extend('AppHandlers', (function() {
 	};
 })());
 
+/**
+ * A convenient collection of all available appHandler events.
+ * @class F2.Constants.AppHandlers
+ */
 F2.extend('Constants', {
 	/**
 	* A collection of constants for the on/off method names in F2.AppHandlers.
