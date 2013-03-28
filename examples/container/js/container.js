@@ -1,37 +1,28 @@
 $(function() {
-	
-	var containerAppHandlerToken = F2.AppHandlers.getToken();
-	
+
 	/**
 	 * Init Container
 	 */
 	F2.init({
-		UI:{
-			Mask:{
-				loadingIcon:'./img/ajax-loader.gif'
-			}
-		},
-		supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],
-		secureAppPagePath: "secure.html" // this should go on a separate domain from index.html
-	});
-		
-	// Define these prior to init
-	F2.AppHandlers
-	.on(
-		containerAppHandlerToken,
-		F2.Constants.AppHandlers.APP_CREATE_ROOT,
-		function(appConfig)
-		{			
-			var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, appConfig.views);
-			var hasHelp = F2.inArray(F2.Constants.Views.HELP, appConfig.views);
-			var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, appConfig.views);
-			var showDivider = hasSettings || hasHelp || hasAbout;
-			var gridWidth = appConfig.minGridSize || 3;
 
-			appConfig.root = $([
+		afterAppRender: function (app, html) {
+			var el = $(app.root).append(html);
+			F2.UI.hideMask(app.instanceId, el);
+			return el;
+		},
+
+		beforeAppRender: function(app) {
+
+			var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, app.views);
+			var hasHelp = F2.inArray(F2.Constants.Views.HELP, app.views);
+			var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, app.views);
+			var showDivider = hasSettings || hasHelp || hasAbout;
+			var gridWidth = app.minGridSize || 3;
+
+			var appRoot = $([
 				'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '">',
 					'<header class="clearfix">',
-						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
+						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
 						'<div class="btn-group pull-right">',
 							'<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown">',
 								'<i class="icon-cog"></i>',
@@ -46,55 +37,24 @@ $(function() {
 						'</div>',
 					'</header>',
 				'</section>'
-			].join('')).get(0);			
-		}
-	)
-	.on(
-		containerAppHandlerToken,
-		F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-		function(appConfig){			
-			F2.UI.hideMask(appConfig.instanceId, appConfig.root);
-			$(appConfig.root).addClass("render-before-testing");			
-		}
-	)
-	.on(
-		containerAppHandlerToken,
-		F2.Constants.AppHandlers.APP_RENDER,
-		$("body").get(0)
-	)
-	.on(
-		containerAppHandlerToken,
-		F2.Constants.AppHandlers.APP_RENDER_AFTER,
-		function(appConfig){			
-			$(appConfig.root).addClass("render-after-testing");
-			F2.UI.hideMask(appConfig.instanceId, appConfig.root);
-		}
-	)
-	.on(
-		containerAppHandlerToken,
-		F2.Constants.AppHandlers.APP_DESTROY,
-		function(appInstance) {
-			if(!appInstance) { return; }
-			
-			// call the apps destroy method, if it has one
-			if(appInstance.app && appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
-			{
-				appInstance.app.Destroy();
+			].join('')).appendTo($('#mainContent div.row'));
+
+			// show loader
+			F2.UI.showMask(app.instanceId, appRoot, true);
+
+			return appRoot;
+		},
+
+		UI:{
+			Mask:{
+				loadingIcon:'./img/ajax-loader.gif'
 			}
-			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
-			else if(appInstance.app && appInstance.app.Destroy)
-			{
-				F2.log(app.config.appId + " has a Destroy property, but Destroy is not of type function and as such will not be executed.");
-			}
-			
-			// fade out and remove the root
-			jQuery(appInstance.config.root).slideUp(100, function() {
-				jQuery(this).remove();
-			});
-		}
-	);
-	
-	
+		},
+
+		supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],
+		secureAppPagePath: "secure.html" // this should go on a separate domain from index.html
+	});
+
 	//listen for app symbol change events and re-broadcast
 	F2.Events.on(
 		F2.Constants.Events.APP_SYMBOL_CHANGE,
