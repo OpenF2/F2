@@ -1,4 +1,4 @@
-# Build F2
+# Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png)](https://travis-ci.org/OpenF2/F2)
 
 For those wishing to contribute back to F2, we've included a `build` file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs on [Node.js](http://nodejs.org/) and has a few dependencies. To install, `cd` to your `F2/build` folder, and run the following commands in npm:
 
