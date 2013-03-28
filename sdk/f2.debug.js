@@ -3171,6 +3171,16 @@ F2.extend('', (function(){
 				}
 			});
 		};
+		//eval inlines
+		var evalInlines = function(){
+			jQuery.each(inlines, function(i, e) {
+				try {
+					eval(e);
+				} catch (exception) {
+					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
+				}
+			});
+		};
 
 		// load styles
 		var stylesFragment = [];
@@ -3199,13 +3209,7 @@ F2.extend('', (function(){
 				type:'GET',
 				success:function() {
 					if (++scriptsLoaded == scriptCount) {
-						jQuery.each(inlines, function(i, e) {
-							try {
-								eval(e);
-							} catch (exception) {
-								F2.log('Error loading inline script: ' + exception + '\n\n' + e);
-							}
-						});
+						evalInlines();
 						// fire the load event to tell the app it can proceed
 						appInit();
 					}
@@ -3218,6 +3222,7 @@ F2.extend('', (function(){
 
 		// if no scripts were to be processed, fire the appLoad event
 		if (!scriptCount) {
+			evalInlines();
 			appInit();
 		}
 	};
@@ -3341,7 +3346,7 @@ F2.extend('', (function(){
 			var callbackStack = {};
 			var haveManifests = false;
 			appConfigs = [].concat(appConfigs);
-			appManifests = appManifests || [];
+			appManifests = [].concat(appManifests || []);
 			haveManifests = !!appManifests.length;
 
 			// appConfigs must have a length
