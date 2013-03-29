@@ -1611,6 +1611,147 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 	
 });
 
+describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
+	var containerAppHandlerToken = null;
+	
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	
+	var appConfig = {
+		appId: 'com_openf2_tests_helloworld',
+		manifestUrl: 'http://www.openf2.org'
+	};
+	
+	var appManifest = {
+		scripts:[],
+		styles:[],
+		inlineScripts:[],
+		apps:[
+			{
+				html: '<div class="test-app">Testing</div>'
+			}
+		]
+	};
+
+	it(
+		'should remove on() appDestroyBefore handlers regardless of namespace if no namespace passed to off() event.',
+		function() {
+			var bAppStillAround = false;			
+			var bAppGone = false;			
+			var $root = null;
+			var bAppDestroyOnMethodCalled = false;
+			var bAppDestroyWithNamespaceOnMethodCalled = false;
+
+			F2.init();
+			
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+				function()
+				{
+					bAppDestroyOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE + ".specialNamespace",
+				function()
+				{
+					bAppDestroyWithNamespaceOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{
+					$root = $(appConfig.root);
+					setTimeout(function() { bAppGone = true; }, 700);
+					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_BEFORE);
+					F2.removeApp(appConfig.instanceId);					
+				}
+			);
+			
+			F2.registerApps(appConfig, appManifest);
+
+			waitsFor(
+				function()
+				{
+					return bAppGone;
+				},
+				'AppHandlers.On( appRenderAfter ) was never fired',
+				10000
+			);
+			
+			runs(function() {
+				expect($root.parent().length == 0).toBe(true);
+				expect(bAppDestroyOnMethodCalled).toBe(false);
+				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
+			});
+		}
+	);
+
+	it(
+		'should only remove on() from appDestroyBefore handlers if namespace matches what was passed to off() event.',
+		function() {
+			var bAppStillAround = false;			
+			var bAppGone = false;			
+			var $root = null;
+			var bAppDestroyOnMethodCalled = false;
+			var bAppDestroyWithNamespaceOnMethodCalled = false;
+
+			F2.init();
+			
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+				function()
+				{
+					bAppDestroyOnMethodCalled = true;
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE + ".specialNamespace",
+				function()
+				{
+					bAppDestroyWithNamespaceOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{
+					$root = $(appConfig.root);
+					setTimeout(function() { bAppGone = true; }, 700);
+					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_BEFORE + ".specialNamespace");
+					F2.removeApp(appConfig.instanceId);					
+				}
+			);
+			
+			F2.registerApps(appConfig, appManifest);
+
+			waitsFor(
+				function()
+				{
+					return bAppGone;
+				},
+				'AppHandlers.On( appRenderAfter ) was never fired',
+				10000
+			);
+			
+			runs(function() {				
+				expect($root.parent().length == 0).toBe(true);
+				expect(bAppDestroyOnMethodCalled).toBe(true);
+				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
+			});
+		}
+	);
+});
+
 describe('F2.AppHandlers - rendering - appDestroy', function() {
 	
 	var containerAppHandlerToken = null;
@@ -1635,7 +1776,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 	};
 	
 	it(
-		'should fire remove app if no appHandlers are passed to remove the app.',
+		'should remove app from page if no appHandlers are declared.',
 		function() {
 			var bAppStillAround = false;			
 			var bAppGone = false;			
@@ -1682,6 +1823,313 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 			
 			runs(function() {				
 				expect($root.parent().length == 0).toBe(true);
+			});
+		}
+	);
+
+	it('should call app instance .destroy() method if destory method exists.', function(){
+		F2.inlineScriptsEvaluated = false;
+		F2.init();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		
+		waitsFor(
+			function()
+			{
+				return F2.testAppInitialized;
+			},
+			'Inline scripts were never evaluated',
+			10000
+		);
+		
+		runs(function() {
+			F2.removeApp(F2.testAppInstanceID);
+			
+			waitsFor(
+				function()
+				{
+					return F2.destroyAppMethodCalled;
+				},
+				'destroy() method was never evaluated',
+				10000
+			);
+
+			runs(function() {
+				expect(F2.destroyAppMethodCalled).toBe(true);
+			});
+		});
+	});
+
+	it(
+		'should remove on() appDestroy handlers regardless of namespace if no namespace passed to off() event.',
+		function() {
+			var bAppStillAround = false;			
+			var bAppGone = false;			
+			var $root = null;
+			var bAppDestroyOnMethodCalled = false;
+			var bAppDestroyWithNamespaceOnMethodCalled = false;
+
+			F2.init();
+			
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY,
+				function(appConfig)
+				{
+					bAppDestroyOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				"appDestroy.specialNamespace",
+				function(appConfig)
+				{
+					bAppDestroyWithNamespaceOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{
+					$root = $(appConfig.root);
+					setTimeout(function() { bAppGone = true; }, 600);
+					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY);
+					F2.removeApp(appConfig.instanceId);					
+				}
+			);
+			
+			F2.registerApps(appConfig, appManifest);
+
+			waitsFor(
+				function()
+				{
+					return bAppGone;
+				},
+				'AppHandlers.On( appRenderAfter ) was never fired',
+				10000
+			);
+			
+			runs(function() {				
+				expect($root.parent().length == 0).toBe(true);
+				expect(bAppDestroyOnMethodCalled).toBe(false);
+				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
+			});
+		}
+	);
+
+	it(
+		'should only remove on() from appDestroy handlers if namespace matches what was passed to off() event.',
+		function() {
+			var bAppStillAround = false;			
+			var bAppGone = false;			
+			var $root = null;
+			var bAppDestroyOnMethodCalled = false;
+			var bAppDestroyWithNamespaceOnMethodCalled = false;
+
+			F2.init();
+			
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY,
+				function(appInstance)
+				{
+					// call the apps destroy method, if it has one
+					if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == "function")
+					{
+						appInstance.app.destroy();
+					}
+					// warn the container developer/app developer that even though they have a destroy method it hasn't been 
+					else if(appInstance && appInstance.app && appInstance.app.destroy)
+					{
+						F2.log(app.config.appId + " has a destroy property, but destroy is not of type function and as such will not be executed.");
+					}
+					
+					// fade out and remove the root
+					jQuery(appInstance.config.root).fadeOut(250, function() {
+						jQuery(this).remove();
+					});
+		
+					bAppDestroyOnMethodCalled = true;
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				"appDestroy.specialNamespace",
+				function(appConfig)
+				{
+					bAppDestroyWithNamespaceOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{
+					$root = $(appConfig.root);
+					setTimeout(function() { bAppGone = true; }, 400);
+					F2.AppHandlers.off(containerAppHandlerToken, "appDestroy.specialNamespace");
+					F2.removeApp(appConfig.instanceId);					
+				}
+			);
+			
+			F2.registerApps(appConfig, appManifest);
+
+			waitsFor(
+				function()
+				{
+					return bAppGone;
+				},
+				'AppHandlers.On( appRenderAfter ) was never fired',
+				10000
+			);
+			
+			runs(function() {				
+				expect($root.parent().length == 0).toBe(true);
+				expect(bAppDestroyOnMethodCalled).toBe(true);
+				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
+			});
+		}
+	);
+});
+
+describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
+	var containerAppHandlerToken = null;
+	
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	
+	var appConfig = {
+		appId: 'com_openf2_tests_helloworld',
+		manifestUrl: 'http://www.openf2.org'
+	};
+	
+	var appManifest = {
+		scripts:[],
+		styles:[],
+		inlineScripts:[],
+		apps:[
+			{
+				html: '<div class="test-app">Testing</div>'
+			}
+		]
+	};
+
+	it(
+		'should remove on() appDestroyAfter handlers regardless of namespace if no namespace passed to off() event.',
+		function() {
+			var bAppStillAround = false;			
+			var bAppGone = false;			
+			var $root = null;
+			var bAppDestroyOnMethodCalled = false;
+			var bAppDestroyWithNamespaceOnMethodCalled = false;
+
+			F2.init();
+			
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+				function()
+				{
+					bAppDestroyOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_AFTER + ".specialNamespace",
+				function()
+				{
+					bAppDestroyWithNamespaceOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{
+					$root = $(appConfig.root);
+					setTimeout(function() { bAppGone = true; }, 700);
+					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_AFTER);
+					F2.removeApp(appConfig.instanceId);					
+				}
+			);
+			
+			F2.registerApps(appConfig, appManifest);
+
+			waitsFor(
+				function()
+				{
+					return bAppGone;
+				},
+				'AppHandlers.On( appRenderAfter ) was never fired',
+				10000
+			);
+			
+			runs(function() {
+				expect($root.parent().length == 0).toBe(true);
+				expect(bAppDestroyOnMethodCalled).toBe(false);
+				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
+			});
+		}
+	);
+
+	it(
+		'should only remove on() from appDestroyAfter handlers if namespace matches what was passed to off() event.',
+		function() {
+			var bAppStillAround = false;			
+			var bAppGone = false;			
+			var $root = null;
+			var bAppDestroyOnMethodCalled = false;
+			var bAppDestroyWithNamespaceOnMethodCalled = false;
+
+			F2.init();
+			
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+				function()
+				{
+					bAppDestroyOnMethodCalled = true;
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_AFTER + ".specialNamespace",
+				function()
+				{
+					bAppDestroyWithNamespaceOnMethodCalled = true;				
+				}
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{
+					$root = $(appConfig.root);
+					setTimeout(function() { bAppGone = true; }, 700);
+					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_AFTER + ".specialNamespace");
+					F2.removeApp(appConfig.instanceId);					
+				}
+			);
+			
+			F2.registerApps(appConfig, appManifest);
+
+			waitsFor(
+				function()
+				{
+					return bAppGone;
+				},
+				'AppHandlers.On( appRenderAfter ) was never fired',
+				10000
+			);
+			
+			runs(function() {				
+				expect($root.parent().length == 0).toBe(true);
+				expect(bAppDestroyOnMethodCalled).toBe(true);
+				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
 			});
 		}
 	);

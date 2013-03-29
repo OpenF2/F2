@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\app_handlers.js</title>
 	<meta name="dcterms.date" content="13 March 2013">
-	<meta name="gitbranch" content="1.2-wip">
+	<meta name="gitbranch" content="1.3-wip-app-handlers">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
 	<script src="..&#x2F;../js/respond.min.js"></script>
 	
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.2.0" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1.3.0" rel="stylesheet">
 
 	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.2-wip' === 'master'){
+		if ('1.3-wip-app-handlers' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -307,20 +307,20 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			&#x2F;&#x2F; do nothing before destroying app
 		},
 		appDestroy: function(appInstance)
-		{			
+		{
 			&#x2F;&#x2F; call the apps destroy method, if it has one
-			if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.Destroy &amp;&amp; typeof(appInstance.app.Destroy) == &quot;function&quot;)
+			if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == &quot;function&quot;)
 			{
-				appInstance.app.Destroy();
+				appInstance.app.destroy();
 			}
 			&#x2F;&#x2F; warn the container developer&#x2F;app developer that even though they have a destroy method it hasn&#x27;t been 
-			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.Destroy)
+			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
 			{
-				F2.log(app.config.appId + &quot; has a Destroy property, but Destroy is not of type function and as such will not be executed.&quot;);
+				F2.log(app.config.appId + &quot; has a destroy property, but destroy is not of type function and as such will not be executed.&quot;);
 			}
 			
 			&#x2F;&#x2F; fade out and remove the root
-			jQuery(appInstance.config.root).fadeOut(function() {
+			jQuery(appInstance.config.root).fadeOut(500, function() {
 				jQuery(this).remove();
 			});
 		},
@@ -361,38 +361,38 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		if(_ct != sToken &amp;&amp; _f2t != sToken) { throw (&quot;Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken().&quot;); }
 	};
 	
-	var _removeHandler = function(arHandleCollection, sNamespaceOrApp_ID, sToken)
+	var _removeHandler = function(sToken, eventKey, sNamespace)
 	{
 		&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
 		_validateToken(sToken);
 		
-		if(!sNamespaceOrApp_ID &amp;&amp; !arHandleCollection)
+		if(!sNamespace &amp;&amp; !eventKey)
 		{			
 			return;
 		}
-		else if(!sNamespaceOrApp_ID &amp;&amp; arHandleCollection)
+		else if(!sNamespace &amp;&amp; eventKey)
 		{
-			arHandleCollection = [];
+			_handlerCollection[eventKey] = [];
 		}
-		else if(sNamespaceOrApp_ID &amp;&amp; arHandleCollection)
+		else if(sNamespace &amp;&amp; _handlerCollection[eventKey])
 		{
-			sNamespaceOrApp_ID = sNamespaceOrApp_ID.toLowerCase();		
+			sNamespace = sNamespace.toLowerCase();		
 		
 			var newEvents = [];
 			
-			for(var i = 0, j = arHandleCollection.length; i &lt; j; i++)
+			for(var i = 0, j = _handlerCollection[eventKey].length; i &lt; j; i++)
 			{
-				var currentHandler = arHandleCollection[i];
+				var currentHandler = _handlerCollection[eventKey][i];
 				if(currentHandler)
 				{
-					if(currentHandler.app_id != sNamespaceOrApp_ID &amp;&amp; currentHandler.namespace != sNamespaceOrApp_ID)
+					if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
 					{
 						newEvents.push(currentHandler);
 					}
 				}
 			}
 			
-			arHandleCollection = newEvents;
+			_handlerCollection[eventKey] = newEvents;
 		}
 	};
 	
@@ -598,9 +598,9 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
 			{				
 				_removeHandler(
-					_handlerCollection[eventKey],
-					sNamespace,
-					token
+					token,
+					eventKey,
+					sNamespace
 				);
 			}
 			else
@@ -691,7 +691,7 @@ F2.extend(&#x27;Constants&#x27;, {
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 13 March 2013</small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.0, published 13 March 2013</small></p>
 			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
@@ -704,7 +704,7 @@ F2.extend(&#x27;Constants&#x27;, {
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.2-wip'; }));
+	F2.extend('gitbranch', (function(){ return '1.3-wip-app-handlers'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

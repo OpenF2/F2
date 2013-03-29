@@ -1630,20 +1630,20 @@ F2.extend('AppHandlers', (function() {
 			// do nothing before destroying app
 		},
 		appDestroy: function(appInstance)
-		{			
+		{
 			// call the apps destroy method, if it has one
-			if(appInstance && appInstance.app && appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
+			if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == "function")
 			{
-				appInstance.app.Destroy();
+				appInstance.app.destroy();
 			}
 			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
-			else if(appInstance && appInstance.app && appInstance.app.Destroy)
+			else if(appInstance && appInstance.app && appInstance.app.destroy)
 			{
-				F2.log(app.config.appId + " has a Destroy property, but Destroy is not of type function and as such will not be executed.");
+				F2.log(app.config.appId + " has a destroy property, but destroy is not of type function and as such will not be executed.");
 			}
 			
 			// fade out and remove the root
-			jQuery(appInstance.config.root).fadeOut(function() {
+			jQuery(appInstance.config.root).fadeOut(500, function() {
 				jQuery(this).remove();
 			});
 		},
@@ -1684,38 +1684,38 @@ F2.extend('AppHandlers', (function() {
 		if(_ct != sToken && _f2t != sToken) { throw ("Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken()."); }
 	};
 	
-	var _removeHandler = function(arHandleCollection, sNamespaceOrApp_ID, sToken)
+	var _removeHandler = function(sToken, eventKey, sNamespace)
 	{
 		// will throw an exception and stop execution if the token is invalid
 		_validateToken(sToken);
 		
-		if(!sNamespaceOrApp_ID && !arHandleCollection)
+		if(!sNamespace && !eventKey)
 		{			
 			return;
 		}
-		else if(!sNamespaceOrApp_ID && arHandleCollection)
+		else if(!sNamespace && eventKey)
 		{
-			arHandleCollection = [];
+			_handlerCollection[eventKey] = [];
 		}
-		else if(sNamespaceOrApp_ID && arHandleCollection)
+		else if(sNamespace && _handlerCollection[eventKey])
 		{
-			sNamespaceOrApp_ID = sNamespaceOrApp_ID.toLowerCase();		
+			sNamespace = sNamespace.toLowerCase();		
 		
 			var newEvents = [];
 			
-			for(var i = 0, j = arHandleCollection.length; i < j; i++)
+			for(var i = 0, j = _handlerCollection[eventKey].length; i < j; i++)
 			{
-				var currentHandler = arHandleCollection[i];
+				var currentHandler = _handlerCollection[eventKey][i];
 				if(currentHandler)
 				{
-					if(currentHandler.app_id != sNamespaceOrApp_ID && currentHandler.namespace != sNamespaceOrApp_ID)
+					if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
 					{
 						newEvents.push(currentHandler);
 					}
 				}
 			}
 			
-			arHandleCollection = newEvents;
+			_handlerCollection[eventKey] = newEvents;
 		}
 	};
 	
@@ -1921,9 +1921,9 @@ F2.extend('AppHandlers', (function() {
 			if(_handlerCollection && _handlerCollection[eventKey])
 			{				
 				_removeHandler(
-					_handlerCollection[eventKey],
-					sNamespace,
-					token
+					token,
+					eventKey,
+					sNamespace
 				);
 			}
 			else
