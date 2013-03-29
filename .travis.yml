@@ -7,6 +7,6 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 script:
-  - "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
+  - "wget https://raw.github.com/Ali-Khatami/F2/1.3-wip-app-handlers/phantom-jasmine.js"
   - "phantomjs phantom-jasmine.js tests/index.html" -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false
   - "phantomjs phantom-jasmine.js tests/index-amd.html" -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false
