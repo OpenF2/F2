@@ -1051,7 +1051,6 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 				F2.Constants.AppHandlers.APP_RENDER,
 				function(appConfig, html)
 				{					
-					console.log(arguments.length)
 					bHasAppConfig = (arguments.length == 2 && appConfig && appConfig.appId && appConfig.manifestUrl) ? true : false;
 					bHasHtml = (arguments.length == 2 && html && typeof(html) === "string") ? true : false;
 					var $root = $(appConfig.root);
