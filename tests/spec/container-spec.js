@@ -137,13 +137,13 @@ describe('F2.registerApps - rendering', function() {
 
 		F2.registerApps(appConfig, [appManifest]);
 	});
-	/*
+	
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"],"apps":[{}]}]);
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
 		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
 	});
-	*/
+	
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
 		F2.init();
 		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
