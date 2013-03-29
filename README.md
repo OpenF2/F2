@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Ali-Khatami/F2.png?branch=Container-Event_Rendering-Additions)](https://travis-ci.org/Ali-Khatami/F2)
+[![Build Status](https://travis-ci.org/Ali-Khatami/F2.png?branch=1.3-wip-app-handlers)](https://travis-ci.org/Ali-Khatami/F2)
 
 # An open framework for the financial services industry.
 
