@@ -8,5 +8,5 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
 script:
   - "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
-  - "phantomjs phantom-jasmine.js tests/index.html"
-  - "phantomjs phantom-jasmine.js tests/index-amd.html"
+  - "phantomjs phantom-jasmine.js tests/index.html" -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false
+  - "phantomjs phantom-jasmine.js tests/index-amd.html" -s localToRemoteUrlAccessEnabled=true -s webSecurityEnabled=false
