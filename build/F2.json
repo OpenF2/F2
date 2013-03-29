@@ -1,16 +1,16 @@
 {
 	"docs": {
-		"version": "1.2.0",
-		"shortVersion": "1.2",
+		"version": "1.3.0",
+		"shortVersion": "1.3",
 		"releaseDate": "2013-03-07T19:10:50.102Z",
 		"lastUpdateDate": "2013-03-14T04:11:25.360Z",
 		"lastUpdateDateFormatted": "13 March 2013"
 	},
 	"sdk": {
-		"version": "1.2.0",
-		"shortVersion": "1.2",
+		"version": "1.3.0",
+		"shortVersion": "1.3",
 		"releaseDate": "2013-03-07T19:10:50.102Z",
 		"lastUpdateDate": "2013-03-17T16:11:54.929Z"
 	},
-	"branch": "1.2-wip"
+	"branch": "1.3-wip-app-handlers"
 }
