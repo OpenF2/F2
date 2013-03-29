@@ -140,7 +140,7 @@ describe('F2.registerApps - rendering', function() {
 	
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["tests/js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
 		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
 	});
 	
