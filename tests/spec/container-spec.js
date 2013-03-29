@@ -139,14 +139,40 @@ describe('F2.registerApps - rendering', function() {
 	});
 	
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
+		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["https://raw.github.com/Ali-Khatami/F2/1.3-wip-app-handlers/tests/js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
-		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		
+		waitsFor(
+			function()
+			{
+				return F2.inlineScriptsEvaluated;
+			},
+			'Inline scripts were never evaluated',
+			10000
+		);
+		
+		runs(function() {
+			expect(F2.inlineScriptsEvaluated).toBe(true);
+		});	
+		
 	});
 	
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
+		F2.inlineScriptsEvaluated = false;
 		F2.init();
 		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
-		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
+		waitsFor(
+			function()
+			{
+				return F2.inlineScriptsEvaluated;
+			},
+			'Inline scripts were never evaluated',
+			10000
+		);
+		
+		runs(function() {
+			expect(F2.inlineScriptsEvaluated).toBe(true);
+		});	
 	});
 });
