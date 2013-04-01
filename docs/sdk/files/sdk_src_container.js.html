@@ -685,6 +685,49 @@ F2.extend(&#x27;&#x27;, (function(){
 					manifestRequest(i, requests.pop());
 				});
 			}
+		},		
+		&#x2F;**
+		 * Allows registering&#x2F;initializing apps that you have already loaded on the page from the server. This gives greater flexibility
+		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
+		 * @method registerPreLoadedApps
+		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
+		 * objects
+		 *&#x2F;
+		registerPreLoadedApps: function(appConfigs) {			
+			
+			appConfigs = [].concat(appConfigs);
+
+			jQuery.each(appConfigs, function(i, a) {
+				
+				if (!_validateApp(a)) {
+					return; &#x2F;&#x2F; move to the next app
+				}
+
+				&#x2F;&#x2F; add properties and methods
+				_hydrateAppConfig(a);
+
+				&#x2F;&#x2F; instantiate F2.UI
+				a.ui = new F2.UI(a);
+
+				_apps[a.instanceId] = { config:a };
+
+				&#x2F;&#x2F; instantiate F2.App
+				if (F2.Apps[a.appId] !== undefined) {
+					if (typeof F2.Apps[a.appId] === &#x27;function&#x27;) {
+
+						&#x2F;&#x2F; 
+						setTimeout(function() {
+							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+							if (_apps[a.instanceId].app[&#x27;init&#x27;] !== undefined) {
+								_apps[a.instanceId].app.init();
+							}
+						}, 0);
+						
+					} else {
+						F2.log(&#x27;app initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
+					}
+				}
+			});
 		},
 		&#x2F;**
 		 * Removes all apps from the container

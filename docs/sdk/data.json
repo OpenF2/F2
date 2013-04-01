@@ -1526,6 +1526,22 @@
         {
             "file": "sdk\\src\\container.js",
             "line": 470,
+            "description": "Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility\nif you are the container developer and app developer or want to request apps via serverside and render them as a single page.",
+            "itemtype": "method",
+            "name": "registerPreLoadedApps",
+            "params": [
+                {
+                    "name": "appConfigs",
+                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}\nobjects",
+                    "type": "Array"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\container.js",
+            "line": 513,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1534,7 +1550,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 485,
+            "line": 528,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",

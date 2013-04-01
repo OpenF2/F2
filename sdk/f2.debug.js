@@ -3446,6 +3446,49 @@ F2.extend('', (function(){
 					manifestRequest(i, requests.pop());
 				});
 			}
+		},		
+		/**
+		 * Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
+		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
+		 * @method registerLoadedApps
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+		 * objects
+		 */
+		registerPreLoadedApps: function(appConfigs) {			
+			
+			appConfigs = [].concat(appConfigs);
+
+			jQuery.each(appConfigs, function(i, a) {
+				
+				if (!_validateApp(a)) {
+					return; // move to the next app
+				}
+
+				// add properties and methods
+				_hydrateAppConfig(a);
+
+				// instantiate F2.UI
+				a.ui = new F2.UI(a);
+
+				_apps[a.instanceId] = { config:a };
+
+				// instantiate F2.App
+				if (F2.Apps[a.appId] !== undefined) {
+					if (typeof F2.Apps[a.appId] === 'function') {
+
+						// 
+						setTimeout(function() {
+							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+							if (_apps[a.instanceId].app['init'] !== undefined) {
+								_apps[a.instanceId].app.init();
+							}
+						}, 0);
+						
+					} else {
+						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
+					}
+				}
+			});
 		},
 		/**
 		 * Removes all apps from the container
