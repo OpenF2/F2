@@ -471,17 +471,32 @@ F2.extend('', (function(){
 		 * Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
 		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
 		 * @method registerPreLoadedApps
-		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-		 * objects
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
 		 */
-		registerPreLoadedApps: function(appConfigs) {			
+		registerPreLoadedApps: function(appConfigs) {
 			
+			if (!_isInit()) {
+				throw('F2.init() must be called before F2.registerApps()');
+			} else if (!appConfigs) {
+				throw('At least one AppConfig must be passed when calling F2.registerPreLoadedApps()');
+			}
+
+			// could just pass an object that is an appConfig
 			appConfigs = [].concat(appConfigs);
+
+			// appConfigs must have a length
+			if (!appConfigs.length) {
+				throw('At least one appConfig must be passed.');
+			}
 
 			jQuery.each(appConfigs, function(i, a) {
 				
 				if (!_validateApp(a)) {
-					return; // move to the next app
+					throw("Invalid appConfig at position " + i + ". Please check your inputs and try again.");
+				}
+				else if(!a.root || jQuery(a.root).parents("body:first").length == 0)
+				{
+					throw('Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.');
 				}
 
 				// add properties and methods
@@ -490,6 +505,7 @@ F2.extend('', (function(){
 				// instantiate F2.UI
 				a.ui = new F2.UI(a);
 
+				// place unique instance of app in _apps collection using its instanceId
 				_apps[a.instanceId] = { config:a };
 
 				// instantiate F2.App
@@ -498,7 +514,7 @@ F2.extend('', (function(){
 
 						// 
 						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+							_apps[a.instanceId].app = new F2.Apps[a.appId](a, jQuery(a.root).html(), a.root);
 							if (_apps[a.instanceId].app['init'] !== undefined) {
 								_apps[a.instanceId].app.init();
 							}
