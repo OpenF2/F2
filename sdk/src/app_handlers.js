@@ -53,7 +53,7 @@ F2.extend('AppHandlers', (function() {
 			}			
 			
 			// append the root to the body by default.
-			jQuery("body").append($root);
+			jQuery('body').append($root);
 		},
 		appRenderAfter: function()
 		{
@@ -82,14 +82,14 @@ F2.extend('AppHandlers', (function() {
 		appDestroy: function(appInstance)
 		{
 			// call the apps destroy method, if it has one
-			if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == "function")
+			if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')
 			{
 				appInstance.app.destroy();
 			}
 			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
 			else if(appInstance && appInstance.app && appInstance.app.destroy)
 			{
-				F2.log(app.config.appId + " has a destroy property, but destroy is not of type function and as such will not be executed.");
+				F2.log(app.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 			}
 			
 			// fade out and remove the root
@@ -117,12 +117,12 @@ F2.extend('AppHandlers', (function() {
 		
 		if(!handler.func && !handler.domNode)
 		{
-			throw ("Invalid or null argument passed. Handler will not be added to collection. A valid dom element or callback function is required.");
+			throw ('Invalid or null argument passed. Handler will not be added to collection. A valid dom element or callback function is required.');
 		}
 
 		if(handler.domNode && !bDomNodeAppropriate)
 		{
-			throw ("Invalid argument passed. Handler will not be added to collection. A callback function is required for this event type.");
+			throw ('Invalid argument passed. Handler will not be added to collection. A callback function is required for this event type.');
 		}
 		
 		return handler;
@@ -131,7 +131,7 @@ F2.extend('AppHandlers', (function() {
 	var _validateToken = function(sToken)
 	{
 		// check token against F2 and Container
-		if(_ct != sToken && _f2t != sToken) { throw ("Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken()."); }
+		if(_ct != sToken && _f2t != sToken) { throw ('Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken().'); }
 	};
 	
 	var _removeHandler = function(sToken, eventKey, sNamespace)
@@ -143,9 +143,35 @@ F2.extend('AppHandlers', (function() {
 		{			
 			return;
 		}
+		// remove by event key
 		else if(!sNamespace && eventKey)
 		{
 			_handlerCollection[eventKey] = [];
+		}
+		// remove by namespace only
+		else if(sNamespace && !eventKey)
+		{
+			sNamespace = sNamespace.toLowerCase();		
+		
+			for(var eventKey in _handlerCollection)
+			{
+				var eventCollection = _handlerCollection[eventKey];
+				var newEvents = [];
+
+				for(var i = 0, j = eventCollection.length; i < j; i++)
+				{
+					var currentHandler = eventCollection[i];
+					if(currentHandler)
+					{
+						if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
+						{
+							newEvents.push(currentHandler);
+						}
+					}
+				}
+
+				eventCollection = newEvents;				
+			}			
 		}
 		else if(sNamespace && _handlerCollection[eventKey])
 		{
@@ -175,7 +201,7 @@ F2.extend('AppHandlers', (function() {
 		if(!arHandleCollection || !arHandleCollection.length) { return; }
 		
 		// there is always 1 argument required, the first arg should always be the token.
-		if(!arOriginalArgs || !arOriginalArgs.length) { throw ("Invalid or null argument(s) passed. Token is required for all triggers. Please check your inputs and try again."); }
+		if(!arOriginalArgs || !arOriginalArgs.length) { throw ('Invalid or null argument(s) passed. Token is required for all triggers. Please check your inputs and try again.'); }
 		
 		// will throw an exception and stop execution if the token is invalid
 		_validateToken(arOriginalArgs[0]);
@@ -232,7 +258,7 @@ F2.extend('AppHandlers', (function() {
 			// will throw an exception and stop execution if the token is invalid
 			if(token != _f2t)
 			{
-				throw ("Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().")
+				throw ('Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().')
 			}
 			
 			if(_handlerCollection && _handlerCollection[eventKey])
@@ -274,7 +300,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ("Invalid EventKey passed. Check your inputs and try again.")
+				throw ('Invalid EventKey passed. Check your inputs and try again.')
 			}
 			
 			return this;
@@ -289,8 +315,8 @@ F2.extend('AppHandlers', (function() {
 		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {HTMLElement|Node} element Specific element to append your app to.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', $("#my-container").get(0));
-		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', $("#my-container").get(0));
+		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', document.getElementById('my_container'));
+		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', document.getElementById('my_container'));
 		**/
 		/**
 		* Allows you to add listener method that will be triggered when a specific event happens.
@@ -302,8 +328,8 @@ F2.extend('AppHandlers', (function() {
 		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {Function} listener A function that will be triggered when a specific event happens.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log("before app rendered!"); });
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log("before app rendered!"); });
+		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });
+		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });
 		**/
 		on: function(token, eventKey, func_or_element)
 		{
@@ -311,13 +337,13 @@ F2.extend('AppHandlers', (function() {
 			
 			if(!eventKey)
 			{
-				throw ("eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.");
+				throw ('eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.');
 			}
 			
 			// we need to check the key for a namespace
-			if(eventKey.indexOf(".") > -1)
+			if(eventKey.indexOf('.') > -1)
 			{
-				var arData = eventKey.split(".");
+				var arData = eventKey.split('.');
 				eventKey = arData[0];
 				sNamespace = arData[1];
 			}
@@ -329,13 +355,13 @@ F2.extend('AppHandlers', (function() {
 						token,
 						sNamespace,
 						func_or_element,
-						(eventKey == "appRender")
+						(eventKey == 'appRender')
 					)
 				);
 			}
 			else
 			{
-				throw ("Invalid EventKey passed. Check your inputs and try again.")
+				throw ('Invalid EventKey passed. Check your inputs and try again.')
 			}
 			
 			return this;
@@ -357,13 +383,13 @@ F2.extend('AppHandlers', (function() {
 			
 			if(!eventKey)
 			{
-				throw ("eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.");
+				throw ('eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.');
 			}
 			
 			// we need to check the key for a namespace
-			if(eventKey.indexOf(".") > -1)
+			if(eventKey.indexOf('.') > -1)
 			{
-				var arData = eventKey.split(".");
+				var arData = eventKey.split('.');
 				eventKey = arData[0];
 				sNamespace = arData[1];
 			}
@@ -378,7 +404,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ("Invalid EventKey passed. Check your inputs and try again.")
+				throw ('Invalid EventKey passed. Check your inputs and try again.')
 			}
 			
 			return this;
@@ -398,60 +424,60 @@ F2.extend('Constants', {
 	AppHandlers:
 	{
 		/**
-		 * Identifies the create root method for use in AppHandlers.on/off/__trigger().
+		 * Equivalent to 'appCreateRoot'. Identifies the create root method for use in AppHandlers.on/off/__trigger().
 		 * @property APP_CREATE_ROOT
 		 * @type string
 		 * @static
 		 * @final
 		 */
-		APP_CREATE_ROOT: "appCreateRoot",
+		APP_CREATE_ROOT: 'appCreateRoot',
 		/**
-		 * Identifies the before app render method for use in AppHandlers.on/off/__trigger().
+		 * Equivalent to 'appRenderBefore'. Identifies the before app render method for use in AppHandlers.on/off/__trigger().
 		 * @property APP_RENDER_BEFORE
 		 * @type string
 		 * @static
 		 * @final
 		 */
-		APP_RENDER_BEFORE: "appRenderBefore",
+		APP_RENDER_BEFORE: 'appRenderBefore',
 		/**
-		 * Identifies the app render method for use in AppHandlers.on/off/__trigger().
+		 * Equivalent to 'appRender'. Identifies the app render method for use in AppHandlers.on/off/__trigger().
 		 * @property APP_RENDER
 		 * @type string
 		 * @static
 		 * @final
 		 */		
-		APP_RENDER: "appRender",
+		APP_RENDER: 'appRender',
 		/**
-		 * Identifies the after app render method for use in AppHandlers.on/off/__trigger().
+		 * Equivalent to 'appRenderAfter'. Identifies the after app render method for use in AppHandlers.on/off/__trigger().
 		 * @property APP_RENDER_AFTER
 		 * @type string
 		 * @static
 		 * @final
 		 */	
-		APP_RENDER_AFTER: "appRenderAfter",
+		APP_RENDER_AFTER: 'appRenderAfter',
 		/**
-		 * Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().
+		 * Equivalent to 'appDestroyBefore'. Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().
 		 * @property APP_DESTROY_BEFORE
 		 * @type string
 		 * @static
 		 * @final
 		 */
-		APP_DESTROY_BEFORE: "appDestroyBefore",
+		APP_DESTROY_BEFORE: 'appDestroyBefore',
 		/**
-		 * Identifies the app destroy method for use in AppHandlers.on/off/__trigger().
+		 * Equivalent to 'appDestroy'. Identifies the app destroy method for use in AppHandlers.on/off/__trigger().
 		 * @property APP_DESTROY
 		 * @type string
 		 * @static
 		 * @final
 		 */		
-		APP_DESTROY: "appDestroy",
+		APP_DESTROY: 'appDestroy',
 		/**
-		 * Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().
+		 * Equivalent to 'appDestroyAfter'. Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().
 		 * @property APP_DESTROY_AFTER
 		 * @type string
 		 * @static
 		 * @final
 		 */
-		APP_DESTROY_AFTER: "appDestroyAfter"
+		APP_DESTROY_AFTER: 'appDestroyAfter'
 	}
 });

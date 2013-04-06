@@ -176,7 +176,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk\\src\\app_handlers.js",
-            "line": 389,
+            "line": 415,
             "description": "A convenient collection of all available appHandler events."
         },
         "F2.App": {
@@ -278,7 +278,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk\\src\\classes.js",
-            "line": 287,
+            "line": 290,
             "description": "An object containing configuration defaults for F2.UI"
         },
         "F2.ContainerConfig.UI.Mask": {
@@ -292,7 +292,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk\\src\\classes.js",
-            "line": 292,
+            "line": 295,
             "description": "An object containing configuration defaults for the \nF2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} and\nF2.UI.{{#crossLink \"F2.UI/hideMask\"}}{{/crossLink}} methods."
         },
         "F2.Constants": {
@@ -647,7 +647,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 193,
+            "line": 219,
             "description": "Allows container developer to retrieve a special token which must be passed to\nall On and Off methods. This function will self destruct so be sure to keep the response\ninside of a closure somewhere.",
             "itemtype": "method",
             "name": "getToken",
@@ -656,7 +656,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 207,
+            "line": 233,
             "description": "Allows F2 to get a token internally. Token is required to call {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}.\nThis function will self destruct to eliminate other sources from using the {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}\nand other internal methods.",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -667,7 +667,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 222,
+            "line": 248,
             "description": "Allows F2 to trigger specific app events internally.",
             "itemtype": "method",
             "name": "__trigger",
@@ -691,7 +691,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 282,
+            "line": 308,
             "description": "Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.",
             "itemtype": "method",
             "name": "on",
@@ -714,14 +714,14 @@
                 }
             ],
             "example": [
-                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', $(\"#my-container\").get(0));\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', $(\"#my-container\").get(0));"
+                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', document.getElementById('my_container'));\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', document.getElementById('my_container'));"
             ],
             "class": "F2.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 295,
+            "line": 321,
             "description": "Allows you to add listener method that will be triggered when a specific event happens.",
             "itemtype": "method",
             "name": "on",
@@ -744,14 +744,14 @@
                 }
             ],
             "example": [
-                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log(\"before app rendered!\"); });\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log(\"before app rendered!\"); });"
+                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });"
             ],
             "class": "F2.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 343,
+            "line": 369,
             "description": "Allows you to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -776,7 +776,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 394,
+            "line": 420,
             "description": "A collection of constants for the on/off method names in F2.AppHandlers.",
             "itemtype": "property",
             "name": "AppHandlers",
@@ -786,8 +786,8 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 400,
-            "description": "Identifies the create root method for use in AppHandlers.on/off/__trigger().",
+            "line": 426,
+            "description": "Equivalent to 'appCreateRoot'. Identifies the create root method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_CREATE_ROOT",
             "type": "string",
@@ -798,8 +798,8 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 408,
-            "description": "Identifies the before app render method for use in AppHandlers.on/off/__trigger().",
+            "line": 434,
+            "description": "Equivalent to 'appRenderBefore'. Identifies the before app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_BEFORE",
             "type": "string",
@@ -810,8 +810,8 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 416,
-            "description": "Identifies the app render method for use in AppHandlers.on/off/__trigger().",
+            "line": 442,
+            "description": "Equivalent to 'appRender'. Identifies the app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER",
             "type": "string",
@@ -822,8 +822,8 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 424,
-            "description": "Identifies the after app render method for use in AppHandlers.on/off/__trigger().",
+            "line": 450,
+            "description": "Equivalent to 'appRenderAfter'. Identifies the after app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_AFTER",
             "type": "string",
@@ -834,8 +834,8 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 432,
-            "description": "Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().",
+            "line": 458,
+            "description": "Equivalent to 'appDestroyBefore'. Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_BEFORE",
             "type": "string",
@@ -846,8 +846,8 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 440,
-            "description": "Identifies the app destroy method for use in AppHandlers.on/off/__trigger().",
+            "line": 466,
+            "description": "Equivalent to 'appDestroy'. Identifies the app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY",
             "type": "string",
@@ -858,8 +858,8 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 448,
-            "description": "Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().",
+            "line": 474,
+            "description": "Equivalent to 'appDestroyAfter'. Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_AFTER",
             "type": "string",
@@ -1119,6 +1119,8 @@
             "description": "Allows the [container](../../container-development.html) to override how\nan app's html is inserted into the page. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml",
             "itemtype": "method",
             "name": "afterAppRender",
+            "deprecated": true,
+            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
             "params": [
                 {
                     "name": "appConfig",
@@ -1140,10 +1142,12 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 239,
+            "line": 240,
             "description": "Allows the [container](../../container-development.html) to wrap an app\nin extra html. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml. The extra html can provide links to edit app settings and remove an\napp from the container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
             "itemtype": "method",
             "name": "appRender",
+            "deprecated": true,
+            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
             "params": [
                 {
                     "name": "appConfig",
@@ -1161,10 +1165,12 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 252,
+            "line": 254,
             "description": "Allows the container to render html for an app before the AppManifest for\nan app has loaded. This can be useful if the design calls for loading\nicons to appear for each app before each app is loaded and rendered to\nthe page.",
             "itemtype": "method",
             "name": "beforeAppRender",
+            "deprecated": true,
+            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
             "params": [
                 {
                     "name": "appConfig",
@@ -1181,7 +1187,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 262,
+            "line": 265,
             "description": "Tells the container that it is currently running within\na secure app page",
             "itemtype": "property",
             "name": "isSecureAppPage",
@@ -1191,7 +1197,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 269,
+            "line": 272,
             "description": "Allows the container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the\ncontainer",
             "itemtype": "property",
             "name": "secureAppPagePath",
@@ -1201,7 +1207,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 278,
+            "line": 281,
             "description": "Specifies what views a container will provide buttons\nor links to. Generally, the views will be switched via buttons or links\nin the app's header.",
             "itemtype": "property",
             "name": "supportedViews",
@@ -1212,7 +1218,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 299,
+            "line": 302,
             "description": "The backround color of the overlay",
             "itemtype": "property",
             "name": "backgroundColor",
@@ -1223,7 +1229,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 306,
+            "line": 309,
             "description": "The path to the loading icon",
             "itemtype": "property",
             "name": "loadingIcon",
@@ -1233,7 +1239,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 312,
+            "line": 315,
             "description": "The opacity of the background overlay",
             "itemtype": "property",
             "name": "opacity",
@@ -1244,7 +1250,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 319,
+            "line": 322,
             "description": "Do not use inline styles for mask functinality. Instead classes will\nbe applied to the elements and it is up to the container provider to\nimplement the class definitions.",
             "itemtype": "property",
             "name": "useClasses",
@@ -1255,7 +1261,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 328,
+            "line": 331,
             "description": "The z-index to use for the overlay",
             "itemtype": "property",
             "name": "zIndex",
@@ -2441,11 +2447,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:282"
+            "line": " sdk\\src\\app_handlers.js:308"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:295"
+            "line": " sdk\\src\\app_handlers.js:321"
         },
         {
             "message": "replacing incorrect tag: returns with return",

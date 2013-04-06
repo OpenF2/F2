@@ -480,7 +480,7 @@ and other internal methods.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l207"><code>sdk\src\app_handlers.js:207</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l233"><code>sdk\src\app_handlers.js:233</code></a></dd>
 			
 
 			
@@ -556,7 +556,7 @@ and other internal methods.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l222"><code>sdk\src\app_handlers.js:222</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l248"><code>sdk\src\app_handlers.js:248</code></a></dd>
 			
 
 			
@@ -652,7 +652,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l193"><code>sdk\src\app_handlers.js:193</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l219"><code>sdk\src\app_handlers.js:219</code></a></dd>
 			
 
 			
@@ -726,7 +726,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l343"><code>sdk\src\app_handlers.js:343</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l369"><code>sdk\src\app_handlers.js:369</code></a></dd>
 			
 
 			
@@ -852,7 +852,7 @@ inside of a closure somewhere.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l282"><code>sdk\src\app_handlers.js:282</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l308"><code>sdk\src\app_handlers.js:308</code></a></dd>
 			
 
 			
@@ -923,8 +923,8 @@ F2.Constants/AppHandlers:property.</p>
 	
 		<h4>Example:</h4>
 		<div class="example-content">
-			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', $("#my-container").get(0));
-    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', $("#my-container").get(0));
+			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', document.getElementById('my_container'));
+    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', document.getElementById('my_container'));
 </code></pre>
 		</div>
 	
@@ -994,7 +994,7 @@ F2.Constants/AppHandlers:property.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l295"><code>sdk\src\app_handlers.js:295</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_app_handlers.js.html#l321"><code>sdk\src\app_handlers.js:321</code></a></dd>
 			
 
 			
@@ -1065,8 +1065,8 @@ F2.Constants/AppHandlers:property.</p>
 	
 		<h4>Example:</h4>
 		<div class="example-content">
-			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log("before app rendered!"); });
-    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log("before app rendered!"); });
+			<pre class="code prettyprint"><code>    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });
+    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });
 </code></pre>
 		</div>
 	

@@ -236,14 +236,14 @@ F2.extend('', (function(){
 				
 				if(!appConfigs[i].root)
 				{
-					throw("App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
 				var $root = jQuery(appConfigs[i].root);
 				
-				if($root.parents("body:first").length == 0)
+				if($root.parents('body:first').length == 0)
 				{
-					throw("App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.");
+					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
 				
 				F2.AppHandlers.__trigger(
@@ -254,7 +254,7 @@ F2.extend('', (function(){
 				
 				if(!F2.isNativeDOMNode(appConfigs[i].root))
 				{
-					throw("App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
 				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId);
@@ -322,9 +322,9 @@ F2.extend('', (function(){
 					appManifest.html
 				);
 				
-				if($root.parents("body:first").length == 0)
+				if($root.parents('body:first').length == 0)
 				{
-					throw("App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.");
+					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
 				
 				F2.AppHandlers.__trigger(
@@ -335,12 +335,12 @@ F2.extend('', (function(){
 				
 				if(!appConfig.root)
 				{
-					throw("App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
 				if(!F2.isNativeDOMNode(appConfig.root))
 				{
-					throw("App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.");
+					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
 				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
@@ -353,7 +353,7 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in F2.ContainerConfig.');
+			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
 		}
 	};
 
