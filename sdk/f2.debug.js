@@ -1865,8 +1865,8 @@ F2.extend('AppHandlers', (function() {
 		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {HTMLElement|Node} element Specific element to append your app to.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', document.getElementById('my_container'));
-		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', document.getElementById('my_container'));
+		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));
+		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));
 		**/
 		/**
 		* Allows you to add listener method that will be triggered when a specific event happens.

@@ -714,7 +714,7 @@
                 }
             ],
             "example": [
-                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', document.getElementById('my_container'));\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', document.getElementById('my_container'));"
+                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));"
             ],
             "class": "F2.AppHandlers",
             "module": "f2"
