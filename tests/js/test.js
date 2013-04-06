@@ -15,7 +15,7 @@ F2.Apps["com_openf2_tests_helloworld"] = (function() {
 	};
 
 	App_Class.prototype.destroy = function () {
-		F2.destroyAppMethodCalled = true;		
+		F2.destroyAppMethodCalled = true;
 	};
 
 	return App_Class;

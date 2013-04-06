@@ -68,12 +68,12 @@ $(function() {
 			if(!appInstance) { return; }
 			
 			// call the apps destroy method, if it has one
-			if(appInstance.app && appInstance.app.Destroy && typeof(appInstance.app.Destroy) == "function")
+			if(appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == "function")
 			{
-				appInstance.app.Destroy();
+				appInstance.app.destroy();
 			}
 			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
-			else if(appInstance.app && appInstance.app.Destroy)
+			else if(appInstance.app && appInstance.app.destroy)
 			{
 				F2.log(app.config.appId + " has a Destroy property, but Destroy is not of type function and as such will not be executed.");
 			}
