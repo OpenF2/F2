@@ -1786,6 +1786,34 @@ F2.extend('', (function(){
 	};
 
 	/**
+	 * Instantiates each app from it's appConfig and stores that in a local private collection
+	 * @method _createAppInstance
+	 * @private
+	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
+	 */
+	var _createAppInstance = function(appConfig){
+		// instantiate F2.UI
+		appConfig.ui = new F2.UI(appConfig);
+
+		// instantiate F2.App
+		if (F2.Apps[appConfig.appId] !== undefined) {
+			if (typeof F2.Apps[appConfig.appId] === 'function') {
+
+				// 
+				setTimeout(function() {
+					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, jQuery(appConfig.root).html(), appConfig.root);
+					if (_apps[appConfig.instanceId].app['init'] !== undefined) {
+						_apps[appConfig.instanceId].app.init();
+					}
+				}, 0);
+				
+			} else {
+				F2.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
+			}
+		}
+	};
+
+	/**
 	 * Loads the app's html/css/javascript
 	 * @method loadApp
 	 * @private
@@ -1816,25 +1844,7 @@ F2.extend('', (function(){
 		var scriptsLoaded = 0;
 		var appInit = function() {
 			jQuery.each(appConfigs, function(i, a) {
-				// instantiate F2.UI
-				a.ui = new F2.UI(a);
-
-				// instantiate F2.App
-				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === 'function') {
-
-						// 
-						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-							if (_apps[a.instanceId].app['init'] !== undefined) {
-								_apps[a.instanceId].app.init();
-							}
-						}, 0);
-						
-					} else {
-						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
-					}
-				}
+				_createAppInstance(a);
 			});
 		};
 
@@ -1927,7 +1937,7 @@ F2.extend('', (function(){
 			F2.log('"appId" missing from app object');
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log('manifestUrl" missing from app object');
+			F2.log('"manifestUrl" missing from app object');
 			return false;
 		}
 
@@ -2138,9 +2148,9 @@ F2.extend('', (function(){
 			jQuery.each(appConfigs, function(i, a) {
 				
 				if (!_validateApp(a)) {
-					throw("Invalid appConfig at position " + i + ". Please check your inputs and try again.");
+					throw('Invalid appConfig at position ' + i + '. Please check your inputs and try again.');
 				}
-				else if(!a.root || jQuery(a.root).parents("body:first").length == 0)
+				else if(!a.root || jQuery(a.root).parents('body:first').length == 0)
 				{
 					throw('Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.');
 				}
@@ -2148,28 +2158,14 @@ F2.extend('', (function(){
 				// add properties and methods
 				_hydrateAppConfig(a);
 
-				// instantiate F2.UI
-				a.ui = new F2.UI(a);
-
 				// place unique instance of app in _apps collection using its instanceId
 				_apps[a.instanceId] = { config:a };
 
 				// instantiate F2.App
-				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === 'function') {
-
-						// 
-						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, jQuery(a.root).html(), a.root);
-							if (_apps[a.instanceId].app['init'] !== undefined) {
-								_apps[a.instanceId].app.init();
-							}
-						}, 0);
-						
-					} else {
-						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
-					}
-				}
+				_createAppInstance(a);
+				
+				// init events
+				_initAppEvents(a);
 			});
 		},
 		/**

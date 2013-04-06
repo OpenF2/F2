@@ -359,6 +359,34 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	&#x2F;**
+	 * Instantiates each app from it&#x27;s appConfig and stores that in a local private collection
+	 * @method _createAppInstance
+	 * @private
+	 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} objects
+	 *&#x2F;
+	var _createAppInstance = function(appConfig){
+		&#x2F;&#x2F; instantiate F2.UI
+		appConfig.ui = new F2.UI(appConfig);
+
+		&#x2F;&#x2F; instantiate F2.App
+		if (F2.Apps[appConfig.appId] !== undefined) {
+			if (typeof F2.Apps[appConfig.appId] === &#x27;function&#x27;) {
+
+				&#x2F;&#x2F; 
+				setTimeout(function() {
+					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, jQuery(appConfig.root).html(), appConfig.root);
+					if (_apps[appConfig.instanceId].app[&#x27;init&#x27;] !== undefined) {
+						_apps[appConfig.instanceId].app.init();
+					}
+				}, 0);
+				
+			} else {
+				F2.log(&#x27;app initialization class is defined but not a function. (&#x27; + appConfig.appId + &#x27;)&#x27;);
+			}
+		}
+	};
+
+	&#x2F;**
 	 * Loads the app&#x27;s html&#x2F;css&#x2F;javascript
 	 * @method loadApp
 	 * @private
@@ -389,25 +417,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		var scriptsLoaded = 0;
 		var appInit = function() {
 			jQuery.each(appConfigs, function(i, a) {
-				&#x2F;&#x2F; instantiate F2.UI
-				a.ui = new F2.UI(a);
-
-				&#x2F;&#x2F; instantiate F2.App
-				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === &#x27;function&#x27;) {
-
-						&#x2F;&#x2F; 
-						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-							if (_apps[a.instanceId].app[&#x27;init&#x27;] !== undefined) {
-								_apps[a.instanceId].app.init();
-							}
-						}, 0);
-						
-					} else {
-						F2.log(&#x27;app initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
-					}
-				}
+				_createAppInstance(a);
 			});
 		};
 
@@ -500,7 +510,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			F2.log(&#x27;&quot;appId&quot; missing from app object&#x27;);
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log(&#x27;manifestUrl&quot; missing from app object&#x27;);
+			F2.log(&#x27;&quot;manifestUrl&quot; missing from app object&#x27;);
 			return false;
 		}
 
@@ -711,9 +721,9 @@ F2.extend(&#x27;&#x27;, (function(){
 			jQuery.each(appConfigs, function(i, a) {
 				
 				if (!_validateApp(a)) {
-					throw(&quot;Invalid appConfig at position &quot; + i + &quot;. Please check your inputs and try again.&quot;);
+					throw(&#x27;Invalid appConfig at position &#x27; + i + &#x27;. Please check your inputs and try again.&#x27;);
 				}
-				else if(!a.root || jQuery(a.root).parents(&quot;body:first&quot;).length == 0)
+				else if(!a.root || jQuery(a.root).parents(&#x27;body:first&#x27;).length == 0)
 				{
 					throw(&#x27;Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.&#x27;);
 				}
@@ -721,28 +731,14 @@ F2.extend(&#x27;&#x27;, (function(){
 				&#x2F;&#x2F; add properties and methods
 				_hydrateAppConfig(a);
 
-				&#x2F;&#x2F; instantiate F2.UI
-				a.ui = new F2.UI(a);
-
 				&#x2F;&#x2F; place unique instance of app in _apps collection using its instanceId
 				_apps[a.instanceId] = { config:a };
 
 				&#x2F;&#x2F; instantiate F2.App
-				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === &#x27;function&#x27;) {
-
-						&#x2F;&#x2F; 
-						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, jQuery(a.root).html(), a.root);
-							if (_apps[a.instanceId].app[&#x27;init&#x27;] !== undefined) {
-								_apps[a.instanceId].app.init();
-							}
-						}, 0);
-						
-					} else {
-						F2.log(&#x27;app initialization class is defined but not a function. (&#x27; + a.appId + &#x27;)&#x27;);
-					}
-				}
+				_createAppInstance(a);
+				
+				&#x2F;&#x2F; init events
+				_initAppEvents(a);
 			});
 		},
 		&#x2F;**
