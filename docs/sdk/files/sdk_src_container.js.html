@@ -690,17 +690,32 @@ F2.extend(&#x27;&#x27;, (function(){
 		 * Allows registering&#x2F;initializing apps that you have already loaded on the page from the server. This gives greater flexibility
 		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
 		 * @method registerPreLoadedApps
-		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
-		 * objects
+		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} objects
 		 *&#x2F;
-		registerPreLoadedApps: function(appConfigs) {			
+		registerPreLoadedApps: function(appConfigs) {
 			
+			if (!_isInit()) {
+				throw(&#x27;F2.init() must be called before F2.registerApps()&#x27;);
+			} else if (!appConfigs) {
+				throw(&#x27;At least one AppConfig must be passed when calling F2.registerPreLoadedApps()&#x27;);
+			}
+
+			&#x2F;&#x2F; could just pass an object that is an appConfig
 			appConfigs = [].concat(appConfigs);
+
+			&#x2F;&#x2F; appConfigs must have a length
+			if (!appConfigs.length) {
+				throw(&#x27;At least one appConfig must be passed.&#x27;);
+			}
 
 			jQuery.each(appConfigs, function(i, a) {
 				
 				if (!_validateApp(a)) {
-					return; &#x2F;&#x2F; move to the next app
+					throw(&quot;Invalid appConfig at position &quot; + i + &quot;. Please check your inputs and try again.&quot;);
+				}
+				else if(!a.root || jQuery(a.root).parents(&quot;body:first&quot;).length == 0)
+				{
+					throw(&#x27;Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.&#x27;);
 				}
 
 				&#x2F;&#x2F; add properties and methods
@@ -709,6 +724,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				&#x2F;&#x2F; instantiate F2.UI
 				a.ui = new F2.UI(a);
 
+				&#x2F;&#x2F; place unique instance of app in _apps collection using its instanceId
 				_apps[a.instanceId] = { config:a };
 
 				&#x2F;&#x2F; instantiate F2.App
@@ -717,7 +733,7 @@ F2.extend(&#x27;&#x27;, (function(){
 
 						&#x2F;&#x2F; 
 						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
+							_apps[a.instanceId].app = new F2.Apps[a.appId](a, jQuery(a.root).html(), a.root);
 							if (_apps[a.instanceId].app[&#x27;init&#x27;] !== undefined) {
 								_apps[a.instanceId].app.init();
 							}

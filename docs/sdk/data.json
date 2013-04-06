@@ -1532,7 +1532,7 @@
             "params": [
                 {
                     "name": "appConfigs",
-                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}\nobjects",
+                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} objects",
                     "type": "Array"
                 }
             ],
@@ -1541,7 +1541,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 513,
+            "line": 529,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1550,7 +1550,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 528,
+            "line": 544,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
