@@ -1,0 +1,58 @@
+.compare form {
+	margin: 0;
+}
+
+.compare table {
+	table-layout: fixed;
+	margin-bottom: 10px;
+}
+
+	.compare th,
+	.compare td {
+		text-align: right;
+	}
+
+	.compare th {
+		font-size: 14px;
+		font-weight: bold;
+		width: 17%;
+	}
+
+		.compare th:first-child {
+			width: 15%
+		}
+
+		.compare th span {
+			display: block;
+		}
+
+		.compare th a {
+			font-size: 11px;
+		}
+
+		.compare th input[type=text] {
+			font-size: 12px;
+			margin-bottom: 7px;
+			width: 85%;
+		}
+
+		.compare th input[type=submit] {
+			cursor: pointer;
+			font-size: 12px;
+			line-height: 18px;
+		}
+
+	.compare td {
+		border: 1px solid #ccc;
+	}
+
+		.compare td:first-child {
+			font-weight: bold;
+			text-align: left;
+		}
+
+.compare input[type=text].loading {
+	background-image: url(../img/ajax_spinner.gif);
+	background-position: 107px;
+	background-repeat: no-repeat;
+}
