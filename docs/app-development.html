@@ -3,7 +3,7 @@
 <head>
   <title>F2 - App Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="18 March 2013">
+  <meta name="dcterms.date" content="8 April 2013">
   <meta name="gitbranch" content="master">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
@@ -17,7 +17,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.1.0" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.1.2" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -73,8 +73,8 @@
             <li class="divider-vertical"></li>
             <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.1</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.1)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
           </ul>
         </div>
       </div>
@@ -125,7 +125,7 @@
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.1.1). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.1.2). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
 <p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used. To start, F2 Apps are either:</p>
@@ -573,10 +573,15 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     <span class="kw">color:</span><span class="dt">red</span><span class="kw">;</span>
 <span class="kw">}</span></code></pre>
 <p>Note <code>.com_companyName_appName</code> is prefixed on both <code>p</code> and <code>.alert</code> selectors.</p>
-<p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and prefixing F2 AppIDs on CSS selectors isn't required, it is recommended.</p>
+<p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and while prefixing F2 AppIDs on CSS selectors isn't required, it is recommended.</p>
 <pre class="sourceCode css"><code class="sourceCode css"><span class="fl">.com_companyName_appName</span> <span class="fl">#notice</span> <span class="kw">{</span>
     <span class="kw">background-color:</span><span class="dt">yellow</span><span class="kw">;</span>
 <span class="kw">}</span></code></pre>
+<p><span class="label">Note</span> App Developers should familiarize themselves with <a href="container-development.html#namespacing">CSS namespacing rules for Container Developers</a>. They are largely the same with a couple notable additions.</p>
+<section class="level4" id="about-css-resets">
+<h4>About CSS Resets</h4>
+<p>It is a common web development practice to use <a href="http://meyerweb.com/eric/tools/css/reset/">CSS resets</a>, and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including <a href="http://necolas.github.com/normalize.css/">Normalize.css</a> which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.</p>
+</section>
 </section>
 <section class="level3" id="keeping-javascript-clean">
 <h3>Keeping JavaScript Clean</h3>
@@ -970,7 +975,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 18 March 2013</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
 		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
@@ -979,8 +984,8 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.1.1"></script>
-<script src="./js/docs.js?1.1.0"></script>
+<script src="./js/f2.js?1.1.2"></script>
+<script src="./js/docs.js?1.1.2"></script>
 <script>F2.extend('gitbranch', (function(){ return 'master'; }));</script>
 </body>
 </html>

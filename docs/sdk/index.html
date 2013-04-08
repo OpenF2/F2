@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - The Open Financial Framework</title>
-	<meta name="dcterms.date" content="18 March 2013">
+	<meta name="dcterms.date" content="8 April 2013">
 	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
@@ -17,7 +17,7 @@
 	<script src=".&#x2F;../js/respond.min.js"></script>
 	
 	<link href=".&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href=".&#x2F;../css/F2.Sdk.css?1.1.1" rel="stylesheet">
+	<link href=".&#x2F;../css/F2.Sdk.css?1.1.2" rel="stylesheet">
 
 	<link rel="icon" href=".&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href=".&#x2F;../img/touch-icon-iphone-57.png" />
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.1</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.1)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -243,7 +243,7 @@
 
 <h2>Talk</h2>
 
-<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="&#x6D;&#x61;&#105;&#108;&#116;&#111;:i&#110;&#x66;&#x6F;&#x40;&#x6F;&#x70;&#x65;&#110;&#102;&#x32;&#46;o&#x72;&#103;">i&#110;&#x66;&#x6F;&#x40;&#x6F;&#x70;&#x65;&#110;&#102;&#x32;&#46;o&#x72;&#103;</a>.</p>
+<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="&#109;&#x61;&#105;&#x6C;&#116;&#111;:&#x69;&#110;&#x66;&#x6F;&#64;&#x6F;&#112;&#101;&#110;&#102;2&#x2E;&#111;&#x72;&#x67;">&#x69;&#110;&#x66;&#x6F;&#64;&#x6F;&#112;&#101;&#110;&#102;2&#x2E;&#111;&#x72;&#x67;</a>.</p>
 
 <h2>Bug Tracking</h2>
 
@@ -253,7 +253,7 @@
 
 <p>If you just want to build F2 <a href="http://docs.openf2.org/container-development.html">containers</a> and/or <a href="http://docs.openf2.org/app-development.html">apps</a>, you can <strong>skip the <a href="#build-f2">Build F2</a></strong> section below. You do not need the command line to work with F2.</p>
 
-<h3>Build F2</h3>
+<h3>Build F2 <a href="https://travis-ci.org/OpenF2/F2"><img src="https://travis-ci.org/OpenF2/F2.png" alt="Build Status" title="" /></a></h3>
 
 <p>For those wishing to contribute back to F2, we've included a <code>build</code> file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs on <a href="http://nodejs.org/">Node.js</a> and has a few dependencies. To install, <code>cd</code> to your <code>F2/build</code> folder, and run the following commands in npm:</p>
 
@@ -272,6 +272,12 @@
 <p><code>$&gt; node build -h</code></p>
 
 <p>We are using <a href="https://github.com/markitondemand/markitdown">markitdown</a>, a lightweight pandoc wrapper, for converting markdown files to HTML for the <a href="http://docs.openf2.org">docs</a>.</p>
+
+NuGet Package
+
+<p>Good news if you're using C#! We have an <a href="https://nuget.org/packages/F2/">F2 NuGet package available</a>. In the Package Manager Console run:</p>
+
+<p><code>PM&gt; Install-Package F2</code></p>
 
 <h3>Collaboration</h3>
 
@@ -294,7 +300,7 @@
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 18 March 2013</small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
 			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>

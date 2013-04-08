@@ -31,7 +31,7 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
         this.initEvents();
     }
 
-    App.prototype.DEFAULT_SYMBOLS = ["MSFT","BAC","GE","GS","INTC","CSCO"];
+    App.prototype.DEFAULT_SYMBOLS = ["BA","BAC","GE","GS","INTC","CSCO"];
     App.prototype.COOKIE_NAME = "F2_Examples_Watchlist";
 
     App.prototype.ROW = ["<tr data-row='{symbol}'>",

@@ -38,7 +38,7 @@ To track bugs and issues, we are using [Issues on GitHub](https://github.com/Ope
 
 If you just want to build F2 [containers](http://docs.openf2.org/container-development.html) and/or [apps](http://docs.openf2.org/app-development.html), you can **skip the [Build F2](#build-f2)** section below. You do not need the command line to work with F2.
 
-### Build F2
+### Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png)](https://travis-ci.org/OpenF2/F2)
 
 For those wishing to contribute back to F2, we've included a `build` file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs on [Node.js](http://nodejs.org/) and has a few dependencies. To install, `cd` to your `F2/build` folder, and run the following commands in npm:
 
@@ -57,6 +57,12 @@ For help, run:
 `$> node build -h`
 
 We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org).
+
+#### NuGet Package
+
+Good news if you're using C#! We have an [F2 NuGet package available](https://nuget.org/packages/F2/). In the Package Manager Console run:
+
+`PM> Install-Package F2`
 
 ### Collaboration 
 
