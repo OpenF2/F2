@@ -285,31 +285,37 @@ F2 is a _web_ integration framework which means apps are inherently insecure&mda
 
 ### Namespacing CSS
 
-As discussed in [Developing F2 Containers: F2 ContainerID](#f2-containerid), to develop an F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: `com_container_companyName_appName`, where the `companyName` "namespace" is your company name and `appName` is the name of your app.
+As discussed in [Developing F2 Containers: F2 ContainerID](#f2-containerid), to develop an F2 container, you need a unique identifier called an ContainerID. This ContainerID will be unique to your container across the entire open financial framework ecosystem. The format of the ContainerID looks like this: `com_container_companyName_containerName`, where the `companyName` "namespace" is your company name and `containerName` is the name of your container.
 
-To avoid styling conflicts or other display issues related to app-provided style sheets, App Developers [must namespace their CSS selectors](app-development.html#namespacing-css). While there are strict rules for App Developers, the same rules apply to Container Developers. This is especially true when implementing _mutliple containers_.
+To avoid styling conflicts or other display issues related to injecting app-provided style sheets into your container when `F2.registerApps()` is called, App Developers [must namespace their CSS selectors](app-development.html#namespacing-css). **While there are strict rules for App Developers, the same is true for Container Developers**. This is especially true when nesting multiple F2 apps inside an existing container where that container already has a CSS framework in place. (This is often called the "mutliple container" issue, and a conversation about existing problems and enhancements to F2.js is being discussed in [#37](https://github.com/OpenF2/F2/issues/37) and [#38](https://github.com/OpenF2/F2/issues/38).)
 
-In the event there are multiple containers, every CSS selector in container-provided style sheets must look like this:
+In the event there are multiple containers, every CSS selector in container-provided style sheets must be properly namespaced. The [CSS files bundled with the example containers in the F2 project on GitHub](https://github.com/OpenF2/F2/tree/{{branch}}/examples/container/css) demonstrate this concept, and we have included a [readme](https://github.com/OpenF2/F2/blob/{{branch}}/examples/container/css/README.md) for how to use a LESS compiler to automate the namespacing of Bootstrap's CSS.
+
+In this simple example, container-provided CSS should be namespaced as shown below.
 
 ```css
-.com_container_companyName_appName p {
+.com_container_companyName_containerName p {
 	padding:5px;
 }
 
-.com_container_companyName_appName .alert {
+.com_container_companyName_containerName .alert {
 	color:red;
 }
 ```
 
-Note `.com_container_companyName_appName` is prefixed on both `p` and `.alert` selectors.
+Note `.com_container_companyName_containerName` is prefixed on both `p` and `.alert` selectors.
 
-While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and prefixing F2 ContainerIDs on CSS selectors isn't required, it is recommended.
+While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and while prefixing F2 ContainerIDs on CSS selectors isn't required, it is recommended.
 
 ```css
-.com_container_companyName_appName #notice {
+.com_container_companyName_containerName #notice {
 	background-color:yellow;
 }
 ```
+
+#### About CSS Resets
+
+It is a common web development practice to use [CSS resets](http://meyerweb.com/eric/tools/css/reset/), and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including [Normalize.css](http://necolas.github.com/normalize.css/) which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.
 
 ### Keeping JavaScript Clean
 

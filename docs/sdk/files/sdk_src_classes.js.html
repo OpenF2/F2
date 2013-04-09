@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\classes.js</title>
-	<meta name="dcterms.date" content="13 March 2013">
-	<meta name="gitbranch" content="1.3-wip-app-handlers">
+	<meta name="dcterms.date" content="8 April 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
 	<script src="..&#x2F;../js/respond.min.js"></script>
 	
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.3.0" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1.1.2" rel="stylesheet">
 
 	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.3-wip-app-handlers' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -110,15 +110,11 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
-	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
-	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -164,15 +160,11 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
-	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
-	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -458,7 +450,6 @@ F2.extend(&quot;&quot;, {
 		 * {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object and also a string of
 		 * html
 		 * @method afterAppRender
-		 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app 
 		 * @return {Element} The DOM Element surrounding the app
@@ -473,7 +464,6 @@ F2.extend(&quot;&quot;, {
 		 * {{#crossLink &quot;F2.Constants.Css&quot;}}{{&#x2F;crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
-		 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app
 		 *&#x2F;
@@ -484,7 +474,6 @@ F2.extend(&quot;&quot;, {
 		 * icons to appear for each app before each app is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
-		 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @return {Element} The DOM Element surrounding the app
 		 *&#x2F;
@@ -496,24 +485,6 @@ F2.extend(&quot;&quot;, {
 		 * @type bool
 		 *&#x2F;
 		isSecureAppPage: false,
-		&#x2F;**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 *&#x2F;
-		secureAppPagePath: &#x27;&#x27;,
-		&#x2F;**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app&#x27;s header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 *&#x2F;
-		supportedViews: [],
 		&#x2F;**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
@@ -563,7 +534,25 @@ F2.extend(&quot;&quot;, {
 				 *&#x2F;
 				zIndex: 2
 			}
-		}
+		},
+		&#x2F;**
+		 * Allows the container to specify which page is used when
+		 * loading a secure app. The page must reside on a different domain than the
+		 * container
+		 * @property secureAppPagePath
+		 * @type string
+		 * @for F2.ContainerConfig
+		 *&#x2F;
+		secureAppPagePath: &#x27;&#x27;,
+		&#x2F;**
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app&#x27;s header.
+		 * @property supportedViews
+		 * @type Array
+		 * @required
+		 *&#x2F;
+		supportedViews: []
 	}
 });
     </pre>
@@ -575,7 +564,7 @@ F2.extend(&quot;&quot;, {
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.0, published 13 March 2013</small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
 			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
@@ -588,7 +577,7 @@ F2.extend(&quot;&quot;, {
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.3-wip-app-handlers'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

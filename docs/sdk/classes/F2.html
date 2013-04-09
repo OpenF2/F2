@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2</title>
-	<meta name="dcterms.date" content="13 March 2013">
-	<meta name="gitbranch" content="1.3-wip-app-handlers">
+	<meta name="dcterms.date" content="8 April 2013">
+	<meta name="gitbranch" content="master">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
 	<script src="..&#x2F;../js/respond.min.js"></script>
 	
 	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.3.0" rel="stylesheet">
+	<link href="..&#x2F;../css/F2.Sdk.css?1.1.2" rel="stylesheet">
 
 	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('1.3-wip-app-handlers' === 'master'){
+		if ('master' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -110,15 +110,11 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
-	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
-	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -164,15 +160,11 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
-	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
-	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -273,7 +265,7 @@
 				</thead>
 				<tbody>
 					
-					<tr class=" private deprecated">
+					<tr class=" private">
 						<td class="name">
 							<a href="#methods-_afterAppRender">
 								_afterAppRender
@@ -301,7 +293,7 @@
 						<td><p>Appends the app's html to the DOM</p></td>
 					</tr>
 					
-					<tr class=" private deprecated">
+					<tr class=" private">
 						<td class="name">
 							<a href="#methods-_appRender">
 								_appRender
@@ -329,7 +321,7 @@
 						<td><p>Renders the html for an app.</p></td>
 					</tr>
 					
-					<tr class=" private deprecated">
+					<tr class=" private">
 						<td class="name">
 							<a href="#methods-_beforeAppRender">
 								_beforeAppRender
@@ -565,28 +557,6 @@ any other actions in the container.</p></td>
 							</a>
 						</td>
 						<td><p>Has the container been init?</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#methods-isNativeDOMNode">
-								isNativeDOMNode
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												testObject
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>Utility method to determine whether or not the argument passed in is or is not a native dom node.</p></td>
 					</tr>
 					
 					<tr class=" private">
@@ -857,7 +827,7 @@ automatically by F2.</p></td>
 	
 	<div id="methods" class="tab-pane">
 		
-		<section id="methods-_afterAppRender" class="level2  private deprecated">
+		<section id="methods-_afterAppRender" class="level2  private">
 	<h3>
 		_afterAppRender
 		<span class="paren">(</span>
@@ -880,8 +850,6 @@ automatically by F2.</p></td>
 		
 		<span class="paren">)</span>
 
-		
-			<span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0">deprecated</span>
 		
 
 		
@@ -911,12 +879,9 @@ automatically by F2.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l13"><code>sdk\src\container.js:13</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk\src\container.js:11</code></a></dd>
 			
 
-			
-				<dt>Deprecated</dt>
-				<dd>This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0</dd>
 			
 
 			
@@ -987,7 +952,7 @@ automatically by F2.</p></td>
 	
 </section>
 		
-		<section id="methods-_appRender" class="level2  private deprecated">
+		<section id="methods-_appRender" class="level2  private">
 	<h3>
 		_appRender
 		<span class="paren">(</span>
@@ -1010,8 +975,6 @@ automatically by F2.</p></td>
 		
 		<span class="paren">)</span>
 
-		
-			<span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0">deprecated</span>
 		
 
 		
@@ -1041,12 +1004,9 @@ automatically by F2.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l39"><code>sdk\src\container.js:39</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk\src\container.js:36</code></a></dd>
 			
 
-			
-				<dt>Deprecated</dt>
-				<dd>This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0</dd>
 			
 
 			
@@ -1104,7 +1064,7 @@ automatically by F2.</p></td>
 	
 </section>
 		
-		<section id="methods-_beforeAppRender" class="level2  private deprecated">
+		<section id="methods-_beforeAppRender" class="level2  private">
 	<h3>
 		_beforeAppRender
 		<span class="paren">(</span>
@@ -1121,8 +1081,6 @@ automatically by F2.</p></td>
 		
 		<span class="paren">)</span>
 
-		
-			<span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0">deprecated</span>
 		
 
 		
@@ -1153,12 +1111,9 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l65"><code>sdk\src\container.js:65</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l61"><code>sdk\src\container.js:61</code></a></dd>
 			
 
-			
-				<dt>Deprecated</dt>
-				<dd>This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0</dd>
 			
 
 			
@@ -1260,7 +1215,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l79"><code>sdk\src\container.js:79</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l74"><code>sdk\src\container.js:74</code></a></dd>
 			
 
 			
@@ -1341,7 +1296,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l97"><code>sdk\src\container.js:97</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l92"><code>sdk\src\container.js:92</code></a></dd>
 			
 
 			
@@ -1399,7 +1354,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l119"><code>sdk\src\container.js:119</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l114"><code>sdk\src\container.js:114</code></a></dd>
 			
 
 			
@@ -1457,7 +1412,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l137"><code>sdk\src\container.js:137</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l132"><code>sdk\src\container.js:132</code></a></dd>
 			
 
 			
@@ -1538,7 +1493,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l360"><code>sdk\src\container.js:360</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l275"><code>sdk\src\container.js:275</code></a></dd>
 			
 
 			
@@ -1833,7 +1788,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l382"><code>sdk\src\container.js:382</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l297"><code>sdk\src\container.js:297</code></a></dd>
 			
 
 			
@@ -2105,7 +2060,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l397"><code>sdk\src\container.js:397</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l312"><code>sdk\src\container.js:312</code></a></dd>
 			
 
 			
@@ -2184,7 +2139,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l421"><code>sdk\src\container.js:421</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l332"><code>sdk\src\container.js:332</code></a></dd>
 			
 
 			
@@ -2205,108 +2160,6 @@ any other actions in the container.</p>
 						<span class="label type">Bool</span>:
 					
 					True if the container has been init
-				
-			</div>
-		</div>
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-isNativeDOMNode" class="level2 ">
-	<h3>
-		isNativeDOMNode
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						testObject
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Utility method to determine whether or not the argument passed in is or is not a native dom node.</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l142"><code>sdk\src\F2.js:142</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">testObject</code>
-						<span class="label type">Object</span>
-					
-
-					
-
-					<p>
-						<p>The object you want to check as native dom node.</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-		<div class="returns">
-			<h4>Returns:</h4>
-
-			<div class="returns-description">
-				
-					
-						<span class="label type">Bool</span>:
-					
-					Returns true if the object passed is a native dom node.
 				
 			</div>
 		</div>
@@ -2373,7 +2226,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l147"><code>sdk\src\container.js:147</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l142"><code>sdk\src\container.js:142</code></a></dd>
 			
 
 			
@@ -2487,7 +2340,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l297"><code>sdk\src\container.js:297</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l250"><code>sdk\src\container.js:250</code></a></dd>
 			
 
 			
@@ -2598,7 +2451,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l161"><code>sdk\src\F2.js:161</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l142"><code>sdk\src\F2.js:142</code></a></dd>
 			
 
 			
@@ -2705,7 +2558,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l172"><code>sdk\src\F2.js:172</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l153"><code>sdk\src\F2.js:153</code></a></dd>
 			
 
 			
@@ -2817,7 +2670,7 @@ assets will be used instead of making a request.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l427"><code>sdk\src\container.js:427</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l338"><code>sdk\src\container.js:338</code></a></dd>
 			
 
 			
@@ -2918,7 +2771,7 @@ passed down to the client.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l585"><code>sdk\src\container.js:585</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l475"><code>sdk\src\container.js:475</code></a></dd>
 			
 
 			
@@ -2984,7 +2837,7 @@ passed down to the client.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l600"><code>sdk\src\container.js:600</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l490"><code>sdk\src\container.js:490</code></a></dd>
 			
 
 			
@@ -3089,7 +2942,7 @@ order to prevent circular serialization errors.</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l181"><code>sdk\src\F2.js:181</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l162"><code>sdk\src\F2.js:162</code></a></dd>
 			
 
 			
@@ -3217,7 +3070,7 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l202"><code>sdk\src\F2.js:202</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l183"><code>sdk\src\F2.js:183</code></a></dd>
 			
 
 			
@@ -3360,7 +3213,7 @@ automatically by F2.</p>
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.0, published 13 March 2013</small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
 			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
@@ -3373,7 +3226,7 @@ automatically by F2.</p>
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '1.3-wip-app-handlers'; }));
+	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

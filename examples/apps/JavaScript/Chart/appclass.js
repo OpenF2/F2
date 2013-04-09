@@ -154,13 +154,9 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		else downSeriesData.push( [ prevJSUTCDate, minVal ], [ currentJSUTCDate, minVal ] );
 
 		// Add the up month/down month data to the chart's series
-        if ($.browser.msie && parseInt($.browser.version) < 9) {
-            //commenting out for issue #1. 
-            //o-do to come back and get grid lines working.
-        } else {
-            hcChartObj.series[1].setData(upSeriesData, false);
-            hcChartObj.series[2].setData(downSeriesData, false);
-        }
+        hcChartObj.series[1].setData(upSeriesData, false);
+        hcChartObj.series[2].setData(downSeriesData, false);
+        
         hcChartObj.yAxis[0].setExtremes(dataRanges.dataMin, dataRanges.dataMax, true, false);
 
 		this.ui.updateHeight();

@@ -171,7 +171,8 @@ function docs() {
 		'./docs/src/index.md',
 		'./docs/src/app-development.md',
 		'./docs/src/container-development.md',
-		'./docs/src/f2js-sdk.md'
+		'./docs/src/f2js-sdk.md',
+		'./docs/src/extending-f2.md'
 	],
 	dat = new Date();
 
