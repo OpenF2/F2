@@ -191,7 +191,7 @@ describe('F2.registerApps', function() {
 
 		expect(function() {
 			F2.registerApps({appId:'com_openf2_tests_helloworld'});
-		}).toLog('manifestUrl" missing from app object');
+		}).toLog('"manifestUrl" missing from app object');
 	});
 
 	it('should fail when the parameter lengths do not match', function() {
