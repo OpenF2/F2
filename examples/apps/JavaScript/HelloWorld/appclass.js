@@ -9,23 +9,24 @@ F2.Apps["com_openf2_examples_javascript_helloworld"] = (function() {
 
 	App_Class.prototype.init = function () {
 
-		$('a.testAlert', this.$root).on('click', $.proxy(function() {
-			this.ui.Modals.alert("Hello World!", function() {
-				F2.log('callback fired!');	
-			});
-		}, this));
-
-		$('a.testConfirm', this.$root).on('click', $.proxy(function() {
-			this.ui.Modals.confirm(
-				"Hello World!",
-				function() {
-					F2.log('ok callback fired!');	
-				},
-				function() {
-					F2.log('cancel callback fired!');
-				}
-			); 
-		}, this));
+		this.$root
+			.on('click', 'a.testAlert', $.proxy(function() {
+				this.ui.Modals.alert("Hello World!", function() {
+					F2.log('callback fired!');				
+				});
+			}, this))
+			.on('click', 'a.testConfirm', $.proxy(function() {
+				this.ui.Modals.confirm(
+					"Hello World!",
+					function() {
+						F2.log('ok callback fired!');					
+					},
+					function() {
+						F2.log('cancel callback fired!');					
+					}
+				); 
+			}, this))
+		;
 
 		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + ' Hello World (JavaScript)');
 		this.ui.updateHeight();

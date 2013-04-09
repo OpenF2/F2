@@ -566,13 +566,19 @@ Every selector in app-provided style sheets must look like this:
 
 Note `.com_companyName_appName` is prefixed on both `p` and `.alert` selectors.
 
-While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and prefixing F2 AppIDs on CSS selectors isn't required, it is recommended.
+While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/) will assign more points to IDs and while prefixing F2 AppIDs on CSS selectors isn't required, it is recommended.
 
 ```css
 .com_companyName_appName #notice {
 	background-color:yellow;
 }
 ```
+
+<span class="label">Note</span> App Developers should familiarize themselves with [CSS namespacing rules for Container Developers](container-development.html#namespacing). They are largely the same with a couple notable additions.
+
+#### About CSS Resets
+
+It is a common web development practice to use [CSS resets](http://meyerweb.com/eric/tools/css/reset/), and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including [Normalize.css](http://necolas.github.com/normalize.css/) which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.
 
 ### Keeping JavaScript Clean
 

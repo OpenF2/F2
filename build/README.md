@@ -1,4 +1,4 @@
-# Build F2
+# Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png)](https://travis-ci.org/OpenF2/F2)
 
 For those wishing to contribute back to F2, we've included a `build` file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs on [Node.js](http://nodejs.org/) and has a few dependencies. To install, `cd` to your `F2/build` folder, and run the following commands in npm:
 
@@ -17,6 +17,12 @@ For help, run:
 `$> node build -h`
 
 Before you begin coding, familiarize yourself with our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+
+## NuGet Package
+
+Good news if you're using C#! We have an [F2 NuGet package available](https://nuget.org/packages/F2/). In the Package Manager Console run:
+
+`PM> Install-Package F2`
 
 ## Versioning
 
