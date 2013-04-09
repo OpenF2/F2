@@ -169,7 +169,7 @@ describe('F2.registerApps - basic', function() {
 	it('should fail on empty parameters', function() {
 		expect(function() {
 			F2.registerApps();
-		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
+		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');		
 	});
 
 	it('should fail when passed an empty array', function() {
@@ -268,16 +268,42 @@ describe('F2.registerApps - rendering', function() {
 
 		F2.registerApps(appConfig, [appManifest]);
 	});
-	/*
+	
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
+		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"],"apps":[{}]}]);
-		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		
+		waitsFor(
+			function()
+			{
+				return F2.inlineScriptsEvaluated;
+			},
+			'Inline scripts were never evaluated',
+			10000
+		);
+		
+		runs(function() {
+			expect(F2.inlineScriptsEvaluated).toBe(true);
+		});	
+		
 	});
-	*/
+	
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
+		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"],"apps":[{}]}]);
-		expect(F2.inlineScriptsEvaluated).not.toBeUndefined();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		waitsFor(
+			function()
+			{
+				return F2.inlineScriptsEvaluated;
+			},
+			'Inline scripts were never evaluated',
+			10000
+		);
+		
+		runs(function() {
+			expect(F2.inlineScriptsEvaluated).toBe(true);
+		});	
 	});
 });
