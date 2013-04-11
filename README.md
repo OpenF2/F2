@@ -44,7 +44,7 @@ For those wishing to contribute back to F2, we've included a `build` file in the
 
 `$> npm install uglify-js@1.3.4 wrench fs-extra yuidocjs optimist handlebars`
 
-`$> npm install less markitdown -g`
+`$> npm install pandoc less markitdown -g`
 
 Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch.
 
@@ -56,7 +56,7 @@ For help, run:
 
 `$> node build -h`
 
-We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org).
+We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org). [pandoc](https://github.com/jgm/pandoc) is required for markitdown.
 
 #### NuGet Package
 
