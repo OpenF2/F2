@@ -10,7 +10,7 @@ Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the l
 
 Now you've got F2, you are ready to start building F2 containers or apps. Read the [Get Started documentation](http://docs.openf2.org/app-development.html) for F2 apps to begin. If you simply want to see examples, point your browser at `http://path/to/your/F2/examples/`.
 
-**Important**: If you simply want to build F2 [containers](http://docs.openf2.org/container-development.html) or [apps](http://docs.openf2.org/app-development.html), you can **skip** the [Build F2](#build-f2) section below. You do not need the command line to work with F2.
+**Important**: If you simply want to build F2 [containers](http://docs.openf2.org/container-development.html) or [apps](http://docs.openf2.org/app-development.html), you can **skip** the [Build F2](#build-f2-) section below. You do not need the command line to work with F2.
 
 ## Versioning
 
