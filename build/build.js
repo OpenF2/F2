@@ -16,9 +16,10 @@ process.chdir('../');
 var exec = require('child_process').exec;
 var fs = require('fs-extra');
 var handlebars = require('Handlebars');
-var jsp = require('uglify-js').parser;
+//var jsp = require('uglify-js').parser;
 var optimist = require('optimist');
-var pro = require('uglify-js').uglify;
+//var pro = require('uglify-js').uglify;
+var uglify = require('uglify-js');
 var f2Info = require('./F2.json');
 var wrench = require('wrench');
 var Y = require('yuidocjs');
@@ -60,11 +61,11 @@ var PACKAGE_FILES = [
 	// requirejs not yet necessary
 	// { src: 'sdk/src/third-party/require.min.js', minify: false },
 	{ src: 'sdk/src/third-party/json2.js', minify: true },
-	{ src: 'sdk/src/third-party/jquery.min.js', minify: false },
+	{ src: 'sdk/src/third-party/jquery.js', minify: false },
 	{ src: 'sdk/src/third-party/bootstrap-modal.js', minify: true },
 	{ src: 'sdk/src/third-party/jquery.noconflict.js', minify: false },
 	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
-	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false }
+	{ src: 'sdk/src/third-party/easyXDM/easyXDM.js', minify: false }
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
 var globalUpdateBranch = true;
@@ -270,35 +271,34 @@ function js() {
 
 
 	console.log('Building Minified Package...');
-	contents = files.map(function(f) {
+	var code = fs.readFileSync('./sdk/f2.debug.js', ENCODING);
+	var comments = [];
+	var token = '"F2: preserved commment block"';
 
-		var code = fs.readFileSync(f.src, ENCODING);
-
-		if (f.minify) {
-			var comments = [];
-			var token = '"F2: preserved commment block"';
-
-			// borrowed from ender-js
-			code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
-				comments.push(comment);
-				return token;
-				//return ';' + token + ';';
-			});
-
-			var ast = jsp.parse(code); // parse code and get the initial AST
-			ast = pro.ast_mangle(ast); // get a new AST with mangled names
-			ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
-			code = pro.gen_code(ast); // compressed code here
-
-			code = code.replace(RegExp(token, 'g'), function() {
-				return EOL + comments.shift() + EOL;
-			});
-		}
-
-		return code;
+	// borrowed from ender-js
+	code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
+		comments.push(comment);
+		return token;
 	});
-	contents = processTemplate(contents.join(';' + EOL), f2Info);
+
+	var result = uglify.minify(code, {
+		fromString: true,
+		outSourceMap: './sdk/f2.min.js.map'
+	});
+	code = result.code;
+
+	// var ast = jsp.parse(code); // parse code and get the initial AST
+	// ast = pro.ast_mangle(ast); // get a new AST with mangled names
+	// ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
+	// code = pro.gen_code(ast); // compressed code here
+
+	code = code.replace(RegExp(token, 'g'), function() {
+		return EOL + comments.shift() + EOL;
+	});
+
+	contents = processTemplate(code, f2Info);
 	fs.writeFileSync('./sdk/f2.min.js', contents, ENCODING);
+	fs.writeFileSync('./sdk/f2.min.js.map', result.map, ENCODING);
 
 	// update Last Update Date and save F2.json
 	f2Info.sdk.lastUpdateDate = (new Date()).toJSON();
