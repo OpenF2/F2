@@ -4,7 +4,7 @@ describe('AMD', function() {
 
 		var isLoaded = false;
 
-		require(["../sdk/f2.debug.js"], function (nonGlobalF2) {
+		require(["../sdk/f2.min.js"], function (nonGlobalF2) {
 			isLoaded = typeof nonGlobalF2 !== "undefined";
 		});
 
