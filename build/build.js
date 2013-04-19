@@ -271,40 +271,36 @@ function js() {
 
 
 	console.log('Building Minified Package...');
-	var code = fs.readFileSync('./sdk/f2.debug.js', ENCODING);
-	var comments = [];
-	var token = '"F2: preserved commment block"';
-
-	// borrowed from ender-js
-	code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
-		comments.push(comment);
-		return token;
+	// we have to change the directory to the ./sdk folder because of how 
+	// UglifyJS forms the source map
+	// https://github.com/mishoo/UglifyJS2/issues/101
+	process.chdir('./sdk');
+	var result = uglify.minify('f2.debug.js', {
+		outSourceMap: 'f2.min.js',
+		output: {
+			comments: function (node, comment){
+				return /^!/.test(comment.value);
+			}
+		}
 	});
+	process.chdir('../');
 
-	var result = uglify.minify(code, {
-		fromString: true,
-		outSourceMap: './sdk/f2.min.js.map'
-	});
-	code = result.code;
-
-	// var ast = jsp.parse(code); // parse code and get the initial AST
-	// ast = pro.ast_mangle(ast); // get a new AST with mangled names
-	// ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
-	// code = pro.gen_code(ast); // compressed code here
-
-	code = code.replace(RegExp(token, 'g'), function() {
-		return EOL + comments.shift() + EOL;
-	});
-
-	contents = processTemplate(code, f2Info);
+	contents = processTemplate(result.code, f2Info);
+	// we must manually append the sourceMappingURL
+	// https://github.com/mishoo/UglifyJS2/issues/135
+	contents += EOL + [
+			'/*',
+			'//@ sourceMappingURL=f2.min.map',
+			'*/'
+		].join(EOL);
 	fs.writeFileSync('./sdk/f2.min.js', contents, ENCODING);
-	fs.writeFileSync('./sdk/f2.min.js.map', result.map, ENCODING);
+	fs.writeFileSync('./sdk/f2.min.map', result.map, ENCODING);
 
 	// update Last Update Date and save F2.json
 	f2Info.sdk.lastUpdateDate = (new Date()).toJSON();
 	saveF2Info();
-
 	console.log('COMPLETE');
+	
 
 	//copy F2.min.js over to docs/js folder so it makes to gh-pages
 	console.log('Copying f2.min.js to ./docs/js/f2.js...');
