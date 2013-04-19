@@ -1,5 +1,5 @@
-require(["../sdk/f2.debug.js"], function () {				
-	F2.Apps["com_alikhatami_preloaded_test"] = (function() {
+require(['../sdk/f2.min.js'], function () {				
+	F2.Apps['com_alikhatami_preloaded_test'] = (function() {
 
 		var App_Class = function (appConfig, appContent, root) {
 			this.appConfig = appConfig;
@@ -12,7 +12,7 @@ require(["../sdk/f2.debug.js"], function () {
 		App_Class.prototype.init = function () {
 			F2.PreloadAppInitializedCounter++;
 			var context = this;
-			F2.Events.on("PreloadAppCommuncation", function(){ if(!context.doNotCallAgain) { context._handleEmit(); } });
+			F2.Events.on('PreloadAppCommuncation', function(){ if(!context.doNotCallAgain) { context._handleEmit(); } });
 			F2.PreloadAppInitialized = true;
 		};
 
