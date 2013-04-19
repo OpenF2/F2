@@ -38,7 +38,7 @@ Coding standards promote a common vocabulary and syntax so that our fellow devel
 
 Coding standards help an individual project, and also make it easier for one project to reuse components from another project. This, of course, is a core component of F2.
 
-Read our [coding standards](https://github.com/OpenF2/F2/wiki/Contributing-to-F2) on the wiki.
+Read our [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards) on the wiki.
 
 ## Keep in Touch
 
