@@ -41,32 +41,32 @@ var argv = optimist
 	.argv;
 
 // constants
-var JS_HEADER = { src: 'sdk/src/template/header.js.tmpl', minify: false };
-var JS_FOOTER = { src: 'sdk/src/template/footer.js.tmpl', minify: false };
+var JS_HEADER = { src: 'sdk/src/template/header.js.tmpl' };
+var JS_FOOTER = { src: 'sdk/src/template/footer.js.tmpl' };
 
 // only the files that represent f2
 var CORE_FILES = [
-	{ src: 'sdk/src/F2.js', minify: true },
-	{ src: 'sdk/src/app_handlers.js', minify: true },
-	{ src: 'sdk/src/classes.js', minify: true },
-	{ src: 'sdk/src/constants.js', minify: true },
-	{ src: 'sdk/src/events.js', minify: true },
-	{ src: 'sdk/src/rpc.js', minify: true },
-	{ src: 'sdk/src/ui.js', minify: true },
-	{ src: 'sdk/src/container.js', minify: true }
+	{ src: 'sdk/src/F2.js' },
+	{ src: 'sdk/src/app_handlers.js' },
+	{ src: 'sdk/src/classes.js' },
+	{ src: 'sdk/src/constants.js' },
+	{ src: 'sdk/src/events.js' },
+	{ src: 'sdk/src/rpc.js' },
+	{ src: 'sdk/src/ui.js' },
+	{ src: 'sdk/src/container.js' }
 ];
 var ENCODING = 'utf-8';
 var EOL = '\n';
 // files to be packaged
 var PACKAGE_FILES = [
 	// requirejs not yet necessary
-	// { src: 'sdk/src/third-party/require.min.js', minify: false },
-	{ src: 'sdk/src/third-party/json2.js', minify: true },
-	{ src: 'sdk/src/third-party/jquery.js', minify: false },
-	{ src: 'sdk/src/third-party/bootstrap-modal.js', minify: true },
-	{ src: 'sdk/src/third-party/jquery.noconflict.js', minify: false },
-	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
-	{ src: 'sdk/src/third-party/easyXDM/easyXDM.js', minify: false }
+	// { src: 'sdk/src/third-party/require.min.js' },
+	{ src: 'sdk/src/third-party/json2.js' },
+	{ src: 'sdk/src/third-party/jquery.js' },
+	{ src: 'sdk/src/third-party/bootstrap-modal.js' },
+	{ src: 'sdk/src/third-party/jquery.noconflict.js' },
+	{ src: 'sdk/src/third-party/eventemitter2.js' },
+	{ src: 'sdk/src/third-party/easyXDM/easyXDM.js' }
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
 var globalUpdateBranch = true;
