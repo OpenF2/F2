@@ -411,26 +411,6 @@ F2.extend('AppHandlers', (function() {
 		}
 	};
 	
-	var _triggerEvent = function(arHandleCollection, arOriginalArgs)
-	{	
-		// no errors here, basically there are no handlers to call
-		if(!arHandleCollection || !arHandleCollection.length) { return; }
-		
-		// there is always 1 argument required, the first arg should always be the token.
-		if(!arOriginalArgs || !arOriginalArgs.length) { throw ('Invalid or null argument(s) passed. Token is required for all triggers. Please check your inputs and try again.'); }
-		
-		// will throw an exception and stop execution if the token is invalid
-		_validateToken(arOriginalArgs[0]);
-		
-		// remove the token from the arguments since we have validated it and no longer need it
-		arOriginalArgs.shift();
-		
-		for(var i = 0, j = arHandleCollection.length; i < j; i++)
-		{
-			arHandleCollection[i].apply(F2, arguments);
-		}
-	};
-	
 	return {
 		/**
 		* Allows container developer to retrieve a special token which must be passed to
