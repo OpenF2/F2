@@ -2,7 +2,7 @@
  * Class stubs for documentation purposes
  * @main F2
  */
-F2.extend("", {
+F2.extend('', {
 	/**
 	 * The App Class is an optional class that can be namespaced onto the 
 	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
@@ -38,7 +38,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		appId: "",
+		appId: '',
 		/**
 		 * An object that represents the context of an app
 		 * @property context
@@ -70,7 +70,7 @@ F2.extend("", {
 		 * @property instanceId
 		 * @type string
 		 */
-		instanceId: "",
+		instanceId: '',
 		/**
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
@@ -89,7 +89,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		manifestUrl: "",
+		manifestUrl: '',
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * **It is up to the [container](../../container-development.html) to
@@ -125,7 +125,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		name: "",
+		name: '',
 		/**
 		 * The root DOM element that contains the app
 		 *
@@ -210,14 +210,14 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		html: "",
+		html: '',
 		/**
 		 * A status message
 		 * @property status
 		 * @type string
 		 * @optional
 		 */
-		status: ""
+		status: ''
 	},
 	/**
 	 * An object containing configuration information for the
@@ -316,9 +316,9 @@ F2.extend("", {
 				 * The opacity of the background overlay
 				 * @property opacity
 				 * @type int
-				 * @default .6
+				 * @default 0.6
 				 */
-				opacity: .6,
+				opacity: 0.6,
 				/**
 				 * Do not use inline styles for mask functinality. Instead classes will
 				 * be applied to the elements and it is up to the container provider to

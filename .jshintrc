@@ -1,0 +1,16 @@
+{
+	"browser" : true,
+	//"camelcase" : true,
+	"curly" : true,
+	"evil" : true,
+	//"expr": true,
+	"globals" : { "easyXDM": true, "EventEmitter2": true, "F2": true, "jQuery": true },
+	"latedef" : true,
+	"noarg" : true,
+	"quotmark" : "single",
+	//"strict" : true,
+	"sub" : true,
+	"undef" : true,
+	//"unused" : true
+	"unused" : "vars"
+}

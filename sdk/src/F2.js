@@ -127,7 +127,7 @@ F2 = {
 		var S4 = function() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		};
-		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
 	},
 	/**
 	 * Search for a value within an array.
@@ -147,13 +147,13 @@ F2 = {
 	 */
 	isNativeDOMNode: function(testObject) {
 		var bIsNode = (
-			typeof Node === "object" ? testObject instanceof Node : 
-			testObject && typeof testObject === "object" && typeof testObject.nodeType === "number" && typeof testObject.nodeName ==="string"
+			typeof Node === 'object' ? testObject instanceof Node : 
+			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
 		);
 		
 		var bIsElement = (
-			typeof HTMLElement === "object" ? testObject instanceof HTMLElement : //DOM2
-			testObject && typeof testObject === "object" && testObject.nodeType === 1 && typeof testObject.nodeName ==="string"
+			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
+			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
 		);
 		
 		return (bIsNode || bIsElement);
@@ -204,6 +204,6 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return "{{sdk.version}}"; }
+	version: function() { return '{{sdk.version}}'; }
 };
 
