@@ -16,6 +16,8 @@ process.chdir('../');
 var exec = require('child_process').exec;
 var fs = require('fs-extra');
 var handlebars = require('Handlebars');
+var jshint = require('jshint').JSHINT;
+//var jshintrc = require('./.jshintrc');
 //var jsp = require('uglify-js').parser;
 var optimist = require('optimist');
 //var pro = require('uglify-js').uglify;
@@ -241,14 +243,15 @@ function help() {
  * @method js
  */
 function js() {
-	var files, contents;
+
+	jsHint();
+
 	console.log('Building f2.no-third-party.js...');
-	
-	files = [JS_HEADER]
+	var files = [JS_HEADER]
 		.concat(CORE_FILES)
 		.concat([JS_FOOTER]);
 
-	contents = files.map(function(f) {
+	var contents = files.map(function(f) {
 		return fs.readFileSync(f.src, ENCODING);
 	});
 
@@ -332,6 +335,31 @@ function js() {
 		}
 	});
 };
+
+function jsHint() {
+	console.log('Running JSHint on all core source files...');
+	var jshintrc = JSON.parse(fs.readFileSync('./.jshintrc', ENCODING)),
+		hintStatus,
+		hintTotalStatus = true,
+		jshintGlobals = jshintrc.globals;
+	delete jshintrc.globals; // jshint will complain if this is passed in
+
+	for (var i = 0; i < CORE_FILES.length; i++) {
+		hintStatus = jshint(fs.readFileSync(CORE_FILES[i].src, ENCODING), jshintrc, jshintGlobals);
+		console.log('\t%s... %s', CORE_FILES[i].src, (hintStatus ? 'PASS' : 'FAIL'));
+		if (!hintStatus) {
+			for (var e = 0; e < jshint.errors.length; e++) {
+				console.log('\t\tline %s, col %s, %s', jshint.errors[e].line, jshint.errors[e].character, jshint.errors[e].reason);
+			}
+			hintTotalStatus = false;
+		}
+	}
+	if (!hintTotalStatus) {
+		die('JS Hint failed, please fix errors listed above and try again.');
+	} else {
+		console.log('COMPLETE');
+	}
+}
 
 /**
  * Compile LESS into F2.css and F2.Docs.css
