@@ -16,9 +16,10 @@ process.chdir('../');
 var exec = require('child_process').exec;
 var fs = require('fs-extra');
 var handlebars = require('Handlebars');
-var jsp = require('uglify-js').parser;
+//var jsp = require('uglify-js').parser;
 var optimist = require('optimist');
-var pro = require('uglify-js').uglify;
+//var pro = require('uglify-js').uglify;
+var uglify = require('uglify-js');
 var f2Info = require('./F2.json');
 var wrench = require('wrench');
 var Y = require('yuidocjs');
@@ -40,32 +41,32 @@ var argv = optimist
 	.argv;
 
 // constants
-var JS_HEADER = { src: 'sdk/src/template/header.js.tmpl', minify: false };
-var JS_FOOTER = { src: 'sdk/src/template/footer.js.tmpl', minify: false };
+var JS_HEADER = { src: 'sdk/src/template/header.js.tmpl' };
+var JS_FOOTER = { src: 'sdk/src/template/footer.js.tmpl' };
 
 // only the files that represent f2
 var CORE_FILES = [
-	{ src: 'sdk/src/F2.js', minify: true },
-	{ src: 'sdk/src/app_handlers.js', minify: true },
-	{ src: 'sdk/src/classes.js', minify: true },
-	{ src: 'sdk/src/constants.js', minify: true },
-	{ src: 'sdk/src/events.js', minify: true },
-	{ src: 'sdk/src/rpc.js', minify: true },
-	{ src: 'sdk/src/ui.js', minify: true },
-	{ src: 'sdk/src/container.js', minify: true }
+	{ src: 'sdk/src/F2.js' },
+	{ src: 'sdk/src/app_handlers.js' },
+	{ src: 'sdk/src/classes.js' },
+	{ src: 'sdk/src/constants.js' },
+	{ src: 'sdk/src/events.js' },
+	{ src: 'sdk/src/rpc.js' },
+	{ src: 'sdk/src/ui.js' },
+	{ src: 'sdk/src/container.js' }
 ];
 var ENCODING = 'utf-8';
 var EOL = '\n';
 // files to be packaged
 var PACKAGE_FILES = [
 	// requirejs not yet necessary
-	// { src: 'sdk/src/third-party/require.min.js', minify: false },
-	{ src: 'sdk/src/third-party/json2.js', minify: true },
-	{ src: 'sdk/src/third-party/jquery.min.js', minify: false },
-	{ src: 'sdk/src/third-party/bootstrap-modal.js', minify: true },
-	{ src: 'sdk/src/third-party/jquery.noconflict.js', minify: false },
-	{ src: 'sdk/src/third-party/eventemitter2.js', minify: true },
-	{ src: 'sdk/src/third-party/easyXDM/easyXDM.min.js', minify: false }
+	// { src: 'sdk/src/third-party/require.min.js' },
+	{ src: 'sdk/src/third-party/json2.js' },
+	{ src: 'sdk/src/third-party/jquery.js' },
+	{ src: 'sdk/src/third-party/bootstrap-modal.js' },
+	{ src: 'sdk/src/third-party/jquery.noconflict.js' },
+	{ src: 'sdk/src/third-party/eventemitter2.js' },
+	{ src: 'sdk/src/third-party/easyXDM/easyXDM.js' }
 ];
 var VERSION_REGEX = /^(\d+)\.(\d+)\.(\d+)$/;
 var globalUpdateBranch = true;
@@ -271,41 +272,36 @@ function js() {
 
 
 	console.log('Building Minified Package...');
-	contents = files.map(function(f) {
-
-		var code = fs.readFileSync(f.src, ENCODING);
-
-		if (f.minify) {
-			var comments = [];
-			var token = '"F2: preserved commment block"';
-
-			// borrowed from ender-js
-			code = code.replace(/\/\*![\s\S]*?\*\//g, function(comment) {
-				comments.push(comment);
-				return token;
-				//return ';' + token + ';';
-			});
-
-			var ast = jsp.parse(code); // parse code and get the initial AST
-			ast = pro.ast_mangle(ast); // get a new AST with mangled names
-			ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
-			code = pro.gen_code(ast); // compressed code here
-
-			code = code.replace(RegExp(token, 'g'), function() {
-				return EOL + comments.shift() + EOL;
-			});
+	// we have to change the directory to the ./sdk folder because of how 
+	// UglifyJS forms the source map
+	// https://github.com/mishoo/UglifyJS2/issues/101
+	process.chdir('./sdk');
+	var result = uglify.minify('f2.debug.js', {
+		outSourceMap: 'f2.min.js',
+		output: {
+			comments: function (node, comment){
+				return /^!/.test(comment.value);
+			}
 		}
-
-		return code;
 	});
-	contents = processTemplate(contents.join(';' + EOL), f2Info);
+	process.chdir('../');
+
+	contents = processTemplate(result.code, f2Info);
+	// we must manually append the sourceMappingURL
+	// https://github.com/mishoo/UglifyJS2/issues/135
+	contents += EOL + [
+			'/*',
+			'//@ sourceMappingURL=f2.min.map',
+			'*/'
+		].join(EOL);
 	fs.writeFileSync('./sdk/f2.min.js', contents, ENCODING);
+	fs.writeFileSync('./sdk/f2.min.map', result.map, ENCODING);
 
 	// update Last Update Date and save F2.json
 	f2Info.sdk.lastUpdateDate = (new Date()).toJSON();
 	saveF2Info();
-
 	console.log('COMPLETE');
+	
 
 	//copy F2.min.js over to docs/js folder so it makes to gh-pages
 	console.log('Copying f2.min.js to ./docs/js/f2.js...');
