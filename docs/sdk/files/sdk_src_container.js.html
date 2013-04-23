@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\container.js</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="master">
+	<meta name="gitbranch" content="issue28">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('master' === 'master'){
+		if ('issue28' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -110,11 +110,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -160,11 +164,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -226,10 +234,13 @@ F2.extend(&#x27;&#x27;, (function(){
 
 	var _apps = {};
 	var _config = false;
+	var _bUsesAppHandlers = false;
+	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
 
 	&#x2F;**
 	 * Appends the app&#x27;s html to the DOM
 	 * @method _afterAppRender
+	 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
@@ -255,6 +266,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	&#x2F;**
 	 * Renders the html for an app.
 	 * @method _appRender
+	 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
@@ -281,6 +293,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * Rendering hook to allow containers to render some html prior to an app
 	 * loading
 	 * @method _beforeAppRender
+	 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @return {Element} The DOM Element surrounding the app
@@ -440,8 +453,50 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			&#x2F;&#x2F; load html and save the root node
-			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			if(!_bUsesAppHandlers)
+			{
+				&#x2F;&#x2F; load html and save the root node
+				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			}
+			else
+			{
+				function outerHtml(html) {
+					return jQuery(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER,
+					appConfigs[i], &#x2F;&#x2F; the app config
+					outerHtml(a.html)
+				);
+				
+				if(!appConfigs[i].root)
+				{
+					throw(&#x27;App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
+				}
+				
+				var $root = jQuery(appConfigs[i].root);
+				
+				if($root.parents(&#x27;body:first&#x27;).length == 0)
+				{
+					throw(&#x27;App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.&#x27;);
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
+					appConfigs[i] &#x2F;&#x2F; the app config
+				);
+				
+				if(!F2.isNativeDOMNode(appConfigs[i].root))
+				{
+					throw(&#x27;App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
+				}
+				
+				$root.addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfigs[i].appId);
+			}
+			
 			&#x2F;&#x2F; init events
 			_initAppEvents(appConfigs[i]);
 		});
@@ -488,8 +543,46 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			&#x2F;&#x2F; create the html container for the iframe
-			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
+			if(!_bUsesAppHandlers)
+			{
+				&#x2F;&#x2F; create the html container for the iframe
+				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
+			}
+			else
+			{
+				var $root = jQuery(appConfig.root);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER,
+					appConfig, &#x2F;&#x2F; the app config
+					appManifest.html
+				);
+				
+				if($root.parents(&#x27;body:first&#x27;).length == 0)
+				{
+					throw(&#x27;App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.&#x27;);
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
+					appConfig &#x2F;&#x2F; the app config
+				);
+				
+				if(!appConfig.root)
+				{
+					throw(&#x27;App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
+				}
+				
+				if(!F2.isNativeDOMNode(appConfig.root))
+				{
+					throw(&#x27;App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
+				}
+				
+				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId);
+			}
+			
 			&#x2F;&#x2F; instantiate F2.UI
 			appConfig.ui = new F2.UI(appConfig);
 			&#x2F;&#x2F; init events
@@ -497,7 +590,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			&#x2F;&#x2F; create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log(&#x27;Unable to load secure app: \&quot;secureAppPagePath\&quot; is not defined in F2.ContainerConfig.&#x27;);
+			F2.log(&#x27;Unable to load secure app: &quot;secureAppPagePath&quot; is not defined in F2.ContainerConfig.&#x27;);
 		}
 	};
 
@@ -546,7 +639,11 @@ F2.extend(&#x27;&#x27;, (function(){
 		 *&#x2F;
 		init: function(config) {
 			_config = config || {};
-
+			
+			&#x2F;&#x2F; dictates whether we use the old logic or the new logic.
+			&#x2F;&#x2F; TODO: Remove in v2.0
+			_bUsesAppHandlers = (!_config.beforeAppRender &amp;&amp; !_config.appRender &amp;&amp; !_config.afterAppRender);
+			
 			&#x2F;&#x2F; only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
 				F2.Rpc.init(!!_config.secureAppPagePath ? _config.secureAppPagePath : false);
@@ -618,10 +715,31 @@ F2.extend(&#x27;&#x27;, (function(){
 
 				&#x2F;&#x2F; add properties and methods
 				_hydrateAppConfig(a);
-
-				&#x2F;&#x2F; fire beforeAppRender
-				a.root = _beforeAppRender(a);
-
+				
+				&#x2F;&#x2F; create just a generic div. To squash the jQuery dependency we will turn
+				&#x2F;&#x2F; app.root will only be a dom node
+				a.root = null;
+				
+				if(!_bUsesAppHandlers)
+				{
+					&#x2F;&#x2F; fire beforeAppRender
+					a.root = _beforeAppRender(a);
+				}
+				else
+				{
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_CREATE_ROOT,
+						a &#x2F;&#x2F; the app config
+					);
+					
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+						a &#x2F;&#x2F; the app config
+					);
+				}
+				
 				&#x2F;&#x2F; save app
 				_apps[a.instanceId] = { config:a };
 
@@ -773,11 +891,25 @@ F2.extend(&#x27;&#x27;, (function(){
 				return;
 			}
 
-			if (_apps[instanceId]) {
-				jQuery(_apps[instanceId].config.root).fadeOut(function() {
-					jQuery(this).remove();
-				});
-
+			if (_apps[instanceId]) {				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+					_apps[instanceId] &#x2F;&#x2F; the app instance
+				);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY,
+					_apps[instanceId] &#x2F;&#x2F; the app instance
+				);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+					_apps[instanceId] &#x2F;&#x2F; the app instance
+				);				
+				
 				delete _apps[instanceId];
 			}
 		}
@@ -805,7 +937,7 @@ F2.extend(&#x27;&#x27;, (function(){
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'master'; }));
+	F2.extend('gitbranch', (function(){ return 'issue28'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){
