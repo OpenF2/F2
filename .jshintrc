@@ -1,9 +1,7 @@
 {
 	"browser": true,
-	//"camelcase": true,
 	"curly": true,
 	"evil": true,
-	//"expr": true,
 	"globals": {
 		"console": true,
 		"define": true,
@@ -16,10 +14,8 @@
 	"latedef": true,
 	"noarg": true,
 	"quotmark": "single",
-	"shadow": true, // app_handlers.js is the only offender at this point
-	//"strict": true,
+	"shadow": true,
 	"sub": true,
 	"undef": true,
-	//"unused": true
 	"unused": "vars"
 }
