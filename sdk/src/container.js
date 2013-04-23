@@ -46,12 +46,8 @@ F2.extend('', (function(){
 	 */
 	var _appRender = function(appConfig, html) {
 
-		function outerHtml(html) {
-			return jQuery('<div></div>').append(html).html();
-		}
-
 		// apply APP_CONTAINER class
-		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
 		if (_config.appRender) {
@@ -59,7 +55,7 @@ F2.extend('', (function(){
 		}
 
 		// apply APP class and instanceId
-		return outerHtml(html);
+		return _outerHtml(html);
 	};
 
 	/**
@@ -226,33 +222,25 @@ F2.extend('', (function(){
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			if(!_bUsesAppHandlers)
-			{
+			if(!_bUsesAppHandlers) {
 				// load html and save the root node
 				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
-			}
-			else
-			{
-				function outerHtml(html) {
-					return jQuery('<div></div>').append(html).html();
-				}
+			} else {
 				
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfigs[i], // the app config
-					outerHtml(a.html)
+					_outerHtml(a.html)
 				);
 				
-				if(!appConfigs[i].root)
-				{
+				if (!appConfigs[i].root) {
 					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
 				var $root = jQuery(appConfigs[i].root);
 				
-				if($root.parents('body:first').length == 0)
-				{
+				if ($root.parents('body:first').length === 0) {
 					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
 				
@@ -262,8 +250,7 @@ F2.extend('', (function(){
 					appConfigs[i] // the app config
 				);
 				
-				if(!F2.isNativeDOMNode(appConfigs[i].root))
-				{
+				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
 					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
@@ -278,8 +265,8 @@ F2.extend('', (function(){
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
 				url:e,
-				/*	we want any scripts added this way to be cached by the browser. 
-				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				// we want any scripts added this way to be cached by the browser. 
+				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
 				cache:true,
 				async:false,
 				dataType:'script',
@@ -316,13 +303,10 @@ F2.extend('', (function(){
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if(!_bUsesAppHandlers)
-			{
+			if(!_bUsesAppHandlers) {
 				// create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
-			}
-			else
-			{
+			} else {
 				var $root = jQuery(appConfig.root);
 				
 				F2.AppHandlers.__trigger(
@@ -332,8 +316,7 @@ F2.extend('', (function(){
 					appManifest.html
 				);
 				
-				if($root.parents('body:first').length == 0)
-				{
+				if ($root.parents('body:first').length === 0) {
 					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
 				
@@ -343,13 +326,11 @@ F2.extend('', (function(){
 					appConfig // the app config
 				);
 				
-				if(!appConfig.root)
-				{
+				if (!appConfig.root) {
 					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
-				if(!F2.isNativeDOMNode(appConfig.root))
-				{
+				if (!F2.isNativeDOMNode(appConfig.root)) {
 					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
@@ -365,6 +346,10 @@ F2.extend('', (function(){
 		} else {
 			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
 		}
+	};
+
+	var _outerHtml = function(html) {
+		return jQuery('<div></div>').append(html).html();
 	};
 
 	/**
@@ -400,8 +385,8 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(e, i) {
-				return { appId: e.config.appId };
+			return jQuery.map(_apps, function(app, i) {
+				return { appId: app.config.appId };
 			});
 		},
 		/**
@@ -537,7 +522,7 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b });
 				});
 
 				// if an app is being loaded more than once on the page, there is the
@@ -618,9 +603,7 @@ F2.extend('', (function(){
 				
 				if (!_validateApp(a)) {
 					throw('Invalid appConfig at position ' + i + '. Please check your inputs and try again.');
-				}
-				else if(!a.root || jQuery(a.root).parents('body:first').length == 0)
-				{
+				} else if(!a.root || jQuery(a.root).parents('body:first').length === 0) {
 					throw('Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.');
 				}
 

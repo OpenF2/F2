@@ -13443,7 +13443,7 @@ F2 = {
 		var S4 = function() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		};
-		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
 	},
 	/**
 	 * Search for a value within an array.
@@ -13463,13 +13463,13 @@ F2 = {
 	 */
 	isNativeDOMNode: function(testObject) {
 		var bIsNode = (
-			typeof Node === "object" ? testObject instanceof Node : 
-			testObject && typeof testObject === "object" && typeof testObject.nodeType === "number" && typeof testObject.nodeName ==="string"
+			typeof Node === 'object' ? testObject instanceof Node : 
+			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
 		);
 		
 		var bIsElement = (
-			typeof HTMLElement === "object" ? testObject instanceof HTMLElement : //DOM2
-			testObject && typeof testObject === "object" && testObject.nodeType === 1 && typeof testObject.nodeName ==="string"
+			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
+			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
 		);
 		
 		return (bIsNode || bIsElement);
@@ -13520,7 +13520,7 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return "1.1.2"; }
+	version: function() { return '1.1.2'; }
 };
 
 
@@ -13615,7 +13615,7 @@ F2.extend('AppHandlers', (function() {
 			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
 			else if(appInstance && appInstance.app && appInstance.app.destroy)
 			{
-				F2.log(app.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 			}
 			
 			// fade out and remove the root
@@ -13721,26 +13721,6 @@ F2.extend('AppHandlers', (function() {
 		}
 	};
 	
-	var _triggerEvent = function(arHandleCollection, arOriginalArgs)
-	{	
-		// no errors here, basically there are no handlers to call
-		if(!arHandleCollection || !arHandleCollection.length) { return; }
-		
-		// there is always 1 argument required, the first arg should always be the token.
-		if(!arOriginalArgs || !arOriginalArgs.length) { throw ('Invalid or null argument(s) passed. Token is required for all triggers. Please check your inputs and try again.'); }
-		
-		// will throw an exception and stop execution if the token is invalid
-		_validateToken(arOriginalArgs[0]);
-		
-		// remove the token from the arguments since we have validated it and no longer need it
-		arOriginalArgs.shift();
-		
-		for(var i = 0, j = arHandleCollection.length; i < j; i++)
-		{
-			arHandleCollection[i].apply(F2, arguments);
-		}
-	};
-	
 	return {
 		/**
 		* Allows container developer to retrieve a special token which must be passed to
@@ -13784,7 +13764,7 @@ F2.extend('AppHandlers', (function() {
 			// will throw an exception and stop execution if the token is invalid
 			if(token != _f2t)
 			{
-				throw ('Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().')
+				throw ('Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().');
 			}
 			
 			if(_handlerCollection && _handlerCollection[eventKey])
@@ -13798,12 +13778,12 @@ F2.extend('AppHandlers', (function() {
 					passableArgs.push(arguments[i]);
 				}
 				
-				if(_handlerCollection[eventKey].length == 0 && _defaultMethods[eventKey])
+				if(_handlerCollection[eventKey].length === 0 && _defaultMethods[eventKey])
 				{
 					_defaultMethods[eventKey].apply(F2, passableArgs);
 					return this;
 				}
-				else if(_handlerCollection[eventKey].length == 0 && !_handlerCollection[eventKey])
+				else if(_handlerCollection[eventKey].length === 0 && !_handlerCollection[eventKey])
 				{
 					return this;
 				}
@@ -13826,7 +13806,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ('Invalid EventKey passed. Check your inputs and try again.')
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
 			}
 			
 			return this;
@@ -13841,8 +13821,8 @@ F2.extend('AppHandlers', (function() {
 		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {HTMLElement|Node} element Specific element to append your app to.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));
-		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));
 		**/
 		/**
 		* Allows you to add listener method that will be triggered when a specific event happens.
@@ -13854,8 +13834,8 @@ F2.extend('AppHandlers', (function() {
 		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {Function} listener A function that will be triggered when a specific event happens.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });
 		**/
 		on: function(token, eventKey, func_or_element)
 		{
@@ -13887,7 +13867,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ('Invalid EventKey passed. Check your inputs and try again.')
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
 			}
 			
 			return this;
@@ -13901,7 +13881,7 @@ F2.extend('AppHandlers', (function() {
 		*  listeners for the specified event type will be removed.
 		*  Complete list available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @example
-		* 		F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
+		*     F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
 		**/
 		off: function(token, eventKey)
 		{
@@ -13930,7 +13910,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ('Invalid EventKey passed. Check your inputs and try again.')
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
 			}
 			
 			return this;
@@ -14011,7 +13991,7 @@ F2.extend('Constants', {
  * Class stubs for documentation purposes
  * @main F2
  */
-F2.extend("", {
+F2.extend('', {
 	/**
 	 * The App Class is an optional class that can be namespaced onto the 
 	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
@@ -14047,7 +14027,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		appId: "",
+		appId: '',
 		/**
 		 * An object that represents the context of an app
 		 * @property context
@@ -14079,7 +14059,7 @@ F2.extend("", {
 		 * @property instanceId
 		 * @type string
 		 */
-		instanceId: "",
+		instanceId: '',
 		/**
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
@@ -14098,7 +14078,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		manifestUrl: "",
+		manifestUrl: '',
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * **It is up to the [container](../../container-development.html) to
@@ -14134,7 +14114,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		name: "",
+		name: '',
 		/**
 		 * The root DOM element that contains the app
 		 *
@@ -14219,14 +14199,14 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		html: "",
+		html: '',
 		/**
 		 * A status message
 		 * @property status
 		 * @type string
 		 * @optional
 		 */
-		status: ""
+		status: ''
 	},
 	/**
 	 * An object containing configuration information for the
@@ -14325,9 +14305,9 @@ F2.extend("", {
 				 * The opacity of the background overlay
 				 * @property opacity
 				 * @type int
-				 * @default .6
+				 * @default 0.6
 				 */
-				opacity: .6,
+				opacity: 0.6,
 				/**
 				 * Do not use inline styles for mask functinality. Instead classes will
 				 * be applied to the elements and it is up to the container provider to
@@ -14788,9 +14768,10 @@ F2.extend('Rpc', (function(){
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
 		var container = jQuery(appConfig.root);
-		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
-			? container
-			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.is('.' + F2.Constants.Css.APP_CONTAINER)) {
+			container.find('.' + F2.Constants.Css.APP_CONTAINER);
+		}
 
 		if (!container.length) {
 			F2.log('Unable to locate app in order to establish secure connection.');
@@ -14852,7 +14833,7 @@ F2.extend('Rpc', (function(){
 	 */
 	var _onMessage = function(appConfig, message, origin) {
 
-		var obj;
+		var obj, func;
 
 		function parseFunction(parent, functionName) {
 			var path = String(functionName).split('.');
@@ -14864,7 +14845,7 @@ F2.extend('Rpc', (function(){
 				parent = parent[path[i]];
 			}
 			return parent;
-		};
+		}
 
 		function parseMessage(regEx, message, instanceId) {
 			var o = F2.parse(message.replace(regEx, ''));
@@ -14885,12 +14866,12 @@ F2.extend('Rpc', (function(){
 			}
 
 			return o;
-		};
+		}
 
 		// handle UI Call
 		if (_rUiCall.test(message)) {
 			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			var func = parseFunction(appConfig.ui, obj.functionName);
+			func = parseFunction(appConfig.ui, obj.functionName);
 			// if we found the function, call it
 			if (func !== undefined) {
 				func.apply(appConfig.ui, obj.params);
@@ -14901,7 +14882,7 @@ F2.extend('Rpc', (function(){
 		// handle RPC
 		} else if (_rRpc.test(message)) {
 			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			var func = parseFunction(window, obj.functionName);
+			func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
@@ -14964,7 +14945,7 @@ F2.extend('Rpc', (function(){
 			// loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			jQuery.each(params, function(i, e) {
-				if (typeof e === "function") {
+				if (typeof e === 'function') {
 					var cid = _registerCallback(e);
 					params[i] = cid;
 					callbacks.push(cid);
@@ -15011,7 +14992,7 @@ F2.extend('Rpc', (function(){
 				// the app is secure
 				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
-				jQuery(_apps[instanceId].config.root).find('iframe').length == 0
+				jQuery(_apps[instanceId].config.root).find('iframe').length === 0
 			);
 		},
 
@@ -15028,7 +15009,7 @@ F2.extend('Rpc', (function(){
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
-				F2.log("Unable to register socket connection. Please check container configuration.");
+				F2.log('Unable to register socket connection. Please check container configuration.');
 			}
 		}
 	};
@@ -15302,8 +15283,8 @@ F2.extend('UI', (function(){
 					 * Removes a view event listener
 					 * @method off
 					 * @param {string} event The event name
-		 			 * @param {function} listener The function that will be removed
-		 			 * @for F2.UI.Views
+					 * @param {function} listener The function that will be removed
+					 * @for F2.UI.Views
 					 */
 					off: function(event, listener) {
 						if (_isValid(event)) {
@@ -15323,7 +15304,7 @@ F2.extend('UI', (function(){
 							_events.on(event, listener);
 						}
 					}
-				}
+				};
 			})()
 		};
 	};
@@ -15359,7 +15340,7 @@ F2.extend('UI', (function(){
 		} else {
 			
 			var container = jQuery(selector);
-			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
+			container.find('> .' + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
 			// if the element contains this data property, we need to reset static
@@ -15507,12 +15488,8 @@ F2.extend('', (function(){
 	 */
 	var _appRender = function(appConfig, html) {
 
-		function outerHtml(html) {
-			return jQuery('<div></div>').append(html).html();
-		}
-
 		// apply APP_CONTAINER class
-		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
 		if (_config.appRender) {
@@ -15520,7 +15497,7 @@ F2.extend('', (function(){
 		}
 
 		// apply APP class and instanceId
-		return outerHtml(html);
+		return _outerHtml(html);
 	};
 
 	/**
@@ -15687,33 +15664,25 @@ F2.extend('', (function(){
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			if(!_bUsesAppHandlers)
-			{
+			if(!_bUsesAppHandlers) {
 				// load html and save the root node
 				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
-			}
-			else
-			{
-				function outerHtml(html) {
-					return jQuery('<div></div>').append(html).html();
-				}
+			} else {
 				
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfigs[i], // the app config
-					outerHtml(a.html)
+					_outerHtml(a.html)
 				);
 				
-				if(!appConfigs[i].root)
-				{
+				if (!appConfigs[i].root) {
 					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
 				var $root = jQuery(appConfigs[i].root);
 				
-				if($root.parents('body:first').length == 0)
-				{
+				if ($root.parents('body:first').length === 0) {
 					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
 				
@@ -15723,8 +15692,7 @@ F2.extend('', (function(){
 					appConfigs[i] // the app config
 				);
 				
-				if(!F2.isNativeDOMNode(appConfigs[i].root))
-				{
+				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
 					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
@@ -15739,8 +15707,8 @@ F2.extend('', (function(){
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
 				url:e,
-				/*	we want any scripts added this way to be cached by the browser. 
-				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				// we want any scripts added this way to be cached by the browser. 
+				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
 				cache:true,
 				async:false,
 				dataType:'script',
@@ -15777,13 +15745,10 @@ F2.extend('', (function(){
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if(!_bUsesAppHandlers)
-			{
+			if(!_bUsesAppHandlers) {
 				// create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
-			}
-			else
-			{
+			} else {
 				var $root = jQuery(appConfig.root);
 				
 				F2.AppHandlers.__trigger(
@@ -15793,8 +15758,7 @@ F2.extend('', (function(){
 					appManifest.html
 				);
 				
-				if($root.parents('body:first').length == 0)
-				{
+				if ($root.parents('body:first').length === 0) {
 					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
 				
@@ -15804,13 +15768,11 @@ F2.extend('', (function(){
 					appConfig // the app config
 				);
 				
-				if(!appConfig.root)
-				{
+				if (!appConfig.root) {
 					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
-				if(!F2.isNativeDOMNode(appConfig.root))
-				{
+				if (!F2.isNativeDOMNode(appConfig.root)) {
 					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
 				
@@ -15826,6 +15788,10 @@ F2.extend('', (function(){
 		} else {
 			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
 		}
+	};
+
+	var _outerHtml = function(html) {
+		return jQuery('<div></div>').append(html).html();
 	};
 
 	/**
@@ -15861,8 +15827,8 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(e, i) {
-				return { appId: e.config.appId };
+			return jQuery.map(_apps, function(app, i) {
+				return { appId: app.config.appId };
 			});
 		},
 		/**
@@ -15998,7 +15964,7 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b });
 				});
 
 				// if an app is being loaded more than once on the page, there is the
@@ -16079,9 +16045,7 @@ F2.extend('', (function(){
 				
 				if (!_validateApp(a)) {
 					throw('Invalid appConfig at position ' + i + '. Please check your inputs and try again.');
-				}
-				else if(!a.root || jQuery(a.root).parents('body:first').length == 0)
-				{
+				} else if(!a.root || jQuery(a.root).parents('body:first').length === 0) {
 					throw('Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.');
 				}
 

@@ -89,7 +89,7 @@ F2.extend('AppHandlers', (function() {
 			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
 			else if(appInstance && appInstance.app && appInstance.app.destroy)
 			{
-				F2.log(app.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 			}
 			
 			// fade out and remove the root
@@ -195,26 +195,6 @@ F2.extend('AppHandlers', (function() {
 		}
 	};
 	
-	var _triggerEvent = function(arHandleCollection, arOriginalArgs)
-	{	
-		// no errors here, basically there are no handlers to call
-		if(!arHandleCollection || !arHandleCollection.length) { return; }
-		
-		// there is always 1 argument required, the first arg should always be the token.
-		if(!arOriginalArgs || !arOriginalArgs.length) { throw ('Invalid or null argument(s) passed. Token is required for all triggers. Please check your inputs and try again.'); }
-		
-		// will throw an exception and stop execution if the token is invalid
-		_validateToken(arOriginalArgs[0]);
-		
-		// remove the token from the arguments since we have validated it and no longer need it
-		arOriginalArgs.shift();
-		
-		for(var i = 0, j = arHandleCollection.length; i < j; i++)
-		{
-			arHandleCollection[i].apply(F2, arguments);
-		}
-	};
-	
 	return {
 		/**
 		* Allows container developer to retrieve a special token which must be passed to
@@ -258,7 +238,7 @@ F2.extend('AppHandlers', (function() {
 			// will throw an exception and stop execution if the token is invalid
 			if(token != _f2t)
 			{
-				throw ('Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().')
+				throw ('Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().');
 			}
 			
 			if(_handlerCollection && _handlerCollection[eventKey])
@@ -272,12 +252,12 @@ F2.extend('AppHandlers', (function() {
 					passableArgs.push(arguments[i]);
 				}
 				
-				if(_handlerCollection[eventKey].length == 0 && _defaultMethods[eventKey])
+				if(_handlerCollection[eventKey].length === 0 && _defaultMethods[eventKey])
 				{
 					_defaultMethods[eventKey].apply(F2, passableArgs);
 					return this;
 				}
-				else if(_handlerCollection[eventKey].length == 0 && !_handlerCollection[eventKey])
+				else if(_handlerCollection[eventKey].length === 0 && !_handlerCollection[eventKey])
 				{
 					return this;
 				}
@@ -300,7 +280,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ('Invalid EventKey passed. Check your inputs and try again.')
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
 			}
 			
 			return this;
@@ -315,8 +295,8 @@ F2.extend('AppHandlers', (function() {
 		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {HTMLElement|Node} element Specific element to append your app to.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));
-		*		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));
 		**/
 		/**
 		* Allows you to add listener method that will be triggered when a specific event happens.
@@ -328,8 +308,8 @@ F2.extend('AppHandlers', (function() {
 		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @params {Function} listener A function that will be triggered when a specific event happens.
 		* @example
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });
-		* 		F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });
 		**/
 		on: function(token, eventKey, func_or_element)
 		{
@@ -361,7 +341,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ('Invalid EventKey passed. Check your inputs and try again.')
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
 			}
 			
 			return this;
@@ -375,7 +355,7 @@ F2.extend('AppHandlers', (function() {
 		*  listeners for the specified event type will be removed.
 		*  Complete list available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
 		* @example
-		* 		F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
+		*     F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
 		**/
 		off: function(token, eventKey)
 		{
@@ -404,7 +384,7 @@ F2.extend('AppHandlers', (function() {
 			}
 			else
 			{
-				throw ('Invalid EventKey passed. Check your inputs and try again.')
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
 			}
 			
 			return this;
