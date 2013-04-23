@@ -7,6 +7,6 @@ F2 Containers can and should namespace their css so that the container and apps 
 The following commands should be run from the command-line:
 
 - `$> npm install -g less`
-- `$> lessc -x .\namespaced-css.les > bootstrap.min.css`
+- `$> lessc -x namespaced-css.less > bootstrap.min.css`
 
 The namespaced-css.less file simply namespaces all of the Bootstrap css with a `.f2-example-container` namespace.
