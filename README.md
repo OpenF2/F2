@@ -10,7 +10,7 @@ Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the l
 
 Now you've got F2, you are ready to start building F2 containers or apps. Read the [Get Started documentation](http://docs.openf2.org/app-development.html) for F2 apps to begin. If you simply want to see examples, point your browser at `http://path/to/your/F2/examples/`.
 
-**Important**: If you simply want to build F2 [containers](http://docs.openf2.org/container-development.html) or [apps](http://docs.openf2.org/app-development.html), you can **skip** the [Build F2](#build-f2) section below. You do not need the command line to work with F2.
+**Important**: If you simply want to build F2 [containers](http://docs.openf2.org/container-development.html) or [apps](http://docs.openf2.org/app-development.html), you can **skip** the [Build F2](#build-f2-) section below. You do not need the command line to work with F2.
 
 ## Versioning
 
@@ -38,13 +38,13 @@ To track bugs and issues, we are using [Issues on GitHub](https://github.com/Ope
 
 If you just want to build F2 [containers](http://docs.openf2.org/container-development.html) and/or [apps](http://docs.openf2.org/app-development.html), you can **skip the [Build F2](#build-f2)** section below. You do not need the command line to work with F2.
 
-### Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png)](https://travis-ci.org/OpenF2/F2)
+### Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
 
 For those wishing to contribute back to F2, we've included a `build` file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs on [Node.js](http://nodejs.org/) and has a few dependencies. To install, `cd` to your `F2/build` folder, and run the following commands in npm:
 
-`$> npm install uglify-js@1.3.4 wrench fs-extra yuidocjs optimist handlebars`
+`$> npm install uglify-js wrench fs-extra yuidocjs optimist handlebars jshint`
 
-`$> npm install less markitdown -g`
+`$> npm install pandoc less markitdown jshint -g`
 
 Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch.
 
@@ -56,7 +56,7 @@ For help, run:
 
 `$> node build -h`
 
-We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org).
+We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org). [pandoc](https://github.com/jgm/pandoc) is required for markitdown.
 
 #### NuGet Package
 

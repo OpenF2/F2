@@ -267,8 +267,8 @@ F2.extend('UI', (function(){
 					 * Removes a view event listener
 					 * @method off
 					 * @param {string} event The event name
-		 			 * @param {function} listener The function that will be removed
-		 			 * @for F2.UI.Views
+					 * @param {function} listener The function that will be removed
+					 * @for F2.UI.Views
 					 */
 					off: function(event, listener) {
 						if (_isValid(event)) {
@@ -288,7 +288,7 @@ F2.extend('UI', (function(){
 							_events.on(event, listener);
 						}
 					}
-				}
+				};
 			})()
 		};
 	};
@@ -324,7 +324,7 @@ F2.extend('UI', (function(){
 		} else {
 			
 			var container = jQuery(selector);
-			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
+			container.find('> .' + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
 			// if the element contains this data property, we need to reset static

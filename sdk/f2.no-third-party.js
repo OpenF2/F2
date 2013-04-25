@@ -133,7 +133,7 @@ F2 = {
 		var S4 = function() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		};
-		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
 	},
 	/**
 	 * Search for a value within an array.
@@ -144,6 +144,25 @@ F2 = {
 	 */
 	inArray: function(value, array) {
 		return jQuery.inArray(value, array) > -1;
+	},
+	/**
+	 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
+	 * @method isNativeDOMNode
+	 * @param {object} testObject The object you want to check as native dom node.
+	 * @return {bool} Returns true if the object passed is a native dom node.
+	 */
+	isNativeDOMNode: function(testObject) {
+		var bIsNode = (
+			typeof Node === 'object' ? testObject instanceof Node : 
+			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
+		);
+		
+		var bIsElement = (
+			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
+			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
+		);
+		
+		return (bIsNode || bIsElement);
 	},
 	/**
 	 * Wrapper logging function.
@@ -191,15 +210,478 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return "1.1.2"; }
+	version: function() { return '1.1.2'; }
 };
 
 
 /**
+ * Allows container developers more flexibility when it comes to handling app interaction. Starting with version 1.3 this is the preferred method
+ * for choosing how app rendering/interaction happens. This replaces the config versions of beforeAppRender, appRender, and afterAppRender. It also
+ * adds hooks into an app being removed/destroyed. As F2 evolves more hooks will be added to aid in container development.
+ * @class F2.AppHandlers
+ */
+F2.extend('AppHandlers', (function() {
+
+	// the hidden token that we will check against every time someone tries to add, remove, fire handler
+	var _ct = F2.guid();
+	var _f2t = F2.guid();
+	
+	var _handlerCollection = {
+		appCreateRoot: [],
+		appRenderBefore: [],			
+		//appReloadBefore: [],
+		appDestroyBefore: [],
+		appRenderAfter: [],
+		//appReloadAfter: [],
+		appDestroyAfter: [],
+		appRender: [],
+		//appReload: [],
+		appDestroy: []			
+	};
+	
+	var _defaultMethods = {
+		appCreateRoot: function()
+		{
+			// do nothing to create root. F2.Container will automatically create the root in the default appRender
+		},
+		appRenderBefore: function(appConfig)
+		{
+			// do nothing before an app is rendered
+		},
+		appRender: function(appConfig, html)
+		{
+			var $root = null;
+			
+			// if no app root is defined use the apps outter most node
+			if(!F2.isNativeDOMNode(appConfig.root))
+			{
+				appConfig.root = jQuery(html).get(0);
+				// get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);				
+			}
+			else
+			{
+				// get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);			
+				
+				// append the app html to the root
+				$root.append(html);
+			}			
+			
+			// append the root to the body by default.
+			jQuery('body').append($root);
+		},
+		appRenderAfter: function()
+		{
+			// do nothing after an app is rendered
+		},
+		
+		appReloadBefore: function()
+		{
+			// do nothing before an app reloads
+		},
+		appReload: function()
+		{
+			// re-request the app?
+			// re-add files?
+			// re init js ?
+		},
+		appReloadAfter: function()
+		{
+			// do nothing after an app reloads
+		},
+		
+		appDestroyBefore: function()
+		{
+			// do nothing before destroying app
+		},
+		appDestroy: function(appInstance)
+		{
+			// call the apps destroy method, if it has one
+			if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')
+			{
+				appInstance.app.destroy();
+			}
+			// warn the container developer/app developer that even though they have a destroy method it hasn't been 
+			else if(appInstance && appInstance.app && appInstance.app.destroy)
+			{
+				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+			}
+			
+			// fade out and remove the root
+			jQuery(appInstance.config.root).fadeOut(500, function() {
+				jQuery(this).remove();
+			});
+		},
+		appDestroyAfter: function()
+		{
+			// do nothing after an app is destroyed
+		}
+	};
+	
+	var _createHandler = function(token, sNamespace, func_or_element, bDomNodeAppropriate)
+	{	
+		// will throw an exception and stop execution if the token is invalid
+		_validateToken(token);			
+		
+		// create handler structure. Not all arguments properties will be populated/used.
+		var handler = {
+			func: (typeof(func_or_element)) ? func_or_element : null,
+			namespace: sNamespace,			
+			domNode: (F2.isNativeDOMNode(func_or_element)) ? func_or_element : null
+		};
+		
+		if(!handler.func && !handler.domNode)
+		{
+			throw ('Invalid or null argument passed. Handler will not be added to collection. A valid dom element or callback function is required.');
+		}
+
+		if(handler.domNode && !bDomNodeAppropriate)
+		{
+			throw ('Invalid argument passed. Handler will not be added to collection. A callback function is required for this event type.');
+		}
+		
+		return handler;
+	};
+	
+	var _validateToken = function(sToken)
+	{
+		// check token against F2 and Container
+		if(_ct != sToken && _f2t != sToken) { throw ('Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken().'); }
+	};
+	
+	var _removeHandler = function(sToken, eventKey, sNamespace)
+	{
+		// will throw an exception and stop execution if the token is invalid
+		_validateToken(sToken);
+		
+		if(!sNamespace && !eventKey)
+		{			
+			return;
+		}
+		// remove by event key
+		else if(!sNamespace && eventKey)
+		{
+			_handlerCollection[eventKey] = [];
+		}
+		// remove by namespace only
+		else if(sNamespace && !eventKey)
+		{
+			sNamespace = sNamespace.toLowerCase();		
+		
+			for(var eventKey in _handlerCollection)
+			{
+				var eventCollection = _handlerCollection[eventKey];
+				var newEvents = [];
+
+				for(var i = 0, j = eventCollection.length; i < j; i++)
+				{
+					var currentHandler = eventCollection[i];
+					if(currentHandler)
+					{
+						if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
+						{
+							newEvents.push(currentHandler);
+						}
+					}
+				}
+
+				eventCollection = newEvents;				
+			}			
+		}
+		else if(sNamespace && _handlerCollection[eventKey])
+		{
+			sNamespace = sNamespace.toLowerCase();		
+		
+			var newEvents = [];
+			
+			for(var i = 0, j = _handlerCollection[eventKey].length; i < j; i++)
+			{
+				var currentHandler = _handlerCollection[eventKey][i];
+				if(currentHandler)
+				{
+					if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
+					{
+						newEvents.push(currentHandler);
+					}
+				}
+			}
+			
+			_handlerCollection[eventKey] = newEvents;
+		}
+	};
+	
+	return {
+		/**
+		* Allows container developer to retrieve a special token which must be passed to
+		* all On and Off methods. This function will self destruct so be sure to keep the response
+		* inside of a closure somewhere.
+		* @method getToken		 
+		**/
+		getToken: function()
+		{
+			// delete this method for security that way only the container has access to the token 1 time.
+			// kind of James Bond-ish, this message will self destruct immediately.
+			delete this.getToken;
+			// return the token, which we validate against.
+			return _ct;
+		},
+		/**
+		* Allows F2 to get a token internally. Token is required to call {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}.
+		* This function will self destruct to eliminate other sources from using the {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}
+		* and other internal methods.
+		* @method __f2GetToken
+		* @private
+		**/
+		__f2GetToken: function()
+		{
+			// delete this method for security that way only the F2 internally has access to the token 1 time.
+			// kind of James Bond-ish, this message will self destruct immediately.
+			delete this.__f2GetToken;
+			// return the token, which we validate against.
+			return _f2t;
+		},
+		/**
+		* Allows F2 to trigger specific app events internally.
+		* @method __trigger
+		* @private
+		* @chainable
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/\_\_f2GetToken:method"}}{{/crossLink}}.
+		* @param {String} eventKey The event you want to fire. Complete list of event keys available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
+		**/
+		__trigger: function(token, eventKey) // additional arguments will likely be passed
+		{			
+			// will throw an exception and stop execution if the token is invalid
+			if(token != _f2t)
+			{
+				throw ('Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().');
+			}
+			
+			if(_handlerCollection && _handlerCollection[eventKey])
+			{				
+				// create a collection of arguments that are safe to pass to the callback.
+				var passableArgs = [];
+				
+				// populate that collection with all arguments except token and eventKey
+				for(var i = 2, j = arguments.length; i < j; i++)
+				{
+					passableArgs.push(arguments[i]);
+				}
+				
+				if(_handlerCollection[eventKey].length === 0 && _defaultMethods[eventKey])
+				{
+					_defaultMethods[eventKey].apply(F2, passableArgs);
+					return this;
+				}
+				else if(_handlerCollection[eventKey].length === 0 && !_handlerCollection[eventKey])
+				{
+					return this;
+				}
+				
+				// fire all event listeners in the order that they were added.
+				for(var i = 0, j = _handlerCollection[eventKey].length; i < j; i++)
+				{
+					var handler = _handlerCollection[eventKey][i];
+					
+					if (handler.domNode && arguments[2] && arguments[2].root && arguments[3])
+					{
+						var $appRoot = jQuery(arguments[2].root).append(arguments[3]);
+						jQuery(handler.domNode).append($appRoot);
+					}
+					else
+					{
+						handler.func.apply(F2, passableArgs);
+					}
+				}
+			}
+			else
+			{
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
+			}
+			
+			return this;
+		},
+		/**
+		* Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.
+		* @method on
+		* @chainable
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}} or {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key to determine what event you want to bind to. The namespace is useful for removal 
+		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
+		* @params {HTMLElement|Node} element Specific element to append your app to.
+		* @example
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));
+		**/
+		/**
+		* Allows you to add listener method that will be triggered when a specific event happens.
+		* @method on
+		* @chainable
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:method"}}{{/crossLink}} or {{#crossLink "F2.AppHandlers/\_\_trigger:method"}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key to determine what event you want to bind to. The namespace is useful for removal 
+		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+		* {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
+		* @params {Function} listener A function that will be triggered when a specific event happens.
+		* @example
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });
+		*     F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });
+		**/
+		on: function(token, eventKey, func_or_element)
+		{
+			var sNamespace = null;
+			
+			if(!eventKey)
+			{
+				throw ('eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.');
+			}
+			
+			// we need to check the key for a namespace
+			if(eventKey.indexOf('.') > -1)
+			{
+				var arData = eventKey.split('.');
+				eventKey = arData[0];
+				sNamespace = arData[1];
+			}
+			
+			if(_handlerCollection && _handlerCollection[eventKey])
+			{
+				_handlerCollection[eventKey].push(
+					_createHandler(
+						token,
+						sNamespace,
+						func_or_element,
+						(eventKey == 'appRender')
+					)
+				);
+			}
+			else
+			{
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
+			}
+			
+			return this;
+		},
+		/**
+		* Allows you to remove listener methods for specific events
+		* @method off
+		* @chainable
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:method"}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key to determine what listeners need to be removed. If no namespace is provided all
+		*  listeners for the specified event type will be removed.
+		*  Complete list available in {{#crossLink "F2.Constants/AppHandlers:property"}}{{/crossLink}}.
+		* @example
+		*     F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');
+		**/
+		off: function(token, eventKey)
+		{
+			var sNamespace = null;
+			
+			if(!eventKey)
+			{
+				throw ('eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.');
+			}
+			
+			// we need to check the key for a namespace
+			if(eventKey.indexOf('.') > -1)
+			{
+				var arData = eventKey.split('.');
+				eventKey = arData[0];
+				sNamespace = arData[1];
+			}
+			
+			if(_handlerCollection && _handlerCollection[eventKey])
+			{				
+				_removeHandler(
+					token,
+					eventKey,
+					sNamespace
+				);
+			}
+			else
+			{
+				throw ('Invalid EventKey passed. Check your inputs and try again.');
+			}
+			
+			return this;
+		}
+	};
+})());
+
+/**
+ * A convenient collection of all available appHandler events.
+ * @class F2.Constants.AppHandlers
+ */
+F2.extend('Constants', {
+	/**
+	* A collection of constants for the on/off method names in F2.AppHandlers.
+	* @property {Object} AppHandlers
+	**/
+	AppHandlers:
+	{
+		/**
+		 * Equivalent to 'appCreateRoot'. Identifies the create root method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_CREATE_ROOT
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_CREATE_ROOT: 'appCreateRoot',
+		/**
+		 * Equivalent to 'appRenderBefore'. Identifies the before app render method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_RENDER_BEFORE
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_RENDER_BEFORE: 'appRenderBefore',
+		/**
+		 * Equivalent to 'appRender'. Identifies the app render method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_RENDER
+		 * @type string
+		 * @static
+		 * @final
+		 */		
+		APP_RENDER: 'appRender',
+		/**
+		 * Equivalent to 'appRenderAfter'. Identifies the after app render method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_RENDER_AFTER
+		 * @type string
+		 * @static
+		 * @final
+		 */	
+		APP_RENDER_AFTER: 'appRenderAfter',
+		/**
+		 * Equivalent to 'appDestroyBefore'. Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_DESTROY_BEFORE
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_DESTROY_BEFORE: 'appDestroyBefore',
+		/**
+		 * Equivalent to 'appDestroy'. Identifies the app destroy method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_DESTROY
+		 * @type string
+		 * @static
+		 * @final
+		 */		
+		APP_DESTROY: 'appDestroy',
+		/**
+		 * Equivalent to 'appDestroyAfter'. Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().
+		 * @property APP_DESTROY_AFTER
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		APP_DESTROY_AFTER: 'appDestroyAfter'
+	}
+});
+/**
  * Class stubs for documentation purposes
  * @main F2
  */
-F2.extend("", {
+F2.extend('', {
 	/**
 	 * The App Class is an optional class that can be namespaced onto the 
 	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
@@ -235,7 +717,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		appId: "",
+		appId: '',
 		/**
 		 * An object that represents the context of an app
 		 * @property context
@@ -267,7 +749,7 @@ F2.extend("", {
 		 * @property instanceId
 		 * @type string
 		 */
-		instanceId: "",
+		instanceId: '',
 		/**
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
@@ -286,7 +768,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		manifestUrl: "",
+		manifestUrl: '',
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * **It is up to the [container](../../container-development.html) to
@@ -322,7 +804,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		name: "",
+		name: '',
 		/**
 		 * The root DOM element that contains the app
 		 *
@@ -407,14 +889,14 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		html: "",
+		html: '',
 		/**
 		 * A status message
 		 * @property status
 		 * @type string
 		 * @optional
 		 */
-		status: ""
+		status: ''
 	},
 	/**
 	 * An object containing configuration information for the
@@ -428,6 +910,7 @@ F2.extend("", {
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html
 		 * @method afterAppRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app 
 		 * @return {Element} The DOM Element surrounding the app
@@ -442,6 +925,7 @@ F2.extend("", {
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app
 		 */
@@ -452,6 +936,7 @@ F2.extend("", {
 		 * icons to appear for each app before each app is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @return {Element} The DOM Element surrounding the app
 		 */
@@ -463,6 +948,24 @@ F2.extend("", {
 		 * @type bool
 		 */
 		isSecureAppPage: false,
+		/**
+		 * Allows the container to specify which page is used when
+		 * loading a secure app. The page must reside on a different domain than the
+		 * container
+		 * @property secureAppPagePath
+		 * @type string
+		 * @for F2.ContainerConfig
+		 */
+		secureAppPagePath: '',
+		/**
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app's header.
+		 * @property supportedViews
+		 * @type Array
+		 * @required
+		 */
+		supportedViews: [],
 		/**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
@@ -492,9 +995,9 @@ F2.extend("", {
 				 * The opacity of the background overlay
 				 * @property opacity
 				 * @type int
-				 * @default .6
+				 * @default 0.6
 				 */
-				opacity: .6,
+				opacity: 0.6,
 				/**
 				 * Do not use inline styles for mask functinality. Instead classes will
 				 * be applied to the elements and it is up to the container provider to
@@ -512,25 +1015,7 @@ F2.extend("", {
 				 */
 				zIndex: 2
 			}
-		},
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
-		/**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app's header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 */
-		supportedViews: []
+		}
 	}
 });
 /**
@@ -973,9 +1458,10 @@ F2.extend('Rpc', (function(){
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
 		var container = jQuery(appConfig.root);
-		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
-			? container
-			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.is('.' + F2.Constants.Css.APP_CONTAINER)) {
+			container.find('.' + F2.Constants.Css.APP_CONTAINER);
+		}
 
 		if (!container.length) {
 			F2.log('Unable to locate app in order to establish secure connection.');
@@ -1037,7 +1523,7 @@ F2.extend('Rpc', (function(){
 	 */
 	var _onMessage = function(appConfig, message, origin) {
 
-		var obj;
+		var obj, func;
 
 		function parseFunction(parent, functionName) {
 			var path = String(functionName).split('.');
@@ -1049,7 +1535,7 @@ F2.extend('Rpc', (function(){
 				parent = parent[path[i]];
 			}
 			return parent;
-		};
+		}
 
 		function parseMessage(regEx, message, instanceId) {
 			var o = F2.parse(message.replace(regEx, ''));
@@ -1070,12 +1556,12 @@ F2.extend('Rpc', (function(){
 			}
 
 			return o;
-		};
+		}
 
 		// handle UI Call
 		if (_rUiCall.test(message)) {
 			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			var func = parseFunction(appConfig.ui, obj.functionName);
+			func = parseFunction(appConfig.ui, obj.functionName);
 			// if we found the function, call it
 			if (func !== undefined) {
 				func.apply(appConfig.ui, obj.params);
@@ -1086,7 +1572,7 @@ F2.extend('Rpc', (function(){
 		// handle RPC
 		} else if (_rRpc.test(message)) {
 			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			var func = parseFunction(window, obj.functionName);
+			func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
@@ -1149,7 +1635,7 @@ F2.extend('Rpc', (function(){
 			// loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			jQuery.each(params, function(i, e) {
-				if (typeof e === "function") {
+				if (typeof e === 'function') {
 					var cid = _registerCallback(e);
 					params[i] = cid;
 					callbacks.push(cid);
@@ -1196,7 +1682,7 @@ F2.extend('Rpc', (function(){
 				// the app is secure
 				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
-				jQuery(_apps[instanceId].config.root).find('iframe').length == 0
+				jQuery(_apps[instanceId].config.root).find('iframe').length === 0
 			);
 		},
 
@@ -1213,7 +1699,7 @@ F2.extend('Rpc', (function(){
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
-				F2.log("Unable to register socket connection. Please check container configuration.");
+				F2.log('Unable to register socket connection. Please check container configuration.');
 			}
 		}
 	};
@@ -1487,8 +1973,8 @@ F2.extend('UI', (function(){
 					 * Removes a view event listener
 					 * @method off
 					 * @param {string} event The event name
-		 			 * @param {function} listener The function that will be removed
-		 			 * @for F2.UI.Views
+					 * @param {function} listener The function that will be removed
+					 * @for F2.UI.Views
 					 */
 					off: function(event, listener) {
 						if (_isValid(event)) {
@@ -1508,7 +1994,7 @@ F2.extend('UI', (function(){
 							_events.on(event, listener);
 						}
 					}
-				}
+				};
 			})()
 		};
 	};
@@ -1544,7 +2030,7 @@ F2.extend('UI', (function(){
 		} else {
 			
 			var container = jQuery(selector);
-			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
+			container.find('> .' + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
 			// if the element contains this data property, we need to reset static
@@ -1653,10 +2139,13 @@ F2.extend('', (function(){
 
 	var _apps = {};
 	var _config = false;
+	var _bUsesAppHandlers = false;
+	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
 
 	/**
 	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
@@ -1682,18 +2171,15 @@ F2.extend('', (function(){
 	/**
 	 * Renders the html for an app.
 	 * @method _appRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
 	 */
 	var _appRender = function(appConfig, html) {
 
-		function outerHtml(html) {
-			return jQuery('<div></div>').append(html).html();
-		}
-
 		// apply APP_CONTAINER class
-		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
 		if (_config.appRender) {
@@ -1701,13 +2187,14 @@ F2.extend('', (function(){
 		}
 
 		// apply APP class and instanceId
-		return outerHtml(html);
+		return _outerHtml(html);
 	};
 
 	/**
 	 * Rendering hook to allow containers to render some html prior to an app
 	 * loading
 	 * @method _beforeAppRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @return {Element} The DOM Element surrounding the app
@@ -1786,6 +2273,34 @@ F2.extend('', (function(){
 	};
 
 	/**
+	 * Instantiates each app from it's appConfig and stores that in a local private collection
+	 * @method _createAppInstance
+	 * @private
+	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
+	 */
+	var _createAppInstance = function(appConfig, appContent){
+		// instantiate F2.UI
+		appConfig.ui = new F2.UI(appConfig);
+
+		// instantiate F2.App
+		if (F2.Apps[appConfig.appId] !== undefined) {
+			if (typeof F2.Apps[appConfig.appId] === 'function') {
+
+				// IE
+				setTimeout(function() {
+					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, appContent, appConfig.root);
+					if (_apps[appConfig.instanceId].app['init'] !== undefined) {
+						_apps[appConfig.instanceId].app.init();
+					}
+				}, 0);
+				
+			} else {
+				F2.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
+			}
+		}
+	};
+
+	/**
 	 * Loads the app's html/css/javascript
 	 * @method loadApp
 	 * @private
@@ -1816,25 +2331,7 @@ F2.extend('', (function(){
 		var scriptsLoaded = 0;
 		var appInit = function() {
 			jQuery.each(appConfigs, function(i, a) {
-				// instantiate F2.UI
-				a.ui = new F2.UI(a);
-
-				// instantiate F2.App
-				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === 'function') {
-
-						// 
-						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-							if (_apps[a.instanceId].app['init'] !== undefined) {
-								_apps[a.instanceId].app.init();
-							}
-						}, 0);
-						
-					} else {
-						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
-					}
-				}
+				_createAppInstance(a, appManifest.apps[i]);
 			});
 		};
 		//eval inlines
@@ -1857,8 +2354,41 @@ F2.extend('', (function(){
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			// load html and save the root node
-			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			if(!_bUsesAppHandlers) {
+				// load html and save the root node
+				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			} else {
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER,
+					appConfigs[i], // the app config
+					_outerHtml(a.html)
+				);
+				
+				if (!appConfigs[i].root) {
+					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				var $root = jQuery(appConfigs[i].root);
+				
+				if ($root.parents('body:first').length === 0) {
+					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
+					appConfigs[i] // the app config
+				);
+				
+				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
+					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId);
+			}
+			
 			// init events
 			_initAppEvents(appConfigs[i]);
 		});
@@ -1867,8 +2397,8 @@ F2.extend('', (function(){
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
 				url:e,
-				/*	we want any scripts added this way to be cached by the browser. 
-				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				// we want any scripts added this way to be cached by the browser. 
+				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
 				cache:true,
 				async:false,
 				dataType:'script',
@@ -1905,8 +2435,40 @@ F2.extend('', (function(){
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			// create the html container for the iframe
-			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			if(!_bUsesAppHandlers) {
+				// create the html container for the iframe
+				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			} else {
+				var $root = jQuery(appConfig.root);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER,
+					appConfig, // the app config
+					appManifest.html
+				);
+				
+				if ($root.parents('body:first').length === 0) {
+					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
+					appConfig // the app config
+				);
+				
+				if (!appConfig.root) {
+					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				if (!F2.isNativeDOMNode(appConfig.root)) {
+					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
+			}
+			
 			// instantiate F2.UI
 			appConfig.ui = new F2.UI(appConfig);
 			// init events
@@ -1914,8 +2476,12 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in F2.ContainerConfig.');
+			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
 		}
+	};
+
+	var _outerHtml = function(html) {
+		return jQuery('<div></div>').append(html).html();
 	};
 
 	/**
@@ -1932,7 +2498,7 @@ F2.extend('', (function(){
 			F2.log('"appId" missing from app object');
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log('manifestUrl" missing from app object');
+			F2.log('"manifestUrl" missing from app object');
 			return false;
 		}
 
@@ -1951,8 +2517,8 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(e, i) {
-				return { appId: e.config.appId };
+			return jQuery.map(_apps, function(app, i) {
+				return { appId: app.config.appId };
 			});
 		},
 		/**
@@ -1963,7 +2529,11 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
-
+			
+			// dictates whether we use the old logic or the new logic.
+			// TODO: Remove in v2.0
+			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
+			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
 				F2.Rpc.init(!!_config.secureAppPagePath ? _config.secureAppPagePath : false);
@@ -2035,10 +2605,31 @@ F2.extend('', (function(){
 
 				// add properties and methods
 				_hydrateAppConfig(a);
-
-				// fire beforeAppRender
-				a.root = _beforeAppRender(a);
-
+				
+				// create just a generic div. To squash the jQuery dependency we will turn
+				// app.root will only be a dom node
+				a.root = null;
+				
+				if(!_bUsesAppHandlers)
+				{
+					// fire beforeAppRender
+					a.root = _beforeAppRender(a);
+				}
+				else
+				{
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_CREATE_ROOT,
+						a // the app config
+					);
+					
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+						a // the app config
+					);
+				}
+				
 				// save app
 				_apps[a.instanceId] = { config:a };
 
@@ -2063,7 +2654,7 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b });
 				});
 
 				// if an app is being loaded more than once on the page, there is the
@@ -2117,6 +2708,49 @@ F2.extend('', (function(){
 					manifestRequest(i, requests.pop());
 				});
 			}
+		},		
+		/**
+		 * Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
+		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
+		 * @method registerPreLoadedApps
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
+		 */
+		registerPreLoadedApps: function(appConfigs) {
+			
+			if (!_isInit()) {
+				throw('F2.init() must be called before F2.registerApps()');
+			} else if (!appConfigs) {
+				throw('At least one AppConfig must be passed when calling F2.registerPreLoadedApps()');
+			}
+
+			// could just pass an object that is an appConfig
+			appConfigs = [].concat(appConfigs);
+
+			// appConfigs must have a length
+			if (!appConfigs.length) {
+				throw('At least one appConfig must be passed.');
+			}
+
+			jQuery.each(appConfigs, function(i, a) {
+				
+				if (!_validateApp(a)) {
+					throw('Invalid appConfig at position ' + i + '. Please check your inputs and try again.');
+				} else if(!a.root || jQuery(a.root).parents('body:first').length === 0) {
+					throw('Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.');
+				}
+
+				// add properties and methods
+				_hydrateAppConfig(a);
+
+				// place unique instance of app in _apps collection using its instanceId
+				_apps[a.instanceId] = { config:a };
+
+				// instantiate F2.App
+				_createAppInstance(a);
+				
+				// init events
+				_initAppEvents(a);
+			});
 		},
 		/**
 		 * Removes all apps from the container
@@ -2145,11 +2779,25 @@ F2.extend('', (function(){
 				return;
 			}
 
-			if (_apps[instanceId]) {
-				jQuery(_apps[instanceId].config.root).fadeOut(function() {
-					jQuery(this).remove();
-				});
-
+			if (_apps[instanceId]) {				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+					_apps[instanceId] // the app instance
+				);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY,
+					_apps[instanceId] // the app instance
+				);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+					_apps[instanceId] // the app instance
+				);				
+				
 				delete _apps[instanceId];
 			}
 		}

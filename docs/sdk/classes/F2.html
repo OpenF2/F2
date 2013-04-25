@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - F2</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="master">
+	<meta name="gitbranch" content="issue28">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('master' === 'master'){
+		if ('issue28' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -110,11 +110,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -160,11 +164,15 @@
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
+		<li class=""><a href="..&#x2F;classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
 		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="..&#x2F;classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
 		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
@@ -265,7 +273,7 @@
 				</thead>
 				<tbody>
 					
-					<tr class=" private">
+					<tr class=" private deprecated">
 						<td class="name">
 							<a href="#methods-_afterAppRender">
 								_afterAppRender
@@ -293,7 +301,7 @@
 						<td><p>Appends the app's html to the DOM</p></td>
 					</tr>
 					
-					<tr class=" private">
+					<tr class=" private deprecated">
 						<td class="name">
 							<a href="#methods-_appRender">
 								_appRender
@@ -321,7 +329,7 @@
 						<td><p>Renders the html for an app.</p></td>
 					</tr>
 					
-					<tr class=" private">
+					<tr class=" private deprecated">
 						<td class="name">
 							<a href="#methods-_beforeAppRender">
 								_beforeAppRender
@@ -342,6 +350,28 @@
 						</td>
 						<td><p>Rendering hook to allow containers to render some html prior to an app
 loading</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a href="#methods-_createAppInstance">
+								_createAppInstance
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												appConfigs
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Instantiates each app from it's appConfig and stores that in a local private collection</p></td>
 					</tr>
 					
 					<tr class=" private">
@@ -559,6 +589,28 @@ any other actions in the container.</p></td>
 						<td><p>Has the container been init?</p></td>
 					</tr>
 					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-isNativeDOMNode">
+								isNativeDOMNode
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												testObject
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Utility method to determine whether or not the argument passed in is or is not a native dom node.</p></td>
+					</tr>
+					
 					<tr class=" private">
 						<td class="name">
 							<a href="#methods-loadApp">
@@ -699,6 +751,29 @@ assets will be used instead of making a request.</p></td>
 					
 					<tr class="">
 						<td class="name">
+							<a href="#methods-registerPreLoadedApps">
+								registerPreLoadedApps
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												appConfigs
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
+if you are the container developer and app developer or want to request apps via serverside and render them as a single page.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
 							<a href="#methods-removeAllApps">
 								removeAllApps
 								<span class="paren">(</span>
@@ -827,7 +902,7 @@ automatically by F2.</p></td>
 	
 	<div id="methods" class="tab-pane">
 		
-		<section id="methods-_afterAppRender" class="level2  private">
+		<section id="methods-_afterAppRender" class="level2  private deprecated">
 	<h3>
 		_afterAppRender
 		<span class="paren">(</span>
@@ -850,6 +925,8 @@ automatically by F2.</p></td>
 		
 		<span class="paren">)</span>
 
+		
+			<span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0">deprecated</span>
 		
 
 		
@@ -879,9 +956,12 @@ automatically by F2.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l11"><code>sdk\src\container.js:11</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l13"><code>sdk\src\container.js:13</code></a></dd>
 			
 
+			
+				<dt>Deprecated</dt>
+				<dd>This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0</dd>
 			
 
 			
@@ -952,7 +1032,7 @@ automatically by F2.</p></td>
 	
 </section>
 		
-		<section id="methods-_appRender" class="level2  private">
+		<section id="methods-_appRender" class="level2  private deprecated">
 	<h3>
 		_appRender
 		<span class="paren">(</span>
@@ -975,6 +1055,8 @@ automatically by F2.</p></td>
 		
 		<span class="paren">)</span>
 
+		
+			<span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0">deprecated</span>
 		
 
 		
@@ -1004,9 +1086,12 @@ automatically by F2.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l36"><code>sdk\src\container.js:36</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l39"><code>sdk\src\container.js:39</code></a></dd>
 			
 
+			
+				<dt>Deprecated</dt>
+				<dd>This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0</dd>
 			
 
 			
@@ -1064,7 +1149,7 @@ automatically by F2.</p></td>
 	
 </section>
 		
-		<section id="methods-_beforeAppRender" class="level2  private">
+		<section id="methods-_beforeAppRender" class="level2  private deprecated">
 	<h3>
 		_beforeAppRender
 		<span class="paren">(</span>
@@ -1081,6 +1166,8 @@ automatically by F2.</p></td>
 		
 		<span class="paren">)</span>
 
+		
+			<span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0">deprecated</span>
 		
 
 		
@@ -1111,9 +1198,12 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l61"><code>sdk\src\container.js:61</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l65"><code>sdk\src\container.js:65</code></a></dd>
 			
 
+			
+				<dt>Deprecated</dt>
+				<dd>This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{&#x2F;crossLink}} and will be removed in v2.0</dd>
 			
 
 			
@@ -1158,6 +1248,97 @@ loading</p>
 				
 			</div>
 		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-_createAppInstance" class="level2  private">
+	<h3>
+		_createAppInstance
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						appConfigs
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Instantiates each app from it's appConfig and stores that in a local private collection</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l147"><code>sdk\src\container.js:147</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">appConfigs</code>
+						<span class="label type">Array</span>
+					
+
+					
+
+					<p>
+						<p>An array of <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
 	
 
 	
@@ -1215,7 +1396,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l74"><code>sdk\src\container.js:74</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l79"><code>sdk\src\container.js:79</code></a></dd>
 			
 
 			
@@ -1296,7 +1477,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l92"><code>sdk\src\container.js:92</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l97"><code>sdk\src\container.js:97</code></a></dd>
 			
 
 			
@@ -1354,7 +1535,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l114"><code>sdk\src\container.js:114</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l119"><code>sdk\src\container.js:119</code></a></dd>
 			
 
 			
@@ -1412,7 +1593,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l132"><code>sdk\src\container.js:132</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l137"><code>sdk\src\container.js:137</code></a></dd>
 			
 
 			
@@ -1493,7 +1674,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l275"><code>sdk\src\container.js:275</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l370"><code>sdk\src\container.js:370</code></a></dd>
 			
 
 			
@@ -1788,7 +1969,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l297"><code>sdk\src\container.js:297</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l392"><code>sdk\src\container.js:392</code></a></dd>
 			
 
 			
@@ -2060,7 +2241,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l312"><code>sdk\src\container.js:312</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l407"><code>sdk\src\container.js:407</code></a></dd>
 			
 
 			
@@ -2139,7 +2320,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l332"><code>sdk\src\container.js:332</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l431"><code>sdk\src\container.js:431</code></a></dd>
 			
 
 			
@@ -2160,6 +2341,108 @@ any other actions in the container.</p>
 						<span class="label type">Bool</span>:
 					
 					True if the container has been init
+				
+			</div>
+		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-isNativeDOMNode" class="level2 ">
+	<h3>
+		isNativeDOMNode
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						testObject
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Utility method to determine whether or not the argument passed in is or is not a native dom node.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l142"><code>sdk\src\F2.js:142</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">testObject</code>
+						<span class="label type">Object</span>
+					
+
+					
+
+					<p>
+						<p>The object you want to check as native dom node.</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Bool</span>:
+					
+					Returns true if the object passed is a native dom node.
 				
 			</div>
 		</div>
@@ -2226,7 +2509,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l142"><code>sdk\src\container.js:142</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l175"><code>sdk\src\container.js:175</code></a></dd>
 			
 
 			
@@ -2340,7 +2623,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l250"><code>sdk\src\container.js:250</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l307"><code>sdk\src\container.js:307</code></a></dd>
 			
 
 			
@@ -2451,7 +2734,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l142"><code>sdk\src\F2.js:142</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l161"><code>sdk\src\F2.js:161</code></a></dd>
 			
 
 			
@@ -2558,7 +2841,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l153"><code>sdk\src\F2.js:153</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l172"><code>sdk\src\F2.js:172</code></a></dd>
 			
 
 			
@@ -2670,7 +2953,7 @@ assets will be used instead of making a request.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l338"><code>sdk\src\container.js:338</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l437"><code>sdk\src\container.js:437</code></a></dd>
 			
 
 			
@@ -2737,6 +3020,96 @@ passed down to the client.</p>
 	
 </section>
 		
+		<section id="methods-registerPreLoadedApps" class="level2 ">
+	<h3>
+		registerPreLoadedApps
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						appConfigs
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
+if you are the container developer and app developer or want to request apps via serverside and render them as a single page.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l595"><code>sdk\src\container.js:595</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">appConfigs</code>
+						<span class="label type">Array</span>
+					
+
+					
+
+					<p>
+						<p>An array of <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
 		<section id="methods-removeAllApps" class="level2 ">
 	<h3>
 		removeAllApps
@@ -2771,7 +3144,7 @@ passed down to the client.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l475"><code>sdk\src\container.js:475</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l640"><code>sdk\src\container.js:640</code></a></dd>
 			
 
 			
@@ -2837,7 +3210,7 @@ passed down to the client.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l490"><code>sdk\src\container.js:490</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_container.js.html#l655"><code>sdk\src\container.js:655</code></a></dd>
 			
 
 			
@@ -2942,7 +3315,7 @@ order to prevent circular serialization errors.</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l162"><code>sdk\src\F2.js:162</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l181"><code>sdk\src\F2.js:181</code></a></dd>
 			
 
 			
@@ -3070,7 +3443,7 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l183"><code>sdk\src\F2.js:183</code></a></dd>
+				<dd><a href="..&#x2F;files&#x2F;sdk_src_F2.js.html#l202"><code>sdk\src\F2.js:202</code></a></dd>
 			
 
 			
@@ -3226,7 +3599,7 @@ automatically by F2.</p>
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'master'; }));
+	F2.extend('gitbranch', (function(){ return 'issue28'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){
