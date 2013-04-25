@@ -230,7 +230,7 @@ describe('F2.registerApps - basic', function() {
 		};
 
 		runs(function() {
-			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://localhost:1015/httpPostTest'});	
+			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://localhost:8080/httpPostTest'});	
 		});
 
 		// wait for registerApps to complete and load the app
