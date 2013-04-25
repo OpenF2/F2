@@ -5,7 +5,7 @@ notifications:
   email: false
 before_script:
   - npm install express
-  - sudo node tests/server/server.js &
+  - node tests/server/server.js &
   - sleep 5
 script:
   - "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
