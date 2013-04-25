@@ -209,7 +209,7 @@ describe('F2.registerApps - basic', function() {
 
 		runs(function() {
 			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://www.openf2.org'}, {apps:[{html:'<div></div>'}]});
-		})
+		});
 
 		// wait long enough for registerApps to have failed
 		waits(1000);
@@ -217,7 +217,30 @@ describe('F2.registerApps - basic', function() {
 		// F2.log should not have run
 		runs(function() {
 			expect(passedMessage).toBeFalsy();
-		})
+		});
+	});
+
+	itConditionally(window.F2_NODE_TEST_SERVER, 'should use POST when the domain of the container matches that of the app (#41, #59)', function() {
+
+		var isPost = false,
+			hasReturned = false;	
+		F2.log = function(isPost) {
+			hasReturned = true;
+			isPost = isPost;
+		};
+
+		runs(function() {
+			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://localhost:1015/httpPostTest'});	
+		});
+
+		// wait for registerApps to complete and load the app
+		waitsFor(function() {
+			return hasReturned;
+		}, 'test app was never loaded', 10000);
+
+		runs(function() {
+			expect(isPost).toBeFalsy();
+		});
 	});
 });
 
