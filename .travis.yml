@@ -1,12 +1,13 @@
-language: ruby
+language: node_js
 rvm:
-  - 1.9.3
+	- "0.10"
 notifications:
-  email: false
+	email: false
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+	- npm install express
+	- sudo node tests/server/server.js &
+	- sleep 5
 script:
-  - "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
-  - "phantomjs --local-to-remote-url-access=true --web-security=false phantom-jasmine.js tests/index.html" 
-  - "phantomjs --local-to-remote-url-access=true --web-security=false phantom-jasmine.js tests/index-amd.html"
+	- "wget https://raw.github.com/mark-rushakoff/OpenPhantomScripts/master/phantom-jasmine.js"
+	- "phantomjs --local-to-remote-url-access=true --web-security=false phantom-jasmine.js tests/index.html" 
+	- "phantomjs --local-to-remote-url-access=true --web-security=false phantom-jasmine.js tests/index-amd.html"

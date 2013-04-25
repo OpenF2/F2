@@ -2360,7 +2360,7 @@ F2.extend('', (function(){
 	 * @private
 	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
 	 */
-	var _createAppInstance = function(appConfig){
+	var _createAppInstance = function(appConfig, appContent){
 		// instantiate F2.UI
 		appConfig.ui = new F2.UI(appConfig);
 
@@ -2368,9 +2368,9 @@ F2.extend('', (function(){
 		if (F2.Apps[appConfig.appId] !== undefined) {
 			if (typeof F2.Apps[appConfig.appId] === 'function') {
 
-				// 
+				// IE
 				setTimeout(function() {
-					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, jQuery(appConfig.root).html(), appConfig.root);
+					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, appContent, appConfig.root);
 					if (_apps[appConfig.instanceId].app['init'] !== undefined) {
 						_apps[appConfig.instanceId].app.init();
 					}
@@ -2413,7 +2413,7 @@ F2.extend('', (function(){
 		var scriptsLoaded = 0;
 		var appInit = function() {
 			jQuery.each(appConfigs, function(i, a) {
-				_createAppInstance(a);
+				_createAppInstance(a, appManifest.apps[i]);
 			});
 		};
 		//eval inlines
