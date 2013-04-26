@@ -26,7 +26,7 @@ itConditionally = function(condition, desc, func) {
 		el.innerHTML = 'Skipping ' + count + ' spec' + ((count > 1) ? 's' : '');
 		el.setAttribute('data-count', count);
 		el.style.display = 'block';
-		return;
+		return jasmine.getEnv().xit(desc, func);
 	}
 };
 
