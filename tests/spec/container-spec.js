@@ -224,13 +224,36 @@ describe('F2.registerApps - basic', function() {
 
 		var isPost = false,
 			hasReturned = false;	
-		F2.log = function(isPost) {
+		F2.log = function(message) {
 			hasReturned = true;
-			isPost = isPost;
+			isPost = message;
 		};
 
 		runs(function() {
 			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://localhost:8080/httpPostTest'});	
+		});
+
+		// wait for registerApps to complete and load the app
+		waitsFor(function() {
+			return hasReturned;
+		}, 'test app was never loaded', 10000);
+
+		runs(function() {
+			expect(isPost).toBeTruthy();
+		});
+	});
+
+	itConditionally(window.F2_NODE_TEST_SERVER, 'should use GET when the domain of the container does not match that of the app (#41, #59)', function() {
+
+		var isPost = false,
+			hasReturned = false;	
+		F2.log = function(message) {
+			hasReturned = true;
+			isPost = message;
+		};
+
+		runs(function() {
+			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://127.0.0.1:8080/httpPostTest'});	
 		});
 
 		// wait for registerApps to complete and load the app

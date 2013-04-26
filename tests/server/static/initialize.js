@@ -1,1 +1,0 @@
-window.F2_NODE_TEST_SERVER = {};

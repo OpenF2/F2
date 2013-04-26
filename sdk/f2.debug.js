@@ -15656,10 +15656,15 @@ F2.extend('', (function(){
 		// Segment location into parts
 		ajaxLocParts = rurl.exec( ajaxLocation ) || [];
 
-		// do hostname and protocol of manifest URL match location.href? (a "local" request on the same domain)
-		var matched = !!( parts && ajaxLocParts && (parts[ 1 ] == ajaxLocParts[ 1 ] && parts[ 2 ] == ajaxLocParts[ 2 ]) );
-
-		//console.info('local?', matched, url);
+		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
+		var matched = !(parts &&
+				(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
+					(parts[ 3 ] || (parts[ 1 ] === 'http:' ? '80' : '443')) !==
+						(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === 'http:' ? '80' : '443'))));
+		
+		console.info(matched);
+		console.info(parts);
+		console.info(ajaxLocParts);
 
 		return matched;
 	};

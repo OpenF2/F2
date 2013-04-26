@@ -3,8 +3,12 @@ var port = args[1] || '8080';
 var express = require('express');
 var app = express();
 
-// serve up static files
-app.use('/static', express.static(__dirname + '/static'));
+
+/**
+ * Serve up any static files in the root folder of the repo. So, you could
+ * access the tests page via http://localhost:8080/tests/index.html
+ */
+app.use(express.static(__dirname + '/../../../'));
 
 
 /**
@@ -18,7 +22,7 @@ app.use('/httpPostTest', function(req, res) {
 		inlineScripts: [
 			[
 				'F2.Apps["com_openf2_tests_helloworld"] = function(appConfig, appContent, root) {',
-					'F2.log(appContent.data.method === "POST");',
+					'F2.log(appContent.data.method == "POST");',
 				'};'
 			].join('')
 		],
@@ -33,8 +37,12 @@ app.use('/httpPostTest', function(req, res) {
 	}) + ')');
 });
 
+
+/**
+ * All other unhandled requests
+ */
 app.use(function(req, res) {
-	res.end('hello world!');
+ 	res.end('file or method not found');
 });
 
 app.listen(port);
