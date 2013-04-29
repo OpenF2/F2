@@ -1,14 +1,12 @@
-# Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png)](https://travis-ci.org/OpenF2/F2)
+### Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
 
-For those wishing to contribute back to F2, we've included a `build` file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs on [Node.js](http://nodejs.org/) and has a few dependencies. To install, `cd` to your `F2/build` folder, and run the following commands in npm:
+For those wishing to [contribute back to F2](../CONTRIBUTING.md), we've included a `build` file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs [Node.js](http://nodejs.org/) and has a few dependencies. To configure your environment, be sure you have Node installed and run the following command from the project root directory:
 
-`$> npm install uglify-js wrench fs-extra yuidocjs optimist handlebars jshint`
+`$> npm install`
 
-`$> npm install pandoc less markitdown jshint -g`
+Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch. The `package.json` defines a `preinstall` which uses `sudo` for those packages preferring global installation.
 
-Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch.
-
-To **build F2**, run:
+To **build F2**, run this command from the `build` directory:
 
 `$> node build`
 
@@ -16,9 +14,9 @@ For help, run:
 
 `$> node build -h`
 
-Before you begin coding, familiarize yourself with our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org). [pandoc](https://github.com/jgm/pandoc) is required for markitdown.
 
-## NuGet Package
+#### NuGet Package
 
 Good news if you're using C#! We have an [F2 NuGet package available](https://nuget.org/packages/F2/). In the Package Manager Console run:
 
