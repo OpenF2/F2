@@ -1,10 +1,15 @@
 .com_openf2_examples_javascript_quote table {
 	margin:0;
 }
-.com_openf2_examples_javascript_quote tbody td {
+.com_openf2_examples_javascript_quote .table th {
+	width: 75px;
+}
+.com_openf2_examples_javascript_quote .table td {
 	text-align: right;
+	white-space: nowrap;
 }
 .com_openf2_examples_javascript_quote .last {
+
 }
 .com_openf2_examples_javascript_quote .last-change {
 	font-size:80%;
