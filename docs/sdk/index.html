@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - The Open Financial Framework</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue28">
+	<meta name="gitbranch" content="issue59">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href=".&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href=".&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue28' === 'master'){
+		if ('issue59' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -251,7 +251,7 @@
 
 <h2>Talk</h2>
 
-<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="&#x6D;&#97;&#105;&#x6C;&#116;&#x6F;:&#x69;&#110;&#102;&#111;&#64;&#111;&#x70;&#101;nf&#x32;&#x2E;&#x6F;r&#103;">&#x69;&#110;&#102;&#111;&#64;&#111;&#x70;&#101;nf&#x32;&#x2E;&#x6F;r&#103;</a>.</p>
+<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="&#x6D;&#x61;&#105;&#x6C;&#116;&#x6F;:&#105;&#x6E;&#x66;&#x6F;&#64;o&#x70;&#x65;&#110;&#x66;&#50;&#46;&#111;r&#103;">&#105;&#x6E;&#x66;&#x6F;&#64;o&#x70;&#x65;&#110;&#x66;&#50;&#46;&#111;r&#103;</a>.</p>
 
 <h2>Bug Tracking</h2>
 
@@ -261,13 +261,13 @@
 
 <p>If you just want to build F2 <a href="http://docs.openf2.org/container-development.html">containers</a> and/or <a href="http://docs.openf2.org/app-development.html">apps</a>, you can <strong>skip the <a href="#build-f2">Build F2</a></strong> section below. You do not need the command line to work with F2.</p>
 
-<h3>Build F2 <a href="https://travis-ci.org/OpenF2/F2"><img src="https://travis-ci.org/OpenF2/F2.png" alt="Build Status" title="" /></a></h3>
+<h3>Build F2 <a href="https://travis-ci.org/OpenF2/F2"><img src="https://travis-ci.org/OpenF2/F2.png?branch=master" alt="Build Status" title="" /></a></h3>
 
 <p>For those wishing to contribute back to F2, we've included a <code>build</code> file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs on <a href="http://nodejs.org/">Node.js</a> and has a few dependencies. To install, <code>cd</code> to your <code>F2/build</code> folder, and run the following commands in npm:</p>
 
-<p><code>$&gt; npm install uglify-js@1.3.4 wrench fs-extra yuidocjs optimist handlebars</code></p>
+<p><code>$&gt; npm install uglify-js wrench fs-extra yuidocjs optimist handlebars jshint</code></p>
 
-<p><code>$&gt; npm install pandoc less markitdown -g</code></p>
+<p><code>$&gt; npm install pandoc less markitdown jshint -g</code></p>
 
 <p>Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be <a href="http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/">installed globally</a> using the <code>-g</code> switch.</p>
 
@@ -321,7 +321,7 @@ NuGet Package
 <script src=".&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue28'; }));
+	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

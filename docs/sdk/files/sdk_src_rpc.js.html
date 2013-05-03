@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\rpc.js</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue28">
+	<meta name="gitbranch" content="issue59">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue28' === 'master'){
+		if ('issue59' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -304,9 +304,10 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
 		var container = jQuery(appConfig.root);
-		container = container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)
-			? container
-			: container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)) {
+			container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
+		}
 
 		if (!container.length) {
 			F2.log(&#x27;Unable to locate app in order to establish secure connection.&#x27;);
@@ -368,7 +369,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	 *&#x2F;
 	var _onMessage = function(appConfig, message, origin) {
 
-		var obj;
+		var obj, func;
 
 		function parseFunction(parent, functionName) {
 			var path = String(functionName).split(&#x27;.&#x27;);
@@ -380,7 +381,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				parent = parent[path[i]];
 			}
 			return parent;
-		};
+		}
 
 		function parseMessage(regEx, message, instanceId) {
 			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
@@ -401,12 +402,12 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			}
 
 			return o;
-		};
+		}
 
 		&#x2F;&#x2F; handle UI Call
 		if (_rUiCall.test(message)) {
 			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			var func = parseFunction(appConfig.ui, obj.functionName);
+			func = parseFunction(appConfig.ui, obj.functionName);
 			&#x2F;&#x2F; if we found the function, call it
 			if (func !== undefined) {
 				func.apply(appConfig.ui, obj.params);
@@ -417,7 +418,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		&#x2F;&#x2F; handle RPC
 		} else if (_rRpc.test(message)) {
 			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			var func = parseFunction(window, obj.functionName);
+			func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
@@ -480,7 +481,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			&#x2F;&#x2F; loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			jQuery.each(params, function(i, e) {
-				if (typeof e === &quot;function&quot;) {
+				if (typeof e === &#x27;function&#x27;) {
 					var cid = _registerCallback(e);
 					params[i] = cid;
 					callbacks.push(cid);
@@ -527,7 +528,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				&#x2F;&#x2F; the app is secure
 				_apps[instanceId].config.isSecure &amp;&amp;
 				&#x2F;&#x2F; we can&#x27;t access the iframe
-				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length == 0
+				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length === 0
 			);
 		},
 
@@ -544,7 +545,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
-				F2.log(&quot;Unable to register socket connection. Please check container configuration.&quot;);
+				F2.log(&#x27;Unable to register socket connection. Please check container configuration.&#x27;);
 			}
 		}
 	};
@@ -571,7 +572,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue28'; }));
+	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\ui.js</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue28">
+	<meta name="gitbranch" content="issue59">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue28' === 'master'){
+		if ('issue59' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -494,8 +494,8 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					 * Removes a view event listener
 					 * @method off
 					 * @param {string} event The event name
-		 			 * @param {function} listener The function that will be removed
-		 			 * @for F2.UI.Views
+					 * @param {function} listener The function that will be removed
+					 * @for F2.UI.Views
 					 *&#x2F;
 					off: function(event, listener) {
 						if (_isValid(event)) {
@@ -515,7 +515,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 							_events.on(event, listener);
 						}
 					}
-				}
+				};
 			})()
 		};
 	};
@@ -551,7 +551,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 		} else {
 			
 			var container = jQuery(selector);
-			var mask = container.find(&#x27;&gt; .&#x27; + F2.Constants.Css.MASK).remove();
+			container.find(&#x27;&gt; .&#x27; + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
 			&#x2F;&#x2F; if the element contains this data property, we need to reset static
@@ -673,7 +673,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue28'; }));
+	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

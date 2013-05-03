@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\app_handlers.js</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue28">
+	<meta name="gitbranch" content="issue59">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue28' === 'master'){
+		if ('issue59' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -316,7 +316,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			&#x2F;&#x2F; warn the container developer&#x2F;app developer that even though they have a destroy method it hasn&#x27;t been 
 			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
 			{
-				F2.log(app.config.appId + &#x27; has a destroy property, but destroy is not of type function and as such will not be executed.&#x27;);
+				F2.log(appInstance.config.appId + &#x27; has a destroy property, but destroy is not of type function and as such will not be executed.&#x27;);
 			}
 			
 			&#x2F;&#x2F; fade out and remove the root
@@ -422,26 +422,6 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		}
 	};
 	
-	var _triggerEvent = function(arHandleCollection, arOriginalArgs)
-	{	
-		&#x2F;&#x2F; no errors here, basically there are no handlers to call
-		if(!arHandleCollection || !arHandleCollection.length) { return; }
-		
-		&#x2F;&#x2F; there is always 1 argument required, the first arg should always be the token.
-		if(!arOriginalArgs || !arOriginalArgs.length) { throw (&#x27;Invalid or null argument(s) passed. Token is required for all triggers. Please check your inputs and try again.&#x27;); }
-		
-		&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
-		_validateToken(arOriginalArgs[0]);
-		
-		&#x2F;&#x2F; remove the token from the arguments since we have validated it and no longer need it
-		arOriginalArgs.shift();
-		
-		for(var i = 0, j = arHandleCollection.length; i &lt; j; i++)
-		{
-			arHandleCollection[i].apply(F2, arguments);
-		}
-	};
-	
 	return {
 		&#x2F;**
 		* Allows container developer to retrieve a special token which must be passed to
@@ -485,7 +465,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			&#x2F;&#x2F; will throw an exception and stop execution if the token is invalid
 			if(token != _f2t)
 			{
-				throw (&#x27;Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().&#x27;)
+				throw (&#x27;Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().&#x27;);
 			}
 			
 			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
@@ -499,12 +479,12 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 					passableArgs.push(arguments[i]);
 				}
 				
-				if(_handlerCollection[eventKey].length == 0 &amp;&amp; _defaultMethods[eventKey])
+				if(_handlerCollection[eventKey].length === 0 &amp;&amp; _defaultMethods[eventKey])
 				{
 					_defaultMethods[eventKey].apply(F2, passableArgs);
 					return this;
 				}
-				else if(_handlerCollection[eventKey].length == 0 &amp;&amp; !_handlerCollection[eventKey])
+				else if(_handlerCollection[eventKey].length === 0 &amp;&amp; !_handlerCollection[eventKey])
 				{
 					return this;
 				}
@@ -527,7 +507,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			}
 			else
 			{
-				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;)
+				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;);
 			}
 			
 			return this;
@@ -542,8 +522,8 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		* {{#crossLink &quot;F2.Constants&#x2F;AppHandlers:property&quot;}}{{&#x2F;crossLink}}.
 		* @params {HTMLElement|Node} element Specific element to append your app to.
 		* @example
-		* 		F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRender&#x27;, document.getElementById(&#x27;my_container&#x27;));
-		*		F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRender.myNamespace&#x27;, document.getElementById(&#x27;my_container&#x27;));
+		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRender&#x27;, document.getElementById(&#x27;my_container&#x27;));
+		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRender.myNamespace&#x27;, document.getElementById(&#x27;my_container&#x27;));
 		**&#x2F;
 		&#x2F;**
 		* Allows you to add listener method that will be triggered when a specific event happens.
@@ -555,8 +535,8 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		* {{#crossLink &quot;F2.Constants&#x2F;AppHandlers:property&quot;}}{{&#x2F;crossLink}}.
 		* @params {Function} listener A function that will be triggered when a specific event happens.
 		* @example
-		* 		F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore&#x27;, function() { F2.log(&#x27;before app rendered!&#x27;); });
-		* 		F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore.myNamespace&#x27;, function() { F2.log(&#x27;before app rendered!&#x27;); });
+		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore&#x27;, function() { F2.log(&#x27;before app rendered!&#x27;); });
+		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore.myNamespace&#x27;, function() { F2.log(&#x27;before app rendered!&#x27;); });
 		**&#x2F;
 		on: function(token, eventKey, func_or_element)
 		{
@@ -588,7 +568,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			}
 			else
 			{
-				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;)
+				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;);
 			}
 			
 			return this;
@@ -602,7 +582,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		*  listeners for the specified event type will be removed.
 		*  Complete list available in {{#crossLink &quot;F2.Constants&#x2F;AppHandlers:property&quot;}}{{&#x2F;crossLink}}.
 		* @example
-		* 		F2.AppHandlers.off(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore&#x27;);
+		*     F2.AppHandlers.off(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore&#x27;);
 		**&#x2F;
 		off: function(token, eventKey)
 		{
@@ -631,7 +611,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			}
 			else
 			{
-				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;)
+				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;);
 			}
 			
 			return this;
@@ -730,7 +710,7 @@ F2.extend(&#x27;Constants&#x27;, {
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue28'; }));
+	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

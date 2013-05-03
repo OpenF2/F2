@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\container.js</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue28">
+	<meta name="gitbranch" content="issue59">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue28' === 'master'){
+		if ('issue59' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -273,12 +273,8 @@ F2.extend(&#x27;&#x27;, (function(){
 	 *&#x2F;
 	var _appRender = function(appConfig, html) {
 
-		function outerHtml(html) {
-			return jQuery(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
-		}
-
 		&#x2F;&#x2F; apply APP_CONTAINER class
-		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId));
+		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId));
 
 		&#x2F;&#x2F; optionally apply wrapper html
 		if (_config.appRender) {
@@ -286,7 +282,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		}
 
 		&#x2F;&#x2F; apply APP class and instanceId
-		return outerHtml(html);
+		return _outerHtml(html);
 	};
 
 	&#x2F;**
@@ -377,7 +373,7 @@ F2.extend(&#x27;&#x27;, (function(){
 	 * @private
 	 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} objects
 	 *&#x2F;
-	var _createAppInstance = function(appConfig){
+	var _createAppInstance = function(appConfig, appContent){
 		&#x2F;&#x2F; instantiate F2.UI
 		appConfig.ui = new F2.UI(appConfig);
 
@@ -385,9 +381,9 @@ F2.extend(&#x27;&#x27;, (function(){
 		if (F2.Apps[appConfig.appId] !== undefined) {
 			if (typeof F2.Apps[appConfig.appId] === &#x27;function&#x27;) {
 
-				&#x2F;&#x2F; 
+				&#x2F;&#x2F; IE
 				setTimeout(function() {
-					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, jQuery(appConfig.root).html(), appConfig.root);
+					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, appContent, appConfig.root);
 					if (_apps[appConfig.instanceId].app[&#x27;init&#x27;] !== undefined) {
 						_apps[appConfig.instanceId].app.init();
 					}
@@ -430,7 +426,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		var scriptsLoaded = 0;
 		var appInit = function() {
 			jQuery.each(appConfigs, function(i, a) {
-				_createAppInstance(a);
+				_createAppInstance(a, appManifest.apps[i]);
 			});
 		};
 		&#x2F;&#x2F;eval inlines
@@ -453,33 +449,25 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			if(!_bUsesAppHandlers)
-			{
+			if(!_bUsesAppHandlers) {
 				&#x2F;&#x2F; load html and save the root node
 				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
-			}
-			else
-			{
-				function outerHtml(html) {
-					return jQuery(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
-				}
+			} else {
 				
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfigs[i], &#x2F;&#x2F; the app config
-					outerHtml(a.html)
+					_outerHtml(a.html)
 				);
 				
-				if(!appConfigs[i].root)
-				{
+				if (!appConfigs[i].root) {
 					throw(&#x27;App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
 				}
 				
 				var $root = jQuery(appConfigs[i].root);
 				
-				if($root.parents(&#x27;body:first&#x27;).length == 0)
-				{
+				if ($root.parents(&#x27;body:first&#x27;).length === 0) {
 					throw(&#x27;App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.&#x27;);
 				}
 				
@@ -489,8 +477,7 @@ F2.extend(&#x27;&#x27;, (function(){
 					appConfigs[i] &#x2F;&#x2F; the app config
 				);
 				
-				if(!F2.isNativeDOMNode(appConfigs[i].root))
-				{
+				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
 					throw(&#x27;App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
 				}
 				
@@ -505,8 +492,8 @@ F2.extend(&#x27;&#x27;, (function(){
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
 				url:e,
-				&#x2F;*	we want any scripts added this way to be cached by the browser. 
-				 	if you don&#x27;t add &#x27;cache:true&#x27; here, jquery adds a number on a URL param (?_=1353339224904)*&#x2F;
+				&#x2F;&#x2F; we want any scripts added this way to be cached by the browser. 
+				&#x2F;&#x2F; if you don&#x27;t add &#x27;cache:true&#x27; here, jquery adds a number on a URL param (?_=1353339224904)
 				cache:true,
 				async:false,
 				dataType:&#x27;script&#x27;,
@@ -543,13 +530,10 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		&#x2F;&#x2F; make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if(!_bUsesAppHandlers)
-			{
+			if(!_bUsesAppHandlers) {
 				&#x2F;&#x2F; create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;));
-			}
-			else
-			{
+			} else {
 				var $root = jQuery(appConfig.root);
 				
 				F2.AppHandlers.__trigger(
@@ -559,8 +543,7 @@ F2.extend(&#x27;&#x27;, (function(){
 					appManifest.html
 				);
 				
-				if($root.parents(&#x27;body:first&#x27;).length == 0)
-				{
+				if ($root.parents(&#x27;body:first&#x27;).length === 0) {
 					throw(&#x27;App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.&#x27;);
 				}
 				
@@ -570,13 +553,11 @@ F2.extend(&#x27;&#x27;, (function(){
 					appConfig &#x2F;&#x2F; the app config
 				);
 				
-				if(!appConfig.root)
-				{
+				if (!appConfig.root) {
 					throw(&#x27;App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
 				}
 				
-				if(!F2.isNativeDOMNode(appConfig.root))
-				{
+				if (!F2.isNativeDOMNode(appConfig.root)) {
 					throw(&#x27;App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
 				}
 				
@@ -592,6 +573,10 @@ F2.extend(&#x27;&#x27;, (function(){
 		} else {
 			F2.log(&#x27;Unable to load secure app: &quot;secureAppPagePath&quot; is not defined in F2.ContainerConfig.&#x27;);
 		}
+	};
+
+	var _outerHtml = function(html) {
+		return jQuery(&#x27;&lt;div&gt;&lt;&#x2F;div&gt;&#x27;).append(html).html();
 	};
 
 	&#x2F;**
@@ -615,6 +600,34 @@ F2.extend(&#x27;&#x27;, (function(){
 		return true;
 	};
 
+	&#x2F;**
+	 * Checks if the ContainerConfig is valid
+	 * @method _validateContainerConfig
+	 * @private
+	 * @returns {bool} True if the config is valid
+	 *&#x2F;
+	var _validateContainerConfig = function() {
+
+		if (_config) {
+			if (_config.xhr) {
+				if (!(typeof _config.xhr === &#x27;function&#x27; || typeof _config.xhr === &#x27;object&#x27;)) {
+					throw(&#x27;ContainerConfig.xhr should be a function or an object&#x27;);
+				}
+				if (_config.xhr.dataType &amp;&amp; typeof _config.xhr.dataType !== &#x27;function&#x27;) {
+					throw(&#x27;ContainerConfig.xhr.dataType should be a function&#x27;);
+				}
+				if (_config.xhr.type &amp;&amp; typeof _config.xhr.type !== &#x27;function&#x27;) {
+					throw(&#x27;ContainerConfig.xhr.type should be a function&#x27;);
+				}
+				if (_config.xhr.url &amp;&amp; typeof _config.xhr.url !== &#x27;function&#x27;) {
+					throw(&#x27;ContainerConfig.xhr.url should be a function&#x27;);
+				}
+			}
+		}
+
+		return true;
+	};
+
 	return {
 		&#x2F;**
 		 * Gets the current list of apps in the container
@@ -627,8 +640,8 @@ F2.extend(&#x27;&#x27;, (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(e, i) {
-				return { appId: e.config.appId };
+			return jQuery.map(_apps, function(app) {
+				return { appId: app.config.appId };
 			});
 		},
 		&#x2F;**
@@ -639,6 +652,8 @@ F2.extend(&#x27;&#x27;, (function(){
 		 *&#x2F;
 		init: function(config) {
 			_config = config || {};
+
+			_validateContainerConfig();
 			
 			&#x2F;&#x2F; dictates whether we use the old logic or the new logic.
 			&#x2F;&#x2F; TODO: Remove in v2.0
@@ -764,7 +779,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			if (!haveManifests) {
 				&#x2F;&#x2F; add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b });
 				});
 
 				&#x2F;&#x2F; if an app is being loaded more than once on the page, there is the
@@ -790,29 +805,67 @@ F2.extend(&#x27;&#x27;, (function(){
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) { return; }
 
-						jQuery.ajax({
-							url:req.url,
-							data:{
-								params:F2.stringify(req.apps, F2.appConfigReplacer)
+						&#x2F;&#x2F; setup defaults and callbacks
+						var url = req.url,
+							type = &#x27;GET&#x27;,
+							dataType = &#x27;jsonp&#x27;,
+							completeFunc = function() {
+								manifestRequest(i, requests.pop());
 							},
-							jsonp:false, &#x2F;* do not put &#x27;callback=&#x27; in the query string *&#x2F;
-							jsonpCallback:jsonpCallback, &#x2F;* Unique function name *&#x2F;
-							dataType:&#x27;jsonp&#x27;,
-							success:function(appManifest) {
-								_loadApps(req.apps, appManifest);
-							},
-							error:function(jqxhr, settings, exception) {
-								F2.log(&#x27;Failed to load app(s)&#x27;, exception.toString(), req.apps);
-								&#x2F;&#x2F;remove failed app(s)
+							errorFunc = function() {
 								jQuery.each(req.apps, function(idx,item){
 									F2.log(&#x27;Removed failed &#x27; +item.name+ &#x27; app&#x27;, item);
 									F2.removeApp(item.instanceId);
 								});
 							},
-							complete:function() {
-								manifestRequest(i, requests.pop());
+							successFunc = function(appManifest) {
+								_loadApps(req.apps, appManifest);
+							};
+
+						&#x2F;&#x2F; optionally fire xhr overrides
+						if (_config.xhr &amp;&amp; _config.xhr.dataType) {
+							dataType = _config.xhr.dataType(req.url, req.apps);
+							if (typeof dataType !== &#x27;string&#x27;) {
+								throw(&#x27;ContainerConfig.xhr.dataType should return a string&#x27;);
 							}
-						});
+						}
+						if (_config.xhr &amp;&amp; _config.xhr.type) {
+							type = _config.xhr.type(req.url, req.apps);
+							if (typeof type !== &#x27;string&#x27;) {
+								throw(&#x27;ContainerConfig.xhr.type should return a string&#x27;);
+							}
+						}
+						if (_config.xhr &amp;&amp; _config.xhr.url) {
+							url = _config.xhr.url(req.url, req.apps);
+							if (typeof url !== &#x27;string&#x27;) {
+								throw(&#x27;ContainerConfig.xhr.url should return a string&#x27;);
+							}
+						}
+
+						&#x2F;&#x2F; setup the default request function if an override is not present
+						var requestFunc = _config.xhr;
+						if (typeof requestFunc !== &#x27;function&#x27;) {
+							requestFunc = function(url, appConfigs, successCallback, errorCallback, completeCallback) {
+								jQuery.ajax({
+									url: url,
+									type: type,
+									data: {
+										params: F2.stringify(req.apps, F2.appConfigReplacer)
+									},
+									jsonp: false, &#x2F;&#x2F; do not put &#x27;callback=&#x27; in the query string
+									jsonpCallback: jsonpCallback, &#x2F;&#x2F; Unique function name
+									dataType: dataType,
+									success: successCallback,
+									error: function(jqxhr, settings, exception) {
+										F2.log(&#x27;Failed to load app(s)&#x27;, exception.toString(), req.apps);
+										errorCallback();
+									},
+									complete: completeCallback
+								});
+							};
+						}
+
+						requestFunc(url, req.apps, successFunc, errorFunc, completeFunc);
 					};
 
 					manifestRequest(i, requests.pop());
@@ -845,9 +898,7 @@ F2.extend(&#x27;&#x27;, (function(){
 				
 				if (!_validateApp(a)) {
 					throw(&#x27;Invalid appConfig at position &#x27; + i + &#x27;. Please check your inputs and try again.&#x27;);
-				}
-				else if(!a.root || jQuery(a.root).parents(&#x27;body:first&#x27;).length == 0)
-				{
+				} else if(!a.root || jQuery(a.root).parents(&#x27;body:first&#x27;).length === 0) {
 					throw(&#x27;Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.&#x27;);
 				}
 
@@ -937,7 +988,7 @@ F2.extend(&#x27;&#x27;, (function(){
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue28'; }));
+	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){

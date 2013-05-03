@@ -11,43 +11,6 @@ F2.extend('', (function(){
 	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
 
 	/**
-	 * Abosolutizes a relative URL
-	 * @method _absolutizeURI
-	 * @private
-	 * @param {e.g., location.href} base
-	 * @param {URL to absolutize} href
-	 * @returns {string} URL
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	var _absolutizeURI = function(base, href) {// RFC 3986
-
-		function removeDotSegments(input) {
-			var output = [];
-			input.replace(/^(\.\.?(\/|$))+/, '')
-				.replace(/\/(\.(\/|$))+/g, '/')
-				.replace(/\/\.\.$/, '/../')
-				.replace(/\/?[^\/]*/g, function (p) {
-					if (p === '/..') {
-						output.pop();
-					} else {
-						output.push(p);
-					}
-				});
-			return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
-		}
-
-		href = _parseURI(href || '');
-		base = _parseURI(base || '');
-
-		return !href || !base ? null : (href.protocol || base.protocol) +
-			(href.protocol || href.authority ? href.authority : base.authority) +
-			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
-			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
-			href.hash;
-	};
-
-	/**
 	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
 	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
@@ -175,52 +138,6 @@ F2.extend('', (function(){
 	 */
 	var _isInit = function() {
 		return !!_config;
-	};
-
-	/**
-	 * Tests a URL to see if it's on the same domain (local) or not
-	 * @method _isLocalRequest
-	 * @private
-	 * @param {URL to test} url
-	 * @returns {bool} Whether the URL is local or not
-	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
-	 */
-	var _isLocalRequest = function(url){
-		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-			url = url.toLowerCase(),
-			parts = rurl.exec( url ),
-			ajaxLocation,
-			ajaxLocParts;
-
-		try {
-			ajaxLocation = location.href;
-		} catch( e ) {
-			// Use the href attribute of an A element
-			// since IE will modify it given document.location
-			ajaxLocation = document.createElement('a');
-			ajaxLocation.href = '';
-			ajaxLocation = ajaxLocation.href;
-		}
-
-		ajaxLocation = ajaxLocation.toLowerCase();
-
-		// uh oh, the url must be relative
-		// make it fully qualified and re-regex url
-		if (!parts){
-			url = _absolutizeURI(ajaxLocation,url).toLowerCase();
-			parts = rurl.exec( url );
-		}
-
-		// Segment location into parts
-		ajaxLocParts = rurl.exec( ajaxLocation ) || [];
-
-		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
-		var matched = !(parts &&
-				(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
-					(parts[ 3 ] || (parts[ 1 ] === 'http:' ? '80' : '443')) !==
-						(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === 'http:' ? '80' : '443'))));
-	
-		return matched;
 	};
 
 	/**
@@ -436,31 +353,6 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Parses URI
-	 * @method _parseURI
-	 * @private
-	 * @param {The URL to parse} url
-	 * @returns {Parsed URL} string
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	var _parseURI = function(url) {
-		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
-		return (m ? {
-				href     : m[0] || '',
-				protocol : m[1] || '',
-				authority: m[2] || '',
-				host     : m[3] || '',
-				hostname : m[4] || '',
-				port     : m[5] || '',
-				pathname : m[6] || '',
-				search   : m[7] || '',
-				hash     : m[8] || ''
-			} : null);
-	};
-
-	/**
 	 * Checks if the app is valid
 	 * @method _validateApp
 	 * @private
@@ -476,6 +368,34 @@ F2.extend('', (function(){
 		} else if (!appConfig.manifestUrl) {
 			F2.log('"manifestUrl" missing from app object');
 			return false;
+		}
+
+		return true;
+	};
+
+	/**
+	 * Checks if the ContainerConfig is valid
+	 * @method _validateContainerConfig
+	 * @private
+	 * @returns {bool} True if the config is valid
+	 */
+	var _validateContainerConfig = function() {
+
+		if (_config) {
+			if (_config.xhr) {
+				if (!(typeof _config.xhr === 'function' || typeof _config.xhr === 'object')) {
+					throw('ContainerConfig.xhr should be a function or an object');
+				}
+				if (_config.xhr.dataType && typeof _config.xhr.dataType !== 'function') {
+					throw('ContainerConfig.xhr.dataType should be a function');
+				}
+				if (_config.xhr.type && typeof _config.xhr.type !== 'function') {
+					throw('ContainerConfig.xhr.type should be a function');
+				}
+				if (_config.xhr.url && typeof _config.xhr.url !== 'function') {
+					throw('ContainerConfig.xhr.url should be a function');
+				}
+			}
 		}
 
 		return true;
@@ -505,6 +425,8 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
+
+			_validateContainerConfig();
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
@@ -656,30 +578,67 @@ F2.extend('', (function(){
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) { return; }
 
-						jQuery.ajax({
-							url: req.url,
-							type: _isLocalRequest(req.url) ? 'POST' : 'GET',
-							data: {
-								params:F2.stringify(req.apps, F2.appConfigReplacer)
+						// setup defaults and callbacks
+						var url = req.url,
+							type = 'GET',
+							dataType = 'jsonp',
+							completeFunc = function() {
+								manifestRequest(i, requests.pop());
 							},
-							jsonp: false, // do not put 'callback=' in the query string
-							jsonpCallback: jsonpCallback, // Unique function name
-							dataType: 'jsonp',
-							success: function(appManifest) {
-								_loadApps(req.apps, appManifest);
-							},
-							error: function(jqxhr, settings, exception) {
-								F2.log('Failed to load app(s)', exception.toString(), req.apps);
-								//remove failed app(s)
+							errorFunc = function() {
 								jQuery.each(req.apps, function(idx,item){
 									F2.log('Removed failed ' +item.name+ ' app', item);
 									F2.removeApp(item.instanceId);
 								});
 							},
-							complete: function() {
-								manifestRequest(i, requests.pop());
+							successFunc = function(appManifest) {
+								_loadApps(req.apps, appManifest);
+							};
+
+						// optionally fire xhr overrides
+						if (_config.xhr && _config.xhr.dataType) {
+							dataType = _config.xhr.dataType(req.url, req.apps);
+							if (typeof dataType !== 'string') {
+								throw('ContainerConfig.xhr.dataType should return a string');
 							}
-						});
+						}
+						if (_config.xhr && _config.xhr.type) {
+							type = _config.xhr.type(req.url, req.apps);
+							if (typeof type !== 'string') {
+								throw('ContainerConfig.xhr.type should return a string');
+							}
+						}
+						if (_config.xhr && _config.xhr.url) {
+							url = _config.xhr.url(req.url, req.apps);
+							if (typeof url !== 'string') {
+								throw('ContainerConfig.xhr.url should return a string');
+							}
+						}
+
+						// setup the default request function if an override is not present
+						var requestFunc = _config.xhr;
+						if (typeof requestFunc !== 'function') {
+							requestFunc = function(url, appConfigs, successCallback, errorCallback, completeCallback) {
+								jQuery.ajax({
+									url: url,
+									type: type,
+									data: {
+										params: F2.stringify(req.apps, F2.appConfigReplacer)
+									},
+									jsonp: false, // do not put 'callback=' in the query string
+									jsonpCallback: jsonpCallback, // Unique function name
+									dataType: dataType,
+									success: successCallback,
+									error: function(jqxhr, settings, exception) {
+										F2.log('Failed to load app(s)', exception.toString(), req.apps);
+										errorCallback();
+									},
+									complete: completeCallback
+								});
+							};
+						}
+
+						requestFunc(url, req.apps, successFunc, errorFunc, completeFunc);
 					};
 
 					manifestRequest(i, requests.pop());

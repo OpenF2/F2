@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>F2 - sdk\src\classes.js</title>
 	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue28">
+	<meta name="gitbranch" content="issue59">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +25,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue28' === 'master'){
+		if ('issue59' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -229,7 +229,7 @@
  * Class stubs for documentation purposes
  * @main F2
  *&#x2F;
-F2.extend(&quot;&quot;, {
+F2.extend(&#x27;&#x27;, {
 	&#x2F;**
 	 * The App Class is an optional class that can be namespaced onto the 
 	 * {{#crossLink &quot;F2\Apps&quot;}}{{&#x2F;crossLink}} namespace.  The 
@@ -265,7 +265,7 @@ F2.extend(&quot;&quot;, {
 		 * @type string
 		 * @required
 		 *&#x2F;
-		appId: &quot;&quot;,
+		appId: &#x27;&#x27;,
 		&#x2F;**
 		 * An object that represents the context of an app
 		 * @property context
@@ -297,7 +297,7 @@ F2.extend(&quot;&quot;, {
 		 * @property instanceId
 		 * @type string
 		 *&#x2F;
-		instanceId: &quot;&quot;,
+		instanceId: &#x27;&#x27;,
 		&#x2F;**
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}} object
@@ -316,7 +316,7 @@ F2.extend(&quot;&quot;, {
 		 * @type string
 		 * @required
 		 *&#x2F;
-		manifestUrl: &quot;&quot;,
+		manifestUrl: &#x27;&#x27;,
 		&#x2F;**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * **It is up to the [container](..&#x2F;..&#x2F;container-development.html) to
@@ -352,7 +352,7 @@ F2.extend(&quot;&quot;, {
 		 * @type string
 		 * @required
 		 *&#x2F;
-		name: &quot;&quot;,
+		name: &#x27;&#x27;,
 		&#x2F;**
 		 * The root DOM element that contains the app
 		 *
@@ -437,14 +437,14 @@ F2.extend(&quot;&quot;, {
 		 * @type string
 		 * @required
 		 *&#x2F;
-		html: &quot;&quot;,
+		html: &#x27;&#x27;,
 		&#x2F;**
 		 * A status message
 		 * @property status
 		 * @type string
 		 * @optional
 		 *&#x2F;
-		status: &quot;&quot;
+		status: &#x27;&#x27;
 	},
 	&#x2F;**
 	 * An object containing configuration information for the
@@ -543,9 +543,9 @@ F2.extend(&quot;&quot;, {
 				 * The opacity of the background overlay
 				 * @property opacity
 				 * @type int
-				 * @default .6
+				 * @default 0.6
 				 *&#x2F;
-				opacity: .6,
+				opacity: 0.6,
 				&#x2F;**
 				 * Do not use inline styles for mask functinality. Instead classes will
 				 * be applied to the elements and it is up to the container provider to
@@ -563,6 +563,134 @@ F2.extend(&quot;&quot;, {
 				 *&#x2F;
 				zIndex: 2
 			}
+		},
+		&#x2F;**
+		 * Allows the container to fully override how the AppManifest request is
+		 * made inside of F2.
+		 * 
+		 * @method xhr
+		 * @param {string} url The manifest url
+		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
+		 * objects
+		 * @param {function} success The function to be called if the request
+		 * succeeds
+		 * @param {function} error The function to be called if the request fails
+		 * @param {function} complete The function to be called when the request
+		 * finishes (after success and error callbacks have been executed)
+		 * @return {XMLHttpRequest} The XMLHttpRequest object (or an object that has
+		 * an &#x60;abort&#x60; function (such as the jqXHR object in jQuery) to abort the
+		 * request)
+		 *
+		 * @example
+		 *     F2.init({
+		 *         xhr: function(url, appConfigs, success, error, complete) {
+		 *             $.ajax({
+		 *                 url: url,
+		 *                 type: &#x27;POST&#x27;,
+		 *                 data: {
+		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
+		 *                 },
+		 *                 jsonp: false, &#x2F;&#x2F; do not put &#x27;callback=&#x27; in the query string
+		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, &#x2F;&#x2F; Unique function name
+		 *                 dataType: &#x27;json&#x27;,
+		 *                 success: function(appManifest) {
+		 *                     &#x2F;&#x2F; custom success logic
+		 *                     success(appManifest); &#x2F;&#x2F; fire success callback
+		 *                 },
+		 *                 error: function() {
+		 *                     &#x2F;&#x2F; custom error logic
+		 *                     error(); &#x2F;&#x2F; fire error callback
+		 *                 },
+		 *                 complete: function() {
+		 *                     &#x2F;&#x2F; custom complete logic
+		 *                     complete(); &#x2F;&#x2F; fire complete callback
+		 *                 }
+		 *             });
+		 *         }
+		 *     });
+		 *
+		 * @for F2.ContainerConfig
+		 *&#x2F;
+		&#x2F;&#x2F;xhr: function(url, appConfigs, success, error, complete) {},
+		&#x2F;**
+		 * Allows the container to override individual parts of the AppManifest
+		 * request.  See properties and methods with the &#x60;xhr.&#x60; prefix.
+		 * @property xhr
+		 * @type Object
+		 *
+		 * @example
+		 *     F2.init({
+		 *         xhr: {
+		 *             url: function(url, appConfigs) {
+		 *                 return &#x27;http:&#x2F;&#x2F;example.com&#x2F;proxy.php?url=&#x27; + encocdeURIComponent(url);
+		 *             }
+		 *         }
+		 *     });
+		 *&#x2F;
+		xhr: {
+			&#x2F;**
+			 * Allows the container to override the request data type (JSON or JSONP)
+			 * that is used for the request
+			 * @method xhr.dataType
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
+			 * objects
+			 * @return {string} The request data type that should be used
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             dataType: function(url) {
+			 *                 return F2.isLocalRequest(url) ? &#x27;json&#x27; : &#x27;jsonp&#x27;;
+			 *             },
+			 *             type: function(url) {
+			 *                 return F2.isLocalRequest(url) ? &#x27;POST&#x27; : &#x27;GET&#x27;;
+			 *             }
+			 *         }
+			 *     });
+			 *&#x2F;
+			dataType: function(url, appConfigs) {},
+			&#x2F;**
+			 * Allows the container to override the request method that is used (just
+			 * like the &#x60;type&#x60; parameter to &#x60;jQuery.ajax()&#x60;.
+			 * @method xhr.type
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
+			 * objects
+			 * @return {string} The request method that should be used
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             dataType: function(url) {
+			 *                 return F2.isLocalRequest(url) ? &#x27;json&#x27; : &#x27;jsonp&#x27;;
+			 *             },
+			 *             type: function(url) {
+			 *                 return F2.isLocalRequest(url) ? &#x27;POST&#x27; : &#x27;GET&#x27;;
+			 *             }
+			 *         }
+			 *     });
+			 *&#x2F;
+			type: function(url, appConfigs) {},
+			&#x2F;**
+			 * Allows the container to override the url that is used to request an
+			 * app&#x27;s F2.{{#crossLink &quot;F2.AppManifest&quot;}}{{&#x2F;crossLink}}
+			 * @method xhr.url
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{&#x2F;crossLink}}
+			 * objects
+			 * @return {string} The url that should be used for the request
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             url: function(url, appConfigs) {
+			 *                 return &#x27;http:&#x2F;&#x2F;example.com&#x2F;proxy.php?url=&#x27; + encocdeURIComponent(url);
+			 *             }
+			 *         }
+			 *     });
+			 *&#x2F;
+			url: function(url, appConfigs) {}
 		}
 	}
 });
@@ -588,7 +716,7 @@ F2.extend(&quot;&quot;, {
 <script src="..&#x2F;../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue28'; }));
+	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){
