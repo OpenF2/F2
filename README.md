@@ -44,7 +44,7 @@ For those wishing to [contribute back to F2](CONTRIBUTING.md), we've included a 
 
 `$> npm install`
 
-Depending on your configuration, you may need to be an admin to install some of these Node packages. If the installation fails do to directory permissions, use:
+Depending on your configuration, you may need to be an admin to install some of these Node packages. If the installation fails due to directory permissions, use:
 
 `$> sudo npm install`
 
