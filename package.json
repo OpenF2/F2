@@ -6,7 +6,7 @@
     "homepage": "https://github.com/OpenF2/F2",
     "author": "Markit On Demand, Inc",
     "scripts": {
-        "preinstall": "sudo npm install less pandoc markitdown jshint -g"
+        "preinstall": "npm install less pandoc markitdown jshint -g"
     },
     "repository": {
         "type": "git",
