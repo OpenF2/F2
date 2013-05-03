@@ -44,11 +44,9 @@ For those wishing to [contribute back to F2](CONTRIBUTING.md), we've included a 
 
 `$> npm install`
 
-Depending on your configuration, you may need to be an admin to install some of these Node packages. If the installation fails due to directory permissions, use:
+Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch. If the installation fails due to directory permissions, use:
 
 `$> sudo npm install`
-
-Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch.
 
 To **build F2**, `cd` to the `build` directory and run:
 
