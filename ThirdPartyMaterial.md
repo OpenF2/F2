@@ -1,6 +1,6 @@
 # F2 - Third Party Material
 
-The following are the terms and conditions governing your use of the third party material that Markit on Demand Inc. has a license to use and include within F2:
+The following are the terms and conditions governing your use of the third party material that Markit On Demand Inc. has a license to use and include within F2:
 
 ## json2
 
