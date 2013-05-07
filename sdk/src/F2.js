@@ -1,5 +1,5 @@
 /*!
- * F2 v{{sdk.version}}
+ * F2 v<%= version %>
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -204,6 +204,6 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return '{{sdk.version}}'; }
+	version: function() { return '<%= version %>'; }
 };
 
