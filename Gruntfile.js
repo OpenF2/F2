@@ -44,20 +44,26 @@ module.exports = function(grunt) {
 				dest: 'sdk/f2.debug.js'
 			}
 		},
+		jshint: {
+			options: {
+				jshintrc: '.jshintrc'
+			},
+			files: CORE_FILES
+		},
 		uglify: {
 			options: {
 				preserveComments: function(node, comment) {
 					return /^!/.test(comment.value);
 				}
 			},
-			dest: {
+			dist: {
 				files: {'sdk/f2.min.js' : ['sdk/f2.debug.js']},
 				options: {
 					report: 'gzip'
 				}
 			},
 			sourcemap: {
-				files: '<%= uglify.dest.files %>',
+				files: '<%= uglify.dist.files %>',
 				options: {
 					sourceMap: function(fileName) {
 						return fileName.replace(/\.js$/, '.map');
@@ -78,8 +84,8 @@ module.exports = function(grunt) {
 	});
 
 	// Load plugins
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	// Register tasks
@@ -93,7 +99,7 @@ module.exports = function(grunt) {
 		grunt.file.write(dest, rawMap);
 	});
 	
-	grunt.registerTask('js', ['concat', 'uglify', 'sourcemap']);
+	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 
 	// the default task
