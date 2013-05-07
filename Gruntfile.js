@@ -12,6 +12,8 @@ module.exports = function(grunt) {
 		'sdk/src/container.js'
 	];
 
+	var f2Info = require('./build/F2.json');
+
 	// Project config
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -98,10 +100,79 @@ module.exports = function(grunt) {
 		rawMap = rawMap.replace(options.prefix, '');
 		grunt.file.write(dest, rawMap);
 	});
+
+	grunt.registerTask('yuidoc', 'Builds the reference documentation with YUIDoc', function() {
+
+		var builder,
+			docOptions = {
+				quiet: true,
+				norecurse: true,
+				paths: ['./sdk/src'],
+				outdir: './docs/sdk/',
+				themedir: './docs/src/sdk-template'
+			},
+			done = this.async(),
+			json,
+			readmeMd = grunt.file.read('README.md'),
+			Y = require('yuidocjs');
+
+		json = (new Y.YUIDoc(docOptions)).run();
+		// massage in some meta information from F2.json
+		json.project = {
+			docsAssets: '../',
+			version: grunt.package.version,
+			docsVersion: grunt.package.version,
+			docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted,
+			branch: f2Info.branch
+		};
+		docOptions = Y.Project.mix(json, docOptions);
+
+		// hasClassMembers
+		// ensures that the class has members and isn't just an empty namespace
+		Y.Handlebars.registerHelper('hasClassMembers', function() {
+
+			for (var i = 0, len = json.classitems.length; i < len; i++) {
+				//console.log(json.classitems[i].class, this.name);
+				if (json.classitems[i].class === this.name) {
+					return '';
+				}
+			}
+
+			return 'hide';
+		});
+
+		// title tag
+		Y.Handlebars.registerHelper('htmlTitle',function () {
+			var name  = this.displayName || this.name,
+					title = name;
+
+			if (title) {
+				title = 'F2 - ' + title;
+			} else {
+				title = 'F2 - The Open Financial Framework';
+			}
+
+			return title;
+		});
+
+		// insert readme markdown
+		Y.Handlebars.registerHelper('readme', function() {
+			return builder.markdown(readmeMd, true);	
+		});
+
+		builder = new Y.DocBuilder(docOptions, json);
+		builder.compile(function() {
+			grunt.log.writeln('YUIDoc compilation complete');
+			done();
+		});
+	});
 	
+
+
+	grunt.registerTask('docs', ['yuidoc']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 
 	// the default task
-	grunt.registerTask('default', ['js']);
+	grunt.registerTask('default', ['js', 'docs']);
 };
