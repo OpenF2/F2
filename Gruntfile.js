@@ -1,25 +1,24 @@
 module.exports = function(grunt) {
 
-	// core files that make up F2
-	var CORE_FILES = [
-		'sdk/src/F2.js',
-		'sdk/src/app_handlers.js',
-		'sdk/src/classes.js',
-		'sdk/src/constants.js',
-		'sdk/src/events.js',
-		'sdk/src/rpc.js',
-		'sdk/src/ui.js',
-		'sdk/src/container.js'
-	];
-
-	var f2Info = require('./build/F2.json');
+	var f2Info = require('./build/F2.json'),
+		CORE_FILES = [
+			'sdk/src/F2.js',
+			'sdk/src/app_handlers.js',
+			'sdk/src/classes.js',
+			'sdk/src/constants.js',
+			'sdk/src/events.js',
+			'sdk/src/rpc.js',
+			'sdk/src/ui.js',
+			'sdk/src/container.js'
+		],
+		pkg = grunt.file.readJSON('package.json');
 
 	// Project config
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+		pkg: pkg,
 		concat: {
 			options: {
-				process: { data: '<%= pkg %>' },
+				process: { data: pkg },
 				separator: '\n',
 				stripBanners: false
 			},
@@ -99,6 +98,37 @@ module.exports = function(grunt) {
 		
 		rawMap = rawMap.replace(options.prefix, '');
 		grunt.file.write(dest, rawMap);
+	});
+
+	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
+
+		var done = this.async(),
+			log = grunt.log.write('Creating NuSpec file...'),
+			nuspec = grunt.file.read('./sdk/f2.nuspec.tmpl');
+
+		nuspec = grunt.template.process(nuspec, { data: pkg });
+		grunt.file.write('./sdk/f2.nuspec', nuspec);
+		log.ok();
+
+		log = grunt.log.write('Creating NuGet package...');
+		grunt.util.spawn(
+			{
+				cmd: 'nuget',
+				args: ['pack', 'f2.nuspec'],
+				opts: {
+					cwd: './sdk'
+				}
+			},
+			function(error, result, code){
+				if (error){
+					grunt.fail.fatal(error);
+				} else {
+					grunt.file.delete('./sdk/f2.nuspec');
+					log.ok();
+					done();
+				}
+			}
+		);
 	});
 
 	grunt.registerTask('yuidoc', 'Builds the reference documentation with YUIDoc', function() {
