@@ -51,6 +51,18 @@ module.exports = function(grunt) {
 			},
 			files: CORE_FILES
 		},
+		less: {
+			dist: {
+				options: {
+					compress: true
+				},
+				files: {
+					'./docs/css/F2.css': './docs/src/template/less/bootstrap.less',
+					'./docs/css/F2.Docs.css': './docs/src/template/less/bootstrap-docs.less',
+					'./docs/css/F2.Sdk.css': './docs/src/template/less/bootstrap-sdk.less'
+				}
+			}
+		},
 		uglify: {
 			options: {
 				preserveComments: function(node, comment) {
@@ -87,6 +99,7 @@ module.exports = function(grunt) {
 	// Load plugins
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	// Register tasks
@@ -199,7 +212,7 @@ module.exports = function(grunt) {
 	
 
 
-	grunt.registerTask('docs', ['yuidoc']);
+	grunt.registerTask('docs', ['less', 'yuidoc']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 
