@@ -328,7 +328,7 @@ Example:
 
 <div class="well well-small">
 <h4>About Inline Scripts</h4>
-<p>While the use of `inlineScripts` is supported by F2's App Manifest, it is not recommended for use. There are many reasons for this, the main one is to avoid cluttering the global namespace. Developers should make every attempt to put their JavaScript code inside their [App Class](#scripts-1).</p>
+<p>While the use of `inlineScripts` is supported by F2's App Manifest, it is not recommended for use. There are many reasons for this, the main one is to avoid cluttering the global namespace. Developers should make every attempt to put their JavaScript code inside their [App Class](#scripts).</p>
 </div>
 
 [Read more about JavaScript and namespacing](#namespacing) inside your app.
