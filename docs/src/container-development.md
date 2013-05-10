@@ -1,6 +1,6 @@
 % Container Development
 
-<p class="lead">You've come to the right place if you want to start building F2 containers. Before continuing, make sure you've [cloned the F2 repository on GitHub](https://github.com/OpenF2/F2#quick-start) or [downloaded the latest framework build](index.html#get-started) (v1.1.1). Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
+<p class="lead">You've come to the right place if you want to start building F2 containers. Before continuing, make sure you've [cloned the F2 repository on GitHub](https://github.com/OpenF2/F2#quick-start) or [downloaded the latest framework build](index.html#get-started) (v{{sdk.version}}). Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
 * * * *
 
