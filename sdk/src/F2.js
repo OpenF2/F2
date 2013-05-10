@@ -17,10 +17,13 @@
  * On Demand Inc. has a license to use and include within the Software (the 
  * "Third Party Material"). A list of the software comprising the Third Party Material 
  * and the terms and conditions under which such Third Party Material is distributed 
- * are reproduced in the ThirdPartyMaterial.md file. The inclusion of the Third Party 
- * Material in the Software does not grant, provide nor result in you having acquiring 
- * any rights whatsoever, other than as stipulated in the terms and conditions related 
- * to the specific Third Party Material, if any.
+ * are reproduced in the ThirdPartyMaterial.md file available at:
+ * 
+ * https://github.com/OpenF2/F2/blob/master/ThirdPartyMaterial.md
+ * 
+ * The inclusion of the Third Party Material in the Software does not grant, provide 
+ * nor result in you having acquiring any rights whatsoever, other than as stipulated 
+ * in the terms and conditions related to the specific Third Party Material, if any.
  *
  */
 
