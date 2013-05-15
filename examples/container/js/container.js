@@ -5,7 +5,7 @@ $(function() {
 	 */
 	F2.init({
 
-		afterAppRender: function (app, html) {
+		afterAppRender: function(app, html) {
 			var el = $(app.root).append(html);
 			F2.UI.hideMask(app.instanceId, el);
 			return el;
@@ -20,7 +20,7 @@ $(function() {
 			var gridWidth = app.minGridSize || 3;
 
 			var appRoot = $([
-				'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '">',
+				'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '" data-grid-width="' + gridWidth + '">',
 					'<header class="clearfix">',
 						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', app.name.toUpperCase(), '</h2>',
 						'<div class="btn-group pull-right">',
@@ -37,7 +37,26 @@ $(function() {
 						'</div>',
 					'</header>',
 				'</section>'
-			].join('')).appendTo($('#mainContent div.row'));
+			].join(''));
+
+			// find a row that can fit this app
+			var row;
+			$('#mainContent div.row').each(function(i, el) {
+				var span = 0;
+				$('.f2-app', el).each(function(j, app) {
+					span += Number($(app).data('gridWidth'));
+				});
+				if (span <= (12 - gridWidth)) {
+					row = el;
+					return false;
+				}
+			});
+			// create a new row if one wasn't found
+			if (row === undefined) {
+				row = $('<div class="row"></div>').appendTo('#mainContent');
+			}
+			// append app to row
+			$(appRoot).appendTo(row);
 
 			// show loader
 			F2.UI.showMask(app.instanceId, appRoot, true);
@@ -52,21 +71,21 @@ $(function() {
 		},
 
 		supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],
-		secureAppPagePath: "secure.html" // this should go on a separate domain from index.html
+		secureAppPagePath: 'secure.html' // this should go on a separate domain from index.html
 	});
 
 	//listen for app symbol change events and re-broadcast
 	F2.Events.on(
 		F2.Constants.Events.APP_SYMBOL_CHANGE,
-		function(data){
-			F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: data.symbol, name: data.name || "" });
+		function(data) {
+			F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: data.symbol, name: data.name || '' });
 		}
 	);
 
 	/**
 	 * init symbol lookup in navbar
 	 */
-	$("#symbolLookup")
+	$('#symbolLookup')
 		.on('keypress', function(event) {
 			if (event.keyCode == 13) {
 				event.preventDefault();
@@ -75,30 +94,30 @@ $(function() {
 		.autocomplete({
 			autoFocus:true,
 			minLength: 0,
-			select: function (event, ui) {
+			select: function(event, ui) {
 				F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
 			},
-			source: function (request, response) {
+			source: function(request, response) {
 
 				$.ajax({
-					url: "http://dev.markitondemand.com/api/Lookup/jsonp",
-					dataType: "jsonp",
+					url: 'http://dev.markitondemand.com/api/Lookup/jsonp',
+					dataType: 'jsonp',
 					data: {
 						input: request.term
 					},
-					success: function (data) {
+					success: function(data) {
 						response($.map(data, function (item) {
 							return {
-								label: item.Name + " (" + item.Exchange + ")",
+								label: item.Name + ' (' + item.Exchange + ')',
 								value: item.Symbol
-							}
+							};
 						}));
 					},
 					open: function() {
-						$(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+						$(this).removeClass('ui-corner-all').addClass('ui-corner-top');
 					},
 					close: function() {
-						$(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+						$(this).removeClass('ui-corner-top').addClass('ui-corner-all');
 					}
 				});
 			}
