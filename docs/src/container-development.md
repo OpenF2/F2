@@ -559,57 +559,31 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 ## App Integration
 
-The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Developer must call [this method](./sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
+There are two ways of integrating apps on a container: requesting apps on-demand (via HTTP) or by linking pre-fetched apps. Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method.
+
+The process of loading apps on a container occurs by using a method called `F2.registerApps()`. The Container Developer must call [this method](./sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
 The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.
 
-Regardless of where the container's [AppConfig](#app-configs) comes from, integrating apps is a simple process. For the purposes of this example, we will use an Acme Corp news app. 
+Regardless of where the container's [AppConfig](#app-configs) are configured (hard-coded or via API), integrating apps is a simple process. 
+
+### Requesting Apps On-Demand
+
+Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. For the purposes of this example, we will use a news app. 
 
 Let's look at some container code.
 
-### Static App Configuration
+#### Static App Configuration
 
-First, we define the `AppConfigs` in a _hard-coded_ `_appConfigs` array. Secondly, when the document is ready, we call `F2.init()` and subsequently `F2.registerApps()` with the single argument.
+First, we define the `AppConfigs` in a _hard-coded_ `_appConfig` variable. This example demonstrates only a single app; if there were multiple apps, `_appConfig` would be an array of objects versus an object literal. Secondly, when the document is ready, `F2.init()` is called and subsequently `F2.registerApps()` with the single argument.
 
-```javascript
-//define app config
-var _appConfigs = [
-	{
-		appId: "com_acmecorp_news",
-		description: "Acme Corp News",
-		manifestUrl: "http://www.acme.com/apps/news-manifest.js",
-		name: "Acme News App"
-	}
-];
+<iframe width="100%" height="350" src="http://jsfiddle.net/OpenF2js/eBqmn/1/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-$(document).ready(function(){
+This javascript code will insert the example news app into the container's `<body>`. Press *Result* in the jsfiddle above to try this demo. 
 
-	//init F2 container
-    F2.init({
-        //define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... },
+<span class="label">Note</span> If more granular control is needed for app placement, use the `beforeAppRender`, `appRender` and `afterAppRender` methods. Read about those in [Container Config](#container-config).
 
-        //setup UI
-        UI:{
-			Mask:{
-				loadingIcon:'./img/spinner.gif',
-				backgroundColor: '#fff',
-				opacity: 0.5
-			}
-		}
-    });
-
-    //load apps
-    F2.registerApps(_appConfigs);
-
-});
-```
-
-This javascript code will insert the Acme Corp news app into the container's DOM, provided the `appRender` method is [configured correctly](#container-config).
-
-### Dynamic App Configuration
+#### Dynamic App Configuration
 
 Alternatively, `AppConfigs` could live in a database&mdash;eventually the [F2 Store](index.html#the-store)&mdash;at which time container developers could provide their containers with `AppManifests` instead of relying on each `AppConfig.manifestUrl` property to be retrieved and parsed at run time.
 
@@ -639,26 +613,26 @@ An example of a container making a request to the F2 Store for `AppConfigs` and 
 
 	//make request to Store web service
 	var $req = $.ajax({
-		url: 'https://store.openf2.org/getApps',
+		url: 'https://secure.domain.com/api/apps',
 		dataType: 'jsonp'
 	});
 
 	//parse successful response
 	$req.done(function(jqxhr,txtStatus){
 		jqxhr = jqxhr || {};
-		if (jqxhr.status == "good"){
+		if (jqxhr.status == 'good'){
 			_appConfigs = jqxhr.appConfigs || [];
 			_appManifests = jqxhr.appManifests || [];
 			//load
 			loadContainer();
 		} else {
-			F2.log("Store web service did not do something 'good'.", jqxhr, txtStatus);
+			F2.log('Store web service did not do something "good".', jqxhr, txtStatus);
 		}
 	});
 
 	//handle errors
 	$req.fail(function(jqxhr,txtStatus){
-		F2.log("Store web service failed.", jqxhr, txtStatus);
+		F2.log('Store web service failed.', jqxhr, txtStatus);
 	});
 
 	//wrap this up so we can call it in $req.done()
