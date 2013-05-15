@@ -18,7 +18,52 @@ To begin, you **do not need to build F2** [as described in the readme on GitHub]
 
 Create your basic container HTML template:
 
-<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/bGggf/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>F2 Container</title>
+        <link rel="stylesheet" href="/path/to/your/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="hero-unit">
+                <h1>Hello F2</h1>
+            </div>
+            <div class="row"><!--apps go here--></div>
+        </div>
+        <!--include jQuery & Bootstrap-->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="/path/to/your/bootstrap.js"></script>
+        <!--include F2.js-->
+        <script src="/path/to/your/F2.js"></script>
+        <!--init & register-->
+        <script>
+            (function(){
+                //define AppConfigs
+                var _appConfigs = [{
+                    appId: "com_your_app_id",
+                    description: "F2 app description",
+                    name: "F2 App",
+                    manifestUrl: "/path/to/your/manifest.js" //note the path to your manifest! 
+                }];
+                //Setup ContainerConfig
+                F2.init({
+                    beforeAppRender: function(app){
+                        var appRoot = '<section class="well span12"></section>';
+                        return $(appRoot).appendTo('div.row');
+                    },
+                    afterAppRender: function (app, html) {
+                        //app.root is `appRoot` from beforeAppRender()
+                        return $(app.root).append(html);
+                    }
+                }); 
+                F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
+            })();
+        </script>
+    </body>
+</html>
+```
 
 In developing a more advanced container, the HTML document's `body` element would contain additional markup and allow for specific positioning or placement of apps. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](#container-design).
 
@@ -127,11 +172,11 @@ Example `AppConfig` object from an _individual_ app:
 
 ```javascript
 {
-	appId: "com_companyName_appName",
-	description: "App description",
-	height: 500,
-	manifestUrl: "http://www.domain.com/manifest.js",
-	name: "App name"
+    appId: "com_companyName_appName",
+    description: "App description",
+    height: 500,
+    manifestUrl: "http://www.domain.com/manifest.js",
+    name: "App name"
 }
 ```
 
@@ -139,27 +184,27 @@ Example array of `AppConfig` objects for a collection of apps:
 
 ```javascript
 var _appConfigs = [
-	{
-		appId: "com_companyName_appName",
-		description: "App description",
-		height:500,
-		manifestUrl: "http://www.domain.com/manifest.js",
-		name: "App name"
-	},
-	{
-		appId: "com_companyName_appName2",
-		description: "App2 description",
-		height:100,
-		manifestUrl: "http://www.domain2.com/manifest.js",
-		name: "App2 name"
-	},
-	{
-		appId: "com_companyName_appName3",
-		description: "App3 description",
-		height:200,
-		manifestUrl: "http://www.domain3.com/manifest.js",
-		name: "App3 name"
-	}
+    {
+        appId: "com_companyName_appName",
+        description: "App description",
+        height:500,
+        manifestUrl: "http://www.domain.com/manifest.js",
+        name: "App name"
+    },
+    {
+        appId: "com_companyName_appName2",
+        description: "App2 description",
+        height:100,
+        manifestUrl: "http://www.domain2.com/manifest.js",
+        name: "App2 name"
+    },
+    {
+        appId: "com_companyName_appName3",
+        description: "App3 description",
+        height:200,
+        manifestUrl: "http://www.domain3.com/manifest.js",
+        name: "App3 name"
+    }
 ];
 ```
 
@@ -171,12 +216,12 @@ In the container's `$(document).ready()`, add the `F2.init()`:
 
 ```javascript
 $(document).ready(function(){
-	F2.init({
-		//define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... }
-	});
+    F2.init({
+        //define ContainerConfig properties
+        appRender: function(appConfig, html){ ... },
+        beforeAppRender: function(appConfig, html){ ... },
+        afterAppRender: function(appConfig){ ... }
+    });
 });
 ```
 
@@ -206,18 +251,18 @@ An example of setting the mask in `F2.init()`:
 $(document).ready(function(){
     F2.init({
         //define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... },
+        appRender: function(appConfig, html){ ... },
+        beforeAppRender: function(appConfig, html){ ... },
+        afterAppRender: function(appConfig){ ... },
 
         //setup UI
         UI:{
-			Mask:{
-				loadingIcon:'./img/spinner.gif',
-				backgroundColor: '#fff',
-				opacity: 0.5
-			}
-		}
+            Mask:{
+                loadingIcon:'./img/spinner.gif',
+                backgroundColor: '#fff',
+                opacity: 0.5
+            }
+        }
     });
 });
 ```
@@ -250,11 +295,11 @@ In this simple example, container-provided CSS should be namespaced as shown bel
 
 ```css
 .com_container_companyName_containerName p {
-	padding:5px;
+    padding:5px;
 }
 
 .com_container_companyName_containerName .alert {
-	color:red;
+    color:red;
 }
 ```
 
@@ -264,7 +309,7 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 
 ```css
 .com_container_companyName_containerName #notice {
-	background-color:yellow;
+    background-color:yellow;
 }
 ```
 
@@ -318,11 +363,11 @@ In this example, the container broadcasts, or emits, a javascript event defined 
 
 ```javascript
 F2.Events.emit(
-	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
-	{ 
-		symbol: "AAPL", 
-		name: "Apple, Inc." 
-	}
+    F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+    { 
+        symbol: "AAPL", 
+        name: "Apple, Inc." 
+    }
 );
 ```
 
@@ -330,10 +375,10 @@ To listen to the `F2.Constants.Events.CONTAINER_SYMBOL_CHANGE` event inside your
 
 ```javascript
 F2.Events.on(
-	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
-	function(data){
-		F2.log("The symbol was changed to " + data.symbol);
-	}
+    F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+    function(data){
+        F2.log("The symbol was changed to " + data.symbol);
+    }
 );
 ```
 
@@ -381,11 +426,11 @@ In this example, your app emits an event indicating a user is looking at a diffe
 
 ```javascript
 F2.Events.emit(
-	F2.Constants.Events.APP_SYMBOL_CHANGE, 
-	{ 
-		symbol: "MSFT", 
-		name: "Microsoft, Inc." 
-	}
+    F2.Constants.Events.APP_SYMBOL_CHANGE, 
+    { 
+        symbol: "MSFT", 
+        name: "Microsoft, Inc." 
+    }
 );
 ```
 
@@ -393,10 +438,10 @@ The container would need to listen to your apps' broadcasted `F2.Constants.Event
 
 ```javascript
 F2.Events.on(
-	F2.Constants.Events.APP_SYMBOL_CHANGE, 
-	function(data){
-		F2.log("The symbol was changed to " + data.symbol);
-	}
+    F2.Constants.Events.APP_SYMBOL_CHANGE, 
+    function(data){
+        F2.log("The symbol was changed to " + data.symbol);
+    }
 );
 ```
 
@@ -410,14 +455,14 @@ Within "App 1", context is _sent_ using `F2.Events.emit()`:
 
 ```javascript
 F2.Events.emit(
-	"buy_stock", //custom event name
-	{ 
-		symbol: "GOOG", 
-		name: "Google Inc",
-		price: 682.68,
-		isAvailableToPurchase: true,
-		orderType: "Market Order"
-	}
+    "buy_stock", //custom event name
+    { 
+        symbol: "GOOG", 
+        name: "Google Inc",
+        price: 682.68,
+        isAvailableToPurchase: true,
+        orderType: "Market Order"
+    }
 );
 ```
 
@@ -425,14 +470,14 @@ Within "App 2", context is _received_ using `F2.Events.on()`:
 
 ```javascript
 F2.Events.on(
-	"buy_stock", 
-	function(data){
-		if (data.isAvailableToPurchase){
-			F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
-		} else {
-			F2.log("This stock is not available for purchase.")
-		}
-	}
+    "buy_stock", 
+    function(data){
+        if (data.isAvailableToPurchase){
+            F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
+        } else {
+            F2.log("This stock is not available for purchase.")
+        }
+    }
 );
 ```
 
@@ -563,59 +608,41 @@ An example of a container making a request to the F2 Store for `AppConfigs` and 
 
 ```javascript
 (function(){
-	
-	var _appConfigs = [], _appManifests = [];
+    
+    var _appConfigs = [], _appManifests = [];
 
-	//make request to Store web service
-	var $req = $.ajax({
-		url: 'https://secure.domain.com/api/apps',
-		dataType: 'jsonp'
-	});
+    //make request to Store web service
+    var $req = $.ajax({
+        url: 'https://secure.domain.com/api/apps',
+        dataType: 'jsonp'
+    });
 
-	//parse successful response
-	$req.done(function(jqxhr,txtStatus){
-		jqxhr = jqxhr || {};
-		if (jqxhr.status == 'good'){
-			_appConfigs = jqxhr.appConfigs || [];
-			_appManifests = jqxhr.appManifests || [];
-			//load
-			loadContainer();
-		} else {
-			F2.log('Store web service did not do something "good".', jqxhr, txtStatus);
-		}
-	});
+    //parse successful response
+    $req.done(function(jqxhr,txtStatus){
+        jqxhr = jqxhr || {};
+        if (jqxhr.status == 'good'){
+            _appConfigs = jqxhr.appConfigs || [];
+            _appManifests = jqxhr.appManifests || [];
+            //load
+            loadContainer();
+        } else {
+            F2.log('Store web service did not do something "good".', jqxhr, txtStatus);
+        }
+    });
 
-	//handle errors
-	$req.fail(function(jqxhr,txtStatus){
-		F2.log('Store web service failed.', jqxhr, txtStatus);
-	});
+    //handle errors
+    $req.fail(function(jqxhr,txtStatus){
+        F2.log('Store web service failed.', jqxhr, txtStatus);
+    });
 
-	//wrap this up so we can call it in $req.done()
-	var loadContainer = function(){
-		$(document).ready(function(){
-			//init F2 container
-		    F2.init({
-		        //define ContainerConfig properties
-				appRender: function(appConfig, html){ ... },
-				beforeAppRender: function(appConfig, html){ ... },
-				afterAppRender: function(appConfig){ ... },
-
-		        //setup UI
-		        UI:{
-					Mask:{
-						loadingIcon:'./img/spinner.gif',
-						backgroundColor: '#fff',
-						opacity: 0.5
-					}
-				}
-		    });
-
-		    //load apps
-		    F2.registerApps(_appConfigs, _appManifests);
-
-		});
-	}//loadContainer
-	
+    //wrap this up so we can call it in $req.done()
+    var loadContainer = function(){
+        $(function(){
+            F2.init();
+            F2.registerApps(_appConfigs, _appManifests);
+        });
+    }//loadContainer
+    
 })();
 ```
 
@@ -639,12 +666,12 @@ In the secure container's `$(document).ready()`, add the `F2.init()`:
 
 ```javascript
 $(document).ready(function(){
-	F2.init({
-		//define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... }
-	});
+    F2.init({
+        //define ContainerConfig properties
+        appRender: function(appConfig, html){ ... },
+        beforeAppRender: function(appConfig, html){ ... },
+        afterAppRender: function(appConfig){ ... }
+    });
 });
 ```
 
@@ -652,13 +679,13 @@ For secure containers, an additional property must be set on the `ContainerConfi
 
 ```javascript
 $(document).ready(function(){
-	F2.init({
-		//define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... },
-		secureAppPagePath: "https://secure.domain.com/container" //define secure page path
-	});
+    F2.init({
+        //define ContainerConfig properties
+        appRender: function(appConfig, html){ ... },
+        beforeAppRender: function(appConfig, html){ ... },
+        afterAppRender: function(appConfig){ ... },
+        secureAppPagePath: "https://secure.domain.com/container" //define secure page path
+    });
 });
 ```
 
@@ -670,17 +697,17 @@ Since it will be loaded in an iframe and like its parent, the secure child conta
 
 ```javascript
 F2.init({
-	appRender:function(appConfig, html) {
-		return [
-			'<div class="span4">',
-				html,
-			'</div>'
-		].join('');
-	},
-	afterAppRender:function(appConfig, html) { ... },
+    appRender:function(appConfig, html) {
+        return [
+            '<div class="span4">',
+                html,
+            '</div>'
+        ].join('');
+    },
+    afterAppRender:function(appConfig, html) { ... },
 
-	//now set this property to true to tell F2 this is the secure child frame.
-	isSecureAppPage:true
+    //now set this property to true to tell F2 this is the secure child frame.
+    isSecureAppPage:true
 });
 ```
 
