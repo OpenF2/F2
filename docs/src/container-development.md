@@ -18,52 +18,7 @@ To begin, you **do not need to build F2** [as described in the readme on GitHub]
 
 Create your basic container HTML template:
 
-```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>F2 Container</title>
-        <link rel="stylesheet" href="/path/to/your/bootstrap.css">
-    </head>
-    <body>
-        <div class="container">
-            <div class="hero-unit">
-                <h1>Hello F2</h1>
-            </div>
-            <div class="row"><!--apps go here--></div>
-        </div>
-        <!--include jQuery & Bootstrap-->
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="/path/to/your/bootstrap.js"></script>
-        <!--include F2.js-->
-        <script src="/path/to/your/F2.js"></script>
-        <!--init & register-->
-        <script>
-            (function(){
-                //define AppConfigs
-                var _appConfigs = [{
-                    appId: "com_your_app_id",
-                    description: "F2 app description",
-                    name: "F2 App",
-                    manifestUrl: "/path/to/your/manifest.js" //note the path to your manifest! 
-                }];
-                //Setup ContainerConfig
-                F2.init({
-                    beforeAppRender: function(app){
-                        var appRoot = '<section class="well span12"></section>';
-                        return $(appRoot).appendTo('div.row');
-                    },
-                    afterAppRender: function (app, html) {
-                        //app.root is `appRoot` from beforeAppRender()
-                        return $(app.root).append(html);
-                    }
-                }); 
-                F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
-            })();
-        </script>
-    </body>
-</html>
-```
+<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/bGggf/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 In developing a more advanced container, the HTML document's `body` element would contain additional markup and allow for specific positioning or placement of apps. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](#container-design).
 
