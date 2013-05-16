@@ -5,7 +5,7 @@
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.0, published 21 March 2013</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification {{docs.version}}, published {{docs.lastUpdateDateFormatted}}</small></p>
 		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
@@ -14,6 +14,6 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.1.1"></script>
-<script src="./js/docs.js?1.1.0"></script>
-<script>F2.extend('gitbranch', (function(){ return 'master'; }));</script>
+<script src="./js/f2.js?{{sdk.version}}"></script>
+<script src="./js/docs.js?{{docs.version}}"></script>
+<script>F2.extend('gitbranch', (function(){ return '{{branch}}'; }));</script>
