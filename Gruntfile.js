@@ -1,21 +1,43 @@
 module.exports = function(grunt) {
 
 	var f2Info = require('./build/F2.json'),
-		CORE_FILES = [
-			'sdk/src/F2.js',
-			'sdk/src/app_handlers.js',
-			'sdk/src/classes.js',
-			'sdk/src/constants.js',
-			'sdk/src/events.js',
-			'sdk/src/rpc.js',
-			'sdk/src/ui.js',
-			'sdk/src/container.js'
-		],
+		handlebars = require('Handlebars'),
 		pkg = grunt.file.readJSON('package.json');
+
+	// TODO: Remove Handlebars dependency and use the built-in grunt templating
+	// Handlebars helpers
+	handlebars.registerHelper('if', function(conditional, options) {
+		if (options.hash.desired === options.hash.test) {
+			return options.fn(this);
+		}
+	});
 
 	// Project config
 	grunt.initConfig({
 		pkg: pkg,
+		clean: ['docs/src-temp'],
+		copy: {
+			docs: {
+				files: [
+					{
+						expand: true,
+						cwd: 'docs/src/',
+						src: ['**'],
+						dest: 'docs/src-temp/',
+						filter: function(src) {
+							return (/(.html|.md)$/i).test(src);
+						}
+					}
+				],
+				options: {
+					processContent: function(content, srcpath) {
+						// TODO: Remove Handlebars dependency and use the built-in grunt templating
+						// compile and run the Handlebars template
+						return (handlebars.compile(content))(f2Info);
+					}
+				}
+			}
+		},
 		concat: {
 			options: {
 				process: { data: pkg },
@@ -25,7 +47,7 @@ module.exports = function(grunt) {
 			'no-third-party': {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					CORE_FILES,
+					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.no-third-party.js'
@@ -39,7 +61,7 @@ module.exports = function(grunt) {
 					'sdk/src/third-party/jquery.noconflict.js',
 					'sdk/src/third-party/eventemitter2.js',
 					'sdk/src/third-party/easyXDM/easyXDM.js',
-					CORE_FILES,
+					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.debug.js'
@@ -49,7 +71,16 @@ module.exports = function(grunt) {
 			options: {
 				jshintrc: '.jshintrc'
 			},
-			files: CORE_FILES
+			files: [
+				'sdk/src/F2.js',
+				'sdk/src/app_handlers.js',
+				'sdk/src/classes.js',
+				'sdk/src/constants.js',
+				'sdk/src/events.js',
+				'sdk/src/rpc.js',
+				'sdk/src/ui.js',
+				'sdk/src/container.js'
+			]
 		},
 		less: {
 			dist: {
@@ -97,6 +128,8 @@ module.exports = function(grunt) {
 	});
 
 	// Load plugins
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
@@ -113,8 +146,37 @@ module.exports = function(grunt) {
 		grunt.file.write(dest, rawMap);
 	});
 
-	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
+	grunt.registerTask('markitdown', 'Compiles the spec documentation with Markitdown', function() {
+		var done = this.async(),
+			log = grunt.log.write('Generating spec documentation...');
+		grunt.util.spawn(
+			{
+				cmd: 'markitdown',
+				args: [
+					'./',
+					'--output-path', '../',
+					'--docTemplate', './template/baseTemplate.html',
+					'--header', './template/header.html',
+					'--footer', './template/footer.html',
+					'--head', './template/style.html',
+					'--title', 'F2'
+				],
+				opts: {
+					cwd: './docs/src-temp'
+				}
+			},
+			function(error, result, code) {
+				if (error) {
+					grunt.fail.fatal(error);
+				} else {
+					log.ok();
+					done();
+				}
+			}
+		);
+	});
 
+	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
 		var done = this.async(),
 			log = grunt.log.write('Creating NuSpec file...'),
 			nuspec = grunt.file.read('./sdk/f2.nuspec.tmpl');
@@ -156,6 +218,7 @@ module.exports = function(grunt) {
 			},
 			done = this.async(),
 			json,
+			log = grunt.log.write('Generating reference documentation...'),
 			readmeMd = grunt.file.read('README.md'),
 			Y = require('yuidocjs');
 
@@ -205,14 +268,14 @@ module.exports = function(grunt) {
 
 		builder = new Y.DocBuilder(docOptions, json);
 		builder.compile(function() {
-			grunt.log.writeln('YUIDoc compilation complete');
+			log.ok();
 			done();
 		});
 	});
 	
 
 
-	grunt.registerTask('docs', ['less', 'yuidoc']);
+	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 
