@@ -1,0 +1,29 @@
+.com_openf2_examples_javascript_watchlist .table th,
+.com_openf2_examples_javascript_watchlist .table td {
+	text-align: right;
+}
+
+.com_openf2_examples_javascript_watchlist .table th.first,
+.com_openf2_examples_javascript_watchlist .table td.first {
+	text-align: left;
+}
+
+.com_openf2_examples_javascript_watchlist .pos {
+	color:green;
+}
+
+.com_openf2_examples_javascript_watchlist .neg {
+	color:red;
+}
+
+.com_openf2_examples_javascript_watchlist table table {
+	font-size: 85%;
+}
+
+.com_openf2_examples_javascript_watchlist table tr {
+	cursor: pointer;
+}
+
+.com_openf2_examples_javascript_watchlist table table tr {
+	cursor: text;
+}
