@@ -29,10 +29,12 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		styleImport = (this.appConfig.context && this.appConfig.context.style)?this.appConfig.context.style:{};
 
 		/** for example purposes*/
+		console.group('Chart app');
 		console.info('The chart app (com_openf2_examples_javascript_chart) has configuration options which can be override by using Context. Set a "style" property in the AppConfig\'s Context property. The current AppConfig is on the next line.');
 		console.info(this.appConfig);
 		console.info('The chart\'s configuration parameters (defaults) are found in the following hash');
 		console.info(defaults);
+		console.groupEnd();
 
 		this.CHT_CONTAINER = 'f2-1year-chart';
 		this.CHART_STYLES = $.extend({},defaults,styleImport);
@@ -61,7 +63,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 		$.ajax({
 			beforeSend:function () {
-				this.ui.setTitle("Loading chart...");
+				this.ui.setTitle('Loading chart...');
 			},
 			data: { 
 				symbol: this.symbol, 
@@ -89,9 +91,9 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 	app.prototype._chartError = function(jqxhr) {
 		F2.log("Price Chart Error", jqxhr);
 		this.ui.setTitle("Chart Error");
-				this.$app.html("<p>An error occurred loading price data for " +this.symbol+ ".</p>");
-				this.ui.hideMask(this.$root);
-				this.ui.updateHeight();
+		this.$app.html("<p>An error occurred loading price data for " +this.symbol+ ".</p>");
+		this.ui.hideMask(this.$root);
+		this.ui.updateHeight();
 	};
 
 	
