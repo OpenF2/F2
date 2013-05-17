@@ -311,5 +311,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
 
 	// the default task
-	grunt.registerTask('default', ['js', 'docs']);
+	grunt.registerTask('default', ['test', 'js', 'docs']);
 };
