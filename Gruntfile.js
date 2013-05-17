@@ -309,7 +309,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
-	grunt.registerTask('travis', 'test');
+	grunt.registerTask('travis', ['test']);
 
 	// the default task
 	grunt.registerTask('default', ['test', 'js', 'docs']);
