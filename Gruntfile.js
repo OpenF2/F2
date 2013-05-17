@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
 	var f2Info = require('./build/F2.json'),
-		handlebars = require('Handlebars'),
+		handlebars = require('handlebars'),
 		pkg = grunt.file.readJSON('package.json');
 
 	// TODO: Remove Handlebars dependency and use the built-in grunt templating
