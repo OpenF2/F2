@@ -7,11 +7,12 @@
 	var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
 		url = window.location.href.toLowerCase(),
 		parts = rurl.exec(url);
+	console.log(parts);
 
 	// run the tests on the node server if it is running so that the port numbers
 	// will match
 	if (parts[1] != 'http:' || parts[2] != 'localhost' || parts[3] != '8080') {
-		window.location = 'http://localhost:8080/tests/index.html';
+		window.location = 'http://localhost:8080/tests' + /\/[\w.+-]+\.html$/.exec(window.location.pathname)[0];
 	}
 
 })(window);
