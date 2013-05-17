@@ -559,11 +559,11 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 ## App Integration
 
-There are two ways of integrating apps on a container: requesting apps on-demand (via HTTP) or by linking pre-fetched apps. Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method.
+There are two ways of integrating apps on a container: requesting apps on-demand (via HTTP) or by linking pre-fetched apps. Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method. The following sections describe both of these methods in detail.
 
 The process of loading apps on a container occurs by using a method called `F2.registerApps()`. The Container Developer must call [this method](./sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
-The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.
+The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in browser memory on the container.
 
 Regardless of where the container's [AppConfig](#app-configs) are configured (hard-coded or via API), integrating apps is a simple process. 
 
@@ -577,7 +577,7 @@ Let's look at some container code.
 
 First, we define the `AppConfigs` in a _hard-coded_ `_appConfig` variable. This example demonstrates only a single app; if there were multiple apps, `_appConfig` would be an array of objects versus an object literal. Secondly, when the document is ready, `F2.init()` is called and subsequently `F2.registerApps()` with the single argument.
 
-<iframe width="100%" height="350" src="http://jsfiddle.net/OpenF2js/eBqmn/1/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="350" src="http://jsfiddle.net/OpenF2js/eBqmn/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 This javascript code will insert the example news app into the container's `<body>`. Press *Result* in the jsfiddle above to try this demo. 
 
@@ -585,66 +585,15 @@ This javascript code will insert the example news app into the container's `<bod
 
 #### Dynamic App Configuration
 
-Alternatively, `AppConfigs` could live in a database&mdash;eventually the [F2 Store](index.html#the-store)&mdash;at which time container developers could provide their containers with `AppManifests` instead of relying on each `AppConfig.manifestUrl` property to be retrieved and parsed at run time.
+As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](index.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
 
-Such an implementation would require the container developer to make a HTTP call to a Store web service to retrieve `AppConfigs` and `AppManifests`. You are already familiar with [what the `AppConfig` looks like](#app-configs), but if you aren't sure what an `AppManifest` looks like, take note of this empty manifest. 
+<iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-```javascript
-{
-    "inlineScripts":[],  
-    "scripts":[],    
-    "styles":[],     
-    "apps":[{
-            "data":{},
-            "html":"",
-            "status":""
-    }]
-}
-```
+### Registering Pre-Fetched Apps
 
-<span class="label">Note</span> [Read more about the AppManifest](app-development.html#app-manifest).
 
-An example of a container making a request to the F2 Store for `AppConfigs` and `AppManifests`:
 
-```javascript
-(function(){
-    
-    var _appConfigs = [], _appManifests = [];
-
-    //make request to Store web service
-    var $req = $.ajax({
-        url: 'https://secure.domain.com/api/apps',
-        dataType: 'jsonp'
-    });
-
-    //parse successful response
-    $req.done(function(jqxhr,txtStatus){
-        jqxhr = jqxhr || {};
-        if (jqxhr.status == 'good'){
-            _appConfigs = jqxhr.appConfigs || [];
-            _appManifests = jqxhr.appManifests || [];
-            //load
-            loadContainer();
-        } else {
-            F2.log('Store web service did not do something "good".', jqxhr, txtStatus);
-        }
-    });
-
-    //handle errors
-    $req.fail(function(jqxhr,txtStatus){
-        F2.log('Store web service failed.', jqxhr, txtStatus);
-    });
-
-    //wrap this up so we can call it in $req.done()
-    var loadContainer = function(){
-        $(function(){
-            F2.init();
-            F2.registerApps(_appConfigs, _appManifests);
-        });
-    }//loadContainer
-    
-})();
-```
+* * * *
 
 <span class="label label-important">Important</span> The `_appConfigs` and `_appManifests` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for Acme Corp's news app must be in `_appConfigs[0]` and `_appManifests[0]`.
 
