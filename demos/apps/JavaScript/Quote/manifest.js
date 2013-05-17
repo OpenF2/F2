@@ -1,9 +1,9 @@
 F2_jsonpCallback_com_openf2_examples_javascript_quote({
 	"scripts":[
-		"../apps/JavaScript/Quote/appclass.js"
+		"http://docs.openf2.org/demos/apps/JavaScript/Quote/appclass.js"
 	],
 	"styles":[
-		"../apps/JavaScript/Quote/app.css"
+		"http://docs.openf2.org/demos/apps/JavaScript/Quote/app.css"
 	],
 	"apps":[
 		{

@@ -1,6 +1,6 @@
 F2_jsonpCallback_com_openf2_examples_javascript_helloworld({
 	"scripts":[
-		"../apps/JavaScript/HelloWorld/appclass.js"
+		"http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/appclass.js"
 	],
 	"styles":[
 

@@ -1,9 +1,9 @@
 F2_jsonpCallback_com_openf2_examples_javascript_cds({
 	"scripts":[
-		"../apps/JavaScript/CDS/appclass.js"
+		"http://docs.openf2.org/demos/apps/JavaScript/CDS/appclass.js"
 	],
 	"styles":[
-		"../apps/JavaScript/CDS/app.css"
+		"http://docs.openf2.org/demos/apps/JavaScript/CDS/app.css"
 	],
 	"apps":[
 		{

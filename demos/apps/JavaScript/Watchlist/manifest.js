@@ -1,11 +1,11 @@
 F2_jsonpCallback_com_openf2_examples_javascript_watchlist({
 	"scripts":[
-		"../apps/JavaScript/Watchlist/jquery.cookie.js",
-		"../apps/JavaScript/Watchlist/moment.1.7.0.min.js",
-		"../apps/JavaScript/Watchlist/appclass.js"
+		"http://docs.openf2.org/demos/apps/JavaScript/Watchlist/jquery.cookie.js",
+		"http://docs.openf2.org/demos/apps/JavaScript/Watchlist/moment.1.7.0.min.js",
+		"http://docs.openf2.org/demos/apps/JavaScript/Watchlist/appclass.js"
 	],
 	"styles":[
-		"../apps/JavaScript/Watchlist/watchlist.css"
+		"http://docs.openf2.org/demos/apps/JavaScript/Watchlist/watchlist.css"
 	],
 	"apps":[
 		{

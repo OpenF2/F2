@@ -1,13 +1,13 @@
 F2_jsonpCallback_com_openf2_examples_javascript_compareTool({
 	"scripts":[
-		"../apps/JavaScript/CompareTool/js/angular.min.js",
-		"../apps/JavaScript/CompareTool/js/angular-resource.min.js",
-		"../apps/JavaScript/CompareTool/js/moment.min.js",
-		"../apps/JavaScript/CompareTool/js/compare.js",
-		"../apps/JavaScript/CompareTool/appclass.js"
+		"http://docs.openf2.org/demos/apps/JavaScript/CompareTool/js/angular.min.js",
+		"http://docs.openf2.org/demos/apps/JavaScript/CompareTool/js/angular-resource.min.js",
+		"http://docs.openf2.org/demos/apps/JavaScript/CompareTool/js/moment.min.js",
+		"http://docs.openf2.org/demos/apps/JavaScript/CompareTool/js/compare.js",
+		"http://docs.openf2.org/demos/apps/JavaScript/CompareTool/appclass.js"
 	],
 	"styles":[
-		"../apps/JavaScript/CompareTool/css/compare.css"
+		"http://docs.openf2.org/demos/apps/JavaScript/CompareTool/css/compare.css"
 	],
 	"apps":[
 		{
