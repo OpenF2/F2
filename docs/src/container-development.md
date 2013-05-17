@@ -591,7 +591,7 @@ As an alternative to static app configuration shown above, the `_appConfig` vari
 
 ### Registering Pre-Fetched Apps
 
-
+Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when a container is being constructed on the server-side (at run time or on a schedule), and requires requesting each apps' `AppManifest` and its dependencies _before_ the page is rendered.
 
 * * * *
 
