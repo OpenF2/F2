@@ -312,5 +312,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('travis', 'test');
 
 	// the default task
-	grunt.registerTask('default', ['js', 'docs']);
+	grunt.registerTask('default', ['test', 'js', 'docs']);
 };
