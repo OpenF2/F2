@@ -67,6 +67,34 @@ module.exports = function(grunt) {
 				dest: 'sdk/f2.debug.js'
 			}
 		},
+		/**
+		 * Need to downgrade forever-monitor to v1.1 because of:
+		 * https://github.com/blai/grunt-express/issues/12
+		 * cd node_modules/grunt-express; npm uninstall forever-monitor; npm install forever-monitor@1.1;
+		 */
+		express: {
+			server: {
+				options: {
+					bases: './',
+					port: 8080,
+					server: (require('path')).resolve('./tests/server')
+				}
+			}
+		},
+		jasmine: {
+			'non-amd': {
+				options: {
+					host: 'http://localhost:8080/tests/',
+					outfile: 'index.html'
+				}
+			},
+			'amd': {
+				options: {
+					host: 'http://localhost:8080/tests/',
+					outfile: 'index-amd.html'
+				}
+			}
+		},
 		jshint: {
 			options: {
 				jshintrc: '.jshintrc'
@@ -97,7 +125,7 @@ module.exports = function(grunt) {
 		uglify: {
 			options: {
 				preserveComments: function(node, comment) {
-					return /^!/.test(comment.value);
+					return (/^!/).test(comment.value);
 				}
 			},
 			dist: {
@@ -131,9 +159,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-express');
 
 	// Register tasks
 	grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {
@@ -278,6 +308,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
+	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
 
 	// the default task
 	grunt.registerTask('default', ['js', 'docs']);

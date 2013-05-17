@@ -41,6 +41,11 @@
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-less": "~0.5.1",
     "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-clean": "~0.4.1"
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-jasmine": "~0.4.2",
+    "grunt-express": "~0.3.3"
+  },
+  "engines": {
+  	"node": ">=0.10"
   }
 }
