@@ -565,7 +565,9 @@ The process of loading apps on a container occurs by using a method called `F2.r
 
 The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in browser memory on the container.
 
-Regardless of where the container's [AppConfig](#app-configs) are configured (hard-coded or via API), integrating apps is a simple process. 
+Regardless of where the container's `AppConfig` object is defined (hard-coded or via API), integrating apps is a simple process. 
+
+<span class="label label-info">Note</span> Not familiar with the `AppConfig`? [Read up on them](#app-configs) before continuing.
 
 ### Requesting Apps On-Demand
 
@@ -575,23 +577,29 @@ Let's look at some container code.
 
 #### Static App Configuration
 
-First, we define the `AppConfigs` in a _hard-coded_ `_appConfig` variable. This example demonstrates only a single app; if there were multiple apps, `_appConfig` would be an array of objects versus an object literal. Secondly, when the document is ready, `F2.init()` is called and subsequently `F2.registerApps()` with the single argument.
+First, we define the `AppConfig` in a _hard-coded_ `_appConfig` variable. This example demonstrates only a single app; if there were multiple apps, `_appConfig` would be an array of objects versus an object literal. Secondly, when the document is ready, `F2.init()` is called and subsequently `F2.registerApps()` with the single argument.
 
 <iframe width="100%" height="350" src="http://jsfiddle.net/OpenF2js/eBqmn/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 This javascript code will insert the example news app into the container's `<body>`. Press *Result* in the jsfiddle above to try this demo. 
 
-<span class="label">Note</span> If more granular control is needed for app placement, use the `beforeAppRender`, `appRender` and `afterAppRender` methods. Read about those in [Container Config](#container-config).
+<span class="label label-info">Note</span> If more granular control is needed for app placement, use the `beforeAppRender`, `appRender` and `afterAppRender` methods. Read about those functions in [Container Config](#container-config).
 
 #### Dynamic App Configuration
 
-As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](index.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
+As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](index.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2 in your code. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
 
 <iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
+<span class="label label-info">About this jsfiddle</span> To simulate an ajax request, this example uses jsfiddle's [echo feature](http://doc.jsfiddle.net/use/echo.html). Simply replace the `getAppConfigs` function your own ajax request and ignore the `echoData` variable.
+
 ### Registering Pre-Loaded Apps
 
-Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when a container is being constructed on the server-side (at run-time or on a schedule), and requires making a request to each apps' `AppManifest` and its dependencies _before_ the page is rendered.
+Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule). To use pre-loaded apps, the Container Developer is required to make a request to each apps' `AppManifest` and its dependencies _before_ the page is rendered.
+
+Let's assume you have a web page composed on the server and delivered to the browser in one payload. Let's also assume your page has at least one module or widget or component you'd like to register with F2.js.
+
+
 
 * * * *
 
