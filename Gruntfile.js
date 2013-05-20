@@ -1,7 +1,6 @@
 module.exports = function(grunt) {
 
-	var f2Info = require('./build/F2.json'),
-		handlebars = require('handlebars'),
+	var handlebars = require('handlebars'),
 		moment = require('moment'),
 		pkg = grunt.file.readJSON('package.json'),
 		semver = require('semver');
@@ -39,9 +38,9 @@ module.exports = function(grunt) {
 				],
 				options: {
 					processContent: function(content, srcpath) {
-						// TODO: Remove Handlebars dependency and use the built-in grunt templating
-						// compile and run the Handlebars template
-						return (handlebars.compile(content))(f2Info);
+						// TODO: Remove Handlebars dependency and use the built-in grunt
+						// templating compile and run the Handlebars template
+						return (handlebars.compile(content))(pkg);
 					}
 				}
 			},
@@ -256,7 +255,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('release', 'Prepares the code for release (merge into master)', function(releaseType) {
 		if (!/^major|minor|patch$/i.test(releaseType) && !semver.valid(releaseType)) {
-			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch)');
+			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
 			return;
 		}
 
@@ -298,9 +297,7 @@ module.exports = function(grunt) {
 		json.project = {
 			docsAssets: '../',
 			version: pkg.version,
-			docsVersion: pkg.version,
-			docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted,
-			branch: f2Info.branch
+			releaseDateFormatted: pkg._releaseDateFormatted
 		};
 		docOptions = Y.Project.mix(json, docOptions);
 
