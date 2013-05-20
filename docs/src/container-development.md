@@ -559,7 +559,7 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 ## App Integration
 
-There are two ways of integrating apps on a container: requesting apps on-demand (via HTTP) or by linking pre-fetched apps. Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method. The following sections describe both of these methods in detail.
+There are two ways of integrating apps on a container: [requesting apps on-demand](#requesting-apps-on-demand) (via HTTP) or by [linking pre-loaded apps](#registering-pre-loaded-apps). Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method. The following sections describe both of these methods in detail.
 
 The process of loading apps on a container occurs by using a method called `F2.registerApps()`. The Container Developer must call [this method](./sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
 
@@ -569,7 +569,7 @@ Regardless of where the container's [AppConfig](#app-configs) are configured (ha
 
 ### Requesting Apps On-Demand
 
-Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. For the purposes of this example, we will use a news app. 
+Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. For the purposes of this example, we will use an example news app from [OpenF2.org](http://www.openf2.org/Examples). 
 
 Let's look at some container code.
 
@@ -589,9 +589,9 @@ As an alternative to static app configuration shown above, the `_appConfig` vari
 
 <iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-### Registering Pre-Fetched Apps
+### Registering Pre-Loaded Apps
 
-Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when a container is being constructed on the server-side (at run time or on a schedule), and requires requesting each apps' `AppManifest` and its dependencies _before_ the page is rendered.
+Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when a container is being constructed on the server-side (at run-time or on a schedule), and requires making a request to each apps' `AppManifest` and its dependencies _before_ the page is rendered.
 
 * * * *
 
