@@ -4,7 +4,6 @@
 	<meta charset="utf-8">
 	<title>{{htmlTitle}}</title>
 	<meta name="dcterms.date" content="{{projectDocsLastUpdateDateFormatted}}">
-	<meta name="gitbranch" content="{{projectBranch}}">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +24,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="{{projectRoot}}../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{projectRoot}}../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('{{projectBranch}}' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);

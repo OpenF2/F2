@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png" />
 
 <script type="text/javascript">
-	if ('{{branch}}' === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)) {
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-35230380-1']);
 		_gaq.push(['_setDomainName', 'openf2.org']);
