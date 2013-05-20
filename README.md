@@ -24,7 +24,7 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 You can run this command to check the version of your local copy of F2 (if you've [setup the build](#developers)):
 
-`$> node build -v`
+`$> grunt version`
 
 ## Talk
 
@@ -40,7 +40,9 @@ If you just want to build F2 [containers](http://docs.openf2.org/container-devel
 
 ### Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
 
-For those wishing to [contribute back to F2](CONTRIBUTING.md), we've included a `build` file in the project which contains the logic for compiling F2.js and the specification docs. The build script runs [Node.js](http://nodejs.org/) and has a few dependencies. To configure your environment, be sure you have Node installed and run the following command from the project root directory:
+For those wishing to [contribute back to F2](CONTRIBUTING.md), we've included a `Gruntfile` for use with [Grunt](http://gruntjs.com/) which contains the logic for compiling and testing F2.js and the specification docs. Grunt is built on top of [Node.js](http://nodejs.org/) and is installed via [npm](https://npmjs.org/).
+
+To configure your environment, be sure you have Node installed and run the following command from the project root directory:
 
 `$> npm install`
 
@@ -48,13 +50,15 @@ Depending on your configuration, you may need to be an admin to install some of 
 
 `$> sudo npm install`
 
-To **build F2**, `cd` to the `build` directory and run:
+This command will install the [Grunt CLI](http://gruntjs.com/getting-started#installing-the-cli) in addition to all dependencies needed to run the `Gruntfile`.
 
-`$> node build`
+To **build F2**, run:
+
+`$> grunt`
 
 For help, run:
 
-`$> node build -h`
+`$> grunt --help`
 
 We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org). [pandoc](https://github.com/jgm/pandoc) is required for markitdown.
 

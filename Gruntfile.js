@@ -236,6 +236,10 @@ module.exports = function(grunt) {
 		);
 	});
 
+	grunt.registerTask('version', 'Displays version information for F2', function() {
+		grunt.log.writeln('This copy of F2 is at version ' + pkg.version);
+	});
+
 	grunt.registerTask('yuidoc', 'Builds the reference documentation with YUIDoc', function() {
 
 		var builder,
@@ -256,8 +260,8 @@ module.exports = function(grunt) {
 		// massage in some meta information from F2.json
 		json.project = {
 			docsAssets: '../',
-			version: grunt.package.version,
-			docsVersion: grunt.package.version,
+			version: pkg.version,
+			docsVersion: pkg.version,
 			docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted,
 			branch: f2Info.branch
 		};
