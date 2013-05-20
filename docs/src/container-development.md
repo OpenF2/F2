@@ -589,17 +589,153 @@ This javascript code will insert the example news app into the container's `<bod
 
 As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](index.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2 in your code. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
 
-<iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/4/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-<span class="label label-info">About this jsfiddle</span> To simulate an ajax request, this example uses jsfiddle's [echo feature](http://doc.jsfiddle.net/use/echo.html). Simply replace the `getAppConfigs` function your own ajax request and ignore the `echoData` variable.
+<span class="label label-info">About this jsfiddle</span> To simulate an ajax request, this example uses jsfiddle's [echo feature](http://doc.jsfiddle.net/use/echo.html). Simply replace the `getAppConfigs` function with your own ajax request and ignore the `echoData` variable.
 
 ### Registering Pre-Loaded Apps
 
-Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule). To use pre-loaded apps, the Container Developer is required to make a request to each apps' `AppManifest` and its dependencies _before_ the page is rendered.
+Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each apps' `AppManifest` and its dependencies _before_ the page is rendered.
 
-Let's assume you have a web page composed on the server and delivered to the browser in one payload. Let's also assume your page has at least one module or widget or component you'd like to register with F2.js.
+For the following example, let's assume you have a web page composed on the server and all of its HTML is delivered to the browser in one payload. This page also has at least one widget (or component) you'd like to register with F2.js. 
 
+#### 1. Setup Container
 
+To use pre-loaded apps, a web page with a placeholder element for the apps is required. This simple (and empty) web page features a `div#news_app.span12` which serves as that placeholder.
+
+```html
+<!DOCTYPE html>
+    <head>
+        <title>F2 Container</title>
+        <link rel="stylesheet" href="/path/to/your/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="span12" id="news_app">
+                    <!--app goes here-->
+                </div>
+            </div>
+        </div>
+        <script src="/path/to/your/F2.js"></script>
+    </body>
+</html>
+```
+
+#### 2. Request AppManifest
+
+Next, make a server-side request to the news apps' `AppManifest`&mdash;the URL is found in `manifestUrl`&mdash;and capture the resulting JSON. Each `AppManifest` contains scripts, style sheets and HTML ([more](app-development.html#app-manifest)). The market news apps' `AppManifest` looks like this:
+
+```javascript
+{
+   "apps":[{
+         "data":{},
+         "html": "<div data-module-name=\"MarketNewsApp\">...</div>",
+    }],
+   "scripts":[
+      "http://www.openf2.org/js/main.js"
+   ],
+   "styles":[
+      "http://www.openf2.org/css/site.css"
+   ]
+}
+```
+
+<span class="label">Note</span> Parts of this `AppManifest` were intentionally removed for legibility. The full `AppManifest` is [available on OpenF2.org](http://www.openf2.org/Examples/Apps?params=%5B%7B%22appId%22%3A%22com_openf2_examples_csharp_marketnews%22%7D%5D).
+
+#### 3. Add App to Container
+
+You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .span12` following [Bootstrap's scaffolding](http://twitter.github.io/bootstrap/scaffolding.html) guidelines. The `styles` were appended to the `head` and the `scripts` were appended to the `body` (in this case just one URL for each).
+
+```html
+<!DOCTYPE html>
+    <head>
+        <title>F2 Container</title>
+        <link rel="stylesheet" href="/path/to/your/bootstrap.css">
+        <link rel="stylesheet" href="http://www.openf2.org/css/site.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="span12" id="news_app">
+                    <div data-module-name="MarketNewsApp" id="news_app">...</div>
+                </div>
+            </div>
+        </div>
+        <script src="/path/to/your/F2.js"></script>
+        <script src="http://www.openf2.org/js/main.js"></script>
+    </body>
+</html>
+```
+
+The example news app is now part of the web page and everything should be functioning properly. The final step is to register the app with F2.
+
+#### 4. Assign Root Element to AppConfig
+
+To use pre-loaded apps, an additional property is required on the `AppConfig` object. It is called `root` and can be either a CSS selector string _or_ a DOM element. 
+
+```javascript
+var _appConfig = {
+    appId: 'com_openf2_examples_csharp_marketnews',
+    description: 'Example News',
+    manifestUrl: 'http://www.openf2.org/Examples/Apps',
+    name: 'Example News',
+    root: document.getElementById('news_app') //Look, I'm new! 
+};
+```
+
+All of these are valid values for the `root` property.
+
+```javascript
+{
+    root: document.querySelectorAll('.span12')
+}
+```
+
+or:
+
+```javascript
+{
+    root: '.row > .span12'
+}
+```
+
+Using jQuery? You could either provide a CSS selector which F2 will pass to jQuery or use `jQuery.get` to find the DOM element instead of the jQuery object.
+
+```javascript
+{
+    root: $('#news_app').get(0)
+}
+```
+
+or:
+
+```javascript
+{
+    root: '#news_app'
+}
+```
+
+#### 5. Register App
+
+Since you started with the `AppConfig` and now have the `AppManifest` from step 2 along with an HTML page containing the embedded app, all that remains is a simple call to F2. 
+
+```javascript
+var _appConfig = {
+    appId: 'com_openf2_examples_csharp_marketnews',
+    description: 'Example News',
+    manifestUrl: 'http://www.openf2.org/Examples/Apps',
+    name: 'Example News',
+    root: document.getElementById('news_app')
+};
+
+$(function(){
+    F2.init();
+    F2.registerApps(_appConfig);
+});
+```
+
+The web page and pre-loaded news app is a fully F2-enabled container. Rejoice!
 
 * * * *
 
