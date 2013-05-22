@@ -696,22 +696,6 @@ or:
 
 ```javascript
 {
-    root: '.row > .span12'
-}
-```
-
-Using jQuery? You could either provide a CSS selector which F2 will pass to jQuery or use `jQuery.get` to find the DOM element instead of the jQuery object.
-
-```javascript
-{
-    root: $('#news_app').get(0)
-}
-```
-
-or:
-
-```javascript
-{
     root: '#news_app'
 }
 ```
