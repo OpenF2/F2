@@ -1,4 +1,4 @@
-describe('F2.registerPreLoadedApps', function() {
+describe('F2.registerApps - pre-load', function() {
 
 	it('should throw exception if F2.init() is not called prior.', function() {
 		expect(function(){
@@ -9,51 +9,88 @@ describe('F2.registerPreLoadedApps', function() {
 				root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
 			};
 
-			F2.registerPreLoadedApps([appConfig]);
-		}).toThrow();
+			F2.registerApps([appConfig]);
+		}).toLog('F2.init() must be called before F2.registerApps()');
 	});
 
 	it('should throw exception if no appConfigs are passed.', function() {
 		expect(function(){
 			F2.init();
-			F2.registerPreLoadedApps();
-		}).toThrow();
+			F2.registerApps();
+		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
 	});
 
-	it('should allow you to pass single appConfig as object to F2.registerPreLoadedApps.', function() {
+	it('should allow you to pass single appConfig as object to F2.registerApps.', function() {
 		expect(function(){
 			F2.init();
 			var appConfig = {
-				appId:'com_alikhatami_preloaded_test',
-				manifestUrl:'http://www.openf2.org',
+				appId:'com_alikhatami_preloaded_test',				
 				root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
 			};
-			F2.registerPreLoadedApps(appConfig);
+			F2.registerApps(appConfig);
 		}).not.toThrow();
 	});
 
-	it('should throw exception if you pass an invalid appConfig to F2.registerPreLoadedApps.', function() {
-		expect(function(){
-			F2.init();
-			F2.registerPreLoadedApps({});
-		}).toThrow();
-	});
-
-	it('should throw exception if you pass a valid appConfig without a valid root property to F2.registerPreLoadedApps.', function() {
+	it('should not require appConfig.manifestUrl when passing pre-load appConfig to F2.registerApps.', function() {
 		expect(function(){
 			F2.init();
 			var appConfig = {
-				appId:'com_alikhatami_preloaded_test',
-				manifestUrl:'http://www.openf2.org',
-				root: ""
+				appId:'com_alikhatami_preloaded_test',				
+				root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
 			};
-			F2.registerPreLoadedApps(appConfig);
-		}).toThrow();
+			F2.registerApps(appConfig);
+		}).not.toLog('"manifestUrl" missing from app object');
+	});
+
+	it('should throw exception if you pass an invalid appConfig to F2.registerApps.', function() {
+		expect(function(){
+			F2.init();
+			F2.registerApps({});
+		}).toLog('"appId" missing from app object');
+	});
+
+	it('should request apps without valid root property and auto init pre-load apps with root when passing mix to F2.registerApps.', function() {
+		var bAfterFired = false
+		F2.PreloadTestComplete = false;
+		F2.PreloadAppInitialized = false;
+		F2.PreloadRetrievedEmit = false;
+
+		var appConfigs = [
+			{
+				appId: 'com_openf2_examples_csharp_stocknews',
+				manifestUrl: 'http://www.openf2.org/f2/apps'
+			},
+			{
+				appId:'com_alikhatami_preloaded_test',				
+				root: $("body").find('div.com_alikhatami_preloaded_test:first').get(0)
+			}
+		];
+
+		F2.init();
+
+		F2.AppHandlers.on(F2.AppHandlers.getToken(), "appRenderAfter", function(){ bAfterFired = true; });
+		
+		F2.registerApps(appConfigs);
+
+		waitsFor(
+			function()
+			{
+				return bAfterFired;
+			},
+			'appRenderAfter was never fired',
+			10000
+		);
+		
+		runs(function() {
+			F2.Events.emit("PreloadAppCommuncation", [true]);
+			expect(bAfterFired).toBeTruthy();
+			expect(F2.PreloadTestComplete).toBe(true);
+			//expect(F2.PreloadRetrievedEmit).toBe(true);			
+		});
 	});
 	
 	it('should allow you to init/register apps that are already on the page.', function() {
 		
-		F2.init();
 		F2.PreloadTestComplete = false;
 		F2.PreloadAppInitialized = false;
 		F2.PreloadRetrievedEmit = false;
@@ -64,8 +101,10 @@ describe('F2.registerPreLoadedApps', function() {
 			root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
 		};
 
+		F2.init();
+
 		// init is called above
-		F2.registerPreLoadedApps([appConfig]);
+		F2.registerApps([appConfig]);
 
 		waitsFor(
 			function()
@@ -109,7 +148,7 @@ describe('F2.registerPreLoadedApps', function() {
 		];
 
 		// init is called above
-		F2.registerPreLoadedApps(appConfigs);
+		F2.registerApps(appConfigs);
 
 		waitsFor(
 			function()
