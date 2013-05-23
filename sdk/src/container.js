@@ -7,10 +7,13 @@ F2.extend('', (function(){
 
 	var _apps = {};
 	var _config = false;
+	var _bUsesAppHandlers = false;
+	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
 
 	/**
 	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
@@ -36,18 +39,15 @@ F2.extend('', (function(){
 	/**
 	 * Renders the html for an app.
 	 * @method _appRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} html The string of html
 	 */
 	var _appRender = function(appConfig, html) {
 
-		function outerHtml(html) {
-			return jQuery('<div></div>').append(html).html();
-		}
-
 		// apply APP_CONTAINER class
-		html = outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
 		if (_config.appRender) {
@@ -55,13 +55,14 @@ F2.extend('', (function(){
 		}
 
 		// apply APP class and instanceId
-		return outerHtml(html);
+		return _outerHtml(html);
 	};
 
 	/**
 	 * Rendering hook to allow containers to render some html prior to an app
 	 * loading
 	 * @method _beforeAppRender
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @return {Element} The DOM Element surrounding the app
@@ -140,6 +141,34 @@ F2.extend('', (function(){
 	};
 
 	/**
+	 * Instantiates each app from it's appConfig and stores that in a local private collection
+	 * @method _createAppInstance
+	 * @private
+	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
+	 */
+	var _createAppInstance = function(appConfig){
+		// instantiate F2.UI
+		appConfig.ui = new F2.UI(appConfig);
+
+		// instantiate F2.App
+		if (F2.Apps[appConfig.appId] !== undefined) {
+			if (typeof F2.Apps[appConfig.appId] === 'function') {
+
+				// 
+				setTimeout(function() {
+					_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, jQuery(appConfig.root).html(), appConfig.root);
+					if (_apps[appConfig.instanceId].app['init'] !== undefined) {
+						_apps[appConfig.instanceId].app.init();
+					}
+				}, 0);
+				
+			} else {
+				F2.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
+			}
+		}
+	};
+
+	/**
 	 * Loads the app's html/css/javascript
 	 * @method loadApp
 	 * @private
@@ -170,25 +199,7 @@ F2.extend('', (function(){
 		var scriptsLoaded = 0;
 		var appInit = function() {
 			jQuery.each(appConfigs, function(i, a) {
-				// instantiate F2.UI
-				a.ui = new F2.UI(a);
-
-				// instantiate F2.App
-				if (F2.Apps[a.appId] !== undefined) {
-					if (typeof F2.Apps[a.appId] === 'function') {
-
-						// 
-						setTimeout(function() {
-							_apps[a.instanceId].app = new F2.Apps[a.appId](a, appManifest.apps[i], a.root);
-							if (_apps[a.instanceId].app['init'] !== undefined) {
-								_apps[a.instanceId].app.init();
-							}
-						}, 0);
-						
-					} else {
-						F2.log('app initialization class is defined but not a function. (' + a.appId + ')');
-					}
-				}
+				_createAppInstance(a);
 			});
 		};
 		//eval inlines
@@ -211,8 +222,41 @@ F2.extend('', (function(){
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			// load html and save the root node
-			appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			if(!_bUsesAppHandlers) {
+				// load html and save the root node
+				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
+			} else {
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER,
+					appConfigs[i], // the app config
+					_outerHtml(a.html)
+				);
+				
+				if (!appConfigs[i].root) {
+					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				var $root = jQuery(appConfigs[i].root);
+				
+				if ($root.parents('body:first').length === 0) {
+					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
+					appConfigs[i] // the app config
+				);
+				
+				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
+					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId);
+			}
+			
 			// init events
 			_initAppEvents(appConfigs[i]);
 		});
@@ -221,8 +265,8 @@ F2.extend('', (function(){
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
 				url:e,
-				/*	we want any scripts added this way to be cached by the browser. 
-				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				// we want any scripts added this way to be cached by the browser. 
+				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
 				cache:true,
 				async:false,
 				dataType:'script',
@@ -259,8 +303,40 @@ F2.extend('', (function(){
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			// create the html container for the iframe
-			appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			if(!_bUsesAppHandlers) {
+				// create the html container for the iframe
+				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
+			} else {
+				var $root = jQuery(appConfig.root);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER,
+					appConfig, // the app config
+					appManifest.html
+				);
+				
+				if ($root.parents('body:first').length === 0) {
+					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+				}
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_RENDER_AFTER,
+					appConfig // the app config
+				);
+				
+				if (!appConfig.root) {
+					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				if (!F2.isNativeDOMNode(appConfig.root)) {
+					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+				}
+				
+				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
+			}
+			
 			// instantiate F2.UI
 			appConfig.ui = new F2.UI(appConfig);
 			// init events
@@ -268,8 +344,12 @@ F2.extend('', (function(){
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		} else {
-			F2.log('Unable to load secure app: \"secureAppPagePath\" is not defined in F2.ContainerConfig.');
+			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
 		}
+	};
+
+	var _outerHtml = function(html) {
+		return jQuery('<div></div>').append(html).html();
 	};
 
 	/**
@@ -286,7 +366,7 @@ F2.extend('', (function(){
 			F2.log('"appId" missing from app object');
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log('manifestUrl" missing from app object');
+			F2.log('"manifestUrl" missing from app object');
 			return false;
 		}
 
@@ -305,8 +385,8 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(e, i) {
-				return { appId: e.config.appId };
+			return jQuery.map(_apps, function(app, i) {
+				return { appId: app.config.appId };
 			});
 		},
 		/**
@@ -317,7 +397,11 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
-
+			
+			// dictates whether we use the old logic or the new logic.
+			// TODO: Remove in v2.0
+			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
+			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
 				F2.Rpc.init(!!_config.secureAppPagePath ? _config.secureAppPagePath : false);
@@ -389,10 +473,31 @@ F2.extend('', (function(){
 
 				// add properties and methods
 				_hydrateAppConfig(a);
-
-				// fire beforeAppRender
-				a.root = _beforeAppRender(a);
-
+				
+				// create just a generic div. To squash the jQuery dependency we will turn
+				// app.root will only be a dom node
+				a.root = null;
+				
+				if(!_bUsesAppHandlers)
+				{
+					// fire beforeAppRender
+					a.root = _beforeAppRender(a);
+				}
+				else
+				{
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_CREATE_ROOT,
+						a // the app config
+					);
+					
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+						a // the app config
+					);
+				}
+				
 				// save app
 				_apps[a.instanceId] = { config:a };
 
@@ -417,7 +522,7 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b });
 				});
 
 				// if an app is being loaded more than once on the page, there is the
@@ -471,6 +576,49 @@ F2.extend('', (function(){
 					manifestRequest(i, requests.pop());
 				});
 			}
+		},		
+		/**
+		 * Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
+		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
+		 * @method registerPreLoadedApps
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
+		 */
+		registerPreLoadedApps: function(appConfigs) {
+			
+			if (!_isInit()) {
+				throw('F2.init() must be called before F2.registerApps()');
+			} else if (!appConfigs) {
+				throw('At least one AppConfig must be passed when calling F2.registerPreLoadedApps()');
+			}
+
+			// could just pass an object that is an appConfig
+			appConfigs = [].concat(appConfigs);
+
+			// appConfigs must have a length
+			if (!appConfigs.length) {
+				throw('At least one appConfig must be passed.');
+			}
+
+			jQuery.each(appConfigs, function(i, a) {
+				
+				if (!_validateApp(a)) {
+					throw('Invalid appConfig at position ' + i + '. Please check your inputs and try again.');
+				} else if(!a.root || jQuery(a.root).parents('body:first').length === 0) {
+					throw('Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.');
+				}
+
+				// add properties and methods
+				_hydrateAppConfig(a);
+
+				// place unique instance of app in _apps collection using its instanceId
+				_apps[a.instanceId] = { config:a };
+
+				// instantiate F2.App
+				_createAppInstance(a);
+				
+				// init events
+				_initAppEvents(a);
+			});
 		},
 		/**
 		 * Removes all apps from the container
@@ -499,11 +647,25 @@ F2.extend('', (function(){
 				return;
 			}
 
-			if (_apps[instanceId]) {
-				jQuery(_apps[instanceId].config.root).fadeOut(function() {
-					jQuery(this).remove();
-				});
-
+			if (_apps[instanceId]) {				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+					_apps[instanceId] // the app instance
+				);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY,
+					_apps[instanceId] // the app instance
+				);
+				
+				F2.AppHandlers.__trigger(
+					_sAppHandlerToken,
+					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+					_apps[instanceId] // the app instance
+				);				
+				
 				delete _apps[instanceId];
 			}
 		}

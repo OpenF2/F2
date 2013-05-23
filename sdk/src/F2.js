@@ -127,7 +127,7 @@ F2 = {
 		var S4 = function() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		};
-		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
 	},
 	/**
 	 * Search for a value within an array.
@@ -138,6 +138,25 @@ F2 = {
 	 */
 	inArray: function(value, array) {
 		return jQuery.inArray(value, array) > -1;
+	},
+	/**
+	 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
+	 * @method isNativeDOMNode
+	 * @param {object} testObject The object you want to check as native dom node.
+	 * @return {bool} Returns true if the object passed is a native dom node.
+	 */
+	isNativeDOMNode: function(testObject) {
+		var bIsNode = (
+			typeof Node === 'object' ? testObject instanceof Node : 
+			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
+		);
+		
+		var bIsElement = (
+			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
+			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
+		);
+		
+		return (bIsNode || bIsElement);
 	},
 	/**
 	 * Wrapper logging function.
@@ -185,6 +204,5 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return "{{sdk.version}}"; }
+	version: function() { return '{{sdk.version}}'; }
 };
-
