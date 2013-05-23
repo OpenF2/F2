@@ -49,7 +49,6 @@ var JS_FOOTER = { src: 'sdk/src/template/footer.js.tmpl' };
 // only the files that represent f2
 var CORE_FILES = [
 	{ src: 'sdk/src/F2.js' },
-	{ src: 'sdk/src/app_handlers.js' },
 	{ src: 'sdk/src/classes.js' },
 	{ src: 'sdk/src/constants.js' },
 	{ src: 'sdk/src/events.js' },
