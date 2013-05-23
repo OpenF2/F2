@@ -21,7 +21,7 @@ A couple of ground rules.
 * Follow our [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards).
 * Preferably add _and document_ unit test(s) for your changes. 
 * Re-run all the Jasmine tests to confirm your changes didn't break anything.
-* Perform browser testing in our [supported browsers](wiki/Browser-Compatibility).
+* Perform browser testing in our [supported browsers](https://github.com/OpenF2/F2/wiki/Browser-Compatibility).
 * Add a detailed commit message.
 
 ## Submitting Changes
