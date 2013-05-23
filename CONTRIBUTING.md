@@ -18,7 +18,7 @@ A couple of ground rules.
 
 * Create a branch from where you want to base your changes.
 * Do not work directly in `master`; create a branch _based on_ `master` using `git checkout -b 'your_branch_name' master`.
-* Follow our [coding standards](https://github.com/OpenF2/F2/wiki/Contributing-to-F2).
+* Follow our [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards).
 * Preferably add _and document_ unit test(s) for your changes. 
 * Re-run all the Jasmine tests to confirm your changes didn't break anything.
 * Perform browser testing in our [supported browsers](wiki/Browser-Compatibility).
@@ -38,7 +38,7 @@ Coding standards promote a common vocabulary and syntax so that our fellow devel
 
 Coding standards help an individual project, and also make it easier for one project to reuse components from another project. This, of course, is a core component of F2.
 
-Read our [coding standards](https://github.com/OpenF2/F2/wiki/Contributing-to-F2) on the wiki.
+Read our [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards) on the wiki.
 
 ## Keep in Touch
 
