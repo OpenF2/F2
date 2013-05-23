@@ -13539,25 +13539,14 @@ F2.extend('AppHandlers', (function() {
 	var _handlerCollection = {
 		appCreateRoot: [],
 		appRenderBefore: [],			
-		//appReloadBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
-		//appReloadAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
-		//appReload: [],
 		appDestroy: []			
 	};
 	
 	var _defaultMethods = {
-		appCreateRoot: function()
-		{
-			// do nothing to create root. F2.Container will automatically create the root in the default appRender
-		},
-		appRenderBefore: function(appConfig)
-		{
-			// do nothing before an app is rendered
-		},
 		appRender: function(appConfig, html)
 		{
 			var $root = null;
@@ -13581,30 +13570,6 @@ F2.extend('AppHandlers', (function() {
 			// append the root to the body by default.
 			jQuery('body').append($root);
 		},
-		appRenderAfter: function()
-		{
-			// do nothing after an app is rendered
-		},
-		
-		appReloadBefore: function()
-		{
-			// do nothing before an app reloads
-		},
-		appReload: function()
-		{
-			// re-request the app?
-			// re-add files?
-			// re init js ?
-		},
-		appReloadAfter: function()
-		{
-			// do nothing after an app reloads
-		},
-		
-		appDestroyBefore: function()
-		{
-			// do nothing before destroying app
-		},
 		appDestroy: function(appInstance)
 		{
 			// call the apps destroy method, if it has one
@@ -13622,10 +13587,6 @@ F2.extend('AppHandlers', (function() {
 			jQuery(appInstance.config.root).fadeOut(500, function() {
 				jQuery(this).remove();
 			});
-		},
-		appDestroyAfter: function()
-		{
-			// do nothing after an app is destroyed
 		}
 	};
 	
