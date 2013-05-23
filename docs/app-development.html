@@ -3,8 +3,8 @@
 <head>
   <title>F2 - App Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="8 April 2013">
-  <meta name="gitbranch" content="master">
+  <meta name="dcterms.date" content="23 May 2013">
+  <meta name="gitbranch" content="r1.2">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
   <meta name="robots" content="all, index, follow" />
@@ -17,7 +17,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.1.2" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.2.0" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -26,7 +26,7 @@
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png" />
   
   <script type="text/javascript">
-  	if ('master' === 'master'){
+  	if ('r1.2' === 'master'){
   		var _gaq = _gaq || [];
   		_gaq.push(['_setAccount', 'UA-35230380-1']);
   		_gaq.push(['_setDomainName', 'openf2.org']);
@@ -73,8 +73,8 @@
             <li class="divider-vertical"></li>
             <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
           </ul>
         </div>
       </div>
@@ -94,19 +94,19 @@
       </nav>
     </div>
 
-		<div class="navbar-docs-sections">
-			<div class="container">
-				<a href="javascript:;" data-toggle="collapse" data-target=".nav-collapse.toc">
-					SECTIONS
-					<span class="icon-triangleDown"></span>
-				</a>
-				<div class="collapse nav-collapse toc">
-					<ul id="tocResponsive" class="nav pull-right">
-						<!--nav generated in ./js/docs.js-->
-					</ul>
-				</div>
-			</div>
-		</div>
+    <div class="navbar-docs-sections">
+      <div class="container">
+        <a href="javascript:;" data-toggle="collapse" data-target=".nav-collapse.toc">
+          SECTIONS
+          <span class="icon-triangleDown"></span>
+        </a>
+        <div class="collapse nav-collapse toc">
+          <ul id="tocResponsive" class="nav pull-right">
+            <!--nav generated in ./js/docs.js-->
+          </ul>
+        </div>
+      </div>
+    </div>
 
   </nav>
 </header>
@@ -119,13 +119,13 @@
         </ul>
     </div><!--/span3-->
 
-	<div class="span9">
-		<div id="docs">
+  <div class="span9">
+    <div id="docs">
 <header>
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.1.2). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.2.0). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
 </p>
 
 <p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used. To start, F2 Apps are either:</p>
@@ -624,7 +624,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="kw">F2.Constants.Events</span>.<span class="fu">CONTAINER</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
     <span class="kw">function</span>(data){
-<span class="er">        F2.log(&quot;The symbol was changed to &quot; + data.symbol);</span>
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
     }
 );</code></pre>
 <p>The <code>F2.Events.on()</code> method accepts the event name and listener function as arguments. <a href="./sdk/classes/F2.Events.html">Read the SDK</a> for more information.</p>
@@ -667,7 +667,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="kw">F2.Constants.Events</span>.<span class="fu">APP</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
     <span class="kw">function</span>(data){
-<span class="er">        F2.log(&quot;The symbol was changed to &quot; + data.symbol);</span>
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;The symbol was changed to &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span>);
     }
 );</code></pre>
 <p><span class="label">Note</span> For a full list of support event types, browse to the SDK for <a href="./sdk/classes/F2.Constants.Events.html">F2.Constants.Events</a>.</p>
@@ -690,8 +690,8 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="st">&quot;buy_stock&quot;</span>, 
     <span class="kw">function</span>(data){
-<span class="er">        if (data.isAvailableToPurchase){</span>
-<span class="er">            F2.log(&quot;Trade ticket order for &quot; + data.symbol + &quot; at $&quot; + data.price);</span>
+        <span class="kw">if</span> (<span class="kw">data</span>.<span class="fu">isAvailableToPurchase</span>){
+            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Trade ticket order for &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span> + <span class="st">&quot; at $&quot;</span> + <span class="kw">data</span>.<span class="fu">price</span>);
         } <span class="kw">else</span> {
             <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;This stock is not available for purchase.&quot;</span>)
         }
@@ -743,7 +743,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="st">&quot;buy_stock&quot;</span>, 
     <span class="kw">function</span>(data){
-<span class="er">        F2.log(&quot;Trade ticket order for &quot; + data.symbol + &quot; at $&quot; + data.price);</span>
+        <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Trade ticket order for &quot;</span> + <span class="kw">data</span>.<span class="fu">symbol</span> + <span class="st">&quot; at $&quot;</span> + <span class="kw">data</span>.<span class="fu">price</span>);
         <span class="co">//..populate the trade ticket...</span>
         <span class="co">//fire the callback</span>
         <span class="kw">if</span> (<span class="kw">typeof</span> <span class="kw">data</span>.<span class="fu">callback</span> === <span class="ch">&#39;function&#39;</span>){
@@ -842,7 +842,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
     }).<span class="fu">done</span>(<span class="kw">function</span>(jqxhr){
         <span class="kw">F2</span>.<span class="fu">log</span>(jqxhr);
         <span class="co">//hide loading</span>
-<span class="er">        this.ui.hideMask(this.root);</span>
+        <span class="kw">this</span>.<span class="fu">ui</span>.<span class="fu">hideMask</span>(<span class="kw">this</span>.<span class="fu">root</span>);
     });
 ...</code></pre>
 <p>The <code>showMask()</code> method takes two arguments: a DOM element where to show the mask and a boolean indicating whether or not to show a spinning graphic.</p>
@@ -918,7 +918,7 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <h4>Controlling View State</h4>
 <p>The <code>F2.UI</code> namespace provides an API for developers to manage F2 app View state.</p>
 <p>To programmatically change a View in javascript:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="er">appConfig.ui.Views.change(F2.Constants.Views.HOME);</span></code></pre>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">appConfig.ui.Views</span>.<span class="fu">change</span>(<span class="kw">F2.Constants.Views</span>.<span class="fu">HOME</span>);</code></pre>
 <p><span class="label label-info">Note</span> When <code>appConfig.ui.Views.change()</code> is called, the <code>hide</code> classname is automatically added or removed by F2.js depending on the visibility of the view. <a href="./sdk/classes/F2.UI.Views.html#methods-change">Read more in the SDK docs</a>.</p>
 <p>In F2 app HTML, you can use a combination of CSS classnames and <code>data-</code> attributes to provide UI elements making it easy for users to navigate between Views.</p>
 <p>For example, an app has two views: &quot;home&quot; and &quot;about&quot;. On the &quot;home&quot; View, a button allows the user to navigate to the &quot;about&quot; view. In the presence of the classname <code>f2-app-view-trigger</code> and the <code>data-f2-view</code> data attribute, F2.js automatically adds a javascript event to the button.</p>
@@ -975,8 +975,8 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 23 May 2013</small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
 </div><!--/.container-->
@@ -984,8 +984,8 @@ In the absence of a function in your <code>appclass.js</code>, F2 will be unable
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.1.2"></script>
-<script src="./js/docs.js?1.1.2"></script>
-<script>F2.extend('gitbranch', (function(){ return 'master'; }));</script>
+<script src="./js/f2.js?1.2.0"></script>
+<script src="./js/docs.js?1.2.0"></script>
+<script>F2.extend('gitbranch', (function(){ return 'r1.2'; }));</script>
 </body>
 </html>

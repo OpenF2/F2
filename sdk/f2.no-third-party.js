@@ -5,26 +5,32 @@
 	}
 
 /*!
- * F2 v1.1.2
+ * F2 v1.2.0
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * Unless required by applicable law or agreed to in writing, software distributed 
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * Please note that F2 ("Software") may contain third party material that Markit 
+ * On Demand Inc. has a license to use and include within the Software (the 
+ * "Third Party Material"). A list of the software comprising the Third Party Material 
+ * and the terms and conditions under which such Third Party Material is distributed 
+ * are reproduced in the ThirdPartyMaterial.md file available at:
+ * 
+ * https://github.com/OpenF2/F2/blob/master/ThirdPartyMaterial.md
+ * 
+ * The inclusion of the Third Party Material in the Software does not grant, provide 
+ * nor result in you having acquiring any rights whatsoever, other than as stipulated 
+ * in the terms and conditions related to the specific Third Party Material, if any.
+ *
  */
 
 var F2;
@@ -133,7 +139,7 @@ F2 = {
 		var S4 = function() {
 			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		};
-		return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
 	},
 	/**
 	 * Search for a value within an array.
@@ -144,6 +150,25 @@ F2 = {
 	 */
 	inArray: function(value, array) {
 		return jQuery.inArray(value, array) > -1;
+	},
+	/**
+	 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
+	 * @method isNativeDOMNode
+	 * @param {object} testObject The object you want to check as native dom node.
+	 * @return {bool} Returns true if the object passed is a native dom node.
+	 */
+	isNativeDOMNode: function(testObject) {
+		var bIsNode = (
+			typeof Node === 'object' ? testObject instanceof Node : 
+			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
+		);
+		
+		var bIsElement = (
+			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
+			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
+		);
+		
+		return (bIsNode || bIsElement);
 	},
 	/**
 	 * Wrapper logging function.
@@ -191,15 +216,14 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return "1.1.2"; }
+	version: function() { return '1.2.0'; }
 };
-
 
 /**
  * Class stubs for documentation purposes
  * @main F2
  */
-F2.extend("", {
+F2.extend('', {
 	/**
 	 * The App Class is an optional class that can be namespaced onto the 
 	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
@@ -235,7 +259,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		appId: "",
+		appId: '',
 		/**
 		 * An object that represents the context of an app
 		 * @property context
@@ -267,7 +291,7 @@ F2.extend("", {
 		 * @property instanceId
 		 * @type string
 		 */
-		instanceId: "",
+		instanceId: '',
 		/**
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
@@ -286,7 +310,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		manifestUrl: "",
+		manifestUrl: '',
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * **It is up to the [container](../../container-development.html) to
@@ -322,7 +346,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		name: "",
+		name: '',
 		/**
 		 * The root DOM element that contains the app
 		 *
@@ -407,14 +431,14 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		html: "",
+		html: '',
 		/**
 		 * A status message
 		 * @property status
 		 * @type string
 		 * @optional
 		 */
-		status: ""
+		status: ''
 	},
 	/**
 	 * An object containing configuration information for the
@@ -428,6 +452,7 @@ F2.extend("", {
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html
 		 * @method afterAppRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app 
 		 * @return {Element} The DOM Element surrounding the app
@@ -442,6 +467,7 @@ F2.extend("", {
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app
 		 */
@@ -452,6 +478,7 @@ F2.extend("", {
 		 * icons to appear for each app before each app is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @return {Element} The DOM Element surrounding the app
 		 */
@@ -463,6 +490,24 @@ F2.extend("", {
 		 * @type bool
 		 */
 		isSecureAppPage: false,
+		/**
+		 * Allows the container to specify which page is used when
+		 * loading a secure app. The page must reside on a different domain than the
+		 * container
+		 * @property secureAppPagePath
+		 * @type string
+		 * @for F2.ContainerConfig
+		 */
+		secureAppPagePath: '',
+		/**
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app's header.
+		 * @property supportedViews
+		 * @type Array
+		 * @required
+		 */
+		supportedViews: [],
 		/**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
@@ -492,9 +537,9 @@ F2.extend("", {
 				 * The opacity of the background overlay
 				 * @property opacity
 				 * @type int
-				 * @default .6
+				 * @default 0.6
 				 */
-				opacity: .6,
+				opacity: 0.6,
 				/**
 				 * Do not use inline styles for mask functinality. Instead classes will
 				 * be applied to the elements and it is up to the container provider to
@@ -512,25 +557,7 @@ F2.extend("", {
 				 */
 				zIndex: 2
 			}
-		},
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
-		/**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app's header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 */
-		supportedViews: []
+		}
 	}
 });
 /**
@@ -973,9 +1000,10 @@ F2.extend('Rpc', (function(){
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
 		var container = jQuery(appConfig.root);
-		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
-			? container
-			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.is('.' + F2.Constants.Css.APP_CONTAINER)) {
+			container.find('.' + F2.Constants.Css.APP_CONTAINER);
+		}
 
 		if (!container.length) {
 			F2.log('Unable to locate app in order to establish secure connection.');
@@ -1037,7 +1065,7 @@ F2.extend('Rpc', (function(){
 	 */
 	var _onMessage = function(appConfig, message, origin) {
 
-		var obj;
+		var obj, func;
 
 		function parseFunction(parent, functionName) {
 			var path = String(functionName).split('.');
@@ -1049,7 +1077,7 @@ F2.extend('Rpc', (function(){
 				parent = parent[path[i]];
 			}
 			return parent;
-		};
+		}
 
 		function parseMessage(regEx, message, instanceId) {
 			var o = F2.parse(message.replace(regEx, ''));
@@ -1070,12 +1098,12 @@ F2.extend('Rpc', (function(){
 			}
 
 			return o;
-		};
+		}
 
 		// handle UI Call
 		if (_rUiCall.test(message)) {
 			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			var func = parseFunction(appConfig.ui, obj.functionName);
+			func = parseFunction(appConfig.ui, obj.functionName);
 			// if we found the function, call it
 			if (func !== undefined) {
 				func.apply(appConfig.ui, obj.params);
@@ -1086,7 +1114,7 @@ F2.extend('Rpc', (function(){
 		// handle RPC
 		} else if (_rRpc.test(message)) {
 			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			var func = parseFunction(window, obj.functionName);
+			func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
@@ -1149,7 +1177,7 @@ F2.extend('Rpc', (function(){
 			// loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			jQuery.each(params, function(i, e) {
-				if (typeof e === "function") {
+				if (typeof e === 'function') {
 					var cid = _registerCallback(e);
 					params[i] = cid;
 					callbacks.push(cid);
@@ -1196,7 +1224,7 @@ F2.extend('Rpc', (function(){
 				// the app is secure
 				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
-				jQuery(_apps[instanceId].config.root).find('iframe').length == 0
+				jQuery(_apps[instanceId].config.root).find('iframe').length === 0
 			);
 		},
 
@@ -1213,7 +1241,7 @@ F2.extend('Rpc', (function(){
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
-				F2.log("Unable to register socket connection. Please check container configuration.");
+				F2.log('Unable to register socket connection. Please check container configuration.');
 			}
 		}
 	};
@@ -1487,8 +1515,8 @@ F2.extend('UI', (function(){
 					 * Removes a view event listener
 					 * @method off
 					 * @param {string} event The event name
-		 			 * @param {function} listener The function that will be removed
-		 			 * @for F2.UI.Views
+					 * @param {function} listener The function that will be removed
+					 * @for F2.UI.Views
 					 */
 					off: function(event, listener) {
 						if (_isValid(event)) {
@@ -1508,7 +1536,7 @@ F2.extend('UI', (function(){
 							_events.on(event, listener);
 						}
 					}
-				}
+				};
 			})()
 		};
 	};
@@ -1544,7 +1572,7 @@ F2.extend('UI', (function(){
 		} else {
 			
 			var container = jQuery(selector);
-			var mask = container.find('> .' + F2.Constants.Css.MASK).remove();
+			container.find('> .' + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
 			// if the element contains this data property, we need to reset static
@@ -1867,8 +1895,8 @@ F2.extend('', (function(){
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
 				url:e,
-				/*	we want any scripts added this way to be cached by the browser. 
-				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				// we want any scripts added this way to be cached by the browser. 
+				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
 				cache:true,
 				async:false,
 				dataType:'script',
@@ -1932,7 +1960,7 @@ F2.extend('', (function(){
 			F2.log('"appId" missing from app object');
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log('manifestUrl" missing from app object');
+			F2.log('"manifestUrl" missing from app object');
 			return false;
 		}
 
@@ -1951,8 +1979,8 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(e, i) {
-				return { appId: e.config.appId };
+			return jQuery.map(_apps, function(app, i) {
+				return { appId: app.config.appId };
 			});
 		},
 		/**
@@ -2063,7 +2091,7 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b });
 				});
 
 				// if an app is being loaded more than once on the page, there is the

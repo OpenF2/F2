@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - sdk\src\rpc.js</title>
-	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="master">
+	<title>F2 - sdk/src/rpc.js</title>
+	<meta name="dcterms.date" content="23 May 2013">
+	<meta name="gitbranch" content="r1.2">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -13,19 +13,19 @@
 	<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<link rel="home" href="http://www.openf2.org/" />
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js"></script>
-	<script src="..&#x2F;../js/respond.min.js"></script>
+	<script src="../../js/modernizr.2.6.2.custom.min.js"></script>
+	<script src="../../js/respond.min.js"></script>
 	
-	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.1.2" rel="stylesheet">
+	<link href="../../css/prettify.css" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
 
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
+	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="../../img/touch-icon-ipad-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('master' === 'master'){
+		if ('r1.2' === 'master'){
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -60,10 +60,10 @@
 							<li><a href="http://www.openF2.org">Home</a></li>
 							<li class="divider-vertical"></li>
 							<li class="active">
-								<a href="..&#x2F;../">Docs <i class="icon-triangleDown"></i></a>
+								<a href="../../">Docs <i class="icon-triangleDown"></i></a>
 								<ul class="nav navinset">
-									<li><a href="..&#x2F;../">The Basics</a></li>
-									<li><a href="..&#x2F;../app-development.html">Development</a></li>
+									<li><a href="../../">The Basics</a></li>
+									<li><a href="../../app-development.html">Development</a></li>
 									<li><a href="./" class="active">Reference</a></li>
 								</ul>
 							</li>
@@ -74,8 +74,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -86,9 +86,9 @@
 					<div class="row">
 						<div class="span12">
 								<ul class="unstyled clearfix">
-									<li class="basics"><a href="..&#x2F;../">The Basics</a></li>
-									<li class="dev"><a href="..&#x2F;../app-development.html">Development</a></li>
-									<li class="ref"><a href="..&#x2F;./" class="active">Reference</a></li>
+									<li class="basics"><a href="../../">The Basics</a></li>
+									<li class="dev"><a href="../../app-development.html">Development</a></li>
+									<li class="ref"><a href=".././" class="active">Reference</a></li>
 								</ul>
 						</div>
 					</div>
@@ -104,41 +104,41 @@
 					<div class="collapse nav-collapse toc">
 						<ul class="nav pull-right">
 								
-		<li class=""><a href="..&#x2F;classes/F2.html">F2</a></li>
+		<li class=""><a href="../classes/F2.html">F2</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 						</ul>
@@ -154,41 +154,41 @@
 			<div id="toc" class="span3">
 				<ul class="nav nav-list">
 						
-		<li class=""><a href="..&#x2F;classes/F2.html">F2</a></li>
+		<li class=""><a href="../classes/F2.html">F2</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -213,14 +213,14 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\rpc.js</h1>
+				<h1 class="file-heading">File: sdk/src/rpc.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
+/**
  * Handles socket communication between the container and secure apps
  * @class F2.Rpc
- *&#x2F;
+ */
 F2.extend(&#x27;Rpc&#x27;, (function(){
 	var _callbacks = {};
 	var _secureAppPagePath = &#x27;&#x27;;
@@ -231,43 +231,43 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	var _rSocketLoad = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.LOAD);
 	var _rUiCall = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.UI_RPC);
 
-	&#x2F;**
+	/**
 	 * Creates a socket connection from the app to the container using 
-	 * &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt;.
+	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
 	 * @method _createAppToContainerSocket
 	 * @private
-	 *&#x2F;
+	 */
 	var _createAppToContainerSocket = function() {
 
-		var appConfig; &#x2F;&#x2F; socket closure
+		var appConfig; // socket closure
 		var isLoaded = false;
-		&#x2F;&#x2F; its possible for messages to be received before the socket load event has
-		&#x2F;&#x2F; happened.  We&#x27;ll save off these messages and replay them once the socket
-		&#x2F;&#x2F; is ready
+		// its possible for messages to be received before the socket load event has
+		// happened.  We&#x27;ll save off these messages and replay them once the socket
+		// is ready
 		var messagePlayback = [];
 
 		var socket = new easyXDM.Socket({
 			onMessage: function(message, origin){
 
-				&#x2F;&#x2F; handle Socket Load
+				// handle Socket Load
 				if (!isLoaded &amp;&amp; _rSocketLoad.test(message)) {
 					message = message.replace(_rSocketLoad, &#x27;&#x27;);
 					var appParts = F2.parse(message);
 
-					&#x2F;&#x2F; make sure we have the AppConfig and AppManifest
+					// make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
 						appConfig = appParts[0];
 
-						&#x2F;&#x2F; save socket
+						// save socket
 						_apps[appConfig.instanceId] = {
 							config:appConfig,
 							socket:socket
 						};	
 
-						&#x2F;&#x2F; register app
+						// register app
 						F2.registerApps([appConfig], [appParts[1]]);
 
-						&#x2F;&#x2F; socket message playback
+						// socket message playback
 						jQuery.each(messagePlayback, function(i, e) {
 							_onMessage(appConfig, message, origin);
 						});
@@ -275,30 +275,31 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 						isLoaded = true;
 					}
 				} else if (isLoaded) {
-					&#x2F;&#x2F; pass everyting else to _onMessage
+					// pass everyting else to _onMessage
 					_onMessage(appConfig, message, origin);
 				} else {
-					&#x2F;&#x2F;F2.log(&#x27;socket not ready, queuing message&#x27;, message);
+					//F2.log(&#x27;socket not ready, queuing message&#x27;, message);
 					messagePlayback.push(message);
 				}
 			}
 		});
 	};
 
-	&#x2F;**
+	/**
 	 * Creates a socket connection from the container to the app using 
-	 * &lt;a href=&quot;http:&#x2F;&#x2F;easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;&#x2F;a&gt;.
+	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
 	 * @method _createContainerToAppSocket
 	 * @private
 	 * @param {appConfig} appConfig The F2.AppConfig object
 	 * @param {F2.AppManifest} appManifest The F2.AppManifest object
-	 *&#x2F;
+	 */
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
 		var container = jQuery(appConfig.root);
-		container = container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)
-			? container
-			: container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)) {
+			container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
+		}
 
 		if (!container.length) {
 			F2.log(&#x27;Unable to locate app in order to establish secure connection.&#x27;);
@@ -321,7 +322,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			container: container.get(0),
 			props:iframeProps,
 			onMessage: function(message, origin) {
-				&#x2F;&#x2F; pass everything to _onMessage
+				// pass everything to _onMessage
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
@@ -332,13 +333,13 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		return socket;
 	};
 
-	&#x2F;**
+	/**
 	 * @method _createRpcCallback
 	 * @private
 	 * @param {string} instanceId The app&#x27;s Instance ID
 	 * @param {function} callbackId The callback ID
 	 * @return {function} A function to make the RPC call
-	 *&#x2F;
+	 */
 	var _createRpcCallback = function(instanceId, callbackId) {
 		return function() {
 			F2.Rpc.call(
@@ -350,17 +351,17 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		};
 	};
 
-	&#x2F;**
+	/**
 	 * Handles messages that come across the sockets
 	 * @method _onMessage
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 	 * @param {string} message The socket message
 	 * @param {string} origin The originator
-	 *&#x2F;
+	 */
 	var _onMessage = function(appConfig, message, origin) {
 
-		var obj;
+		var obj, func;
 
 		function parseFunction(parent, functionName) {
 			var path = String(functionName).split(&#x27;.&#x27;);
@@ -372,16 +373,16 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				parent = parent[path[i]];
 			}
 			return parent;
-		};
+		}
 
 		function parseMessage(regEx, message, instanceId) {
 			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
 
-			&#x2F;&#x2F; if obj.callbacks
-			&#x2F;&#x2F;   for each callback
-			&#x2F;&#x2F;     for each params
-			&#x2F;&#x2F;       if callback matches param
-			&#x2F;&#x2F;        replace param with _createRpcCallback(app.instanceId, callback)
+			// if obj.callbacks
+			//   for each callback
+			//     for each params
+			//       if callback matches param
+			//        replace param with _createRpcCallback(app.instanceId, callback)
 			if (o.params &amp;&amp; o.params.length &amp;&amp; o.callbacks &amp;&amp; o.callbacks.length) {
 				jQuery.each(o.callbacks, function(i, c) {
 					jQuery.each(o.params, function(i, p) {
@@ -393,30 +394,30 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			}
 
 			return o;
-		};
+		}
 
-		&#x2F;&#x2F; handle UI Call
+		// handle UI Call
 		if (_rUiCall.test(message)) {
 			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			var func = parseFunction(appConfig.ui, obj.functionName);
-			&#x2F;&#x2F; if we found the function, call it
+			func = parseFunction(appConfig.ui, obj.functionName);
+			// if we found the function, call it
 			if (func !== undefined) {
 				func.apply(appConfig.ui, obj.params);
 			} else {
 				F2.log(&#x27;Unable to locate UI RPC function: &#x27; + obj.functionName);
 			}
 
-		&#x2F;&#x2F; handle RPC
+		// handle RPC
 		} else if (_rRpc.test(message)) {
 			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			var func = parseFunction(window, obj.functionName);
+			func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
 				F2.log(&#x27;Unable to locate RPC function: &#x27; + obj.functionName);
 			}
 
-		&#x2F;&#x2F; handle RPC Callback
+		// handle RPC Callback
 		} else if (_rRpcCallback.test(message)) {
 			obj = parseMessage(_rRpcCallback, message, appConfig.instanceId);
 			if (_callbacks[obj.functionName] !== undefined) {
@@ -424,20 +425,20 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				delete _callbacks[obj.functionName];
 			}
 
-		&#x2F;&#x2F; handle Events
+		// handle Events
 		} else if (_rEvents.test(message)) {
 			obj = parseMessage(_rEvents, message, appConfig.instanceId);
 			F2.Events._socketEmit.apply(F2.Events, obj);
 		}
 	};
 
-	&#x2F;**
+	/**
 	 * Registers a callback function
 	 * @method _registerCallback
 	 * @private
 	 * @param {function} callback The callback function
 	 * @return {string} The callback ID
-	 *&#x2F;
+	 */
 	var _registerCallback = function(callback) {
 		var callbackId = F2.guid();
 		_callbacks[callbackId] = callback;
@@ -445,20 +446,20 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 	};
 
 	return {
-		&#x2F;**
+		/**
 		 * Broadcast an RPC function to all sockets
 		 * @method broadcast
 		 * @param {string} messageType The message type
 		 * @param {Array} params The parameters to broadcast
-		 *&#x2F;
+		 */
 		broadcast: function(messageType, params) {
-			&#x2F;&#x2F; check valid messageType
+			// check valid messageType
 			var message = messageType + F2.stringify(params);
 			jQuery.each(_apps, function(i, a) {
 				a.socket.postMessage(message);
 			});
 		},
-		&#x2F;**
+		/**
 		 * Calls a remote function
 		 * @method call
 		 * @param {string} instanceId The app&#x27;s Instance ID
@@ -467,18 +468,18 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 * @param {Array} params An array of parameters to pass to the remote
 		 * function. Any functions found within the params will be treated as a
 		 * callback function.
-		 *&#x2F;
+		 */
 		call: function(instanceId, messageType, functionName, params) {
-			&#x2F;&#x2F; loop through params and find functions and convert them to callbacks
+			// loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			jQuery.each(params, function(i, e) {
-				if (typeof e === &quot;function&quot;) {
+				if (typeof e === &#x27;function&#x27;) {
 					var cid = _registerCallback(e);
 					params[i] = cid;
 					callbacks.push(cid);
 				}
 			});
-			&#x2F;&#x2F; check valid messageType
+			// check valid messageType
 			_apps[instanceId].socket.postMessage(
 				messageType + F2.stringify({
 					functionName:functionName,
@@ -488,15 +489,15 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			);
 		},
 
-		&#x2F;**
+		/**
 		 * Init function which tells F2.Rpc whether it is running at the container-
 		 * level or the app-level. This method is generally called by
-		 * F2.{{#crossLink &quot;F2&#x2F;init&quot;}}{{&#x2F;crossLink}}
+		 * F2.{{#crossLink &quot;F2/init&quot;}}{{/crossLink}}
 		 * @method init
 		 * @param {string} [secureAppPagePath] The
-		 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{&#x2F;crossLink}}.secureAppPagePath
+		 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}}.secureAppPagePath
 		 * property
-		 *&#x2F;
+		 */
 		init: function(secureAppPagePath) {
 			_secureAppPagePath = secureAppPagePath;
 			if (!_secureAppPagePath) {
@@ -504,31 +505,31 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			}
 		},
 
-		&#x2F;**
+		/**
 		 * Determines whether the Instance ID is considered to be &#x27;remote&#x27;. This is
 		 * determined by checking if 1) the app has an open socket and 2) whether
 		 * F2.Rpc is running inside of an iframe
 		 * @method isRemote
 		 * @param {string} instanceId The Instance ID
 		 * @return {bool} True if there is an open socket
-		 *&#x2F;
+		 */
 		isRemote: function(instanceId) {
 			return (
-				&#x2F;&#x2F; we have an app
+				// we have an app
 				_apps[instanceId] !== undefined &amp;&amp;
-				&#x2F;&#x2F; the app is secure
+				// the app is secure
 				_apps[instanceId].config.isSecure &amp;&amp;
-				&#x2F;&#x2F; we can&#x27;t access the iframe
-				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length == 0
+				// we can&#x27;t access the iframe
+				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length === 0
 			);
 		},
 
-		&#x2F;**
+		/**
 		 * Creates a container-to-app or app-to-container socket for communication
 		 * @method register
 		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
 		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
-		 *&#x2F;
+		 */
 		register: function(appConfig, appManifest) {
 			if (!!appConfig &amp;&amp; !!appManifest) {
 				_apps[appConfig.instanceId] = {
@@ -536,7 +537,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
-				F2.log(&quot;Unable to register socket connection. Please check container configuration.&quot;);
+				F2.log(&#x27;Unable to register socket connection. Please check container configuration.&#x27;);
 			}
 		}
 	};
@@ -550,20 +551,20 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 23 May 2013</small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.3.0.js"></script>
-<script src="..&#x2F;../js/prettify.js"></script>
-<script src="..&#x2F;assets/js/main.js"></script>
-<script src="..&#x2F;../js/f2.js?"></script>
+<script src="../../js/bootstrap.min.2.3.0.js"></script>
+<script src="../../js/prettify.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../../js/f2.js?"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'master'; }));
+	F2.extend('gitbranch', (function(){ return 'r1.2'; }));
 </script>
 <script type="text/javascript">
 	if (F2.gitbranch() === 'master'){
