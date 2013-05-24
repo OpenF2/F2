@@ -221,8 +221,8 @@ F2.extend('', (function(){
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
 				url:e,
-				/*	we want any scripts added this way to be cached by the browser. 
-				 	if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)*/
+				// we want any scripts added this way to be cached by the browser. 
+				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
 				cache:true,
 				async:false,
 				dataType:'script',
@@ -286,7 +286,7 @@ F2.extend('', (function(){
 			F2.log('"appId" missing from app object');
 			return false;
 		} else if (!appConfig.manifestUrl) {
-			F2.log('manifestUrl" missing from app object');
+			F2.log('"manifestUrl" missing from app object');
 			return false;
 		}
 
@@ -305,8 +305,8 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(e, i) {
-				return { appId: e.config.appId };
+			return jQuery.map(_apps, function(app, i) {
+				return { appId: app.config.appId };
 			});
 		},
 		/**
@@ -417,7 +417,7 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b })
+					appStack.push({ url:i, apps:b });
 				});
 
 				// if an app is being loaded more than once on the page, there is the

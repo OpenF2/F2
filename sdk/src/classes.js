@@ -2,7 +2,7 @@
  * Class stubs for documentation purposes
  * @main F2
  */
-F2.extend("", {
+F2.extend('', {
 	/**
 	 * The App Class is an optional class that can be namespaced onto the 
 	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
@@ -38,7 +38,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		appId: "",
+		appId: '',
 		/**
 		 * An object that represents the context of an app
 		 * @property context
@@ -70,7 +70,7 @@ F2.extend("", {
 		 * @property instanceId
 		 * @type string
 		 */
-		instanceId: "",
+		instanceId: '',
 		/**
 		 * True if the app will be loaded in an iframe. This property
 		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
@@ -89,7 +89,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		manifestUrl: "",
+		manifestUrl: '',
 		/**
 		 * The recommended maximum width in pixels that this app should be run.
 		 * **It is up to the [container](../../container-development.html) to
@@ -125,7 +125,7 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		name: "",
+		name: '',
 		/**
 		 * The root DOM element that contains the app
 		 *
@@ -210,14 +210,14 @@ F2.extend("", {
 		 * @type string
 		 * @required
 		 */
-		html: "",
+		html: '',
 		/**
 		 * A status message
 		 * @property status
 		 * @type string
 		 * @optional
 		 */
-		status: ""
+		status: ''
 	},
 	/**
 	 * An object containing configuration information for the
@@ -231,6 +231,7 @@ F2.extend("", {
 		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
 		 * html
 		 * @method afterAppRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app 
 		 * @return {Element} The DOM Element surrounding the app
@@ -245,6 +246,7 @@ F2.extend("", {
 		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
 		 * should be applied to elements.
 		 * @method appRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @param {string} html The string of html representing the app
 		 */
@@ -255,6 +257,7 @@ F2.extend("", {
 		 * icons to appear for each app before each app is loaded and rendered to
 		 * the page.
 		 * @method beforeAppRender
+		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
 		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
 		 * @return {Element} The DOM Element surrounding the app
 		 */
@@ -266,6 +269,24 @@ F2.extend("", {
 		 * @type bool
 		 */
 		isSecureAppPage: false,
+		/**
+		 * Allows the container to specify which page is used when
+		 * loading a secure app. The page must reside on a different domain than the
+		 * container
+		 * @property secureAppPagePath
+		 * @type string
+		 * @for F2.ContainerConfig
+		 */
+		secureAppPagePath: '',
+		/**
+		 * Specifies what views a container will provide buttons
+		 * or links to. Generally, the views will be switched via buttons or links
+		 * in the app's header.
+		 * @property supportedViews
+		 * @type Array
+		 * @required
+		 */
+		supportedViews: [],
 		/**
 		 * An object containing configuration defaults for F2.UI
 		 * @class F2.ContainerConfig.UI
@@ -295,9 +316,9 @@ F2.extend("", {
 				 * The opacity of the background overlay
 				 * @property opacity
 				 * @type int
-				 * @default .6
+				 * @default 0.6
 				 */
-				opacity: .6,
+				opacity: 0.6,
 				/**
 				 * Do not use inline styles for mask functinality. Instead classes will
 				 * be applied to the elements and it is up to the container provider to
@@ -315,24 +336,6 @@ F2.extend("", {
 				 */
 				zIndex: 2
 			}
-		},
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
-		/**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app's header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 */
-		supportedViews: []
+		}
 	}
 });
