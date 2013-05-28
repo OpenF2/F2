@@ -704,7 +704,7 @@ F2.js uses jQuery internally to parse the value of the `root` property and, in t
 
 #### 5. Register App
 
-Since you started with the `AppConfig` and now have the `AppManifest` from step 2 along with an HTML page containing the embedded app, all that remains is a simple call to F2. 
+Since you started with the `AppConfig` and now have the `AppManifest` from step 2 along with an HTML page containing the embedded app, all that remains is a simple call to F2. Registering pre-loaded apps with F2.js means passing _both_ the `AppConfig` and `AppManifest` to `F2.registerApps()` as shown in the example below. 
 
 ```javascript
 var _appConfig = {
@@ -715,13 +715,28 @@ var _appConfig = {
     root: document.getElementById('news_app')
 };
 
+var _appManifest = {
+   "apps":[{
+         "data":{},
+         "html": "<div data-module-name=\"MarketNewsApp\">...</div>",
+    }],
+   "scripts":[
+      "http://www.openf2.org/js/main.js"
+   ],
+   "styles":[
+      "http://www.openf2.org/css/site.css"
+   ]
+};
+
 $(function(){
     F2.init();
-    F2.registerApps(_appConfig);
+    F2.registerApps(_appConfig,_appManifest);
 });
 ```
 
 The web page and pre-loaded news app is a fully F2-enabled container. Rejoice!
+
+<span class="label label-important">Important</span> The `F2.registerApps()` API supports both an array of objects and object literals for each argument. Internally, F2.js converts the value of each argument into an array using concatenation (`[].concat()`). If arrays of objects are used (when there are more than one app on the container), the `_appConfig` and `_appManifest` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for the sample news app must be in `_appConfig[0]` and `_appManifest[0]`.
 
 * * * *
 
