@@ -672,7 +672,7 @@ The example news app is now part of the web page and everything should be functi
 
 #### 4. Assign Root Element to AppConfig
 
-To use pre-loaded apps, an additional property is required on the `AppConfig` object. It is called `root` and can be either a CSS selector string _or_ a DOM element. 
+To use pre-loaded apps, an additional property is required on the `AppConfig` object. It is called `root` and can be either a CSS selector string _or_ a DOM element. Regardless of type, F2 will parse the value of `root` and it must return an existing in-page DOM element. Furthermore, the value of `root` must represent a _unique_ DOM element as each app needs its own containing, or `root`, element.
 
 ```javascript
 var _appConfig = {
@@ -680,25 +680,27 @@ var _appConfig = {
     description: 'Example News',
     manifestUrl: 'http://www.openf2.org/Examples/Apps',
     name: 'Example News',
-    root: document.getElementById('news_app') //Look, I'm new! 
+    root: document.getElementById('news_app')
 };
 ```
 
-All of these are valid values for the `root` property.
+Both of these are valid values for the `root` property. Using JavaScript:
 
 ```javascript
 {
-    root: document.querySelectorAll('.span12')
+    root: document.getElementById('news_app')
 }
 ```
 
-or:
+Using a CSS selector string:
 
 ```javascript
 {
     root: '#news_app'
 }
 ```
+
+F2.js uses jQuery internally to parse the value of the `root` property and, in turn, jQuery relies on the [Sizzle javascript selector library](http://sizzlejs.com/). If a CSS selector string is assigned to `root`, it must be a valid CSS 3 selector supported by Sizzle. Refer to the [Sizzle documentation for more details](https://github.com/jquery/sizzle/wiki/Sizzle-Documentation).
 
 #### 5. Register App
 
@@ -720,12 +722,6 @@ $(function(){
 ```
 
 The web page and pre-loaded news app is a fully F2-enabled container. Rejoice!
-
-* * * *
-
-<span class="label label-important">Important</span> The `_appConfigs` and `_appManifests` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for Acme Corp's news app must be in `_appConfigs[0]` and `_appManifests[0]`.
-
-There are numerous benefits to dynamic app configuration, most notably performance and security. In the dynamic model, `AppManifests` have already been requested and loaded before a user opens the container reducing the overall number of outbound HTTP requests. Security is improved because Container Developers have the opportunity to parse and scrub `AppManifest` contents before F2.js injects markup in the `AppManifest.html` property into the container DOM.
 
 * * * *
 
