@@ -1,5 +1,5 @@
 /*!
- * F2 v{{sdk.version}}
+ * F2 v<%= version %>
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -210,6 +210,6 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return '{{sdk.version}}'; }
+	version: function() { return '<%= version %>'; }
 };
 

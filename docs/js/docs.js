@@ -337,7 +337,7 @@ F2Docs.fn.formatSourceCodeElements = function(){
 }
 
 F2Docs.fn.insite = function(){
-	if (F2.gitbranch() !== 'master') { return; }
+	if (!(/docs.openf2.org/i).test(window.location.hostname)) { return; }
 	window._waq = window._waq || []; 
 	(function() {
 		var domain = 'insite.wallst.com'; 
