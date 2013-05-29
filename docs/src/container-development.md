@@ -271,6 +271,75 @@ Included in the `F2.UI.Mask` configuration object are the following properties: 
 
 For more information on `F2.UI`, [browse to the F2.js SDK docs](./sdk/classes/F2.UI.html).
 
+#### Override the AppManifest Request
+
+Occasionally Container Developers need more granular control over the `AppManifest` request mechanism in F2.js. The [manifest request process](./sdk/classes/F2.html#methods-registerApps)&mdash;intentionally obscured from developers through the `F2.registerApps()` API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on `jQuery.ajax()` for this.)  In version {{sdk.version}} of F2, the `AppManifest` request can be overridden in the Container Config. 
+
+The following example demonstrates how the `xhr` property of the `ContainerConfig` is used to override F2.js.
+
+```javascript
+F2.init({
+    xhr: function(url, appConfigs, success, error, complete) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                params: F2.stringify(appConfigs, F2.appConfigReplacer)
+            },
+            jsonp: false, // do not put 'callback=' in the query string
+            jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+            dataType: 'json',
+            success: function(appManifest) {
+                // custom success logic
+                success(appManifest); // fire success callback
+            },
+            error: function() {
+                // custom error logic
+                error(); // fire error callback
+            },
+            complete: function() {
+                // custom complete logic
+                complete(); // fire complete callback
+            }
+        });
+    }
+});
+```
+
+#### Extending XHR
+
+The `F2.ContainerConfig.xhr` property has two additional customizable fields available: `dataType` and `type`. 
+
+##### DataType
+
+The `dataType` property allows the container to override the request data type (JSON or JSONP) that is used for the request. Using JSON as a `dataType` is only available for F2 apps running on the same domain as the container.
+
+```javascript
+F2.init({
+    xhr: {
+        dataType: function(url) {
+            return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+        }
+    }
+});
+```
+
+##### Type
+
+The `type` property allows the container to override the request method that is used (similar to the [type parameter to jQuery.ajax()](http://api.jquery.com/jQuery.ajax/)). Since HTTP POST is not supported on JSONP requests, using POST as a `type` is only available for F2 apps using JSON and are therefore running on the same domain as the container.
+
+```javascript
+F2.init({
+    xhr: {
+        type: function(url) {
+            return F2.isLocalRequest(url) ? 'POST' : 'GET';
+        }
+    }
+});
+```
+
+For more information on `F2.ContainerConfig.xhr`, [browse to the F2.js SDK docs](./sdk/classes/F2.ContainerConfig.html).
+
 #### Container Templates
 
 If you're looking for sample container HTML template code, jump to the [Get Started section](#get-started). There is also a basic F2 container/app template [available for download on GitHub](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip).
