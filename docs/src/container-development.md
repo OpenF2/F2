@@ -1,6 +1,6 @@
 % Container Development
 
-<p class="lead">You've come to the right place if you want to start building F2 containers. Before continuing, make sure you've [cloned the F2 repository on GitHub](https://github.com/OpenF2/F2#quick-start) or [downloaded the latest framework build](index.html#get-started) (v{{sdk.version}}). Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
+<p class="lead">You've come to the right place if you want to start building F2 containers. Before continuing, make sure you've [cloned the F2 repository on GitHub](https://github.com/OpenF2/F2#quick-start) or [downloaded the latest framework build](index.html#get-started) (v{{version}}). Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
 
 * * * *
 
@@ -358,7 +358,7 @@ As discussed in [Developing F2 Containers: F2 ContainerID](#f2-containerid), to 
 
 To avoid styling conflicts or other display issues related to injecting app-provided style sheets into your container when `F2.registerApps()` is called, App Developers [must namespace their CSS selectors](app-development.html#namespacing-css). **While there are strict rules for App Developers, the same is true for Container Developers**. This is especially true when nesting multiple F2 apps inside an existing container where that container already has a CSS framework in place. (This is often called the "mutliple container" issue, and a conversation about existing problems and enhancements to F2.js is being discussed in [#37](https://github.com/OpenF2/F2/issues/37) and [#38](https://github.com/OpenF2/F2/issues/38).)
 
-In the event there are multiple containers, every CSS selector in container-provided style sheets must be properly namespaced. The [CSS files bundled with the example containers in the F2 project on GitHub](https://github.com/OpenF2/F2/tree/{{branch}}/examples/container/css) demonstrate this concept, and we have included a [readme](https://github.com/OpenF2/F2/blob/{{branch}}/examples/container/css/README.md) for how to use a LESS compiler to automate the namespacing of Bootstrap's CSS.
+In the event there are multiple containers, every CSS selector in container-provided style sheets must be properly namespaced. The [CSS files bundled with the example containers in the F2 project on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/css) demonstrate this concept, and we have included a [readme](https://github.com/OpenF2/F2/blob/master/examples/container/css/README.md) for how to use a LESS compiler to automate the namespacing of Bootstrap's CSS.
 
 In this simple example, container-provided CSS should be namespaced as shown below.
 

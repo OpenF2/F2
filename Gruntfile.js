@@ -1,8 +1,9 @@
 module.exports = function(grunt) {
 
-	var f2Info = require('./build/F2.json'),
-		handlebars = require('handlebars'),
-		pkg = grunt.file.readJSON('package.json');
+	var handlebars = require('handlebars'),
+		moment = require('moment'),
+		pkg = grunt.file.readJSON('package.json'),
+		semver = require('semver');
 
 	// TODO: Remove Handlebars dependency and use the built-in grunt templating
 	// Handlebars helpers
@@ -15,7 +16,13 @@ module.exports = function(grunt) {
 	// Project config
 	grunt.initConfig({
 		pkg: pkg,
-		clean: ['docs/src-temp'],
+		clean: {
+			docs: ['docs/src-temp'],
+			'github-pages': {
+				options: { force: true },
+				src: ['../gh-pages/src']
+			}
+		},
 		copy: {
 			docs: {
 				files: [
@@ -31,11 +38,21 @@ module.exports = function(grunt) {
 				],
 				options: {
 					processContent: function(content, srcpath) {
-						// TODO: Remove Handlebars dependency and use the built-in grunt templating
-						// compile and run the Handlebars template
-						return (handlebars.compile(content))(f2Info);
+						// TODO: Remove Handlebars dependency and use the built-in grunt
+						// templating compile and run the Handlebars template
+						return (handlebars.compile(content))(pkg);
 					}
 				}
+			},
+			'github-pages': {
+				files: [
+					{
+						expand: true,
+						cwd: 'docs/',
+						src: ['**'],
+						dest: '../gh-pages'
+					}
+				]
 			}
 		},
 		concat: {
@@ -236,6 +253,29 @@ module.exports = function(grunt) {
 		);
 	});
 
+	grunt.registerTask('release', 'Prepares the code for release (merge into master)', function(releaseType) {
+		if (!/^major|minor|patch$/i.test(releaseType) && !semver.valid(releaseType)) {
+			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
+			return;
+		}
+
+		pkg.version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
+		pkg._releaseDate = new Date().toJSON();
+		pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
+
+		grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
+		grunt.config.set('pkg', pkg);
+
+		grunt.task.run('version');
+	});
+
+	grunt.registerTask('version', 'Displays version information for F2', function() {
+		grunt.log.writeln(grunt.template.process(
+			'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>',
+			{ data: pkg }
+		));
+	});
+
 	grunt.registerTask('yuidoc', 'Builds the reference documentation with YUIDoc', function() {
 
 		var builder,
@@ -256,10 +296,8 @@ module.exports = function(grunt) {
 		// massage in some meta information from F2.json
 		json.project = {
 			docsAssets: '../',
-			version: grunt.package.version,
-			docsVersion: grunt.package.version,
-			docsLastUpdateDateFormatted: f2Info.docs.lastUpdateDateFormatted,
-			branch: f2Info.branch
+			version: pkg.version,
+			releaseDateFormatted: pkg._releaseDateFormatted
 		};
 		docOptions = Y.Project.mix(json, docOptions);
 
@@ -305,7 +343,8 @@ module.exports = function(grunt) {
 	
 
 
-	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean']);
+	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
+	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
