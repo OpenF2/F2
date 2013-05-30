@@ -5,14 +5,23 @@
 	}
 
 /*!
-    json2.js
-    2012-10-08
+    JSON.org requires the following notice to accompany json2:
 
-    Public Domain.
+    Copyright (c) 2002 JSON.org
 
-    NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+    http://json.org
 
-    See http://www.JSON.org/js.html
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
+    to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+    and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+    The Software shall be used for Good, not Evil.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+    IN THE SOFTWARE.
 */
 /*
     This code should be minified before deployment.
@@ -492,17 +501,25 @@ if (typeof JSON !== 'object') {
 }());
 
 /*!
- * jQuery JavaScript Library v1.8.3
- * http://jquery.com/
- *
- * Includes Sizzle.js
- * http://sizzlejs.com/
- *
- * Copyright 2012 jQuery Foundation and other contributors
- * Released under the MIT license
- * http://jquery.org/license
- *
- * Date: Tue Nov 13 2012 08:20:33 GMT-0500 (Eastern Standard Time)
+ * 	jQuery JavaScript Library v1.8.3
+ * 	The jQuery Foundation and other contributors require the following notice to accompany jQuery:
+ * 	
+ * 	Copyright (c) 2013 jQuery Foundation and other contributors
+ * 	
+ * 	http://jquery.com
+ * 	
+ * 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+ *  files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+ * 	modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+ * 	is furnished to do so, subject to the following conditions:
+ * 	
+ * 	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * 	
+ * 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * 	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE 
+ * 	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR 
+ * 	IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * 	
  */
 (function( window, undefined ) {
 var
@@ -9968,19 +9985,19 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
  * bootstrap-modal.js v2.2.2
  * http://twitter.github.com/bootstrap/javascript.html#modals
  * =========================================================
- * Copyright 2012 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * Twitter, Inc. require the following notice to accompany Bootstrap:
+ * 
+ * Copyright (c) 2012 Twitter, Inc.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this work 
+ * except in compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+ * implied. See the License for the specific language governing permissions and limitations under the License.
+ * 
  * ========================================================= */
 
 
@@ -10216,25 +10233,24 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 var $, jQuery = $ = window.jQuery.noConflict(true);
 
 /*!
- * Copyright (c) 2011 hij1nx http://www.twitter.com/hij1nx
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ *  Hij1nx requires the following notice to accompany EventEmitter:
+ *  
+ *  Copyright (c) 2011 hij1nx 
+ *  
+ *  http://www.twitter.com/hij1nx
+ *  
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+ *  documentation files (the 'Software'), to deal in the Software without restriction, including without limitation 
+ *  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+ *  and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *  
+ *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *  
+ *  THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+ *  THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+ *  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  
  */
 ;!function(exports, undefined) {
 
@@ -10785,7 +10801,8 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
 /*!
- * easyXDM
+ * Øyvind Sean Kinsey and others require the following notice to accompany easyXDM:
+ * 
  * http://easyxdm.net/
  * Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
  *
@@ -10810,30 +10827,6 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
 (function (window, document, location, setTimeout, decodeURIComponent, encodeURIComponent) {
 /*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
 /*global JSON, XMLHttpRequest, window, escape, unescape, ActiveXObject */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
 var global = this;
 var channelId = Math.floor(Math.random() * 10000); // randomize the initial id in case of multiple closures loaded 
 var emptyFn = Function.prototype;
@@ -13315,26 +13308,32 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.2.0
+ * F2 v<%= version %>
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * Unless required by applicable law or agreed to in writing, software distributed 
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * Please note that F2 ("Software") may contain third party material that Markit 
+ * On Demand Inc. has a license to use and include within the Software (the 
+ * "Third Party Material"). A list of the software comprising the Third Party Material 
+ * and the terms and conditions under which such Third Party Material is distributed 
+ * are reproduced in the ThirdPartyMaterial.md file available at:
+ * 
+ * https://github.com/OpenF2/F2/blob/master/ThirdPartyMaterial.md
+ * 
+ * The inclusion of the Third Party Material in the Software does not grant, provide 
+ * nor result in you having acquiring any rights whatsoever, other than as stipulated 
+ * in the terms and conditions related to the specific Third Party Material, if any.
+ *
  */
 
 var F2;
@@ -13520,7 +13519,7 @@ F2 = {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() { return '1.2.0'; }
+	version: function() { return '<%= version %>'; }
 };
 
 
@@ -15872,7 +15871,6 @@ F2.extend('', (function(){
 		 * objects
 		 * @param {Array} [appManifests] An array of
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
-		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
 		 * passed in. This can be useful if apps are loaded on the server-side and
 		 * passed down to the client.
