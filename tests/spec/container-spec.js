@@ -144,6 +144,53 @@ describe('F2.init', function() {
 
 });
 
+describe('F2.init - xhr overrides', function() {
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2(function() {
+		// nothing to do after reload
+	});
+
+	it('should throw an exception when ContainerConfig.xhr is not an object or function', function() {
+		expect(function() {
+			F2.init({
+				xhr: true
+			});
+		}).toThrow('ContainerConfig.xhr should be a function or an object');
+	});
+
+	it('should throw an exception when xhr.dataType is not a function', function() {
+		expect(function() {
+			F2.init({
+				xhr: {
+					dataType: true
+				}
+			});
+		}).toThrow(new Error('ContainerConfig.xhr.dataType should be a function'));
+	});
+
+	it('should throw an exception when xhr.type is not a function', function() {
+		expect(function() {
+			F2.init({
+				xhr: {
+					type: true
+				}
+			});
+			F2.registerApps(appConfig);
+		}).toThrow(new Error('ContainerConfig.xhr.type should be a function'));
+	});
+
+	it('should throw an exception when xhr.url is not a function', function() {
+		expect(function() {
+			F2.init({
+				xhr: {
+					url: true
+				}
+			});
+			F2.registerApps(appConfig);
+		}).toThrow(new Error('ContainerConfig.xhr.url should be a function'));
+	});
+});
+
 describe('F2.isInit', function() {
 
 	var async = new AsyncSpec(this);
@@ -209,7 +256,7 @@ describe('F2.registerApps - basic', function() {
 
 		runs(function() {
 			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://www.openf2.org'}, {apps:[{html:'<div></div>'}]});
-		})
+		});
 
 		// wait long enough for registerApps to have failed
 		waits(1000);
@@ -217,7 +264,231 @@ describe('F2.registerApps - basic', function() {
 		// F2.log should not have run
 		runs(function() {
 			expect(passedMessage).toBeFalsy();
+		});
+	});
+});
+
+describe('F2.registerApps - xhr overrides', function() {
+
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2(function() {
+		// nothing to do after reload
+	});
+
+	var appConfig = {
+		appId: 'com_openf2_tests_helloworld',
+		manifestUrl: 'http://www.openf2.org'
+	};
+
+	it('should call xhr if it is defined', function() {
+		var isFired = false;
+		runs(function() {
+			F2.init({
+				xhr: function(url, apps, success, error, complete) {
+					isFired = true;
+				}
+			})
+			F2.registerApps(appConfig);
+		});
+		waitsFor(function() {
+			return isFired;
+		});
+		runs(function() {
+			expect(isFired).toBeTruthy();
 		})
+	});
+
+	it('should pass 5 parameters to xhr', function() {
+		var isFired = false,
+			numArgs = 0,
+			urlParam, appConfigsParam, successParam, errorParam, completeParam;
+
+		runs(function() {
+			F2.init({
+				xhr: function(url, appConfigs, success, error, complete) {
+					numArgs = arguments.length;
+					urlParam = url;
+					appConfigsParam = appConfigs;
+					successParam = success;
+					errorParam = error;
+					completeParam = complete;
+
+					isFired = true;
+				}
+			});
+			F2.registerApps(appConfig);
+		});
+
+		waitsFor(function() {
+			return isFired;
+		});
+
+		runs(function() {
+			expect(numArgs).toBe(5);
+			expect(typeof urlParam).toBe('string');
+			expect(appConfigsParam instanceof Array).toBeTruthy();
+			expect(typeof successParam).toBe('function');
+			expect(typeof errorParam).toBe('function');
+			expect(typeof completeParam).toBe('function');
+		})
+	});
+
+	it('should call xhr.dataType', function() {
+		var isFired = false;
+		runs(function() {
+			F2.init({
+				xhr: {
+					dataType: function() {
+						isFired = true;
+						return '';
+					}
+				}
+			});
+			F2.registerApps(appConfig);
+		});
+		waitsFor(function() {
+			return isFired;
+		}, 'xhr.dataType was not fired', 10000);
+		runs(function() {
+			expect(isFired).toBeTruthy();
+		});
+	});
+
+	it('should throw an exception when xhr.dataType does not return a string', function() {
+		expect(function() {
+			F2.init({
+				xhr: {
+					dataType: function() {}
+				}
+			});
+			F2.registerApps(appConfig);
+		}).toThrow(new Error('ContainerConfig.xhr.dataType should return a string'));
+	});
+
+	it('should call xhr.type', function() {
+		var isFired = false;
+		F2.init({
+			xhr: {
+				type: function() {
+					isFired = true;
+					return '';
+				}
+			}
+		});
+		F2.registerApps(appConfig);
+		waitsFor(function() {
+			return isFired;
+		}, 'xhr.type was not fired', 10000);
+		runs(function() {
+			expect(isFired).toBeTruthy();
+		});
+	});
+
+	it('should throw an exception when xhr.type does not return a string', function() {
+		expect(function() {
+			F2.init({
+				xhr: {
+					type: function() {}
+				}
+			});
+			F2.registerApps(appConfig);
+		}).toThrow(new Error('ContainerConfig.xhr.type should return a string'));
+	});
+
+	it('should call xhr.url', function() {
+		var isFired = false;
+		F2.init({
+			xhr: {
+				url: function() {
+					isFired = true;
+					return '';
+				}
+			}
+		});
+		F2.registerApps(appConfig);
+		waitsFor(function() {
+			return isFired;
+		}, 'xhr.url was not fired', 10000);
+		runs(function() {
+			expect(isFired).toBeTruthy();
+		});
+	});
+
+	it('should throw an exception when xhr.url does not return a string', function() {
+		expect(function() {
+			F2.init({
+				xhr: {
+					url: function() {}
+				}
+			});
+			F2.registerApps(appConfig);
+		}).toThrow(new Error('ContainerConfig.xhr.url should return a string'));
+	});
+
+	itConditionally(window.F2_NODE_TEST_SERVER, 'should use POST when the domain of the container matches that of the app (#41, #59)', function() {
+
+		var isPost = false,
+			hasReturned = false;	
+		F2.log = function(message) {
+			hasReturned = true;
+			isPost = message;
+		};
+
+		runs(function() {
+			F2.init({
+				xhr: {
+					dataType: function(url) {
+						return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+					},
+					type: function(url) {
+						return F2.isLocalRequest(url) ? 'POST' : 'GET';
+					}
+				}
+			});
+			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://localhost:8080/httpPostTest'});	
+		});
+
+		// wait for registerApps to complete and load the app
+		waitsFor(function() {
+			return hasReturned;
+		}, 'test app was never loaded', 10000);
+
+		runs(function() {
+			expect(isPost).toBeTruthy();
+		});
+	});
+
+	itConditionally(window.F2_NODE_TEST_SERVER, 'should use GET when the domain of the container does not match that of the app (#41, #59)', function() {
+
+		var isPost = false,
+			hasReturned = false;	
+		F2.log = function(message) {
+			hasReturned = true;
+			isPost = message;
+		};
+
+		runs(function() {
+			F2.init({
+				xhr: {
+					dataType: function(url) {
+						return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+					},
+					type: function(url) {
+						return F2.isLocalRequest(url) ? 'POST' : 'GET';
+					}
+				}
+			});
+			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://127.0.0.1:8080/httpPostTest'});	
+		});
+
+		// wait for registerApps to complete and load the app
+		waitsFor(function() {
+			return hasReturned;
+		}, 'test app was never loaded', 10000);
+
+		runs(function() {
+			expect(isPost).toBeFalsy();
+		});
 	});
 });
 
@@ -255,8 +526,8 @@ describe('F2.registerApps - rendering', function() {
 			return isFired;
 		}, 'beforeAppRender was never fired', 10000);
 		runs(function() {
-			expect(isFired).toBeTruthy();
-		})
+			expect(isFired).toBe(true);
+		});
 	});
 
 	it('should allow beforeAppRender to return null', function() {
@@ -272,7 +543,7 @@ describe('F2.registerApps - rendering', function() {
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
 		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'], 'scripts':['js/test.js'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
 		
 		waitsFor(
 			function()
@@ -292,7 +563,7 @@ describe('F2.registerApps - rendering', function() {
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
 		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": ["(function(){F2.inlineScriptsEvaluated=true;})()"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
 		waitsFor(
 			function()
 			{

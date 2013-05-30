@@ -336,6 +336,134 @@ F2.extend('', {
 				 */
 				zIndex: 2
 			}
+		},
+		/**
+		 * Allows the container to fully override how the AppManifest request is
+		 * made inside of F2.
+		 * 
+		 * @method xhr
+		 * @param {string} url The manifest url
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+		 * objects
+		 * @param {function} success The function to be called if the request
+		 * succeeds
+		 * @param {function} error The function to be called if the request fails
+		 * @param {function} complete The function to be called when the request
+		 * finishes (after success and error callbacks have been executed)
+		 * @return {XMLHttpRequest} The XMLHttpRequest object (or an object that has
+		 * an `abort` function (such as the jqXHR object in jQuery) to abort the
+		 * request)
+		 *
+		 * @example
+		 *     F2.init({
+		 *         xhr: function(url, appConfigs, success, error, complete) {
+		 *             $.ajax({
+		 *                 url: url,
+		 *                 type: 'POST',
+		 *                 data: {
+		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
+		 *                 },
+		 *                 jsonp: false, // do not put 'callback=' in the query string
+		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+		 *                 dataType: 'json',
+		 *                 success: function(appManifest) {
+		 *                     // custom success logic
+		 *                     success(appManifest); // fire success callback
+		 *                 },
+		 *                 error: function() {
+		 *                     // custom error logic
+		 *                     error(); // fire error callback
+		 *                 },
+		 *                 complete: function() {
+		 *                     // custom complete logic
+		 *                     complete(); // fire complete callback
+		 *                 }
+		 *             });
+		 *         }
+		 *     });
+		 *
+		 * @for F2.ContainerConfig
+		 */
+		//xhr: function(url, appConfigs, success, error, complete) {},
+		/**
+		 * Allows the container to override individual parts of the AppManifest
+		 * request.  See properties and methods with the `xhr.` prefix.
+		 * @property xhr
+		 * @type Object
+		 *
+		 * @example
+		 *     F2.init({
+		 *         xhr: {
+		 *             url: function(url, appConfigs) {
+		 *                 return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);
+		 *             }
+		 *         }
+		 *     });
+		 */
+		xhr: {
+			/**
+			 * Allows the container to override the request data type (JSON or JSONP)
+			 * that is used for the request
+			 * @method xhr.dataType
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+			 * objects
+			 * @return {string} The request data type that should be used
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             dataType: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+			 *             },
+			 *             type: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'POST' : 'GET';
+			 *             }
+			 *         }
+			 *     });
+			 */
+			dataType: function(url, appConfigs) {},
+			/**
+			 * Allows the container to override the request method that is used (just
+			 * like the `type` parameter to `jQuery.ajax()`.
+			 * @method xhr.type
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+			 * objects
+			 * @return {string} The request method that should be used
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             dataType: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+			 *             },
+			 *             type: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'POST' : 'GET';
+			 *             }
+			 *         }
+			 *     });
+			 */
+			type: function(url, appConfigs) {},
+			/**
+			 * Allows the container to override the url that is used to request an
+			 * app's F2.{{#crossLink "F2.AppManifest"}}{{/crossLink}}
+			 * @method xhr.url
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+			 * objects
+			 * @return {string} The url that should be used for the request
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             url: function(url, appConfigs) {
+			 *                 return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);
+			 *             }
+			 *         }
+			 *     });
+			 */
+			url: function(url, appConfigs) {}
 		}
 	}
 });

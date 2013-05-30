@@ -4,10 +4,10 @@
 	"evil": true,
 	"globals": {
 		"console": true,
-		"define": true,
+		"define": true, "exports": true, "require": true, "module": true,
+		"describe": true, "xdescribe": true, "it": true, "xit": true, "expect": true, "runs": true, "waits": true, "waitsFor": true, "itConditionally": true,
 		"easyXDM": true,
 		"EventEmitter2": true,
-		"exports": true,
 		"F2": true,
 		"jQuery": true,
 		"$": true
