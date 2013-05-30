@@ -13308,7 +13308,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v<%= version %>
+ * F2 v1.2
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13343,185 +13343,293 @@ var F2;
  * @main f2
  */
 
-F2 = {
+F2 = (function() {
+
 	/**
-	 * A function to pass into F2.stringify which will prevent circular
-	 * reference errors when serializing objects
-	 * @method appConfigReplacer
+	 * Abosolutizes a relative URL
+	 * @method _absolutizeURI
+	 * @private
+	 * @param {e.g., location.href} base
+	 * @param {URL to absolutize} href
+	 * @returns {string} URL
+	 * Source: https://gist.github.com/Yaffle/1088850
+	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
-	appConfigReplacer: function(key, value) {
-		if (key == 'root' || key == 'ui' || key == 'height') {
-			return undefined;
-		} else {
-			return value;
-		}
-	},
-	/**
-	 * The apps namespace is a place for app developers to put the javascript
-	 * class that is used to initialize their app. The javascript classes should
-	 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. 
-	 * It is recommended that the code be placed in a closure to help keep the
-	 * global namespace clean.
-	 *
-	 * If the class has an 'init' function, that function will be called 
-	 * automatically by F2.
-	 * @property Apps
-	 * @type object
-	 * @example
-	 *     F2.Apps["com_example_helloworld"] = (function() {
-	 *         var App_Class = function(appConfig, appContent, root) {
-	 *             this._app = appConfig; // the F2.AppConfig object
-	 *             this._appContent = appContent // the F2.AppManifest.AppContent object
-	 *             this.$root = $(root); // the root DOM Element that contains this app
-	 *         }
-	 *
-	 *         App_Class.prototype.init = function() {
-	 *             // perform init actions
-	 *         }
-	 *
-	 *         return App_Class;
-	 *     })();
-	 * @example
-	 *     F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
-	 *        return {
-	 *            init:function() {
-	 *                // perform init actions
-	 *            }
-	 *        };
-	 *     };
-	 * @for F2
-	 */
-	Apps: {},
-	/**
-	 * Creates a namespace on F2 and copies the contents of an object into
-	 * that namespace optionally overwriting existing properties.
-	 * @method extend
-	 * @param {string} ns The namespace to create. Pass a falsy value to 
-	 * add properties to the F2 namespace directly.
-	 * @param {object} obj The object to copy into the namespace.
-	 * @param {bool} overwrite True if object properties should be overwritten
-	 * @return {object} The created object
-	 */
-	extend: function (ns, obj, overwrite) {
-		var isFunc = typeof obj === 'function';
-		var parts = ns ? ns.split('.') : [];
-		var parent = this;
-		obj = obj || {};
-		
-		// ignore leading global
-		if (parts[0] === 'F2') {
-			parts = parts.slice(1);
+	var _absolutizeURI = function(base, href) {// RFC 3986
+
+		function removeDotSegments(input) {
+			var output = [];
+			input.replace(/^(\.\.?(\/|$))+/, '')
+				.replace(/\/(\.(\/|$))+/g, '/')
+				.replace(/\/\.\.$/, '/../')
+				.replace(/\/?[^\/]*/g, function (p) {
+					if (p === '/..') {
+						output.pop();
+					} else {
+						output.push(p);
+					}
+				});
+			return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
 		}
 
-		// create namespaces
-		for (var i = 0, len = parts.length; i < len; i++) {
-			if (!parent[parts[i]]) {
-				parent[parts[i]] = isFunc && i + 1 == len ? obj : {};
+		href = _parseURI(href || '');
+		base = _parseURI(base || '');
+
+		return !href || !base ? null : (href.protocol || base.protocol) +
+			(href.protocol || href.authority ? href.authority : base.authority) +
+			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
+			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
+			href.hash;
+	};
+
+	/**
+	 * Parses URI
+	 * @method _parseURI
+	 * @private
+	 * @param {The URL to parse} url
+	 * @returns {Parsed URL} string
+	 * Source: https://gist.github.com/Yaffle/1088850
+	 * Tests: http://skew.org/uri/uri_tests.html
+	 */
+	var _parseURI = function(url) {
+		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
+		return (m ? {
+				href     : m[0] || '',
+				protocol : m[1] || '',
+				authority: m[2] || '',
+				host     : m[3] || '',
+				hostname : m[4] || '',
+				port     : m[5] || '',
+				pathname : m[6] || '',
+				search   : m[7] || '',
+				hash     : m[8] || ''
+			} : null);
+	};
+
+	return {
+		/**
+		 * A function to pass into F2.stringify which will prevent circular
+		 * reference errors when serializing objects
+		 * @method appConfigReplacer
+		 */
+		appConfigReplacer: function(key, value) {
+			if (key == 'root' || key == 'ui' || key == 'height') {
+				return undefined;
+			} else {
+				return value;
 			}
-			parent = parent[parts[i]];
-		}
-
-		// copy object into namespace
-		if (!isFunc) {
-			for (var prop in obj) {
-				if (typeof parent[prop] === 'undefined' || overwrite) {
-					parent[prop] = obj[prop];
-				} 
+		},
+		/**
+		 * The apps namespace is a place for app developers to put the javascript
+		 * class that is used to initialize their app. The javascript classes should
+		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. 
+		 * It is recommended that the code be placed in a closure to help keep the
+		 * global namespace clean.
+		 *
+		 * If the class has an 'init' function, that function will be called 
+		 * automatically by F2.
+		 * @property Apps
+		 * @type object
+		 * @example
+		 *     F2.Apps["com_example_helloworld"] = (function() {
+		 *         var App_Class = function(appConfig, appContent, root) {
+		 *             this._app = appConfig; // the F2.AppConfig object
+		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
+		 *             this.$root = $(root); // the root DOM Element that contains this app
+		 *         }
+		 *
+		 *         App_Class.prototype.init = function() {
+		 *             // perform init actions
+		 *         }
+		 *
+		 *         return App_Class;
+		 *     })();
+		 * @example
+		 *     F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
+		 *        return {
+		 *            init:function() {
+		 *                // perform init actions
+		 *            }
+		 *        };
+		 *     };
+		 * @for F2
+		 */
+		Apps: {},
+		/**
+		 * Creates a namespace on F2 and copies the contents of an object into
+		 * that namespace optionally overwriting existing properties.
+		 * @method extend
+		 * @param {string} ns The namespace to create. Pass a falsy value to 
+		 * add properties to the F2 namespace directly.
+		 * @param {object} obj The object to copy into the namespace.
+		 * @param {bool} overwrite True if object properties should be overwritten
+		 * @return {object} The created object
+		 */
+		extend: function (ns, obj, overwrite) {
+			var isFunc = typeof obj === 'function';
+			var parts = ns ? ns.split('.') : [];
+			var parent = this;
+			obj = obj || {};
+			
+			// ignore leading global
+			if (parts[0] === 'F2') {
+				parts = parts.slice(1);
 			}
-		}
 
-		return parent;
-	},
-	/** 
-	 * Generates a somewhat random id
-	 * @method guid
-	 * @return {string} A random id
-	 * @for F2
-	 */
-	guid: function() {
-		var S4 = function() {
-			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-		};
-		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
-	},
-	/**
-	 * Search for a value within an array.
-	 * @method inArray
-	 * @param {object} value The value to search for
-	 * @param {Array} array The array to search
-	 * @return {bool} True if the item is in the array
-	 */
-	inArray: function(value, array) {
-		return jQuery.inArray(value, array) > -1;
-	},
-	/**
-	 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
-	 * @method isNativeDOMNode
-	 * @param {object} testObject The object you want to check as native dom node.
-	 * @return {bool} Returns true if the object passed is a native dom node.
-	 */
-	isNativeDOMNode: function(testObject) {
-		var bIsNode = (
-			typeof Node === 'object' ? testObject instanceof Node : 
-			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
-		);
-		
-		var bIsElement = (
-			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
-			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
-		);
-		
-		return (bIsNode || bIsElement);
-	},
-	/**
-	 * Wrapper logging function.
-	 * @method log
-	 * @param {object} obj An object to be logged
-	 * @param {object} [obj2]* An object to be logged
-	 */
-	log: function() {
-		if (window.console && window.console.log) {
-			console.log([].slice.call(arguments));
-		}
-	},
-	/**
-	 * Wrapper to convert a JSON string to an object
-	 * @method parse
-	 * @param {string} str The JSON string to convert
-	 * @return {object} The parsed object
-	 */
-	parse: function(str) {
-		return JSON.parse(str);
-	},
-	/**
-	 * Wrapper to convert an object to JSON
-	 *
-	 * **Note: When using F2.stringify on an F2.AppConfig object, it is
-	 * recommended to pass F2.appConfigReplacer as the replacer function in
-	 * order to prevent circular serialization errors.**
-	 * @method stringify
-	 * @param {object} value The object to convert
-	 * @param {function|Array} replacer An optional parameter that determines
-	 * how object values are stringified for objects. It can be a function or an 
-	 * array of strings.
-	 * @param {int|string} space An optional parameter that specifies the
-	 * indentation of nested structures. If it is omitted, the text will be
-	 * packed without extra whitespace. If it is a number, it will specify the
-	 * number of spaces to indent at each level. If it is a string (such as '\t'
-	 * or '&nbsp;'), it contains the characters used to indent at each level.
-	 * @return {string} The JSON string
-	 */
-	stringify: function(value, replacer, space) {
-		return JSON.stringify(value, replacer, space);
-	},
-	/** 
-	 * Function to get the F2 version number
-	 * @method version
-	 * @return {string} F2 version number
-	 */
-	version: function() { return '<%= version %>'; }
-};
+			// create namespaces
+			for (var i = 0, len = parts.length; i < len; i++) {
+				if (!parent[parts[i]]) {
+					parent[parts[i]] = isFunc && i + 1 == len ? obj : {};
+				}
+				parent = parent[parts[i]];
+			}
 
+			// copy object into namespace
+			if (!isFunc) {
+				for (var prop in obj) {
+					if (typeof parent[prop] === 'undefined' || overwrite) {
+						parent[prop] = obj[prop];
+					} 
+				}
+			}
+
+			return parent;
+		},
+		/** 
+		 * Generates a somewhat random id
+		 * @method guid
+		 * @return {string} A random id
+		 * @for F2
+		 */
+		guid: function() {
+			var S4 = function() {
+				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+			};
+			return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
+		},
+		/**
+		 * Search for a value within an array.
+		 * @method inArray
+		 * @param {object} value The value to search for
+		 * @param {Array} array The array to search
+		 * @return {bool} True if the item is in the array
+		 */
+		inArray: function(value, array) {
+			return jQuery.inArray(value, array) > -1;
+		},
+		/**
+		 * Tests a URL to see if it's on the same domain (local) or not
+		 * @method isLocalRequest
+		 * @param {URL to test} url
+		 * @returns {bool} Whether the URL is local or not
+		 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
+		 */
+		isLocalRequest: function(url){
+			var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+				url = url.toLowerCase(),
+				parts = rurl.exec( url ),
+				ajaxLocation,
+				ajaxLocParts;
+
+			try {
+				ajaxLocation = location.href;
+			} catch( e ) {
+				// Use the href attribute of an A element
+				// since IE will modify it given document.location
+				ajaxLocation = document.createElement('a');
+				ajaxLocation.href = '';
+				ajaxLocation = ajaxLocation.href;
+			}
+
+			ajaxLocation = ajaxLocation.toLowerCase();
+
+			// uh oh, the url must be relative
+			// make it fully qualified and re-regex url
+			if (!parts){
+				url = _absolutizeURI(ajaxLocation,url).toLowerCase();
+				parts = rurl.exec( url );
+			}
+
+			// Segment location into parts
+			ajaxLocParts = rurl.exec( ajaxLocation ) || [];
+
+			// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
+			var matched = !(parts &&
+					(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
+						(parts[ 3 ] || (parts[ 1 ] === 'http:' ? '80' : '443')) !==
+							(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === 'http:' ? '80' : '443'))));
+		
+			return matched;
+		},
+		/**
+		 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
+		 * @method isNativeDOMNode
+		 * @param {object} testObject The object you want to check as native dom node.
+		 * @return {bool} Returns true if the object passed is a native dom node.
+		 */
+		isNativeDOMNode: function(testObject) {
+			var bIsNode = (
+				typeof Node === 'object' ? testObject instanceof Node : 
+				testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
+			);
+			
+			var bIsElement = (
+				typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
+				testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
+			);
+			
+			return (bIsNode || bIsElement);
+		},
+		/**
+		 * Wrapper logging function.
+		 * @method log
+		 * @param {object} obj An object to be logged
+		 * @param {object} [obj2]* An object to be logged
+		 */
+		log: function() {
+			if (window.console && window.console.log) {
+				console.log([].slice.call(arguments));
+			}
+		},
+		/**
+		 * Wrapper to convert a JSON string to an object
+		 * @method parse
+		 * @param {string} str The JSON string to convert
+		 * @return {object} The parsed object
+		 */
+		parse: function(str) {
+			return JSON.parse(str);
+		},
+		/**
+		 * Wrapper to convert an object to JSON
+		 *
+		 * **Note: When using F2.stringify on an F2.AppConfig object, it is
+		 * recommended to pass F2.appConfigReplacer as the replacer function in
+		 * order to prevent circular serialization errors.**
+		 * @method stringify
+		 * @param {object} value The object to convert
+		 * @param {function|Array} replacer An optional parameter that determines
+		 * how object values are stringified for objects. It can be a function or an 
+		 * array of strings.
+		 * @param {int|string} space An optional parameter that specifies the
+		 * indentation of nested structures. If it is omitted, the text will be
+		 * packed without extra whitespace. If it is a number, it will specify the
+		 * number of spaces to indent at each level. If it is a string (such as '\t'
+		 * or '&nbsp;'), it contains the characters used to indent at each level.
+		 * @return {string} The JSON string
+		 */
+		stringify: function(value, replacer, space) {
+			return JSON.stringify(value, replacer, space);
+		},
+		/** 
+		 * Function to get the F2 version number
+		 * @method version
+		 * @return {string} F2 version number
+		 */
+		version: function() { return '1.2'; }
+	};
+})();
 
 /**
  * Allows container developers more flexibility when it comes to handling app interaction. Starting with version 1.3 this is the preferred method
@@ -14324,6 +14432,134 @@ F2.extend('', {
 				 */
 				zIndex: 2
 			}
+		},
+		/**
+		 * Allows the container to fully override how the AppManifest request is
+		 * made inside of F2.
+		 * 
+		 * @method xhr
+		 * @param {string} url The manifest url
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+		 * objects
+		 * @param {function} success The function to be called if the request
+		 * succeeds
+		 * @param {function} error The function to be called if the request fails
+		 * @param {function} complete The function to be called when the request
+		 * finishes (after success and error callbacks have been executed)
+		 * @return {XMLHttpRequest} The XMLHttpRequest object (or an object that has
+		 * an `abort` function (such as the jqXHR object in jQuery) to abort the
+		 * request)
+		 *
+		 * @example
+		 *     F2.init({
+		 *         xhr: function(url, appConfigs, success, error, complete) {
+		 *             $.ajax({
+		 *                 url: url,
+		 *                 type: 'POST',
+		 *                 data: {
+		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
+		 *                 },
+		 *                 jsonp: false, // do not put 'callback=' in the query string
+		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+		 *                 dataType: 'json',
+		 *                 success: function(appManifest) {
+		 *                     // custom success logic
+		 *                     success(appManifest); // fire success callback
+		 *                 },
+		 *                 error: function() {
+		 *                     // custom error logic
+		 *                     error(); // fire error callback
+		 *                 },
+		 *                 complete: function() {
+		 *                     // custom complete logic
+		 *                     complete(); // fire complete callback
+		 *                 }
+		 *             });
+		 *         }
+		 *     });
+		 *
+		 * @for F2.ContainerConfig
+		 */
+		//xhr: function(url, appConfigs, success, error, complete) {},
+		/**
+		 * Allows the container to override individual parts of the AppManifest
+		 * request.  See properties and methods with the `xhr.` prefix.
+		 * @property xhr
+		 * @type Object
+		 *
+		 * @example
+		 *     F2.init({
+		 *         xhr: {
+		 *             url: function(url, appConfigs) {
+		 *                 return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);
+		 *             }
+		 *         }
+		 *     });
+		 */
+		xhr: {
+			/**
+			 * Allows the container to override the request data type (JSON or JSONP)
+			 * that is used for the request
+			 * @method xhr.dataType
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+			 * objects
+			 * @return {string} The request data type that should be used
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             dataType: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+			 *             },
+			 *             type: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'POST' : 'GET';
+			 *             }
+			 *         }
+			 *     });
+			 */
+			dataType: function(url, appConfigs) {},
+			/**
+			 * Allows the container to override the request method that is used (just
+			 * like the `type` parameter to `jQuery.ajax()`.
+			 * @method xhr.type
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+			 * objects
+			 * @return {string} The request method that should be used
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             dataType: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+			 *             },
+			 *             type: function(url) {
+			 *                 return F2.isLocalRequest(url) ? 'POST' : 'GET';
+			 *             }
+			 *         }
+			 *     });
+			 */
+			type: function(url, appConfigs) {},
+			/**
+			 * Allows the container to override the url that is used to request an
+			 * app's F2.{{#crossLink "F2.AppManifest"}}{{/crossLink}}
+			 * @method xhr.url
+			 * @param {string} url The manifest url
+			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+			 * objects
+			 * @return {string} The url that should be used for the request
+			 *
+			 * @example
+			 *     F2.init({
+			 *         xhr: {
+			 *             url: function(url, appConfigs) {
+			 *                 return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);
+			 *             }
+			 *         }
+			 *     });
+			 */
+			url: function(url, appConfigs) {}
 		}
 	}
 });
@@ -15814,6 +16050,34 @@ F2.extend('', (function(){
 		return true;
 	};
 
+	/**
+	 * Checks if the ContainerConfig is valid
+	 * @method _validateContainerConfig
+	 * @private
+	 * @returns {bool} True if the config is valid
+	 */
+	var _validateContainerConfig = function() {
+
+		if (_config) {
+			if (_config.xhr) {
+				if (!(typeof _config.xhr === 'function' || typeof _config.xhr === 'object')) {
+					throw('ContainerConfig.xhr should be a function or an object');
+				}
+				if (_config.xhr.dataType && typeof _config.xhr.dataType !== 'function') {
+					throw('ContainerConfig.xhr.dataType should be a function');
+				}
+				if (_config.xhr.type && typeof _config.xhr.type !== 'function') {
+					throw('ContainerConfig.xhr.type should be a function');
+				}
+				if (_config.xhr.url && typeof _config.xhr.url !== 'function') {
+					throw('ContainerConfig.xhr.url should be a function');
+				}
+			}
+		}
+
+		return true;
+	};
+
 	return {
 		/**
 		 * Gets the current list of apps in the container
@@ -15826,7 +16090,7 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(app, i) {
+			return jQuery.map(_apps, function(app) {
 				return { appId: app.config.appId };
 			});
 		},
@@ -15838,6 +16102,8 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
+
+			_validateContainerConfig();
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
@@ -15988,29 +16254,67 @@ F2.extend('', (function(){
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) { return; }
 
-						jQuery.ajax({
-							url:req.url,
-							data:{
-								params:F2.stringify(req.apps, F2.appConfigReplacer)
+						// setup defaults and callbacks
+						var url = req.url,
+							type = 'GET',
+							dataType = 'jsonp',
+							completeFunc = function() {
+								manifestRequest(i, requests.pop());
 							},
-							jsonp:false, /* do not put 'callback=' in the query string */
-							jsonpCallback:jsonpCallback, /* Unique function name */
-							dataType:'jsonp',
-							success:function(appManifest) {
-								_loadApps(req.apps, appManifest);
-							},
-							error:function(jqxhr, settings, exception) {
-								F2.log('Failed to load app(s)', exception.toString(), req.apps);
-								//remove failed app(s)
+							errorFunc = function() {
 								jQuery.each(req.apps, function(idx,item){
 									F2.log('Removed failed ' +item.name+ ' app', item);
 									F2.removeApp(item.instanceId);
 								});
 							},
-							complete:function() {
-								manifestRequest(i, requests.pop());
+							successFunc = function(appManifest) {
+								_loadApps(req.apps, appManifest);
+							};
+
+						// optionally fire xhr overrides
+						if (_config.xhr && _config.xhr.dataType) {
+							dataType = _config.xhr.dataType(req.url, req.apps);
+							if (typeof dataType !== 'string') {
+								throw('ContainerConfig.xhr.dataType should return a string');
 							}
-						});
+						}
+						if (_config.xhr && _config.xhr.type) {
+							type = _config.xhr.type(req.url, req.apps);
+							if (typeof type !== 'string') {
+								throw('ContainerConfig.xhr.type should return a string');
+							}
+						}
+						if (_config.xhr && _config.xhr.url) {
+							url = _config.xhr.url(req.url, req.apps);
+							if (typeof url !== 'string') {
+								throw('ContainerConfig.xhr.url should return a string');
+							}
+						}
+
+						// setup the default request function if an override is not present
+						var requestFunc = _config.xhr;
+						if (typeof requestFunc !== 'function') {
+							requestFunc = function(url, appConfigs, successCallback, errorCallback, completeCallback) {
+								jQuery.ajax({
+									url: url,
+									type: type,
+									data: {
+										params: F2.stringify(req.apps, F2.appConfigReplacer)
+									},
+									jsonp: false, // do not put 'callback=' in the query string
+									jsonpCallback: jsonpCallback, // Unique function name
+									dataType: dataType,
+									success: successCallback,
+									error: function(jqxhr, settings, exception) {
+										F2.log('Failed to load app(s)', exception.toString(), req.apps);
+										errorCallback();
+									},
+									complete: completeCallback
+								});
+							};
+						}
+
+						requestFunc(url, req.apps, successFunc, errorFunc, completeFunc);
 					};
 
 					manifestRequest(i, requests.pop());
