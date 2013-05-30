@@ -431,7 +431,6 @@ F2.extend('', (function(){
 		 * @param {Array} [appManifests] An array of
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
 		 * objects. This array must be the same length as the apps array that is
-		 * objects. This array must be the same length as the apps array that is
 		 * passed in. This can be useful if apps are loaded on the server-side and
 		 * passed down to the client.
 		 */

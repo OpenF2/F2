@@ -624,7 +624,7 @@ To use pre-loaded apps, a web page with a placeholder element for the apps is re
 
 #### 2. Request AppManifest
 
-Next, make a server-side request to the news apps' `AppManifest`&mdash;the URL is found in `manifestUrl`&mdash;and capture the resulting JSON. Each `AppManifest` contains scripts, style sheets and HTML ([more](app-development.html#app-manifest)). The market news apps' `AppManifest` looks like this:
+Next, make a server-side request to the news apps' `AppManifest`&mdash;the URL is found in `manifestUrl`&mdash;and capture the resulting JSON. Each `AppManifest` contains scripts, style sheets and HTML ([more about the `AppManifest`](app-development.html#app-manifest)). The market news apps' `AppManifest` looks like this:
 
 ```javascript
 {
@@ -641,7 +641,12 @@ Next, make a server-side request to the news apps' `AppManifest`&mdash;the URL i
 }
 ```
 
-<span class="label">Note</span> Parts of this `AppManifest` were intentionally removed for legibility. The full `AppManifest` is [available on OpenF2.org](http://www.openf2.org/Examples/Apps?params=%5B%7B%22appId%22%3A%22com_openf2_examples_csharp_marketnews%22%7D%5D).
+<span class="label">Note</span> Parts of this `AppManifest` were intentionally removed for legibility, including the required JSONP function name (`F2_jsonpCallback_com_openf2_examples_csharp_marketnews`). The full `AppManifest` is [available on OpenF2.org](http://www.openf2.org/Examples/Apps?params=%5B%7B%22appId%22%3A%22com_openf2_examples_csharp_marketnews%22%7D%5D).
+
+<div class="alert alert-block alert-info">
+    <h5>Performance Tip</h5>
+    Container Developers can use the `AppConfig` and pre-loaded `AppManifest` (from step 2 above) in conjunction with `F2.registerApps()` to speed up the loading of F2 containers. For more information, browse to [Combining AppConfig and AppManifest](#combining-appconfig-and-appmanifest).
+</div>
 
 #### 3. Add App to Container
 
@@ -704,7 +709,30 @@ F2.js uses jQuery internally to parse the value of the `root` property and, in t
 
 #### 5. Register App
 
-Since you started with the `AppConfig` and now have the `AppManifest` from step 2 along with an HTML page containing the embedded app, all that remains is a simple call to F2. Registering pre-loaded apps with F2.js means passing _both_ the `AppConfig` and `AppManifest` to `F2.registerApps()` as shown in the example below. 
+Since you started with the `AppConfig` and now have the `AppManifest` from step 2 along with an HTML page containing the embedded app, all that remains is a simple call to F2. Registering pre-loaded apps with F2.js means passing the ammended `AppConfig` as shown in the example below. 
+
+```javascript
+var _appConfig = {
+    appId: 'com_openf2_examples_csharp_marketnews',
+    description: 'Example News',
+    manifestUrl: 'http://www.openf2.org/Examples/Apps',
+    name: 'Example News',
+    root: document.getElementById('news_app')
+};
+
+$(function(){
+    F2.init();
+    F2.registerApps(_appConfig);
+});
+```
+
+The web page and pre-loaded news app is a fully F2-enabled container. Rejoice!
+
+### Combining AppConfig and AppManifest
+
+Container Developers can use the `AppConfig` and pre-loaded `AppManifest` (from [step 2 above](#request-appmanifest)) in conjunction with `F2.registerApps()` to speed up the loading of F2 containers. The [`F2.registerApps()` API supports](./sdk/classes/F2.html#methods-registerApps) two arguments: `appConfigs` and `appManifests`. The former is an array of [`F2.AppConfig` objects](./sdk/classes/F2.AppConfig.html) and the latter is an array of [`F2.AppManifest` objects](./sdk/classes/F2.AppManifest.html). The `appManifests` array must be the same length as the `appConfigs` array that is used as the first argument. This can be useful if apps are loaded on the server-side and passed down to the client.
+
+In the following example, the `AppManifest` was pre-loaded and stored in the `_appManifest` variable.
 
 ```javascript
 var _appConfig = {
@@ -734,9 +762,7 @@ $(function(){
 });
 ```
 
-The web page and pre-loaded news app is a fully F2-enabled container. Rejoice!
-
-<span class="label label-important">Important</span> The `F2.registerApps()` API supports both an array of objects and object literals for each argument. Internally, F2.js converts the value of each argument into an array using concatenation (`[].concat()`). If arrays of objects are used (when there are more than one app on the container), the `_appConfig` and `_appManifest` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for the sample news app must be in `_appConfig[0]` and `_appManifest[0]`.
+<span class="label label-important">Important</span> The `F2.registerApps()` API supports both an array of objects and object literals for each argument. Internally, F2.js converts the value of each argument into an array using concatenation (`[].concat()`). If arrays of objects are used (when there are more than one app on the container), the `_appConfig` and `_appManifest` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for the sample news app used above must be in `_appConfig[0]` and `_appManifest[0]`.
 
 * * * *
 
