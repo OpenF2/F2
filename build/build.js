@@ -683,6 +683,11 @@ function yuidoc() {
 		return builder.markdown(readmeMd, true);	
 	});
 
+	// handle any member names that have periods in them
+	Y.Handlebars.registerHelper('memberNameAsId', function() {
+		return String(this.name).replace('.', '_');
+	});
+
 	builder = new Y.DocBuilder(docOptions, json);
 	builder.compile(function() {
 		console.log('COMPLETE');

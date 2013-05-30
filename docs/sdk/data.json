@@ -176,7 +176,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk\\src\\app_handlers.js",
-            "line": 415,
+            "line": 395,
             "description": "A convenient collection of all available appHandler events."
         },
         "F2.App": {
@@ -450,7 +450,56 @@
     "classitems": [
         {
             "file": "sdk\\src\\F2.js",
-            "line": 32,
+            "line": 33,
+            "description": "Abosolutizes a relative URL",
+            "itemtype": "method",
+            "name": "_absolutizeURI",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "base",
+                    "description": "",
+                    "type": "e.g., location.href"
+                },
+                {
+                    "name": "href",
+                    "description": "",
+                    "type": "URL to absolutize"
+                }
+            ],
+            "return": {
+                "description": "URL\nSource: https://gist.github.com/Yaffle/1088850\nTests: http://skew.org/uri/uri_tests.html",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\F2.js",
+            "line": 70,
+            "description": "Parses URI",
+            "itemtype": "method",
+            "name": "_parseURI",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "The URL to parse"
+                }
+            ],
+            "return": {
+                "description": "string\nSource: https://gist.github.com/Yaffle/1088850\nTests: http://skew.org/uri/uri_tests.html",
+                "type": "Parsed URL"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\F2.js",
+            "line": 96,
             "description": "A function to pass into F2.stringify which will prevent circular\nreference errors when serializing objects",
             "itemtype": "method",
             "name": "appConfigReplacer",
@@ -459,7 +508,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 44,
+            "line": 108,
             "description": "The apps namespace is a place for app developers to put the javascript\nclass that is used to initialize their app. The javascript classes should\nbe namepaced with the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.appId. \nIt is recommended that the code be placed in a closure to help keep the\nglobal namespace clean.\n\nIf the class has an 'init' function, that function will be called \nautomatically by F2.",
             "itemtype": "property",
             "name": "Apps",
@@ -473,7 +522,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 80,
+            "line": 144,
             "description": "Creates a namespace on F2 and copies the contents of an object into\nthat namespace optionally overwriting existing properties.",
             "itemtype": "method",
             "name": "extend",
@@ -503,7 +552,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 120,
+            "line": 184,
             "description": "Generates a somewhat random id",
             "itemtype": "method",
             "name": "guid",
@@ -516,7 +565,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 132,
+            "line": 196,
             "description": "Search for a value within an array.",
             "itemtype": "method",
             "name": "inArray",
@@ -541,7 +590,27 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 142,
+            "line": 206,
+            "description": "Tests a URL to see if it's on the same domain (local) or not",
+            "itemtype": "method",
+            "name": "isLocalRequest",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "URL to test"
+                }
+            ],
+            "return": {
+                "description": "Whether the URL is local or not\nDerived from: https://github.com/jquery/jquery/blob/master/src/ajax.js",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\F2.js",
+            "line": 250,
             "description": "Utility method to determine whether or not the argument passed in is or is not a native dom node.",
             "itemtype": "method",
             "name": "isNativeDOMNode",
@@ -561,7 +630,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 161,
+            "line": 269,
             "description": "Wrapper logging function.",
             "itemtype": "method",
             "name": "log",
@@ -584,7 +653,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 172,
+            "line": 280,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -604,7 +673,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 181,
+            "line": 289,
             "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
             "itemtype": "method",
             "name": "stringify",
@@ -634,7 +703,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 202,
+            "line": 310,
             "description": "Function to get the F2 version number",
             "itemtype": "method",
             "name": "version",
@@ -647,7 +716,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 219,
+            "line": 199,
             "description": "Allows container developer to retrieve a special token which must be passed to\nall On and Off methods. This function will self destruct so be sure to keep the response\ninside of a closure somewhere.",
             "itemtype": "method",
             "name": "getToken",
@@ -656,7 +725,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 233,
+            "line": 213,
             "description": "Allows F2 to get a token internally. Token is required to call {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}.\nThis function will self destruct to eliminate other sources from using the {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}\nand other internal methods.",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -667,7 +736,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 248,
+            "line": 228,
             "description": "Allows F2 to trigger specific app events internally.",
             "itemtype": "method",
             "name": "__trigger",
@@ -691,7 +760,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 308,
+            "line": 288,
             "description": "Allows you to easily tell all apps to render in a specific location. Only valid for eventType 'appRender'.",
             "itemtype": "method",
             "name": "on",
@@ -714,14 +783,14 @@
                 }
             ],
             "example": [
-                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));"
+                "\n    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender', document.getElementById('my_container'));\n    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRender.myNamespace', document.getElementById('my_container'));"
             ],
             "class": "F2.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 321,
+            "line": 301,
             "description": "Allows you to add listener method that will be triggered when a specific event happens.",
             "itemtype": "method",
             "name": "on",
@@ -744,14 +813,14 @@
                 }
             ],
             "example": [
-                "\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });\n\t\tF2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });"
+                "\n    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore', function() { F2.log('before app rendered!'); });\n    F2.AppHandlers.on('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore.myNamespace', function() { F2.log('before app rendered!'); });"
             ],
             "class": "F2.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 369,
+            "line": 349,
             "description": "Allows you to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -769,14 +838,14 @@
                 }
             ],
             "example": [
-                "\n\t\tF2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');"
+                "\n    F2.AppHandlers.off('3123-asd12-asd123dwase-123d-123d', 'appRenderBefore');"
             ],
             "class": "F2.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 420,
+            "line": 400,
             "description": "A collection of constants for the on/off method names in F2.AppHandlers.",
             "itemtype": "property",
             "name": "AppHandlers",
@@ -786,7 +855,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 426,
+            "line": 406,
             "description": "Equivalent to 'appCreateRoot'. Identifies the create root method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_CREATE_ROOT",
@@ -798,7 +867,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 434,
+            "line": 414,
             "description": "Equivalent to 'appRenderBefore'. Identifies the before app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_BEFORE",
@@ -810,7 +879,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 442,
+            "line": 422,
             "description": "Equivalent to 'appRender'. Identifies the app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER",
@@ -822,7 +891,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 450,
+            "line": 430,
             "description": "Equivalent to 'appRenderAfter'. Identifies the after app render method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_RENDER_AFTER",
@@ -834,7 +903,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 458,
+            "line": 438,
             "description": "Equivalent to 'appDestroyBefore'. Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_BEFORE",
@@ -846,7 +915,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 466,
+            "line": 446,
             "description": "Equivalent to 'appDestroy'. Identifies the app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY",
@@ -858,7 +927,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 474,
+            "line": 454,
             "description": "Equivalent to 'appDestroyAfter'. Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().",
             "itemtype": "property",
             "name": "APP_DESTROY_AFTER",
@@ -1244,7 +1313,7 @@
             "itemtype": "property",
             "name": "opacity",
             "type": "int",
-            "default": ".6",
+            "default": "0.6",
             "class": "F2.ContainerConfig.UI.Mask",
             "module": "f2"
         },
@@ -1268,6 +1337,146 @@
             "type": "int",
             "default": "2",
             "class": "F2.ContainerConfig.UI.Mask",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\classes.js",
+            "line": 340,
+            "description": "Allows the container to fully override how the AppManifest request is\nmade inside of F2.",
+            "itemtype": "method",
+            "name": "xhr",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "The manifest url",
+                    "type": "String"
+                },
+                {
+                    "name": "appConfigs",
+                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}\nobjects",
+                    "type": "Array"
+                },
+                {
+                    "name": "success",
+                    "description": "The function to be called if the request\nsucceeds",
+                    "type": "Function"
+                },
+                {
+                    "name": "error",
+                    "description": "The function to be called if the request fails",
+                    "type": "Function"
+                },
+                {
+                    "name": "complete",
+                    "description": "The function to be called when the request\nfinishes (after success and error callbacks have been executed)",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "The XMLHttpRequest object (or an object that has\nan `abort` function (such as the jqXHR object in jQuery) to abort the\nrequest)",
+                "type": "XMLHttpRequest"
+            },
+            "example": [
+                "\n    F2.init({\n        xhr: function(url, appConfigs, success, error, complete) {\n            $.ajax({\n                url: url,\n                type: 'POST',\n                data: {\n                    params: F2.stringify(appConfigs, F2.appConfigReplacer)\n                },\n                jsonp: false, // do not put 'callback=' in the query string\n                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name\n                dataType: 'json',\n                success: function(appManifest) {\n                    // custom success logic\n                    success(appManifest); // fire success callback\n                },\n                error: function() {\n                    // custom error logic\n                    error(); // fire error callback\n                },\n                complete: function() {\n                    // custom complete logic\n                    complete(); // fire complete callback\n                }\n            });\n        }\n    });"
+            ],
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\classes.js",
+            "line": 388,
+            "description": "Allows the container to override individual parts of the AppManifest\nrequest.  See properties and methods with the `xhr.` prefix.",
+            "itemtype": "property",
+            "name": "xhr",
+            "type": "Object",
+            "example": [
+                "\n    F2.init({\n        xhr: {\n            url: function(url, appConfigs) {\n                return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);\n            }\n        }\n    });"
+            ],
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\classes.js",
+            "line": 404,
+            "description": "Allows the container to override the request data type (JSON or JSONP)\nthat is used for the request",
+            "itemtype": "method",
+            "name": "xhr.dataType",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "The manifest url",
+                    "type": "String"
+                },
+                {
+                    "name": "appConfigs",
+                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}\nobjects",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "The request data type that should be used",
+                "type": "String"
+            },
+            "example": [
+                "\n    F2.init({\n        xhr: {\n            dataType: function(url) {\n                return F2.isLocalRequest(url) ? 'json' : 'jsonp';\n            },\n            type: function(url) {\n                return F2.isLocalRequest(url) ? 'POST' : 'GET';\n            }\n        }\n    });"
+            ],
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\classes.js",
+            "line": 426,
+            "description": "Allows the container to override the request method that is used (just\nlike the `type` parameter to `jQuery.ajax()`.",
+            "itemtype": "method",
+            "name": "xhr.type",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "The manifest url",
+                    "type": "String"
+                },
+                {
+                    "name": "appConfigs",
+                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}\nobjects",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "The request method that should be used",
+                "type": "String"
+            },
+            "example": [
+                "\n    F2.init({\n        xhr: {\n            dataType: function(url) {\n                return F2.isLocalRequest(url) ? 'json' : 'jsonp';\n            },\n            type: function(url) {\n                return F2.isLocalRequest(url) ? 'POST' : 'GET';\n            }\n        }\n    });"
+            ],
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\classes.js",
+            "line": 448,
+            "description": "Allows the container to override the url that is used to request an\napp's F2.{{#crossLink \"F2.AppManifest\"}}{{/crossLink}}",
+            "itemtype": "method",
+            "name": "xhr.url",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "The manifest url",
+                    "type": "String"
+                },
+                {
+                    "name": "appConfigs",
+                    "description": "An array of {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}\nobjects",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "The url that should be used for the request",
+                "type": "String"
+            },
+            "example": [
+                "\n    F2.init({\n        xhr: {\n            url: function(url, appConfigs) {\n                return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);\n            }\n        }\n    });"
+            ],
+            "class": "F2.ContainerConfig",
             "module": "f2"
         },
         {
@@ -1608,7 +1817,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 65,
+            "line": 61,
             "description": "Rendering hook to allow containers to render some html prior to an app\nloading",
             "itemtype": "method",
             "name": "_beforeAppRender",
@@ -1632,7 +1841,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 79,
+            "line": 75,
             "description": "Adds properties to the AppConfig object",
             "itemtype": "method",
             "name": "_hydrateAppConfig",
@@ -1650,7 +1859,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 97,
+            "line": 93,
             "description": "Attach app events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -1661,7 +1870,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 119,
+            "line": 115,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -1672,7 +1881,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 137,
+            "line": 133,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -1687,7 +1896,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 147,
+            "line": 143,
             "description": "Instantiates each app from it's appConfig and stores that in a local private collection",
             "itemtype": "method",
             "name": "_createAppInstance",
@@ -1705,7 +1914,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 175,
+            "line": 171,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -1729,7 +1938,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 307,
+            "line": 294,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1752,7 +1961,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 370,
+            "line": 355,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1774,7 +1983,22 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 392,
+            "line": 376,
+            "description": "Checks if the ContainerConfig is valid",
+            "itemtype": "method",
+            "name": "_validateContainerConfig",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "True if the config is valid",
+                "type": "Bool"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk\\src\\container.js",
+            "line": 405,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1787,7 +2011,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 407,
+            "line": 420,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -1803,7 +2027,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 431,
+            "line": 446,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1816,7 +2040,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 437,
+            "line": 452,
             "description": "Begins the loading process for all apps. The app will\nbe passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1838,7 +2062,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 595,
+            "line": 648,
             "description": "Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility\nif you are the container developer and app developer or want to request apps via serverside and render them as a single page.",
             "itemtype": "method",
             "name": "registerPreLoadedApps",
@@ -1854,7 +2078,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 640,
+            "line": 691,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1863,7 +2087,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 655,
+            "line": 706,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2050,7 +2274,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 116,
+            "line": 117,
             "itemtype": "method",
             "name": "_createRpcCallback",
             "access": "private",
@@ -2076,7 +2300,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 134,
+            "line": 135,
             "description": "Handles messages that come across the sockets",
             "itemtype": "method",
             "name": "_onMessage",
@@ -2104,7 +2328,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 215,
+            "line": 216,
             "description": "Registers a callback function",
             "itemtype": "method",
             "name": "_registerCallback",
@@ -2126,7 +2350,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 229,
+            "line": 230,
             "description": "Broadcast an RPC function to all sockets",
             "itemtype": "method",
             "name": "broadcast",
@@ -2147,7 +2371,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 242,
+            "line": 243,
             "description": "Calls a remote function",
             "itemtype": "method",
             "name": "call",
@@ -2178,7 +2402,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 272,
+            "line": 273,
             "description": "Init function which tells F2.Rpc whether it is running at the container-\nlevel or the app-level. This method is generally called by\nF2.{{#crossLink \"F2/init\"}}{{/crossLink}}",
             "itemtype": "method",
             "name": "init",
@@ -2195,7 +2419,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 288,
+            "line": 289,
             "description": "Determines whether the Instance ID is considered to be 'remote'. This is\ndetermined by checking if 1) the app has an open socket and 2) whether\nF2.Rpc is running inside of an iframe",
             "itemtype": "method",
             "name": "isRemote",
@@ -2215,7 +2439,7 @@
         },
         {
             "file": "sdk\\src\\rpc.js",
-            "line": 307,
+            "line": 308,
             "description": "Creates a container-to-app or app-to-container socket for communication",
             "itemtype": "method",
             "name": "register",
@@ -2480,20 +2704,36 @@
     ],
     "warnings": [
         {
-            "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:308"
-        },
-        {
-            "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:321"
+            "message": "replacing incorrect tag: returns with return",
+            "line": " sdk\\src\\F2.js:33"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:370"
+            "line": " sdk\\src\\F2.js:70"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:392"
+            "line": " sdk\\src\\F2.js:206"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " sdk\\src\\app_handlers.js:288"
+        },
+        {
+            "message": "replacing incorrect tag: params with param",
+            "line": " sdk\\src\\app_handlers.js:301"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " sdk\\src\\container.js:355"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " sdk\\src\\container.js:376"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " sdk\\src\\container.js:405"
         },
         {
             "message": "replacing incorrect tag: params with param",
