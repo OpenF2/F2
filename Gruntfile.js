@@ -32,7 +32,9 @@ module.exports = function(grunt) {
 						src: ['**'],
 						dest: 'docs/src-temp/',
 						filter: function(src) {
-							return (/(.html|.md)$/i).test(src);
+							if ( !(/twbootstrap/).test(src) ){//don't touch submodule
+								return (/(.html|.md)$/i).test(src);
+							}
 						}
 					}
 				],
