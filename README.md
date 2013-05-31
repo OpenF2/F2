@@ -60,7 +60,7 @@ For help, run:
 
 `$> grunt --help`
 
-We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org). [pandoc](https://github.com/jgm/pandoc) is required for markitdown.
+We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org). [pandoc](http://johnmacfarlane.net/pandoc/index.html) is required for markitdown and there are [installation packages available](http://johnmacfarlane.net/pandoc/installing.html) for Windows and Mac OS.
 
 #### NuGet Package
 
