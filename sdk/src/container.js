@@ -373,6 +373,34 @@ F2.extend('', (function(){
 		return true;
 	};
 
+	/**
+	 * Checks if the ContainerConfig is valid
+	 * @method _validateContainerConfig
+	 * @private
+	 * @returns {bool} True if the config is valid
+	 */
+	var _validateContainerConfig = function() {
+
+		if (_config) {
+			if (_config.xhr) {
+				if (!(typeof _config.xhr === 'function' || typeof _config.xhr === 'object')) {
+					throw('ContainerConfig.xhr should be a function or an object');
+				}
+				if (_config.xhr.dataType && typeof _config.xhr.dataType !== 'function') {
+					throw('ContainerConfig.xhr.dataType should be a function');
+				}
+				if (_config.xhr.type && typeof _config.xhr.type !== 'function') {
+					throw('ContainerConfig.xhr.type should be a function');
+				}
+				if (_config.xhr.url && typeof _config.xhr.url !== 'function') {
+					throw('ContainerConfig.xhr.url should be a function');
+				}
+			}
+		}
+
+		return true;
+	};
+
 	return {
 		/**
 		 * Gets the current list of apps in the container
@@ -385,7 +413,7 @@ F2.extend('', (function(){
 				return;
 			}
 
-			return jQuery.map(_apps, function(app, i) {
+			return jQuery.map(_apps, function(app) {
 				return { appId: app.config.appId };
 			});
 		},
@@ -397,6 +425,8 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
+
+			_validateContainerConfig();
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
@@ -430,7 +460,6 @@ F2.extend('', (function(){
 		 * objects
 		 * @param {Array} [appManifests] An array of
 		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
-		 * objects. This array must be the same length as the apps array that is
 		 * objects. This array must be the same length as the apps array that is
 		 * passed in. This can be useful if apps are loaded on the server-side and
 		 * passed down to the client.
@@ -548,29 +577,67 @@ F2.extend('', (function(){
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) { return; }
 
-						jQuery.ajax({
-							url:req.url,
-							data:{
-								params:F2.stringify(req.apps, F2.appConfigReplacer)
+						// setup defaults and callbacks
+						var url = req.url,
+							type = 'GET',
+							dataType = 'jsonp',
+							completeFunc = function() {
+								manifestRequest(i, requests.pop());
 							},
-							jsonp:false, /* do not put 'callback=' in the query string */
-							jsonpCallback:jsonpCallback, /* Unique function name */
-							dataType:'jsonp',
-							success:function(appManifest) {
-								_loadApps(req.apps, appManifest);
-							},
-							error:function(jqxhr, settings, exception) {
-								F2.log('Failed to load app(s)', exception.toString(), req.apps);
-								//remove failed app(s)
+							errorFunc = function() {
 								jQuery.each(req.apps, function(idx,item){
 									F2.log('Removed failed ' +item.name+ ' app', item);
 									F2.removeApp(item.instanceId);
 								});
 							},
-							complete:function() {
-								manifestRequest(i, requests.pop());
+							successFunc = function(appManifest) {
+								_loadApps(req.apps, appManifest);
+							};
+
+						// optionally fire xhr overrides
+						if (_config.xhr && _config.xhr.dataType) {
+							dataType = _config.xhr.dataType(req.url, req.apps);
+							if (typeof dataType !== 'string') {
+								throw('ContainerConfig.xhr.dataType should return a string');
 							}
-						});
+						}
+						if (_config.xhr && _config.xhr.type) {
+							type = _config.xhr.type(req.url, req.apps);
+							if (typeof type !== 'string') {
+								throw('ContainerConfig.xhr.type should return a string');
+							}
+						}
+						if (_config.xhr && _config.xhr.url) {
+							url = _config.xhr.url(req.url, req.apps);
+							if (typeof url !== 'string') {
+								throw('ContainerConfig.xhr.url should return a string');
+							}
+						}
+
+						// setup the default request function if an override is not present
+						var requestFunc = _config.xhr;
+						if (typeof requestFunc !== 'function') {
+							requestFunc = function(url, appConfigs, successCallback, errorCallback, completeCallback) {
+								jQuery.ajax({
+									url: url,
+									type: type,
+									data: {
+										params: F2.stringify(req.apps, F2.appConfigReplacer)
+									},
+									jsonp: false, // do not put 'callback=' in the query string
+									jsonpCallback: jsonpCallback, // Unique function name
+									dataType: dataType,
+									success: successCallback,
+									error: function(jqxhr, settings, exception) {
+										F2.log('Failed to load app(s)', exception.toString(), req.apps);
+										errorCallback();
+									},
+									complete: completeCallback
+								});
+							};
+						}
+
+						requestFunc(url, req.apps, successFunc, errorFunc, completeFunc);
 					};
 
 					manifestRequest(i, requests.pop());

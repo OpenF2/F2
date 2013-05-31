@@ -77,9 +77,9 @@ To achieve steady growth and stable release cycles, F2 will be maintained under 
 
 ### Track
 
-F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is {{docs.version}} released on {{docs.lastUpdateDateFormatted}}. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Docs-Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
+F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is {{version}} released on {{_releaseDateFormatted}}. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Docs-Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
 
-<span class="label">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html) which is currently version {{sdk.version}}.
+<span class="label">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html) which is currently version {{version}}.
 
 ### Collaborate
 
