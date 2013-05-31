@@ -273,7 +273,7 @@ For more information on `F2.UI`, [browse to the F2.js SDK docs](./sdk/classes/F2
 
 #### Override the AppManifest Request
 
-Occasionally Container Developers need more granular control over the `AppManifest` request mechanism in F2.js. The [manifest request process](./sdk/classes/F2.html#methods-registerApps)&mdash;intentionally obscured from developers through the `F2.registerApps()` API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on `jQuery.ajax()` for this.)  In version {{sdk.version}} of F2, the `AppManifest` request can be overridden in the Container Config. 
+Occasionally Container Developers need more granular control over the `AppManifest` request mechanism in F2.js. The [manifest request process](./sdk/classes/F2.html#methods-registerApps)&mdash;intentionally obscured from developers through the `F2.registerApps()` API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on `jQuery.ajax()` for this.)  In version {{version}} of F2, the `AppManifest` request can be overridden in the Container Config. 
 
 The following example demonstrates how the `xhr` property of the `ContainerConfig` is used to override F2.js.
 
