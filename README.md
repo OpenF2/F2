@@ -46,11 +46,11 @@ To configure your environment, be sure you have Node installed and run the follo
 
 `$> npm install`
 
-Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch. If the installation fails due to directory permissions, use:
+This command will install the [Grunt CLI](http://gruntjs.com/getting-started#installing-the-cli) in addition to all dependencies needed to run the `Gruntfile`. Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch. If the installation fails due to directory permissions, use:
 
 `$> sudo npm install`
 
-This command will install the [Grunt CLI](http://gruntjs.com/getting-started#installing-the-cli) in addition to all dependencies needed to run the `Gruntfile`.
+We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [F2 docs](http://docs.openf2.org). [Pandoc](http://johnmacfarlane.net/pandoc/index.html) is required for markitdown and there are [installation packages available](http://johnmacfarlane.net/pandoc/installing.html) for Windows and Mac OS.
 
 To **build F2**, run:
 
@@ -59,8 +59,6 @@ To **build F2**, run:
 For help, run:
 
 `$> grunt --help`
-
-We are using [markitdown](https://github.com/markitondemand/markitdown), a lightweight pandoc wrapper, for converting markdown files to HTML for the [docs](http://docs.openf2.org). [pandoc](https://github.com/jgm/pandoc) is required for markitdown.
 
 #### NuGet Package
 

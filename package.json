@@ -1,49 +1,49 @@
 {
-  "name": "F2",
-  "description": "An open framework for the financial services industry.",
-  "version": "1.1.2",
-  "keywords": [
-    "openf2"
-  ],
-  "homepage": "https://github.com/OpenF2/F2",
-  "author": "Markit On Demand, Inc",
-  "scripts": {
-    "preinstall": "npm install grunt-cli markitdown -g"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/OpenF2/F2.git"
-  },
-  "bugs": {
-    "url": "https://github.com/OpenF2/F2/issues",
-    "email": "OpenF2@googlegroups.com"
-  },
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
-    }
-  ],
-  "devDependencies": {
-    "express": "~3.2.4",
-    "grunt": "~0.4.1",
-    "grunt-contrib-clean": "~0.4.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-jasmine": "~0.4.2",
-    "grunt-contrib-jshint": "~0.4.3",
-    "grunt-contrib-less": "~0.5.1",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-express": "~0.3.3",
-    "handlebars": "1.0.10",
-    "moment": "~2.0.0",
-    "pandoc": "0.2.0",
-    "semver": "~1.1.4",
-    "yuidocjs": "~0.3.44"
-  },
-  "engines": {
-    "node": ">=0.10"
-  },
-  "_releaseDate": "2013-04-08T14:34:33.095Z",
-  "_releaseDateFormatted": "8 April 2013"
+	"name": "F2",
+	"description": "An open framework for the financial services industry.",
+	"version": "1.2.0",
+	"keywords": [
+		"openf2"
+	],
+	"homepage": "https://github.com/OpenF2/F2",
+	"author": "Markit On Demand, Inc",
+	"scripts": {
+		"preinstall": "npm install grunt-cli markitdown -g"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/OpenF2/F2.git"
+	},
+	"bugs": {
+		"url": "https://github.com/OpenF2/F2/issues",
+		"email": "OpenF2@googlegroups.com"
+	},
+	"licenses": [
+		{
+			"type": "Apache-2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0"
+		}
+	],
+	"devDependencies": {
+		"express": "~3.2.4",
+		"grunt": "~0.4.1",
+		"grunt-contrib-clean": "~0.4.1",
+		"grunt-contrib-concat": "~0.3.0",
+		"grunt-contrib-copy": "~0.4.1",
+		"grunt-contrib-jasmine": "~0.4.2",
+		"grunt-contrib-jshint": "~0.4.3",
+		"grunt-contrib-less": "~0.5.1",
+		"grunt-contrib-uglify": "~0.2.0",
+		"grunt-express": "~0.3.3",
+		"handlebars": "1.0.10",
+		"moment": "~2.0.0",
+		"pandoc": "0.2.0",
+		"semver": "~1.1.4",
+		"yuidocjs": "~0.3.44"
+	},
+	"engines": {
+		"node": ">=0.10"
+	},
+	"_releaseDate": "2013-05-30T22:13:29.844Z",
+	"_releaseDateFormatted": "30 May 2013"
 }
