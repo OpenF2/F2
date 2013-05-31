@@ -5,23 +5,30 @@ describe('F2.AppHandlers', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		}
 	};
 	
 	it(
+		
 		'should fire beforeAppRender, appRender, or afterAppRender if they are defined in container config and not APP_RENDER_* AppHandler methods.',
 		function() {
 			var isBeforeAppRenderFired = false;			
@@ -59,7 +66,7 @@ describe('F2.AppHandlers', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);				
+			F2.registerApps(appConfig(), appManifest());				
 
 			waitsFor(
 				function()
@@ -67,7 +74,7 @@ describe('F2.AppHandlers', function() {
 					return isBeforeAppRenderFired;
 				},
 				'beforeAppRender was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() { expect(isBeforeAppRenderFired).toBeTruthy(); });			
@@ -86,11 +93,18 @@ describe('F2.AppHandlers', function() {
 				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
 				function(appConfig)
 				{			
-					isAppRenderBeforeFired = true
+					setTimeout(function(){ isAppRenderBeforeFired = true}, 100);
 				}
-			);
-			
-			F2.registerApps(appConfig, appManifest);				
+			).on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{			
+					setTimeout(function(){ isAppRenderBeforeFired = true}, 100);
+				}
+			);			
+
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -98,7 +112,7 @@ describe('F2.AppHandlers', function() {
 					return isAppRenderBeforeFired;
 				},
 				'F2.AppHandlers.on("appRenderBefore") was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() { expect(isAppRenderBeforeFired).toBeTruthy(); });
@@ -117,7 +131,7 @@ describe('F2.AppHandlers', function() {
 					function(appConfig) {}
 				);
 				
-				F2.registerApps(appConfig, appManifest);
+				F2.registerApps(appConfig(), appManifest());
 			}).toThrow();			
 		}
 	);
@@ -133,7 +147,7 @@ describe('F2.AppHandlers', function() {
 					F2.Constants.AppHandlers.APP_RENDER_BEFORE
 				);
 				
-				F2.registerApps(appConfig, appManifest);
+				F2.registerApps(appConfig(), appManifest());
 			}).toThrow();			
 		}
 	);
@@ -173,7 +187,7 @@ describe('F2.AppHandlers', function() {
 		function() {			
 			expect(function(){
 				F2.init();
-				F2.registerApps(appConfig, appManifest);
+				F2.registerApps(appConfig(), appManifest());
 			}).not.toThrow();	
 		}
 	);
@@ -225,7 +239,7 @@ describe('F2.AppHandlers', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);				
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -233,7 +247,7 @@ describe('F2.AppHandlers', function() {
 					return bDone;
 				},
 				'AppHandlers were never fired',
-				10000
+				3000
 			);
 			
 			runs(function() { expect(sOrder).toBe("appCreateRoot,appRenderBefore,appRender,appRenderAfter"); });			
@@ -249,20 +263,26 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
 	};
 	
 	it(
@@ -289,7 +309,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -297,7 +317,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -335,7 +355,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -343,7 +363,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -384,7 +404,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -392,7 +412,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() { expect(bRootIsH1).toBe(true); expect(bRootOnPage).toBe(true); expect(bAppHtmlInRoot).toBe(true); });			
@@ -449,7 +469,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -457,7 +477,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -527,7 +547,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -535,7 +555,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -593,7 +613,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -601,7 +621,7 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -622,20 +642,26 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
 	};
 	
 	it(
@@ -664,7 +690,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -672,7 +698,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -717,7 +743,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -725,7 +751,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -770,7 +796,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -778,7 +804,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -839,7 +865,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -847,7 +873,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -917,7 +943,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -925,7 +951,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -983,7 +1009,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -991,7 +1017,7 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -1012,20 +1038,26 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
 	};
 	
 	it(
@@ -1067,7 +1099,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1075,7 +1107,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -1109,7 +1141,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1117,7 +1149,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {								
@@ -1176,7 +1208,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1184,7 +1216,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -1239,7 +1271,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1247,7 +1279,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -1327,7 +1359,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1335,7 +1367,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -1422,7 +1454,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1430,7 +1462,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -1455,20 +1487,26 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
 	};
 	
 	it(
@@ -1490,7 +1528,7 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1498,7 +1536,7 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -1531,7 +1569,7 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1539,7 +1577,7 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {								
@@ -1590,7 +1628,7 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1598,7 +1636,7 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 					return bDone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -1617,20 +1655,26 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
 	};
 
 	it(
@@ -1673,7 +1717,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1681,7 +1725,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 					return bAppGone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -1732,7 +1776,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1740,7 +1784,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 					return bAppGone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -1759,20 +1803,26 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
 	};
 	
 	it(
@@ -1797,7 +1847,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1805,7 +1855,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 					return bAppStillAround;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -1818,7 +1868,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 					return bAppGone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -1838,7 +1888,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 				return F2.testAppInitialized;
 			},
 			'Inline scripts were never evaluated',
-			10000
+			3000
 		);
 		
 		runs(function() {
@@ -1850,7 +1900,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 					return F2.destroyAppMethodCalled;
 				},
 				'destroy() method was never evaluated',
-				10000
+				3000
 			);
 
 			runs(function() {
@@ -1899,7 +1949,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1907,7 +1957,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 					return bAppGone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -1974,7 +2024,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -1982,7 +2032,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 					return bAppGone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				
@@ -2000,20 +2050,26 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
 	
-	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+	var appConfig = function()
+	{
+		return {
+			appId: 'com_openf2_tests_helloworld',
+			manifestUrl: 'http://www.openf2.org'
+		};
 	};
 	
-	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
-			{
-				html: '<div class="test-app">Testing</div>'
-			}
-		]
+	var appManifest = function()
+	{
+		return {
+			scripts:[],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
 	};
 
 	it(
@@ -2056,7 +2112,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -2064,7 +2120,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 					return bAppGone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {
@@ -2115,7 +2171,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 				}
 			);
 			
-			F2.registerApps(appConfig, appManifest);
+			F2.registerApps(appConfig(), appManifest());
 
 			waitsFor(
 				function()
@@ -2123,7 +2179,7 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 					return bAppGone;
 				},
 				'AppHandlers.On( appRenderAfter ) was never fired',
-				10000
+				3000
 			);
 			
 			runs(function() {				

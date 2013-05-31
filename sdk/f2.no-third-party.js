@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.2
+ * F2 v{{sdk.version}}
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -324,7 +324,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '1.2'; }
+		version: function() { return '{{sdk.version}}'; }
 	};
 })();
 
@@ -2739,7 +2739,7 @@ F2.extend('', (function(){
 		if (!appConfig.appId) {
 			F2.log('"appId" missing from app object');
 			return false;
-		} else if (!appConfig.manifestUrl) {
+		} else if (!appConfig.root && !appConfig.manifestUrl) {
 			F2.log('"manifestUrl" missing from app object');
 			return false;
 		}
@@ -2824,20 +2824,110 @@ F2.extend('', (function(){
 		 */
 		isInit: _isInit,
 		/**
-		 * Begins the loading process for all apps. The app will
-		 * be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
-		 * contain the app's unique instanceId within the container. Optionally, the
-		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
-		 * assets will be used instead of making a request.
-		 * @method registerApps
-		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-		 * objects
-		 * @param {Array} [appManifests] An array of
-		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
-		 * objects. This array must be the same length as the apps array that is
-		 * passed in. This can be useful if apps are loaded on the server-side and
-		 * passed down to the client.
-		 */
+		* Begins the loading process for all apps and/or initialization process for pre-loaded apps.
+		* The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
+		* contain the app's unique instanceId within the container. If the 
+		* {{#crossLink "F2.AppConfig"}}{{/crossLink}}.root property is populated the app is considered
+		* to be a pre-loaded app and will be handled accordingly. Optionally, the
+		* {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
+		* assets will be used instead of making a request.
+		* @method registerApps
+		* @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+		* objects
+		* @param {Array} [appManifests] An array of
+		* {{#crossLink "F2.AppManifest"}}{{/crossLink}}
+		* objects. This array must be the same length as the apps array that is
+		* objects. This array must be the same length as the apps array that is
+		* passed in. This can be useful if apps are loaded on the server-side and
+		* passed down to the client.
+		* @example
+		* Traditional App requests.
+		*
+		*	// Traditional f2 app configs
+		*	var arConfigs = [
+		*		{
+		*			appId: 'com_externaldomain_example_app',
+		*			context: {},
+		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		*		},
+		*		{
+		*			appId: 'com_externaldomain_example_app',
+		*			context: {},
+		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		*		},
+		*		{
+		*			appId: 'com_externaldomain_example_app2',
+		*			context: {},
+		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		*		}
+		*	];
+		*	
+		*	F2.init();
+		*	F2.registerApps(arConfigs);
+		*
+		* @example
+		* Pre-loaded and tradition apps mixed.
+		* 
+		*	// Pre-loaded apps and traditional f2 app configs
+		*	// you can preload the same app multiple times as long as you have a unique root for each
+		*	var arConfigs = [
+		*		{
+		*			appId: 'com_mydomain_example_app',
+		*			context: {},
+		*			root: 'div#example-app-1',
+		*			manifestUrl: ''
+		*		},
+		*		{
+		*			appId: 'com_mydomain_example_app',
+		*			context: {},
+		*			root: 'div#example-app-2',
+		*			manifestUrl: ''
+		*		},
+		*		{
+		*			appId: 'com_externaldomain_example_app',
+		*			context: {},
+		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		*		}
+		*	];
+		*
+		*	F2.init();
+		*	F2.registerApps(arConfigs);
+		*
+		* @example
+		* Apps with predefined manifests.
+		*
+		*	// Traditional f2 app configs
+		*	var arConfigs = [
+		*		{appId: 'com_externaldomain_example_app', context: {}},
+		*		{appId: 'com_externaldomain_example_app', context: {}},
+		*		{appId: 'com_externaldomain_example_app2', context: {}}
+		*	];
+		*
+		*	// Pre requested manifest responses
+		*	var arManifests = [
+		*		{
+		*			apps: ['<div>Example App!</div>'],
+		*			inlineScripts: [],
+		*			scripts: ['http://www.domain.com/js/AppClass.js'],
+		*			styles: ['http://www.domain.com/css/AppStyles.css']
+		*		},
+		*		{
+		*			apps: ['<div>Example App!</div>'],
+		*			inlineScripts: [],
+		*			scripts: ['http://www.domain.com/js/AppClass.js'],
+		*			styles: ['http://www.domain.com/css/AppStyles.css']
+		*		},
+		*		{
+		*			apps: ['<div>Example App 2!</div>'],
+		*			inlineScripts: [],
+		*			scripts: ['http://www.domain.com/js/App2Class.js'],
+		*			styles: ['http://www.domain.com/css/App2Styles.css'] 
+		*		}
+		*	];
+		*	
+		*	F2.init();
+		*	F2.registerApps(arConfigs, arManifests);
+		*/
 		registerApps: function(appConfigs, appManifests) {
 
 			if (!_isInit()) {
@@ -2870,17 +2960,51 @@ F2.extend('', (function(){
 			// then determine which apps can be batched together
 			jQuery.each(appConfigs, function(i, a) {
 
-				if (!_validateApp(a)) {
-					return; // move to the next app
-				}
-
 				// add properties and methods
 				_hydrateAppConfig(a);
+
+				// Will set to itself, for preloaded apps, or set to null for apps that aren't already
+				// on the page.
+				a.root = a.root || null;
+
+				// we validate the app after setting the root property because pre-load apps do no require
+				// manifest url
+				if (!_validateApp(a)) {					
+					return; // move to the next app
+				}
 				
-				// create just a generic div. To squash the jQuery dependency we will turn
-				// app.root will only be a dom node
-				a.root = null;
-				
+				// save app
+				_apps[a.instanceId] = { config:a };
+
+				// If the root property is defined then this app is considered to be preloaded and we will
+				// run it through that logic.
+				if(a.root)
+				{
+					if((!a.root && typeof(a.root) != 'string') && !F2.isNativeDOMNode(a.root))
+					{
+						F2.log('AppConfig invalid for pre-load, not a valid string and not dom node');
+						F2.log('AppConfig instance:', a);
+						throw('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
+					}
+					else if(jQuery(a.root).length != 1)
+					{
+						F2.log('AppConfig invalid for pre-load, root not unique');
+						F2.log('AppConfig instance:', a);
+						F2.log('Number of dom node instances:', jQuery(a.root).length);
+						throw('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
+					}
+
+					// instantiate F2.App
+					_createAppInstance(a);
+					
+					// init events
+					_initAppEvents(a);
+
+					// Continue on in the .each loop, no need to continue because the app is on the page
+					// the js in initialized, and it is ready to role.
+					return; // equivalent to continue in .each
+				}
+
 				if(!_bUsesAppHandlers)
 				{
 					// fire beforeAppRender
@@ -2900,9 +3024,6 @@ F2.extend('', (function(){
 						a // the app config
 					);
 				}
-				
-				// save app
-				_apps[a.instanceId] = { config:a };
 
 				// if we have the manifest, go ahead and load the app
 				if (haveManifests) {
@@ -3017,49 +3138,6 @@ F2.extend('', (function(){
 					manifestRequest(i, requests.pop());
 				});
 			}
-		},		
-		/**
-		 * Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
-		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
-		 * @method registerPreLoadedApps
-		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
-		 */
-		registerPreLoadedApps: function(appConfigs) {
-			
-			if (!_isInit()) {
-				throw('F2.init() must be called before F2.registerApps()');
-			} else if (!appConfigs) {
-				throw('At least one AppConfig must be passed when calling F2.registerPreLoadedApps()');
-			}
-
-			// could just pass an object that is an appConfig
-			appConfigs = [].concat(appConfigs);
-
-			// appConfigs must have a length
-			if (!appConfigs.length) {
-				throw('At least one appConfig must be passed.');
-			}
-
-			jQuery.each(appConfigs, function(i, a) {
-				
-				if (!_validateApp(a)) {
-					throw('Invalid appConfig at position ' + i + '. Please check your inputs and try again.');
-				} else if(!a.root || jQuery(a.root).parents('body:first').length === 0) {
-					throw('Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.');
-				}
-
-				// add properties and methods
-				_hydrateAppConfig(a);
-
-				// place unique instance of app in _apps collection using its instanceId
-				_apps[a.instanceId] = { config:a };
-
-				// instantiate F2.App
-				_createAppInstance(a);
-				
-				// init events
-				_initAppEvents(a);
-			});
 		},
 		/**
 		 * Removes all apps from the container
