@@ -7,7 +7,7 @@
 	var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
 		url = window.location.href.toLowerCase(),
 		parts = rurl.exec(url);
-	console.log(parts);
+	//console.log(parts);
 
 	// run the tests on the node server if it is running so that the port numbers
 	// will match
