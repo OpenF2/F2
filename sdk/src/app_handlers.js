@@ -114,19 +114,19 @@ F2.extend('AppHandlers', (function() {
 		{
 			sNamespace = sNamespace.toLowerCase();		
 		
-			for(var eventKey in _handlerCollection)
+			for(var currentEventKey in _handlerCollection)
 			{
-				var eventCollection = _handlerCollection[eventKey];
+				var eventCollection = _handlerCollection[currentEventKey];
 				var newEvents = [];
 
-				for(var i = 0, j = eventCollection.length; i < j; i++)
+				for(var i = 0, ec = eventCollection.length; i < ec; i++)
 				{
-					var currentHandler = eventCollection[i];
-					if(currentHandler)
+					var currentEventHandler = eventCollection[i];
+					if(currentEventHandler)
 					{
-						if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
+						if(!currentEventHandler.namespace || currentEventHandler.namespace.toLowerCase() != sNamespace)
 						{
-							newEvents.push(currentHandler);
+							newEvents.push(currentEventHandler);
 						}
 					}
 				}
@@ -138,21 +138,21 @@ F2.extend('AppHandlers', (function() {
 		{
 			sNamespace = sNamespace.toLowerCase();		
 		
-			var newEvents = [];
+			var newHandlerCollection = [];
 			
-			for(var i = 0, j = _handlerCollection[eventKey].length; i < j; i++)
+			for(var iCounter = 0, hc = _handlerCollection[eventKey].length; iCounter < hc; iCounter++)
 			{
-				var currentHandler = _handlerCollection[eventKey][i];
+				var currentHandler = _handlerCollection[eventKey][iCounter];
 				if(currentHandler)
 				{
 					if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
 					{
-						newEvents.push(currentHandler);
+						newHandlerCollection.push(currentHandler);
 					}
 				}
 			}
 			
-			_handlerCollection[eventKey] = newEvents;
+			_handlerCollection[eventKey] = newHandlerCollection;
 		}
 	};
 	
@@ -224,9 +224,9 @@ F2.extend('AppHandlers', (function() {
 				}
 				
 				// fire all event listeners in the order that they were added.
-				for(var i = 0, j = _handlerCollection[eventKey].length; i < j; i++)
+				for(var iCounter = 0, hcl = _handlerCollection[eventKey].length; iCounter < hcl; iCounter++)
 				{
-					var handler = _handlerCollection[eventKey][i];
+					var handler = _handlerCollection[eventKey][iCounter];
 					
 					if (handler.domNode && arguments[2] && arguments[2].root && arguments[3])
 					{

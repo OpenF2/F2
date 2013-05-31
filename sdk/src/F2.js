@@ -218,8 +218,8 @@ F2 = (function() {
 		 */
 		isLocalRequest: function(url){
 			var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-				url = url.toLowerCase(),
-				parts = rurl.exec( url ),
+				urlLower = url.toLowerCase(),
+				parts = rurl.exec( urlLower ),
 				ajaxLocation,
 				ajaxLocParts;
 
@@ -238,8 +238,8 @@ F2 = (function() {
 			// uh oh, the url must be relative
 			// make it fully qualified and re-regex url
 			if (!parts){
-				url = _absolutizeURI(ajaxLocation,url).toLowerCase();
-				parts = rurl.exec( url );
+				urlLower = _absolutizeURI(ajaxLocation,urlLower).toLowerCase();
+				parts = rurl.exec( urlLower );
 			}
 
 			// Segment location into parts

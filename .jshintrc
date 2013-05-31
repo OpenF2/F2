@@ -15,7 +15,7 @@
 	"latedef": true,
 	"noarg": true,
 	"quotmark": "single",
-	"shadow": true,
+	"shadow": false,
 	"sub": true,
 	"undef": true,
 	"unused": "vars"
