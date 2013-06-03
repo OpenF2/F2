@@ -405,7 +405,7 @@ F2.extend('Constants', {
 	* A convenient collection of all available appHandler events.
 	* @class F2.Constants.AppHandlers
 	**/
-	AppHandlers: function()
+	AppHandlers: (function()
 	{
 		return {
 			/**
@@ -576,5 +576,5 @@ F2.extend('Constants', {
 			*/
 			APP_DESTROY_AFTER: 'appDestroyAfter'
 		};
-	}
+	})()
 });
