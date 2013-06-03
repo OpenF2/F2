@@ -21,6 +21,10 @@ module.exports = function(grunt) {
 			'github-pages': {
 				options: { force: true },
 				src: ['../gh-pages/src']
+			},
+			'F2-examples': {
+				options: { force: true },
+				src: ['./F2-examples.zip']
 			}
 		},
 		copy: {
@@ -55,17 +59,30 @@ module.exports = function(grunt) {
 						dest: '../gh-pages'
 					}
 				]
+			},
+			'F2-examples': {
+				files: [
+					{
+						expand: true,
+						cwd: './',
+						src: ['F2-examples.zip'],
+						dest: '../gh-pages'
+					}
+				]
 			}
 		},
 		compress: {
 			main: {
 				options: {
-					archive: 'F2-examples.zip'
+					archive: 'F2-examples.zip',
+					pretty: true
 				},
 				files: [
 					{
-						src: ['examples/**'], 
-						dest: '../gh-pages'
+						expand: true,
+						cwd: 'examples/',
+						src: ['**'], 
+						dest: '../F2-examples'
 					}
 				]
 			}
@@ -361,11 +378,12 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
+	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
 	grunt.registerTask('travis', ['test']);
 
 	// the default task
-	grunt.registerTask('default', ['test', 'js', 'docs']);
+	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
 };
