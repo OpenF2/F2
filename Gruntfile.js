@@ -57,6 +57,19 @@ module.exports = function(grunt) {
 				]
 			}
 		},
+		compress: {
+			main: {
+				options: {
+					archive: 'F2-examples.zip'
+				},
+				files: [
+					{
+						src: ['examples/**'], 
+						dest: '../gh-pages'
+					}
+				]
+			}
+		},
 		concat: {
 			options: {
 				process: { data: pkg },
@@ -178,6 +191,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');

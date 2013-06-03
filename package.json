@@ -29,6 +29,7 @@
 		"grunt": "~0.4.1",
 		"grunt-contrib-clean": "~0.4.1",
 		"grunt-contrib-concat": "~0.3.0",
+		"grunt-contrib-compress": "~0.5.1",
 		"grunt-contrib-copy": "~0.4.1",
 		"grunt-contrib-jasmine": "~0.4.2",
 		"grunt-contrib-jshint": "~0.4.3",
@@ -44,6 +45,6 @@
 	"engines": {
 		"node": ">=0.10"
 	},
-	"_releaseDate": "2013-05-30T22:13:29.844Z",
-	"_releaseDateFormatted": "30 May 2013"
+	"_releaseDate": "2013-06-03T15:46:34.585Z",
+	"_releaseDateFormatted": "3 June 2013"
 }
