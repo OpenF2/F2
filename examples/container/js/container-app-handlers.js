@@ -93,13 +93,12 @@ $(function() {
 	});
 		
 	// Define these prior to calling F2.registerApps
-	/*
 	F2.AppHandlers
 		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_CREATE_ROOT, 	appCreateRootFunc)
 		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_RENDER, 			appRenderFunc)
 		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_RENDER_AFTER, 	appRenderCompleteFunc)
 		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY,			appDestroyFunc)
-	;*/
+	;
 	
 	//listen for app symbol change events and re-broadcast
 	F2.Events.on(F2.Constants.Events.APP_SYMBOL_CHANGE,function(data) {
