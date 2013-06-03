@@ -8,88 +8,63 @@ The container is the foundation of any F2-enabled solution. By leveraging the [F
 
 ## Get Started
 
-To help you get started building an F2 container, browse through the resources below. To jump start your F2 container and app development, download the F2 template (which now includes a basic container) _or_ follow the instructions below.
+To help you get started building an F2 container, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.
 
-<p><a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip" class="btn btn-primary">Download Basic F2 Container Template</a></p>
+<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary">Download F2 Examples</a></p>
 
 ### Basic Container
 
-To begin, you **do not need to build F2** [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [Bootstrap](http://twitter.github.io/bootstrap/index.html) and save a local copy of [F2.js](f2js-sdk.html). Also ensure you're [properly configured](#configuration).
+To begin, you **do not need to build or compile F2** [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [Bootstrap](http://twitter.github.io/bootstrap/index.html) and save a local copy of [F2.js](f2js-sdk.html). Also ensure you're [properly configured](#configuration).
 
 <p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn">Download Bootstrap</a></p>
 
-Create your basic container HTML template:
+Setup a basic container HTML template (or add F2.js to an existing website):
 
 ```html
 <!DOCTYPE html>
-<html>
     <head>
         <title>F2 Container</title>
         <link rel="stylesheet" href="/path/to/your/bootstrap.css">
     </head>
     <body>
-        <div class="container">
-            <div class="hero-unit">
-                <h1>Hello F2</h1>
-            </div>
-            <div class="row"><!--apps go here--></div>
-        </div>
-        <!--include jQuery & Bootstrap-->
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="/path/to/your/bootstrap.js"></script>
-        <!--include F2.js-->
         <script src="/path/to/your/F2.js"></script>
-        <!--init & register-->
-        <script>
-            (function(){
-                //define AppConfigs
-                var _appConfigs = [{
-                    appId: "com_your_app_id",
-                    description: "F2 app description",
-                    name: "F2 App",
-                    manifestUrl: "/path/to/your/manifest.js" //note the path to your manifest! 
-                }];
-                //Setup ContainerConfig
-                F2.init(); 
-                F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
-            })();
-        </script>
     </body>
 </html>
 ```
 
 In developing a more advanced container, the HTML document's `body` element would contain additional markup and allow for specific positioning or placement of apps. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](#container-design).
 
-### Basic App
-
-Create your basic [F2 app manifest](app-development.html#app-manifest) and save it as `/path/to/your/manifest.js` using this code below. Note the path to this file should be specified in the `manifestUrl` property within the `_appConfigs` array in your basic container (shown above).
+### Basic AppConfig
 
 ```javascript
-F2_jsonpCallback_com_your_app_id({
-    "scripts": [],   
-    "styles": [],   
-    "apps": [{
-        "data": {},
-        "html": "<div><p>Hello, world. I'm an F2 app.</p></div>"
-    }]
-})
+var _appConfig = {
+    appId: 'com_openf2_examples_javascript_helloworld',
+    manifestUrl: 'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'
+};
+ 
+$(function(){
+    F2.init();
+    F2.registerApps(_appConfig);
+});
 ```
-
-<span class="label">Note</span> You can [download the F2 container/app template](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip) instead of creating the basic app by hand.
 
 ### Testing the Basics
 
-Now with a basic container and a basic app, you can load your F2 container and expect to see:
+Now with a basic container and a basic app, combine these two for a working example.
 
-![](./img/basic-f2-app-test.png "Basic F2 app")
+<iframe width="100%" height="300" src="http://jsfiddle.net/OpenF2js/RTXg3/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that our customers want.
 
 ### Sample Apps and Container
 
-Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/), you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:
+Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/), you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:
 
-`http://localhost/F2/examples/container/`
+`http://localhost/F2/examples/`
+
+These examples are also available in a separate archive if you don't want to download the entire repository. 
+
+<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary">Download F2 Examples</a></p>
 
 ### Configuration
 
@@ -113,17 +88,17 @@ If App Developers embed URLs back to their own websites or to third party sites,
 
 ### Choices
 
-In order to ensure that apps built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
+In order to ensure that containers built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
 
 [Read more about those choices in the Framework](index.html#choices).
 
-Ultimately, the responsibility of app design falls on either the Container or App Developer or both. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
+Ultimately, the responsibility of app design falls on either the Container or App Developer or both. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency). In other cases, Container and App Developers may never know each other and it's important everyone strictly adheres to the guidelines set forth in this documentation.
 
 * * * *
 
 ## Developing F2 Containers
 
-A container is a browser-based web application which brings F2 apps together onto a seamless user interface. It can also provide data and horsepower to its apps in the form of request-response web services or streaming data feeds.
+A container is a browser-based web application which brings F2 apps together onto a seamless user interface. It can also provide data and user context to its apps in the form of request-response web services or streaming data feeds.
 
 ### Including the F2 SDK
 
@@ -133,9 +108,7 @@ For a webpage to be considered an F2 container, it must first include the [F2.js
 <script src="/path/to/your/f2.js"></script>
 ```
 
-You will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps.
-
-Once the script tag has been added, it is up to the Container Developer to configure and customize the container. The first step is getting a ContainerID.
+You will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/) along with a number of sample apps. Once the script tag has been added, it is up to the Container Developer to configure and customize the container. The first step is getting a ContainerID.
 
 ### F2 ContainerID
 
