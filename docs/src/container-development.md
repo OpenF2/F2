@@ -534,7 +534,7 @@ $(function(){
 
 ## AppHandlers for App Layout
 
-New functionality called `F2.AppHandlers` was added in F2 1.2. The conversation about this collection of features occurred in [#38](https://github.com/OpenF2/F2/issues/38) on GitHub. The new `AppHandlers` functionality provides Container Developers a higher level of control over configuring app rendering and interaction. 
+New functionality called `F2.AppHandlers` was added in F2 1.2, and the conversation about this collection of features occurred in [#38](https://github.com/OpenF2/F2/issues/38) on GitHub. The new `AppHandlers` functionality provides Container Developers a higher level of control over configuring app rendering and interaction. 
 
 <p class="alert alert-block alert-warning">
 The addition of `F2.AppHandlers` replaces the previous `ContainerConfig` properties `beforeAppRender`, `appRender`, and `afterAppRender`. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.
@@ -544,13 +544,13 @@ The addition of `F2.AppHandlers` replaces the previous `ContainerConfig` propert
 Starting with F2 version 1.2, `AppHandlers` is the preferred method for Container Developers to manage app layout.
 </p>
 
-The `AppHandlers` functionality provides an event-based system for Container Developers' programs. The addition of a collection of constants in `F2.Constants.AppHandlers` shows the primitive set of event types (or hooks) available to developers, including hooks such as `appCreateRoot`, `appRenderAfter`, `appDestroyAfter` and more. (Review the complete `F2.Constants.AppHandlers` collection in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).)
+The `AppHandlers` functionality provides an event-based system for Container Developers' web applications. The addition of a collection of constants in `F2.Constants.AppHandlers` shows the primitive set of event types (or hooks) available to developers, including hooks such as `appCreateRoot`, `appRenderAfter`, `appDestroyAfter` and more. (Review the complete `F2.Constants.AppHandlers` collection in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).)
 
-Using `AppHandlers` is as simple as attaching an event handler function to be executed at the appropriate time as determined by the order of operations in F2. There are three functions available on `F2.AppHandlers`: `getToken`, `on`, and `off`.
+Using `AppHandlers` is as simple as attaching an event handler function to be executed at the appropriate time as determined by the order of operations in F2. To do this there are three functions available on `F2.AppHandlers`: `getToken`, `on`, and `off`. We'll review the token concept first as a token is the required first argument in `on` and `off`. 
 
 ### AppHandler Tokens
 
-A new feature has been added to F2 as part of `AppHandlers`: the event token. The token is designed to be used only by Container Developers to ensure the `AppHandlers` functions are only called by their programs, and aren't accessible to App Developers' code. Container Developers should create a variable for this token in their JavaScript and encapsulate it inside a closure.
+A new feature has been added to F2 as part of `AppHandlers`: the event token. The token is designed to be used only by Container Developers to ensure the `AppHandlers` listeners are only called by their applications, and aren't accessible to App Developers' code. Container Developers should create a variable for this token in their JavaScript and encapsulate it inside a closure as shown in the example below.
 
 ```javascript
 (function(){
@@ -560,7 +560,7 @@ A new feature has been added to F2 as part of `AppHandlers`: the event token. Th
 });
 ```
 
-<span class="label label-important">Important</span> The `getToken()` function can only be called one-time. It self-destructs to protect the token for Container Developers and therefore Container Developers must call `F2.AppHandlers.getToken()` before any F2 apps are registered with the container.
+<span class="label label-important">Important</span> The `getToken()` function can only be called one-time. It self-destructs to protect the token for Container Developers and therefore Container Developers must call `F2.AppHandlers.getToken()` and store its return value before any F2 apps are registered with the container.
 
 ### Default App Layout
 
@@ -575,7 +575,7 @@ Appending apps to the `<body>` is the default app rendering behavior of F2.
 
 ### Custom App Layout
 
-F2 `AppHandlers` provide event handlers for customized app layout using `F2.AppHandlers.on()` and `F2.AppHandlers.off()`. The use of `on` and `off` require both a [token](#apphandler-tokens) and an event type. The event types, defined as constants in `F2.Constants.AppHandlers`, are: 
+F2 `AppHandlers` provide event handlers for customized app layout using `F2.AppHandlers.on()` and `F2.AppHandlers.off()`. The use of `on` and `off` require both a [token](#apphandler-tokens) and an event type as arguments. The event types, defined as constants in `F2.Constants.AppHandlers`, are: 
 
 * `appCreateRoot`
 * `appDestroy`
@@ -585,7 +585,7 @@ F2 `AppHandlers` provide event handlers for customized app layout using `F2.AppH
 * `appRenderAfter`
 * `appRenderBefore` 
 
-Review the complete `F2.Constants.AppHandlers` collection in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).
+Review the complete `F2.Constants.AppHandlers` collection and their purpose in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).
 
 
 #### Creating an App Root
