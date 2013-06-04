@@ -867,8 +867,7 @@ If you open `~/F2/examples/container/js/sampleApps.js` in your text editor, you'
 ```javascript
 {
 	appId: "com_companyName_appName",
-	manifestUrl: "http://www.domain.com/manifest.js",
-	name: "App name"
+	manifestUrl: "http://www.domain.com/manifest.js"
 }
 ```
 
