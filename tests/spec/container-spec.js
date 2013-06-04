@@ -68,7 +68,7 @@ describe('F2.registerApps - pre-load', function() {
 
 		F2.init();
 
-		F2.AppHandlers.on(F2.AppHandlers.getToken(), "appRenderAfter", function(){ bAfterFired = true; });
+		F2.AppHandlers.on(F2.AppHandlers.getToken(), F2.Constants.AppHandlers.APP_RENDER_AFTER, function(){ bAfterFired = true; });
 		
 		F2.registerApps(appConfigs);
 
