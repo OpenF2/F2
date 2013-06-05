@@ -60,6 +60,8 @@ For help, run:
 
 `$> grunt --help`
 
+Some Mac users have run into a Grunt "cannot run in wd" error when using `grunt` and/or `npm install`. If you're getting that error in your shell, try using '--unsafe-perm' [as discussed here](https://github.com/isaacs/npm/issues/2984).
+
 #### NuGet Package
 
 Good news if you're using C#! We have an [F2 NuGet package available](https://nuget.org/packages/F2/). In the Package Manager Console run:
