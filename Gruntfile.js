@@ -362,6 +362,11 @@ module.exports = function(grunt) {
 			return title;
 		});
 
+		// handle any member names that have periods in them
+		Y.Handlebars.registerHelper('memberNameAsId', function() {
+			return String(this.name).replace('.', '_');
+		});
+
 		// insert readme markdown
 		Y.Handlebars.registerHelper('readme', function() {
 			return builder.markdown(readmeMd, true);	
