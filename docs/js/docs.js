@@ -30,10 +30,11 @@ F2Docs.fn.init = function() {
 	this.buildBookmarks();
 	this.formatSourceCodeElements();
 
-	$("body").scrollspy();
+	/* removed b/c this removes 'active' class on top-level "Docs" nav <li>. weird.
+	$('body').scrollspy();*/
 
 	//affix left nav
-	$("#toc > ul.nav").affix();
+	$('#toc > ul.nav').affix();
 }
 
 /**
@@ -285,11 +286,17 @@ F2Docs.fn._animateAnchor = function(e, isTableOfContentsLink){
  */
 F2Docs.fn._watchScrollSpy = function(){
 	$(window).on('scroll',$.proxy(function(e){
-		var $nav = this.$currentSectionNavList;
-		var $activeNav = ("development" == this.currentPage) ? $nav.parent() : $('li',$nav).first();
-		if (document.body.scrollTop < 1 && !$activeNav.hasClass('active')){
+		var $nav = this.$currentSectionNavList,
+			$activeNav = $.proxy(function(){
+				if (!this.activeNavElement){
+					this.activeNavElement = ('development' == this.currentPage) ? $nav.parent() : $('li',$nav).first();
+				}
+				return this.activeNavElement;
+			},this);
+
+		if (document.body.scrollTop < 1 && !$activeNav().hasClass('active')){
 			$('li',$nav).removeClass('active');
-			$activeNav.addClass('active');
+			$activeNav().addClass('active');
 		}
 	},this));
 }
