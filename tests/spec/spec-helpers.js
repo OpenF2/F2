@@ -1,3 +1,9 @@
+var TEST_MANIFEST_URL = 'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js',
+	TEST_APP_ID = 'com_openf2_examples_javascript_helloworld',
+	TEST_MANIFEST_URL2 = 'http://www.openf2.org/Examples/Apps',
+	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews'
+;
+
 /**
  * Addition to Jasmine Async that reloads F2
  */

@@ -8,8 +8,8 @@ describe('F2.AppHandlers', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	
@@ -266,8 +266,8 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	
@@ -645,8 +645,8 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	
@@ -1041,8 +1041,8 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	
@@ -1490,8 +1490,8 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	
@@ -1658,8 +1658,8 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	
@@ -1806,8 +1806,8 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	
@@ -2053,8 +2053,8 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 	var appConfig = function()
 	{
 		return {
-			appId: 'com_openf2_tests_helloworld',
-			manifestUrl: 'http://www.openf2.org'
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 	

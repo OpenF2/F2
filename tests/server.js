@@ -8,10 +8,10 @@ var app = express();
  */
 app.use('/httpPostTest', function(req, res) {
 	res.setHeader('Content-Type', 'application/json');
-	res.end('F2_jsonpCallback_com_openf2_tests_helloworld(' + JSON.stringify({
+	res.end('F2_jsonpCallback_com_test_app(' + JSON.stringify({
 		inlineScripts: [
 			[
-				'F2.Apps["com_openf2_tests_helloworld"] = function(appConfig, appContent, root) {',
+				'F2.Apps["com_test_app"] = function(appConfig, appContent, root) {',
 					'F2.log(appContent.data.method == "POST");',
 				'};'
 			].join('')

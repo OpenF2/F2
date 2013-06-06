@@ -1,4 +1,4 @@
-F2.Apps["com_alikhatami_preloaded_test"] = (function() {
+F2.Apps[TEST_APP_ID] = (function() {
 
 	var App_Class = function (appConfig, appContent, root) {
 		this.appConfig = appConfig;

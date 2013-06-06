@@ -4,9 +4,9 @@ describe('F2.registerApps - pre-load', function() {
 		expect(function(){
 
 			var appConfig = {
-				appId:'com_alikhatami_preloaded_test',
-				manifestUrl:'http://www.openf2.org',
-				root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
+				appId: TEST_APP_ID,
+				manifestUrl: TEST_MANIFEST_URL,
+				root: $("body").find("div."+TEST_APP_ID+":first").get(0)
 			};
 
 			F2.registerApps([appConfig]);
@@ -24,8 +24,8 @@ describe('F2.registerApps - pre-load', function() {
 		expect(function(){
 			F2.init();
 			var appConfig = {
-				appId:'com_alikhatami_preloaded_test',				
-				root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
+				appId:TEST_APP_ID,				
+				root: $("body").find("div."+TEST_APP_ID+":first").get(0)
 			};
 			F2.registerApps(appConfig);
 		}).not.toThrow();
@@ -35,8 +35,8 @@ describe('F2.registerApps - pre-load', function() {
 		expect(function(){
 			F2.init();
 			var appConfig = {
-				appId:'com_alikhatami_preloaded_test',				
-				root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
+				appId: TEST_APP_ID,				
+				root: $("body").find("div."+TEST_APP_ID+":first").get(0)
 			};
 			F2.registerApps(appConfig);
 		}).not.toLog('"manifestUrl" missing from app object');
@@ -57,12 +57,12 @@ describe('F2.registerApps - pre-load', function() {
 
 		var appConfigs = [
 			{
-				appId: 'com_openf2_examples_csharp_stocknews',
-				manifestUrl: 'http://www.openf2.org/f2/apps'
+				appId: TEST_APP_ID2,
+				manifestUrl: TEST_MANIFEST_URL2
 			},
 			{
-				appId:'com_alikhatami_preloaded_test',				
-				root: $("body").find('div.com_alikhatami_preloaded_test:first').get(0)
+				appId: TEST_APP_ID,				
+				root: $("body").find('div.'+TEST_APP_ID+':first').get(0)
 			}
 		];
 
@@ -96,9 +96,9 @@ describe('F2.registerApps - pre-load', function() {
 		F2.PreloadRetrievedEmit = false;
 
 		var appConfig = {
-			appId:'com_alikhatami_preloaded_test',
-			manifestUrl:'http://www.openf2.org',
-			root: $("body").find("div.com_alikhatami_preloaded_test:first").get(0)
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL,
+			root: $("body").find("div."+TEST_APP_ID+":first").get(0)
 		};
 
 		F2.init();
@@ -133,16 +133,16 @@ describe('F2.registerApps - pre-load', function() {
 		F2.PreloadAppInitializedCounter = 0;
 		F2.PreloadRetrievedEmitCounter = 0;
 
-		var $appsOnPage = $("body").find("div.com_alikhatami_preloaded_test");
+		var $appsOnPage = $("body").find("div."+TEST_APP_ID);
 		var appConfigs = [
 			{
-				appId:'com_alikhatami_preloaded_test',
-				manifestUrl:'http://www.openf2.org',
+				appId:TEST_APP_ID,
+				manifestUrl:TEST_MANIFEST_URL,
 				root: $appsOnPage.get(0)
 			},
 			{
-				appId:'com_alikhatami_preloaded_test',
-				manifestUrl:'http://www.openf2.org',
+				appId:TEST_APP_ID,
+				manifestUrl:TEST_MANIFEST_URL,
 				root: $appsOnPage.get(1)
 			}
 		];
@@ -276,13 +276,13 @@ describe('F2.registerApps - basic', function() {
 		}).toLog('"appId" missing from app object');
 
 		expect(function() {
-			F2.registerApps({appId:'com_openf2_tests_helloworld'});
+			F2.registerApps({appId:TEST_APP_ID});
 		}).toLog('"manifestUrl" missing from app object');
 	});
 
 	it('should fail when the parameter lengths do not match', function() {
 		expect(function() {
-			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://www.openf2.org'}, [{}, {}]);
+			F2.registerApps({appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}, [{}, {}]);
 		}).toLog('The length of "apps" does not equal the length of "appManifests"');
 	});
 
@@ -294,7 +294,7 @@ describe('F2.registerApps - basic', function() {
 		};
 
 		runs(function() {
-			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://www.openf2.org'}, {apps:[{html:'<div></div>'}]});
+			F2.registerApps({appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}, {apps:[{html:'<div></div>'}]});
 		});
 
 		// wait long enough for registerApps to have failed
@@ -315,8 +315,8 @@ describe('F2.registerApps - xhr overrides', function() {
 	});
 
 	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+		appId: TEST_APP_ID,
+		manifestUrl: TEST_MANIFEST_URL
 	};
 
 	it('should call xhr if it is defined', function() {
@@ -484,7 +484,7 @@ describe('F2.registerApps - xhr overrides', function() {
 					}
 				}
 			});
-			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://localhost:8080/httpPostTest'});	
+			F2.registerApps({appId:'com_test_app', manifestUrl:'http://localhost:8080/httpPostTest'});	
 		});
 
 		// wait for registerApps to complete and load the app
@@ -517,7 +517,7 @@ describe('F2.registerApps - xhr overrides', function() {
 					}
 				}
 			});
-			F2.registerApps({appId:'com_openf2_tests_helloworld', manifestUrl:'http://127.0.0.1:8080/httpPostTest'});	
+			F2.registerApps({appId:'com_test_app', manifestUrl:'http://127.0.0.1:8080/httpPostTest'});	
 		});
 
 		// wait for registerApps to complete and load the app
@@ -539,8 +539,8 @@ describe('F2.registerApps - rendering', function() {
 	});
 
 	var appConfig = {
-		appId: 'com_openf2_tests_helloworld',
-		manifestUrl: 'http://www.openf2.org'
+		appId: TEST_APP_ID,
+		manifestUrl: TEST_MANIFEST_URL
 	};
 	var appManifest = {
 		scripts:[],
@@ -582,7 +582,7 @@ describe('F2.registerApps - rendering', function() {
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
 		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'], 'scripts':['js/test.js'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
+		F2.registerApps([{appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'], 'scripts':['js/test.js'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
 		
 		waitsFor(
 			function()
@@ -602,7 +602,7 @@ describe('F2.registerApps - rendering', function() {
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
 		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
+		F2.registerApps([{appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
 		waitsFor(
 			function()
 			{
