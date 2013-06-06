@@ -585,15 +585,49 @@ F2 `AppHandlers` provide event handlers for customized app layout using `F2.AppH
 * `appRenderAfter`
 * `appRenderBefore` 
 
-Review the complete `F2.Constants.AppHandlers` collection and their purpose in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).
+Review the complete `F2.Constants.AppHandlers` collection and their purpose in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html). The order of operations is detailed in [F2.AppHandlers](./sdk/classes/F2.AppHandlers.html).
 
 
-#### Creating an App Root
+#### Appending an App to a DOM Element
 
-The process of creating an app root involves establishing a DOM element for F2 apps to be inserted into within the container. This `AppHandler` function is called `appCreateRoot` and referred to by its constant variable: `F2.Constants.AppHandlers.APP_CREATE_ROOT`. 
+There are many uses for `AppHandlers` in Container Developers' applications and they are detailed&mdash;including plenty of examples&mdash;in the [F2.js SDK documentation](./sdk/classes/F2.AppHandlers.html). Before jumping to that section of the docs, let's look at one of the more common uses for `AppHandlers`: targeting the placement of an app into a specific DOM element.
 
+In the following example, the app will be appended to the `#my_sidebar` DOM element on the container.
 
-The app root becomes the `root` property in the `AppConfig` (as )
+```javascript
+var _token = F2.AppHandlers.getToken(),
+    _appConfig = {
+        appId: 'com_example_app',
+        manifestUrl: '/manifest.js'
+    };
+
+F2.init();
+F2.AppHandlers.on(_token, 'appRender', document.getElementById('my_sidebar'));
+F2.registerApps(_appConfig);
+```
+
+F2 will insert `html` from the `AppManifest` inside the specified DOM element. The resulting HTML will look like this after `registerApps` is called. Take note F2.js adds three class names to the apps' outermost element (`f2-app`, `f2-app-container`, and `com_example_app` for the `appId`).
+
+```html
+<div id="my_sidebar">
+    <!--HTML defined in AppManifest inserted here-->
+    <div class="f2-app f2-app-container com_example_app">
+        <div class="f2-app-view" data-f2-view="home">
+            <p>Hello World!</p>
+        </div>
+    </div>
+</div>
+```
+
+<span class="label label-info">Note</span> The original `html` in this example app manifest is [available here](http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js).
+
+The jsfiddle below demonstrates a Hello World example using the `appRender` event type and a DOM element as the third argument in `on`.
+
+<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/SGKa3/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+#### More AppHandlers
+
+There are numerous examples shown on the Properties tab of [`F2.Constants.AppHandlers`](./sdk/classes/F2.Constants.AppHandlers.html). These demonstrate more advanced use of `F2.AppHandlers` and aim to provide Container Developers demonstrable low-level control over the life-cycle of app rendering.
 
 * * * *
 
