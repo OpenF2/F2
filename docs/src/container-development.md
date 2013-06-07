@@ -1,102 +1,72 @@
 % Container Development
 
-<p class="lead">You've come to the right place if you want to start building F2 containers. Before continuing, make sure you've [cloned the F2 repository on GitHub](https://github.com/OpenF2/F2#quick-start) or [downloaded the latest framework build](index.html#get-started) (v{{sdk.version}}). Secondly, [read about the F2 Framework](index.html#framework). There are a few important concepts to help you better understand apps, containers and context.</p>
+<p class="lead">
+The container is the foundation of any F2-enabled solution. By leveraging the [F2.js SDK](f2js-sdk.html), Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can [read more about the framework](index.html#framework), [download the project on GitHub](https://github.com/OpenF2/F2#quick-start) or [get started](#get-started) below. The latest version of F2 is {{version}}.
+</p>
 
 * * * *
 
 ## Get Started
 
-To help you get started building an F2 container, browse through the resources below. To jump start your F2 container and app development, download the F2 template (which now includes a basic container) _or_ follow the instructions below.
+To help you get started building an F2 container, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.
 
-<p><a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip" class="btn btn-primary">Download Basic F2 Container Template</a></p>
+<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 ### Basic Container
 
-To begin, you **do not need to build F2** [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [Bootstrap](http://twitter.github.com/bootstrap/index.html) and save a local copy of [F2.js](f2js-sdk.html). Also ensure you're [properly configured](#configuration).
+To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://twitter.github.io/bootstrap/index.html), and ensure you're [properly configured](#configuration) for continuing with the documentation.
 
-<p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn">Download F2.js</a> <a href="http://twitter.github.com/bootstrap/getting-started.html#download-bootstrap" class="btn">Download Bootstrap</a></p>
+<p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-small">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn btn-small">Download Bootstrap</a></p>
 
-Create your basic container HTML template:
+Setup a basic container HTML template (or add F2.js to an existing website):
 
 ```html
 <!DOCTYPE html>
-<html>
     <head>
         <title>F2 Container</title>
         <link rel="stylesheet" href="/path/to/your/bootstrap.css">
     </head>
     <body>
-        <div class="container">
-            <div class="hero-unit">
-                <h1>Hello F2</h1>
-            </div>
-            <div class="row"><!--apps go here--></div>
-        </div>
-        <!--include jQuery & Bootstrap-->
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="/path/to/your/bootstrap.js"></script>
-        <!--include F2.js-->
         <script src="/path/to/your/F2.js"></script>
-        <!--init & register-->
-        <script>
-            (function(){
-                //define AppConfigs
-                var _appConfigs = [{
-                    appId: "com_your_app_id",
-                    description: "F2 app description",
-                    name: "F2 App",
-                    manifestUrl: "/path/to/your/manifest.js" //note the path to your manifest! 
-                }];
-                //Setup ContainerConfig
-                F2.init({
-                    beforeAppRender: function(app){
-                        var appRoot = '<section class="well span12"></section>';
-                        return $(appRoot).appendTo('div.row');
-                    },
-                    afterAppRender: function (app, html) {
-                        //app.root is `appRoot` from beforeAppRender()
-                        return $(app.root).append(html);
-                    }
-                }); 
-                F2.registerApps(_appConfigs); //pass _appConfigs to initialize apps
-            })();
-        </script>
     </body>
 </html>
 ```
 
-In developing a more advanced container, the HTML document's `body` element would contain additional markup and allow for specific positioning or placement of apps. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](#container-design).
+<span class="label label-info">Note</span> In developing a more advanced container, the HTML document's `body` element would contain additional markup and allow for [specific positioning or placement of apps](#apphandlers-for-app-layout). Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](#container-design).
 
-### Basic App
-
-Create your basic [F2 app manifest](app-development.html#app-manifest) and save it as `/path/to/your/manifest.js` using this code below. Note the path to this file should be specified in the `manifestUrl` property within the `_appConfigs` array in your basic container (shown above).
+### Basic AppConfig
 
 ```javascript
-F2_jsonpCallback_com_your_app_id({
-    "scripts": [],   
-    "styles": [],   
-    "apps": [{
-        "data": {},
-        "html": "<div><p>Hello, world. I'm an F2 app.</p></div>"
-    }]
-})
+var _appConfig = {
+    appId: 'com_openf2_examples_javascript_helloworld',
+    manifestUrl: 'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'
+};
+ 
+$(function(){
+    F2.init();
+    F2.registerApps(_appConfig);
+});
 ```
 
-<span class="label">Note</span> You can [download the F2 container/app template](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip) instead of creating the basic app by hand.
+<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) in App Integration.
 
 ### Testing the Basics
 
-Now with a basic container and a basic app, you can load your F2 container and expect to see:
+Now with a basic container and a basic app, combine these two for a working example. Press **Result** in this jsfiddle.
 
-![](./img/basic-f2-app-test.png "Basic F2 app")
+<iframe width="100%" height="300" src="http://jsfiddle.net/OpenF2js/RTXg3/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that our customers want.
 
 ### Sample Apps and Container
 
-Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/), you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:
+Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/), you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:
 
-`http://localhost/F2/examples/container/`
+`http://localhost/F2/examples/`
+
+These examples are also available in a separate archive if you don't want to download the entire repository. 
+
+<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 ### Configuration
 
@@ -108,7 +78,7 @@ To get started working with or developing apps, browse to the [documentation for
 
 **Ready to start coding?** 
 
-<p><a href="#developing-f2-containers" class="btn btn-primary">Developing F2 Containers</a> <a href="./sdk/" class="btn">F2.js SDK Reference</a></p>
+<p><a href="#developing-f2-containers" class="btn btn-primary btn-small">Developing F2 Containers</a> <a href="./sdk/" class="btn btn-small">F2.js SDK Reference</a></p>
 
 * * * *
 
@@ -120,29 +90,27 @@ If App Developers embed URLs back to their own websites or to third party sites,
 
 ### Choices
 
-In order to ensure that apps built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
+In order to ensure that containers built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
 
 [Read more about those choices in the Framework](index.html#choices).
 
-Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
+Ultimately, the responsibility of app design falls on either the Container or App Developer or both. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency). In other cases, Container and App Developers may never know each other and it's important everyone strictly adheres to the guidelines set forth in this documentation.
 
 * * * *
 
 ## Developing F2 Containers
 
-A container is a browser-based desktop-like application which brings F2 apps together onto a seamless user interface. It also can provide horsepower to its apps in the form of request-response web services or streaming data feeds.
+A container is a browser-based web application which brings F2 apps together onto a seamless user interface. It can also provide data and user context to its apps in the form of request-response web services or streaming data feeds.
 
 ### Including the F2 SDK
 
 For a webpage to be considered an F2 container, it must first include the [F2.js JavaScript SDK](f2js-sdk.html). This is as simple as [downloading the F2 project from GitHub](f2js-sdk.html#download) and adding a `script` tag to the page. 
 
 ```javascript
-<script src="/path/to/your/container/f2.js"></script>
+<script src="/path/to/your/f2.js"></script>
 ```
 
-You will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/) along with a number of sample apps.
-
-Once the script tag has been added, it is up to the Container Developer to configure and customize the container. The first step is getting a ContainerID.
+You will find a basic container in the [project repo on GitHub](https://github.com/OpenF2/F2/tree/master/examples/) along with a number of sample apps. Once the script tag has been added, it is up to the Container Developer to configure and customize the container. The first step is getting a ContainerID.
 
 ### F2 ContainerID
 
@@ -164,106 +132,51 @@ To guarantee uniqueness, we will provide a ContainerID generation service that a
 
 Once you have your ContainerID, start by setting up your container project. You will need at least one configuration in addition to an HTML page: the app configs. (In the GitHub repository, [an example](https://github.com/OpenF2/F2/blob/master/examples/container/js/sampleApps.js) is found in `/examples/container/js/sampleApps.js`.) This doesn't need to be a static javascript file like `sampleApps.js` but the structure and format of the app configs is important.
 
-### App Configs
-
-An F2 Container Provider must deliver the app configs to its container before calling `F2.init()`. The app configurations are represented quite simply as a list of [AppConfig objects](../docs/sdk/classes/F2.AppConfig.html). These could be stored in a JavaScript array or in an enterprise-class database. AppConfig objects contain app meta data provided by the App Developer when he creates his app in the [Developer Center](index.html#developer-center). 
-
-Example `AppConfig` object from an _individual_ app:
-
-```javascript
-{
-	appId: "com_companyName_appName",
-	description: "App description",
-	height: 500,
-	manifestUrl: "http://www.domain.com/manifest.js",
-	name: "App name"
-}
-```
-
-Example array of `AppConfig` objects for a collection of apps:
-
-```javascript
-var _appConfigs = [
-	{
-		appId: "com_companyName_appName",
-		description: "App description",
-		height:500,
-		manifestUrl: "http://www.domain.com/manifest.js",
-		name: "App name"
-	},
-	{
-		appId: "com_companyName_appName2",
-		description: "App2 description",
-		height:100,
-		manifestUrl: "http://www.domain2.com/manifest.js",
-		name: "App2 name"
-	},
-	{
-		appId: "com_companyName_appName3",
-		description: "App3 description",
-		height:200,
-		manifestUrl: "http://www.domain3.com/manifest.js",
-		name: "App3 name"
-	}
-];
-```
-
 ### Container Config
 
-The [F2.js JavaScript SDK](f2js-sdk.html) provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](./sdk/classes/F2.ContainerConfig.html).
+The [F2.js JavaScript SDK](f2js-sdk.html) provides an API for providers to configure their containers. Every container must be setup using `ContainerConfig` and the [methods available](./sdk/classes/F2.ContainerConfig.html), however if the F2 defaults are acceptable, the `ContainerConfig` is not required.
 
-In the container's `$(document).ready()`, add the `F2.init()`:
+To initialize a container _using F2 defaults_, call this function:
 
 ```javascript
-$(document).ready(function(){
-	F2.init({
-		//define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... }
-	});
+F2.init();
+```
+
+To initialize a container with a `ContainerConfig`, use:
+
+```javascript
+F2.init({
+    UI: {},
+    xhr: function(){},
+    supportedViews: []  
 });
 ```
 
-To see an more detailed example of `F2.init()`, [look at the sample container javascript file](https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js) in the F2 repo on GitHub.
+Review all of the `ContainerConfig` properties in the [reference documentation](./sdk/classes/F2.ContainerConfig.html). 
 
-#### AppRender
+To see a more detailed example of `F2.init()`, [look at the sample container javascript](https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js) in the F2 repo on GitHub.
 
-The `appRender()` method allows the container to wrap an app in extra HTML. The function should accept an `F2.AppConfig` object and also a string of `HTML`. The extra HTML can provide links to edit app settings and remove an app from the container. See `F2.Constants.Css` for CSS classes that should be applied to elements.
+#### AppRender, BeforeAppRender, AfterAppRender
 
-#### BeforeAppRender
+The `appRender()`, `beforeAppRender()`, and `afterAppRender()` methods were deprecated in F2 version 1.2 in favor of [`F2.AppHandlers`](#apphandlers-for-app-layout). Upgrading to F2 1.2 will not break existing containers using any of these methods as they are still present in the SDK.
 
-The `beforeAppRender()` method allows the container to render HTML for an app before the `AppManifest` for an app has loaded. This can be useful if the design calls for loading spinners to appear for each app before each app is loaded and rendered to the page.
+For more information, see [AppHandlers for App Layout](#apphandlers-for-app-layout).
 
-#### AfterAppRender
-
-The `afterAppRender()` method allows the container to override how an app's HTML is inserted into the page. The function should accept an `F2.AppConfig` object and also a string of `HTML`.
-
-For more information on `F2.ContainerConfig`, [browse to the F2.js SDK docs](./sdk/classes/F2.ContainerConfig.html).
-
-#### F2 UI Mask
+#### Setting Up a Loading GIF
 
 Container Developers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is `F2.UI.Mask`. The `Mask` object contains configuration defaults for the `F2.UI.showMask()` and `F2.UI.hideMask()` methods.
 
 An example of setting the mask in `F2.init()`:
 
 ```javascript
-$(document).ready(function(){
-    F2.init({
-        //define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... },
-
-        //setup UI
-        UI:{
-			Mask:{
-				loadingIcon:'./img/spinner.gif',
-				backgroundColor: '#fff',
-				opacity: 0.5
-			}
-		}
-    });
+F2.init({
+    UI:{
+        Mask:{
+            loadingIcon:'./img/spinner.gif',
+            backgroundColor: '#fff',
+            opacity: 0.5
+        }
+    }
 });
 ```
 
@@ -271,9 +184,456 @@ Included in the `F2.UI.Mask` configuration object are the following properties: 
 
 For more information on `F2.UI`, [browse to the F2.js SDK docs](./sdk/classes/F2.UI.html).
 
+#### Override the AppManifest Request
+
+Occasionally Container Developers need more granular control over the `AppManifest` request mechanism in F2.js. The [manifest request process](./sdk/classes/F2.html#methods-registerApps)&mdash;intentionally obscured from developers through the `F2.registerApps()` API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on `jQuery.ajax()` for this.)  In version {{version}} of F2, the `AppManifest` request can be overridden in the Container Config. 
+
+<span class="label label-info">Note</span> The `AppManifest` endpoint is configured in the `manifestUrl` property within each [`AppConfig`](#appconfigs).
+
+The following example demonstrates how the `xhr` property of the `ContainerConfig` is used to override F2.js.
+
+```javascript
+F2.init({
+    xhr: function(url, appConfigs, success, error, complete) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                params: F2.stringify(appConfigs, F2.appConfigReplacer)
+            },
+            jsonp: false, // do not put 'callback=' in the query string
+            jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+            dataType: 'json',
+            success: function(appManifest) {
+                // custom success logic
+                success(appManifest); // fire success callback
+            },
+            error: function() {
+                // custom error logic
+                error(); // fire error callback
+            },
+            complete: function() {
+                // custom complete logic
+                complete(); // fire complete callback
+            }
+        });
+    }
+});
+```
+
+#### Extending XHR
+
+The `F2.ContainerConfig.xhr` property has two additional customizable properties available: `dataType` and `type`. 
+
+##### DataType
+
+The `dataType` property allows the container to override the request data type (JSON or JSONP) that is used for the request. Using JSON as a `dataType` is only available for F2 apps running on the same domain as the container.
+
+```javascript
+F2.init({
+    xhr: {
+        dataType: function(url) {
+            return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+        }
+    }
+});
+```
+
+##### Type
+
+The `type` property allows the container to override the request method that is used (similar to the [type parameter to jQuery.ajax()](http://api.jquery.com/jQuery.ajax/)). Since HTTP POST is not supported on JSONP requests, using POST as a `type` is only available for F2 apps using JSON and are therefore running on the same base domain as the container.
+
+```javascript
+F2.init({
+    xhr: {
+        type: function(url) {
+            return F2.isLocalRequest(url) ? 'POST' : 'GET';
+        }
+    }
+});
+```
+
+For more information on `F2.ContainerConfig.xhr`, [browse to the F2.js SDK docs](./sdk/classes/F2.ContainerConfig.html).
+
+#### Supported Views
+
+F2 Container Developers should define which [app views](app-development.html#f2.ui.views) their container supports. This is set in the `supportedViews` property of the `ContainerConfig` using [`F2.Constants.Views`](./sdk/classes/F2.Constants.Views.html).
+
+```javascript
+F2.init({
+    supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE]
+});
+```
+
+<span class="label label-info">Note</span> Every F2 app has a `home` view (whether defined by the App Developer or not). This means if no views are provided by the App Developer, a `home` view is automatically added to `appConfig.views` during the app registration process inside F2.
+
+#### Secure Apps
+
+For information about how to configure secure apps (i.e., load 3rd party apps in an isolated `iframe`) on a container, [read about Secure Apps](#secure-apps).
+
 #### Container Templates
 
-If you're looking for sample container HTML template code, jump to the [Get Started section](#get-started). There is also a basic F2 container/app template [available for download on GitHub](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip).
+If you're looking for sample container HTML template code, jump to the [Get Started section](#get-started).
+
+* * * *
+
+## App Integration
+
+There are two ways of integrating apps on a container: [requesting apps on-demand](#requesting-apps-on-demand) (via HTTP) or by [linking pre-loaded apps](#registering-pre-loaded-apps). Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. Incorporating apps which have been pre-fetched or are otherwise already on the container when it loads is an alternative method. The following sections describe both of these methods in detail.
+
+The process of loading apps on a container occurs by using a method called `F2.registerApps()`. The Container Developer must call [this method](./sdk/classes/F2.html)&mdash;which accepts two arguments: one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
+
+The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in browser memory on the container. Regardless of where the container's `AppConfig` object is defined (hard-coded or via API), integrating apps is a simple process. 
+
+### AppConfigs
+
+Before continuing, let's discuss the `AppConfig`. The container-provided app configurations are represented simply as an array of [AppConfig objects](./sdk/classes/F2.AppConfig.html). These could be configured statically or fetched from an F2 Registry API. `AppConfig` objects contain app meta data&mdash;including the `manifestUrl`&mdash;provided by the App Developer when an app is registered in the [Developer Center](index.html#developer-center). 
+
+An example `AppConfig` object from an _individual_ app:
+
+```javascript
+{
+	appId: "com_companyName_appName",
+	manifestUrl: "http://www.domain.com/manifest.js",
+	name: "App name",
+	context: {
+	    data: [1,2,3,4,5]
+	}
+}
+```
+
+An example array of `AppConfig` objects for a collection of apps:
+
+```javascript
+[
+	{
+	    appId: "com_companyName_appName",
+	    manifestUrl: "http://www.domain.com/manifest.js",
+	    name: "App name",
+	    context: {
+	        data: [1,2,3,4,5]
+	    }
+    },
+	{
+	    appId: "com_companyName_appName2",
+	    manifestUrl: "http://www.domain.com/manifest2.js",
+	    name: "App2 name",
+	    context: {
+	        name: 'value'
+	    }
+    },
+	{
+	    appId: "com_companyName_appName3",
+	    manifestUrl: "http://www.domain.com/manifest3.js",
+	    name: "App3 name",
+	    context: {
+	        status: 'ok'
+	    }
+    },
+];
+```
+
+### Requesting Apps On-Demand
+
+Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. For the purposes of this example, we will use an example news app from [OpenF2.org](http://www.openf2.org/Examples). 
+
+Let's look at some container code.
+
+#### Static App Configuration
+
+First, we define the `AppConfig` in a _hard-coded_ `_appConfig` variable. This example demonstrates only a single app; if there were multiple apps, `_appConfig` would be an array of objects versus an object literal. Secondly, when the document is ready, `F2.init()` is called and subsequently `F2.registerApps()` with the single argument.
+
+<iframe width="100%" height="350" src="http://jsfiddle.net/OpenF2js/eBqmn/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+This javascript code will insert the example news app into the container's `<body>`. Press **Result** in the jsfiddle above to try this demo. 
+
+<span class="label label-info">Note</span> If more granular control is needed for app placement, use `F2.AppHandlers` functionality. Read about that in [AppHandlers for App Layout](#apphandlers-for-app-layout).
+
+#### Dynamic App Configuration
+
+As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](index.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2 in your code. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
+
+<iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<span class="label label-info">About this jsfiddle</span> To simulate an ajax request, this example uses jsfiddle's [echo feature](http://doc.jsfiddle.net/use/echo.html). Simply replace the `getAppConfigs` function with your own ajax request and ignore the `echoData` variable.
+
+### Registering Pre-Loaded Apps
+
+Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each apps' `AppManifest` and its dependencies _before_ the page is rendered.
+
+For the following example, let's assume you have a web page composed on the server and all of its HTML is delivered to the browser in one payload. This page also has at least one widget (or component) you'd like to register with F2.js. 
+
+#### 1. Setup Container
+
+To use pre-loaded apps, a web page with a placeholder element for the apps is required. This simple (and empty) web page features a `div#news_app.span12` which serves as that placeholder or "root" element.
+
+```html
+<!DOCTYPE html>
+    <head>
+        <title>F2 Container</title>
+        <link rel="stylesheet" href="/path/to/your/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="span12" id="news_app">
+                    <!--app goes here-->
+                </div>
+            </div>
+        </div>
+        <script src="/path/to/your/F2.js"></script>
+    </body>
+</html>
+```
+
+#### 2. Request AppManifest
+
+Next, make a server-side request to the news apps' `AppManifest`&mdash;the URL is found in `manifestUrl`&mdash;and capture the resulting JSON. Each `AppManifest` contains scripts, style sheets and HTML ([more about the `AppManifest`](app-development.html#app-manifest)). The market news apps' `AppManifest` looks like this:
+
+```javascript
+{
+   "apps":[{
+         "data":{},
+         "html": "<div data-module-name=\"MarketNewsApp\">...</div>",
+    }],
+   "scripts":[
+      "http://www.openf2.org/js/main.js"
+   ],
+   "styles":[
+      "http://www.openf2.org/css/site.css"
+   ]
+}
+```
+
+<span class="label label-info">Note</span> Parts of this `AppManifest` were intentionally removed for legibility, including the required JSONP function name (`F2_jsonpCallback_com_openf2_examples_csharp_marketnews`). The full `AppManifest` is [available on OpenF2.org](http://www.openf2.org/Examples/Apps?params=%5B%7B%22appId%22%3A%22com_openf2_examples_csharp_marketnews%22%7D%5D).
+
+<div class="alert alert-block alert-info">
+    <h5>Performance Tip</h5>
+    Container Developers can use the `AppConfig` and pre-loaded `AppManifest` (from step 2 above) in conjunction with `F2.registerApps()` to speed up the loading of F2 containers. For more information, browse to [Combining AppConfig and AppManifest](#combining-appconfig-and-appmanifest).
+</div>
+
+#### 3. Add App to Container
+
+You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .span12` following [Bootstrap's scaffolding](http://twitter.github.io/bootstrap/scaffolding.html) guidelines. The `styles` were appended to the `head` and the `scripts` were appended to the `body` (in this case just one URL for each).
+
+```html
+<!DOCTYPE html>
+    <head>
+        <title>F2 Container</title>
+        <link rel="stylesheet" href="/path/to/your/bootstrap.css">
+        <link rel="stylesheet" href="http://www.openf2.org/css/site.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="span12" id="news_app">
+                    <div data-module-name="MarketNewsApp" id="news_app">...</div>
+                </div>
+            </div>
+        </div>
+        <script src="/path/to/your/F2.js"></script>
+        <script src="http://www.openf2.org/js/main.js"></script>
+    </body>
+</html>
+```
+
+The example news app is now part of the web page and everything should be functioning properly. **The final step is to register the app with F2**.
+
+#### 4. Assign Root Element to AppConfig
+
+To use pre-loaded apps, an additional property is required on the `AppConfig` object. It is called `root` and can be either a CSS selector string _or_ a DOM element. Regardless of type, F2 will parse the value of `root` and it must return an existing in-page DOM element. Furthermore, the value of `root` must represent a _unique_ DOM element as each app needs its own containing, or `root`, element.
+
+```javascript
+var _appConfig = {
+    appId: 'com_openf2_examples_csharp_marketnews',
+    description: 'Example News',
+    manifestUrl: 'http://www.openf2.org/Examples/Apps',
+    name: 'Example News',
+    root: document.getElementById('news_app')
+};
+```
+
+Both of these are valid values for the `root` property. 
+
+Using JavaScript:
+
+```javascript
+{
+    root: document.getElementById('news_app')
+}
+```
+
+Using a CSS selector string:
+
+```javascript
+{
+    root: '#news_app'
+}
+```
+
+F2.js uses jQuery internally to parse the value of the `root` property and, in turn, jQuery relies on the [Sizzle javascript selector library](http://sizzlejs.com/). If a CSS selector string is assigned to `root`, it must be a valid CSS 3 selector supported by Sizzle. Refer to the [Sizzle documentation for more details](https://github.com/jquery/sizzle/wiki/Sizzle-Documentation).
+
+#### 5. Register App
+
+Since you started with the `AppConfig` and now have the `AppManifest` from step 2 along with an HTML page containing the embedded app, all that remains is a simple call to F2. Registering pre-loaded apps with F2.js means passing the ammended `AppConfig` as shown in the example below. 
+
+```javascript
+var _appConfig = {
+    appId: 'com_openf2_examples_csharp_marketnews',
+    description: 'Example News',
+    manifestUrl: 'http://www.openf2.org/Examples/Apps',
+    name: 'Example News',
+    root: document.getElementById('news_app')
+};
+
+$(function(){
+    F2.init();
+    F2.registerApps(_appConfig);
+});
+```
+
+The web page and pre-loaded news app is a fully F2-enabled container. Rejoice!
+
+### Combining AppConfig and AppManifest
+
+Container Developers can use the `AppConfig` and pre-loaded `AppManifest` (from [step 2 above](#request-appmanifest)) in conjunction with `F2.registerApps()` to speed up the loading of F2 containers. The [`F2.registerApps()` API supports](./sdk/classes/F2.html#methods-registerApps) two arguments: `appConfigs` and `appManifests`. The former is an array of [`F2.AppConfig` objects](./sdk/classes/F2.AppConfig.html) and the latter is an array of [`F2.AppManifest` objects](./sdk/classes/F2.AppManifest.html). The `appManifests` array must be the same length as the `appConfigs` array that is used as the first argument. This can be useful if apps are loaded on the server-side and passed down to the client.
+
+In the following example, the `AppManifest` was pre-loaded and stored in the `_appManifest` variable.
+
+```javascript
+var _appConfig = {
+    appId: 'com_openf2_examples_csharp_marketnews',
+    description: 'Example News',
+    manifestUrl: 'http://www.openf2.org/Examples/Apps',
+    name: 'Example News',
+    root: document.getElementById('news_app')
+};
+
+var _appManifest = {
+   "apps":[{
+         "data":{},
+         "html": "<div data-module-name=\"MarketNewsApp\">...</div>",
+    }],
+   "scripts":[
+      "http://www.openf2.org/js/main.js"
+   ],
+   "styles":[
+      "http://www.openf2.org/css/site.css"
+   ]
+};
+
+$(function(){
+    F2.init();
+    F2.registerApps(_appConfig,_appManifest);
+});
+```
+
+<span class="label label-important">Important</span> The `F2.registerApps()` API supports both an array of objects and object literals for each argument. Internally, F2.js converts the value of each argument into an array using concatenation (`[].concat()`). If arrays of objects are used (when there are more than one app on the container), the `_appConfig` and `_appManifest` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for the sample news app used above must be in `_appConfig[0]` and `_appManifest[0]`.
+
+* * * *
+
+## AppHandlers for App Layout
+
+New functionality called `F2.AppHandlers` was added in F2 1.2, and the conversation about this collection of features occurred in [#38](https://github.com/OpenF2/F2/issues/38) on GitHub. The new `AppHandlers` functionality provides Container Developers a higher level of control over configuring app rendering and interaction. 
+
+<p class="alert alert-block alert-warning">
+The addition of `F2.AppHandlers` replaces the previous `ContainerConfig` properties `beforeAppRender`, `appRender`, and `afterAppRender`. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.
+</p>
+
+<p class="alert alert-block alert-info">
+Starting with F2 version 1.2, `AppHandlers` is the preferred method for Container Developers to manage app layout.
+</p>
+
+The `AppHandlers` functionality provides an event-based system for Container Developers' web applications. The addition of a collection of constants in `F2.Constants.AppHandlers` shows the primitive set of event types (or hooks) available to developers, including hooks such as `appCreateRoot`, `appRenderAfter`, `appDestroyAfter` and more. (Review the complete `F2.Constants.AppHandlers` collection in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).)
+
+Using `AppHandlers` is as simple as attaching an event handler function to be executed at the appropriate time as determined by the order of operations in F2. To do this there are three functions available on `F2.AppHandlers`: `getToken`, `on`, and `off`. We'll review the token concept first as a token is the required first argument in `on` and `off`. 
+
+### AppHandler Tokens
+
+A new feature has been added to F2 as part of `AppHandlers`: the event token. The token is designed to be used only by Container Developers to ensure the `AppHandlers` listeners are only called by their applications, and aren't accessible to App Developers' code. Container Developers should create a variable for this token in their JavaScript and encapsulate it inside a closure as shown in the example below.
+
+```javascript
+(function(){
+    var token = F2.AppHandlers.getToken(); 
+    console.log(token);
+    //outputs a GUID like 'ce2e7aae-04fa-96a3-edd7-be67e99937b4'
+});
+```
+
+<span class="label label-important">Important</span> The `getToken()` function can only be called one-time. It self-destructs to protect the token for Container Developers and therefore Container Developers must call `F2.AppHandlers.getToken()` and store its return value before any F2 apps are registered with the container.
+
+### Default App Layout
+
+In the unlikely event a Container Developer wishes to append all apps to the `<body>` element, no configuration is required. Simply add this code to the container:
+
+```javascript
+F2.init();
+F2.registerApps(appConfig);
+```
+
+Appending apps to the `<body>` is the default app rendering behavior of F2.
+
+### Custom App Layout
+
+F2 `AppHandlers` provide event handlers for customized app layout using `F2.AppHandlers.on()` and `F2.AppHandlers.off()`. The use of `on` and `off` require both a [token](#apphandler-tokens) and an event type as arguments. The event types, defined as constants in `F2.Constants.AppHandlers`, are: 
+
+* `appCreateRoot`
+* `appDestroy`
+* `appDestroyAfter`
+* `appDestroyBefore`
+* `appRender`
+* `appRenderAfter`
+* `appRenderBefore` 
+
+Review the complete `F2.Constants.AppHandlers` collection and their purpose in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html). The order of operations is detailed in [F2.AppHandlers](./sdk/classes/F2.AppHandlers.html).
+
+
+#### Appending an App to a DOM Element
+
+There are many uses for `AppHandlers` in Container Developers' applications and they are detailed&mdash;including plenty of examples&mdash;in the [F2.js SDK documentation](./sdk/classes/F2.AppHandlers.html). Before jumping to that section of the docs, let's look at one of the more common uses for `AppHandlers`: targeting the placement of an app into a specific DOM element.
+
+In the following example, the app will be appended to the `#my_sidebar` DOM element on the container.
+
+```javascript
+var _token = F2.AppHandlers.getToken(),
+    _appConfig = {
+        appId: 'com_example_app',
+        manifestUrl: '/manifest.js'
+    };
+
+F2.init();
+F2.AppHandlers.on(_token, 'appRender', document.getElementById('my_sidebar'));
+F2.registerApps(_appConfig);
+```
+
+F2 will insert `html` from the `AppManifest` inside the specified DOM element. The resulting HTML will look like this after `registerApps` is called. Take note F2.js adds three class names to the apps' outermost element (`f2-app`, `f2-app-container`, and `com_example_app` for the `appId`).
+
+```html
+<div id="my_sidebar">
+    <!--HTML defined in AppManifest inserted here-->
+    <div class="f2-app f2-app-container com_example_app">
+        <div class="f2-app-view" data-f2-view="home">
+            <p>Hello World!</p>
+        </div>
+    </div>
+</div>
+```
+
+<span class="label label-info">Note</span> The original `html` in this example app manifest is [available here](http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js).
+
+The jsfiddle below demonstrates a Hello World example using the `appRender` event type and a DOM element as the third argument in `on`.
+
+<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/SGKa3/6/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+#### Placing Apps in Separate Locations
+
+Here is a slightly more complicated example of the `appRender` event coupled with `appCreateRoot` to place two apps in two separate DOM elements.
+
+<iframe width="100%" height="750" src="http://jsfiddle.net/OpenF2js/3gZJu/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+#### More AppHandlers
+
+There are numerous examples shown on the Properties tab of [`F2.Constants.AppHandlers`](./sdk/classes/F2.Constants.AppHandlers.html). These demonstrate more advanced use of `F2.AppHandlers` and aim to provide Container Developers demonstrable low-level control over the life-cycle of app rendering.
 
 * * * *
 
@@ -289,17 +649,17 @@ As discussed in [Developing F2 Containers: F2 ContainerID](#f2-containerid), to 
 
 To avoid styling conflicts or other display issues related to injecting app-provided style sheets into your container when `F2.registerApps()` is called, App Developers [must namespace their CSS selectors](app-development.html#namespacing-css). **While there are strict rules for App Developers, the same is true for Container Developers**. This is especially true when nesting multiple F2 apps inside an existing container where that container already has a CSS framework in place. (This is often called the "mutliple container" issue, and a conversation about existing problems and enhancements to F2.js is being discussed in [#37](https://github.com/OpenF2/F2/issues/37) and [#38](https://github.com/OpenF2/F2/issues/38).)
 
-In the event there are multiple containers, every CSS selector in container-provided style sheets must be properly namespaced. The [CSS files bundled with the example containers in the F2 project on GitHub](https://github.com/OpenF2/F2/tree/{{branch}}/examples/container/css) demonstrate this concept, and we have included a [readme](https://github.com/OpenF2/F2/blob/{{branch}}/examples/container/css/README.md) for how to use a LESS compiler to automate the namespacing of Bootstrap's CSS.
+In the event there are multiple containers, every CSS selector in container-provided style sheets must be properly namespaced. The [CSS files bundled with the example containers in the F2 project on GitHub](https://github.com/OpenF2/F2/tree/master/examples/container/css) demonstrate this concept, and we have included a [readme](https://github.com/OpenF2/F2/blob/master/examples/container/css/README.md) for how to use a LESS compiler to automate the namespacing of Bootstrap's CSS.
 
 In this simple example, container-provided CSS should be namespaced as shown below.
 
 ```css
 .com_container_companyName_containerName p {
-	padding:5px;
+    padding:5px;
 }
 
 .com_container_companyName_containerName .alert {
-	color:red;
+    color:red;
 }
 ```
 
@@ -309,7 +669,7 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 
 ```css
 .com_container_companyName_containerName #notice {
-	background-color:yellow;
+    background-color:yellow;
 }
 ```
 
@@ -363,11 +723,11 @@ In this example, the container broadcasts, or emits, a javascript event defined 
 
 ```javascript
 F2.Events.emit(
-	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
-	{ 
-		symbol: "AAPL", 
-		name: "Apple, Inc." 
-	}
+    F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+    { 
+        symbol: "AAPL", 
+        name: "Apple, Inc." 
+    }
 );
 ```
 
@@ -375,10 +735,10 @@ To listen to the `F2.Constants.Events.CONTAINER_SYMBOL_CHANGE` event inside your
 
 ```javascript
 F2.Events.on(
-	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
-	function(data){
-		F2.log("The symbol was changed to " + data.symbol);
-	}
+    F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
+    function(data){
+        F2.log("The symbol was changed to " + data.symbol);
+    }
 );
 ```
 
@@ -426,11 +786,11 @@ In this example, your app emits an event indicating a user is looking at a diffe
 
 ```javascript
 F2.Events.emit(
-	F2.Constants.Events.APP_SYMBOL_CHANGE, 
-	{ 
-		symbol: "MSFT", 
-		name: "Microsoft, Inc." 
-	}
+    F2.Constants.Events.APP_SYMBOL_CHANGE, 
+    { 
+        symbol: "MSFT", 
+        name: "Microsoft, Inc." 
+    }
 );
 ```
 
@@ -438,10 +798,10 @@ The container would need to listen to your apps' broadcasted `F2.Constants.Event
 
 ```javascript
 F2.Events.on(
-	F2.Constants.Events.APP_SYMBOL_CHANGE, 
-	function(data){
-		F2.log("The symbol was changed to " + data.symbol);
-	}
+    F2.Constants.Events.APP_SYMBOL_CHANGE, 
+    function(data){
+        F2.log("The symbol was changed to " + data.symbol);
+    }
 );
 ```
 
@@ -455,14 +815,14 @@ Within "App 1", context is _sent_ using `F2.Events.emit()`:
 
 ```javascript
 F2.Events.emit(
-	"buy_stock", //custom event name
-	{ 
-		symbol: "GOOG", 
-		name: "Google Inc",
-		price: 682.68,
-		isAvailableToPurchase: true,
-		orderType: "Market Order"
-	}
+    "buy_stock", //custom event name
+    { 
+        symbol: "GOOG", 
+        name: "Google Inc",
+        price: 682.68,
+        isAvailableToPurchase: true,
+        orderType: "Market Order"
+    }
 );
 ```
 
@@ -470,14 +830,14 @@ Within "App 2", context is _received_ using `F2.Events.on()`:
 
 ```javascript
 F2.Events.on(
-	"buy_stock", 
-	function(data){
-		if (data.isAvailableToPurchase){
-			F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
-		} else {
-			F2.log("This stock is not available for purchase.")
-		}
-	}
+    "buy_stock", 
+    function(data){
+        if (data.isAvailableToPurchase){
+            F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
+        } else {
+            F2.log("This stock is not available for purchase.")
+        }
+    }
 );
 ```
 
@@ -557,145 +917,6 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 * * * *
 
-## App Integration
-
-The process of loading apps on a container happens through a method called `F2.registerApps()`. The Container Developer must call [this method](./sdk/classes/F2.html)&mdash;which accepts two arguments, one required, one optional&mdash; after `F2.init()` is called. If this method isn't called, no apps can be loaded on the container.
-
-The two arguments provided to `registerApps()` are an array of `AppConfig` objects and, optionally, an array of `AppManifest` objects. As F2.js parses each `AppConfig`, the apps are validated, hydrated with some additional properties, and saved in F2 memory on the container.
-
-Regardless of where the container's [AppConfig](#app-configs) comes from, integrating apps is a simple process. For the purposes of this example, we will use an Acme Corp news app. 
-
-Let's look at some container code.
-
-### Static App Configuration
-
-First, we define the `AppConfigs` in a _hard-coded_ `_appConfigs` array. Secondly, when the document is ready, we call `F2.init()` and subsequently `F2.registerApps()` with the single argument.
-
-```javascript
-//define app config
-var _appConfigs = [
-	{
-		appId: "com_acmecorp_news",
-		description: "Acme Corp News",
-		manifestUrl: "http://www.acme.com/apps/news-manifest.js",
-		name: "Acme News App"
-	}
-];
-
-$(document).ready(function(){
-
-	//init F2 container
-    F2.init({
-        //define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... },
-
-        //setup UI
-        UI:{
-			Mask:{
-				loadingIcon:'./img/spinner.gif',
-				backgroundColor: '#fff',
-				opacity: 0.5
-			}
-		}
-    });
-
-    //load apps
-    F2.registerApps(_appConfigs);
-
-});
-```
-
-This javascript code will insert the Acme Corp news app into the container's DOM, provided the `appRender` method is [configured correctly](#container-config).
-
-### Dynamic App Configuration
-
-Alternatively, `AppConfigs` could live in a database&mdash;eventually the [F2 Store](index.html#the-store)&mdash;at which time container developers could provide their containers with `AppManifests` instead of relying on each `AppConfig.manifestUrl` property to be retrieved and parsed at run time.
-
-Such an implementation would require the container developer to make a HTTP call to a Store web service to retrieve `AppConfigs` and `AppManifests`. You are already familiar with [what the `AppConfig` looks like](#app-configs), but if you aren't sure what an `AppManifest` looks like, take note of this empty manifest. 
-
-```javascript
-{
-    "inlineScripts":[],  
-    "scripts":[],    
-    "styles":[],     
-    "apps":[{
-            "data":{},
-            "html":"",
-            "status":""
-    }]
-}
-```
-
-<span class="label">Note</span> [Read more about the AppManifest](app-development.html#app-manifest).
-
-An example of a container making a request to the F2 Store for `AppConfigs` and `AppManifests`:
-
-```javascript
-(function(){
-	
-	var _appConfigs = [], _appManifests = [];
-
-	//make request to Store web service
-	var $req = $.ajax({
-		url: 'https://store.openf2.org/getApps',
-		dataType: 'jsonp'
-	});
-
-	//parse successful response
-	$req.done(function(jqxhr,txtStatus){
-		jqxhr = jqxhr || {};
-		if (jqxhr.status == "good"){
-			_appConfigs = jqxhr.appConfigs || [];
-			_appManifests = jqxhr.appManifests || [];
-			//load
-			loadContainer();
-		} else {
-			F2.log("Store web service did not do something 'good'.", jqxhr, txtStatus);
-		}
-	});
-
-	//handle errors
-	$req.fail(function(jqxhr,txtStatus){
-		F2.log("Store web service failed.", jqxhr, txtStatus);
-	});
-
-	//wrap this up so we can call it in $req.done()
-	var loadContainer = function(){
-		$(document).ready(function(){
-			//init F2 container
-		    F2.init({
-		        //define ContainerConfig properties
-				appRender: function(appConfig, html){ ... },
-				beforeAppRender: function(appConfig, html){ ... },
-				afterAppRender: function(appConfig){ ... },
-
-		        //setup UI
-		        UI:{
-					Mask:{
-						loadingIcon:'./img/spinner.gif',
-						backgroundColor: '#fff',
-						opacity: 0.5
-					}
-				}
-		    });
-
-		    //load apps
-		    F2.registerApps(_appConfigs, _appManifests);
-
-		});
-	}//loadContainer
-	
-})();
-```
-
-<span class="label label-important">Important</span> The `_appConfigs` and `_appManifests` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for Acme Corp's news app must be in `_appConfigs[0]` and `_appManifests[0]`.
-
-There are numerous benefits to dynamic app configuration, most notably performance and security. In the dynamic model, `AppManifests` have already been requested and loaded before a user opens the container reducing the overall number of outbound HTTP requests. Security is improved because Container Developers have the opportunity to parse and scrub `AppManifest` contents before F2.js injects markup in the `AppManifest.html` property into the container DOM.
-
-* * * *
-
 ## Secure Apps
 
 Security is a fundamental requirement of any F2 container and many F2 apps. With that in mind, the integration of secure apps on a container requires more attention and effort. The process of [app integration](#app-integration) remains largely the same for integrating _secure_ apps with one significant addition: a _second_ container.
@@ -710,12 +931,12 @@ In the secure container's `$(document).ready()`, add the `F2.init()`:
 
 ```javascript
 $(document).ready(function(){
-	F2.init({
-		//define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... }
-	});
+    F2.init({
+        //define ContainerConfig properties
+        appRender: function(appConfig, html){ ... },
+        beforeAppRender: function(appConfig, html){ ... },
+        afterAppRender: function(appConfig){ ... }
+    });
 });
 ```
 
@@ -723,13 +944,13 @@ For secure containers, an additional property must be set on the `ContainerConfi
 
 ```javascript
 $(document).ready(function(){
-	F2.init({
-		//define ContainerConfig properties
-		appRender: function(appConfig, html){ ... },
-		beforeAppRender: function(appConfig, html){ ... },
-		afterAppRender: function(appConfig){ ... },
-		secureAppPagePath: "https://secure.domain.com/container" //define secure page path
-	});
+    F2.init({
+        //define ContainerConfig properties
+        appRender: function(appConfig, html){ ... },
+        beforeAppRender: function(appConfig, html){ ... },
+        afterAppRender: function(appConfig){ ... },
+        secureAppPagePath: "https://secure.domain.com/container" //define secure page path
+    });
 });
 ```
 
@@ -741,17 +962,17 @@ Since it will be loaded in an iframe and like its parent, the secure child conta
 
 ```javascript
 F2.init({
-	appRender:function(appConfig, html) {
-		return [
-			'<div class="span4">',
-				html,
-			'</div>'
-		].join('');
-	},
-	afterAppRender:function(appConfig, html) { ... },
+    appRender:function(appConfig, html) {
+        return [
+            '<div class="span4">',
+                html,
+            '</div>'
+        ].join('');
+    },
+    afterAppRender:function(appConfig, html) { ... },
 
-	//now set this property to true to tell F2 this is the secure child frame.
-	isSecureAppPage:true
+    //now set this property to true to tell F2 this is the secure child frame.
+    isSecureAppPage:true
 });
 ```
 

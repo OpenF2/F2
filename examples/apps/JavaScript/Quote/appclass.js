@@ -95,7 +95,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 				$(this)
 					.empty()
 					.append([
-						'<h3>',
+						'<h3 class="clearfix">',
 							'<span class="last pull-left">', Format.number(quoteData.Data.LastPrice, 2), '</span>',
 							'<span class="last-change pull-right">', Format.number(quoteData.Data.Change, {precision:2, withColors:true}), ' ', Format.number(quoteData.Data.ChangePercent, {precision:2, withColors:true, prefix:'(', suffix:'%)'}), '</span>',
 						'</h3>'

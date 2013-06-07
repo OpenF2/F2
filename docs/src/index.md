@@ -77,9 +77,9 @@ To achieve steady growth and stable release cycles, F2 will be maintained under 
 
 ### Track
 
-F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is {{docs.version}} released on {{docs.lastUpdateDateFormatted}}. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Docs-Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
+F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is {{version}} released on {{_releaseDateFormatted}}. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Docs-Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
 
-<span class="label">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html) which is currently version {{sdk.version}}.
+<span class="label">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html) which is currently version {{version}}.
 
 ### Collaborate
 
@@ -89,7 +89,7 @@ All contributors will be expected to follow consistent standards and guidelines 
 
 ### Notational Conventions
 
-The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
+The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119). For readability, these words do not appear in all uppercase letters in this specification.
 
 * * * *
 
@@ -101,11 +101,11 @@ Following are definitions for the main F2 Framework components: the apps, the co
 
 ### Choices
 
-In order to ensure that applications built using F2 are successful, they must be accessible. With this in mind, the front-end technology choice is HTML5. Using the [progressive enhancement methodology](http://www.alistapart.com/articles/understandingprogressiveenhancement/), F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 apps built following the [mobile first](http://www.lukew.com/presos/preso.asp?26) design approach and with [responsive](http://www.abookapart.com/products/responsive-web-design) [CSS](http://twitter.github.com/bootstrap/scaffolding.html#responsive), allow users to access the apps on their desktop, tablet or smartphone and App Developers only need to build a single app.
+In order to ensure that applications built using F2 are successful, they must be accessible. With this in mind, the front-end technology choice is HTML5. Using the [progressive enhancement methodology](http://www.alistapart.com/articles/understandingprogressiveenhancement/), F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 apps built following the [mobile first](http://www.lukew.com/presos/preso.asp?26) design approach and with [responsive](http://www.abookapart.com/products/responsive-web-design) [CSS](http://twitter.github.io/bootstrap/scaffolding.html#responsive), allow users to access the apps on their desktop, tablet or smartphone and App Developers only need to build a single app.
 
 Support across all desktop browsers and mobile devices is sometimes limited so F2 includes some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?
 
-* F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for a consistent HTML & CSS structure for app development regardless of App Developer ([we'll explain more later](app-development.html#container-integration)). 
+* F2 uses and recommends [Bootstrap](http://twitter.github.io/bootstrap/) for a consistent HTML & CSS structure for app development regardless of App Developer ([we'll explain more later](app-development.html#container-integration)). 
 * F2 relies on data structures represented in JSON, so it incorporates Crockford's [JSON](http://www.json.org/). 
 * To support a secured container environment, F2 needs cross-domain in-browser messaging. For this, it relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM).
 

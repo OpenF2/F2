@@ -3,8 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{htmlTitle}}</title>
-	<meta name="dcterms.date" content="{{projectDocsLastUpdateDateFormatted}}">
-	<meta name="gitbranch" content="{{projectBranch}}">
+	<meta name="dcterms.date" content="{{projectReleaseDateFormatted}}">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -25,7 +24,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="{{projectRoot}}../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{projectRoot}}../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('{{projectBranch}}' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -130,7 +129,7 @@
 
 		<footer>
 			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification {{projectDocsVersion}}, published {{projectDocsLastUpdateDateFormatted}}</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
@@ -139,13 +138,12 @@
 <script src="{{projectRoot}}../js/bootstrap.min.2.3.0.js"></script>
 <script src="{{projectRoot}}../js/prettify.js"></script>
 <script src="{{projectAssets}}/js/main.js"></script>
-<script src="{{projectRoot}}../js/f2.js?{{docs.version}}"></script>
+<script src="{{projectRoot}}../js/f2.js?{{projectVersion}}"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return '{{projectBranch}}'; }));
 </script>
 <script type="text/javascript">
-	if (F2.gitbranch() === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
 		window._waq = window._waq || []; 
 		(function() {
 			var domain = 'insite.wallst.com'; 
