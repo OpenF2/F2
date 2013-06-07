@@ -8,7 +8,36 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		this.root = root;
 		this.$root = $(root);
 		this.$app = $("#f2-1year-chart", this.$root);
+		//set configuration
+		this.config();
+	};
+
+	app.prototype.config = function() {
+
+		var defaults = {
+			lineColor: '#6A8F8E',
+			lineWidth: 1.5,
+			gridColor: '#DDDDDD',
+			gridAltColor: '#F7F7F7',
+			fontColor: '#444444',
+			fontFamily: 'Arial, sans-serif',
+			fontSize: 12,
+			lineHeight: 1.2,
+			greenBar: '#2EA94F',
+			redBar: '#DB411C'
+		},
+		styleImport = (this.appConfig.context && this.appConfig.context.style)?this.appConfig.context.style:{};
+
+		/** for example purposes*/
+		console.group('Chart app');
+		console.info('The chart app (com_openf2_examples_javascript_chart) has configuration options which can be override by using Context. Set a "style" property in the AppConfig\'s Context property. The current AppConfig is on the next line.');
+		console.info(this.appConfig);
+		console.info('The chart\'s configuration parameters (defaults) are found in the following hash');
+		console.info(defaults);
+		console.groupEnd();
+
 		this.CHT_CONTAINER = 'f2-1year-chart';
+		this.CHART_STYLES = $.extend({},defaults,styleImport);
 	};
 
 	app.prototype.redraw = function(data) {
@@ -34,7 +63,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 		$.ajax({
 			beforeSend:function () {
-				this.ui.setTitle("Loading chart...");
+				this.ui.setTitle('Loading chart...');
 			},
 			data: { 
 				symbol: this.symbol, 
@@ -62,19 +91,12 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 	app.prototype._chartError = function(jqxhr) {
 		F2.log("Price Chart Error", jqxhr);
 		this.ui.setTitle("Chart Error");
-				this.$app.html("<p>An error occurred loading price data for " +this.symbol+ ".</p>");
-				this.ui.hideMask(this.$root);
-				this.ui.updateHeight();
+		this.$app.html("<p>An error occurred loading price data for " +this.symbol+ ".</p>");
+		this.ui.hideMask(this.$root);
+		this.ui.updateHeight();
 	};
 
-	app.prototype.style = {
-		fontColor: '#444444',
-		fontFamily: 'Arial, sans-serif',
-		fontSize: 12,
-		lineHeight: 1.2
-	};
-	app.prototype.gridColor = '#DDDDDD';
-	app.prototype.gridAltColor = '#F7F7F7';
+	
 
 	// Parses API data to provide HighCharts-ready data series for close values, 
 	// additionally deriving up/down month indicators.
@@ -184,7 +206,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 			plotOptions: {
 				line: {
 					animation: false,
-					lineWidth: 3.5
+					lineWidth: this.CHART_STYLES.lineWidth
 				},
 				series: {
 					marker: {
@@ -199,16 +221,16 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 				}
 			},
 			series: [{
-				color: '#6A8F8E',
+				color: this.CHART_STYLES.lineColor,
 				name: 'Close price'
 			},
 			{ 
-				color: '#2EA94F',
+				color: this.CHART_STYLES.greenBar,
 				lineWidth: 6,
 				name: 'Up months'
 			},
 			{
-				color: '#DB411C',
+				color: this.CHART_STYLES.redBar,
 				lineWidth: 6,
 				name: 'Down months'
 			}],
@@ -216,10 +238,10 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 				align: 'left',
 				style: {
 					color: '#666',
-					fontFamily: this.style.fontFamily,
+					fontFamily: this.CHART_STYLES.fontFamily,
 					fontSize: 14,
 					fontWeight: 'bold',
-					lineHeight: this.style.lineHeight
+					lineHeight: this.CHART_STYLES.lineHeight
 				}
 			},
 			tooltip: {
@@ -236,11 +258,11 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 					else return false;
 				},
 				style: {
-					color: this.style.fontColor,
-					fontFamily: this.style.fontFamily,
-					fontSize: this.style.fontSize,
-					lineHeight: this.style.lineHeight,
-					padding: this.style.fontSize
+					color: this.CHART_STYLES.fontColor,
+					fontFamily: this.CHART_STYLES.fontFamily,
+					fontSize: this.CHART_STYLES.fontSize,
+					lineHeight: this.CHART_STYLES.lineHeight,
+					padding: this.CHART_STYLES.fontSize
 				}
 			},
 			xAxis: [{  // Bottom datetime axis (short intervals)
@@ -254,22 +276,22 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 					year: '%Y'
 				},
 				gridLineDashStyle: 'shortdot',
-				gridLineColor: this.gridAltColor,
+				gridLineColor: this.CHART_STYLES.gridAltColor,
 				gridLineWidth: 1,
 				labels: {
 					align: 'left',
 					style: {
-						color: this.style.fontColor,
-						fontFamily: this.style.fontFamily,
-						fontSize: this.style.fontSize
+						color: this.CHART_STYLES.fontColor,
+						fontFamily: this.CHART_STYLES.fontFamily,
+						fontSize: this.CHART_STYLES.fontSize
 					},
-					x: (this.style.fontSize / 2),
-					y: (this.style.fontSize * this.style.lineHeight * 1.5)
+					x: (this.CHART_STYLES.fontSize / 2),
+					y: (this.CHART_STYLES.fontSize * this.CHART_STYLES.lineHeight * 1.5)
 				},
-				lineColor: this.gridColor,
-				tickColor: this.gridColor,
+				lineColor: this.CHART_STYLES.gridColor,
+				tickColor: this.CHART_STYLES.gridColor,
 				tickInterval: (30 * 24 * 3600 * 1000),  // One month
-				tickLength: (this.style.fontSize * this.style.lineHeight * 1.5),
+				tickLength: (this.CHART_STYLES.fontSize * this.CHART_STYLES.lineHeight * 1.5),
 				type: 'datetime'
 			},{  // Top datetime axis (longer intervals)
 				dateTimeLabelFormats: {
@@ -279,44 +301,44 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 					year: '%Y'
 				},
 				gridLineWidth: 1,
-				gridLineColor: this.gridColor,
+				gridLineColor: this.CHART_STYLES.gridColor,
 				labels: {
 					align: 'left',
 					style: {
-						color: this.style.fontColor,
-						fontFamily: this.style.fontFamily,
-						fontSize: this.style.fontSize
+						color: this.CHART_STYLES.fontColor,
+						fontFamily: this.CHART_STYLES.fontFamily,
+						fontSize: this.CHART_STYLES.fontSize
 					},
-					x: (this.style.fontSize / 2)
+					x: (this.CHART_STYLES.fontSize / 2)
 				},
-				lineColor: this.gridColor,
+				lineColor: this.CHART_STYLES.gridColor,
 				linkedTo: 0,
 				opposite: true,
-				tickColor: this.gridColor,
+				tickColor: this.CHART_STYLES.gridColor,
 				tickInterval: (365 * 24 * 3600 * 1000),  // One year
-				tickLength: (this.style.fontSize * this.style.lineHeight),
+				tickLength: (this.CHART_STYLES.fontSize * this.CHART_STYLES.lineHeight),
 				type: 'datetime'
 			}],
 			yAxis: [{
-				gridLineColor: this.gridColor,
+				gridLineColor: this.CHART_STYLES.gridColor,
 				labels: {
 					align: 'left',
 					formatter: function () {
 						return Highcharts.numberFormat(this.value, 2);
 					},
 					style: {
-						color: this.style.fontColor,
-						fontFamily: this.style.fontFamily,
-						fontSize: this.style.fontSize
+						color: this.CHART_STYLES.fontColor,
+						fontFamily: this.CHART_STYLES.fontFamily,
+						fontSize: this.CHART_STYLES.fontSize
 					},
 					x: 0,
-					y: (this.style.fontSize + 3)
+					y: (this.CHART_STYLES.fontSize + 3)
 				},
 				maxPadding: 0,
 				minPadding: 0,
 				opposite: true,
 				showFirstLabel: false,
-				tickColor: this.gridColor,
+				tickColor: this.CHART_STYLES.gridColor,
 				tickLength: 100,  // Cropped at left of chart
 				tickWidth: 1,
 				title: {

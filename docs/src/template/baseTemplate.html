@@ -6,10 +6,9 @@
 $for(author-meta)$
   <meta name="author" content="$author-meta$">
 $endfor$
-  <meta name="dcterms.date" content="{{docs.lastUpdateDateFormatted}}">
-  <meta name="gitbranch" content="{{branch}}">
+  <meta name="dcterms.date" content="{{_releaseDateFormatted}}">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
-  <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
+  <meta name="keywords" content="F2, Open F2, openf2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container">
   <meta name="robots" content="all, index, follow" />
   <meta name="distribution" content="global" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -19,7 +18,7 @@ $for(header-includes)$
   $header-includes$
 $endfor$
 </head>
-<body data-spy="scroll" data-target="#toc" data-offset="0">
+<body data-spy="scroll" data-target="#toc" data-offset="100">
 $for(include-before)$
 $include-before$
 $endfor$

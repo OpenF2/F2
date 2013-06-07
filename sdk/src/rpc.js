@@ -77,9 +77,10 @@ F2.extend('Rpc', (function(){
 	var _createContainerToAppSocket = function(appConfig, appManifest) {
 
 		var container = jQuery(appConfig.root);
-		container = container.is('.' + F2.Constants.Css.APP_CONTAINER)
-			? container
-			: container.find('.' + F2.Constants.Css.APP_CONTAINER);
+
+		if (!container.is('.' + F2.Constants.Css.APP_CONTAINER)) {
+			container.find('.' + F2.Constants.Css.APP_CONTAINER);
+		}
 
 		if (!container.length) {
 			F2.log('Unable to locate app in order to establish secure connection.');
@@ -141,7 +142,7 @@ F2.extend('Rpc', (function(){
 	 */
 	var _onMessage = function(appConfig, message, origin) {
 
-		var obj;
+		var obj, func;
 
 		function parseFunction(parent, functionName) {
 			var path = String(functionName).split('.');
@@ -153,7 +154,7 @@ F2.extend('Rpc', (function(){
 				parent = parent[path[i]];
 			}
 			return parent;
-		};
+		}
 
 		function parseMessage(regEx, message, instanceId) {
 			var o = F2.parse(message.replace(regEx, ''));
@@ -174,12 +175,12 @@ F2.extend('Rpc', (function(){
 			}
 
 			return o;
-		};
+		}
 
 		// handle UI Call
 		if (_rUiCall.test(message)) {
 			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			var func = parseFunction(appConfig.ui, obj.functionName);
+			func = parseFunction(appConfig.ui, obj.functionName);
 			// if we found the function, call it
 			if (func !== undefined) {
 				func.apply(appConfig.ui, obj.params);
@@ -190,7 +191,7 @@ F2.extend('Rpc', (function(){
 		// handle RPC
 		} else if (_rRpc.test(message)) {
 			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			var func = parseFunction(window, obj.functionName);
+			func = parseFunction(window, obj.functionName);
 			if (func !== undefined) {
 				func.apply(func, obj.params);
 			} else {
@@ -253,7 +254,7 @@ F2.extend('Rpc', (function(){
 			// loop through params and find functions and convert them to callbacks
 			var callbacks = [];
 			jQuery.each(params, function(i, e) {
-				if (typeof e === "function") {
+				if (typeof e === 'function') {
 					var cid = _registerCallback(e);
 					params[i] = cid;
 					callbacks.push(cid);
@@ -300,7 +301,7 @@ F2.extend('Rpc', (function(){
 				// the app is secure
 				_apps[instanceId].config.isSecure &&
 				// we can't access the iframe
-				jQuery(_apps[instanceId].config.root).find('iframe').length == 0
+				jQuery(_apps[instanceId].config.root).find('iframe').length === 0
 			);
 		},
 
@@ -317,7 +318,7 @@ F2.extend('Rpc', (function(){
 					socket:_createContainerToAppSocket(appConfig, appManifest)
 				};
 			} else {
-				F2.log("Unable to register socket connection. Please check container configuration.");
+				F2.log('Unable to register socket connection. Please check container configuration.');
 			}
 		}
 	};
