@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - sdk\src\F2.js</title>
-	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue59">
+	<title>F2 - sdk/src/F2.js</title>
+	<meta name="dcterms.date" content="4 June 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.1.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -25,7 +24,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue59' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -221,7 +220,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\F2.js</h1>
+				<h1 class="file-heading">File: sdk/src/F2.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -229,23 +228,29 @@
  * F2 v{{sdk.version}}
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the &quot;Software&quot;), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * &quot;F2&quot; is licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * Unless required by applicable law or agreed to in writing, software distributed 
+ * under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR 
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * Please note that F2 (&quot;Software&quot;) may contain third party material that Markit 
+ * On Demand Inc. has a license to use and include within the Software (the 
+ * &quot;Third Party Material&quot;). A list of the software comprising the Third Party Material 
+ * and the terms and conditions under which such Third Party Material is distributed 
+ * are reproduced in the ThirdPartyMaterial.md file available at:
+ * 
+ * https://github.com/OpenF2/F2/blob/master/ThirdPartyMaterial.md
+ * 
+ * The inclusion of the Third Party Material in the Software does not grant, provide 
+ * nor result in you having acquiring any rights whatsoever, other than as stipulated 
+ * in the terms and conditions related to the specific Third Party Material, if any.
+ *
  */
 
 var F2;
@@ -439,8 +444,8 @@ F2 = (function() {
 		 */
 		isLocalRequest: function(url){
 			var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-				url = url.toLowerCase(),
-				parts = rurl.exec( url ),
+				urlLower = url.toLowerCase(),
+				parts = rurl.exec( urlLower ),
 				ajaxLocation,
 				ajaxLocParts;
 
@@ -459,8 +464,8 @@ F2 = (function() {
 			// uh oh, the url must be relative
 			// make it fully qualified and re-regex url
 			if (!parts){
-				url = _absolutizeURI(ajaxLocation,url).toLowerCase();
-				parts = rurl.exec( url );
+				urlLower = _absolutizeURI(ajaxLocation,urlLower).toLowerCase();
+				parts = rurl.exec( urlLower );
 			}
 
 			// Segment location into parts
@@ -542,6 +547,7 @@ F2 = (function() {
 		version: function() { return &#x27;{{sdk.version}}&#x27;; }
 	};
 })();
+
     </pre>
 </div>
 
@@ -551,8 +557,8 @@ F2 = (function() {
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
@@ -561,13 +567,12 @@ F2 = (function() {
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?"></script>
+<script src="../../js/f2.js?1.2.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
-	if (F2.gitbranch() === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
 		window._waq = window._waq || []; 
 		(function() {
 			var domain = 'insite.wallst.com'; 

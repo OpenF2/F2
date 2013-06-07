@@ -3,8 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2.Constants.AppHandlers</title>
-	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue59">
+	<meta name="dcterms.date" content="4 June 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.1.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -25,7 +24,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue59' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -235,7 +234,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="../files/sdk_src_app_handlers.js.html#l395"><code>sdk\src\app_handlers.js:395</code></a></dd>
+			<dd><a href="../files/sdk_src_app_handlers.js.html#l416"><code>sdk&#x2F;src&#x2F;app_handlers.js:416</code></a></dd>
 		
 
 		
@@ -277,56 +276,63 @@
 						<td class="name">
 							<a href="#properties-APP_CREATE_ROOT">APP_CREATE_ROOT</a>
 						</td>
-						<td><p>Equivalent to 'appCreateRoot'. Identifies the create root method for use in AppHandlers.on/off/__trigger().</p></td>
+						<td><p>Equivalent to <code>appCreateRoot</code>. Identifies the create root method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-APP_DESTROY">APP_DESTROY</a>
 						</td>
-						<td><p>Equivalent to 'appDestroy'. Identifies the app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
+						<td><p>Equivalent to <code>appDestroy</code>. Identifies the app destroy method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( appInstance )</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-APP_DESTROY_AFTER">APP_DESTROY_AFTER</a>
 						</td>
-						<td><p>Equivalent to 'appDestroyAfter'. Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
+						<td><p>Equivalent to <code>appDestroyAfter</code>. Identifies the after app destroy method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( appInstance )</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-APP_DESTROY_BEFORE">APP_DESTROY_BEFORE</a>
 						</td>
-						<td><p>Equivalent to 'appDestroyBefore'. Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().</p></td>
+						<td><p>Equivalent to <code>appDestroyBefore</code>. Identifies the before app destroy method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( appInstance )</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-APP_RENDER">APP_RENDER</a>
 						</td>
-						<td><p>Equivalent to 'appRender'. Identifies the app render method for use in AppHandlers.on/off/__trigger().</p></td>
+						<td><p>Equivalent to <code>appRender</code>. Identifies the app render method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, <a href="../../app-development.html#app-design">appHtml</a> )</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-APP_RENDER_AFTER">APP_RENDER_AFTER</a>
 						</td>
-						<td><p>Equivalent to 'appRenderAfter'. Identifies the after app render method for use in AppHandlers.on/off/__trigger().</p></td>
+						<td><p>Equivalent to <code>appRenderAfter</code>. Identifies the after app render method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-APP_RENDER_BEFORE">APP_RENDER_BEFORE</a>
 						</td>
-						<td><p>Equivalent to 'appRenderBefore'. Identifies the before app render method for use in AppHandlers.on/off/__trigger().</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#properties-AppHandlers">AppHandlers</a>
-						</td>
-						<td><p>A collection of constants for the on/off method names in F2.AppHandlers.</p></td>
+						<td><p>Equivalent to <code>appRenderBefore</code>. Identifies the before app render method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p></td>
 					</tr>
 					
 				</tbody>
@@ -368,7 +374,9 @@
 	</h3>
 
 	<p>
-		<p>Equivalent to 'appCreateRoot'. Identifies the create root method for use in AppHandlers.on/off/__trigger().</p>
+		<p>Equivalent to <code>appCreateRoot</code>. Identifies the create root method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
 	</p>
 
 	<div class="well well-small">
@@ -381,7 +389,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l406"><code>sdk\src\app_handlers.js:406</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l423"><code>sdk&#x2F;src&#x2F;app_handlers.js:423</code></a></dd>
 			
 
 			
@@ -392,6 +400,23 @@
 
 	
 
+	
+		<h4>Example:</h4>
+
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_CREATE_ROOT,
+    function(appConfig)
+    {
+        // If you want to create a custom root. By default F2 uses the app's outermost HTML element.
+        // the app's html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
+        appConfig.root = jQuery('&lt;section&gt;&lt;/section&gt;').get(0);
+    }
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -421,7 +446,9 @@
 	</h3>
 
 	<p>
-		<p>Equivalent to 'appDestroy'. Identifies the app destroy method for use in AppHandlers.on/off/__trigger().</p>
+		<p>Equivalent to <code>appDestroy</code>. Identifies the app destroy method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( appInstance )</p>
 	</p>
 
 	<div class="well well-small">
@@ -434,7 +461,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l446"><code>sdk\src\app_handlers.js:446</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l544"><code>sdk&#x2F;src&#x2F;app_handlers.js:544</code></a></dd>
 			
 
 			
@@ -445,6 +472,34 @@
 
 	
 
+	
+		<h4>Example:</h4>
+
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_DESTROY,
+    function(appInstance)
+    {
+        // call the apps destroy method, if it has one
+        if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == 'function')
+        {
+            appInstance.app.destroy();
+        }
+        else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
+        {
+            F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+        }
+
+        // fade out and remove the root
+        jQuery(appInstance.config.root).fadeOut(500, function() {
+            jQuery(this).remove();
+        });
+    }
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -474,7 +529,9 @@
 	</h3>
 
 	<p>
-		<p>Equivalent to 'appDestroyAfter'. Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().</p>
+		<p>Equivalent to <code>appDestroyAfter</code>. Identifies the after app destroy method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( appInstance )</p>
 	</p>
 
 	<div class="well well-small">
@@ -487,7 +544,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l454"><code>sdk\src\app_handlers.js:454</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l577"><code>sdk&#x2F;src&#x2F;app_handlers.js:577</code></a></dd>
 			
 
 			
@@ -498,6 +555,21 @@
 
 	
 
+	
+		<h4>Example:</h4>
+
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+    function(appInstance)
+    {
+        F2.log(appInstance);
+    }
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -527,7 +599,9 @@
 	</h3>
 
 	<p>
-		<p>Equivalent to 'appDestroyBefore'. Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().</p>
+		<p>Equivalent to <code>appDestroyBefore</code>. Identifies the before app destroy method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( appInstance )</p>
 	</p>
 
 	<div class="well well-small">
@@ -540,7 +614,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l438"><code>sdk\src\app_handlers.js:438</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l524"><code>sdk&#x2F;src&#x2F;app_handlers.js:524</code></a></dd>
 			
 
 			
@@ -551,6 +625,21 @@
 
 	
 
+	
+		<h4>Example:</h4>
+
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+    function(appInstance)
+    {
+        F2.log(appInstance);
+    }
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -580,7 +669,9 @@
 	</h3>
 
 	<p>
-		<p>Equivalent to 'appRender'. Identifies the app render method for use in AppHandlers.on/off/__trigger().</p>
+		<p>Equivalent to <code>appRender</code>. Identifies the app render method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, <a href="../../app-development.html#app-design">appHtml</a> )</p>
 	</p>
 
 	<div class="well well-small">
@@ -593,7 +684,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l422"><code>sdk\src\app_handlers.js:422</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l465"><code>sdk&#x2F;src&#x2F;app_handlers.js:465</code></a></dd>
 			
 
 			
@@ -604,6 +695,40 @@
 
 	
 
+	
+		<h4>Example:</h4>
+
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_RENDER,
+    function(appConfig, appHtml)
+    {
+        var $root = null;
+
+        // if no app root is defined use the app's outer most node
+        if(!F2.isNativeDOMNode(appConfig.root))
+        {
+            appConfig.root = jQuery(appHtml).get(0);
+            // get a handle on the root in jQuery
+            $root = jQuery(appConfig.root);                
+        }
+        else
+        {
+            // get a handle on the root in jQuery
+            $root = jQuery(appConfig.root);            
+
+            // append the app html to the root
+            $root.append(appHtml);
+        }           
+
+        // append the root to the body by default.
+        jQuery('body').append($root);
+    }
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -633,7 +758,9 @@
 	</h3>
 
 	<p>
-		<p>Equivalent to 'appRenderAfter'. Identifies the after app render method for use in AppHandlers.on/off/__trigger().</p>
+		<p>Equivalent to <code>appRenderAfter</code>. Identifies the after app render method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
 	</p>
 
 	<div class="well well-small">
@@ -646,7 +773,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l430"><code>sdk\src\app_handlers.js:430</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l504"><code>sdk&#x2F;src&#x2F;app_handlers.js:504</code></a></dd>
 			
 
 			
@@ -657,6 +784,21 @@
 
 	
 
+	
+		<h4>Example:</h4>
+
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_RENDER_AFTER,
+    function(appConfig)
+    {
+        F2.log(appConfig);
+    }
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -686,7 +828,9 @@
 	</h3>
 
 	<p>
-		<p>Equivalent to 'appRenderBefore'. Identifies the before app render method for use in AppHandlers.on/off/__trigger().</p>
+		<p>Equivalent to <code>appRenderBefore</code>. Identifies the before app render method for use in AppHandlers.on/off. 
+When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
 	</p>
 
 	<div class="well well-small">
@@ -699,7 +843,7 @@
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l414"><code>sdk\src\app_handlers.js:414</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l445"><code>sdk&#x2F;src&#x2F;app_handlers.js:445</code></a></dd>
 			
 
 			
@@ -711,54 +855,20 @@
 	
 
 	
+		<h4>Example:</h4>
 
-	
-
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-</section>
-		
-		<section id="properties-AppHandlers" class="level2 ">
-	<h3>
-		AppHandlers
-
-		<span class="label type">Object</span>
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>A collection of constants for the on/off method names in F2.AppHandlers.</p>
-	</p>
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l400"><code>sdk\src\app_handlers.js:400</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+    function(appConfig)
+    {
+        F2.log(appConfig);
+    }
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -786,8 +896,8 @@
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
@@ -796,13 +906,12 @@
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?"></script>
+<script src="../../js/f2.js?1.2.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
-	if (F2.gitbranch() === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
 		window._waq = window._waq || []; 
 		(function() {
 			var domain = 'insite.wallst.com'; 

@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - sdk\src\app_handlers.js</title>
-	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue59">
+	<title>F2 - sdk/src/app_handlers.js</title>
+	<meta name="dcterms.date" content="4 June 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.1.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -25,7 +24,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue59' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -221,14 +220,39 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\app_handlers.js</h1>
+				<h1 class="file-heading">File: sdk/src/app_handlers.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * Allows container developers more flexibility when it comes to handling app interaction. Starting with version 1.3 this is the preferred method
- * for choosing how app rendering/interaction happens. This replaces the config versions of beforeAppRender, appRender, and afterAppRender. It also
- * adds hooks into an app being removed/destroyed. As F2 evolves more hooks will be added to aid in container development.
+ * The new &#x60;AppHandlers&#x60; functionality provides Container Developers a higher level of control over configuring app rendering and interaction.
+ *
+ *&lt;p class=&quot;alert alert-block alert-warning&quot;&gt;
+ *The addition of &#x60;F2.AppHandlers&#x60; replaces the previous {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}} properties &#x60;beforeAppRender&#x60;, &#x60;appRender&#x60;, and &#x60;afterAppRender&#x60;. These methods were deprecated&amp;mdash;but not removed&amp;mdash;in version 1.2. They will be permanently removed in a future version of F2.
+ *&lt;/p&gt;
+ *
+ *&lt;p class=&quot;alert alert-block alert-info&quot;&gt;
+ *Starting with F2 version 1.2, &#x60;AppHandlers&#x60; is the preferred method for Container Developers to manage app layout.
+ *&lt;/p&gt;
+ *
+ * ### Order of Execution
+ * 
+ * **App Rendering**
+ *
+ * 0. {{#crossLink &quot;F2/registerApps&quot;}}F2.registerApps(){{/crossLink}} method is called by the Container Developer and the following methods are run for *each* {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} passed.
+ * 1. **&#x27;appCreateRoot&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_CREATE\_ROOT*) handlers are fired in the order they were attached.
+ * 2. **&#x27;appRenderBefore&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_RENDER\_BEFORE*) handlers are fired in the order they were attached.
+ * 3. Each app&#x27;s &#x60;manifestUrl&#x60; is requested asynchronously; on success the following methods are fired.
+ * 3. **&#x27;appRender&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_RENDER*) handlers are fired in the order they were attached.
+ * 4. **&#x27;appRenderAfter&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_RENDER\_AFTER*) handlers are fired in the order they were attached.
+ *
+ *
+ * **App Removal**
+
+ * 0. {{#crossLink &quot;F2/removeApp&quot;}}F2.removeApp(){{/crossLink}} with a specific {{#crossLink &quot;F2.AppConfig/instanceId &quot;}}{{/crossLink}} or {{#crossLink &quot;F2/removeAllApps&quot;}}F2.removeAllApps(){{/crossLink}} method is called by the Container Developer and the following methods are run.
+ * 1. **&#x27;appDestroyBefore&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_DESTROY\_BEFORE*) handlers are fired in the order they were attached.
+ * 2. **&#x27;appDestroy&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_DESTROY*) handlers are fired in the order they were attached.
+ * 3. **&#x27;appDestroyAfter&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_DESTROY\_AFTER*) handlers are fired in the order they were attached.
  * @class F2.AppHandlers
  */
 F2.extend(&#x27;AppHandlers&#x27;, (function() {
@@ -240,33 +264,22 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 	var _handlerCollection = {
 		appCreateRoot: [],
 		appRenderBefore: [],			
-		//appReloadBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
-		//appReloadAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
-		//appReload: [],
 		appDestroy: []			
 	};
 	
 	var _defaultMethods = {
-		appCreateRoot: function()
-		{
-			// do nothing to create root. F2.Container will automatically create the root in the default appRender
-		},
-		appRenderBefore: function(appConfig)
-		{
-			// do nothing before an app is rendered
-		},
-		appRender: function(appConfig, html)
+		appRender: function(appConfig, appHtml)
 		{
 			var $root = null;
 			
-			// if no app root is defined use the apps outter most node
+			// if no app root is defined use the app&#x27;s outer most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
-				appConfig.root = jQuery(html).get(0);
+				appConfig.root = jQuery(appHtml).get(0);
 				// get a handle on the root in jQuery
 				$root = jQuery(appConfig.root);				
 			}
@@ -276,35 +289,11 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 				$root = jQuery(appConfig.root);			
 				
 				// append the app html to the root
-				$root.append(html);
+				$root.append(appHtml);
 			}			
 			
 			// append the root to the body by default.
 			jQuery(&#x27;body&#x27;).append($root);
-		},
-		appRenderAfter: function()
-		{
-			// do nothing after an app is rendered
-		},
-		
-		appReloadBefore: function()
-		{
-			// do nothing before an app reloads
-		},
-		appReload: function()
-		{
-			// re-request the app?
-			// re-add files?
-			// re init js ?
-		},
-		appReloadAfter: function()
-		{
-			// do nothing after an app reloads
-		},
-		
-		appDestroyBefore: function()
-		{
-			// do nothing before destroying app
 		},
 		appDestroy: function(appInstance)
 		{
@@ -313,7 +302,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			{
 				appInstance.app.destroy();
 			}
-			// warn the container developer/app developer that even though they have a destroy method it hasn&#x27;t been 
+			// warn the Container and App Developer that even though they have a destroy method it hasn&#x27;t been 
 			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
 			{
 				F2.log(appInstance.config.appId + &#x27; has a destroy property, but destroy is not of type function and as such will not be executed.&#x27;);
@@ -323,10 +312,6 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			jQuery(appInstance.config.root).fadeOut(500, function() {
 				jQuery(this).remove();
 			});
-		},
-		appDestroyAfter: function()
-		{
-			// do nothing after an app is destroyed
 		}
 	};
 	
@@ -357,7 +342,7 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 	
 	var _validateToken = function(sToken)
 	{
-		// check token against F2 and Container
+		// check token against F2 and container
 		if(_ct != sToken &amp;&amp; _f2t != sToken) { throw (&#x27;Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken().&#x27;); }
 	};
 	
@@ -380,19 +365,19 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		{
 			sNamespace = sNamespace.toLowerCase();		
 		
-			for(var eventKey in _handlerCollection)
+			for(var currentEventKey in _handlerCollection)
 			{
-				var eventCollection = _handlerCollection[eventKey];
+				var eventCollection = _handlerCollection[currentEventKey];
 				var newEvents = [];
 
-				for(var i = 0, j = eventCollection.length; i &lt; j; i++)
+				for(var i = 0, ec = eventCollection.length; i &lt; ec; i++)
 				{
-					var currentHandler = eventCollection[i];
-					if(currentHandler)
+					var currentEventHandler = eventCollection[i];
+					if(currentEventHandler)
 					{
-						if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
+						if(!currentEventHandler.namespace || currentEventHandler.namespace.toLowerCase() != sNamespace)
 						{
-							newEvents.push(currentHandler);
+							newEvents.push(currentEventHandler);
 						}
 					}
 				}
@@ -404,35 +389,35 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		{
 			sNamespace = sNamespace.toLowerCase();		
 		
-			var newEvents = [];
+			var newHandlerCollection = [];
 			
-			for(var i = 0, j = _handlerCollection[eventKey].length; i &lt; j; i++)
+			for(var iCounter = 0, hc = _handlerCollection[eventKey].length; iCounter &lt; hc; iCounter++)
 			{
-				var currentHandler = _handlerCollection[eventKey][i];
+				var currentHandler = _handlerCollection[eventKey][iCounter];
 				if(currentHandler)
 				{
 					if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
 					{
-						newEvents.push(currentHandler);
+						newHandlerCollection.push(currentHandler);
 					}
 				}
 			}
 			
-			_handlerCollection[eventKey] = newEvents;
+			_handlerCollection[eventKey] = newHandlerCollection;
 		}
 	};
 	
 	return {
 		/**
-		* Allows container developer to retrieve a special token which must be passed to
-		* all On and Off methods. This function will self destruct so be sure to keep the response
-		* inside of a closure somewhere.
+		* Allows Container Developer to retrieve a unique token which must be passed to
+		* all &#x60;on&#x60; and &#x60;off&#x60; methods. This function will self destruct and can only be called 
+		* one time. Container Developers must store the return value inside of a closure.
 		* @method getToken		 
 		**/
 		getToken: function()
 		{
 			// delete this method for security that way only the container has access to the token 1 time.
-			// kind of James Bond-ish, this message will self destruct immediately.
+			// kind of Ethan Hunt-ish, this message will self destruct immediately.
 			delete this.getToken;
 			// return the token, which we validate against.
 			return _ct;
@@ -440,25 +425,25 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 		/**
 		* Allows F2 to get a token internally. Token is required to call {{#crossLink &quot;F2.AppHandlers/\_\_trigger:method&quot;}}{{/crossLink}}.
 		* This function will self destruct to eliminate other sources from using the {{#crossLink &quot;F2.AppHandlers/\_\_trigger:method&quot;}}{{/crossLink}}
-		* and other internal methods.
+		* and additional internal methods.
 		* @method __f2GetToken
 		* @private
 		**/
 		__f2GetToken: function()
 		{
 			// delete this method for security that way only the F2 internally has access to the token 1 time.
-			// kind of James Bond-ish, this message will self destruct immediately.
+			// kind of Ethan Hunt-ish, this message will self destruct immediately.
 			delete this.__f2GetToken;
 			// return the token, which we validate against.
 			return _f2t;
 		},
 		/**
-		* Allows F2 to trigger specific app events internally.
+		* Allows F2 to trigger specific events internally.
 		* @method __trigger
 		* @private
 		* @chainable
 		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/\_\_f2GetToken:method&quot;}}{{/crossLink}}.
-		* @param {String} eventKey The event you want to fire. Complete list of event keys available in {{#crossLink &quot;F2.Constants/AppHandlers:property&quot;}}{{/crossLink}}.
+		* @param {String} eventKey The event to fire. The complete list of event keys is available in {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
 		**/
 		__trigger: function(token, eventKey) // additional arguments will likely be passed
 		{			
@@ -490,14 +475,22 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 				}
 				
 				// fire all event listeners in the order that they were added.
-				for(var i = 0, j = _handlerCollection[eventKey].length; i &lt; j; i++)
+				for(var iCounter = 0, hcl = _handlerCollection[eventKey].length; iCounter &lt; hcl; iCounter++)
 				{
-					var handler = _handlerCollection[eventKey][i];
+					var handler = _handlerCollection[eventKey][iCounter];
 					
+					// appRender where root is already defined
 					if (handler.domNode &amp;&amp; arguments[2] &amp;&amp; arguments[2].root &amp;&amp; arguments[3])
 					{
 						var $appRoot = jQuery(arguments[2].root).append(arguments[3]);
 						jQuery(handler.domNode).append($appRoot);
+					}
+					else if (handler.domNode &amp;&amp; arguments[2] &amp;&amp; !arguments[2].root &amp;&amp; arguments[3])
+					{
+						// set the root to the actual HTML of the app
+						arguments[2].root = jQuery(arguments[3]).get(0);
+						// appends the root to the dom node specified
+						jQuery(handler.domNode).append(arguments[2].root);
 					}
 					else
 					{
@@ -513,30 +506,54 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			return this;
 		},
 		/**
-		* Allows you to easily tell all apps to render in a specific location. Only valid for eventType &#x27;appRender&#x27;.
+		* Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType &#x60;appRender&#x60;.
 		* @method on
 		* @chainable
-		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:methods&quot;}}{{/crossLink}} or {{#crossLink &quot;F2.AppHandlers/\_\_trigger:method&quot;}}{{/crossLink}}.
-		* @param {String} eventKey{.namespace} The event key to determine what event you want to bind to. The namespace is useful for removal 
+		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:method&quot;}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key used to determine which event to attach the listener to. The namespace is useful for removal 
 		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
-		* {{#crossLink &quot;F2.Constants/AppHandlers:property&quot;}}{{/crossLink}}.
-		* @params {HTMLElement|Node} element Specific element to append your app to.
+		* {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
+		* @params {HTMLElement} element Specific DOM element to which app gets appended.
 		* @example
-		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRender&#x27;, document.getElementById(&#x27;my_container&#x27;));
-		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRender.myNamespace&#x27;, document.getElementById(&#x27;my_container&#x27;));
+		*	var _token = F2.AppHandlers.getToken();
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRender&#x27;,
+		*		document.getElementById(&#x27;my_app&#x27;)
+		*	);
+		*
+		* Or:
+		* @example
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRender.myNamespace&#x27;,
+		*		document.getElementById(&#x27;my_app&#x27;)
+		*	);
 		**/
 		/**
-		* Allows you to add listener method that will be triggered when a specific event happens.
+		* Allows Container Developer to add listener method that will be triggered when a specific event occurs.
 		* @method on
 		* @chainable
-		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:method&quot;}}{{/crossLink}} or {{#crossLink &quot;F2.AppHandlers/\_\_trigger:method&quot;}}{{/crossLink}}.
-		* @param {String} eventKey{.namespace} The event key to determine what event you want to bind to. The namespace is useful for removal 
+		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:method&quot;}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key used to determine which event to attach the listener to. The namespace is useful for removal 
 		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
-		* {{#crossLink &quot;F2.Constants/AppHandlers:property&quot;}}{{/crossLink}}.
-		* @params {Function} listener A function that will be triggered when a specific event happens.
+		* {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
+		* @params {Function} listener A function that will be triggered when a specific event occurs. For detailed argument definition refer to {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
 		* @example
-		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore&#x27;, function() { F2.log(&#x27;before app rendered!&#x27;); });
-		*     F2.AppHandlers.on(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore.myNamespace&#x27;, function() { F2.log(&#x27;before app rendered!&#x27;); });
+		*	var _token = F2.AppHandlers.getToken();
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRenderBefore&#x27;
+		*		function() { F2.log(&#x27;before app rendered!&#x27;); }
+		*	);
+		*
+		* Or:
+		* @example
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRenderBefore.myNamespace&#x27;,
+		*		function() { F2.log(&#x27;before app rendered!&#x27;); }
+		*	);
 		**/
 		on: function(token, eventKey, func_or_element)
 		{
@@ -574,15 +591,17 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 			return this;
 		},
 		/**
-		* Allows you to remove listener methods for specific events
+		* Allows Container Developer to remove listener methods for specific events
 		* @method off
 		* @chainable
 		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:method&quot;}}{{/crossLink}}.
-		* @param {String} eventKey{.namespace} The event key to determine what listeners need to be removed. If no namespace is provided all
+		* @param {String} eventKey{.namespace} The event key used to determine which event to attach the listener to. If no namespace is provided all
 		*  listeners for the specified event type will be removed.
-		*  Complete list available in {{#crossLink &quot;F2.Constants/AppHandlers:property&quot;}}{{/crossLink}}.
+		*  Complete list available in {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
 		* @example
-		*     F2.AppHandlers.off(&#x27;3123-asd12-asd123dwase-123d-123d&#x27;, &#x27;appRenderBefore&#x27;);
+		*	var _token = F2.AppHandlers.getToken();
+		*	F2.AppHandlers.off(_token,&#x27;appRenderBefore&#x27;);
+		*
 		**/
 		off: function(token, eventKey)
 		{
@@ -619,74 +638,190 @@ F2.extend(&#x27;AppHandlers&#x27;, (function() {
 	};
 })());
 
-/**
- * A convenient collection of all available appHandler events.
- * @class F2.Constants.AppHandlers
- */
 F2.extend(&#x27;Constants&#x27;, {
 	/**
-	* A collection of constants for the on/off method names in F2.AppHandlers.
-	* @property {Object} AppHandlers
+	* A convenient collection of all available appHandler events.
+	* @class F2.Constants.AppHandlers
 	**/
-	AppHandlers:
+	AppHandlers: (function()
 	{
-		/**
-		 * Equivalent to &#x27;appCreateRoot&#x27;. Identifies the create root method for use in AppHandlers.on/off/__trigger().
-		 * @property APP_CREATE_ROOT
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		APP_CREATE_ROOT: &#x27;appCreateRoot&#x27;,
-		/**
-		 * Equivalent to &#x27;appRenderBefore&#x27;. Identifies the before app render method for use in AppHandlers.on/off/__trigger().
-		 * @property APP_RENDER_BEFORE
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		APP_RENDER_BEFORE: &#x27;appRenderBefore&#x27;,
-		/**
-		 * Equivalent to &#x27;appRender&#x27;. Identifies the app render method for use in AppHandlers.on/off/__trigger().
-		 * @property APP_RENDER
-		 * @type string
-		 * @static
-		 * @final
-		 */		
-		APP_RENDER: &#x27;appRender&#x27;,
-		/**
-		 * Equivalent to &#x27;appRenderAfter&#x27;. Identifies the after app render method for use in AppHandlers.on/off/__trigger().
-		 * @property APP_RENDER_AFTER
-		 * @type string
-		 * @static
-		 * @final
-		 */	
-		APP_RENDER_AFTER: &#x27;appRenderAfter&#x27;,
-		/**
-		 * Equivalent to &#x27;appDestroyBefore&#x27;. Identifies the before app destroy method for use in AppHandlers.on/off/__trigger().
-		 * @property APP_DESTROY_BEFORE
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		APP_DESTROY_BEFORE: &#x27;appDestroyBefore&#x27;,
-		/**
-		 * Equivalent to &#x27;appDestroy&#x27;. Identifies the app destroy method for use in AppHandlers.on/off/__trigger().
-		 * @property APP_DESTROY
-		 * @type string
-		 * @static
-		 * @final
-		 */		
-		APP_DESTROY: &#x27;appDestroy&#x27;,
-		/**
-		 * Equivalent to &#x27;appDestroyAfter&#x27;. Identifies the after app destroy method for use in AppHandlers.on/off/__trigger().
-		 * @property APP_DESTROY_AFTER
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		APP_DESTROY_AFTER: &#x27;appDestroyAfter&#x27;
-	}
+		return {
+			/**
+			* Equivalent to &#x60;appCreateRoot&#x60;. Identifies the create root method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}} )
+			* @property APP_CREATE_ROOT
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_CREATE_ROOT,
+			*		function(appConfig)
+			*		{
+			*			// If you want to create a custom root. By default F2 uses the app&#x27;s outermost HTML element.
+			*			// the app&#x27;s html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
+			*			appConfig.root = jQuery(&#x27;&lt;section&gt;&lt;/section&gt;&#x27;).get(0);
+			*		}
+			*	);
+			*/
+			APP_CREATE_ROOT: &#x27;appCreateRoot&#x27;,
+			/**
+			 * Equivalent to &#x60;appRenderBefore&#x60;. Identifies the before app render method for use in AppHandlers.on/off. 
+			 * When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			 * following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}} )
+			 * @property APP_RENDER_BEFORE
+			 * @type string
+			 * @static
+			 * @final
+			 * @example
+			 *	var _token = F2.AppHandlers.getToken();
+			 *	F2.AppHandlers.on(
+			 *		_token,
+			 *		F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			 *		function(appConfig)
+			 *		{
+			 *			F2.log(appConfig);
+			 *		}
+			 *	);
+			 */
+			APP_RENDER_BEFORE: &#x27;appRenderBefore&#x27;,
+			/**
+			* Equivalent to &#x60;appRender&#x60;. Identifies the app render method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}}, [appHtml](../../app-development.html#app-design) )
+			* @property APP_RENDER
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_RENDER,
+			*		function(appConfig, appHtml)
+			*		{
+			*			var $root = null;
+			*
+			*			// if no app root is defined use the app&#x27;s outer most node
+			*			if(!F2.isNativeDOMNode(appConfig.root))
+			*			{
+			*				appConfig.root = jQuery(appHtml).get(0);
+			*				// get a handle on the root in jQuery
+			*				$root = jQuery(appConfig.root);				
+			*			}
+			*			else
+			*			{
+			*				// get a handle on the root in jQuery
+			*				$root = jQuery(appConfig.root);			
+			*				
+			*				// append the app html to the root
+			*				$root.append(appHtml);
+			*			}			
+			*			
+			*			// append the root to the body by default.
+			*			jQuery(&#x27;body&#x27;).append($root);
+			*		}
+			*	);
+			*/		
+			APP_RENDER: &#x27;appRender&#x27;,
+			/**
+			* Equivalent to &#x60;appRenderAfter&#x60;. Identifies the after app render method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}} )
+			* @property APP_RENDER_AFTER
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			*		function(appConfig)
+			*		{
+			*			F2.log(appConfig);
+			*		}
+			*	);
+			*/	
+			APP_RENDER_AFTER: &#x27;appRenderAfter&#x27;,
+			/**
+			* Equivalent to &#x60;appDestroyBefore&#x60;. Identifies the before app destroy method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appInstance )
+			* @property APP_DESTROY_BEFORE
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+			*		function(appInstance)
+			*		{
+			*			F2.log(appInstance);
+			*		}
+			*	);
+			*/
+			APP_DESTROY_BEFORE: &#x27;appDestroyBefore&#x27;,
+			/**
+			* Equivalent to &#x60;appDestroy&#x60;. Identifies the app destroy method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appInstance )
+			* @property APP_DESTROY
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_DESTROY,
+			*		function(appInstance)
+			*		{
+			*			// call the apps destroy method, if it has one
+			*			if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == &#x27;function&#x27;)
+			*			{
+			*				appInstance.app.destroy();
+			*			}
+			*			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
+			*			{
+			*				F2.log(appInstance.config.appId + &#x27; has a destroy property, but destroy is not of type function and as such will not be executed.&#x27;);
+			*			}
+			*			
+			*			// fade out and remove the root
+			*			jQuery(appInstance.config.root).fadeOut(500, function() {
+			*				jQuery(this).remove();
+			*			});
+			*		}
+			*	);
+			*/		
+			APP_DESTROY: &#x27;appDestroy&#x27;,
+			/**
+			* Equivalent to &#x60;appDestroyAfter&#x60;. Identifies the after app destroy method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appInstance )
+			* @property APP_DESTROY_AFTER
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+			*		function(appInstance)
+			*		{
+			*			F2.log(appInstance);
+			*		}
+			*	);
+			*/
+			APP_DESTROY_AFTER: &#x27;appDestroyAfter&#x27;
+		};
+	})()
 });
     </pre>
 </div>
@@ -697,8 +832,8 @@ F2.extend(&#x27;Constants&#x27;, {
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
@@ -707,13 +842,12 @@ F2.extend(&#x27;Constants&#x27;, {
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?"></script>
+<script src="../../js/f2.js?1.2.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
-	if (F2.gitbranch() === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
 		window._waq = window._waq || []; 
 		(function() {
 			var domain = 'insite.wallst.com'; 

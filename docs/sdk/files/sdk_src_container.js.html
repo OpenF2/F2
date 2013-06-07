@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - sdk\src\container.js</title>
-	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue59">
+	<title>F2 - sdk/src/container.js</title>
+	<meta name="dcterms.date" content="4 June 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.1.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -25,7 +24,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue59' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -221,7 +220,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\container.js</h1>
+				<h1 class="file-heading">File: sdk/src/container.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -460,15 +459,17 @@ F2.extend(&#x27;&#x27;, (function(){
 					appConfigs[i], // the app config
 					_outerHtml(a.html)
 				);
+
+				var appId = appConfigs[i].appId;
 				
 				if (!appConfigs[i].root) {
-					throw(&#x27;App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
+					throw(&#x27;Root for &#x27; +appId+ &#x27; must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.&#x27;);
 				}
 				
 				var $root = jQuery(appConfigs[i].root);
 				
 				if ($root.parents(&#x27;body:first&#x27;).length === 0) {
-					throw(&#x27;App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.&#x27;);
+					throw(&#x27;App root for &#x27; +appId+ &#x27; was not appended to the DOM. Check your AppHandler callbacks to ensure you have rendered the app root to the DOM.&#x27;);
 				}
 				
 				F2.AppHandlers.__trigger(
@@ -478,10 +479,10 @@ F2.extend(&#x27;&#x27;, (function(){
 				);
 				
 				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
-					throw(&#x27;App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
+					throw(&#x27;App root for &#x27; +appId+ &#x27; must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.&#x27;);
 				}
 				
-				$root.addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfigs[i].appId);
+				$root.addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appId);
 			}
 			
 			// init events
@@ -592,7 +593,7 @@ F2.extend(&#x27;&#x27;, (function(){
 		if (!appConfig.appId) {
 			F2.log(&#x27;&quot;appId&quot; missing from app object&#x27;);
 			return false;
-		} else if (!appConfig.manifestUrl) {
+		} else if (!appConfig.root &amp;&amp; !appConfig.manifestUrl) {
 			F2.log(&#x27;&quot;manifestUrl&quot; missing from app object&#x27;);
 			return false;
 		}
@@ -677,21 +678,110 @@ F2.extend(&#x27;&#x27;, (function(){
 		 */
 		isInit: _isInit,
 		/**
-		 * Begins the loading process for all apps. The app will
-		 * be passed the {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} object which will
-		 * contain the app&#x27;s unique instanceId within the container. Optionally, the
-		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{/crossLink}} can be passed in and those
-		 * assets will be used instead of making a request.
-		 * @method registerApps
-		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}}
-		 * objects
-		 * @param {Array} [appManifests] An array of
-		 * {{#crossLink &quot;F2.AppManifest&quot;}}{{/crossLink}}
-		 * objects. This array must be the same length as the apps array that is
-		 * objects. This array must be the same length as the apps array that is
-		 * passed in. This can be useful if apps are loaded on the server-side and
-		 * passed down to the client.
-		 */
+		* Begins the loading process for all apps and/or initialization process for pre-loaded apps.
+		* The app will be passed the {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} object which will
+		* contain the app&#x27;s unique instanceId within the container. If the 
+		* {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}}.root property is populated the app is considered
+		* to be a pre-loaded app and will be handled accordingly. Optionally, the
+		* {{#crossLink &quot;F2.AppManifest&quot;}}{{/crossLink}} can be passed in and those
+		* assets will be used instead of making a request.
+		* @method registerApps
+		* @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}}
+		* objects
+		* @param {Array} [appManifests] An array of
+		* {{#crossLink &quot;F2.AppManifest&quot;}}{{/crossLink}}
+		* objects. This array must be the same length as the apps array that is
+		* objects. This array must be the same length as the apps array that is
+		* passed in. This can be useful if apps are loaded on the server-side and
+		* passed down to the client.
+		* @example
+		* Traditional App requests.
+		*
+		*	// Traditional f2 app configs
+		*	var arConfigs = [
+		*		{
+		*			appId: &#x27;com_externaldomain_example_app&#x27;,
+		*			context: {},
+		*			manifestUrl: &#x27;http://www.externaldomain.com/F2/AppManifest&#x27;
+		*		},
+		*		{
+		*			appId: &#x27;com_externaldomain_example_app&#x27;,
+		*			context: {},
+		*			manifestUrl: &#x27;http://www.externaldomain.com/F2/AppManifest&#x27;
+		*		},
+		*		{
+		*			appId: &#x27;com_externaldomain_example_app2&#x27;,
+		*			context: {},
+		*			manifestUrl: &#x27;http://www.externaldomain.com/F2/AppManifest&#x27;
+		*		}
+		*	];
+		*	
+		*	F2.init();
+		*	F2.registerApps(arConfigs);
+		*
+		* @example
+		* Pre-loaded and tradition apps mixed.
+		* 
+		*	// Pre-loaded apps and traditional f2 app configs
+		*	// you can preload the same app multiple times as long as you have a unique root for each
+		*	var arConfigs = [
+		*		{
+		*			appId: &#x27;com_mydomain_example_app&#x27;,
+		*			context: {},
+		*			root: &#x27;div#example-app-1&#x27;,
+		*			manifestUrl: &#x27;&#x27;
+		*		},
+		*		{
+		*			appId: &#x27;com_mydomain_example_app&#x27;,
+		*			context: {},
+		*			root: &#x27;div#example-app-2&#x27;,
+		*			manifestUrl: &#x27;&#x27;
+		*		},
+		*		{
+		*			appId: &#x27;com_externaldomain_example_app&#x27;,
+		*			context: {},
+		*			manifestUrl: &#x27;http://www.externaldomain.com/F2/AppManifest&#x27;
+		*		}
+		*	];
+		*
+		*	F2.init();
+		*	F2.registerApps(arConfigs);
+		*
+		* @example
+		* Apps with predefined manifests.
+		*
+		*	// Traditional f2 app configs
+		*	var arConfigs = [
+		*		{appId: &#x27;com_externaldomain_example_app&#x27;, context: {}},
+		*		{appId: &#x27;com_externaldomain_example_app&#x27;, context: {}},
+		*		{appId: &#x27;com_externaldomain_example_app2&#x27;, context: {}}
+		*	];
+		*
+		*	// Pre requested manifest responses
+		*	var arManifests = [
+		*		{
+		*			apps: [&#x27;&lt;div&gt;Example App!&lt;/div&gt;&#x27;],
+		*			inlineScripts: [],
+		*			scripts: [&#x27;http://www.domain.com/js/AppClass.js&#x27;],
+		*			styles: [&#x27;http://www.domain.com/css/AppStyles.css&#x27;]
+		*		},
+		*		{
+		*			apps: [&#x27;&lt;div&gt;Example App!&lt;/div&gt;&#x27;],
+		*			inlineScripts: [],
+		*			scripts: [&#x27;http://www.domain.com/js/AppClass.js&#x27;],
+		*			styles: [&#x27;http://www.domain.com/css/AppStyles.css&#x27;]
+		*		},
+		*		{
+		*			apps: [&#x27;&lt;div&gt;Example App 2!&lt;/div&gt;&#x27;],
+		*			inlineScripts: [],
+		*			scripts: [&#x27;http://www.domain.com/js/App2Class.js&#x27;],
+		*			styles: [&#x27;http://www.domain.com/css/App2Styles.css&#x27;] 
+		*		}
+		*	];
+		*	
+		*	F2.init();
+		*	F2.registerApps(arConfigs, arManifests);
+		*/
 		registerApps: function(appConfigs, appManifests) {
 
 			if (!_isInit()) {
@@ -724,17 +814,51 @@ F2.extend(&#x27;&#x27;, (function(){
 			// then determine which apps can be batched together
 			jQuery.each(appConfigs, function(i, a) {
 
-				if (!_validateApp(a)) {
-					return; // move to the next app
-				}
-
 				// add properties and methods
 				_hydrateAppConfig(a);
+
+				// Will set to itself, for preloaded apps, or set to null for apps that aren&#x27;t already
+				// on the page.
+				a.root = a.root || null;
+
+				// we validate the app after setting the root property because pre-load apps do no require
+				// manifest url
+				if (!_validateApp(a)) {					
+					return; // move to the next app
+				}
 				
-				// create just a generic div. To squash the jQuery dependency we will turn
-				// app.root will only be a dom node
-				a.root = null;
-				
+				// save app
+				_apps[a.instanceId] = { config:a };
+
+				// If the root property is defined then this app is considered to be preloaded and we will
+				// run it through that logic.
+				if(a.root)
+				{
+					if((!a.root &amp;&amp; typeof(a.root) != &#x27;string&#x27;) &amp;&amp; !F2.isNativeDOMNode(a.root))
+					{
+						F2.log(&#x27;AppConfig invalid for pre-load, not a valid string and not dom node&#x27;);
+						F2.log(&#x27;AppConfig instance:&#x27;, a);
+						throw(&#x27;Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.&#x27;);
+					}
+					else if(jQuery(a.root).length != 1)
+					{
+						F2.log(&#x27;AppConfig invalid for pre-load, root not unique&#x27;);
+						F2.log(&#x27;AppConfig instance:&#x27;, a);
+						F2.log(&#x27;Number of dom node instances:&#x27;, jQuery(a.root).length);
+						throw(&#x27;Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.&#x27;);
+					}
+
+					// instantiate F2.App
+					_createAppInstance(a);
+					
+					// init events
+					_initAppEvents(a);
+
+					// Continue on in the .each loop, no need to continue because the app is on the page
+					// the js in initialized, and it is ready to role.
+					return; // equivalent to continue in .each
+				}
+
 				if(!_bUsesAppHandlers)
 				{
 					// fire beforeAppRender
@@ -754,9 +878,6 @@ F2.extend(&#x27;&#x27;, (function(){
 						a // the app config
 					);
 				}
-				
-				// save app
-				_apps[a.instanceId] = { config:a };
 
 				// if we have the manifest, go ahead and load the app
 				if (haveManifests) {
@@ -871,49 +992,6 @@ F2.extend(&#x27;&#x27;, (function(){
 					manifestRequest(i, requests.pop());
 				});
 			}
-		},		
-		/**
-		 * Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
-		 * if you are the container developer and app developer or want to request apps via serverside and render them as a single page.
-		 * @method registerPreLoadedApps
-		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} objects
-		 */
-		registerPreLoadedApps: function(appConfigs) {
-			
-			if (!_isInit()) {
-				throw(&#x27;F2.init() must be called before F2.registerApps()&#x27;);
-			} else if (!appConfigs) {
-				throw(&#x27;At least one AppConfig must be passed when calling F2.registerPreLoadedApps()&#x27;);
-			}
-
-			// could just pass an object that is an appConfig
-			appConfigs = [].concat(appConfigs);
-
-			// appConfigs must have a length
-			if (!appConfigs.length) {
-				throw(&#x27;At least one appConfig must be passed.&#x27;);
-			}
-
-			jQuery.each(appConfigs, function(i, a) {
-				
-				if (!_validateApp(a)) {
-					throw(&#x27;Invalid appConfig at position &#x27; + i + &#x27;. Please check your inputs and try again.&#x27;);
-				} else if(!a.root || jQuery(a.root).parents(&#x27;body:first&#x27;).length === 0) {
-					throw(&#x27;Preloaded app must have an appConfig that has property root. appConfig.root must be a native domNode that is appended to the body.&#x27;);
-				}
-
-				// add properties and methods
-				_hydrateAppConfig(a);
-
-				// place unique instance of app in _apps collection using its instanceId
-				_apps[a.instanceId] = { config:a };
-
-				// instantiate F2.App
-				_createAppInstance(a);
-				
-				// init events
-				_initAppEvents(a);
-			});
 		},
 		/**
 		 * Removes all apps from the container
@@ -975,8 +1053,8 @@ F2.extend(&#x27;&#x27;, (function(){
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
@@ -985,13 +1063,12 @@ F2.extend(&#x27;&#x27;, (function(){
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?"></script>
+<script src="../../js/f2.js?1.2.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
-	if (F2.gitbranch() === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
 		window._waq = window._waq || []; 
 		(function() {
 			var domain = 'insite.wallst.com'; 

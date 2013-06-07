@@ -3,8 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2</title>
-	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="issue59">
+	<meta name="dcterms.date" content="4 June 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -17,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.1.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -25,7 +24,7 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('issue59' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -74,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -235,7 +234,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="../files/sdk_src_container.js.html#l1"><code>sdk\src\container.js:1</code></a></dd>
+			<dd><a href="../files/sdk_src_container.js.html#l1"><code>sdk&#x2F;src&#x2F;container.js:1</code></a></dd>
 		
 
 		
@@ -826,34 +825,13 @@ any other actions in the container.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Begins the loading process for all apps. The app will
-be passed the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
-contain the app's unique instanceId within the container. Optionally, the
-<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
+						<td><p>Begins the loading process for all apps and/or initialization process for pre-loaded apps.
+The app will be passed the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
+contain the app's unique instanceId within the container. If the 
+<a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.root property is populated the app is considered
+to be a pre-loaded app and will be handled accordingly. Optionally, the
+<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
 assets will be used instead of making a request.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#methods-registerPreLoadedApps">
-								registerPreLoadedApps
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												appConfigs
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
-if you are the container developer and app developer or want to request apps via serverside and render them as a single page.</p></td>
 					</tr>
 					
 					<tr class="">
@@ -963,7 +941,7 @@ order to prevent circular serialization errors.</strong></p></td>
 						</td>
 						<td><p>The apps namespace is a place for app developers to put the javascript
 class that is used to initialize their app. The javascript classes should
-be namepaced with the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
+be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
 It is recommended that the code be placed in a closure to help keep the
 global namespace clean.</p>
 
@@ -1038,7 +1016,7 @@ automatically by F2.</p></td>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l33"><code>sdk\src\F2.js:33</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l39"><code>sdk&#x2F;src&#x2F;F2.js:39</code></a></dd>
 			
 
 			
@@ -1167,7 +1145,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l13"><code>sdk\src\container.js:13</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l13"><code>sdk&#x2F;src&#x2F;container.js:13</code></a></dd>
 			
 
 			
@@ -1188,7 +1166,7 @@ Tests: http://skew.org/uri/uri_tests.html
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -1297,7 +1275,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l39"><code>sdk\src\container.js:39</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l39"><code>sdk&#x2F;src&#x2F;container.js:39</code></a></dd>
 			
 
 			
@@ -1318,7 +1296,7 @@ Tests: http://skew.org/uri/uri_tests.html
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -1409,7 +1387,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l61"><code>sdk\src\container.js:61</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l61"><code>sdk&#x2F;src&#x2F;container.js:61</code></a></dd>
 			
 
 			
@@ -1430,7 +1408,7 @@ loading</p>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -1516,7 +1494,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l143"><code>sdk\src\container.js:143</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l143"><code>sdk&#x2F;src&#x2F;container.js:143</code></a></dd>
 			
 
 			
@@ -1540,7 +1518,7 @@ loading</p>
 					
 
 					<p>
-						<p>An array of <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
+						<p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
 					</p>
 
 					
@@ -1607,7 +1585,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l75"><code>sdk\src\container.js:75</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l75"><code>sdk&#x2F;src&#x2F;container.js:75</code></a></dd>
 			
 
 			
@@ -1625,7 +1603,7 @@ loading</p>
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -1688,7 +1666,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l93"><code>sdk\src\container.js:93</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l93"><code>sdk&#x2F;src&#x2F;container.js:93</code></a></dd>
 			
 
 			
@@ -1746,7 +1724,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l115"><code>sdk\src\container.js:115</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l115"><code>sdk&#x2F;src&#x2F;container.js:115</code></a></dd>
 			
 
 			
@@ -1804,7 +1782,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l133"><code>sdk\src\container.js:133</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l133"><code>sdk&#x2F;src&#x2F;container.js:133</code></a></dd>
 			
 
 			
@@ -1885,7 +1863,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l70"><code>sdk\src\F2.js:70</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l76"><code>sdk&#x2F;src&#x2F;F2.js:76</code></a></dd>
 			
 
 			
@@ -1991,7 +1969,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l355"><code>sdk\src\container.js:355</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l357"><code>sdk&#x2F;src&#x2F;container.js:357</code></a></dd>
 			
 
 			
@@ -2009,7 +1987,7 @@ Tests: http://skew.org/uri/uri_tests.html
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -2085,7 +2063,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l376"><code>sdk\src\container.js:376</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l378"><code>sdk&#x2F;src&#x2F;container.js:378</code></a></dd>
 			
 
 			
@@ -2155,7 +2133,7 @@ reference errors when serializing objects</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l96"><code>sdk\src\F2.js:96</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l102"><code>sdk&#x2F;src&#x2F;F2.js:102</code></a></dd>
 			
 
 			
@@ -2234,7 +2212,7 @@ that namespace optionally overwriting existing properties.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l144"><code>sdk\src\F2.js:144</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l150"><code>sdk&#x2F;src&#x2F;F2.js:150</code></a></dd>
 			
 
 			
@@ -2357,7 +2335,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l405"><code>sdk\src\container.js:405</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l407"><code>sdk&#x2F;src&#x2F;container.js:407</code></a></dd>
 			
 
 			
@@ -2426,7 +2404,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l184"><code>sdk\src\F2.js:184</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l190"><code>sdk&#x2F;src&#x2F;F2.js:190</code></a></dd>
 			
 
 			
@@ -2511,7 +2489,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l196"><code>sdk\src\F2.js:196</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l202"><code>sdk&#x2F;src&#x2F;F2.js:202</code></a></dd>
 			
 
 			
@@ -2629,7 +2607,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l420"><code>sdk\src\container.js:420</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l422"><code>sdk&#x2F;src&#x2F;container.js:422</code></a></dd>
 			
 
 			
@@ -2647,7 +2625,7 @@ any other actions in the container.</p>
 				<li class="param">
 					
 						<code class="param-name">config</code>
-						<span class="label type"><a href="..\classes\F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a></span>
+						<span class="label type"><a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a></span>
 					
 
 					
@@ -2708,7 +2686,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l446"><code>sdk\src\container.js:446</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l448"><code>sdk&#x2F;src&#x2F;container.js:448</code></a></dd>
 			
 
 			
@@ -2787,7 +2765,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l206"><code>sdk\src\F2.js:206</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l212"><code>sdk&#x2F;src&#x2F;F2.js:212</code></a></dd>
 			
 
 			
@@ -2890,7 +2868,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l250"><code>sdk\src\F2.js:250</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l256"><code>sdk&#x2F;src&#x2F;F2.js:256</code></a></dd>
 			
 
 			
@@ -3000,7 +2978,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l171"><code>sdk\src\container.js:171</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l171"><code>sdk&#x2F;src&#x2F;container.js:171</code></a></dd>
 			
 
 			
@@ -3025,7 +3003,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 
 					<p>
 						<p>An array of
-<a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
+<a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
 					</p>
 
 					
@@ -3034,7 +3012,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 				<li class="param">
 					
 						<code class="param-name optional">[appManifest]</code>
-						<span class="label type"><a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+						<span class="label type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
 						<span class="label label-info" title="This parameter is optional.">optional</span>
 					
 
@@ -3114,7 +3092,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l294"><code>sdk\src\container.js:294</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l296"><code>sdk&#x2F;src&#x2F;container.js:296</code></a></dd>
 			
 
 			
@@ -3132,7 +3110,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 				<li class="param">
 					
 						<code class="param-name">appConfig</code>
-						<span class="label type"><a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
 					
 
 					
@@ -3147,7 +3125,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 				<li class="param">
 					
 						<code class="param-name">appManifest</code>
-						<span class="label type"><a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
+						<span class="label type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
 					
 
 					
@@ -3225,7 +3203,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l269"><code>sdk\src\F2.js:269</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l275"><code>sdk&#x2F;src&#x2F;F2.js:275</code></a></dd>
 			
 
 			
@@ -3332,7 +3310,7 @@ page.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l280"><code>sdk\src\F2.js:280</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l286"><code>sdk&#x2F;src&#x2F;F2.js:286</code></a></dd>
 			
 
 			
@@ -3427,10 +3405,12 @@ page.</p>
 	</h3>
 
 	<p>
-		<p>Begins the loading process for all apps. The app will
-be passed the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
-contain the app's unique instanceId within the container. Optionally, the
-<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
+		<p>Begins the loading process for all apps and/or initialization process for pre-loaded apps.
+The app will be passed the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
+contain the app's unique instanceId within the container. If the 
+<a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.root property is populated the app is considered
+to be a pre-loaded app and will be handled accordingly. Optionally, the
+<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
 assets will be used instead of making a request.</p>
 	</p>	
 
@@ -3444,7 +3424,7 @@ assets will be used instead of making a request.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l452"><code>sdk\src\container.js:452</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l454"><code>sdk&#x2F;src&#x2F;container.js:454</code></a></dd>
 			
 
 			
@@ -3468,7 +3448,7 @@ assets will be used instead of making a request.</p>
 					
 
 					<p>
-						<p>An array of <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
+						<p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
 					</p>
 
@@ -3486,7 +3466,7 @@ objects</p>
 
 					<p>
 						<p>An array of
-<a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
+<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
 objects. This array must be the same length as the apps array that is
 objects. This array must be the same length as the apps array that is
 passed in. This can be useful if apps are loaded on the server-side and
@@ -3503,95 +3483,92 @@ passed down to the client.</p>
 	
 
 	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<p>Traditional App requests.</p>
 
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-registerPreLoadedApps" class="level2 ">
-	<h3>
-		registerPreLoadedApps
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						appConfigs
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
+<pre class="code prettyprint"><code>// Traditional f2 app configs
+var arConfigs = [
+    {
+        appId: 'com_externaldomain_example_app',
+        context: {},
+        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+    },
+    {
+        appId: 'com_externaldomain_example_app',
+        context: {},
+        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+    },
+    {
+        appId: 'com_externaldomain_example_app2',
+        context: {},
+        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+    }
+];
 
-		
+F2.init();
+F2.registerApps(arConfigs);
+</code></pre><p>Pre-loaded and tradition apps mixed.</p>
 
-		
+<pre class="code prettyprint"><code>// Pre-loaded apps and traditional f2 app configs
+// you can preload the same app multiple times as long as you have a unique root for each
+var arConfigs = [
+    {
+        appId: 'com_mydomain_example_app',
+        context: {},
+        root: 'div#example-app-1',
+        manifestUrl: ''
+    },
+    {
+        appId: 'com_mydomain_example_app',
+        context: {},
+        root: 'div#example-app-2',
+        manifestUrl: ''
+    },
+    {
+        appId: 'com_externaldomain_example_app',
+        context: {},
+        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+    }
+];
 
-		
+F2.init();
+F2.registerApps(arConfigs);
+</code></pre><p>Apps with predefined manifests.</p>
 
-		
+<pre class="code prettyprint"><code>// Traditional f2 app configs
+var arConfigs = [
+    {appId: 'com_externaldomain_example_app', context: {}},
+    {appId: 'com_externaldomain_example_app', context: {}},
+    {appId: 'com_externaldomain_example_app2', context: {}}
+];
 
-		
+// Pre requested manifest responses
+var arManifests = [
+    {
+        apps: ['&lt;div&gt;Example App!&lt;/div&gt;'],
+        inlineScripts: [],
+        scripts: ['http://www.domain.com/js/AppClass.js'],
+        styles: ['http://www.domain.com/css/AppStyles.css']
+    },
+    {
+        apps: ['&lt;div&gt;Example App!&lt;/div&gt;'],
+        inlineScripts: [],
+        scripts: ['http://www.domain.com/js/AppClass.js'],
+        styles: ['http://www.domain.com/css/AppStyles.css']
+    },
+    {
+        apps: ['&lt;div&gt;Example App 2!&lt;/div&gt;'],
+        inlineScripts: [],
+        scripts: ['http://www.domain.com/js/App2Class.js'],
+        styles: ['http://www.domain.com/css/App2Styles.css'] 
+    }
+];
 
-		
-	</h3>
-
-	<p>
-		<p>Allows registering/initializing apps that you have already loaded on the page from the server. This gives greater flexibility
-if you are the container developer and app developer or want to request apps via serverside and render them as a single page.</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l648"><code>sdk\src\container.js:648</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">appConfigs</code>
-						<span class="label type">Array</span>
-					
-
-					
-
-					<p>
-						<p>An array of <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
+F2.init();
+F2.registerApps(arConfigs, arManifests);
+</code></pre>
 		</div>
-	
-
-	
-
 	
 
 	
@@ -3635,7 +3612,7 @@ if you are the container developer and app developer or want to request apps via
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l691"><code>sdk\src\container.js:691</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l770"><code>sdk&#x2F;src&#x2F;container.js:770</code></a></dd>
 			
 
 			
@@ -3701,7 +3678,7 @@ if you are the container developer and app developer or want to request apps via
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l706"><code>sdk\src\container.js:706</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l785"><code>sdk&#x2F;src&#x2F;container.js:785</code></a></dd>
 			
 
 			
@@ -3806,7 +3783,7 @@ order to prevent circular serialization errors.</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l289"><code>sdk\src\F2.js:289</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l295"><code>sdk&#x2F;src&#x2F;F2.js:295</code></a></dd>
 			
 
 			
@@ -3934,7 +3911,7 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l310"><code>sdk\src\F2.js:310</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l316"><code>sdk&#x2F;src&#x2F;F2.js:316</code></a></dd>
 			
 
 			
@@ -3995,7 +3972,7 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 	<p>
 		<p>The apps namespace is a place for app developers to put the javascript
 class that is used to initialize their app. The javascript classes should
-be namepaced with the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
+be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
 It is recommended that the code be placed in a closure to help keep the
 global namespace clean.</p>
 
@@ -4013,7 +3990,7 @@ automatically by F2.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_F2.js.html#l108"><code>sdk\src\F2.js:108</code></a></dd>
+				<dd><a href="../files/sdk_src_F2.js.html#l114"><code>sdk&#x2F;src&#x2F;F2.js:114</code></a></dd>
 			
 
 			
@@ -4077,8 +4054,8 @@ automatically by F2.</p>
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
@@ -4087,13 +4064,12 @@ automatically by F2.</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?"></script>
+<script src="../../js/f2.js?1.2.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'issue59'; }));
 </script>
 <script type="text/javascript">
-	if (F2.gitbranch() === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
 		window._waq = window._waq || []; 
 		(function() {
 			var domain = 'insite.wallst.com'; 

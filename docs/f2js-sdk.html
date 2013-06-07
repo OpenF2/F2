@@ -3,10 +3,9 @@
 <head>
   <title>F2 - F2.js SDK</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="8 April 2013">
-  <meta name="gitbranch" content="master">
+  <meta name="dcterms.date" content="4 June 2013">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
-  <meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
+  <meta name="keywords" content="F2, Open F2, openf2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container">
   <meta name="robots" content="all, index, follow" />
   <meta name="distribution" content="global" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -17,7 +16,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.1.2" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.2.0" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -26,7 +25,7 @@
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./img/touch-icon-144.png" />
   
   <script type="text/javascript">
-  	if ('master' === 'master'){
+  	if ((/docs.openf2.org/i).test(window.location.hostname)) {
   		var _gaq = _gaq || [];
   		_gaq.push(['_setAccount', 'UA-35230380-1']);
   		_gaq.push(['_setDomainName', 'openf2.org']);
@@ -40,7 +39,7 @@
   	}
   </script>
 </head>
-<body data-spy="scroll" data-target="#toc" data-offset="0">
+<body data-spy="scroll" data-target="#toc" data-offset="100">
 <header class="openf2Header navbarmini clearfix">
   <nav class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -73,8 +72,8 @@
             <li class="divider-vertical"></li>
             <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
           </ul>
         </div>
       </div>
@@ -94,19 +93,19 @@
       </nav>
     </div>
 
-		<div class="navbar-docs-sections">
-			<div class="container">
-				<a href="javascript:;" data-toggle="collapse" data-target=".nav-collapse.toc">
-					SECTIONS
-					<span class="icon-triangleDown"></span>
-				</a>
-				<div class="collapse nav-collapse toc">
-					<ul id="tocResponsive" class="nav pull-right">
-						<!--nav generated in ./js/docs.js-->
-					</ul>
-				</div>
-			</div>
-		</div>
+    <div class="navbar-docs-sections">
+      <div class="container">
+        <a href="javascript:;" data-toggle="collapse" data-target=".nav-collapse.toc">
+          SECTIONS
+          <span class="icon-triangleDown"></span>
+        </a>
+        <div class="collapse nav-collapse toc">
+          <ul id="tocResponsive" class="nav pull-right">
+            <!--nav generated in ./js/docs.js-->
+          </ul>
+        </div>
+      </div>
+    </div>
 
   </nav>
 </header>
@@ -119,8 +118,8 @@
         </ul>
     </div><!--/span3-->
 
-	<div class="span9">
-		<div id="docs">
+  <div class="span9">
+    <div id="docs">
 <header>
 <h1 class="title">F2.js SDK</h1>
 </header>
@@ -130,34 +129,51 @@ F2 enables all of us to build exactly the financial solutions that our customers
 
 <p>Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.</p>
 <hr>
-<section class="level2" id="the-javascript">
-<h2>The JavaScript</h2>
-<p>F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App Developers started, there is a JavaScript SDK—called F2.js—in addition to example apps as part of an open-source project maintained on <a href="https://github.com/OpenF2/F2/">GitHub</a>.</p>
+<section class="level2" id="f2.js">
+<h2>F2.js</h2>
+<p>F2 is an open framework and to get Container and App Developers started, there is a JavaScript SDK—called F2.js—in addition to example apps as part of an open-source project maintained on <a href="https://github.com/OpenF2/F2/">GitHub</a>.</p>
 <hr>
 </section>
 <section class="level2" id="download">
 <h2>Download</h2>
 <p>Anyone is free to download F2.js from the <a href="https://github.com/OpenF2/F2/">F2 project repository on GitHub</a>. Once downloaded, F2.js can be added to any web page using a script tag:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">&lt;script src=<span class="st">&quot;/path/to/your/container/f2.js&quot;</span>&gt;&lt;/script&gt;</code></pre>
-<p>The latest version of F2.js is <strong>1.1.2</strong>.</p>
+<p>The latest version of F2.js is <strong>1.2.0</strong>.</p>
 <p>
-<a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-primary">Download F2.js 1.1.2</a> <a href="https://github.com/OpenF2/F2/" class="btn" target="_blank">View on GitHub</a>
+<a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-primary">Download F2.js 1.2.0</a> <a href="https://github.com/OpenF2/F2/" class="btn" target="_blank">View on GitHub</a>
 </p>
 
 <hr>
 </section>
 <section class="level2" id="versioning">
 <h2>Versioning</h2>
-<p>The latest version of F2.js will always be in the project root, and the version number is in the top of file. The version number is also available on the command line by using <code>node build -v</code>.</p>
+<p>The latest version of F2.js will always be in the project root, and the version number is in the top of file. The version number is also available on the command line by using:</p>
+<p><code>$&gt; grunt version</code>.</p>
 <p>To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.</p>
 <p>Releases will be numbered with the following format:</p>
 <p><code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></p>
 <p>For more information on SemVer, please visit <a href="http://semver.org/">SemVer.org</a>.</p>
 <hr>
 </section>
+<section class="level2" id="upgrading">
+<h2>Upgrading</h2>
+<p>It is a goal of ours to make upgrading to the latest version of F2 a minor effort for development teams. Releasing feature enhancements, addressing bugs or security patches, and working hard to maintain backward compatibility for F2.js APIs—while constantly pushing the boundaries—are all part of evolving a web framework for the financial services industry.</p>
+<p>The details from each release of F2, minor and major, are tracked in the <a href="https://github.com/OpenF2/F2/wiki/Changelog">changelog</a>.</p>
+<section class="level3" id="the-latest">
+<h3>The Latest</h3>
+<p>For developers, getting the latest F2.js SDK is as simple as going to the <a href="https://github.com/OpenF2/F2">project repository on GitHub</a>. A download (<a href="https://github.com/OpenF2/F2/zipball/master">zip</a>) of the current version (1.2.0) of F2 is always available along with <a href="https://github.com/OpenF2/F2/tags">tags of previous releases</a>.</p>
+<p>Developers can quick-link to the latest copy of F2.js:</p>
+<p><code>https://raw.github.com/OpenF2/F2/master/f2.js</code></p>
+<p><span class="label label-info">Note</span> GitHub is <a href="http://stackoverflow.com/questions/5502540/should-github-be-used-as-a-cdn-for-javascript-libraries">not a CDN</a>.</p>
+</section>
+<section class="level3" id="deprecated-features-or-apis">
+<h3>Deprecated Features or APIs</h3>
+<p>As F2 features and/or F2.js APIs are deprecated, advance notice will be provided on any or all of the F2 <a href="https://github.com/OpenF2/F2/blob/master/CONTRIBUTING.md#keep-in-touch">communication channels</a>. In addition, backward compatibility will be maintained for at least one minor version of F2. For example, if <code>Feature X</code> is deprecated in <code>1.0</code>, backward compatibility will be maintained until at least version <code>1.1</code>. F2 documentation will be updated accordingly to reflect any changes, and the conversation behind deprecated features will be publicly <a href="https://github.com/OpenF2/F2/issues">available on GitHub</a>.</p>
+</section>
+</section>
 <section class="level2" id="forum">
 <h2>Forum</h2>
-<p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a>.</p>
+<p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a> or start a discussion using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>.</p>
 <p><script type="text/javascript">
 <!--
 h='&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#114;&#x6f;&#x75;&#112;&#x73;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x6f;&#112;&#x65;&#110;&#102;&#50;';e=n+a+h;
@@ -171,6 +187,10 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'OpenF2@googlegroups.com'+'
 <p>To track bugs or issues, F2 is using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>.</p>
 <hr>
 </section>
+<section class="level2" id="license">
+<h2>License</h2>
+<p>F2 is licensed under the Apache License version 2.0. Details are available in the <a href="https://github.com/OpenF2/F2#copyright-and-license">project readme</a>.</p>
+</section>
 			</div><!--/#docs-->
 		</div><!--/span9-->
 	</div><!--/row-->
@@ -178,8 +198,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'OpenF2@googlegroups.com'+'
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 4 June 2013</small></p>
+		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
 </div><!--/.container-->
@@ -187,8 +207,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'OpenF2@googlegroups.com'+'
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.1.2"></script>
-<script src="./js/docs.js?1.1.2"></script>
-<script>F2.extend('gitbranch', (function(){ return 'master'; }));</script>
+<script src="./js/f2.js?1.2.0"></script>
+<script src="./js/docs.js?1.2.0"></script>
 </body>
 </html>
