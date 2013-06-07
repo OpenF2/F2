@@ -1290,6 +1290,58 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 			});			
 		}
 	);
+
+	it(
+		'should allow dom node to be only argument to appRender. Which renders the app to the dom node without needing to specifiy appCreateRoot handler.',
+		function() {
+			var bDone = false;
+			var bRootOnPage = false;			
+			var bRootInParent = false;
+			var bRootIsAppHtml = false;
+			
+			// append a placeholder for the app
+			$("<div class='app-area'></div>").appendTo("body");
+			
+			F2.init();
+			
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER,
+				$("div.app-area:last").get(0)
+			)
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig)
+				{
+					var $root = $(appConfig.root);					
+					bRootOnPage = ($root.parents("body:first").length > 0);					
+					bRootInParent = $root.parent().is("div.app-area");
+					bRootIsAppHtml = $root.hasClass("test-app");
+					bDone = true;
+					$("div.app-area").remove();
+				}
+			);
+			
+			F2.registerApps(appConfig(), appManifest());
+
+			waitsFor(
+				function()
+				{
+					return bDone;
+				},
+				'AppHandlers.On( appRenderAfter ) was never fired',
+				3000
+			);
+			
+			runs(function() {
+				expect(bRootOnPage).toBe(true);
+				expect(bRootInParent).toBe(true);
+				expect(bRootIsAppHtml).toBe(true);
+			});			
+		}
+	);
 	
 	it(
 		'fires appRender functions sequentially.',
