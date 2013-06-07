@@ -50,7 +50,7 @@ F2.extend('AppHandlers', (function() {
 		{
 			var $root = null;
 			
-			// if no app root is defined use the apps outer most node
+			// if no app root is defined use the app's outer most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
 				appConfig.root = jQuery(appHtml).get(0);
@@ -479,7 +479,7 @@ F2.extend('Constants', {
 			*		{
 			*			var $root = null;
 			*
-			*			// if no app root is defined use the apps outer most node
+			*			// if no app root is defined use the app's outer most node
 			*			if(!F2.isNativeDOMNode(appConfig.root))
 			*			{
 			*				appConfig.root = jQuery(appHtml).get(0);

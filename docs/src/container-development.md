@@ -623,7 +623,13 @@ F2 will insert `html` from the `AppManifest` inside the specified DOM element. T
 
 The jsfiddle below demonstrates a Hello World example using the `appRender` event type and a DOM element as the third argument in `on`.
 
-<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/SGKa3/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/SGKa3/6/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+#### Placing Apps in Separate Locations
+
+Here is a slightly more complicated example of the `appRender` event coupled with `appCreateRoot` to place two apps in two separate DOM elements.
+
+<iframe width="100%" height="750" src="http://jsfiddle.net/OpenF2js/3gZJu/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 #### More AppHandlers
 

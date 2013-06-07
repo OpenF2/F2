@@ -13683,7 +13683,7 @@ F2.extend('AppHandlers', (function() {
 		{
 			var $root = null;
 			
-			// if no app root is defined use the apps outer most node
+			// if no app root is defined use the app's outer most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
 				appConfig.root = jQuery(appHtml).get(0);
@@ -14112,7 +14112,7 @@ F2.extend('Constants', {
 			*		{
 			*			var $root = null;
 			*
-			*			// if no app root is defined use the apps outer most node
+			*			// if no app root is defined use the app's outer most node
 			*			if(!F2.isNativeDOMNode(appConfig.root))
 			*			{
 			*				appConfig.root = jQuery(appHtml).get(0);
@@ -16046,15 +16046,17 @@ F2.extend('', (function(){
 					appConfigs[i], // the app config
 					_outerHtml(a.html)
 				);
+
+				var appId = appConfigs[i].appId;
 				
 				if (!appConfigs[i].root) {
-					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+					throw('Root for ' +appId+ ' must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.');
 				}
 				
 				var $root = jQuery(appConfigs[i].root);
 				
 				if ($root.parents('body:first').length === 0) {
-					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+					throw('App root for ' +appId+ ' was not appended to the DOM. Check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
 				
 				F2.AppHandlers.__trigger(
@@ -16064,10 +16066,10 @@ F2.extend('', (function(){
 				);
 				
 				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
-					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+					throw('App root for ' +appId+ ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
 				}
 				
-				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId);
+				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appId);
 			}
 			
 			// init events
