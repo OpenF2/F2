@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>F2 - sdk/src/app_handlers.js</title>
+	<meta name="dcterms.date" content="7 June 2013">
+	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
+	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
+	<meta name="robots" content="all, index, follow" />
+	<meta name="distribution" content="global" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<link rel="home" href="http://www.openf2.org/" />
+
+	<script src="../../js/modernizr.2.6.2.custom.min.js"></script>
+	<script src="../../js/respond.min.js"></script>
+	
+	<link href="../../css/prettify.css" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
+
+	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="../../img/touch-icon-ipad-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
+	<script type="text/javascript">
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-35230380-1']);
+			_gaq.push(['_setDomainName', 'openf2.org']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		}
+	</script>
+</head>
+<body>
+
+<div id="doc">
+	<header class="openf2Header navbarmini clearfix">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse.main-nav">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-triangleDown"></span>
+					</button>
+					<a class="brand" href="http://www.openf2.org"></a>
+					<div class="tagline-divider"></div>
+					<div class="navbar-text pull-left">The Open Financial Framework</div>
+					<div class="collapse nav-collapse main-nav">
+						<ul class="nav pull-right">
+							<li><a href="http://www.openF2.org">Home</a></li>
+							<li class="divider-vertical"></li>
+							<li class="active">
+								<a href="../../">Docs <i class="icon-triangleDown"></i></a>
+								<ul class="nav navinset">
+									<li><a href="../../">The Basics</a></li>
+									<li><a href="../../app-development.html">Development</a></li>
+									<li><a href="./" class="active">Reference</a></li>
+								</ul>
+							</li>
+							<li class="divider-vertical"></li>
+							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
+							<li class="divider-vertical"></li>
+            				<li><a href="https://developer.openf2.org">Developer</a></li>
+							<li class="divider-vertical"></li>
+							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
+            				<li class="divider-vertical"></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="navbar-docs">
+				<nav class="container">
+					<div class="row">
+						<div class="span12">
+								<ul class="unstyled clearfix">
+									<li class="basics"><a href="../../">The Basics</a></li>
+									<li class="dev"><a href="../../app-development.html">Development</a></li>
+									<li class="ref"><a href=".././" class="active">Reference</a></li>
+								</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+
+			<div class="navbar-docs-sections">
+				<div class="container">
+					<a href="javascript:;" data-toggle="collapse" data-target=".nav-collapse.toc">
+						SECTIONS
+						<span class="icon-triangleDown"></span>
+					</a>
+					<div class="collapse nav-collapse toc">
+						<ul class="nav pull-right">
+								
+		<li class=""><a href="../classes/F2.html">F2</a></li>
+	
+		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
+	
+		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
+	
+		<li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
+		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+	
+		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
+		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
+	
+		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
+	
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</header>
+
+	<div class="container">
+		<div class="row">
+			<div id="toc" class="span3">
+				<ul class="nav nav-list">
+						
+		<li class=""><a href="../classes/F2.html">F2</a></li>
+	
+		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
+	
+		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
+	
+		<li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+	
+		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
+	
+		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+	
+		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+	
+		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+	
+		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+	
+		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+	
+		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+	
+		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
+	
+		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
+	
+
+					<li class="nav-header">View Options</li>
+					<li id="viewOptions">
+	<label class="checkbox" for="show-inherited">
+		<input type="checkbox" id="show-inherited" value="inherited">
+		Inherited
+	</label>
+	<label class="checkbox" for="show-protected">
+		<input type="checkbox" id="show-protected" value="protected">
+		Protected
+	</label>
+	<label class="checkbox" for="show-private">
+		<input type="checkbox" id="show-private" value="private">
+		Private
+	</label>
+	<label class="checkbox" for="show-deprecated">
+		<input type="checkbox" id="show-deprecated" value="deprecated">
+		Deprecated
+	</label>
+</li>
+				</ul>
+			</div>
+			<div id="main" class="span9">
+				<h1 class="file-heading">File: sdk/src/app_handlers.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * The new &#x60;AppHandlers&#x60; functionality provides Container Developers a higher level of control over configuring app rendering and interaction.
+ *
+ *&lt;p class=&quot;alert alert-block alert-warning&quot;&gt;
+ *The addition of &#x60;F2.AppHandlers&#x60; replaces the previous {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}} properties &#x60;beforeAppRender&#x60;, &#x60;appRender&#x60;, and &#x60;afterAppRender&#x60;. These methods were deprecated&amp;mdash;but not removed&amp;mdash;in version 1.2. They will be permanently removed in a future version of F2.
+ *&lt;/p&gt;
+ *
+ *&lt;p class=&quot;alert alert-block alert-info&quot;&gt;
+ *Starting with F2 version 1.2, &#x60;AppHandlers&#x60; is the preferred method for Container Developers to manage app layout.
+ *&lt;/p&gt;
+ *
+ * ### Order of Execution
+ * 
+ * **App Rendering**
+ *
+ * 0. {{#crossLink &quot;F2/registerApps&quot;}}F2.registerApps(){{/crossLink}} method is called by the Container Developer and the following methods are run for *each* {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} passed.
+ * 1. **&#x27;appCreateRoot&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_CREATE\_ROOT*) handlers are fired in the order they were attached.
+ * 2. **&#x27;appRenderBefore&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_RENDER\_BEFORE*) handlers are fired in the order they were attached.
+ * 3. Each app&#x27;s &#x60;manifestUrl&#x60; is requested asynchronously; on success the following methods are fired.
+ * 3. **&#x27;appRender&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_RENDER*) handlers are fired in the order they were attached.
+ * 4. **&#x27;appRenderAfter&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_RENDER\_AFTER*) handlers are fired in the order they were attached.
+ *
+ *
+ * **App Removal**
+
+ * 0. {{#crossLink &quot;F2/removeApp&quot;}}F2.removeApp(){{/crossLink}} with a specific {{#crossLink &quot;F2.AppConfig/instanceId &quot;}}{{/crossLink}} or {{#crossLink &quot;F2/removeAllApps&quot;}}F2.removeAllApps(){{/crossLink}} method is called by the Container Developer and the following methods are run.
+ * 1. **&#x27;appDestroyBefore&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_DESTROY\_BEFORE*) handlers are fired in the order they were attached.
+ * 2. **&#x27;appDestroy&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_DESTROY*) handlers are fired in the order they were attached.
+ * 3. **&#x27;appDestroyAfter&#x27;** (*{{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.APP\_DESTROY\_AFTER*) handlers are fired in the order they were attached.
+ * @class F2.AppHandlers
+ */
+F2.extend(&#x27;AppHandlers&#x27;, (function() {
+
+	// the hidden token that we will check against every time someone tries to add, remove, fire handler
+	var _ct = F2.guid();
+	var _f2t = F2.guid();
+	
+	var _handlerCollection = {
+		appCreateRoot: [],
+		appRenderBefore: [],			
+		appDestroyBefore: [],
+		appRenderAfter: [],
+		appDestroyAfter: [],
+		appRender: [],
+		appDestroy: []			
+	};
+	
+	var _defaultMethods = {
+		appRender: function(appConfig, appHtml)
+		{
+			var $root = null;
+			
+			// if no app root is defined use the app&#x27;s outer most node
+			if(!F2.isNativeDOMNode(appConfig.root))
+			{
+				appConfig.root = jQuery(appHtml).get(0);
+				// get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);				
+			}
+			else
+			{
+				// get a handle on the root in jQuery
+				$root = jQuery(appConfig.root);			
+				
+				// append the app html to the root
+				$root.append(appHtml);
+			}			
+			
+			// append the root to the body by default.
+			jQuery(&#x27;body&#x27;).append($root);
+		},
+		appDestroy: function(appInstance)
+		{
+			// call the apps destroy method, if it has one
+			if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == &#x27;function&#x27;)
+			{
+				appInstance.app.destroy();
+			}
+			// warn the Container and App Developer that even though they have a destroy method it hasn&#x27;t been 
+			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
+			{
+				F2.log(appInstance.config.appId + &#x27; has a destroy property, but destroy is not of type function and as such will not be executed.&#x27;);
+			}
+			
+			// fade out and remove the root
+			jQuery(appInstance.config.root).fadeOut(500, function() {
+				jQuery(this).remove();
+			});
+		}
+	};
+	
+	var _createHandler = function(token, sNamespace, func_or_element, bDomNodeAppropriate)
+	{	
+		// will throw an exception and stop execution if the token is invalid
+		_validateToken(token);			
+		
+		// create handler structure. Not all arguments properties will be populated/used.
+		var handler = {
+			func: (typeof(func_or_element)) ? func_or_element : null,
+			namespace: sNamespace,			
+			domNode: (F2.isNativeDOMNode(func_or_element)) ? func_or_element : null
+		};
+		
+		if(!handler.func &amp;&amp; !handler.domNode)
+		{
+			throw (&#x27;Invalid or null argument passed. Handler will not be added to collection. A valid dom element or callback function is required.&#x27;);
+		}
+
+		if(handler.domNode &amp;&amp; !bDomNodeAppropriate)
+		{
+			throw (&#x27;Invalid argument passed. Handler will not be added to collection. A callback function is required for this event type.&#x27;);
+		}
+		
+		return handler;
+	};
+	
+	var _validateToken = function(sToken)
+	{
+		// check token against F2 and container
+		if(_ct != sToken &amp;&amp; _f2t != sToken) { throw (&#x27;Invalid token passed. Please verify that you have correctly received and stored token from F2.AppHandlers.getToken().&#x27;); }
+	};
+	
+	var _removeHandler = function(sToken, eventKey, sNamespace)
+	{
+		// will throw an exception and stop execution if the token is invalid
+		_validateToken(sToken);
+		
+		if(!sNamespace &amp;&amp; !eventKey)
+		{			
+			return;
+		}
+		// remove by event key
+		else if(!sNamespace &amp;&amp; eventKey)
+		{
+			_handlerCollection[eventKey] = [];
+		}
+		// remove by namespace only
+		else if(sNamespace &amp;&amp; !eventKey)
+		{
+			sNamespace = sNamespace.toLowerCase();		
+		
+			for(var currentEventKey in _handlerCollection)
+			{
+				var eventCollection = _handlerCollection[currentEventKey];
+				var newEvents = [];
+
+				for(var i = 0, ec = eventCollection.length; i &lt; ec; i++)
+				{
+					var currentEventHandler = eventCollection[i];
+					if(currentEventHandler)
+					{
+						if(!currentEventHandler.namespace || currentEventHandler.namespace.toLowerCase() != sNamespace)
+						{
+							newEvents.push(currentEventHandler);
+						}
+					}
+				}
+
+				eventCollection = newEvents;				
+			}			
+		}
+		else if(sNamespace &amp;&amp; _handlerCollection[eventKey])
+		{
+			sNamespace = sNamespace.toLowerCase();		
+		
+			var newHandlerCollection = [];
+			
+			for(var iCounter = 0, hc = _handlerCollection[eventKey].length; iCounter &lt; hc; iCounter++)
+			{
+				var currentHandler = _handlerCollection[eventKey][iCounter];
+				if(currentHandler)
+				{
+					if(!currentHandler.namespace || currentHandler.namespace.toLowerCase() != sNamespace)
+					{
+						newHandlerCollection.push(currentHandler);
+					}
+				}
+			}
+			
+			_handlerCollection[eventKey] = newHandlerCollection;
+		}
+	};
+	
+	return {
+		/**
+		* Allows Container Developer to retrieve a unique token which must be passed to
+		* all &#x60;on&#x60; and &#x60;off&#x60; methods. This function will self destruct and can only be called 
+		* one time. Container Developers must store the return value inside of a closure.
+		* @method getToken		 
+		**/
+		getToken: function()
+		{
+			// delete this method for security that way only the container has access to the token 1 time.
+			// kind of Ethan Hunt-ish, this message will self destruct immediately.
+			delete this.getToken;
+			// return the token, which we validate against.
+			return _ct;
+		},
+		/**
+		* Allows F2 to get a token internally. Token is required to call {{#crossLink &quot;F2.AppHandlers/\_\_trigger:method&quot;}}{{/crossLink}}.
+		* This function will self destruct to eliminate other sources from using the {{#crossLink &quot;F2.AppHandlers/\_\_trigger:method&quot;}}{{/crossLink}}
+		* and additional internal methods.
+		* @method __f2GetToken
+		* @private
+		**/
+		__f2GetToken: function()
+		{
+			// delete this method for security that way only the F2 internally has access to the token 1 time.
+			// kind of Ethan Hunt-ish, this message will self destruct immediately.
+			delete this.__f2GetToken;
+			// return the token, which we validate against.
+			return _f2t;
+		},
+		/**
+		* Allows F2 to trigger specific events internally.
+		* @method __trigger
+		* @private
+		* @chainable
+		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/\_\_f2GetToken:method&quot;}}{{/crossLink}}.
+		* @param {String} eventKey The event to fire. The complete list of event keys is available in {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
+		**/
+		__trigger: function(token, eventKey) // additional arguments will likely be passed
+		{			
+			// will throw an exception and stop execution if the token is invalid
+			if(token != _f2t)
+			{
+				throw (&#x27;Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().&#x27;);
+			}
+			
+			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
+			{				
+				// create a collection of arguments that are safe to pass to the callback.
+				var passableArgs = [];
+				
+				// populate that collection with all arguments except token and eventKey
+				for(var i = 2, j = arguments.length; i &lt; j; i++)
+				{
+					passableArgs.push(arguments[i]);
+				}
+				
+				if(_handlerCollection[eventKey].length === 0 &amp;&amp; _defaultMethods[eventKey])
+				{
+					_defaultMethods[eventKey].apply(F2, passableArgs);
+					return this;
+				}
+				else if(_handlerCollection[eventKey].length === 0 &amp;&amp; !_handlerCollection[eventKey])
+				{
+					return this;
+				}
+				
+				// fire all event listeners in the order that they were added.
+				for(var iCounter = 0, hcl = _handlerCollection[eventKey].length; iCounter &lt; hcl; iCounter++)
+				{
+					var handler = _handlerCollection[eventKey][iCounter];
+					
+					// appRender where root is already defined
+					if (handler.domNode &amp;&amp; arguments[2] &amp;&amp; arguments[2].root &amp;&amp; arguments[3])
+					{
+						var $appRoot = jQuery(arguments[2].root).append(arguments[3]);
+						jQuery(handler.domNode).append($appRoot);
+					}
+					else if (handler.domNode &amp;&amp; arguments[2] &amp;&amp; !arguments[2].root &amp;&amp; arguments[3])
+					{
+						// set the root to the actual HTML of the app
+						arguments[2].root = jQuery(arguments[3]).get(0);
+						// appends the root to the dom node specified
+						jQuery(handler.domNode).append(arguments[2].root);
+					}
+					else
+					{
+						handler.func.apply(F2, passableArgs);
+					}
+				}
+			}
+			else
+			{
+				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;);
+			}
+			
+			return this;
+		},
+		/**
+		* Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType &#x60;appRender&#x60;.
+		* @method on
+		* @chainable
+		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:method&quot;}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key used to determine which event to attach the listener to. The namespace is useful for removal 
+		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+		* {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
+		* @params {HTMLElement} element Specific DOM element to which app gets appended.
+		* @example
+		*	var _token = F2.AppHandlers.getToken();
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRender&#x27;,
+		*		document.getElementById(&#x27;my_app&#x27;)
+		*	);
+		*
+		* Or:
+		* @example
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRender.myNamespace&#x27;,
+		*		document.getElementById(&#x27;my_app&#x27;)
+		*	);
+		**/
+		/**
+		* Allows Container Developer to add listener method that will be triggered when a specific event occurs.
+		* @method on
+		* @chainable
+		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:method&quot;}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key used to determine which event to attach the listener to. The namespace is useful for removal 
+		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+		* {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
+		* @params {Function} listener A function that will be triggered when a specific event occurs. For detailed argument definition refer to {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
+		* @example
+		*	var _token = F2.AppHandlers.getToken();
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRenderBefore&#x27;
+		*		function() { F2.log(&#x27;before app rendered!&#x27;); }
+		*	);
+		*
+		* Or:
+		* @example
+		*	F2.AppHandlers.on(
+		*		_token,
+		*		&#x27;appRenderBefore.myNamespace&#x27;,
+		*		function() { F2.log(&#x27;before app rendered!&#x27;); }
+		*	);
+		**/
+		on: function(token, eventKey, func_or_element)
+		{
+			var sNamespace = null;
+			
+			if(!eventKey)
+			{
+				throw (&#x27;eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.&#x27;);
+			}
+			
+			// we need to check the key for a namespace
+			if(eventKey.indexOf(&#x27;.&#x27;) &gt; -1)
+			{
+				var arData = eventKey.split(&#x27;.&#x27;);
+				eventKey = arData[0];
+				sNamespace = arData[1];
+			}
+			
+			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
+			{
+				_handlerCollection[eventKey].push(
+					_createHandler(
+						token,
+						sNamespace,
+						func_or_element,
+						(eventKey == &#x27;appRender&#x27;)
+					)
+				);
+			}
+			else
+			{
+				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;);
+			}
+			
+			return this;
+		},
+		/**
+		* Allows Container Developer to remove listener methods for specific events
+		* @method off
+		* @chainable
+		* @param {String} token The token received from {{#crossLink &quot;F2.AppHandlers/getToken:method&quot;}}{{/crossLink}}.
+		* @param {String} eventKey{.namespace} The event key used to determine which event to attach the listener to. If no namespace is provided all
+		*  listeners for the specified event type will be removed.
+		*  Complete list available in {{#crossLink &quot;F2.Constants.AppHandlers&quot;}}{{/crossLink}}.
+		* @example
+		*	var _token = F2.AppHandlers.getToken();
+		*	F2.AppHandlers.off(_token,&#x27;appRenderBefore&#x27;);
+		*
+		**/
+		off: function(token, eventKey)
+		{
+			var sNamespace = null;
+			
+			if(!eventKey)
+			{
+				throw (&#x27;eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.&#x27;);
+			}
+			
+			// we need to check the key for a namespace
+			if(eventKey.indexOf(&#x27;.&#x27;) &gt; -1)
+			{
+				var arData = eventKey.split(&#x27;.&#x27;);
+				eventKey = arData[0];
+				sNamespace = arData[1];
+			}
+			
+			if(_handlerCollection &amp;&amp; _handlerCollection[eventKey])
+			{				
+				_removeHandler(
+					token,
+					eventKey,
+					sNamespace
+				);
+			}
+			else
+			{
+				throw (&#x27;Invalid EventKey passed. Check your inputs and try again.&#x27;);
+			}
+			
+			return this;
+		}
+	};
+})());
+
+F2.extend(&#x27;Constants&#x27;, {
+	/**
+	* A convenient collection of all available appHandler events.
+	* @class F2.Constants.AppHandlers
+	**/
+	AppHandlers: (function()
+	{
+		return {
+			/**
+			* Equivalent to &#x60;appCreateRoot&#x60;. Identifies the create root method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}} )
+			* @property APP_CREATE_ROOT
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_CREATE_ROOT,
+			*		function(appConfig)
+			*		{
+			*			// If you want to create a custom root. By default F2 uses the app&#x27;s outermost HTML element.
+			*			// the app&#x27;s html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
+			*			appConfig.root = jQuery(&#x27;&lt;section&gt;&lt;/section&gt;&#x27;).get(0);
+			*		}
+			*	);
+			*/
+			APP_CREATE_ROOT: &#x27;appCreateRoot&#x27;,
+			/**
+			 * Equivalent to &#x60;appRenderBefore&#x60;. Identifies the before app render method for use in AppHandlers.on/off. 
+			 * When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			 * following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}} )
+			 * @property APP_RENDER_BEFORE
+			 * @type string
+			 * @static
+			 * @final
+			 * @example
+			 *	var _token = F2.AppHandlers.getToken();
+			 *	F2.AppHandlers.on(
+			 *		_token,
+			 *		F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			 *		function(appConfig)
+			 *		{
+			 *			F2.log(appConfig);
+			 *		}
+			 *	);
+			 */
+			APP_RENDER_BEFORE: &#x27;appRenderBefore&#x27;,
+			/**
+			* Equivalent to &#x60;appRender&#x60;. Identifies the app render method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}}, [appHtml](../../app-development.html#app-design) )
+			* @property APP_RENDER
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_RENDER,
+			*		function(appConfig, appHtml)
+			*		{
+			*			var $root = null;
+			*
+			*			// if no app root is defined use the app&#x27;s outer most node
+			*			if(!F2.isNativeDOMNode(appConfig.root))
+			*			{
+			*				appConfig.root = jQuery(appHtml).get(0);
+			*				// get a handle on the root in jQuery
+			*				$root = jQuery(appConfig.root);				
+			*			}
+			*			else
+			*			{
+			*				// get a handle on the root in jQuery
+			*				$root = jQuery(appConfig.root);			
+			*				
+			*				// append the app html to the root
+			*				$root.append(appHtml);
+			*			}			
+			*			
+			*			// append the root to the body by default.
+			*			jQuery(&#x27;body&#x27;).append($root);
+			*		}
+			*	);
+			*/		
+			APP_RENDER: &#x27;appRender&#x27;,
+			/**
+			* Equivalent to &#x60;appRenderAfter&#x60;. Identifies the after app render method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink &quot;F2.AppConfig&quot;}}appConfig{{/crossLink}} )
+			* @property APP_RENDER_AFTER
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			*		function(appConfig)
+			*		{
+			*			F2.log(appConfig);
+			*		}
+			*	);
+			*/	
+			APP_RENDER_AFTER: &#x27;appRenderAfter&#x27;,
+			/**
+			* Equivalent to &#x60;appDestroyBefore&#x60;. Identifies the before app destroy method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appInstance )
+			* @property APP_DESTROY_BEFORE
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+			*		function(appInstance)
+			*		{
+			*			F2.log(appInstance);
+			*		}
+			*	);
+			*/
+			APP_DESTROY_BEFORE: &#x27;appDestroyBefore&#x27;,
+			/**
+			* Equivalent to &#x60;appDestroy&#x60;. Identifies the app destroy method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appInstance )
+			* @property APP_DESTROY
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_DESTROY,
+			*		function(appInstance)
+			*		{
+			*			// call the apps destroy method, if it has one
+			*			if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == &#x27;function&#x27;)
+			*			{
+			*				appInstance.app.destroy();
+			*			}
+			*			else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
+			*			{
+			*				F2.log(appInstance.config.appId + &#x27; has a destroy property, but destroy is not of type function and as such will not be executed.&#x27;);
+			*			}
+			*			
+			*			// fade out and remove the root
+			*			jQuery(appInstance.config.root).fadeOut(500, function() {
+			*				jQuery(this).remove();
+			*			});
+			*		}
+			*	);
+			*/		
+			APP_DESTROY: &#x27;appDestroy&#x27;,
+			/**
+			* Equivalent to &#x60;appDestroyAfter&#x60;. Identifies the after app destroy method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink &quot;F2.AppHandlers/on&quot;}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appInstance )
+			* @property APP_DESTROY_AFTER
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+			*		function(appInstance)
+			*		{
+			*			F2.log(appInstance);
+			*		}
+			*	);
+			*/
+			APP_DESTROY_AFTER: &#x27;appDestroyAfter&#x27;
+		};
+	})()
+});
+    </pre>
+</div>
+
+			</div>
+		</div>
+
+		<hr>
+
+		<footer>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+		</footer>
+	</div>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="../../js/bootstrap.min.2.3.0.js"></script>
+<script src="../../js/prettify.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../../js/f2.js?1.2.0"></script>
+<script type="text/javascript">
+	window.prettyPrint && prettyPrint();
+</script>
+<script type="text/javascript">
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
+		window._waq = window._waq || []; 
+		(function() {
+			var domain = 'insite.wallst.com'; 
+			_waq.push(['_setup', {reportingid: '544506', domain: domain}]); 
+			var wa = document.createElement('script'); 
+			wa.type = 'text/javascript'; 
+			wa.async = true; 
+			wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; 
+			var s = document.getElementsByTagName('script')[0]; 
+			s.parentNode.insertBefore(wa, s);
+		})();
+		_waq.push(['_trackPageView', {category: 'SDK'}]);
+		_waq.push(['_trackLinks']);
+	}
+</script>
+</body>
+</html>

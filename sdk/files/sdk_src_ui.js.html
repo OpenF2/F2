@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - sdk\src\ui.js</title>
-	<meta name="dcterms.date" content="8 April 2013">
-	<meta name="gitbranch" content="master">
+	<title>F2 - sdk/src/ui.js</title>
+	<meta name="dcterms.date" content="7 June 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -13,19 +12,19 @@
 	<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<link rel="home" href="http://www.openf2.org/" />
 
-	<script src="..&#x2F;../js/modernizr.2.6.2.custom.min.js"></script>
-	<script src="..&#x2F;../js/respond.min.js"></script>
+	<script src="../../js/modernizr.2.6.2.custom.min.js"></script>
+	<script src="../../js/respond.min.js"></script>
 	
-	<link href="..&#x2F;../css/prettify.css" rel="stylesheet">
-	<link href="..&#x2F;../css/F2.Sdk.css?1.1.2" rel="stylesheet">
+	<link href="../../css/prettify.css" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
 
-	<link rel="icon" href="..&#x2F;../img/favicon-32px.png" type="image/png"/>
-	<link rel="apple-touch-icon" sizes="57x57" href="..&#x2F;../img/touch-icon-iphone-57.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="..&#x2F;../img/touch-icon-ipad-72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="..&#x2F;../img/touch-icon-iphone-114.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="..&#x2F;../img/touch-icon-ipad-144.png" />
+	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="../../img/touch-icon-ipad-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
 	<script type="text/javascript">
-		if ('master' === 'master'){
+		if ((/docs.openf2.org/i).test(window.location.hostname)) {
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-35230380-1']);
 			_gaq.push(['_setDomainName', 'openf2.org']);
@@ -60,10 +59,10 @@
 							<li><a href="http://www.openF2.org">Home</a></li>
 							<li class="divider-vertical"></li>
 							<li class="active">
-								<a href="..&#x2F;../">Docs <i class="icon-triangleDown"></i></a>
+								<a href="../../">Docs <i class="icon-triangleDown"></i></a>
 								<ul class="nav navinset">
-									<li><a href="..&#x2F;../">The Basics</a></li>
-									<li><a href="..&#x2F;../app-development.html">Development</a></li>
+									<li><a href="../../">The Basics</a></li>
+									<li><a href="../../app-development.html">Development</a></li>
 									<li><a href="./" class="active">Reference</a></li>
 								</ul>
 							</li>
@@ -74,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.1.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.1.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -86,9 +85,9 @@
 					<div class="row">
 						<div class="span12">
 								<ul class="unstyled clearfix">
-									<li class="basics"><a href="..&#x2F;../">The Basics</a></li>
-									<li class="dev"><a href="..&#x2F;../app-development.html">Development</a></li>
-									<li class="ref"><a href="..&#x2F;./" class="active">Reference</a></li>
+									<li class="basics"><a href="../../">The Basics</a></li>
+									<li class="dev"><a href="../../app-development.html">Development</a></li>
+									<li class="ref"><a href=".././" class="active">Reference</a></li>
 								</ul>
 						</div>
 					</div>
@@ -104,41 +103,45 @@
 					<div class="collapse nav-collapse toc">
 						<ul class="nav pull-right">
 								
-		<li class=""><a href="..&#x2F;classes/F2.html">F2</a></li>
+		<li class=""><a href="../classes/F2.html">F2</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+		<li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+		<li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 						</ul>
@@ -154,41 +157,45 @@
 			<div id="toc" class="span3">
 				<ul class="nav nav-list">
 						
-		<li class=""><a href="..&#x2F;classes/F2.html">F2</a></li>
+		<li class=""><a href="../classes/F2.html">F2</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.App.html">F2.App</a></li>
+		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppConfig.html">F2.AppConfig</a></li>
+		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.html">F2.AppManifest</a></li>
+		<li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.Constants.html">F2.Constants</a></li>
+		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+		<li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
+		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
 	
-		<li class="hide"><a href="..&#x2F;classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Events.html">F2.Events</a></li>
+		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.Rpc.html">F2.Rpc</a></li>
+		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.html">F2.UI</a></li>
+		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
 	
-		<li class=""><a href="..&#x2F;classes/F2.UI.Views.html">F2.UI.Views</a></li>
+		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+	
+		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
 	
 
 					<li class="nav-header">View Options</li>
@@ -213,7 +220,7 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk\src\ui.js</h1>
+				<h1 class="file-heading">File: sdk/src/ui.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -221,12 +228,12 @@ F2.extend(&#x27;UI&#x27;, (function(){
 
 	var _containerConfig;
 
-	&#x2F;**
+	/**
 	 * UI helper methods
 	 * @class F2.UI
 	 * @constructor
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 *&#x2F;
+	 */
 	var UI_Class = function(appConfig) {
 
 		var _appConfig = appConfig;
@@ -251,37 +258,37 @@ F2.extend(&#x27;UI&#x27;, (function(){
 		};
 
 		return {
-			&#x2F;**
+			/**
 			 * Removes a overlay from an Element on the page
 			 * @method hideMask
 			 * @param {string|Element} selector The Element or selector to an Element
 			 * that currently contains the loader
-			 *&#x2F;
+			 */
 			hideMask: function(selector) {
 				F2.UI.hideMask(_appConfig.instanceId, selector);
 			},
-			&#x2F;**
+			/**
 			 * Helper methods for creating and using Modals
 			 * @class F2.UI.Modals
 			 * @for F2.UI
-			 *&#x2F;
+			 */
 			Modals: (function(){
 
 				var _renderAlert = function(message) {
 					return [
 						&#x27;&lt;div class=&quot;modal&quot;&gt;&#x27;,
 							&#x27;&lt;header class=&quot;modal-header&quot;&gt;&#x27;,
-								&#x27;&lt;h3&gt;Alert!&lt;&#x2F;h3&gt;&#x27;,
-							&#x27;&lt;&#x2F;header&gt;&#x27;,
+								&#x27;&lt;h3&gt;Alert!&lt;/h3&gt;&#x27;,
+							&#x27;&lt;/header&gt;&#x27;,
 							&#x27;&lt;div class=&quot;modal-body&quot;&gt;&#x27;,
 								&#x27;&lt;p&gt;&#x27;,
 									message,
-								&#x27;&lt;&#x2F;p&gt;&#x27;,
-							&#x27;&lt;&#x2F;div&gt;&#x27;,
+								&#x27;&lt;/p&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
 							&#x27;&lt;div class=&quot;modal-footer&quot;&gt;&#x27;,
-								&#x27;&lt;button class=&quot;btn btn-primary btn-ok&quot;&gt;OK&lt;&#x2F;button&gt;&#x27;,
-							&#x27;&lt;&#x2F;div&gt;&#x27;,
-						&#x27;&lt;&#x2F;div&gt;&#x27;
+								&#x27;&lt;button class=&quot;btn btn-primary btn-ok&quot;&gt;OK&lt;/button&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
+						&#x27;&lt;/div&gt;&#x27;
 					].join(&#x27;&#x27;);
 				};
 
@@ -289,30 +296,30 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					return [
 						&#x27;&lt;div class=&quot;modal&quot;&gt;&#x27;,
 							&#x27;&lt;header class=&quot;modal-header&quot;&gt;&#x27;,
-								&#x27;&lt;h3&gt;Confirm&lt;&#x2F;h3&gt;&#x27;,
-							&#x27;&lt;&#x2F;header&gt;&#x27;,
+								&#x27;&lt;h3&gt;Confirm&lt;/h3&gt;&#x27;,
+							&#x27;&lt;/header&gt;&#x27;,
 							&#x27;&lt;div class=&quot;modal-body&quot;&gt;&#x27;,
 								&#x27;&lt;p&gt;&#x27;,
 									message,
-								&#x27;&lt;&#x2F;p&gt;&#x27;,
-							&#x27;&lt;&#x2F;div&gt;&#x27;,
+								&#x27;&lt;/p&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
 							&#x27;&lt;div class=&quot;modal-footer&quot;&gt;&#x27;,
-								&#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-primary btn-ok&quot;&gt;OK&lt;&#x2F;button&gt;&#x27;,
-								&#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-cancel&quot;&gt;Cancel&lt;&#x2F;button&quot;&gt;&#x27;,
-							&#x27;&lt;&#x2F;div&gt;&#x27;,
-						&#x27;&lt;&#x2F;div&gt;&#x27;
+								&#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-primary btn-ok&quot;&gt;OK&lt;/button&gt;&#x27;,
+								&#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-cancel&quot;&gt;Cancel&lt;/button&quot;&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
+						&#x27;&lt;/div&gt;&#x27;
 					].join(&#x27;&#x27;);
 				};
 
 				return {
-					&#x2F;**
+					/**
 					 * Display an alert message on the page
 					 * @method alert
 					 * @param {string} message The message to be displayed
 					 * @param {function} [callback] The callback to be fired when the user
 					 * closes the dialog
 					 * @for F2.UI.Modals
-					 *&#x2F;
+					 */
 					alert: function(message, callback) {
 
 						if (!F2.isInit()) {
@@ -328,7 +335,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 								[].slice.call(arguments)
 							);
 						} else {
-							&#x2F;&#x2F; display the alert
+							// display the alert
 							jQuery(_renderAlert(message))
 								.on(&#x27;show&#x27;, function() {
 									var modal = this;
@@ -340,7 +347,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 								.modal({backdrop:true});
 						}
 					},
-					&#x2F;**
+					/**
 					 * Display a confirm message on the page
 					 * @method confirm
 					 * @param {string} message The message to be displayed
@@ -349,7 +356,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					 * @param {function} cancelCallback The function that will be called when
 					 * the Cancel button is pressed
 					 * @for F2.UI.Modals
-					 *&#x2F;
+					 */
 					confirm: function(message, okCallback, cancelCallback) {
 
 						if (!F2.isInit()) {
@@ -365,7 +372,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 								[].slice.call(arguments)
 							);
 						} else {
-							&#x2F;&#x2F; display the alert
+							// display the alert
 							jQuery(_renderConfirm(message))
 								.on(&#x27;show&#x27;, function() {
 									var modal = this;
@@ -385,7 +392,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					}
 				};
 			})(),
-			&#x2F;**
+			/**
 			 * Sets the title of the app as shown in the browser. Depending on the
 			 * container HTML, this method may do nothing if the container has not been
 			 * configured properly or else the container provider does not allow Title&#x27;s
@@ -393,7 +400,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			 * @method setTitle
 			 * @params {string} title The title of the app
 			 * @for F2.UI
-			 *&#x2F;
+			 */
 			setTitle: function(title) {
 
 				if (F2.Rpc.isRemote(_appConfig.instanceId)) {
@@ -409,35 +416,35 @@ F2.extend(&#x27;UI&#x27;, (function(){
 					jQuery(_appConfig.root).find(&#x27;.&#x27; + F2.Constants.Css.APP_TITLE).text(title);
 				}
 			},
-			&#x2F;**
+			/**
 			 * Display an ovarlay over an Element on the page
 			 * @method showMask
 			 * @param {string|Element} selector The Element or selector to an Element
 			 * over which to display the loader
 			 * @param {bool} showLoading Display a loading icon
-			 *&#x2F;
+			 */
 			showMask: function(selector, showLoader) {
 				F2.UI.showMask(_appConfig.instanceId, selector, showLoader);
 			},
-			&#x2F;**
+			/**
 			 * For secure apps, this method updates the size of the iframe that
 			 * contains the app. **Note: It is recommended that app developers call
 			 * this method anytime Elements are added or removed from the DOM**
 			 * @method updateHeight
 			 * @params {int} height The height of the app
-			 *&#x2F;
+			 */
 			updateHeight: _updateHeight,
-			&#x2F;**
+			/**
 			 * Helper methods for creating and using Views
 			 * @class F2.UI.Views
 			 * @for F2.UI
-			 *&#x2F;
+			 */
 			Views: (function(){
 
 				var _events = new EventEmitter2();
-				var _rValidEvents = &#x2F;change&#x2F;i;
+				var _rValidEvents = /change/i;
 
-				&#x2F;&#x2F; unlimited listeners, set to &gt; 0 for debugging
+				// unlimited listeners, set to &gt; 0 for debugging
 				_events.setMaxListeners(0);
 
 				var _isValid = function(eventName) {
@@ -450,14 +457,14 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				};
 
 				return {
-					&#x2F;**
+					/**
 					 * Change the current view for the app or add an event listener
 					 * @method change
 					 * @param {string|function} [input] If a string is passed in, the view
 					 * will be changed for the app. If a function is passed in, a change
 					 * event listener will be added.
 					 * @for F2.UI.Views
-					 *&#x2F;
+					 */
 					change: function(input) {
 
 						if (typeof input === &#x27;function&#x27;) {
@@ -482,37 +489,37 @@ F2.extend(&#x27;UI&#x27;, (function(){
 							}							
 						}
 					},
-					&#x2F;**
+					/**
 					 * Removes a view event listener
 					 * @method off
 					 * @param {string} event The event name
-		 			 * @param {function} listener The function that will be removed
-		 			 * @for F2.UI.Views
-					 *&#x2F;
+					 * @param {function} listener The function that will be removed
+					 * @for F2.UI.Views
+					 */
 					off: function(event, listener) {
 						if (_isValid(event)) {
 							_events.off(event, listener);
 						}
 					},
-					&#x2F;**
+					/**
 					 * Adds a view event listener
 					 * @method on
 					 * @param {string} event The event name
 					 * @param {function} listener The function to be fired when the event is
 					 * emitted
 					 * @for F2.UI.Views
-					 *&#x2F;
+					 */
 					on: function(event, listener) {
 						if (_isValid(event)) {
 							_events.on(event, listener);
 						}
 					}
-				}
+				};
 			})()
 		};
 	};
 
-	&#x2F;**
+	/**
 	 * Removes a overlay from an Element on the page
 	 * @method hideMask
 	 * @static
@@ -520,7 +527,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 	 * @param {string|Element} selector The Element or selector to an Element
 	 * that currently contains the loader
 	 * @for F2.UI
-	 *&#x2F;
+	 */
 	UI_Class.hideMask = function(instanceId, selector) {
 
 		if (!F2.isInit()) {
@@ -535,39 +542,39 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				&#x27;F2.UI.hideMask&#x27;,
 				[
 					instanceId,
-					&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
-					&#x2F;&#x2F; will be F2.stringify() errors
+					// must only pass the selector argument. if we pass an Element there
+					// will be F2.stringify() errors
 					jQuery(selector).selector
 				]
 			);
 		} else {
 			
 			var container = jQuery(selector);
-			var mask = container.find(&#x27;&gt; .&#x27; + F2.Constants.Css.MASK).remove();
+			container.find(&#x27;&gt; .&#x27; + F2.Constants.Css.MASK).remove();
 			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
 
-			&#x2F;&#x2F; if the element contains this data property, we need to reset static
-			&#x2F;&#x2F; position
+			// if the element contains this data property, we need to reset static
+			// position
 			if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
 				container.css({&#x27;position&#x27;:&#x27;static&#x27;});
 			}
 		}
 	};
 
-	&#x2F;**
+	/**
 	 *
 	 * @method init
 	 * @static
 	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
-	 *&#x2F;
+	 */
 	UI_Class.init = function(containerConfig) {
 		_containerConfig = containerConfig;
 
-		&#x2F;&#x2F; set defaults
+		// set defaults
 		_containerConfig.UI = jQuery.extend(true, {}, F2.ContainerConfig.UI, _containerConfig.UI || {});
 	};
 
-	&#x2F;**
+	/**
 	 * Display an ovarlay over an Element on the page
 	 * @method showMask
 	 * @static
@@ -575,7 +582,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 	 * @param {string|Element} selector The Element or selector to an Element
 	 * over which to display the loader
 	 * @param {bool} showLoading Display a loading icon
-	 *&#x2F;
+	 */
 	UI_Class.showMask = function(instanceId, selector, showLoading) {
 
 		if (!F2.isInit()) {
@@ -590,8 +597,8 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				&#x27;F2.UI.showMask&#x27;,
 				[
 					instanceId,
-					&#x2F;&#x2F; must only pass the selector argument. if we pass an Element there
-					&#x2F;&#x2F; will be F2.stringify() errors
+					// must only pass the selector argument. if we pass an Element there
+					// will be F2.stringify() errors
 					jQuery(selector).selector,
 					showLoading
 				]
@@ -604,11 +611,11 @@ F2.extend(&#x27;UI&#x27;, (function(){
 
 			var container = jQuery(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
 			var mask = jQuery(&#x27;&lt;div&gt;&#x27;)
-				.height(&#x27;100%&#x27; &#x2F;*container.outerHeight()*&#x2F;)
-				.width(&#x27;100%&#x27; &#x2F;*container.outerWidth()*&#x2F;)
+				.height(&#x27;100%&#x27; /*container.outerHeight()*/)
+				.width(&#x27;100%&#x27; /*container.outerWidth()*/)
 				.addClass(F2.Constants.Css.MASK);
 
-			&#x2F;&#x2F; set inline styles if useClasses is false
+			// set inline styles if useClasses is false
 			if (!_containerConfig.UI.Mask.useClasses) {
 				mask.css({
 					&#x27;background-color&#x27;:_containerConfig.UI.Mask.backgroundColor,
@@ -628,15 +635,15 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				});
 			}
 
-			&#x2F;&#x2F; only set the position if the container is currently static
+			// only set the position if the container is currently static
 			if (container.css(&#x27;position&#x27;) === &#x27;static&#x27;) {
 				container.css({&#x27;position&#x27;:&#x27;relative&#x27;});
-				&#x2F;&#x2F; setting this data property tells hideMask to set the position
-				&#x2F;&#x2F; back to static
+				// setting this data property tells hideMask to set the position
+				// back to static
 				container.data(F2.Constants.Css.MASK_CONTAINER, true);
 			}
 
-			&#x2F;&#x2F; add the mask to the container
+			// add the mask to the container
 			container.append(mask);
 		}
 	};
@@ -652,23 +659,22 @@ F2.extend(&#x27;UI&#x27;, (function(){
 		<hr>
 
 		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.1.2, published 8 April 2013</small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">MIT License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
+			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
+			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
 		</footer>
 	</div>
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="..&#x2F;../js/bootstrap.min.2.3.0.js"></script>
-<script src="..&#x2F;../js/prettify.js"></script>
-<script src="..&#x2F;assets/js/main.js"></script>
-<script src="..&#x2F;../js/f2.js?"></script>
+<script src="../../js/bootstrap.min.2.3.0.js"></script>
+<script src="../../js/prettify.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../../js/f2.js?1.2.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
-	F2.extend('gitbranch', (function(){ return 'master'; }));
 </script>
 <script type="text/javascript">
-	if (F2.gitbranch() === 'master'){
+	if ((/docs.openf2.org/i).test(window.location.hostname)){
 		window._waq = window._waq || []; 
 		(function() {
 			var domain = 'insite.wallst.com'; 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>F2 - F2.Events</title>
+	<title>F2 - F2.AppHandlers</title>
 	<meta name="dcterms.date" content="7 June 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
@@ -220,11 +220,40 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2.Events</h1>
+				<h1>F2.AppHandlers</h1>
 
 <p>
-	<p>Handles <a href="../../app-development.html#context">Context</a> passing from
-containers to apps and apps to apps.</p>
+	<p>The new <code>AppHandlers</code> functionality provides Container Developers a higher level of control over configuring app rendering and interaction.</p>
+
+<p class="alert alert-block alert-warning">
+The addition of <code>F2.AppHandlers</code> replaces the previous <a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> properties <code>beforeAppRender</code>, <code>appRender</code>, and <code>afterAppRender</code>. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.
+</p>
+
+<p class="alert alert-block alert-info">
+Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method for Container Developers to manage app layout.
+</p>
+
+<h3>Order of Execution</h3>
+
+<p><strong>App Rendering</strong></p>
+
+<ol>
+<li><a href="../classes/F2.html#method_registerApps" class="crosslink">F2.registerApps()</a> method is called by the Container Developer and the following methods are run for <em>each</em> <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> passed.</li>
+<li><strong>'appCreateRoot'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_CREATE_ROOT</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appRenderBefore'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_BEFORE</em>) handlers are fired in the order they were attached.</li>
+<li>Each app's <code>manifestUrl</code> is requested asynchronously; on success the following methods are fired.</li>
+<li><strong>'appRender'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appRenderAfter'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_AFTER</em>) handlers are fired in the order they were attached.</li>
+</ol>
+
+<p><strong>App Removal</strong></p>
+
+<ol>
+<li><a href="../classes/F2.html#method_removeApp" class="crosslink">F2.removeApp()</a> with a specific F2.AppConfig/instanceId or <a href="../classes/F2.html#method_removeAllApps" class="crosslink">F2.removeAllApps()</a> method is called by the Container Developer and the following methods are run.</li>
+<li><strong>'appDestroyBefore'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_BEFORE</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appDestroy'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appDestroyAfter'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_AFTER</em>) handlers are fired in the order they were attached.</li>
+</ol>
 </p>
 
 <div class="well well-small">
@@ -235,7 +264,7 @@ containers to apps and apps to apps.</p>
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="../files/sdk_src_events.js.html#l1"><code>sdk&#x2F;src&#x2F;events.js:1</code></a></dd>
+			<dd><a href="../files/sdk_src_app_handlers.js.html#l1"><code>sdk&#x2F;src&#x2F;app_handlers.js:1</code></a></dd>
 		
 
 		
@@ -273,21 +302,35 @@ containers to apps and apps to apps.</p>
 					
 					<tr class=" private">
 						<td class="name">
-							<a href="#methods-_socketEmit">
-								_socketEmit
+							<a href="#methods-__f2GetToken">
+								__f2GetToken
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Allows F2 to get a token internally. Token is required to call <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+and additional internal methods.</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a href="#methods-__trigger">
+								__trigger
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												event
+												token
 											
 										</li>
 										
 										<li>
 											
-												[arg]
+												eventKey
 											
 										</li>
 										
@@ -296,73 +339,21 @@ containers to apps and apps to apps.</p>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Same as F2.Events.emit except that it will not send the event
-to all sockets.</p></td>
+						<td><p>Allows F2 to trigger specific events internally.</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-emit">
-								emit
+							<a href="#methods-getToken">
+								getToken
 								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												event
-											
-										</li>
-										
-										<li>
-											
-												[arg]
-											
-										</li>
-										
-									</ul>
 								
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Execute each of the listeners that may be listening for the specified
-event name in order with the list of arguments.</p></td>
-					</tr>
-					
-					<tr class="">
-						<td class="name">
-							<a href="#methods-many">
-								many
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												event
-											
-										</li>
-										
-										<li>
-											
-												timesToListen
-											
-										</li>
-										
-										<li>
-											
-												listener
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>Adds a listener that will execute n times for the event before being 
-removed. The listener is invoked only the first time the event is 
-fired, after which it is removed.</p></td>
+						<td><p>Allows Container Developer to retrieve a unique token which must be passed to
+all <code>on</code> and <code>off</code> methods. This function will self destruct and can only be called 
+one time. Container Developers must store the return value inside of a closure.</p></td>
 					</tr>
 					
 					<tr class="">
@@ -375,13 +366,13 @@ fired, after which it is removed.</p></td>
 										
 										<li>
 											
-												event
+												token
 											
 										</li>
 										
 										<li>
 											
-												listener
+												eventKey{.namespace}
 											
 										</li>
 										
@@ -390,7 +381,7 @@ fired, after which it is removed.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Remove a listener for the specified event.</p></td>
+						<td><p>Allows Container Developer to remove listener methods for specific events</p></td>
 					</tr>
 					
 					<tr class="">
@@ -403,13 +394,19 @@ fired, after which it is removed.</p></td>
 										
 										<li>
 											
-												event
+												token
 											
 										</li>
 										
 										<li>
 											
-												listener
+												eventKey{.namespace}
+											
+										</li>
+										
+										<li>
+											
+												element
 											
 										</li>
 										
@@ -418,20 +415,26 @@ fired, after which it is removed.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Adds a listener for the specified event</p></td>
+						<td><p>Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType <code>appRender</code>.</p></td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
-							<a href="#methods-once">
-								once
+							<a href="#methods-on">
+								on
 								<span class="paren">(</span>
 								
 									<ul class="params commas">
 										
 										<li>
 											
-												event
+												token
+											
+										</li>
+										
+										<li>
+											
+												eventKey{.namespace}
 											
 										</li>
 										
@@ -446,8 +449,7 @@ fired, after which it is removed.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Adds a one time listener for the event. The listener is invoked only
-the first time the event is fired, after which it is removed.</p></td>
+						<td><p>Allows Container Developer to add listener method that will be triggered when a specific event occurs.</p></td>
 					</tr>
 					
 				</tbody>
@@ -467,26 +469,10 @@ the first time the event is fired, after which it is removed.</p></td>
 	
 	<div id="methods" class="tab-pane">
 		
-		<section id="methods-_socketEmit" class="level2  private">
+		<section id="methods-__f2GetToken" class="level2  private">
 	<h3>
-		_socketEmit
+		__f2GetToken
 		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						event
-					
-				</li>
-				
-				<li>
-					
-						[arg]
-					
-				</li>
-				
-			</ul>
 		
 		<span class="paren">)</span>
 
@@ -506,8 +492,9 @@ the first time the event is fired, after which it is removed.</p></td>
 	</h3>
 
 	<p>
-		<p>Same as F2.Events.emit except that it will not send the event
-to all sockets.</p>
+		<p>Allows F2 to get a token internally. Token is required to call <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+and additional internal methods.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -520,7 +507,83 @@ to all sockets.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_events.js.html#l16"><code>sdk&#x2F;src&#x2F;events.js:16</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l199"><code>sdk&#x2F;src&#x2F;app_handlers.js:199</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-__trigger" class="level2  private">
+	<h3>
+		__trigger
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						token
+					
+				</li>
+				
+				<li>
+					
+						eventKey
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+			<span class="label chainable">chainable</span>
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Allows F2 to trigger specific events internally.</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l214"><code>sdk&#x2F;src&#x2F;app_handlers.js:214</code></a></dd>
 			
 
 			
@@ -537,14 +600,14 @@ to all sockets.</p>
 				
 				<li class="param">
 					
-						<code class="param-name">event</code>
+						<code class="param-name">token</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The event name</p>
+						<p>The token received from <a href="../classes/F2.AppHandlers.html#method___f2GetToken" class="crosslink">__f2GetToken</a>.</p>
 					</p>
 
 					
@@ -552,17 +615,14 @@ to all sockets.</p>
 				
 				<li class="param">
 					
-						<code class="param-name optional">[arg]</code>
-						<span class="label type">Object</span>
-						<span class="label label-info" title="This parameter is optional.">optional</span>
+						<code class="param-name">eventKey</code>
+						<span class="label type">String</span>
 					
 
-					
-						<span class="label label-info" title="This argument may occur one or more times.">multiple</span>
 					
 
 					<p>
-						<p>The arguments to be passed</p>
+						<p>The event to fire. The complete list of event keys is available in <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
 					</p>
 
 					
@@ -583,26 +643,10 @@ to all sockets.</p>
 	
 </section>
 		
-		<section id="methods-emit" class="level2 ">
+		<section id="methods-getToken" class="level2 ">
 	<h3>
-		emit
+		getToken
 		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						event
-					
-				</li>
-				
-				<li>
-					
-						[arg]
-					
-				</li>
-				
-			</ul>
 		
 		<span class="paren">)</span>
 
@@ -620,8 +664,9 @@ to all sockets.</p>
 	</h3>
 
 	<p>
-		<p>Execute each of the listeners that may be listening for the specified
-event name in order with the list of arguments.</p>
+		<p>Allows Container Developer to retrieve a unique token which must be passed to
+all <code>on</code> and <code>off</code> methods. This function will self destruct and can only be called 
+one time. Container Developers must store the return value inside of a closure.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -634,7 +679,7 @@ event name in order with the list of arguments.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_events.js.html#l27"><code>sdk&#x2F;src&#x2F;events.js:27</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l185"><code>sdk&#x2F;src&#x2F;app_handlers.js:185</code></a></dd>
 			
 
 			
@@ -643,182 +688,6 @@ event name in order with the list of arguments.</p>
 		</dl>
 	</div>
 
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">event</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The event name</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name optional">[arg]</code>
-						<span class="label type">Object</span>
-						<span class="label label-info" title="This parameter is optional.">optional</span>
-					
-
-					
-						<span class="label label-info" title="This argument may occur one or more times.">multiple</span>
-					
-
-					<p>
-						<p>The arguments to be passed</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-many" class="level2 ">
-	<h3>
-		many
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						event
-					
-				</li>
-				
-				<li>
-					
-						timesToListen
-					
-				</li>
-				
-				<li>
-					
-						listener
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Adds a listener that will execute n times for the event before being 
-removed. The listener is invoked only the first time the event is 
-fired, after which it is removed.</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_events.js.html#l38"><code>sdk&#x2F;src&#x2F;events.js:38</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">event</code>
-						<span class="label type">String</span>
-					
-
-					
-
-					<p>
-						<p>The event name</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">timesToListen</code>
-						<span class="label type">Int</span>
-					
-
-					
-
-					<p>
-						<p>The number of times to execute the event
-before being removed</p>
-					</p>
-
-					
-				</li>
-				
-				<li class="param">
-					
-						<code class="param-name">listener</code>
-						<span class="label type">Function</span>
-					
-
-					
-
-					<p>
-						<p>The function to be fired when the event is
-emitted</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
 	
 
 	
@@ -841,13 +710,13 @@ emitted</p>
 				
 				<li>
 					
-						event
+						token
 					
 				</li>
 				
 				<li>
 					
-						listener
+						eventKey{.namespace}
 					
 				</li>
 				
@@ -864,12 +733,14 @@ emitted</p>
 		
 
 		
+			<span class="label chainable">chainable</span>
+		
 
 		
 	</h3>
 
 	<p>
-		<p>Remove a listener for the specified event.</p>
+		<p>Allows Container Developer to remove listener methods for specific events</p>
 	</p>	
 
 	<div class="well well-small">
@@ -882,7 +753,7 @@ emitted</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_events.js.html#l52"><code>sdk&#x2F;src&#x2F;events.js:52</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l367"><code>sdk&#x2F;src&#x2F;app_handlers.js:367</code></a></dd>
 			
 
 			
@@ -899,14 +770,14 @@ emitted</p>
 				
 				<li class="param">
 					
-						<code class="param-name">event</code>
+						<code class="param-name">token</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The event name</p>
+						<p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
 					</p>
 
 					
@@ -914,14 +785,16 @@ emitted</p>
 				
 				<li class="param">
 					
-						<code class="param-name">listener</code>
-						<span class="label type">Function</span>
+						<code class="param-name">eventKey{.namespace}</code>
+						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The function that will be removed</p>
+						<p>The event key used to determine which event to attach the listener to. If no namespace is provided all
+ listeners for the specified event type will be removed.
+ Complete list available in <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
 					</p>
 
 					
@@ -933,6 +806,13 @@ emitted</p>
 
 	
 
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.off(_token,'appRenderBefore');
+</code></pre>
+		</div>
 	
 
 	
@@ -951,13 +831,19 @@ emitted</p>
 				
 				<li>
 					
-						event
+						token
 					
 				</li>
 				
 				<li>
 					
-						listener
+						eventKey{.namespace}
+					
+				</li>
+				
+				<li>
+					
+						element
 					
 				</li>
 				
@@ -974,12 +860,14 @@ emitted</p>
 		
 
 		
+			<span class="label chainable">chainable</span>
+		
 
 		
 	</h3>
 
 	<p>
-		<p>Adds a listener for the specified event</p>
+		<p>Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType <code>appRender</code>.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -992,7 +880,7 @@ emitted</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_events.js.html#l61"><code>sdk&#x2F;src&#x2F;events.js:61</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l282"><code>sdk&#x2F;src&#x2F;app_handlers.js:282</code></a></dd>
 			
 
 			
@@ -1009,14 +897,14 @@ emitted</p>
 				
 				<li class="param">
 					
-						<code class="param-name">event</code>
+						<code class="param-name">token</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The event name</p>
+						<p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
 					</p>
 
 					
@@ -1024,15 +912,31 @@ emitted</p>
 				
 				<li class="param">
 					
-						<code class="param-name">listener</code>
-						<span class="label type">Function</span>
+						<code class="param-name">eventKey{.namespace}</code>
+						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The function to be fired when the event is
-emitted</p>
+						<p>The event key used to determine which event to attach the listener to. The namespace is useful for removal 
+purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+<a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">element</code>
+						<span class="label type">HTMLElement</span>
+					
+
+					
+
+					<p>
+						<p>Specific DOM element to which app gets appended.</p>
 					</p>
 
 					
@@ -1044,6 +948,24 @@ emitted</p>
 
 	
 
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    'appRender',
+    document.getElementById('my_app')
+);
+</code></pre>
+
+<p>Or:</p><pre class="code prettyprint"><code>F2.AppHandlers.on(
+    _token,
+    'appRender.myNamespace',
+    document.getElementById('my_app')
+);
+</code></pre>
+		</div>
 	
 
 	
@@ -1053,16 +975,22 @@ emitted</p>
 	
 </section>
 		
-		<section id="methods-once" class="level2 ">
+		<section id="methods-on" class="level2 ">
 	<h3>
-		once
+		on
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
 				
 				<li>
 					
-						event
+						token
+					
+				</li>
+				
+				<li>
+					
+						eventKey{.namespace}
 					
 				</li>
 				
@@ -1085,13 +1013,14 @@ emitted</p>
 		
 
 		
+			<span class="label chainable">chainable</span>
+		
 
 		
 	</h3>
 
 	<p>
-		<p>Adds a one time listener for the event. The listener is invoked only
-the first time the event is fired, after which it is removed.</p>
+		<p>Allows Container Developer to add listener method that will be triggered when a specific event occurs.</p>
 	</p>	
 
 	<div class="well well-small">
@@ -1104,7 +1033,7 @@ the first time the event is fired, after which it is removed.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_events.js.html#l71"><code>sdk&#x2F;src&#x2F;events.js:71</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l307"><code>sdk&#x2F;src&#x2F;app_handlers.js:307</code></a></dd>
 			
 
 			
@@ -1121,14 +1050,31 @@ the first time the event is fired, after which it is removed.</p>
 				
 				<li class="param">
 					
-						<code class="param-name">event</code>
+						<code class="param-name">token</code>
 						<span class="label type">String</span>
 					
 
 					
 
 					<p>
-						<p>The event name</p>
+						<p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">eventKey{.namespace}</code>
+						<span class="label type">String</span>
+					
+
+					
+
+					<p>
+						<p>The event key used to determine which event to attach the listener to. The namespace is useful for removal 
+purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+<a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
 					</p>
 
 					
@@ -1143,8 +1089,7 @@ the first time the event is fired, after which it is removed.</p>
 					
 
 					<p>
-						<p>The function to be fired when the event is
-emitted</p>
+						<p>A function that will be triggered when a specific event occurs. For detailed argument definition refer to <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
 					</p>
 
 					
@@ -1156,6 +1101,24 @@ emitted</p>
 
 	
 
+	
+		<h4>Example:</h4>
+		<div class="example-content">
+			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    'appRenderBefore'
+    function() { F2.log('before app rendered!'); }
+);
+</code></pre>
+
+<p>Or:</p><pre class="code prettyprint"><code>F2.AppHandlers.on(
+    _token,
+    'appRenderBefore.myNamespace',
+    function() { F2.log('before app rendered!'); }
+);
+</code></pre>
+		</div>
 	
 
 	
