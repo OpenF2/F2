@@ -13886,10 +13886,18 @@ F2.extend('AppHandlers', (function() {
 				{
 					var handler = _handlerCollection[eventKey][iCounter];
 					
+					// appRender where root is already defined
 					if (handler.domNode && arguments[2] && arguments[2].root && arguments[3])
 					{
 						var $appRoot = jQuery(arguments[2].root).append(arguments[3]);
 						jQuery(handler.domNode).append($appRoot);
+					}
+					else if (handler.domNode && arguments[2] && !arguments[2].root && arguments[3])
+					{
+						// set the root to the actual HTML of the app
+						arguments[2].root = jQuery(arguments[3]).get(0);
+						// appends the root to the dom node specified
+						jQuery(handler.domNode).append(arguments[2].root);
 					}
 					else
 					{
@@ -13908,7 +13916,7 @@ F2.extend('AppHandlers', (function() {
 		* Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType `appRender`.
 		* @method on
 		* @chainable
-		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:methods"}}{{/crossLink}}.
+		* @param {String} token The token received from {{#crossLink "F2.AppHandlers/getToken:method"}}{{/crossLink}}.
 		* @param {String} eventKey{.namespace} The event key used to determine which event to attach the listener to. The namespace is useful for removal 
 		* purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
 		* {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
@@ -13943,16 +13951,16 @@ F2.extend('AppHandlers', (function() {
 		*	F2.AppHandlers.on(
 		*		_token,
 		*		'appRenderBefore'
-		*		function() { F2.log('before app rendered!');
-		*	});
+		*		function() { F2.log('before app rendered!'); }
+		*	);
 		*
 		* Or:
 		* @example
 		*	F2.AppHandlers.on(
 		*		_token,
 		*		'appRenderBefore.myNamespace',
-		*		function() { F2.log('before app rendered!');
-		*	});
+		*		function() { F2.log('before app rendered!'); }
+		*	);
 		**/
 		on: function(token, eventKey, func_or_element)
 		{
