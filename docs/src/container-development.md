@@ -1,7 +1,7 @@
 % Container Development
 
 <p class="lead">
-The container is the foundation of any F2-enabled solution. By leveraging the [F2.js SDK](f2js-sdk.html), Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can [read more about the framework](index.html#framework), [download the project on GitHub](https://github.com/OpenF2/F2#quick-start) or [get started](#get-started) below. The current version of F2 is {{version}}.
+The container is the foundation of any F2-enabled solution. By leveraging the [F2.js SDK](f2js-sdk.html), Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can [read more about the framework](index.html#framework), [download the project on GitHub](https://github.com/OpenF2/F2#quick-start) or [get started](#get-started) below. The latest version of F2 is {{version}}.
 </p>
 
 * * * *
@@ -48,7 +48,7 @@ $(function(){
 });
 ```
 
-<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](##appconfigs) in App Integration.
+<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) in App Integration.
 
 ### Testing the Basics
 

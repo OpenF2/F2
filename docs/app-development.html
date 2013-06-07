@@ -124,7 +124,7 @@
 <h1 class="title">App Development</h1>
 </header>
 <p class="lead">
-You've come to the right place if you want to start building F2 apps. Before continuing, make sure you've <a href="https://github.com/OpenF2/F2#quick-start">cloned the F2 repository on GitHub</a> or <a href="index.html#get-started">downloaded the latest framework build</a> (v1.2.0). Secondly, <a href="index.html#framework">read about the F2 Framework</a>. There are a few important concepts to help you better understand apps, containers and context.
+Apps are the building blocks of any F2-enabled solution. F2 apps are web-based, are built with HTML5, CSS3, and JavaScript, and contain entitled data. F2 enables App Developers to build once and deploy to any <a href="#container-development.html">container</a> with a simple and modern API. You can <a href="index.html#framework">read more about the framework</a>, <a href="https://github.com/OpenF2/F2#quick-start">download the project on GitHub</a> or <a href="#get-started">get started</a> below. The current version of F2 is 1.2.0.
 </p>
 
 <p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used. To start, F2 Apps are either:</p>
@@ -148,90 +148,59 @@ A data app is a content feed available in industry-standard formats including JS
 <hr>
 <section class="level2" id="get-started">
 <h2>Get Started</h2>
-<p>To help you get started building an F2 app, browse through the resources below. To jump start your F2 app development, download the F2 app template (which now includes a basic container) <em>or</em> follow the instructions below.</p>
+<p>To help you get started building an F2 app, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.</p>
 <p>
-<a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip" class="btn btn-primary">Download Basic F2 App Template</a>
+<a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a>
 </p>
 
 <section class="level3" id="basic-container">
 <h3>Basic Container</h3>
-<p>To begin, you <strong>do not need to build F2</strong> <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="http://twitter.github.com/bootstrap/index.html">Bootstrap</a> and save a local copy of <a href="f2js-sdk.html">F2.js</a>. Also ensure you're <a href="#configuration">properly configured</a>.</p>
+<p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://twitter.github.io/bootstrap/index.html">Bootstrap</a>, and ensure you're <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
 <p>
-<a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn">Download F2.js</a> <a href="http://twitter.github.com/bootstrap/getting-started.html#download-bootstrap" class="btn">Download Bootstrap</a>
+<a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-small">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn btn-small">Download Bootstrap</a>
 </p>
 
-<p>Create your basic container HTML template:</p>
+<p>Setup a basic container HTML template (or add F2.js to an existing website):</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
-<span class="kw">&lt;html&gt;</span>
     <span class="kw">&lt;head&gt;</span>
         <span class="kw">&lt;title&gt;</span>F2 Container<span class="kw">&lt;/title&gt;</span>
         <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> href=</span><span class="st">&quot;/path/to/your/bootstrap.css&quot;</span><span class="kw">&gt;</span>
     <span class="kw">&lt;/head&gt;</span>
     <span class="kw">&lt;body&gt;</span>
-        <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;container&quot;</span><span class="kw">&gt;</span>
-            <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;hero-unit&quot;</span><span class="kw">&gt;</span>
-                <span class="kw">&lt;h1&gt;</span>Hello F2<span class="kw">&lt;/h1&gt;</span>
-            <span class="kw">&lt;/div&gt;</span>
-            <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;row&quot;</span><span class="kw">&gt;</span><span class="co">&lt;!--apps go here--&gt;</span><span class="kw">&lt;/div&gt;</span>
-        <span class="kw">&lt;/div&gt;</span>
-        <span class="co">&lt;!--include jQuery &amp; Bootstrap--&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;http://code.jquery.com/jquery-latest.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/path/to/your/bootstrap.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="co">&lt;!--include F2.js--&gt;</span>
         <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;/path/to/your/F2.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
-        <span class="co">&lt;!--init &amp; register--&gt;</span>
-        <span class="kw">&lt;script&gt;</span>
-            (<span class="kw">function</span>(){
-                <span class="co">//define AppConfigs</span>
-                <span class="kw">var</span> _appConfigs = [{
-                    <span class="dt">appId</span>: <span class="st">&quot;com</span>_<span class="st">your</span>_<span class="st">app</span>_<span class="st">id&quot;</span>,
-                    <span class="dt">description</span>: <span class="st">&quot;F2</span> <span class="st">app</span> <span class="st">description&quot;</span>,
-                    <span class="dt">name</span>: <span class="st">&quot;F2</span> <span class="st">App&quot;</span>,
-                    <span class="dt">manifestUrl</span>: <span class="st">&quot;</span>/<span class="st">path</span>/<span class="st">to</span>/<span class="st">your</span>/<span class="st">manifest</span>.<span class="st">js&quot;</span> <span class="co">//note the path to your manifest</span>!<span class="co"> </span>
-                }];
-                <span class="co">//Setup ContainerConfig</span>
-                <span class="kw">F2</span>.<span class="fu">init</span>({
-                    <span class="dt">beforeAppRender</span>: <span class="kw">function</span>(app){
-                        <span class="kw">var</span> appRoot = <span class="ch">&#39;</span>&lt;<span class="ch">section</span> <span class="ch">class</span>=&quot;<span class="ch">well</span> <span class="ch">span12</span>&quot;&gt;&lt;/<span class="ch">section</span>&gt;<span class="ch">&#39;</span>;
-                        <span class="kw">return</span> $(appRoot).<span class="fu">appendTo</span>(<span class="ch">&#39;div</span>.<span class="ch">row&#39;</span>);
-                    },
-                    <span class="dt">afterAppRender</span>: <span class="kw">function</span> (app, html) {
-                        <span class="co">//app</span>.<span class="co">root is </span>`<span class="co">appRoot</span>`<span class="co"> from beforeAppRender</span>()
-<span class="co">                        return </span>$(<span class="co">app</span>.<span class="co">root</span>).<span class="co">append</span>(<span class="co">html</span>);
-<span class="co">                    </span>}
-<span class="co">                </span>});<span class="co"> </span>
-                <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfigs); <span class="co">//pass </span>_<span class="co">appConfigs to initialize apps</span>
-            })();
-        <span class="kw">&lt;/script&gt;</span>
     <span class="kw">&lt;/body&gt;</span>
 <span class="kw">&lt;/html&gt;</span></code></pre>
-<p>In developing a more advanced container, the HTML document's <code>body</code> element would contain additional markup and allow for specific positioning or placement of apps. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the <a href="container-development.html#container-design">F2 design guidelines</a>.</p>
+<p><span class="label label-info">Note</span> In <a href="container-development.html">developing a more advanced container</a>, the HTML document's <code>body</code> element would contain additional markup and allow for <a href="container-development.html#apphandlers-for-app-layout">specific positioning or placement of apps</a>. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the <a href="#container-design">F2 design guidelines</a>.</p>
 </section>
-<section class="level3" id="basic-app">
-<h3>Basic App</h3>
-<p>Create your basic <a href="#app-manifest">F2 app manifest</a> and save it as <code>/path/to/your/manifest.js</code> using this code below. Note the path to this file should be specified in the <code>manifestUrl</code> property within the <code>_appConfigs</code> array in your basic container (shown above).</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript">F2_jsonpCallback_com_your_app_id({
-    <span class="st">&quot;scripts&quot;</span>: [],   
-    <span class="st">&quot;styles&quot;</span>: [],   
-    <span class="st">&quot;apps&quot;</span>: [{
-        <span class="st">&quot;data&quot;</span>: {},
-        <span class="st">&quot;html&quot;</span>: <span class="st">&quot;&lt;div&gt;&lt;p&gt;Hello, world. I&#39;m an F2 app.&lt;/p&gt;&lt;/div&gt;&quot;</span>
-    }]
-})</code></pre>
-<p><span class="label">Note</span> You can <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">download the F2 app template</a> instead of creating the basic app by hand.</p>
+<section class="level3" id="basic-appconfig">
+<h3>Basic AppConfig</h3>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> _appConfig = {
+    <span class="dt">appId</span>: <span class="ch">&#39;com_openf2_examples_javascript_helloworld&#39;</span>,
+    <span class="dt">manifestUrl</span>: <span class="ch">&#39;http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js&#39;</span>
+};
+ 
+$(<span class="kw">function</span>(){
+    <span class="kw">F2</span>.<span class="fu">init</span>();
+    <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfig);
+});</code></pre>
+<p><span class="label label-info">Note</span> For more information about the <code>AppConfig</code>, <a href="container-development.html#appconfigs">read up on them</a> in Container Development: App Integration.</p>
 </section>
 <section class="level3" id="testing-the-basics">
 <h3>Testing the Basics</h3>
-<p>Now with a basic container and a basic app, you can load your F2 container and expect to see:</p>
-<figure>
-<img src="./img/basic-f2-app-test.png" title="Basic F2 app"><figcaption></figcaption>
-</figure>
+<p>Now with a basic container and a basic app, combine these two for a working example. Press <strong>Result</strong> in this jsfiddle.</p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/OpenF2js/RTXg3/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
 <p>In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that our customers want.</p>
 </section>
 <section class="level3" id="sample-apps-and-container">
 <h3>Sample Apps and Container</h3>
-<p>Good news! In the <a href="https://github.com/OpenF2/F2/tree/master/examples/container/">project repo on GitHub</a>, you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:</p>
-<p><code>http://localhost/F2/examples/container/</code></p>
+<p>Good news! In the <a href="https://github.com/OpenF2/F2/tree/master/examples/">project repo on GitHub</a>, you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:</p>
+<p><code>http://localhost/F2/examples/</code></p>
+<p>These examples are also available in a separate archive if you don't want to download the entire repository.</p>
+<p>
+<a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a>
+</p>
+
 </section>
 <section class="level3" id="configuration">
 <h3>Configuration</h3>
@@ -240,7 +209,7 @@ A data app is a content feed available in industry-standard formats including JS
 <p>To get started working with or developing containers, browse to the <a href="container-development.html">documentation for developing the container</a>.</p>
 <p><strong>Ready to start coding?</strong></p>
 <p>
-<a href="#developing-f2-apps" class="btn btn-primary">Developing F2 Apps</a> <a href="./sdk/" class="btn">F2.js SDK Reference</a>
+<a href="#developing-f2-apps" class="btn btn-primary btn-small">Developing F2 Apps</a> <a href="./sdk/" class="btn btn-small">F2.js SDK Reference</a>
 </p>
 
 <hr>
@@ -283,7 +252,7 @@ A data app is a content feed available in industry-standard formats including JS
 <figure>
 <img src="./img/project_folder.png" title="Setup your project"><figcaption></figcaption>
 </figure>
-<p><span class="label">Helper</span> <a href="https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip">Download the F2 app starter zip</a> or read about <a href="#get-started">setting up a basic container and app</a> in Getting Started.</p>
+<p><span class="label">Helper</span> <a href="http://docs.openf2.org/F2-examples.zip">Download the F2 examples</a> or read about <a href="#get-started">setting up a basic container and app</a> in Getting Started.</p>
 </section>
 <section class="level3" id="app-manifest">
 <h3>App Manifest</h3>
