@@ -27,13 +27,19 @@ You can run this command to check the version of your local copy of F2 (if you'v
 
 `$> grunt version`
 
+## Upgrading
+
+It is a goal of ours to make upgrading to the latest version of F2 a minor effort for development teams. The details from each release of F2, minor and major, are tracked in the [changelog](https://github.com/OpenF2/F2/wiki/Changelog). As of version 1.2, no breaking changes have been introduced and therefore upgrading should be as simple as [downloading the latest copy of F2.js](https://raw.github.com/OpenF2/F2/master/sdk/f2.min.js) and updating your website.
+
+For more notes on upgrading your container or app to the latest version of F2, [read more in the Docs](http://docs.openf2.org/f2js-sdk.html#upgrading).
+
 ## Talk
 
 Have a question? Want to chat? Open an [Issue on GitHub](https://github.com/OpenF2/F2/issues), ask it on our [Google Group](https://groups.google.com/forum/#!forum/OpenF2) or send an email to <info@openf2.org>.
 
-## Bug Tracking
+## Issues, Enhancements, Bugs
 
-To track bugs and issues, we are using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
+To track bugs, issues and enhancement requests, we are using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
 
 ## Developers
 

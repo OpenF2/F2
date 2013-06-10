@@ -44,13 +44,7 @@ For more information on SemVer, please visit [SemVer.org](http://semver.org/).
 
 ## Upgrading
 
-It is a goal of ours to make upgrading to the latest version of F2 a minor effort for development teams. Releasing feature enhancements, addressing bugs or security patches, and working hard to maintain backward compatibility for F2.js APIs&mdash;while constantly pushing the boundaries&mdash;are all part of evolving a web framework for the financial services industry.
-
-The details from each release of F2, minor and major, are tracked in the [changelog](https://github.com/OpenF2/F2/wiki/Changelog).
-
-### The Latest
-
-For developers, getting the latest F2.js SDK is as simple as going to the [project repository on GitHub](https://github.com/OpenF2/F2). A download ([zip](https://github.com/OpenF2/F2/zipball/master)) of the current version ({{version}}) of F2 is always available along with [tags of previous releases](https://github.com/OpenF2/F2/tags).
+It is a goal of ours to make upgrading to the latest version of F2 a minor effort for development teams. The details from each release of F2, minor and major, are tracked in the [changelog](https://github.com/OpenF2/F2/wiki/Changelog). As of version 1.2, no breaking changes have been introduced and therefore upgrading should be as simple as [downloading the latest copy of F2.js](https://raw.github.com/OpenF2/F2/master/sdk/f2.min.js) and updating your website.
 
 Developers can quick-link to the latest copy of F2.js:
 
@@ -58,9 +52,16 @@ Developers can quick-link to the latest copy of F2.js:
 
 <span class="label label-info">Note</span> GitHub is [not a CDN](http://stackoverflow.com/questions/5502540/should-github-be-used-as-a-cdn-for-javascript-libraries).
 
-### Deprecated Features or APIs
+A download ([zip](https://github.com/OpenF2/F2/zipball/master)) of the current version ({{version}}) of F2 is always available along with [tags of previous releases](https://github.com/OpenF2/F2/tags).
 
-As F2 features and/or F2.js APIs are deprecated, advance notice will be provided on any  or all of the F2 [communication channels](https://github.com/OpenF2/F2/blob/master/CONTRIBUTING.md#keep-in-touch). In addition, backward compatibility will be maintained for at least one minor version of F2. For example, if `Feature X` is deprecated in `1.0`, backward compatibility will be maintained until at least version `1.1`. F2 documentation will be updated accordingly to reflect any changes, and the conversation behind deprecated features will be publicly [available on GitHub](https://github.com/OpenF2/F2/issues).
+### Deprecated Features
+
+There is a page on the wiki [tracking deprecated features in F2](https://github.com/OpenF2/F2/wiki/F2.js-Deprecated) and, starting with version 1.2, three `ContainerConfig` properties have been retired. As F2 features and/or F2.js APIs are deprecated, advance notice will be provided on any or all of the F2 [communication channels](https://github.com/OpenF2/F2/blob/master/CONTRIBUTING.md#keep-in-touch). In addition, backward compatibility will be maintained for at least one minor version of F2. For example, if `Feature X` is deprecated in `1.0`, backward compatibility will be maintained until at least version `1.1`. F2 documentation will be updated accordingly to reflect any changes, and the conversation behind deprecated features will be publicly [available on GitHub](https://github.com/OpenF2/F2/issues).
+
+
+### Third Party Libraries
+
+F2 uses third party libraries inside F2.js (see [Framework: Choices](http://docs.openf2.org/#choices)). These open-source libraries are all on different release schedules and when an update (or important security patch) is made available, the F2 team will take action to ensure F2.js uses the latest, most stable and most secure version of the third party software. These updates to F2 will be made through the normal release process on GitHub and comments will be open.
 
 ## Forum
 
