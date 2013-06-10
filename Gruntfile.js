@@ -81,8 +81,7 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						cwd: 'examples/',
-						src: ['**'], 
-						dest: '../F2-examples'
+						src: ['**']
 					}
 				]
 			}
