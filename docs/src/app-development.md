@@ -440,7 +440,7 @@ We recommend&mdash;and have samples below for&mdash;two different patterns for w
 
 #### Arguments
 
-When F2's `registerApps()` method is called by the container, F2 passes three arguments to your App Class: `appConfig`, `appContent` and `root`. The SDK documentation details the contents of each arg and these should be familiar because [appConfig](./sdk/classes/F2.App.html) contains your apps' meta, [appContent](./sdk/classes/F2.AppManifest.AppContent.html) contains your `html`, `data` and `status` properties, and [root](./sdk/classes/F2.AppConfig.html#properties-root) is the outermost DOM element in which your app exists on the container. The `root` argument provides your App Class code your apps' parent element for faster DOM traversal.
+When F2's `registerApps()` method is called by the container, F2 passes three arguments to your App Class: `appConfig`, `appContent` and `root`. The SDK documentation details the contents of each arg and these should be familiar because [appConfig](./sdk/classes/F2.App.html) contains your app's meta, [appContent](./sdk/classes/F2.AppManifest.AppContent.html) contains your `html`, `data` and `status` properties, and [root](./sdk/classes/F2.AppConfig.html#properties-root) is the outermost DOM element in which your app exists on the container. The `root` argument provides your App Class code your app's parent (root) element for faster DOM traversal.
 
 Example:
 
@@ -665,7 +665,7 @@ F2.Events.emit(
 );
 ```
 
-The container would need to listen to your apps' broadcasted `F2.Constants.Events.APP_SYMBOL_CHANGE` event using code like this:
+The container would need to listen to your app's broadcasted `F2.Constants.Events.APP_SYMBOL_CHANGE` event using code like this:
 
 ```javascript
 F2.Events.on(
@@ -849,7 +849,7 @@ There are some utility methods provided within F2.js in the `UI` namespace. Thes
 
 ### Basics
 
-While there are [numerous utility methods in F2.UI](./sdk/classes/F2.UI.html), we will focus on a couple important ones here such as `updateHeight()` and `showMask()`. The `F2.UI` methods are passed as an instance to each F2 apps' App Class on the `appConfig` argument. The instance of `F2.UI` gets added to the `appConfig` object at runtime, and is available in `appclass.js` as `appConfig.ui`.
+While there are [numerous utility methods in F2.UI](./sdk/classes/F2.UI.html), we will focus on a couple important ones here such as `updateHeight()` and `showMask()`. The `F2.UI` methods are passed as an instance to each F2 app's App Class on the `appConfig` argument. The instance of `F2.UI` gets added to the `appConfig` object at runtime, and is available in `appclass.js` as `appConfig.ui`.
 
 Example:
 
