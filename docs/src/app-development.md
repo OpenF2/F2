@@ -185,6 +185,8 @@ F2_jsonpCallback_com_companyname_appname({
 
 Let's break the App Manifest object down and look at each property (in reverse order to keep it fun).
 
+<span class="label label-info">Note</span> The `AppID` created in the Developer Center and specified in the AppManifest will get automatically **lowercased** by F2 when [integrated on a container](container-development.html#app-integration).
+
 ### Apps
 
 The `apps` property is an array of `AppContent` objects. Each `AppContent` object contains three properties: 
@@ -327,12 +329,11 @@ F2_jsonpCallback_com_companyname_appname({
 })
 ```
 
-<span class="label">Note</span> You may have noticed the presence of the function name `F2_jsonpCallback_com_companyname_appname` on the first line of the example above. That function name is the callback and is explained in [App Manifest Response](#app-manifest-response).
-
+<span class="label label-info">Note</span> You may have noticed the presence of the function name `F2_jsonpCallback_com_companyname_appname` on the first line of the example above. That function name is the callback and is explained in [App Manifest Response](#app-manifest-response).
 
 ### App Manifest Response
 
-OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
+OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](http://docs.openf2.org/F2-examples.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
 
 As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. **This means F2 App Manifest files must provide a JSONP callback function.** (If you don't know what JSONP is or how it works, we recommend [reading what Remy Sharp has to say](http://remysharp.com/2007/10/08/what-is-jsonp/) about it.)
 
@@ -357,9 +358,9 @@ F2_jsonpCallback_com_companyname_appname({
 })
 ```
 
-<span class="label">Note</span> the JSONP callback function name will _not_ be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container. This means you have to hard-code it in your `appmanifest.js`.
+<span class="label label-info">Note</span> The JSONP callback function name will _not_ be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container. This means you have to hard-code it in your `AppManifest`.
 
-<span class="label label-important">Required</span> Don't forget you need an AppID before you can run your app on a container. [Get your AppID now &raquo;](https://developer.openf2.org/GetAppID)
+<span class="label label-info">Note</span> The `AppID` created in the Developer Center will get automatically **lowercased** by F2 when [integrated on a container](container-development.html#app-integration).
 
 ### App HTML
 
@@ -494,7 +495,7 @@ Of course, you don't have to use either one of these patterns in your `appclass.
 	<p>In the absence of a function in your `appclass.js`, F2 will be unable to load your app on a container.</p>
 </div>
 
-If you don't want to think about any of this and would rather just start coding, [download the F2 app starter zip](https://github.com/downloads/OpenF2/F2/Basic-F2-App-Template-1.0.4.zip).
+If you don't want to think about any of this and would rather just start coding, [download the F2 app starter zip](http://docs.openf2.org/F2-examples.zip).
 
 * * * *
 
