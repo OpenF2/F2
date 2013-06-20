@@ -333,7 +333,7 @@ F2_jsonpCallback_com_companyname_appname({
 
 ### App Manifest Response
 
-OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 app starter zip](http://docs.openf2.org/F2-examples.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
+OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 examples](http://docs.openf2.org/F2-examples.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format. 
 
 As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. **This means F2 App Manifest files must provide a JSONP callback function.** (If you don't know what JSONP is or how it works, we recommend [reading what Remy Sharp has to say](http://remysharp.com/2007/10/08/what-is-jsonp/) about it.)
 
@@ -364,13 +364,13 @@ F2_jsonpCallback_com_companyname_appname({
 
 ### App HTML
 
-Every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather _passed to the container_ via the app's `AppManifest`. But that's not a problem because F2 has [provided examples](https://github.com/OpenF2/F2/tree/master/examples/apps) to show you the way. Here are the steps for getting your app HTML into your `AppContent.html` property:
+While it isn't required, it's expected every F2 app has HTML. The only catch is that the HTML isn't provided by the app itself but rather passed to the container via the app's `AppManifest`. Here are the steps for getting your app HTML into your `AppContent.html` property:
 
 1. Develop the web page or module or widget or component or portlet that will be your app.
 2. Take all the contents of it&mdash;that is, the HTML&mdash;and encode it. _(This step is optional.)_
 3. Put the (optionally encoded) result in the `html` property of your `AppContent` object within your App Manifest file's `App` object.
 
-**Huh?** Check out this example:
+Wait, what? Check out this example below or [browse to example apps on GitHub](https://github.com/OpenF2/F2/tree/master/examples/apps):
 
 Step 1.
 
@@ -400,9 +400,9 @@ Step 3. App Manifest file.
 
 #### Automatic Consistency
 
-F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they _know_ will style F2 apps without engaging with the app developer to ensure compatability.
+F2 uses and recommends [Bootstrap](http://twitter.github.io/bootstrap/) for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they _know_ will style F2 apps without engaging with the app developer to ensure compatability.
 
-This also means App Developers must adhere to [Bootstrap's scaffolding guidelines](http://twitter.github.com/bootstrap/scaffolding.html) as defined on their website. 
+This also means App Developers must adhere to [Bootstrap's scaffolding guidelines](http://twitter.github.io/bootstrap/scaffolding.html) as defined on their website. 
 
 An example two-column layout using Bootstrap-specifed markup:
 
@@ -413,7 +413,7 @@ An example two-column layout using Bootstrap-specifed markup:
 </div>
 ```
 
-The `.span4` and `.span8` provide two columns in the [12-column grid](http://twitter.github.com/bootstrap/scaffolding.html#gridSystem).
+The `.span4` and `.span8` provide two columns in the [12-column grid](http://twitter.github.io/bootstrap/scaffolding.html#gridSystem).
 
 <span class="label">Note</span> Read more about [Creating a Common Look and Feel with F2](index.html#container).
 
@@ -488,14 +488,14 @@ F2.Apps["com_companyname_appname"] = function(appConfig, appContent, root) {
 
 #### Patterns, Eh
 
-Of course, you don't have to use either one of these patterns in your `appclass.js` file. What you _do_ have to use is a `function`. That is to say the value assigned to `F2.Apps["com_companyname_appname"]` by your App Class code _must be a function_. Within F2's `registerApps()` method, the `new` operator is used which produces an object ([check out the code](https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js#L2893)).
+Of course, you don't have to use either one of these patterns in your `appclass.js` file. What you _do_ have to use is a `function`. That is to say the value assigned to `F2.Apps["com_companyname_appname"]` by your App Class code _must be a function_. Within F2's `registerApps()` method, the `new` operator is used which produces an object and new instance of your app.
 
 <div class="alert">
 	<h5>Important!</h5>
 	<p>In the absence of a function in your `appclass.js`, F2 will be unable to load your app on a container.</p>
 </div>
 
-If you don't want to think about any of this and would rather just start coding, [download the F2 app starter zip](http://docs.openf2.org/F2-examples.zip).
+If you don't want to think about any of this and would rather just start coding, [download the F2 examples](http://docs.openf2.org/F2-examples.zip).
 
 * * * *
 
@@ -931,7 +931,7 @@ To update the title of an app in the app's chrome ([as defined by the container 
 
 ### F2.UI.Modals
 
-F2.js provides two methods in `F2.UI` for modal dialogs. F2 uses and recommends [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for many reasons, and taking advantage of [Bootstrap's modals](http://twitter.github.com/bootstrap/javascript.html#modals) was an easy choice. 
+F2.js provides two methods in `F2.UI` for modal dialogs. F2 uses and recommends [Bootstrap](http://twitter.github.io/bootstrap/) for many reasons, and taking advantage of [Bootstrap's modals](http://twitter.github.io/bootstrap/javascript.html#modals) was an easy choice. 
 
 For full details on F2.UI.Modals and the two types of modals (`alert` and `confirm`), [read the SDK docs](./sdk/classes/F2.UI.Modals.html). 
 
@@ -982,7 +982,7 @@ F2 apps can have one or more views. Every app will have at least one "home" view
 
 #### Setting Up Views
 
-Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Twitter Bootstrap's `hide` class should be applied to views that are hidden on startup.
+Once you've determined the views you'd like to include in your app, the view should be specified by applying the `F2.Constants.Css.APPVIEW` classname to the containing DOM Element. A `data-` attribute should be added to the element as well which defines what view type is represented. Bootstrap's `hide` class should be applied to views that are hidden on startup.
 
 To setup a single view in your app, use this HTML on your app's outermost element noting the use of the `f2-app-view` classname and the `data-f2-view` attribute.
 
