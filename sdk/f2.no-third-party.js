@@ -2723,12 +2723,21 @@ F2.extend('', (function(){
 			});
 		};
 
-		// load styles
-		var stylesFragment = [];
+		// load styles, see #101
+		var stylesFragment = null,
+			useCreateStyleSheet = !!document.createStyleSheet;
 		jQuery.each(styles, function(i, e) {
-			stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
+			if (useCreateStyleSheet) {
+                document.createStyleSheet(e); 
+			} else {
+				stylesFragment = stylesFragment || [];
+				stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
+			}
 		});
-		jQuery('head').append(stylesFragment.join(''));
+
+		if (stylesFragment){
+			jQuery('head').append(stylesFragment.join(''));
+		}
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
