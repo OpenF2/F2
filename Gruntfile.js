@@ -105,14 +105,6 @@ module.exports = function(grunt) {
 				separator: '\n',
 				stripBanners: false
 			},
-			'no-third-party': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/f2.no-third-party.js'
-			},
 			dist: {
 				src: [
 					'sdk/src/template/header.js.tmpl',
@@ -126,6 +118,14 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.debug.js'
+			},
+			'no-third-party': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/f2.no-third-party.js'
 			},
 			'no-jquery-or-bootstrap': {
 				src: [
@@ -150,7 +150,30 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/packages/f2.no-bootstrap.js'
-			}
+			},
+			'no-easyXDM': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/jquery.js',
+					'sdk/src/third-party/bootstrap-modal.js',
+					'sdk/src/third-party/jquery.noconflict.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.no-easyXDM.js'
+			},
+			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.basic.js'
+			},
 		},
 		/**
 		 * Need to downgrade forever-monitor to v1.1 because of:
@@ -231,18 +254,16 @@ module.exports = function(grunt) {
 				}
 			},
 			'package-no-jquery-or-bootstrap': {
-				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
-				options: {
-					report: 'min',
-					mangle: false
-				}	
+				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] }
 			},
 			'package-no-bootstrap': {
-				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
-				options: {
-					report: 'min',
-					mangle: false	
-				}	
+				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] }
+			},
+			'package-no-easyXDM': {
+				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] }
+			},
+			'package-basic': {
+				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] }	
 			}
 		},
 		sourcemap: {
