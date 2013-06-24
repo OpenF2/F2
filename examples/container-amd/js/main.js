@@ -2,7 +2,7 @@ require(
 	{
 		basePath: 'js',
 		paths: {
-			'bootstrap': 'bootstrap.min',
+			'bootstrap': 'bootstrap-modal',
 			'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min',
 			'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min',
 			'F2': '../../../sdk/f2.debug'
