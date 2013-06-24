@@ -1,5 +1,5 @@
 /*!
- *  Hij1nx requires the following notice to accompany EventEmitter:
+ * Hij1nx requires the following notice to accompany EventEmitter:
  *  
  *  Copyright (c) 2011 hij1nx 
  *  

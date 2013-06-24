@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 						src: 'f2.min.js',
 						dest: './',
 						rename: function(dest,src){
-							return './f2.js';
+							return './<%= pkg.name %>-<%= pkg.version %>.js';
 						}
 					}
 				]
@@ -126,6 +126,30 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.debug.js'
+			},
+			'no-jquery-or-bootstrap': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'sdk/src/third-party/easyXDM/easyXDM.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.no-jquery-or-bootstrap.js'
+			},
+			'no-bootstrap': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/jquery.js',
+					'sdk/src/third-party/jquery.noconflict.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'sdk/src/third-party/easyXDM/easyXDM.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.no-bootstrap.js'
 			}
 		},
 		/**
@@ -185,9 +209,8 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			options: {
-				preserveComments: function(node, comment) {
-					return (/^!/).test(comment.value);
-				}
+				preserveComments: 'some',
+				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("mm-dd-yyyy") %> - See below for copyright and license */\n'
 			},
 			dist: {
 				files: {'sdk/f2.min.js' : ['sdk/f2.debug.js']},
@@ -206,6 +229,20 @@ module.exports = function(grunt) {
 						return path.replace(grunt.config('sourcemap.options.prefix'), '').replace(/\.js$/, '.map');
 					}
 				}
+			},
+			'package-no-jquery-or-bootstrap': {
+				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
+				options: {
+					report: 'min',
+					mangle: false
+				}	
+			},
+			'package-no-bootstrap': {
+				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
+				options: {
+					report: 'min',
+					mangle: false	
+				}	
 			}
 		},
 		sourcemap: {
@@ -390,13 +427,12 @@ module.exports = function(grunt) {
 			done();
 		});
 	});
-	
 
 
 	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
+	grunt.registerTask('js', ['jshint', 'concat', 'uglify', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
 	grunt.registerTask('travis', ['test']);
