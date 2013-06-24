@@ -50,6 +50,19 @@ module.exports = function(grunt) {
 					}
 				}
 			},
+			'f2ToRoot': {
+				files: [
+					{
+						expand: true,
+						cwd: 'sdk/',
+						src: 'f2.min.js',
+						dest: './',
+						rename: function(dest,src){
+							return './f2.js';
+						}
+					}
+				]
+			},
 			'github-pages': {
 				files: [
 					{
@@ -383,7 +396,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
+	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
 	grunt.registerTask('travis', ['test']);
