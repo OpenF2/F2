@@ -30,7 +30,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 		/** for example purposes*/
 		console.group('Chart app');
-		console.info('The chart app (com_openf2_examples_javascript_chart) has configuration options which can be override by using Context. Set a "style" property in the AppConfig\'s Context property. The current AppConfig is on the next line.');
+		console.info('The chart app (com_openf2_examples_javascript_chart) has configuration options which can be overriden by using Context. Set a "style" property in the AppConfig\'s Context property. The current AppConfig is on the next line.');
 		console.info(this.appConfig);
 		console.info('The chart\'s configuration parameters (defaults) are found in the following hash');
 		console.info(defaults);
