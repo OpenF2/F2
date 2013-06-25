@@ -254,16 +254,20 @@ module.exports = function(grunt) {
 				}
 			},
 			'package-no-jquery-or-bootstrap': {
-				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] }
+				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
+				options: { report: 'gzip' }
 			},
 			'package-no-bootstrap': {
-				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] }
+				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
+				options: { report: 'gzip' }
 			},
 			'package-no-easyXDM': {
-				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] }
+				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] },
+				options: { report: 'gzip' }
 			},
 			'package-basic': {
-				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] }	
+				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] },
+				options: { report: 'gzip' }
 			}
 		},
 		sourcemap: {
