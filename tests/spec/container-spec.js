@@ -305,6 +305,17 @@ describe('F2.registerApps - basic', function() {
 			expect(passedMessage).toBeFalsy();
 		});
 	});
+
+	it('should not modify the original AppConfig that was passed in', function() {
+		var appConfig = {
+			appId: TEST_APP_ID,
+			manifestUrl:TEST_MANIFEST_URL
+		};
+		F2.registerApps(appConfig);
+
+		// original appConfig object should remain clean
+		expect(appConfig.instanceId).toBeFalsy();
+	});
 });
 
 describe('F2.registerApps - xhr overrides', function() {
