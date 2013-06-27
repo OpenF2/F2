@@ -13308,7 +13308,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.2.1 06-24-2013
+ * F2 v1.2.1 06-26-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -15887,11 +15887,16 @@ F2.extend('', (function(){
 
 	/**
 	 * Adds properties to the AppConfig object
-	 * @method _hydrateAppConfig
+	 * @method _createAppConfig
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @return {F2.AppConfig} The new F2.AppConfig object, prepopulated with
+	 * necessary properties
 	 */
-	var _hydrateAppConfig = function(appConfig) {
+	var _createAppConfig = function(appConfig) {
+
+		// make a copy of the app config to ensure that the original is not modified
+		appConfig = jQuery.extend(true, {}, appConfig);
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
@@ -15901,6 +15906,8 @@ F2.extend('', (function(){
 		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
+
+		return appConfig;
 	};
 
 	/**
@@ -16411,7 +16418,7 @@ F2.extend('', (function(){
 			jQuery.each(appConfigs, function(i, a) {
 
 				// add properties and methods
-				_hydrateAppConfig(a);
+				a = _createAppConfig(a);
 
 				// Will set to itself, for preloaded apps, or set to null for apps that aren't already
 				// on the page.
