@@ -1,4 +1,4 @@
-# F2 - An open web framework for the financial services industry.
+# An open web framework for the financial services industry.
 
 <img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=150" align="right">
 
