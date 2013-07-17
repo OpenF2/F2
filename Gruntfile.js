@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 						src: 'f2.min.js',
 						dest: './',
 						rename: function(dest,src){
-							return './<%= pkg.name %>-<%= pkg.version %>.js';
+							return './<%= pkg.name %>.latest.js';
 						}
 					}
 				]

@@ -22,7 +22,7 @@ Anyone is free to download F2.js from the [F2 project repository on GitHub](http
 
 The latest version of F2.js is **{{version}}**.
 
-<p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small" target="_blank">View on GitHub</a></p>
+<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small" target="_blank">View on GitHub</a></p>
 
 * * * *
 
@@ -48,11 +48,11 @@ It is our goal to make upgrading to the latest version of F2 a minor effort for 
 
 Developers can quick-link to the latest copy of F2.js:
 
-`https://raw.github.com/OpenF2/F2/master/f2.js`
+`https://raw.github.com/OpenF2/F2/master/F2.latest.js`
 
 <span class="label label-info">Note</span> GitHub is [not a CDN](http://stackoverflow.com/questions/5502540/should-github-be-used-as-a-cdn-for-javascript-libraries).
 
-A download ([zip](https://github.com/OpenF2/F2/zipball/master)) of the current version ({{version}}) of F2 is always available along with [tags of previous releases](https://github.com/OpenF2/F2/tags).
+A download ([zip](https://github.com/OpenF2/F2/zipball/master)) of the current version ({{version}}) of F2 is always available along with [tags of previous releases](https://github.com/OpenF2/F2/releases).
 
 ### Deprecated Features
 
