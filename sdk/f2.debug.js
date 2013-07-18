@@ -14278,13 +14278,6 @@ F2.extend('', {
 		 */
 		context: {},
 		/**
-		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
-		 * @property debugMode
-		 * @type bool
-		 * @default false
-		 */
-		debugMode: false,
-		/**
 		 * True if the app should be requested in a single request with other apps.
 		 * @property enableBatchRequests
 		 * @type bool
@@ -14501,6 +14494,13 @@ F2.extend('', {
 		 * @return {Element} The DOM Element surrounding the app
 		 */
 		beforeAppRender: function(appConfig) {},
+		/**
+		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
+		 * @property debugMode
+		 * @type bool
+		 * @default false
+		 */
+		debugMode: false,
 		/**
 		 * Tells the container that it is currently running within
 		 * a secure app page
