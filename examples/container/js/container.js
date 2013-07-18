@@ -83,6 +83,7 @@ $(function() {
 	 * Init Container
 	 */
 	F2.init({
+		//debugMode: true,
 		UI:{
 			Mask:{
 				loadingIcon:'./img/ajax-loader.gif'
