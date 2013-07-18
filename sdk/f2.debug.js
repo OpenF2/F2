@@ -16084,18 +16084,24 @@ F2.extend('', (function(){
 		});
 
 		// load scripts and eval inlines once complete
-		var cacheBust = _config.debugMode;
 		jQuery.each(scripts, function(i, e) {
-			var doc = document;
-			var n = doc.createElement('script');
-			n.async = false; //scripts needed to be loaded in order they're defined in the AppManifest
-			if (cacheBust){
-				e = e + '?' + new Date().getTime();
+			var doc = document, 
+				scrpt = doc.createElement('script'), 
+				resourceUrl = e;
+
+			//if in debugMode, add cache buster to each script URL
+			if (_config.debugMode){
+				resourceUrl = resourceUrl + '?cachebuster=' + new Date().getTime();
 			}
-			n.src = e;
-			n.onload = n.onreadystatechange = function(e,i){
-				if (doc || !n.readyState || /loaded|complete/.test(n.readyState)) {
-					n.onload = n.onreadystatechange = null;
+			
+			//scripts needed to be loaded in order they're defined in the AppManifest
+			scrpt.async = false;
+			scrpt.src = resourceUrl;
+			
+			//attach load event to script to evaluate inline scripts and init the AppClass
+			scrpt.onload = scrpt.onreadystatechange = function(e,i){
+				if (doc || !scrpt.readyState || /loaded|complete/.test(scrpt.readyState)) {
+					scrpt.onload = scrpt.onreadystatechange = null;
 				}
 
 				if (++scriptsLoaded == scriptCount) {
@@ -16104,7 +16110,8 @@ F2.extend('', (function(){
 					appInit();
 				}
 			};
-			doc.body.appendChild(n);
+			
+			doc.body.appendChild(scrpt);
 		});
 
 		// if no scripts were to be processed, fire the appLoad event
