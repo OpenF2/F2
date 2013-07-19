@@ -1,3 +1,24 @@
+//simple console log helper for IE
+var log = $.noop; //function() { };
+if (!window["console"]) {
+    window.console = {};
+}
+
+var logFns = {
+    log: log,
+    warn: log,
+    error: log,
+    info: log,
+    group: log,
+    groupEnd: log
+};
+
+for (var i in logFns) {
+    if (!window.console[i]) {
+        window.console[i] = logFns[i];
+    }
+}
+
 $(function() {
 	
 	var containerAppHandlerToken = F2.AppHandlers.getToken();
