@@ -2,9 +2,15 @@ require(
 	{
 		basePath: 'js',
 		paths: {
+<<<<<<< HEAD
 			'bootstrap': 'bootstrap-modal',
 			'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min',
 			'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min',
+=======
+			'bootstrap': 'bootstrap.min',
+			'jquery': 'jquery.min',
+			'jquery-ui': 'jquery-ui.min',
+>>>>>>> Fixed IE container issues
 			'F2': '../../../sdk/f2.debug'
 		},
 		shim: {
@@ -19,12 +25,34 @@ require(
 		}
 	},
 	[
-		'jquery-ui',
+		'jquery',
 		'F2',
 		'appSelector',
+		'jquery-ui',
 		'bootstrap'
 	], 
 	function($, F2, AppSelector) {
+
+		//simple console log helper for IE
+	    var log = $.noop; //function() { };
+	    if (!window["console"]) {
+	        window.console = {};
+	    }
+
+	    var logFns = {
+	        log: log,
+	        warn: log,
+	        error: log,
+	        info: log,
+	        group: log,
+	        groupEnd: log
+	    };
+
+	    for (var i in logFns) {
+	        if (!window.console[i]) {
+	            window.console[i] = logFns[i];
+	        }
+	    }
 
 		// wait for DOM ready
 		$(function() {
@@ -114,8 +142,8 @@ require(
 				}
 				
 				// fade out and remove the root
-				jQuery(appInstance.config.root).fadeOut(250, function() {
-					jQuery(this).remove();
+				$(appInstance.config.root).fadeOut(250, function() {
+					$(this).remove();
 				});
 			};
 			/**
