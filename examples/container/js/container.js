@@ -127,6 +127,18 @@ $(function() {
 		F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: data.symbol, name: data.name || '' });
 	});
 
+	//listen for any failed resources and display alert (demo purposes only)
+	F2.Events.on('RESOURCE_FAILED_TO_LOAD', function(data){
+		var error = ['<div class="row" data-error="scriptfailure">',
+						'<div class="span12">',
+							'<div class="alert">',
+								'<button type="button" class="close" data-dismiss="alert">&times;</button>A <a href="'+data.src+'" target="_blank">script resource</a> defined in "'+data.appId+'" failed to load.',
+							'</div>',
+						'</div>',
+					'</div>'];
+		$('#mainContent').prepend(error.join(''));
+	});
+
 	/**
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 	 */
