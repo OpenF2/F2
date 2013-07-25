@@ -270,6 +270,13 @@ F2.extend('', {
 		 */
 		debugMode: false,
 		/**
+		 * Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.
+		 * @property scriptErrorTimeout
+		 * @type milliseconds
+		 * @default 7000 (7 seconds)
+		 */
+		scriptErrorTimeout: 7000,
+		/**
 		 * Tells the container that it is currently running within
 		 * a secure app page
 		 * @property isSecureAppPage
