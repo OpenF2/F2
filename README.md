@@ -1,6 +1,6 @@
 # An open web framework for the financial services industry.
 
-<img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=150" align="right">
+<img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=125" align="right">
 
 F2 is an open and free web integration framework designed to help the financial services community develop custom solutions that combine the best tools and content from multiple parties into one, privately-labeled, seamlessly integrated front-end. The [essential components](http://docs.openf2.org/index.html#framework) core to the framework are containers, apps, context, and the Registry&mdash;all supported under the hood by **[F2.js](http://docs.openf2.org/f2js-sdk.html)**, a JavaScript SDK which provides an extensible foundation powering all F2-enabled web applications.
 
@@ -12,6 +12,26 @@ Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the l
 
 Browse to the **Get Started** documentation for [containers](http://docs.openf2.org/container-development.html#get-started) or [apps](http://docs.openf2.org/app-development.html#get-started).
 
+### Download
+
+* F2.js
+	* Development: [F2.debug.js](https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js)
+	* Production: [F2.js](https://github.com/OpenF2/F2/blob/master/f2.latest.js) (34.3kb)
+
+#### Packages ([about]((http://docs.openf2.org/f2js-sdk.html#packages))
+
+* Basic: 
+    * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)
+    * Production: [F2.basic.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.min.js) (7.6kb)
+* No easyXDM:
+    * Development: [f2.no-easyXDM.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.js)
+    * Production: [f2.no-easyXDM.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.min.js) (30.4kb)	    	    
+* No Bootstrap: 
+    * Development: [F2.no-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.js)
+    * Production: [F2.no-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.min.js) (33.6kb)
+* No jQuery, Bootstrap:
+    * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
+    * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
 
 ## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
 
