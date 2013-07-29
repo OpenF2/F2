@@ -12,13 +12,19 @@ Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the l
 
 Browse to the **Get Started** documentation for [containers](http://docs.openf2.org/container-development.html#get-started) or [apps](http://docs.openf2.org/app-development.html#get-started).
 
-### Download
+### Download F2.js
 
-* F2.js
-	* Development: [F2.debug.js](https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js)
-	* Production: [F2.js](https://github.com/OpenF2/F2/blob/master/f2.latest.js) (34.3kb)
+* Development: [F2.debug.js](https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js)
+* Production: [F2.js](https://github.com/OpenF2/F2/blob/master/f2.latest.js) (34.3kb)
 
-#### Packages ([about]((http://docs.openf2.org/f2js-sdk.html#packages))
+
+## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
+
+**Important**: If you just want to develop F2 containers or apps, you can skip the section below. _You do not need the command line, Node.js or Grunt to develop with F2_.
+
+### Packages
+
+Packages are variants of F2.js. They are ideally used when a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. [Read more about F2 packages]((http://docs.openf2.org/f2js-sdk.html#packages).
 
 * Basic: 
     * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)
@@ -33,9 +39,6 @@ Browse to the **Get Started** documentation for [containers](http://docs.openf2.
     * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
     * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
 
-## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
-
-**Important**: If you just want to develop F2 containers or apps, you can skip the section below. _You do not need the command line, Node.js or Grunt to develop with F2_.
 
 ### Build F2
 
