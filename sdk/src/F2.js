@@ -273,11 +273,18 @@ F2 = (function() {
 			return (bIsNode || bIsElement);
 		},
 		/**
-		 * Wrapper logging function.
+		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console). 
 		 * @method log
-		 * @param {object} obj An object to be logged
+		 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 		 * @param {object} [obj2]* An object to be logged
-		 * Derived from https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js
+		 * @example
+			//Pass any object (string, int, array, object, bool) to .log()
+			F2.log('foo');
+			F2.log(myArray);
+			//Use a console method name as the first argument. 
+			F2.log('error', err);
+			F2.log('info', 'The session ID is ' + sessionId);
+		 * Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
 		 */
 		log: function() {
 			var _log;
