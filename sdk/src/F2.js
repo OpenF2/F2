@@ -277,11 +277,48 @@ F2 = (function() {
 		 * @method log
 		 * @param {object} obj An object to be logged
 		 * @param {object} [obj2]* An object to be logged
+		 * Derived from https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js
 		 */
 		log: function() {
-			if (window.console && window.console.log) {
-				console.log([].slice.call(arguments));
+			var _log;
+			var _logMethod = 'log';
+			var method;
+			var noop = function () { };
+			var methods = [
+				'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+				'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+				'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+				'timeStamp', 'trace', 'warn'
+			];
+			var length = methods.length;
+			var console = (window.console = window.console || {});
+
+			while (length--) {
+				method = methods[length];
+
+				// Only stub undefined methods.
+				if (!console[method]) {
+					console[method] = noop;
+				}
+
+				//if first arg is a console function, use it. 
+				//defaults to console.log()
+				if (arguments && arguments[0] == method){
+					_logMethod = method;
+					//remove console func from args
+					Array.prototype.slice.call(arguments, 1);
+				}
 			}
+
+			if (Function.prototype.bind) {
+				_log = Function.prototype.bind.call(console[_logMethod], console);
+			} else {
+				_log = function() { 
+					Function.prototype.apply.call(console[_logMethod], console, arguments);
+				};
+			}
+
+			_log.apply(this,arguments);
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object
