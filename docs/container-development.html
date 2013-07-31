@@ -3,7 +3,7 @@
 <head>
   <title>F2 - Container Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="7 June 2013">
+  <meta name="dcterms.date" content="31 July 2013">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, openf2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container">
   <meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.2.0" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.2.1" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -72,8 +72,8 @@
             <li class="divider-vertical"></li>
             <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.1</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.1)</a></li>
           </ul>
         </div>
       </div>
@@ -124,7 +124,7 @@
 <h1 class="title">Container Development</h1>
 </header>
 <p class="lead">
-The container is the foundation of any F2-enabled solution. By leveraging the <a href="f2js-sdk.html">F2.js SDK</a>, Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can <a href="index.html#framework">read more about the framework</a>, <a href="https://github.com/OpenF2/F2#quick-start">download the project on GitHub</a> or <a href="#get-started">get started</a> below. The latest version of F2 is 1.2.0.
+The container is the foundation of any F2-enabled solution. By leveraging the <a href="f2js-sdk.html">F2.js SDK</a>, Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can <a href="index.html#framework">read more about the framework</a>, <a href="https://github.com/OpenF2/F2#quick-start">download the project on GitHub</a> or <a href="#get-started">get started</a> below. The latest version of F2 is 1.2.1.
 </p>
 
 <hr>
@@ -139,7 +139,7 @@ The container is the foundation of any F2-enabled solution. By leveraging the <a
 <h3>Basic Container</h3>
 <p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://twitter.github.io/bootstrap/index.html">Bootstrap</a>, and ensure you're <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
 <p>
-<a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-small">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn btn-small">Download Bootstrap</a>
+<a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-small">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn btn-small">Download Bootstrap</a>
 </p>
 
 <p>Setup a basic container HTML template (or add F2.js to an existing website):</p>
@@ -271,7 +271,7 @@ $(<span class="kw">function</span>(){
 </section>
 <section class="level4" id="override-the-appmanifest-request">
 <h4>Override the AppManifest Request</h4>
-<p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>—intentionally obscured from developers through the <code>F2.registerApps()</code> API—is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.) In version 1.2.0 of F2, the <code>AppManifest</code> request can be overridden in the Container Config.</p>
+<p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>—intentionally obscured from developers through the <code>F2.registerApps()</code> API—is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.) In version 1.2.1 of F2, the <code>AppManifest</code> request can be overridden in the Container Config.</p>
 <p><span class="label label-info">Note</span> The <code>AppManifest</code> endpoint is configured in the <code>manifestUrl</code> property within each <a href="#appconfigs"><code>AppConfig</code></a>.</p>
 <p>The following example demonstrates how the <code>xhr</code> property of the <code>ContainerConfig</code> is used to override F2.js.</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
@@ -414,7 +414,7 @@ $(<span class="kw">function</span>(){
 </section>
 <section class="level3" id="registering-pre-loaded-apps">
 <h3>Registering Pre-Loaded Apps</h3>
-<p>Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each apps' <code>AppManifest</code> and its dependencies <em>before</em> the page is rendered.</p>
+<p>Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each app's <code>AppManifest</code> and its dependencies <em>before</em> the page is rendered.</p>
 <p>For the following example, let's assume you have a web page composed on the server and all of its HTML is delivered to the browser in one payload. This page also has at least one widget (or component) you'd like to register with F2.js.</p>
 <section class="level4" id="setup-container">
 <h4>1. Setup Container</h4>
@@ -438,7 +438,7 @@ $(<span class="kw">function</span>(){
 </section>
 <section class="level4" id="request-appmanifest">
 <h4>2. Request AppManifest</h4>
-<p>Next, make a server-side request to the news apps' <code>AppManifest</code>—the URL is found in <code>manifestUrl</code>—and capture the resulting JSON. Each <code>AppManifest</code> contains scripts, style sheets and HTML (<a href="app-development.html#app-manifest">more about the <code>AppManifest</code></a>). The market news apps' <code>AppManifest</code> looks like this:</p>
+<p>Next, make a server-side request to the news app's <code>AppManifest</code>—the URL is found in <code>manifestUrl</code>—and capture the resulting JSON. Each <code>AppManifest</code> contains scripts, style sheets and HTML (<a href="app-development.html#app-manifest">more about the <code>AppManifest</code></a>). The market news app's <code>AppManifest</code> looks like this:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{
    <span class="st">&quot;apps&quot;</span>:[{
          <span class="st">&quot;data&quot;</span>:{},
@@ -612,7 +612,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 <span class="kw">F2</span>.<span class="fu">init</span>();
 <span class="kw">F2.AppHandlers</span>.<span class="fu">on</span>(_token, <span class="ch">&#39;appRender&#39;</span>, <span class="kw">document</span>.<span class="fu">getElementById</span>(<span class="ch">&#39;my_sidebar&#39;</span>));
 <span class="kw">F2</span>.<span class="fu">registerApps</span>(_appConfig);</code></pre>
-<p>F2 will insert <code>html</code> from the <code>AppManifest</code> inside the specified DOM element. The resulting HTML will look like this after <code>registerApps</code> is called. Take note F2.js adds three class names to the apps' outermost element (<code>f2-app</code>, <code>f2-app-container</code>, and <code>com_example_app</code> for the <code>appId</code>).</p>
+<p>F2 will insert <code>html</code> from the <code>AppManifest</code> inside the specified DOM element. The resulting HTML will look like this after <code>registerApps</code> is called. Take note F2.js adds three class names to the app's outermost element (<code>f2-app</code>, <code>f2-app-container</code>, and <code>com_example_app</code> for the <code>appId</code>).</p>
 <pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;my_sidebar&quot;</span><span class="kw">&gt;</span>
     <span class="co">&lt;!--HTML defined in AppManifest inserted here--&gt;</span>
     <span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;f2-app f2-app-container com_example_app&quot;</span><span class="kw">&gt;</span>
@@ -746,7 +746,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
         <span class="dt">name</span>: <span class="st">&quot;Microsoft, Inc.&quot;</span> 
     }
 );</code></pre>
-<p>The container would need to listen to your apps' broadcasted <code>F2.Constants.Events.APP_SYMBOL_CHANGE</code> event using code like this:</p>
+<p>The container would need to listen to your app's broadcasted <code>F2.Constants.Events.APP_SYMBOL_CHANGE</code> event using code like this:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2.Events</span>.<span class="fu">on</span>(
     <span class="kw">F2.Constants.Events</span>.<span class="fu">APP</span>_<span class="fu">SYMBOL</span>_<span class="fu">CHANGE</span>, 
     <span class="kw">function</span>(data){
@@ -933,7 +933,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.0, published 7 June 2013</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.2.1, published 31 July 2013</small></p>
 		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
@@ -942,7 +942,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.2.0"></script>
-<script src="./js/docs.js?1.2.0"></script>
+<script src="./js/f2.js?1.2.1"></script>
+<script src="./js/docs.js?1.2.1"></script>
 </body>
 </html>

@@ -58,28 +58,23 @@ SDK_Manager.prototype.highlightNav = function(){
 SDK_Manager.prototype._handleHashChange = function() {
 
 	if (!!location.hash) {
-		window.setTimeout($.proxy(function(){
+		var hashParts = String(location.hash).split('-');
 
-			var hashParts = String(location.hash).split('-');
+		// handle class member
+		if ($('#classTabs a[href="' + hashParts[0] + '"]').length) {
+			this._scrollToClassMember(hashParts[0], hashParts[1]);
 
-			// handle class member
-			if ($('#classTabs a[href="' + hashParts[0] + '"]').length) {
-				this._scrollToClassMember(hashParts[0], hashParts[1]);
+		// handle line number
+		} else if (/^#l\d+$/.test(hashParts[0])) {
+			var line = parseInt(hashParts[0].substring(2));	
+			var offset = $('ol.linenums li').eq(line).offset();
+			$('html, body').animate({scrollTop:offset.top - 75});
 
-			// handle line number
-			} else if (/^#l\d+$/.test(hashParts[0])) {
-				var line = parseInt(hashParts[0].substring(2));	
-				var offset = $('ol.linenums li').eq(line).offset();
-				$('html, body').animate({scrollTop:offset.top - 75});
-
-			// everything else
-			} else {
-				var offset = $(hashParts[0]).offset();
-				$('html, body').animate({scrollTop:offset.top - 75});
-			}
-
-		},this),250);
-		
+		// everything else
+		} else {
+			var offset = $(hashParts[0]).offset();
+			$('html, body').animate({scrollTop:offset.top - 75});
+		}
 	}
 };
 
