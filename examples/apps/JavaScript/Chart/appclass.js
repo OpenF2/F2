@@ -15,11 +15,12 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 	app.prototype.config = function() {
 
 		var defaults = {
+			backgroundColor: '#fff',
 			lineColor: '#6A8F8E',
 			lineWidth: 1.5,
-			gridColor: '#DDDDDD',
+			gridColor: '#ddd',
 			gridAltColor: '#F7F7F7',
-			fontColor: '#444444',
+			fontColor: '#444',
 			fontFamily: 'Arial, sans-serif',
 			fontSize: 12,
 			lineHeight: 1.2,
@@ -195,7 +196,8 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 				renderTo: this.CHT_CONTAINER,
 				spacingBottom: 25,
 				spacingLeft: 1,
-				spacingRight: 1
+				spacingRight: 1,
+				backgroundColor: this.CHART_STYLES.backgroundColor
 			},
 			credits: {
 				enabled: false
