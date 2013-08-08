@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - The Open Financial Framework</title>
-	<meta name="dcterms.date" content="7 June 2013">
+	<meta name="dcterms.date" content="8 August 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="./../js/respond.min.js"></script>
 	
 	<link href="./../css/prettify.css" rel="stylesheet">
-	<link href="./../css/F2.Sdk.css?1.2.0" rel="stylesheet">
+	<link href="./../css/F2.Sdk.css?1.2.1" rel="stylesheet">
 
 	<link rel="icon" href="./../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="./../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.1)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -220,56 +220,57 @@
 				</ul>
 			</div>
 			<div id="main" class="span9">
-				<h1>F2 - An open web framework for the financial services industry.</h1>
+				<h1>An open web framework for the financial services industry.</h1>
 
-<p><img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=150" align="right">
-F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The <a href="http://docs.openf2.org/index.html#framework">essential components</a> defined by the F2 specification are the Container, Apps, Context and Store&mdash;all supported under the hood by <strong><a href="http://docs.openf2.org/f2js-sdk.html">F2.js</a></strong>, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. </p>
+<p><img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=125"></p>
 
-<p>F2 is currently maintained by <a href="http://www.markitondemand.com">Markit On Demand</a> and you're encouraged to read <a href="http://docs.openf2.org/#spec-management">more details about the management of the F2 spec</a>. Visit <a href="http://www.openf2.org">OpenF2.org</a> for more information and follow <a href="http://twitter.com/OpenF2">@OpenF2</a> on Twitter.</p>
+<p>F2 is an open and free web integration framework designed to help the financial services community develop custom solutions that combine the best tools and content from multiple parties into one, privately-labeled, seamlessly integrated front-end. The <a href="http://docs.openf2.org/index.html#framework">essential components</a> core to the framework are containers, apps, context, and the Registry&mdash;all supported under the hood by <strong><a href="http://docs.openf2.org/f2js-sdk.html">F2.js</a></strong>, a JavaScript SDK which provides an extensible foundation powering all F2-enabled web applications.</p>
+
+<p>F2 is currently maintained by <a href="http://www.markitondemand.com">Markit On Demand</a>. Visit <a href="http://www.openf2.org">OpenF2.org</a> for more information and follow <a href="http://twitter.com/OpenF2">@OpenF2</a> on Twitter.</p>
 
 <h2>Quick Start</h2>
 
 <p>Clone the repo, <code>git clone https://github.com/OpenF2/F2.git</code>, or <a href="https://github.com/OpenF2/F2/zipball/master">download the latest version</a>.</p>
 
-<p>Now you've got F2, you are ready to start building F2 containers or apps. Read the <a href="http://docs.openf2.org/app-development.html">Get Started documentation</a> for F2 apps to begin. If you simply want to see examples, point your browser at <code>http://path/to/your/F2/examples/</code>.</p>
+<p>Browse to the <strong>Get Started</strong> documentation for <a href="http://docs.openf2.org/container-development.html#get-started">containers</a> or <a href="http://docs.openf2.org/app-development.html#get-started">apps</a>.</p>
 
-<p><strong>Important</strong>: If you simply want to build F2 <a href="http://docs.openf2.org/container-development.html">containers</a> or <a href="http://docs.openf2.org/app-development.html">apps</a>, you can <strong>skip</strong> the <a href="#build-f2-">Build F2</a> section below. You do not need the command line to work with F2.</p>
+<h3>Download F2.js</h3>
 
-<h2>Versioning</h2>
+<ul>
+<li>Development: <a href="https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js">F2.debug.js</a></li>
+<li>Production: <a href="https://github.com/OpenF2/F2/blob/master/F2.latest.js">F2.js</a> (34.3kb)</li>
+</ul>
 
-<p>To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.</p>
+<h2>Developers <a href="https://travis-ci.org/OpenF2/F2"><img src="https://travis-ci.org/OpenF2/F2.png?branch=master" alt="Build Status" title="" /></a></h2>
 
-<p>Releases will be numbered with the following format:</p>
+<p><strong>Important</strong>: If you just want to develop F2 containers or apps, you can skip the section below. <em>You do not need the command line, Node.js or Grunt to develop with F2</em>.</p>
 
-<p><code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></p>
+<h3>Packages</h3>
 
-<p>For more information on SemVer, please visit <a href="http://semver.org/">http://semver.org/</a>.</p>
+<p>Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or <a href="http://docs.openf2.org/app-development.html#secure-apps">sandboxed apps</a> aren't needed. <a href="http://docs.openf2.org/f2js-sdk.html#packages">Read more about F2 packages</a>.</p>
 
-<p>You can run this command to check the version of your local copy of F2 (if you've <a href="#developers">setup the build</a>):</p>
+<ul>
+<li>Basic: 
+<ul><li>Development: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js">F2.basic.js</a></li>
+<li>Production: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.min.js">F2.basic.min.js</a> (7.6kb)</li></ul></li>
+<li>No easyXDM:
+<ul><li>Development: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.js">f2.no-easyXDM.js</a></li>
+<li>Production: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.min.js">f2.no-easyXDM.min.js</a> (30.4kb)                </li></ul></li>
+<li>No Bootstrap: 
+<ul><li>Development: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.js">F2.no-bootstrap.js</a></li>
+<li>Production: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.min.js">F2.no-bootstrap.min.js</a> (33.6kb)</li></ul></li>
+<li>No jQuery, Bootstrap:
+<ul><li>Development: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js">f2.no-jquery-or-bootstrap.js</a> </li>
+<li>Production: <a href="https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js">f2.no-jquery-or-bootstrap.min.js</a> (11.5kb)</li></ul></li>
+</ul>
 
-<p><code>$&gt; grunt version</code></p>
+<h3>Build F2</h3>
 
-<h2>Talk</h2>
-
-<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="&#x6D;a&#105;&#108;&#116;&#x6F;:&#105;&#x6E;&#x66;&#111;&#64;&#x6F;&#x70;&#x65;&#x6E;f&#x32;&#46;&#x6F;&#x72;g">&#105;&#x6E;&#x66;&#111;&#64;&#x6F;&#x70;&#x65;&#x6E;f&#x32;&#46;&#x6F;&#x72;g</a>.</p>
-
-<h2>Bug Tracking</h2>
-
-<p>To track bugs and issues, we are using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>.</p>
-
-<h2>Developers</h2>
-
-<p>If you just want to build F2 <a href="http://docs.openf2.org/container-development.html">containers</a> and/or <a href="http://docs.openf2.org/app-development.html">apps</a>, you can <strong>skip the <a href="#build-f2">Build F2</a></strong> section below. You do not need the command line to work with F2.</p>
-
-<h3>Build F2 <a href="https://travis-ci.org/OpenF2/F2"><img src="https://travis-ci.org/OpenF2/F2.png?branch=master" alt="Build Status" title="" /></a></h3>
-
-<p>For those wishing to <a href="CONTRIBUTING.md">contribute back to F2</a>, we've included a <code>Gruntfile</code> for use with <a href="http://gruntjs.com/">Grunt</a> which contains the logic for compiling and testing F2.js and the specification docs. Grunt is built on top of <a href="http://nodejs.org/">Node.js</a> and is installed via <a href="https://npmjs.org/">npm</a>.</p>
-
-<p>To configure your environment, be sure you have Node installed and run the following command from the project root directory:</p>
+<p>For those <a href="CONTRIBUTING.md">contributing to F2</a>, you'll need to setup your dev environment. To configure it, be sure you have <a href="http://nodejs.org/">Node.js</a> installed, then run the following command from the project root directory:</p>
 
 <p><code>$&gt; npm install</code></p>
 
-<p>This command will install the <a href="http://gruntjs.com/getting-started#installing-the-cli">Grunt CLI</a> in addition to all dependencies needed to run the <code>Gruntfile</code>. Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be <a href="http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/">installed globally</a> using the <code>-g</code> switch. If the installation fails due to directory permissions, use:</p>
+<p>This command will install the <a href="http://gruntjs.com/getting-started#installing-the-cli">Grunt CLI</a> in addition to all dependencies needed to build F2. Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be <a href="http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/">installed globally</a> using the <code>-g</code> switch. If the installation fails due to directory permissions, use:</p>
 
 <p><code>$&gt; sudo npm install</code></p>
 
@@ -279,21 +280,47 @@ F2 is an open and free web integration framework designed to help you and other 
 
 <p><code>$&gt; grunt</code></p>
 
-<p>For help, run:</p>
+<p>For help and a list of available tasks, run:</p>
 
 <p><code>$&gt; grunt --help</code></p>
 
-<p>Some Mac users have run into a Grunt "cannot run in wd" error when using <code>grunt</code> and/or <code>npm install</code>. If you're getting that error in your shell, try using <code>--unsafe-perm</code> <a href="https://github.com/isaacs/npm/issues/2984">as discussed here</a>.</p>
+<p><em>Some Mac users have run into a Grunt "cannot run in wd" error when using <code>grunt</code> and/or <code>npm install</code>. If you're getting that error in your shell, try using <code>--unsafe-perm</code> <a href="https://github.com/isaacs/npm/issues/2984">as discussed here</a>.</em></p>
 
-NuGet Package
+<h3>Versioning</h3>
 
-<p>Good news if you're using C#! We have an <a href="https://nuget.org/packages/F2/">F2 NuGet package available</a>. In the Package Manager Console run:</p>
+<p>The latest version of F2.js will always be in <code>master</code> and the version number/release date is available on the command line by using:</p>
+
+<p><code>$&gt; grunt version</code>.</p>
+
+<p>In accordance with industry standards, F2 is currently maintained, in as far as reasonably possible, under the Semantic Versioning guidelines.</p>
+
+<p>Releases will be numbered with the following format:</p>
+
+<p><code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></p>
+
+<p>For more information on SemVer, please visit <a href="http://semver.org/">SemVer.org</a>.</p>
+
+<h3>Upgrading</h3>
+
+<p>It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. For more notes on upgrading your container or app to the latest version of F2, <a href="http://docs.openf2.org/f2js-sdk.html#upgrading">read more in the Docs</a>.</p>
+
+<h3>Issues, Enhancements, Bugs</h3>
+
+<p>Have a question? Want to chat? Open an <a href="https://github.com/OpenF2/F2/issues">Issue on GitHub</a>, ask it on our <a href="https://groups.google.com/forum/#!forum/OpenF2">Google Group</a> or send an email to <a href="&#x6D;&#97;&#105;&#x6C;&#116;&#111;:&#x69;&#110;&#x66;&#111;&#64;&#111;&#112;&#101;&#x6E;&#102;&#50;&#46;&#111;r&#x67;">&#x69;&#110;&#x66;&#111;&#64;&#111;&#112;&#101;&#x6E;&#102;&#50;&#46;&#111;r&#x67;</a>.</p>
+
+<p>To track bugs, issues and enhancement requests, we are using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>.</p>
+
+<h3>NuGet Package</h3>
+
+<p>Good news if you're using C#! We have an <a href="https://nuget.org/packages/F2/">F2 NuGet package available</a>. In your Package Manager Console run:</p>
 
 <p><code>PM&gt; Install-Package F2</code></p>
 
 <h3>Collaboration</h3>
 
 <p>Join our team and help contribute to F2 on GitHub. Begin by reading our <a href="CONTRIBUTING.md">contribution guidelines</a>, and then start by <a href="https://github.com/OpenF2/F2/fork_select">forking the repo</a>, sending <a href="https://help.github.com/articles/using-pull-requests">pull requests</a>, or <a href="https://github.com/OpenF2/F2/issues">submitting issues</a>.</p>
+
+<p>Thank you to the <a href="https://github.com/OpenF2/F2/graphs/contributors">growing list of contributors</a>!</p>
 
 <h2>Copyright and License</h2>
 
@@ -322,7 +349,7 @@ NuGet Package
 <script src="./../js/bootstrap.min.2.3.0.js"></script>
 <script src="./../js/prettify.js"></script>
 <script src="./assets/js/main.js"></script>
-<script src="./../js/f2.js?1.2.0"></script>
+<script src="./../js/f2.js?1.2.1"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>
