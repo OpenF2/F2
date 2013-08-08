@@ -74,11 +74,16 @@ F2.extend('', (function(){
 
 	/**
 	 * Adds properties to the AppConfig object
-	 * @method _hydrateAppConfig
+	 * @method _createAppConfig
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @return {F2.AppConfig} The new F2.AppConfig object, prepopulated with
+	 * necessary properties
 	 */
-	var _hydrateAppConfig = function(appConfig) {
+	var _createAppConfig = function(appConfig) {
+
+		// make a copy of the app config to ensure that the original is not modified
+		appConfig = jQuery.extend(true, {}, appConfig);
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
@@ -88,6 +93,8 @@ F2.extend('', (function(){
 		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
+
+		return appConfig;
 	};
 
 	/**
@@ -213,12 +220,21 @@ F2.extend('', (function(){
 			});
 		};
 
-		// load styles
-		var stylesFragment = [];
+		// load styles, see #101
+		var stylesFragment = null,
+			useCreateStyleSheet = !!document.createStyleSheet;
 		jQuery.each(styles, function(i, e) {
-			stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
+			if (useCreateStyleSheet) {
+                document.createStyleSheet(e); 
+			} else {
+				stylesFragment = stylesFragment || [];
+				stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
+			}
 		});
-		jQuery('head').append(stylesFragment.join(''));
+
+		if (stylesFragment){
+			jQuery('head').append(stylesFragment.join(''));
+		}
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
@@ -589,7 +605,7 @@ F2.extend('', (function(){
 			jQuery.each(appConfigs, function(i, a) {
 
 				// add properties and methods
-				_hydrateAppConfig(a);
+				a = _createAppConfig(a);
 
 				// Will set to itself, for preloaded apps, or set to null for apps that aren't already
 				// on the page.

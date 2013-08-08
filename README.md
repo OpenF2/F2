@@ -1,53 +1,52 @@
-# F2 - An open web framework for the financial services industry.
+# An open web framework for the financial services industry.
 
-<img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=150" align="right">
-F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. The [essential components](http://docs.openf2.org/index.html#framework) defined by the F2 specification are the Container, Apps, Context and Store&mdash;all supported under the hood by **[F2.js](http://docs.openf2.org/f2js-sdk.html)**, a JavaScript SDK which provides an extensible foundation powering all F2-based web applications. 
+<img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=125" align="right">
 
-F2 is currently maintained by [Markit On Demand](http://www.markitondemand.com) and you're encouraged to read [more details about the management of the F2 spec](http://docs.openf2.org/#spec-management). Visit [OpenF2.org](http://www.openf2.org) for more information and follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
+F2 is an open and free web integration framework designed to help the financial services community develop custom solutions that combine the best tools and content from multiple parties into one, privately-labeled, seamlessly integrated front-end. The [essential components](http://docs.openf2.org/index.html#framework) core to the framework are containers, apps, context, and the Registry&mdash;all supported under the hood by **[F2.js](http://docs.openf2.org/f2js-sdk.html)**, a JavaScript SDK which provides an extensible foundation powering all F2-enabled web applications.
+
+F2 is currently maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information and follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
 
 ## Quick Start
 
 Clone the repo, `git clone https://github.com/OpenF2/F2.git`, or [download the latest version](https://github.com/OpenF2/F2/zipball/master).
 
-Now you've got F2, you are ready to start building F2 containers or apps. Read the [Get Started documentation](http://docs.openf2.org/app-development.html) for F2 apps to begin. If you simply want to see examples, point your browser at `http://path/to/your/F2/examples/`.
+Browse to the **Get Started** documentation for [containers](http://docs.openf2.org/container-development.html#get-started) or [apps](http://docs.openf2.org/app-development.html#get-started).
 
-**Important**: If you simply want to build F2 [containers](http://docs.openf2.org/container-development.html) or [apps](http://docs.openf2.org/app-development.html), you can **skip** the [Build F2](#build-f2-) section below. You do not need the command line to work with F2.
+### Download F2.js
 
-## Versioning
+* Development: [F2.debug.js](https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js)
+* Production: [F2.js](https://github.com/OpenF2/F2/blob/master/F2.latest.js) (34.3kb)
 
-To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.
 
-Releases will be numbered with the following format:
+## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
 
-`<major>.<minor>.<patch>`
+**Important**: If you just want to develop F2 containers or apps, you can skip the section below. _You do not need the command line, Node.js or Grunt to develop with F2_.
 
-For more information on SemVer, please visit <http://semver.org/>.
+### Packages
 
-You can run this command to check the version of your local copy of F2 (if you've [setup the build](#developers)):
+Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. [Read more about F2 packages](http://docs.openf2.org/f2js-sdk.html#packages).
 
-`$> grunt version`
+* Basic: 
+    * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)
+    * Production: [F2.basic.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.min.js) (7.6kb)
+* No easyXDM:
+    * Development: [f2.no-easyXDM.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.js)
+    * Production: [f2.no-easyXDM.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.min.js) (30.4kb)	    	    
+* No Bootstrap: 
+    * Development: [F2.no-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.js)
+    * Production: [F2.no-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.min.js) (33.6kb)
+* No jQuery, Bootstrap:
+    * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
+    * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
 
-## Talk
 
-Have a question? Want to chat? Open an [Issue on GitHub](https://github.com/OpenF2/F2/issues), ask it on our [Google Group](https://groups.google.com/forum/#!forum/OpenF2) or send an email to <info@openf2.org>.
+### Build F2
 
-## Bug Tracking
-
-To track bugs and issues, we are using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
-
-## Developers
-
-If you just want to build F2 [containers](http://docs.openf2.org/container-development.html) and/or [apps](http://docs.openf2.org/app-development.html), you can **skip the [Build F2](#build-f2)** section below. You do not need the command line to work with F2.
-
-### Build F2 [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
-
-For those wishing to [contribute back to F2](CONTRIBUTING.md), we've included a `Gruntfile` for use with [Grunt](http://gruntjs.com/) which contains the logic for compiling and testing F2.js and the specification docs. Grunt is built on top of [Node.js](http://nodejs.org/) and is installed via [npm](https://npmjs.org/).
-
-To configure your environment, be sure you have Node installed and run the following command from the project root directory:
+For those [contributing to F2](CONTRIBUTING.md), you'll need to setup your dev environment. To configure it, be sure you have [Node.js](http://nodejs.org/) installed, then run the following command from the project root directory:
 
 `$> npm install`
 
-This command will install the [Grunt CLI](http://gruntjs.com/getting-started#installing-the-cli) in addition to all dependencies needed to run the `Gruntfile`. Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch. If the installation fails due to directory permissions, use:
+This command will install the [Grunt CLI](http://gruntjs.com/getting-started#installing-the-cli) in addition to all dependencies needed to build F2. Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch. If the installation fails due to directory permissions, use:
 
 `$> sudo npm install`
 
@@ -57,21 +56,47 @@ To **build F2**, run:
 
 `$> grunt`
 
-For help, run:
+For help and a list of available tasks, run:
 
 `$> grunt --help`
 
-Some Mac users have run into a Grunt "cannot run in wd" error when using `grunt` and/or `npm install`. If you're getting that error in your shell, try using `--unsafe-perm` [as discussed here](https://github.com/isaacs/npm/issues/2984).
+_Some Mac users have run into a Grunt "cannot run in wd" error when using `grunt` and/or `npm install`. If you're getting that error in your shell, try using `--unsafe-perm` [as discussed here](https://github.com/isaacs/npm/issues/2984)._
 
-#### NuGet Package
+### Versioning
 
-Good news if you're using C#! We have an [F2 NuGet package available](https://nuget.org/packages/F2/). In the Package Manager Console run:
+The latest version of F2.js will always be in `master` and the version number/release date is available on the command line by using:
+
+`$> grunt version`.
+
+In accordance with industry standards, F2 is currently maintained, in as far as reasonably possible, under the Semantic Versioning guidelines.
+
+Releases will be numbered with the following format:
+
+`<major>.<minor>.<patch>`
+
+For more information on SemVer, please visit [SemVer.org](http://semver.org/).
+
+### Upgrading
+
+It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. For more notes on upgrading your container or app to the latest version of F2, [read more in the Docs](http://docs.openf2.org/f2js-sdk.html#upgrading).
+
+### Issues, Enhancements, Bugs
+
+Have a question? Want to chat? Open an [Issue on GitHub](https://github.com/OpenF2/F2/issues), ask it on our [Google Group](https://groups.google.com/forum/#!forum/OpenF2) or send an email to <info@openf2.org>.
+
+To track bugs, issues and enhancement requests, we are using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
+
+### NuGet Package
+
+Good news if you're using C#! We have an [F2 NuGet package available](https://nuget.org/packages/F2/). In your Package Manager Console run:
 
 `PM> Install-Package F2`
 
 ### Collaboration 
 
 Join our team and help contribute to F2 on GitHub. Begin by reading our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork_select), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+
+Thank you to the [growing list of contributors](https://github.com/OpenF2/F2/graphs/contributors)!
 
 ## Copyright and License
 

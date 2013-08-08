@@ -1857,7 +1857,7 @@
             "line": 75,
             "description": "Adds properties to the AppConfig object",
             "itemtype": "method",
-            "name": "_hydrateAppConfig",
+            "name": "_createAppConfig",
             "access": "private",
             "tagname": "",
             "params": [
@@ -1867,12 +1867,16 @@
                     "type": "F2.AppConfig"
                 }
             ],
+            "return": {
+                "description": "The new F2.AppConfig object, prepopulated with\nnecessary properties",
+                "type": "F2.AppConfig"
+            },
             "class": "F2",
             "module": "f2"
         },
         {
             "file": "sdk/src/container.js",
-            "line": 93,
+            "line": 100,
             "description": "Attach app events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -1883,7 +1887,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 115,
+            "line": 122,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -1894,7 +1898,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 133,
+            "line": 140,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -1909,7 +1913,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 143,
+            "line": 150,
             "description": "Instantiates each app from it's appConfig and stores that in a local private collection",
             "itemtype": "method",
             "name": "_createAppInstance",
@@ -1927,7 +1931,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 171,
+            "line": 178,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -1951,7 +1955,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 296,
+            "line": 312,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1974,7 +1978,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 357,
+            "line": 373,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1996,7 +2000,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 378,
+            "line": 394,
             "description": "Checks if the ContainerConfig is valid",
             "itemtype": "method",
             "name": "_validateContainerConfig",
@@ -2011,7 +2015,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 407,
+            "line": 423,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -2024,7 +2028,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 422,
+            "line": 438,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -2040,7 +2044,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 448,
+            "line": 464,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -2053,7 +2057,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 454,
+            "line": 470,
             "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the \n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -2080,7 +2084,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 770,
+            "line": 786,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -2089,7 +2093,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 785,
+            "line": 801,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2727,15 +2731,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:357"
+            "line": " sdk/src/container.js:373"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:378"
+            "line": " sdk/src/container.js:394"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:407"
+            "line": " sdk/src/container.js:423"
         },
         {
             "message": "replacing incorrect tag: params with param",

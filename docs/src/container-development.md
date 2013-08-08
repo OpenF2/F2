@@ -16,7 +16,7 @@ To help you get started building an F2 container, review the documentation and e
 
 To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://twitter.github.io/bootstrap/index.html), and ensure you're [properly configured](#configuration) for continuing with the documentation.
 
-<p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-small">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn btn-small">Download Bootstrap</a></p>
+<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-small">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn btn-small">Download Bootstrap</a></p>
 
 Setup a basic container HTML template (or add F2.js to an existing website):
 
@@ -359,7 +359,7 @@ As an alternative to static app configuration shown above, the `_appConfig` vari
 
 ### Registering Pre-Loaded Apps
 
-Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each apps' `AppManifest` and its dependencies _before_ the page is rendered.
+Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each app's `AppManifest` and its dependencies _before_ the page is rendered.
 
 For the following example, let's assume you have a web page composed on the server and all of its HTML is delivered to the browser in one payload. This page also has at least one widget (or component) you'd like to register with F2.js. 
 
@@ -388,7 +388,7 @@ To use pre-loaded apps, a web page with a placeholder element for the apps is re
 
 #### 2. Request AppManifest
 
-Next, make a server-side request to the news apps' `AppManifest`&mdash;the URL is found in `manifestUrl`&mdash;and capture the resulting JSON. Each `AppManifest` contains scripts, style sheets and HTML ([more about the `AppManifest`](app-development.html#app-manifest)). The market news apps' `AppManifest` looks like this:
+Next, make a server-side request to the news app's `AppManifest`&mdash;the URL is found in `manifestUrl`&mdash;and capture the resulting JSON. Each `AppManifest` contains scripts, style sheets and HTML ([more about the `AppManifest`](app-development.html#app-manifest)). The market news app's `AppManifest` looks like this:
 
 ```javascript
 {
@@ -606,7 +606,7 @@ F2.AppHandlers.on(_token, 'appRender', document.getElementById('my_sidebar'));
 F2.registerApps(_appConfig);
 ```
 
-F2 will insert `html` from the `AppManifest` inside the specified DOM element. The resulting HTML will look like this after `registerApps` is called. Take note F2.js adds three class names to the apps' outermost element (`f2-app`, `f2-app-container`, and `com_example_app` for the `appId`).
+F2 will insert `html` from the `AppManifest` inside the specified DOM element. The resulting HTML will look like this after `registerApps` is called. Take note F2.js adds three class names to the app's outermost element (`f2-app`, `f2-app-container`, and `com_example_app` for the `appId`).
 
 ```html
 <div id="my_sidebar">
@@ -794,7 +794,7 @@ F2.Events.emit(
 );
 ```
 
-The container would need to listen to your apps' broadcasted `F2.Constants.Events.APP_SYMBOL_CHANGE` event using code like this:
+The container would need to listen to your app's broadcasted `F2.Constants.Events.APP_SYMBOL_CHANGE` event using code like this:
 
 ```javascript
 F2.Events.on(

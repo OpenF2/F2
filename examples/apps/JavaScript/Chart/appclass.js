@@ -15,6 +15,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 	app.prototype.config = function() {
 
 		var defaults = {
+			backgroundColor: '#fff',
 			lineColor: '#6A8F8E',
 			lineWidth: 1.5,
 			gridColor: '#DDDDDD',
@@ -30,7 +31,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 		/** for example purposes*/
 		console.group('Chart app');
-		console.info('The chart app (com_openf2_examples_javascript_chart) has configuration options which can be override by using Context. Set a "style" property in the AppConfig\'s Context property. The current AppConfig is on the next line.');
+		console.info('The chart app (com_openf2_examples_javascript_chart) has configuration options which can be overriden by using Context. Set a "style" property in the AppConfig\'s Context property. The current AppConfig is on the next line.');
 		console.info(this.appConfig);
 		console.info('The chart\'s configuration parameters (defaults) are found in the following hash');
 		console.info(defaults);
@@ -195,7 +196,8 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 				renderTo: this.CHT_CONTAINER,
 				spacingBottom: 25,
 				spacingLeft: 1,
-				spacingRight: 1
+				spacingRight: 1,
+				backgroundColor: this.CHART_STYLES.backgroundColor
 			},
 			credits: {
 				enabled: false

@@ -1,8 +1,8 @@
 % F2.js SDK
 
-<p class="lead">F2 enables all of us to build exactly the financial solutions that our customers want. Using the F2 Framework, you can efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel apps and deploy them in as many app ecosystems as you want.</p>
+<p class="lead">F2 enables you to efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel apps and deploy them in as many app ecosystems as you want.</p>
 
-Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.
+Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations or individuals, to function together creating a seamless and integrated experience.
 
 * * * *
 
@@ -22,17 +22,40 @@ Anyone is free to download F2.js from the [F2 project repository on GitHub](http
 
 The latest version of F2.js is **{{version}}**.
 
-<p><a href="https://raw.github.com/OpenF2/F2/master/f2.js" class="btn btn-primary">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn" target="_blank">View on GitHub</a></p>
+<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small" target="_blank">View on GitHub</a></p>
+
+### Packages
+
+Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. In circumstances where not all F2 features are required, Container Providers can use smaller, faster, lighter-weight versions of F2.js. Choose one below:
+
+* **Basic**: 
+	* Includes: json2, EventEmitter, and F2
+    * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)
+    * Production: [F2.basic.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.min.js) (7.6kb)
+* **No easyXDM**:
+	* Includes: json2, jQuery, Bootstrap Modal, EventEmitter, and F2
+    * Development: [f2.no-easyXDM.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.js)
+    * Production: [f2.no-easyXDM.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.min.js) (30.4kb)	    	    
+* **No Bootstrap**: 
+	* Includes: json2, jQuery, EventEmitter, and F2
+    * Development: [F2.no-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.js)
+    * Production: [F2.no-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.min.js) (33.6kb)
+* **No jQuery, Bootstrap**:
+    * Includes: json2, easyXDM, and F2
+    * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
+    * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
+
+For more information on the libraries used by F2, see [Third Party Libraries](#third-party-libraries) below.
 
 * * * *
 
 ## Versioning
 
-The latest version of F2.js will always be in the project root, and the version number is in the top of file. The version number is also available on the command line by using:
+The latest version of F2.js will always be in the root of the project, and the version number can be found embedded in the code. The version number is also available on the command line by using:
 
 `$> grunt version`.
 
-To adhere to industry standards, F2 will be maintained under the Semantic Versioning guidelines as much as possible.
+In accordance with industry standards, F2 is currently maintained, in as far as reasonably possible, under the Semantic Versioning guidelines.
 
 Releases will be numbered with the following format:
 
@@ -44,35 +67,30 @@ For more information on SemVer, please visit [SemVer.org](http://semver.org/).
 
 ## Upgrading
 
-It is a goal of ours to make upgrading to the latest version of F2 a minor effort for development teams. Releasing feature enhancements, addressing bugs or security patches, and working hard to maintain backward compatibility for F2.js APIs&mdash;while constantly pushing the boundaries&mdash;are all part of evolving a web framework for the financial services industry.
-
-The details from each release of F2, minor and major, are tracked in the [changelog](https://github.com/OpenF2/F2/wiki/Changelog).
-
-### The Latest
-
-For developers, getting the latest F2.js SDK is as simple as going to the [project repository on GitHub](https://github.com/OpenF2/F2). A download ([zip](https://github.com/OpenF2/F2/zipball/master)) of the current version ({{version}}) of F2 is always available along with [tags of previous releases](https://github.com/OpenF2/F2/tags).
+It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. The details from each release of F2, minor and major, are tracked in the [changelog](https://github.com/OpenF2/F2/wiki/Changelog). As of version 1.2, no breaking changes have been introduced and therefore upgrading should be as simple as [downloading the latest copy of F2.js](https://raw.github.com/OpenF2/F2/master/sdk/f2.min.js) and updating your website.
 
 Developers can quick-link to the latest copy of F2.js:
 
-`https://raw.github.com/OpenF2/F2/master/f2.js`
+`https://raw.github.com/OpenF2/F2/master/F2.latest.js`
 
 <span class="label label-info">Note</span> GitHub is [not a CDN](http://stackoverflow.com/questions/5502540/should-github-be-used-as-a-cdn-for-javascript-libraries).
 
-### Deprecated Features or APIs
+A download ([zip](https://github.com/OpenF2/F2/zipball/master)) of the current version ({{version}}) of F2 is always available along with [tags of previous releases](https://github.com/OpenF2/F2/releases).
 
-As F2 features and/or F2.js APIs are deprecated, advance notice will be provided on any  or all of the F2 [communication channels](https://github.com/OpenF2/F2/blob/master/CONTRIBUTING.md#keep-in-touch). In addition, backward compatibility will be maintained for at least one minor version of F2. For example, if `Feature X` is deprecated in `1.0`, backward compatibility will be maintained until at least version `1.1`. F2 documentation will be updated accordingly to reflect any changes, and the conversation behind deprecated features will be publicly [available on GitHub](https://github.com/OpenF2/F2/issues).
+### Deprecated Features
 
-## Forum
+There is a page on the wiki [tracking deprecated features in F2](https://github.com/OpenF2/F2/wiki/F2.js-Deprecated). Starting with version 1.2, three `ContainerConfig` properties have been retired. As F2 features and/or F2.js APIs are deprecated, we will attempt to give reasonable advance notice via any or all of the F2 [communication channels](https://github.com/OpenF2/F2/blob/master/CONTRIBUTING.md#keep-in-touch). In addition, we will strive to ensure that backward compatibility will be maintained for at least one major version of F2. For example, if `Feature X` is deprecated in version `1.3`, we will attempt to maintain backward compatibility until the next major release (version `2.0`). F2 documentation will be updated accordingly to reflect any changes, and the conversation behind deprecated features will be publicly [available on GitHub](https://github.com/OpenF2/F2/issues).
 
-Have a question? Ask it on the [F2 Google Group](https://groups.google.com/forum/#!forum/OpenF2) or start a discussion using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
 
-<OpenF2@googlegroups.com>
+### Third Party Libraries
 
-* * * *
+F2 uses third party libraries inside F2.js (see [Framework: Choices](http://docs.openf2.org/#choices)). These open-source libraries are all on their own release schedules. We cannot guarantee that we will always stay abreast and in tune with such latest releases, but in an effort to improve the F2 framework, we will attempt to update F2.js so that it uses the latest, most stable and most secure version of the third party software. These updates to F2 will be made through the normal release process on GitHub and comments will be open.
 
-## Bug Tracking
+## Issues, Enhancements, Bugs
 
-To track bugs or issues, F2 is using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
+Have a question? Ask it on the [F2 Google Group](https://groups.google.com/forum/#!forum/OpenF2) (or send an email to <OpenF2@googlegroups.com>) or start a discussion using [Issues on GitHub](https://github.com/OpenF2/F2/issues). 
+
+To track bugs, enhancements or other issues, F2 is using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
 
 * * * *
 
