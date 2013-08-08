@@ -50,6 +50,19 @@ module.exports = function(grunt) {
 					}
 				}
 			},
+			'f2ToRoot': {
+				files: [
+					{
+						expand: true,
+						cwd: 'sdk/',
+						src: 'f2.min.js',
+						dest: './',
+						rename: function(dest,src){
+							return './<%= pkg.name %>.latest.js';
+						}
+					}
+				]
+			},
 			'github-pages': {
 				files: [
 					{
@@ -81,8 +94,7 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						cwd: 'examples/',
-						src: ['**'], 
-						dest: '../F2-examples'
+						src: ['**']
 					}
 				]
 			}
@@ -92,14 +104,6 @@ module.exports = function(grunt) {
 				process: { data: pkg },
 				separator: '\n',
 				stripBanners: false
-			},
-			'no-third-party': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/f2.no-third-party.js'
 			},
 			dist: {
 				src: [
@@ -114,7 +118,62 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.debug.js'
-			}
+			},
+			'no-third-party': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/f2.no-third-party.js'
+			},
+			'no-jquery-or-bootstrap': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'sdk/src/third-party/easyXDM/easyXDM.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.no-jquery-or-bootstrap.js'
+			},
+			'no-bootstrap': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/jquery.js',
+					'sdk/src/third-party/jquery.noconflict.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'sdk/src/third-party/easyXDM/easyXDM.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.no-bootstrap.js'
+			},
+			'no-easyXDM': {
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/jquery.js',
+					'sdk/src/third-party/bootstrap-modal.js',
+					'sdk/src/third-party/jquery.noconflict.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.no-easyXDM.js'
+			},
+			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
+				src: [
+					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/json2.js',
+					'sdk/src/third-party/eventemitter2.js',
+					'<%= jshint.files %>',
+					'sdk/src/template/footer.js.tmpl'
+				],
+				dest: 'sdk/packages/f2.basic.js'
+			},
 		},
 		/**
 		 * Need to downgrade forever-monitor to v1.1 because of:
@@ -173,9 +232,8 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			options: {
-				preserveComments: function(node, comment) {
-					return (/^!/).test(comment.value);
-				}
+				preserveComments: 'some',
+				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("mm-dd-yyyy") %> - See below for copyright and license */\n'
 			},
 			dist: {
 				files: {'sdk/f2.min.js' : ['sdk/f2.debug.js']},
@@ -194,6 +252,22 @@ module.exports = function(grunt) {
 						return path.replace(grunt.config('sourcemap.options.prefix'), '').replace(/\.js$/, '.map');
 					}
 				}
+			},
+			'package-no-jquery-or-bootstrap': {
+				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
+				options: { report: 'gzip' }
+			},
+			'package-no-bootstrap': {
+				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
+				options: { report: 'gzip' }
+			},
+			'package-no-easyXDM': {
+				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] },
+				options: { report: 'gzip' }
+			},
+			'package-basic': {
+				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] },
+				options: { report: 'gzip' }
 			}
 		},
 		sourcemap: {
@@ -378,13 +452,12 @@ module.exports = function(grunt) {
 			done();
 		});
 	});
-	
 
 
 	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['jshint', 'concat', 'uglify:dist', 'sourcemap']);
+	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'uglify:sourcemap', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
 	grunt.registerTask('travis', ['test']);
