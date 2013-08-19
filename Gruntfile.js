@@ -70,6 +70,14 @@ module.exports = function(grunt) {
 						cwd: 'docs/',
 						src: ['**'],
 						dest: '../gh-pages'
+					},
+					{
+						expand: true,
+						cwd: './',
+						src: ['f2.latest.js'],
+						rename: function(dest,src){
+							return '../gh-pages/js/f2.min.js';//See #35
+						}
 					}
 				]
 			},
