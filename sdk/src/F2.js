@@ -299,6 +299,7 @@ F2 = (function() {
 			];
 			var length = methods.length;
 			var console = (window.console = window.console || {});
+			var args;
 
 			while (length--) {
 				method = methods[length];
@@ -310,10 +311,10 @@ F2 = (function() {
 
 				//if first arg is a console function, use it. 
 				//defaults to console.log()
-				if (arguments && arguments[0] == method){
+				if (arguments && arguments.length > 1 && arguments[0] == method){
 					_logMethod = method;
 					//remove console func from args
-					Array.prototype.slice.call(arguments, 1);
+					args = Array.prototype.slice.call(arguments, 1);
 				}
 			}
 
@@ -321,11 +322,11 @@ F2 = (function() {
 				_log = Function.prototype.bind.call(console[_logMethod], console);
 			} else {
 				_log = function() { 
-					Function.prototype.apply.call(console[_logMethod], console, arguments);
+					Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
 				};
 			}
 
-			_log.apply(this,arguments);
+			_log.apply(this, (args || arguments));			
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object
