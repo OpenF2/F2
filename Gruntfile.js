@@ -94,7 +94,14 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						cwd: 'examples/',
-						src: ['**']
+						src: ['**'],
+						dest: 'examples/'
+					},
+					{
+						expand: true,
+						cwd: 'sdk/',
+						src: ['f2.debug.js'],
+						dest: 'sdk/'
 					}
 				]
 			}
