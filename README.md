@@ -15,7 +15,7 @@ Browse to the **Get Started** documentation for [containers](http://docs.openf2.
 ### Download F2.js
 
 * Development: [F2.debug.js](https://github.com/OpenF2/F2/blob/master/sdk/f2.debug.js)
-* Production: [F2.js](https://github.com/OpenF2/F2/blob/master/f2.latest.js) (34.3kb)
+* Production: [F2.js](https://github.com/OpenF2/F2/blob/master/F2.latest.js) (34.3kb)
 
 
 ## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
@@ -24,7 +24,7 @@ Browse to the **Get Started** documentation for [containers](http://docs.openf2.
 
 ### Packages
 
-Packages are variants of F2.js. They are ideally used when a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. [Read more about F2 packages]((http://docs.openf2.org/f2js-sdk.html#packages).
+Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. [Read more about F2 packages](http://docs.openf2.org/f2js-sdk.html#packages).
 
 * Basic: 
     * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)

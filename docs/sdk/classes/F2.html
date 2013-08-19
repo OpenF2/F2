@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2</title>
-	<meta name="dcterms.date" content="7 June 2013">
+	<meta name="dcterms.date" content="8 August 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.2.0" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.1" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.1)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -381,6 +381,28 @@ loading</p></td>
 					
 					<tr class=" private">
 						<td class="name">
+							<a href="#methods-_createAppConfig">
+								_createAppConfig
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												appConfig
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Adds properties to the AppConfig object</p></td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
 							<a href="#methods-_createAppInstance">
 								_createAppInstance
 								<span class="paren">(</span>
@@ -399,28 +421,6 @@ loading</p></td>
 							</a>
 						</td>
 						<td><p>Instantiates each app from it's appConfig and stores that in a local private collection</p></td>
-					</tr>
-					
-					<tr class=" private">
-						<td class="name">
-							<a href="#methods-_hydrateAppConfig">
-								_hydrateAppConfig
-								<span class="paren">(</span>
-								
-									<ul class="params commas">
-										
-										<li>
-											
-												appConfig
-											
-										</li>
-										
-									</ul>
-								
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td><p>Adds properties to the AppConfig object</p></td>
 					</tr>
 					
 					<tr class=" private">
@@ -1448,100 +1448,9 @@ loading</p>
 	
 </section>
 		
-		<section id="methods-_createAppInstance" class="level2  private">
+		<section id="methods-_createAppConfig" class="level2  private">
 	<h3>
-		_createAppInstance
-		<span class="paren">(</span>
-		
-			<ul class="params commas">
-				
-				<li>
-					
-						appConfigs
-					
-				</li>
-				
-			</ul>
-		
-		<span class="paren">)</span>
-
-		
-
-		
-			<span class="label private">private</span>
-		
-
-		
-
-		
-
-		
-
-		
-	</h3>
-
-	<p>
-		<p>Instantiates each app from it's appConfig and stores that in a local private collection</p>
-	</p>	
-
-	<div class="well well-small">
-		<dl class="dl-horizontal">
-			
-				
-					
-				
-			
-			
-			
-				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l143"><code>sdk&#x2F;src&#x2F;container.js:143</code></a></dd>
-			
-
-			
-
-			
-		</dl>
-	</div>
-
-	
-		<div class="params">
-			<h4>Parameters:</h4>
-
-			<ul class="params-list">
-				
-				<li class="param">
-					
-						<code class="param-name">appConfigs</code>
-						<span class="label type">Array</span>
-					
-
-					
-
-					<p>
-						<p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
-					</p>
-
-					
-				</li>
-				
-			</ul>
-		</div>
-	
-
-	
-
-	
-
-	
-	<div class="backToTop">
-		<a href="javascript:;">Back to top</a>
-	</div>
-	
-</section>
-		
-		<section id="methods-_hydrateAppConfig" class="level2  private">
-	<h3>
-		_hydrateAppConfig
+		_createAppConfig
 		<span class="paren">(</span>
 		
 			<ul class="params commas">
@@ -1620,6 +1529,111 @@ loading</p>
 	
 
 	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>:
+					
+					The new F2.AppConfig object, prepopulated with
+necessary properties
+				
+			</div>
+		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-_createAppInstance" class="level2  private">
+	<h3>
+		_createAppInstance
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						appConfigs
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Instantiates each app from it's appConfig and stores that in a local private collection</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_container.js.html#l150"><code>sdk&#x2F;src&#x2F;container.js:150</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">appConfigs</code>
+						<span class="label type">Array</span>
+					
+
+					
+
+					<p>
+						<p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
 
 	
 
@@ -1666,7 +1680,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l93"><code>sdk&#x2F;src&#x2F;container.js:93</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l100"><code>sdk&#x2F;src&#x2F;container.js:100</code></a></dd>
 			
 
 			
@@ -1724,7 +1738,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l115"><code>sdk&#x2F;src&#x2F;container.js:115</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l122"><code>sdk&#x2F;src&#x2F;container.js:122</code></a></dd>
 			
 
 			
@@ -1782,7 +1796,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l133"><code>sdk&#x2F;src&#x2F;container.js:133</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l140"><code>sdk&#x2F;src&#x2F;container.js:140</code></a></dd>
 			
 
 			
@@ -1969,7 +1983,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l357"><code>sdk&#x2F;src&#x2F;container.js:357</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l373"><code>sdk&#x2F;src&#x2F;container.js:373</code></a></dd>
 			
 
 			
@@ -2063,7 +2077,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l378"><code>sdk&#x2F;src&#x2F;container.js:378</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l394"><code>sdk&#x2F;src&#x2F;container.js:394</code></a></dd>
 			
 
 			
@@ -2335,7 +2349,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l407"><code>sdk&#x2F;src&#x2F;container.js:407</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l423"><code>sdk&#x2F;src&#x2F;container.js:423</code></a></dd>
 			
 
 			
@@ -2607,7 +2621,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l422"><code>sdk&#x2F;src&#x2F;container.js:422</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l438"><code>sdk&#x2F;src&#x2F;container.js:438</code></a></dd>
 			
 
 			
@@ -2686,7 +2700,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l448"><code>sdk&#x2F;src&#x2F;container.js:448</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l464"><code>sdk&#x2F;src&#x2F;container.js:464</code></a></dd>
 			
 
 			
@@ -2978,7 +2992,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l171"><code>sdk&#x2F;src&#x2F;container.js:171</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l178"><code>sdk&#x2F;src&#x2F;container.js:178</code></a></dd>
 			
 
 			
@@ -3092,7 +3106,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l296"><code>sdk&#x2F;src&#x2F;container.js:296</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l312"><code>sdk&#x2F;src&#x2F;container.js:312</code></a></dd>
 			
 
 			
@@ -3424,7 +3438,7 @@ assets will be used instead of making a request.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l454"><code>sdk&#x2F;src&#x2F;container.js:454</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l470"><code>sdk&#x2F;src&#x2F;container.js:470</code></a></dd>
 			
 
 			
@@ -3612,7 +3626,7 @@ F2.registerApps(arConfigs, arManifests);
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l770"><code>sdk&#x2F;src&#x2F;container.js:770</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l786"><code>sdk&#x2F;src&#x2F;container.js:786</code></a></dd>
 			
 
 			
@@ -3678,7 +3692,7 @@ F2.registerApps(arConfigs, arManifests);
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l785"><code>sdk&#x2F;src&#x2F;container.js:785</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l801"><code>sdk&#x2F;src&#x2F;container.js:801</code></a></dd>
 			
 
 			
@@ -4064,7 +4078,7 @@ automatically by F2.</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.2.0"></script>
+<script src="../../js/f2.js?1.2.1"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>

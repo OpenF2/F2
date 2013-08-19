@@ -16,7 +16,14 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 		appConfig.ui.showMask($root, true);
 
 		appConfig.context = appConfig.context || {};
-		appConfig.context.symbol = !!symbolData ? symbolData.symbol : appConfig.context.symbol;
+
+		if (!!symbolData){
+			appConfig.context.symbol = symbolData.symbol;
+		} else if(appConfig.context.symbol) {
+			appConfig.context.symbol = appConfig.context.symbol;
+		} else {
+			appConfig.context.symbol = 'MSFT';//default to Microsoft
+		}
 
 		$.ajax({
 			url: 'http://dev.markitondemand.com/Api/Quote/jsonp',
@@ -260,7 +267,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			_initTypeahead();
 
 			// get quote
-			_getQuote({ symbol: 'msft' });
+			_getQuote();
 		}
 	};
 };

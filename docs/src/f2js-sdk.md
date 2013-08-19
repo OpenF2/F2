@@ -24,6 +24,29 @@ The latest version of F2.js is **{{version}}**.
 
 <p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small" target="_blank">View on GitHub</a></p>
 
+### Packages
+
+Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. In circumstances where not all F2 features are required, Container Providers can use smaller, faster, lighter-weight versions of F2.js. Choose one below:
+
+* **Basic**: 
+	* Includes: json2, EventEmitter, and F2
+    * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)
+    * Production: [F2.basic.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.min.js) (7.6kb)
+* **No easyXDM**:
+	* Includes: json2, jQuery, Bootstrap Modal, EventEmitter, and F2
+    * Development: [f2.no-easyXDM.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.js)
+    * Production: [f2.no-easyXDM.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.min.js) (30.4kb)	    	    
+* **No Bootstrap**: 
+	* Includes: json2, jQuery, EventEmitter, and F2
+    * Development: [F2.no-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.js)
+    * Production: [F2.no-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.min.js) (33.6kb)
+* **No jQuery, Bootstrap**:
+    * Includes: json2, easyXDM, and F2
+    * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
+    * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
+
+For more information on the libraries used by F2, see [Third Party Libraries](#third-party-libraries) below.
+
 * * * *
 
 ## Versioning
