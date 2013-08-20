@@ -475,6 +475,16 @@ module.exports = function(grunt) {
 	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'uglify:sourcemap', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
+	grunt.registerTask('packages', [
+		'concat:no-jquery-or-bootstrap',
+		'concat:no-bootstrap',
+		'concat:no-easyXDM',
+		'concat:basic',
+		'uglify:package-no-jquery-or-bootstrap',
+		'uglify:package-no-bootstrap',
+		'uglify:package-no-easyXDM',
+		'uglify:package-basic'
+	]);
 	grunt.registerTask('travis', ['test']);
 
 	// the default task
