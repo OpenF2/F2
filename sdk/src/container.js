@@ -114,22 +114,6 @@ F2.extend('', (function(){
 	};
 
 	/**
-	 * Adds properties to the ContainerConfig object to take advantage of defaults
-	 * @method _hydrateContainerConfig
-	 * @private
-	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
-	 */
-	var _hydrateContainerConfig = function(containerConfig) {
-		if (!containerConfig.scriptErrorTimeout){
-			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
-		}
-
-		if (containerConfig.debugMode !== true){
-			containerConfig.debugMode = F2.ContainerConfig.debugMode;
-		}
-	};
-
-	/**
 	 * Attach app events
 	 * @method _initAppEvents
 	 * @private
