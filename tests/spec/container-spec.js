@@ -656,7 +656,6 @@ describe('F2.registerApps - rendering', function() {
 		
 		runs(function() {
 
-			console.log($('script').length);
 			$('script').each(function(idx,item){
 				var src = $(item).attr('src');
 				//find script
@@ -665,7 +664,6 @@ describe('F2.registerApps - rendering', function() {
 					return false;//break from $.each
 				}
 			});
-
 
 			expect(bustedCache).toBe(false);
 		});	
