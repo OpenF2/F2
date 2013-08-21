@@ -2,15 +2,9 @@ require(
 	{
 		basePath: 'js',
 		paths: {
-<<<<<<< HEAD
 			'bootstrap': 'bootstrap-modal',
 			'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min',
 			'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min',
-=======
-			'bootstrap': 'bootstrap.min',
-			'jquery': 'jquery.min',
-			'jquery-ui': 'jquery-ui.min',
->>>>>>> Fixed IE container issues
 			'F2': '../../../sdk/f2.debug'
 		},
 		shim: {
