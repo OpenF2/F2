@@ -457,9 +457,9 @@ module.exports = function(grunt) {
 		});
 
 		// insert readme markdown
-		Y.Handlebars.registerHelper('readme', function() {
+		/*Y.Handlebars.registerHelper('readme', function() {
 			return builder.markdown(readmeMd, true);	
-		});
+		});*/
 
 		builder = new Y.DocBuilder(docOptions, json);
 		builder.compile(function() {
