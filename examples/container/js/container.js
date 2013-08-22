@@ -1,3 +1,24 @@
+//simple console log helper for IE
+var log = $.noop; //function() { };
+if (!window["console"]) {
+    window.console = {};
+}
+
+var logFns = {
+    log: log,
+    warn: log,
+    error: log,
+    info: log,
+    group: log,
+    groupEnd: log
+};
+
+for (var i in logFns) {
+    if (!window.console[i]) {
+        window.console[i] = logFns[i];
+    }
+}
+
 $(function() {
 	
 	var containerAppHandlerToken = F2.AppHandlers.getToken();
@@ -83,6 +104,7 @@ $(function() {
 	 * Init Container
 	 */
 	F2.init({
+		//debugMode: true,
 		UI:{
 			Mask:{
 				loadingIcon:'./img/ajax-loader.gif'
@@ -103,6 +125,18 @@ $(function() {
 	//listen for app symbol change events and re-broadcast
 	F2.Events.on(F2.Constants.Events.APP_SYMBOL_CHANGE,function(data) {
 		F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: data.symbol, name: data.name || '' });
+	});
+
+	//listen for any failed resources and display alert (demo purposes only)
+	F2.Events.on('RESOURCE_FAILED_TO_LOAD', function(data){
+		var error = ['<div class="row" data-error="scriptfailure">',
+						'<div class="span12">',
+							'<div class="alert">',
+								'<button type="button" class="close" data-dismiss="alert">&times;</button>A <a href="'+data.src+'" target="_blank">script resource</a> defined in "'+data.appId+'" failed to load.',
+							'</div>',
+						'</div>',
+					'</div>'];
+		$('#mainContent').prepend(error.join(''));
 	});
 
 	/**

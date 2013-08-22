@@ -278,7 +278,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/classes.js",
-            "line": 290,
+            "line": 304,
             "description": "An object containing configuration defaults for F2.UI"
         },
         "F2.ContainerConfig.UI.Mask": {
@@ -292,7 +292,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/classes.js",
-            "line": 295,
+            "line": 309,
             "description": "An object containing configuration defaults for the \nF2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} and\nF2.UI.{{#crossLink \"F2.UI/hideMask\"}}{{/crossLink}} methods."
         },
         "F2.Constants": {
@@ -631,14 +631,14 @@
         {
             "file": "sdk/src/F2.js",
             "line": 275,
-            "description": "Wrapper logging function.",
+            "description": "A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).",
             "itemtype": "method",
             "name": "log",
             "params": [
                 {
-                    "name": "obj",
-                    "description": "An object to be logged",
-                    "type": "Object"
+                    "name": "Object/Method",
+                    "description": "An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).",
+                    "type": "Object|string"
                 },
                 {
                     "name": "obj2",
@@ -648,12 +648,15 @@
                     "multiple": true
                 }
             ],
+            "example": [
+                "\n\t\t\t//Pass any object (string, int, array, object, bool) to .log()\n\t\t\tF2.log('foo');\n\t\t\tF2.log(myArray);\n\t\t\t//Use a console method name as the first argument. \n\t\t\tF2.log('error', err);\n\t\t\tF2.log('info', 'The session ID is ' + sessionId);\nSome code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)"
+            ],
             "class": "F2",
             "module": "f2"
         },
         {
             "file": "sdk/src/F2.js",
-            "line": 286,
+            "line": 331,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -673,7 +676,7 @@
         },
         {
             "file": "sdk/src/F2.js",
-            "line": 295,
+            "line": 340,
             "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
             "itemtype": "method",
             "name": "stringify",
@@ -703,7 +706,7 @@
         },
         {
             "file": "sdk/src/F2.js",
-            "line": 316,
+            "line": 361,
             "description": "Function to get the F2 version number",
             "itemtype": "method",
             "name": "version",
@@ -1270,6 +1273,28 @@
         {
             "file": "sdk/src/classes.js",
             "line": 265,
+            "description": "True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.",
+            "itemtype": "property",
+            "name": "debugMode",
+            "type": "bool",
+            "default": "false",
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 272,
+            "description": "Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.",
+            "itemtype": "property",
+            "name": "scriptErrorTimeout",
+            "type": "milliseconds",
+            "default": "7000 (7 seconds)",
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 279,
             "description": "Tells the container that it is currently running within\na secure app page",
             "itemtype": "property",
             "name": "isSecureAppPage",
@@ -1279,7 +1304,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 272,
+            "line": 286,
             "description": "Allows the container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the\ncontainer",
             "itemtype": "property",
             "name": "secureAppPagePath",
@@ -1289,7 +1314,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 281,
+            "line": 295,
             "description": "Specifies what views a container will provide buttons\nor links to. Generally, the views will be switched via buttons or links\nin the app's header.",
             "itemtype": "property",
             "name": "supportedViews",
@@ -1300,7 +1325,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 302,
+            "line": 316,
             "description": "The backround color of the overlay",
             "itemtype": "property",
             "name": "backgroundColor",
@@ -1311,7 +1336,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 309,
+            "line": 323,
             "description": "The path to the loading icon",
             "itemtype": "property",
             "name": "loadingIcon",
@@ -1321,7 +1346,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 315,
+            "line": 329,
             "description": "The opacity of the background overlay",
             "itemtype": "property",
             "name": "opacity",
@@ -1332,7 +1357,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 322,
+            "line": 336,
             "description": "Do not use inline styles for mask functinality. Instead classes will\nbe applied to the elements and it is up to the container provider to\nimplement the class definitions.",
             "itemtype": "property",
             "name": "useClasses",
@@ -1343,7 +1368,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 331,
+            "line": 345,
             "description": "The z-index to use for the overlay",
             "itemtype": "property",
             "name": "zIndex",
@@ -1354,7 +1379,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 340,
+            "line": 354,
             "description": "Allows the container to fully override how the AppManifest request is\nmade inside of F2.",
             "itemtype": "method",
             "name": "xhr",
@@ -1397,7 +1422,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 388,
+            "line": 402,
             "description": "Allows the container to override individual parts of the AppManifest\nrequest.  See properties and methods with the `xhr.` prefix.",
             "itemtype": "property",
             "name": "xhr",
@@ -1410,7 +1435,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 404,
+            "line": 418,
             "description": "Allows the container to override the request data type (JSON or JSONP)\nthat is used for the request",
             "itemtype": "method",
             "name": "xhr.dataType",
@@ -1438,7 +1463,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 426,
+            "line": 440,
             "description": "Allows the container to override the request method that is used (just\nlike the `type` parameter to `jQuery.ajax()`.",
             "itemtype": "method",
             "name": "xhr.type",
@@ -1466,7 +1491,7 @@
         },
         {
             "file": "sdk/src/classes.js",
-            "line": 448,
+            "line": 462,
             "description": "Allows the container to override the url that is used to request an\napp's F2.{{#crossLink \"F2.AppManifest\"}}{{/crossLink}}",
             "itemtype": "method",
             "name": "xhr.url",
@@ -1877,6 +1902,24 @@
         {
             "file": "sdk/src/container.js",
             "line": 100,
+            "description": "Adds properties to the ContainerConfig object to take advantage of defaults",
+            "itemtype": "method",
+            "name": "_hydrateContainerConfig",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "containerConfig",
+                    "description": "The F2.ContainerConfig object",
+                    "type": "F2.ContainerConfig"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 116,
             "description": "Attach app events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -1887,7 +1930,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 122,
+            "line": 138,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -1898,7 +1941,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 140,
+            "line": 156,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -1913,7 +1956,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 150,
+            "line": 166,
             "description": "Instantiates each app from it's appConfig and stores that in a local private collection",
             "itemtype": "method",
             "name": "_createAppInstance",
@@ -1931,7 +1974,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 178,
+            "line": 194,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -1955,7 +1998,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 312,
+            "line": 369,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -1978,7 +2021,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 373,
+            "line": 430,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -2000,7 +2043,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 394,
+            "line": 451,
             "description": "Checks if the ContainerConfig is valid",
             "itemtype": "method",
             "name": "_validateContainerConfig",
@@ -2015,7 +2058,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 423,
+            "line": 480,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -2028,7 +2071,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 438,
+            "line": 495,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -2044,7 +2087,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 464,
+            "line": 523,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -2057,7 +2100,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 470,
+            "line": 529,
             "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the \n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -2084,7 +2127,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 786,
+            "line": 845,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -2093,7 +2136,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 801,
+            "line": 860,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2731,15 +2774,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:373"
+            "line": " sdk/src/container.js:430"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:394"
+            "line": " sdk/src/container.js:451"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:423"
+            "line": " sdk/src/container.js:480"
         },
         {
             "message": "replacing incorrect tag: params with param",

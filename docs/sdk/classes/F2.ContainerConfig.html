@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2.ContainerConfig</title>
-	<meta name="dcterms.date" content="8 August 2013">
+	<meta name="dcterms.date" content="22 August 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.2.1" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.2" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -63,7 +63,7 @@
 								<ul class="nav navinset">
 									<li><a href="../../">The Basics</a></li>
 									<li><a href="../../app-development.html">Development</a></li>
-									<li><a href="./" class="active">Reference</a></li>
+									<li><a href="./classes/F2.html" class="active">Reference</a></li>
 								</ul>
 							</li>
 							<li class="divider-vertical"></li>
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.1</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.1)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.2</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.2)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 								<ul class="unstyled clearfix">
 									<li class="basics"><a href="../../">The Basics</a></li>
 									<li class="dev"><a href="../../app-development.html">Development</a></li>
-									<li class="ref"><a href=".././" class="active">Reference</a></li>
+									<li class="ref"><a href=".././classes/F2.html" class="active">Reference</a></li>
 								</ul>
 						</div>
 					</div>
@@ -516,10 +516,24 @@ app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManife
 					
 					<tr class="">
 						<td class="name">
+							<a href="#properties-debugMode">debugMode</a>
+						</td>
+						<td><p>True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
 							<a href="#properties-isSecureAppPage">isSecureAppPage</a>
 						</td>
 						<td><p>Tells the container that it is currently running within
 a secure app page</p></td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-scriptErrorTimeout">scriptErrorTimeout</a>
+						</td>
+						<td><p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.</p></td>
 					</tr>
 					
 					<tr class="">
@@ -994,7 +1008,7 @@ made inside of F2.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l340"><code>sdk&#x2F;src&#x2F;classes.js:340</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l354"><code>sdk&#x2F;src&#x2F;classes.js:354</code></a></dd>
 			
 
 			
@@ -1199,7 +1213,7 @@ that is used for the request</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l404"><code>sdk&#x2F;src&#x2F;classes.js:404</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l418"><code>sdk&#x2F;src&#x2F;classes.js:418</code></a></dd>
 			
 
 			
@@ -1339,7 +1353,7 @@ like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l426"><code>sdk&#x2F;src&#x2F;classes.js:426</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l440"><code>sdk&#x2F;src&#x2F;classes.js:440</code></a></dd>
 			
 
 			
@@ -1479,7 +1493,7 @@ app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManife
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l448"><code>sdk&#x2F;src&#x2F;classes.js:448</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l462"><code>sdk&#x2F;src&#x2F;classes.js:462</code></a></dd>
 			
 
 			
@@ -1573,6 +1587,57 @@ objects</p>
 	
 	<div id="properties" class="tab-pane">
 		
+		<section id="properties-debugMode" class="level2 ">
+	<h3>
+		debugMode
+
+		<span class="label type">Bool</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_classes.js.html#l265"><code>sdk&#x2F;src&#x2F;classes.js:265</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<p><strong>Default:</strong> false</p>
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
 		<section id="properties-isSecureAppPage" class="level2 ">
 	<h3>
 		isSecureAppPage
@@ -1603,7 +1668,7 @@ a secure app page</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l265"><code>sdk&#x2F;src&#x2F;classes.js:265</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l279"><code>sdk&#x2F;src&#x2F;classes.js:279</code></a></dd>
 			
 
 			
@@ -1612,6 +1677,57 @@ a secure app page</p>
 		</dl>
 	</div>
 
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-scriptErrorTimeout" class="level2 ">
+	<h3>
+		scriptErrorTimeout
+
+		<span class="label type">Milliseconds</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.</p>
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_classes.js.html#l272"><code>sdk&#x2F;src&#x2F;classes.js:272</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<p><strong>Default:</strong> 7000 (7 seconds)</p>
 	
 
 	
@@ -1654,7 +1770,7 @@ container</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l272"><code>sdk&#x2F;src&#x2F;classes.js:272</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l286"><code>sdk&#x2F;src&#x2F;classes.js:286</code></a></dd>
 			
 
 			
@@ -1705,7 +1821,7 @@ in the app's header.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l281"><code>sdk&#x2F;src&#x2F;classes.js:281</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l295"><code>sdk&#x2F;src&#x2F;classes.js:295</code></a></dd>
 			
 
 			
@@ -1755,7 +1871,7 @@ request.  See properties and methods with the <code>xhr.</code> prefix.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l388"><code>sdk&#x2F;src&#x2F;classes.js:388</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l402"><code>sdk&#x2F;src&#x2F;classes.js:402</code></a></dd>
 			
 
 			
@@ -1816,7 +1932,7 @@ request.  See properties and methods with the <code>xhr.</code> prefix.</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.2.1"></script>
+<script src="../../js/f2.js?1.2.2"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>
