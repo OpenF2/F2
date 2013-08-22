@@ -19,12 +19,34 @@ require(
 		}
 	},
 	[
-		'jquery-ui',
+		'jquery',
 		'F2',
 		'appSelector',
+		'jquery-ui',
 		'bootstrap'
 	], 
 	function($, F2, AppSelector) {
+
+		//simple console log helper for IE
+	    var log = $.noop; //function() { };
+	    if (!window["console"]) {
+	        window.console = {};
+	    }
+
+	    var logFns = {
+	        log: log,
+	        warn: log,
+	        error: log,
+	        info: log,
+	        group: log,
+	        groupEnd: log
+	    };
+
+	    for (var i in logFns) {
+	        if (!window.console[i]) {
+	            window.console[i] = logFns[i];
+	        }
+	    }
 
 		// wait for DOM ready
 		$(function() {
@@ -114,8 +136,8 @@ require(
 				}
 				
 				// fade out and remove the root
-				jQuery(appInstance.config.root).fadeOut(250, function() {
-					jQuery(this).remove();
+				$(appInstance.config.root).fadeOut(250, function() {
+					$(this).remove();
 				});
 			};
 			/**

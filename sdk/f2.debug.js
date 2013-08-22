@@ -14495,6 +14495,20 @@ F2.extend('', {
 		 */
 		beforeAppRender: function(appConfig) {},
 		/**
+		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
+		 * @property debugMode
+		 * @type bool
+		 * @default false
+		 */
+		debugMode: false,
+		/**
+		 * Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.
+		 * @property scriptErrorTimeout
+		 * @type milliseconds
+		 * @default 7000 (7 seconds)
+		 */
+		scriptErrorTimeout: 7000,
+		/**
 		 * Tells the container that it is currently running within
 		 * a secure app page
 		 * @property isSecureAppPage
@@ -15911,6 +15925,22 @@ F2.extend('', (function(){
 	};
 
 	/**
+	 * Adds properties to the ContainerConfig object to take advantage of defaults
+	 * @method _hydrateContainerConfig
+	 * @private
+	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
+	 */
+	var _hydrateContainerConfig = function(containerConfig) {
+		if (!containerConfig.scriptErrorTimeout){
+			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
+		}
+
+		if (containerConfig.debugMode !== true){
+			containerConfig.debugMode = F2.ContainerConfig.debugMode;
+		}
+	};
+
+	/**
 	 * Attach app events
 	 * @method _initAppEvents
 	 * @private
@@ -16022,6 +16052,41 @@ F2.extend('', (function(){
 				_createAppInstance(a, appManifest.apps[i]);
 			});
 		};
+		//Check to see if any of the ways a file can be ready are available as properties on the file's element (borrowed from yepnope)
+		var isFileReady = function(readyState) {
+			return ( !readyState || readyState == 'loaded' || readyState == 'complete' || readyState == 'uninitialized' );
+		};
+		var _onload = function(e){
+			if ( e.type == 'load' || isFileReady((e.currentTarget || e.srcElement).readyState) ){
+				//done, cleanup
+				var script = e.currentTarget || e.srcElement;
+				if (script.detachEvent){
+					script.detachEvent('onreadystatechange', _onload);//IE
+				} else {
+					removeEventListener(script, _onload, 'load');
+					removeEventListener(script, _error, 'error');
+				}
+			}
+
+			//are we done loading all scripts for this app?
+			if (++scriptsLoaded == scriptCount) {
+				evalInlines();
+				appInit();
+			}
+		};
+		var _error = function(e){
+			//log and emit event for the failed (400,500) scripts
+			setTimeout(function(){
+				var evtData = {
+					src: e.target.src,
+					appId: appConfigs[0].appId
+				};
+				//send error to console
+				F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
+				//emit event 
+				F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
+			}, _config.scriptErrorTimeout);//defaults to 7000
+		};
 		//eval inlines
 		var evalInlines = function(){
 			jQuery.each(inlines, function(i, e) {
@@ -16094,28 +16159,34 @@ F2.extend('', (function(){
 
 		// load scripts and eval inlines once complete
 		jQuery.each(scripts, function(i, e) {
-			jQuery.ajax({
-				url:e,
-				// we want any scripts added this way to be cached by the browser. 
-				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
-				cache:true,
-				async:false,
-				dataType:'script',
-				type:'GET',
-				success:function() {
-					if (++scriptsLoaded == scriptCount) {
-						evalInlines();
-						// fire the load event to tell the app it can proceed
-						appInit();
-					}
-				},
-				error:function(jqxhr, settings, exception) {
-					F2.log(['Failed to load script (' + e +')', exception.toString()]);
-				}
-			});
+			var doc = document, 
+				script = doc.createElement('script'), 
+				resourceUrl = e;
+
+			//if in debugMode, add cache buster to each script URL
+			if (_config.debugMode){
+				resourceUrl += '?cachebuster=' + new Date().getTime();
+			}
+			
+			//scripts needed to be loaded in order they're defined in the AppManifest
+			script.async = false;
+			//add other attrs
+			script.src = resourceUrl;
+			script.type = 'text/javascript';
+			script.charset = 'utf-8';
+			//attach load event to script to evaluate inline scripts and init the AppClass
+			if (script.attachEvent && !(script.attachEvent.toString && script.attachEvent.toString().indexOf('[native code') < 0)){//for IE, from requirejs
+				script.attachEvent('onreadystatechange', _onload);
+			} else {
+				script.addEventListener('load', _onload, false);
+				//attach error event for 400s and 500s
+				script.addEventListener('error', _error, false);
+			}
+			
+			doc.body.appendChild(script);
 		});
 
-		// if no scripts were to be processed, fire the appLoad event
+		// if no scripts were to be processed, fire the appInit event
 		if (!scriptCount) {
 			evalInlines();
 			appInit();
@@ -16256,8 +16327,10 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
-
+			
 			_validateContainerConfig();
+
+			_hydrateContainerConfig(_config);
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0

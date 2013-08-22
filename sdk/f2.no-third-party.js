@@ -975,6 +975,13 @@ F2.extend('', {
 		 */
 		context: {},
 		/**
+		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
+		 * @property debugMode
+		 * @type bool
+		 * @default false
+		 */
+		debugMode: false,
+		/**
 		 * True if the app should be requested in a single request with other apps.
 		 * @property enableBatchRequests
 		 * @type bool
@@ -2790,26 +2797,27 @@ F2.extend('', (function(){
 		});
 
 		// load scripts and eval inlines once complete
+		var cacheBust = _config.debugMode;
 		jQuery.each(scripts, function(i, e) {
-			jQuery.ajax({
-				url:e,
-				// we want any scripts added this way to be cached by the browser. 
-				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
-				cache:true,
-				async:false,
-				dataType:'script',
-				type:'GET',
-				success:function() {
-					if (++scriptsLoaded == scriptCount) {
-						evalInlines();
-						// fire the load event to tell the app it can proceed
-						appInit();
-					}
-				},
-				error:function(jqxhr, settings, exception) {
-					F2.log(['Failed to load script (' + e +')', exception.toString()]);
+			var doc = document;
+			var n = doc.createElement('script');
+			n.async = false; //scripts needed to be loaded in order they're defined in the AppManifest
+			if (cacheBust){
+				e = e + '?' + new Date().getTime();
+			}
+			n.src = e;
+			n.onload = n.onreadystatechange = function(e,i){
+				if (doc || !n.readyState || /loaded|complete/.test(n.readyState)) {
+					n.onload = n.onreadystatechange = null;
 				}
-			});
+
+				if (++scriptsLoaded == scriptCount) {
+					evalInlines();
+					// fire the load event to tell the app it can proceed
+					appInit();
+				}
+			};
+			doc.body.appendChild(n);
 		});
 
 		// if no scripts were to be processed, fire the appLoad event

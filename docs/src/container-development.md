@@ -156,6 +156,16 @@ Review all of the `ContainerConfig` properties in the [reference documentation](
 
 To see a more detailed example of `F2.init()`, [look at the sample container javascript](https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js) in the F2 repo on GitHub.
 
+#### Debug Mode
+
+To enable debug mode in a container, use the following [property](./sdk/classes/F2.ContainerConfig.html) in `F2.init()`. Setting `debugMode: true` adds additional logging, resource cache busting, etc. For obvious reasons, this property should only be used in a development environment.
+
+```javascript
+F2.init({
+   debugMode: true 
+});
+```
+
 #### AppRender, BeforeAppRender, AfterAppRender
 
 The `appRender()`, `beforeAppRender()`, and `afterAppRender()` methods were deprecated in F2 version 1.2 in favor of [`F2.AppHandlers`](#apphandlers-for-app-layout). Upgrading to F2 1.2 will not break existing containers using any of these methods as they are still present in the SDK.

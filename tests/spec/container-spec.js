@@ -627,4 +627,45 @@ describe('F2.registerApps - rendering', function() {
 			expect(F2.inlineScriptsEvaluated).toBe(true);
 		});	
 	});
+
+	it('should add cache buster to AppManifest.scripts when F2.ContainerConfig.debugMode is true', function(){
+		var bustedCache = false;
+		F2.init({
+			debugMode: true
+		});
+		F2.registerApps([{appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}], [{'scripts':['js/cacheBusterAdded.js'], 'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);		
+		runs(function() {
+
+			$('script').each(function(idx,item){
+				var src = $(item).attr('src');
+				//find script, test for cachebuster string
+				if (/cacheBusterAdded.js\?cachebuster/.test(src)){
+					bustedCache = true;
+					return false;//break from $.each
+				}
+			});
+
+			expect(bustedCache).toBe(true);
+		});	
+	});
+
+	it('should not add cache buster to AppManifest.scripts when F2.ContainerConfig.debugMode is undefined or false', function(){
+		var bustedCache = false;
+		F2.init();
+		F2.registerApps([{appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}], [{'scripts':['js/cacheBusterNotAdded.js'], 'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
+		
+		runs(function() {
+
+			$('script').each(function(idx,item){
+				var src = $(item).attr('src');
+				//find script
+				if (/cacheBusterNotAdded.js/.test(src)){
+					bustedCache = /cachebuster/.test(src);
+					return false;//break from $.each
+				}
+			});
+
+			expect(bustedCache).toBe(false);
+		});	
+	});
 });
