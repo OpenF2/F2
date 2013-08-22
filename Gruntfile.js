@@ -215,7 +215,8 @@ module.exports = function(grunt) {
 				'sdk/src/events.js',
 				'sdk/src/rpc.js',
 				'sdk/src/ui.js',
-				'sdk/src/container.js'
+				'sdk/src/container.js',
+				'sdk/src/amd.js'
 			]
 		},
 		less: {
