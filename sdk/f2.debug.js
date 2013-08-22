@@ -13308,7 +13308,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.2.1 08-08-2013
+ * F2 v1.2.2 08-22-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13582,15 +13582,60 @@ F2 = (function() {
 			return (bIsNode || bIsElement);
 		},
 		/**
-		 * Wrapper logging function.
+		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console). 
 		 * @method log
-		 * @param {object} obj An object to be logged
+		 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 		 * @param {object} [obj2]* An object to be logged
+		 * @example
+			//Pass any object (string, int, array, object, bool) to .log()
+			F2.log('foo');
+			F2.log(myArray);
+			//Use a console method name as the first argument. 
+			F2.log('error', err);
+			F2.log('info', 'The session ID is ' + sessionId);
+		 * Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
 		 */
 		log: function() {
-			if (window.console && window.console.log) {
-				console.log([].slice.call(arguments));
+			var _log;
+			var _logMethod = 'log';
+			var method;
+			var noop = function () { };
+			var methods = [
+				'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+				'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+				'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+				'timeStamp', 'trace', 'warn'
+			];
+			var length = methods.length;
+			var console = (window.console = window.console || {});
+			var args;
+
+			while (length--) {
+				method = methods[length];
+
+				// Only stub undefined methods.
+				if (!console[method]) {
+					console[method] = noop;
+				}
+
+				//if first arg is a console function, use it. 
+				//defaults to console.log()
+				if (arguments && arguments.length > 1 && arguments[0] == method){
+					_logMethod = method;
+					//remove console func from args
+					args = Array.prototype.slice.call(arguments, 1);
+				}
 			}
+
+			if (Function.prototype.bind) {
+				_log = Function.prototype.bind.call(console[_logMethod], console);
+			} else {
+				_log = function() { 
+					Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
+				};
+			}
+
+			_log.apply(this, (args || arguments));			
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object

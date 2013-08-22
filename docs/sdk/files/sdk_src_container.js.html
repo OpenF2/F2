@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk/src/container.js</title>
-	<meta name="dcterms.date" content="8 August 2013">
+	<meta name="dcterms.date" content="22 August 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.2.1" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.2.2" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -63,7 +63,7 @@
 								<ul class="nav navinset">
 									<li><a href="../../">The Basics</a></li>
 									<li><a href="../../app-development.html">Development</a></li>
-									<li><a href="./" class="active">Reference</a></li>
+									<li><a href="./classes/F2.html" class="active">Reference</a></li>
 								</ul>
 							</li>
 							<li class="divider-vertical"></li>
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.1</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.1)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.2.2</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.2.2)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 								<ul class="unstyled clearfix">
 									<li class="basics"><a href="../../">The Basics</a></li>
 									<li class="dev"><a href="../../app-development.html">Development</a></li>
-									<li class="ref"><a href=".././" class="active">Reference</a></li>
+									<li class="ref"><a href=".././classes/F2.html" class="active">Reference</a></li>
 								</ul>
 						</div>
 					</div>
@@ -324,6 +324,22 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	/**
+	 * Adds properties to the ContainerConfig object to take advantage of defaults
+	 * @method _hydrateContainerConfig
+	 * @private
+	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
+	 */
+	var _hydrateContainerConfig = function(containerConfig) {
+		if (!containerConfig.scriptErrorTimeout){
+			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
+		}
+
+		if (containerConfig.debugMode !== true){
+			containerConfig.debugMode = F2.ContainerConfig.debugMode;
+		}
+	};
+
+	/**
 	 * Attach app events
 	 * @method _initAppEvents
 	 * @private
@@ -435,6 +451,41 @@ F2.extend(&#x27;&#x27;, (function(){
 				_createAppInstance(a, appManifest.apps[i]);
 			});
 		};
+		//Check to see if any of the ways a file can be ready are available as properties on the file&#x27;s element (borrowed from yepnope)
+		var isFileReady = function(readyState) {
+			return ( !readyState || readyState == &#x27;loaded&#x27; || readyState == &#x27;complete&#x27; || readyState == &#x27;uninitialized&#x27; );
+		};
+		var _onload = function(e){
+			if ( e.type == &#x27;load&#x27; || isFileReady((e.currentTarget || e.srcElement).readyState) ){
+				//done, cleanup
+				var script = e.currentTarget || e.srcElement;
+				if (script.detachEvent){
+					script.detachEvent(&#x27;onreadystatechange&#x27;, _onload);//IE
+				} else {
+					removeEventListener(script, _onload, &#x27;load&#x27;);
+					removeEventListener(script, _error, &#x27;error&#x27;);
+				}
+			}
+
+			//are we done loading all scripts for this app?
+			if (++scriptsLoaded == scriptCount) {
+				evalInlines();
+				appInit();
+			}
+		};
+		var _error = function(e){
+			//log and emit event for the failed (400,500) scripts
+			setTimeout(function(){
+				var evtData = {
+					src: e.target.src,
+					appId: appConfigs[0].appId
+				};
+				//send error to console
+				F2.log(&#x27;Script defined in \&#x27;&#x27; + evtData.appId + &#x27;\&#x27; failed to load \&#x27;&#x27; + evtData.src + &#x27;\&#x27;&#x27;);
+				//emit event 
+				F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, evtData);
+			}, _config.scriptErrorTimeout);//defaults to 7000
+		};
 		//eval inlines
 		var evalInlines = function(){
 			jQuery.each(inlines, function(i, e) {
@@ -507,28 +558,34 @@ F2.extend(&#x27;&#x27;, (function(){
 
 		// load scripts and eval inlines once complete
 		jQuery.each(scripts, function(i, e) {
-			jQuery.ajax({
-				url:e,
-				// we want any scripts added this way to be cached by the browser. 
-				// if you don&#x27;t add &#x27;cache:true&#x27; here, jquery adds a number on a URL param (?_=1353339224904)
-				cache:true,
-				async:false,
-				dataType:&#x27;script&#x27;,
-				type:&#x27;GET&#x27;,
-				success:function() {
-					if (++scriptsLoaded == scriptCount) {
-						evalInlines();
-						// fire the load event to tell the app it can proceed
-						appInit();
-					}
-				},
-				error:function(jqxhr, settings, exception) {
-					F2.log([&#x27;Failed to load script (&#x27; + e +&#x27;)&#x27;, exception.toString()]);
-				}
-			});
+			var doc = document, 
+				script = doc.createElement(&#x27;script&#x27;), 
+				resourceUrl = e;
+
+			//if in debugMode, add cache buster to each script URL
+			if (_config.debugMode){
+				resourceUrl += &#x27;?cachebuster=&#x27; + new Date().getTime();
+			}
+			
+			//scripts needed to be loaded in order they&#x27;re defined in the AppManifest
+			script.async = false;
+			//add other attrs
+			script.src = resourceUrl;
+			script.type = &#x27;text/javascript&#x27;;
+			script.charset = &#x27;utf-8&#x27;;
+			//attach load event to script to evaluate inline scripts and init the AppClass
+			if (script.attachEvent &amp;&amp; !(script.attachEvent.toString &amp;&amp; script.attachEvent.toString().indexOf(&#x27;[native code&#x27;) &lt; 0)){//for IE, from requirejs
+				script.attachEvent(&#x27;onreadystatechange&#x27;, _onload);
+			} else {
+				script.addEventListener(&#x27;load&#x27;, _onload, false);
+				//attach error event for 400s and 500s
+				script.addEventListener(&#x27;error&#x27;, _error, false);
+			}
+			
+			doc.body.appendChild(script);
 		});
 
-		// if no scripts were to be processed, fire the appLoad event
+		// if no scripts were to be processed, fire the appInit event
 		if (!scriptCount) {
 			evalInlines();
 			appInit();
@@ -669,8 +726,10 @@ F2.extend(&#x27;&#x27;, (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
-
+			
 			_validateContainerConfig();
+
+			_hydrateContainerConfig(_config);
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
@@ -1079,7 +1138,7 @@ F2.extend(&#x27;&#x27;, (function(){
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.2.1"></script>
+<script src="../../js/f2.js?1.2.2"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>
