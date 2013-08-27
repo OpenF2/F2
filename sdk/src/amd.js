@@ -100,46 +100,54 @@ if (typeof define !== 'undefined' && define.amd) {
 
 		return {
 			load: function(uniqueAppId, req, onload, config) {
-				if (!config.f2) {
-					throw ('No require.config.f2 configuration found');
+				try {
+					if (!config.f2) {
+						throw ('No require.config.f2 configuration found');
+					}
+
+					if (!config.f2.appConfigs) {
+						throw ('No appConfigs found.');
+					}
+
+					// Start f2 if we haven't already
+					if (!F2.isInit()) {
+						F2.init(config.f2.initConfig);
+					}
+
+					// Strip off the randomizer guid and get the config
+					var appId = uniqueAppId.substring(0, uniqueAppId.indexOf('?'));
+
+					if (!appId) {
+						throw ('appId is empty');
+					}
+
+					var appConfig = getAppConfigById(config.f2.appConfigs, appId);
+
+					if (!appConfig) {
+						throw (appId + ' is not a recognized appId.');
+					}
+
+					// Add this as a possible batch request
+					if (appConfig.enableBatchRequests) {
+						batchQueue.push(appConfig);
+					}
+
+					// Get our handler hooks and tell the require statement to execute the callback
+					userHandlers[appId] = userHandlers[appId] || {};
+					var handlerHooks = getHandlerHooks(userHandlers[appId]);
+					onload(handlerHooks);
+
+					// Load apps in a timeout so we can batch
+					setTimeout(function() {
+						loadApps(appConfig);
+					}, 0);
 				}
-
-				if (!config.f2.appConfigs) {
-					throw ('No appConfigs found.');
+				catch (e) {
+					//onload.error(e);
+					onload({
+						error: e
+					});
 				}
-
-				// Start f2 if we haven't already
-				if (!F2.isInit()) {
-					F2.init(config.f2.initConfig);
-				}
-
-				// Strip off the randomizer guid and get the config
-				var appId = uniqueAppId.substring(0, uniqueAppId.indexOf('?'));
-
-				if (!appId) {
-					throw ('appId is empty');
-				}
-
-				var appConfig = getAppConfigById(config.f2.appConfigs, appId);
-
-				if (!appConfig) {
-					throw (appId, 'is not a recognized appId.');
-				}
-
-				// Add this as a possible batch request
-				if (appConfig.enableBatchRequests) {
-					batchQueue.push(appConfig);
-				}
-
-				// Get our handler hooks and tell the require statement to execute the callback
-				userHandlers[appId] = userHandlers[appId] || {};
-				var handlerHooks = getHandlerHooks(userHandlers[appId]);
-				onload(handlerHooks);
-
-				// Load apps in a timeout so we can batch
-				setTimeout(function() {
-					loadApps(appConfig);
-				}, 0);
 			},
 			normalize: function(appId, normalize) {
 				// Randomize the module name
