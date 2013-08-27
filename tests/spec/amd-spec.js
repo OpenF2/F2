@@ -26,9 +26,19 @@ describe('AMD', function() {
 	}
 
 	it('should locally define F2', function() {
+		var localF2, isLoaded;
+
 		require(["../sdk/f2.min.js"], function(nonGlobalF2) {
-			isLoaded = typeof nonGlobalF2 !== "undefined";
-			runs(function() { });
+			isLoaded = true;
+			localF2 = nonGlobalF2;
+		});
+
+		waitsFor(function() {
+			return isLoaded;
+		}, 1000);
+
+		runs(function() {
+			expect(localF2 == F2).toBe(false);
 		});
 	});
 
@@ -37,6 +47,10 @@ describe('AMD', function() {
 			var hasApp = false;
 
 			require(["F2App!com_test_single"], function(app) {
+				app.APP_RENDER(function(appConfig, appHtml) {
+					addAppToPage("testing123", appConfig, appHtml);
+				});
+
 				hasApp = (app != null);
 			});
 
