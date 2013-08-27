@@ -127,32 +127,32 @@
 At its core, F2 is an open framework. To create a truly open and flexible foundation with F2.js, F2 can be extended with custom plugins. Extending F2 with plugins provides direct access to F2.js SDK methods and can save your teams a lot of time.
 </p>
 
-<hr>
-<section class="level2" id="plugins">
+<hr />
+<section id="plugins" class="level2">
 <h2>Plugins</h2>
 <p>Now that you're comfortable with F2 and all the individual <a href="index.html#framework">components of the framework</a>, you are ready to extend F2 and add your own custom logic in the form of an F2 plugin.</p>
 <p>There is a <a href="https://github.com/OpenF2/F2Plugins">separate repository on GitHub</a> dedicated to F2 plugin development. If you write a plugin you'd like to contribute back to the community, commit it to <a href="https://github.com/OpenF2/F2Plugins">F2Plugins</a>.</p>
 <p><a href="https://github.com/OpenF2/F2Plugins/zipball/master" class="btn btn-primary">Download F2 Plugins</a> <a href="https://github.com/OpenF2/F2Plugins/" class="btn" target="_blank">View on GitHub</a></p>
-<hr>
+<hr />
 </section>
-<section class="level2" id="example-plugin">
+<section id="example-plugin" class="level2">
 <h2>Example Plugin</h2>
 <p>Plugins are encapsulated in JavaScript closures as demonstrated below. There are three arguments which can be passed into <code>F2.extend()</code>: <code>namespace</code>, <code>object</code>, and <code>overwrite</code>. For full details, <a href="../sdk/docs/classes/F2.html#method_extend">read the F2.js SDK documentation</a>.</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">extend</span>(<span class="ch">&#39;YourPluginName&#39;</span>, (<span class="kw">function</span>(){
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">F2</span>.<span class="fu">extend</span>(<span class="st">&#39;YourPluginName&#39;</span>, (<span class="kw">function</span>(){
     <span class="kw">return</span> {
         <span class="dt">doSomething</span>: <span class="kw">function</span>(){
-            <span class="kw">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Something has been done.&quot;</span>);
+            <span class="ot">F2</span>.<span class="fu">log</span>(<span class="st">&quot;Something has been done.&quot;</span>);
         }
     };
 })());</code></pre>
 <p>To call your custom method shown above:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">...
-<span class="fu">F2</span>.<span class="fu">YourPluginName</span>.<span class="fu">doSomething</span>();
+<span class="ot">F2</span>.<span class="ot">YourPluginName</span>.<span class="fu">doSomething</span>();
 ...</code></pre>
 <p>This method call writes <code>Something has been done.</code> to the Console.</p>
-<hr>
+<hr />
 </section>
-<section class="level2" id="best-practices">
+<section id="best-practices" class="level2">
 <h2>Best Practices</h2>
 <p>The purpose of developing a plugin is to encapsulate clever logic in a single javascript function to save time and effort performing repetitive tasks. Here are some best practices to keep in mind:</p>
 <ul>
@@ -162,9 +162,9 @@ At its core, F2 is an open framework. To create a truly open and flexible founda
 <li>When passing options or data to the plugin, use data objects instead of <em>n</em> arguments. Cleanliness is key.</li>
 <li>Don't overuse or clutter the <code>F2</code> namespace with more custom plugins than you need.</li>
 </ul>
-<hr>
+<hr />
 </section>
-<section class="level2" id="forum">
+<section id="forum" class="level2">
 <h2>Forum</h2>
 <p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a>.</p>
 <p><script type="text/javascript">
@@ -173,7 +173,7 @@ h='&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#114;&#x6f;&#x75;&#112;&#x73;&#46;
 document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'OpenF2@googlegroups.com'+'<\/'+'a'+'>');
 // -->
 </script><noscript>&#x4f;&#112;&#x65;&#110;&#70;&#50;&#64;&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#114;&#x6f;&#x75;&#112;&#x73;&#46;&#x63;&#x6f;&#x6d;&#32;&#40;&#x6f;&#112;&#x65;&#110;&#102;&#50;&#32;&#x61;&#116;&#32;&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#114;&#x6f;&#x75;&#112;&#x73;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;&#x29;</noscript></p>
-<hr>
+<hr />
 </section>
 			</div><!--/#docs-->
 		</div><!--/span9-->

@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.2.1 08-08-2013
+ * F2 v1.2.1 08-27-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -2513,7 +2513,7 @@ F2.extend('UI', (function(){
  * @module f2
  * @class F2
  */
-F2.extend('', (function(){
+F2.extend('', (function() {
 
 	var _apps = {};
 	var _config = false;
@@ -2612,7 +2612,7 @@ F2.extend('', (function(){
 	 * @method _initAppEvents
 	 * @private
 	 */
-	var _initAppEvents = function (appConfig) {
+	var _initAppEvents = function(appConfig) {
 
 		jQuery(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
 
@@ -2663,7 +2663,7 @@ F2.extend('', (function(){
 	 * @private
 	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
 	 */
-	var _createAppInstance = function(appConfig, appContent){
+	var _createAppInstance = function(appConfig, appContent) {
 		// instantiate F2.UI
 		appConfig.ui = new F2.UI(appConfig);
 
@@ -2678,7 +2678,7 @@ F2.extend('', (function(){
 						_apps[appConfig.instanceId].app.init();
 					}
 				}, 0);
-				
+
 			} else {
 				F2.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
 			}
@@ -2720,7 +2720,7 @@ F2.extend('', (function(){
 			});
 		};
 		//eval inlines
-		var evalInlines = function(){
+		var evalInlines = function() {
 			jQuery.each(inlines, function(i, e) {
 				try {
 					eval(e);
@@ -2735,24 +2735,24 @@ F2.extend('', (function(){
 			useCreateStyleSheet = !!document.createStyleSheet;
 		jQuery.each(styles, function(i, e) {
 			if (useCreateStyleSheet) {
-                document.createStyleSheet(e); 
+				document.createStyleSheet(e);
 			} else {
 				stylesFragment = stylesFragment || [];
 				stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
 			}
 		});
 
-		if (stylesFragment){
+		if (stylesFragment) {
 			jQuery('head').append(stylesFragment.join(''));
 		}
 
 		// load html
 		jQuery.each(appManifest.apps, function(i, a) {
-			if(!_bUsesAppHandlers) {
+			if (!_bUsesAppHandlers) {
 				// load html and save the root node
 				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 			} else {
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
@@ -2761,30 +2761,30 @@ F2.extend('', (function(){
 				);
 
 				var appId = appConfigs[i].appId;
-				
+
 				if (!appConfigs[i].root) {
-					throw('Root for ' +appId+ ' must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.');
+					throw ('Root for ' + appId + ' must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.');
 				}
-				
+
 				var $root = jQuery(appConfigs[i].root);
-				
+
 				if ($root.parents('body:first').length === 0) {
-					throw('App root for ' +appId+ ' was not appended to the DOM. Check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+					throw ('App root for ' + appId + ' was not appended to the DOM. Check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER_AFTER,
 					appConfigs[i] // the app config
 				);
-				
-				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
-					throw('App root for ' +appId+ ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
+
+				if (!F2.isNativeDOMNode(appConfigs[i].root)) {
+					throw ('App root for ' + appId + ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
 				}
-				
+
 				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appId);
 			}
-			
+
 			// init events
 			_initAppEvents(appConfigs[i]);
 		});
@@ -2792,22 +2792,22 @@ F2.extend('', (function(){
 		// load scripts and eval inlines once complete
 		jQuery.each(scripts, function(i, e) {
 			jQuery.ajax({
-				url:e,
+				url: e,
 				// we want any scripts added this way to be cached by the browser. 
 				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
-				cache:true,
-				async:false,
-				dataType:'script',
-				type:'GET',
-				success:function() {
+				cache: true,
+				async: false,
+				dataType: 'script',
+				type: 'GET',
+				success: function() {
 					if (++scriptsLoaded == scriptCount) {
 						evalInlines();
 						// fire the load event to tell the app it can proceed
 						appInit();
 					}
 				},
-				error:function(jqxhr, settings, exception) {
-					F2.log(['Failed to load script (' + e +')', exception.toString()]);
+				error: function(jqxhr, settings, exception) {
+					F2.log(['Failed to load script (' + e + ')', exception.toString()]);
 				}
 			});
 		});
@@ -2831,40 +2831,40 @@ F2.extend('', (function(){
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if(!_bUsesAppHandlers) {
+			if (!_bUsesAppHandlers) {
 				// create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			} else {
 				var $root = jQuery(appConfig.root);
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfig, // the app config
 					appManifest.html
 				);
-				
+
 				if ($root.parents('body:first').length === 0) {
-					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+					throw ('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER_AFTER,
 					appConfig // the app config
 				);
-				
+
 				if (!appConfig.root) {
-					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+					throw ('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
-				
+
 				if (!F2.isNativeDOMNode(appConfig.root)) {
-					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+					throw ('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
-				
+
 				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
 			}
-			
+
 			// instantiate F2.UI
 			appConfig.ui = new F2.UI(appConfig);
 			// init events
@@ -2912,16 +2912,16 @@ F2.extend('', (function(){
 		if (_config) {
 			if (_config.xhr) {
 				if (!(typeof _config.xhr === 'function' || typeof _config.xhr === 'object')) {
-					throw('ContainerConfig.xhr should be a function or an object');
+					throw ('ContainerConfig.xhr should be a function or an object');
 				}
 				if (_config.xhr.dataType && typeof _config.xhr.dataType !== 'function') {
-					throw('ContainerConfig.xhr.dataType should be a function');
+					throw ('ContainerConfig.xhr.dataType should be a function');
 				}
 				if (_config.xhr.type && typeof _config.xhr.type !== 'function') {
-					throw('ContainerConfig.xhr.type should be a function');
+					throw ('ContainerConfig.xhr.type should be a function');
 				}
 				if (_config.xhr.url && typeof _config.xhr.url !== 'function') {
-					throw('ContainerConfig.xhr.url should be a function');
+					throw ('ContainerConfig.xhr.url should be a function');
 				}
 			}
 		}
@@ -2955,16 +2955,16 @@ F2.extend('', (function(){
 			_config = config || {};
 
 			_validateContainerConfig();
-			
+
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
 			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
-			
+
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
 				F2.Rpc.init(!!_config.secureAppPagePath ? _config.secureAppPagePath : false);
 			}
-			
+
 			F2.UI.init(_config);
 
 			if (!_config.isSecureAppPage) {
@@ -3104,7 +3104,7 @@ F2.extend('', (function(){
 			if (!appConfigs.length) {
 				F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
 				return;
-			// ensure that the array of apps and manifests are qual
+				// ensure that the array of apps and manifests are qual
 			} else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
 				F2.log('The length of "apps" does not equal the length of "appManifests"');
 				return;
@@ -3123,34 +3123,31 @@ F2.extend('', (function(){
 
 				// we validate the app after setting the root property because pre-load apps do no require
 				// manifest url
-				if (!_validateApp(a)) {					
+				if (!_validateApp(a)) {
 					return; // move to the next app
 				}
-				
+
 				// save app
-				_apps[a.instanceId] = { config:a };
+				_apps[a.instanceId] = { config: a };
 
 				// If the root property is defined then this app is considered to be preloaded and we will
 				// run it through that logic.
-				if(a.root)
-				{
-					if((!a.root && typeof(a.root) != 'string') && !F2.isNativeDOMNode(a.root))
-					{
+				if (a.root) {
+					if ((!a.root && typeof (a.root) != 'string') && !F2.isNativeDOMNode(a.root)) {
 						F2.log('AppConfig invalid for pre-load, not a valid string and not dom node');
 						F2.log('AppConfig instance:', a);
-						throw('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
+						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
-					else if(jQuery(a.root).length != 1)
-					{
+					else if (jQuery(a.root).length != 1) {
 						F2.log('AppConfig invalid for pre-load, root not unique');
 						F2.log('AppConfig instance:', a);
 						F2.log('Number of dom node instances:', jQuery(a.root).length);
-						throw('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
+						throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
 					}
 
 					// instantiate F2.App
 					_createAppInstance(a);
-					
+
 					// init events
 					_initAppEvents(a);
 
@@ -3159,19 +3156,17 @@ F2.extend('', (function(){
 					return; // equivalent to continue in .each
 				}
 
-				if(!_bUsesAppHandlers)
-				{
+				if (!_bUsesAppHandlers) {
 					// fire beforeAppRender
 					a.root = _beforeAppRender(a);
 				}
-				else
-				{
+				else {
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_CREATE_ROOT,
 						a // the app config
 					);
-					
+
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
@@ -3185,12 +3180,13 @@ F2.extend('', (function(){
 				} else {
 					// check if this app can be batched
 					if (a.enableBatchRequests && !a.isSecure) {
-						batches[a.manifestUrl.toLowerCase()] = batches[a.manifestUrl.toLowerCase()] || [];
-						batches[a.manifestUrl.toLowerCase()].push(a);
+						var urlLower = a.manifestUrl.toLowerCase();
+						batches[urlLower] = batches[urlLower] || [];
+						batches[urlLower].push(a);
 					} else {
 						appStack.push({
-							apps:[a],
-							url:a.manifestUrl
+							apps: [a],
+							url: a.manifestUrl
 						});
 					}
 				}
@@ -3200,7 +3196,9 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b });
+					if (b.length) {
+						appStack.push({ url: b[0].manifestUrl, apps: b });
+					}
 				});
 
 				// if an app is being loaded more than once on the page, there is the
@@ -3234,8 +3232,8 @@ F2.extend('', (function(){
 								manifestRequest(i, requests.pop());
 							},
 							errorFunc = function() {
-								jQuery.each(req.apps, function(idx,item){
-									F2.log('Removed failed ' +item.name+ ' app', item);
+								jQuery.each(req.apps, function(idx, item) {
+									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.removeApp(item.instanceId);
 								});
 							},
@@ -3247,19 +3245,19 @@ F2.extend('', (function(){
 						if (_config.xhr && _config.xhr.dataType) {
 							dataType = _config.xhr.dataType(req.url, req.apps);
 							if (typeof dataType !== 'string') {
-								throw('ContainerConfig.xhr.dataType should return a string');
+								throw ('ContainerConfig.xhr.dataType should return a string');
 							}
 						}
 						if (_config.xhr && _config.xhr.type) {
 							type = _config.xhr.type(req.url, req.apps);
 							if (typeof type !== 'string') {
-								throw('ContainerConfig.xhr.type should return a string');
+								throw ('ContainerConfig.xhr.type should return a string');
 							}
 						}
 						if (_config.xhr && _config.xhr.url) {
 							url = _config.xhr.url(req.url, req.apps);
 							if (typeof url !== 'string') {
-								throw('ContainerConfig.xhr.url should return a string');
+								throw ('ContainerConfig.xhr.url should return a string');
 							}
 						}
 
@@ -3320,39 +3318,190 @@ F2.extend('', (function(){
 				return;
 			}
 
-			if (_apps[instanceId]) {				
+			if (_apps[instanceId]) {
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
 					_apps[instanceId] // the app instance
 				);
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_DESTROY,
 					_apps[instanceId] // the app instance
 				);
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
 					_apps[instanceId] // the app instance
-				);				
-				
+				);
+
 				delete _apps[instanceId];
 			}
 		}
 	};
 })());
+// Check for the presence of AMD
+if (typeof define !== 'undefined' && define.amd) {
+	// Define F2 as a module
+	define('F2', function() {
+		return F2;
+	});
+
+	// Define the F2App plugin
+	define('F2App', function() {
+		// Track batchable apps
+		var batchQueue = [];
+
+		// Get one token to share across all events
+		var token = F2.AppHandlers.getToken();
+
+		// Store appHandlers for every loaded appId
+		var userHandlers = {};
+
+		// Add an appHandler that will execute a user specified callback
+		function addAppHandler(eventName) {
+			F2.AppHandlers.on(token, F2.Constants.AppHandlers[eventName], function(appConfig) {
+				var appId = appConfig.appId;
+
+				if (userHandlers[appId] && userHandlers[appId][eventName].length) {
+					// Pull off the first handler for this app
+					var handler = userHandlers[appId][eventName].shift();
+
+					if (handler instanceof Function) {
+						// Call handler with original arguments
+						var args = Array.prototype.slice.apply(arguments);
+						handler.apply(window, args);
+					}
+				}
+			});
+		}
+
+		// Add global event handlers
+		for (var eventName in F2.Constants.AppHandlers) {
+			if (F2.Constants.AppHandlers.hasOwnProperty(eventName)) {
+				addAppHandler(eventName);
+			}
+		}
+
+		// Look at all the specified appConfigs and see if one of them matches the appId
+		function getAppConfigById(configs, appId) {
+			var appConfig;
+
+			if (configs && appId) {
+				for (var i = 0; i < configs.length; i++) {
+					if (configs[i].appId == appId) {
+						appConfig = configs[i];
+						break;
+					}
+				}
+			}
+
+			return appConfig;
+		}
+
+		// Get an obj that will let the user add appHandlers
+		function getHandlerHooks(handlerMap) {
+			var handlerHooks = {};
+
+			// Break out this function or jsHint will yell at us
+			function addHook(eventName) {
+				if (!handlerMap[eventName]) {
+					// We'll store the handlers in an array, so we can handle multiple instances of the same app
+					handlerMap[eventName] = [];
+				}
+
+				handlerHooks[eventName] = function(fn) {
+					handlerMap[eventName].push(fn);
+				};
+			}
+
+			// Add a hook for each event
+			for (var eventName in F2.Constants.AppHandlers) {
+				if (F2.Constants.AppHandlers.hasOwnProperty(eventName)) {
+					addHook(eventName);
+				}
+			}
+
+			return handlerHooks;
+		}
+
+		// Actually pass the appConfig(s) into 'registerApps'
+		function loadApps(appConfig) {
+			// Batch if possible
+			if (appConfig.enableBatchRequests) {
+				if (batchQueue.length) {
+					F2.registerApps(batchQueue);
+					batchQueue = [];
+				}
+			}
+			else {
+				// Load the app individually
+				F2.registerApps(appConfig);
+			}
+		}
+
+		return {
+			load: function(uniqueAppId, req, onload, config) {
+				try {
+					if (!config.f2) {
+						throw ('No require.config.f2 configuration found');
+					}
+
+					if (!config.f2.appConfigs) {
+						throw ('No appConfigs found.');
+					}
+
+					// Start f2 if we haven't already
+					if (!F2.isInit()) {
+						F2.init(config.f2.initConfig);
+					}
+
+					// Strip off the randomizer guid and get the config
+					var appId = uniqueAppId.substring(0, uniqueAppId.indexOf('?'));
+
+					if (!appId) {
+						throw ('appId is empty');
+					}
+
+					var appConfig = getAppConfigById(config.f2.appConfigs, appId);
+
+					if (!appConfig) {
+						throw (appId + ' is not a recognized appId.');
+					}
+
+					// Add this as a possible batch request
+					if (appConfig.enableBatchRequests) {
+						batchQueue.push(appConfig);
+					}
+
+					// Get our handler hooks and tell the require statement to execute the callback
+					userHandlers[appId] = userHandlers[appId] || {};
+					var handlerHooks = getHandlerHooks(userHandlers[appId]);
+					onload(handlerHooks);
+
+					// Load apps in a timeout so we can batch
+					setTimeout(function() {
+						loadApps(appConfig);
+					}, 0);
+				}
+				catch (e) {
+					//onload.error(e);
+					onload({
+						error: e
+					});
+				}
+			},
+			normalize: function(appId, normalize) {
+				// Randomize the module name
+				// This allows us to load the same app multiple times and get different instances
+				return appId + '?' + F2.guid();
+			}
+		};
+	});
+}
 	
 	exports.F2 = F2;
-
-	if (typeof define !== 'undefined' && define.amd) {
-
-		define(function() {
-			return F2;
-		});
-		
-	}
 
 })(typeof exports !== 'undefined' ? exports : window);

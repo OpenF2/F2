@@ -224,9 +224,8 @@
 
 <p>
 	<p>The new <code>AppHandlers</code> functionality provides Container Developers a higher level of control over configuring app rendering and interaction.</p>
-
 <p class="alert alert-block alert-warning">
-The addition of <code>F2.AppHandlers</code> replaces the previous <a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> properties <code>beforeAppRender</code>, <code>appRender</code>, and <code>afterAppRender</code>. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.
+The addition of <code>F2.AppHandlers</code> replaces the previous <a href="..\classes\F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> properties <code>beforeAppRender</code>, <code>appRender</code>, and <code>afterAppRender</code>. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.
 </p>
 
 <p class="alert alert-block alert-info">
@@ -234,26 +233,23 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 </p>
 
 <h3>Order of Execution</h3>
-
 <p><strong>App Rendering</strong></p>
-
 <ol>
-<li><a href="../classes/F2.html#method_registerApps" class="crosslink">F2.registerApps()</a> method is called by the Container Developer and the following methods are run for <em>each</em> <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> passed.</li>
-<li><strong>'appCreateRoot'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_CREATE_ROOT</em>) handlers are fired in the order they were attached.</li>
-<li><strong>'appRenderBefore'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_BEFORE</em>) handlers are fired in the order they were attached.</li>
-<li>Each app's <code>manifestUrl</code> is requested asynchronously; on success the following methods are fired.</li>
-<li><strong>'appRender'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER</em>) handlers are fired in the order they were attached.</li>
-<li><strong>'appRenderAfter'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_AFTER</em>) handlers are fired in the order they were attached.</li>
+<li><a href="..\classes\F2.html#method_registerApps" class="crosslink">F2.registerApps()</a> method is called by the Container Developer and the following methods are run for <em>each</em> <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> passed.</li>
+<li><strong>&#39;appCreateRoot&#39;</strong> (<em><a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_CREATE_ROOT</em>) handlers are fired in the order they were attached.</li>
+<li><strong>&#39;appRenderBefore&#39;</strong> (<em><a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_BEFORE</em>) handlers are fired in the order they were attached.</li>
+<li>Each app&#39;s <code>manifestUrl</code> is requested asynchronously; on success the following methods are fired.</li>
+<li><strong>&#39;appRender&#39;</strong> (<em><a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER</em>) handlers are fired in the order they were attached.</li>
+<li><strong>&#39;appRenderAfter&#39;</strong> (<em><a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_AFTER</em>) handlers are fired in the order they were attached.</li>
 </ol>
-
 <p><strong>App Removal</strong></p>
-
 <ol>
-<li><a href="../classes/F2.html#method_removeApp" class="crosslink">F2.removeApp()</a> with a specific F2.AppConfig/instanceId or <a href="../classes/F2.html#method_removeAllApps" class="crosslink">F2.removeAllApps()</a> method is called by the Container Developer and the following methods are run.</li>
-<li><strong>'appDestroyBefore'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_BEFORE</em>) handlers are fired in the order they were attached.</li>
-<li><strong>'appDestroy'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY</em>) handlers are fired in the order they were attached.</li>
-<li><strong>'appDestroyAfter'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_AFTER</em>) handlers are fired in the order they were attached.</li>
+<li><a href="..\classes\F2.html#method_removeApp" class="crosslink">F2.removeApp()</a> with a specific F2.AppConfig/instanceId or <a href="..\classes\F2.html#method_removeAllApps" class="crosslink">F2.removeAllApps()</a> method is called by the Container Developer and the following methods are run.</li>
+<li><strong>&#39;appDestroyBefore&#39;</strong> (<em><a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_BEFORE</em>) handlers are fired in the order they were attached.</li>
+<li><strong>&#39;appDestroy&#39;</strong> (<em><a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY</em>) handlers are fired in the order they were attached.</li>
+<li><strong>&#39;appDestroyAfter&#39;</strong> (<em><a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_AFTER</em>) handlers are fired in the order they were attached.</li>
 </ol>
+
 </p>
 
 <div class="well well-small">
@@ -264,7 +260,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="../files/sdk_src_app_handlers.js.html#l1"><code>sdk&#x2F;src&#x2F;app_handlers.js:1</code></a></dd>
+			<dd><a href="../files/sdk_src_app_handlers.js.html#l1"><code>sdk\src\app_handlers.js:1</code></a></dd>
 		
 
 		
@@ -309,9 +305,10 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows F2 to get a token internally. Token is required to call <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
-This function will self destruct to eliminate other sources from using the <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
-and additional internal methods.</p></td>
+						<td><p>Allows F2 to get a token internally. Token is required to call <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+and additional internal methods.</p>
+</td>
 					</tr>
 					
 					<tr class=" private">
@@ -339,7 +336,8 @@ and additional internal methods.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows F2 to trigger specific events internally.</p></td>
+						<td><p>Allows F2 to trigger specific events internally.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -353,7 +351,8 @@ and additional internal methods.</p></td>
 						</td>
 						<td><p>Allows Container Developer to retrieve a unique token which must be passed to
 all <code>on</code> and <code>off</code> methods. This function will self destruct and can only be called 
-one time. Container Developers must store the return value inside of a closure.</p></td>
+one time. Container Developers must store the return value inside of a closure.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -381,7 +380,8 @@ one time. Container Developers must store the return value inside of a closure.<
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows Container Developer to remove listener methods for specific events</p></td>
+						<td><p>Allows Container Developer to remove listener methods for specific events</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -415,7 +415,8 @@ one time. Container Developers must store the return value inside of a closure.<
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType <code>appRender</code>.</p></td>
+						<td><p>Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType <code>appRender</code>.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -449,7 +450,8 @@ one time. Container Developers must store the return value inside of a closure.<
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Allows Container Developer to add listener method that will be triggered when a specific event occurs.</p></td>
+						<td><p>Allows Container Developer to add listener method that will be triggered when a specific event occurs.</p>
+</td>
 					</tr>
 					
 				</tbody>
@@ -492,9 +494,10 @@ one time. Container Developers must store the return value inside of a closure.<
 	</h3>
 
 	<p>
-		<p>Allows F2 to get a token internally. Token is required to call <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
-This function will self destruct to eliminate other sources from using the <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+		<p>Allows F2 to get a token internally. Token is required to call <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="..\classes\F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
 and additional internal methods.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -507,7 +510,7 @@ and additional internal methods.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l199"><code>sdk&#x2F;src&#x2F;app_handlers.js:199</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l199"><code>sdk\src\app_handlers.js:199</code></a></dd>
 			
 
 			
@@ -571,6 +574,7 @@ and additional internal methods.</p>
 
 	<p>
 		<p>Allows F2 to trigger specific events internally.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -583,7 +587,7 @@ and additional internal methods.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l214"><code>sdk&#x2F;src&#x2F;app_handlers.js:214</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l214"><code>sdk\src\app_handlers.js:214</code></a></dd>
 			
 
 			
@@ -607,7 +611,8 @@ and additional internal methods.</p>
 					
 
 					<p>
-						<p>The token received from <a href="../classes/F2.AppHandlers.html#method___f2GetToken" class="crosslink">__f2GetToken</a>.</p>
+						<p>The token received from <a href="..\classes\F2.AppHandlers.html#method___f2GetToken" class="crosslink">__f2GetToken</a>.</p>
+
 					</p>
 
 					
@@ -622,7 +627,8 @@ and additional internal methods.</p>
 					
 
 					<p>
-						<p>The event to fire. The complete list of event keys is available in <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+						<p>The event to fire. The complete list of event keys is available in <a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+
 					</p>
 
 					
@@ -667,6 +673,7 @@ and additional internal methods.</p>
 		<p>Allows Container Developer to retrieve a unique token which must be passed to
 all <code>on</code> and <code>off</code> methods. This function will self destruct and can only be called 
 one time. Container Developers must store the return value inside of a closure.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -679,7 +686,7 @@ one time. Container Developers must store the return value inside of a closure.<
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l185"><code>sdk&#x2F;src&#x2F;app_handlers.js:185</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l185"><code>sdk\src\app_handlers.js:185</code></a></dd>
 			
 
 			
@@ -741,6 +748,7 @@ one time. Container Developers must store the return value inside of a closure.<
 
 	<p>
 		<p>Allows Container Developer to remove listener methods for specific events</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -753,7 +761,7 @@ one time. Container Developers must store the return value inside of a closure.<
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l367"><code>sdk&#x2F;src&#x2F;app_handlers.js:367</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l367"><code>sdk\src\app_handlers.js:367</code></a></dd>
 			
 
 			
@@ -777,7 +785,8 @@ one time. Container Developers must store the return value inside of a closure.<
 					
 
 					<p>
-						<p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+						<p>The token received from <a href="..\classes\F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+
 					</p>
 
 					
@@ -794,7 +803,8 @@ one time. Container Developers must store the return value inside of a closure.<
 					<p>
 						<p>The event key used to determine which event to attach the listener to. If no namespace is provided all
  listeners for the specified event type will be removed.
- Complete list available in <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+ Complete list available in <a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+
 					</p>
 
 					
@@ -810,8 +820,8 @@ one time. Container Developers must store the return value inside of a closure.<
 		<h4>Example:</h4>
 		<div class="example-content">
 			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
-F2.AppHandlers.off(_token,'appRenderBefore');
-</code></pre>
+F2.AppHandlers.off(_token,&#39;appRenderBefore&#39;);</code></pre>
+
 		</div>
 	
 
@@ -868,6 +878,7 @@ F2.AppHandlers.off(_token,'appRenderBefore');
 
 	<p>
 		<p>Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType <code>appRender</code>.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -880,7 +891,7 @@ F2.AppHandlers.off(_token,'appRenderBefore');
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l282"><code>sdk&#x2F;src&#x2F;app_handlers.js:282</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l282"><code>sdk\src\app_handlers.js:282</code></a></dd>
 			
 
 			
@@ -904,7 +915,8 @@ F2.AppHandlers.off(_token,'appRenderBefore');
 					
 
 					<p>
-						<p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+						<p>The token received from <a href="..\classes\F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+
 					</p>
 
 					
@@ -921,7 +933,8 @@ F2.AppHandlers.off(_token,'appRenderBefore');
 					<p>
 						<p>The event key used to determine which event to attach the listener to. The namespace is useful for removal 
 purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
-<a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+<a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+
 					</p>
 
 					
@@ -937,6 +950,7 @@ purposes. At this time it does not affect when an event is fired. Complete list 
 
 					<p>
 						<p>Specific DOM element to which app gets appended.</p>
+
 					</p>
 
 					
@@ -954,17 +968,16 @@ purposes. At this time it does not affect when an event is fired. Complete list 
 			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
 F2.AppHandlers.on(
     _token,
-    'appRender',
-    document.getElementById('my_app')
-);
-</code></pre>
-
-<p>Or:</p><pre class="code prettyprint"><code>F2.AppHandlers.on(
+    &#39;appRender&#39;,
+    document.getElementById(&#39;my_app&#39;)
+);</code></pre>
+<p>Or:</p>
+<pre class="code prettyprint"><code>F2.AppHandlers.on(
     _token,
-    'appRender.myNamespace',
-    document.getElementById('my_app')
-);
-</code></pre>
+    &#39;appRender.myNamespace&#39;,
+    document.getElementById(&#39;my_app&#39;)
+);</code></pre>
+
 		</div>
 	
 
@@ -1021,6 +1034,7 @@ F2.AppHandlers.on(
 
 	<p>
 		<p>Allows Container Developer to add listener method that will be triggered when a specific event occurs.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1033,7 +1047,7 @@ F2.AppHandlers.on(
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_app_handlers.js.html#l307"><code>sdk&#x2F;src&#x2F;app_handlers.js:307</code></a></dd>
+				<dd><a href="../files/sdk_src_app_handlers.js.html#l307"><code>sdk\src\app_handlers.js:307</code></a></dd>
 			
 
 			
@@ -1057,7 +1071,8 @@ F2.AppHandlers.on(
 					
 
 					<p>
-						<p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+						<p>The token received from <a href="..\classes\F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+
 					</p>
 
 					
@@ -1074,7 +1089,8 @@ F2.AppHandlers.on(
 					<p>
 						<p>The event key used to determine which event to attach the listener to. The namespace is useful for removal 
 purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
-<a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+<a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+
 					</p>
 
 					
@@ -1089,7 +1105,8 @@ purposes. At this time it does not affect when an event is fired. Complete list 
 					
 
 					<p>
-						<p>A function that will be triggered when a specific event occurs. For detailed argument definition refer to <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+						<p>A function that will be triggered when a specific event occurs. For detailed argument definition refer to <a href="..\classes\F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+
 					</p>
 
 					
@@ -1107,17 +1124,16 @@ purposes. At this time it does not affect when an event is fired. Complete list 
 			<pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
 F2.AppHandlers.on(
     _token,
-    'appRenderBefore'
-    function() { F2.log('before app rendered!'); }
-);
-</code></pre>
-
-<p>Or:</p><pre class="code prettyprint"><code>F2.AppHandlers.on(
+    &#39;appRenderBefore&#39;
+    function() { F2.log(&#39;before app rendered!&#39;); }
+);</code></pre>
+<p>Or:</p>
+<pre class="code prettyprint"><code>F2.AppHandlers.on(
     _token,
-    'appRenderBefore.myNamespace',
-    function() { F2.log('before app rendered!'); }
-);
-</code></pre>
+    &#39;appRenderBefore.myNamespace&#39;,
+    function() { F2.log(&#39;before app rendered!&#39;); }
+);</code></pre>
+
 		</div>
 	
 

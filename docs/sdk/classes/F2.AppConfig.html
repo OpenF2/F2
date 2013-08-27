@@ -223,7 +223,8 @@
 				<h1>F2.AppConfig</h1>
 
 <p>
-	<p>The AppConfig object represents an app's meta data</p>
+	<p>The AppConfig object represents an app&#39;s meta data</p>
+
 </p>
 
 <div class="well well-small">
@@ -234,7 +235,7 @@
 
 		
 			<dt>Defined in</dt>
-			<dd><a href="../files/sdk_src_classes.js.html#l29"><code>sdk&#x2F;src&#x2F;classes.js:29</code></a></dd>
+			<dd><a href="../files/sdk_src_classes.js.html#l29"><code>sdk\src\classes.js:29</code></a></dd>
 		
 
 		
@@ -277,21 +278,24 @@
 							<a href="#properties-appId">appId</a>
 						</td>
 						<td><p>The unique ID of the app. More information can be found
-<a href="../../app-development.html#f2-appid">here</a></p></td>
+<a href="../../app-development.html#f2-appid">here</a></p>
+</td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-context">context</a>
 						</td>
-						<td><p>An object that represents the context of an app</p></td>
+						<td><p>An object that represents the context of an app</p>
+</td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-enableBatchRequests">enableBatchRequests</a>
 						</td>
-						<td><p>True if the app should be requested in a single request with other apps.</p></td>
+						<td><p>True if the app should be requested in a single request with other apps.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -299,10 +303,11 @@
 							<a href="#properties-height">height</a>
 						</td>
 						<td><p>The height of the app. The initial height will be pulled from
-the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
+the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
 modified by calling
-F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
-for secure apps to be able to set the initial height of the iframe.</p></td>
+F2.UI.<a href="..\classes\F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
+for secure apps to be able to set the initial height of the iframe.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -310,9 +315,9 @@ for secure apps to be able to set the initial height of the iframe.</p></td>
 							<a href="#properties-instanceId">instanceId</a>
 						</td>
 						<td><p>The unique runtime ID of the app.</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -320,18 +325,20 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 							<a href="#properties-isSecure">isSecure</a>
 						</td>
 						<td><p>True if the app will be loaded in an iframe. This property
-will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
+will be true if the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
 sets isSecure = true. It will also be true if the
 <a href="../../container-development.html">container</a> has made the decision to
-run apps in iframes.</p></td>
+run apps in iframes.</p>
+</td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-manifestUrl">manifestUrl</a>
 						</td>
-						<td><p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
-object.</p></td>
+						<td><p>The url to retrieve the <a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
+object.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -341,7 +348,8 @@ object.</p></td>
 						<td><p>The recommended maximum width in pixels that this app should be run.
 <strong>It is up to the <a href="../../container-development.html">container</a> to
 implement the logic to prevent an app from being run when the maxWidth
-requirements are not met.</strong></p></td>
+requirements are not met.</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -351,7 +359,8 @@ requirements are not met.</strong></p></td>
 						<td><p>The recommended minimum grid size that this app should be run. This
 value corresponds to the 12-grid system that is used by the
 <a href="../../container-development.html">container</a>. This property should be
-set by apps that require a certain number of columns in their layout.</p></td>
+set by apps that require a certain number of columns in their layout.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -361,14 +370,16 @@ set by apps that require a certain number of columns in their layout.</p></td>
 						<td><p>The recommended minimum width in pixels that this app should be run. **It
 is up to the <a href="../../container-development.html">container</a> to implement
 the logic to prevent an app from being run when the minWidth requirements
-are not met.</p></td>
+are not met.</p>
+</td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-name">name</a>
 						</td>
-						<td><p>The name of the app</p></td>
+						<td><p>The name of the app</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -376,9 +387,9 @@ are not met.</p></td>
 							<a href="#properties-root">root</a>
 						</td>
 						<td><p>The root DOM element that contains the app</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -386,9 +397,9 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 							<a href="#properties-ui">ui</a>
 						</td>
 						<td><p>The instance of F2.UI providing easy access to F2.UI methods</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -396,12 +407,11 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 							<a href="#properties-views">views</a>
 						</td>
 						<td><p>The views that this app supports. Available views
-are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
+are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
-F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
-
-<pre><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-</code></pre></td>
+F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+<pre><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)</code></pre>
+</td>
 					</tr>
 					
 				</tbody>
@@ -441,6 +451,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 	<p>
 		<p>The unique ID of the app. More information can be found
 <a href="../../app-development.html#f2-appid">here</a></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -453,7 +464,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l34"><code>sdk&#x2F;src&#x2F;classes.js:34</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l34"><code>sdk\src\classes.js:34</code></a></dd>
 			
 
 			
@@ -490,6 +501,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 
 	<p>
 		<p>An object that represents the context of an app</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -502,7 +514,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l42"><code>sdk&#x2F;src&#x2F;classes.js:42</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l42"><code>sdk\src\classes.js:42</code></a></dd>
 			
 
 			
@@ -539,6 +551,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 
 	<p>
 		<p>True if the app should be requested in a single request with other apps.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -551,7 +564,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l48"><code>sdk&#x2F;src&#x2F;classes.js:48</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l48"><code>sdk\src\classes.js:48</code></a></dd>
 			
 
 			
@@ -590,10 +603,11 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 
 	<p>
 		<p>The height of the app. The initial height will be pulled from
-the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
+the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
 modified by calling
-F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
+F2.UI.<a href="..\classes\F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
 for secure apps to be able to set the initial height of the iframe.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -606,7 +620,7 @@ for secure apps to be able to set the initial height of the iframe.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l55"><code>sdk&#x2F;src&#x2F;classes.js:55</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l55"><code>sdk\src\classes.js:55</code></a></dd>
 			
 
 			
@@ -643,9 +657,9 @@ for secure apps to be able to set the initial height of the iframe.</p>
 
 	<p>
 		<p>The unique runtime ID of the app.</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -658,7 +672,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l65"><code>sdk&#x2F;src&#x2F;classes.js:65</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l65"><code>sdk\src\classes.js:65</code></a></dd>
 			
 
 			
@@ -695,10 +709,11 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 
 	<p>
 		<p>True if the app will be loaded in an iframe. This property
-will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
+will be true if the <a href="..\classes\F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
 sets isSecure = true. It will also be true if the
 <a href="../../container-development.html">container</a> has made the decision to
 run apps in iframes.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -711,7 +726,7 @@ run apps in iframes.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l74"><code>sdk&#x2F;src&#x2F;classes.js:74</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l74"><code>sdk\src\classes.js:74</code></a></dd>
 			
 
 			
@@ -749,8 +764,9 @@ run apps in iframes.</p>
 	</h3>
 
 	<p>
-		<p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
+		<p>The url to retrieve the <a href="..\classes\F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
 object.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -763,7 +779,7 @@ object.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l85"><code>sdk&#x2F;src&#x2F;classes.js:85</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l85"><code>sdk\src\classes.js:85</code></a></dd>
 			
 
 			
@@ -803,6 +819,7 @@ object.</p>
 <strong>It is up to the <a href="../../container-development.html">container</a> to
 implement the logic to prevent an app from being run when the maxWidth
 requirements are not met.</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -815,7 +832,7 @@ requirements are not met.</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l93"><code>sdk&#x2F;src&#x2F;classes.js:93</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l93"><code>sdk\src\classes.js:93</code></a></dd>
 			
 
 			
@@ -855,6 +872,7 @@ requirements are not met.</strong></p>
 value corresponds to the 12-grid system that is used by the
 <a href="../../container-development.html">container</a>. This property should be
 set by apps that require a certain number of columns in their layout.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -867,7 +885,7 @@ set by apps that require a certain number of columns in their layout.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l102"><code>sdk&#x2F;src&#x2F;classes.js:102</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l102"><code>sdk\src\classes.js:102</code></a></dd>
 			
 
 			
@@ -909,6 +927,7 @@ set by apps that require a certain number of columns in their layout.</p>
 is up to the <a href="../../container-development.html">container</a> to implement
 the logic to prevent an app from being run when the minWidth requirements
 are not met.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -921,7 +940,7 @@ are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l112"><code>sdk&#x2F;src&#x2F;classes.js:112</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l112"><code>sdk\src\classes.js:112</code></a></dd>
 			
 
 			
@@ -960,6 +979,7 @@ are not met.</p>
 
 	<p>
 		<p>The name of the app</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -972,7 +992,7 @@ are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l122"><code>sdk&#x2F;src&#x2F;classes.js:122</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l122"><code>sdk\src\classes.js:122</code></a></dd>
 			
 
 			
@@ -1009,9 +1029,9 @@ are not met.</p>
 
 	<p>
 		<p>The root DOM element that contains the app</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -1024,7 +1044,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l129"><code>sdk&#x2F;src&#x2F;classes.js:129</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l129"><code>sdk\src\classes.js:129</code></a></dd>
 			
 
 			
@@ -1048,7 +1068,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 	<h3>
 		ui
 
-		<span class="label type"><a href="../classes/F2.UI.html" class="crosslink">F2.UI</a></span>
+		<span class="label type"><a href="..\classes\F2.UI.html" class="crosslink">F2.UI</a></span>
 
 		
 
@@ -1061,9 +1081,9 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 
 	<p>
 		<p>The instance of F2.UI providing easy access to F2.UI methods</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+F2.<a href="..\classes\F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -1076,7 +1096,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l138"><code>sdk&#x2F;src&#x2F;classes.js:138</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l138"><code>sdk\src\classes.js:138</code></a></dd>
 			
 
 			
@@ -1113,12 +1133,11 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 
 	<p>
 		<p>The views that this app supports. Available views
-are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
+are defined in <a href="..\classes\F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
-F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+F2.<a href="..\classes\F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+<pre class="code prettyprint"><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)</code></pre>
 
-<pre class="code prettyprint"><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-</code></pre>
 	</p>
 
 	<div class="well well-small">
@@ -1131,7 +1150,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l147"><code>sdk&#x2F;src&#x2F;classes.js:147</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l147"><code>sdk\src\classes.js:147</code></a></dd>
 			
 
 			
