@@ -1,8 +1,9 @@
-var TEST_MANIFEST_URL = 'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js',
-	TEST_APP_ID = 'com_openf2_examples_javascript_helloworld',
-	TEST_MANIFEST_URL2 = 'http://www.openf2.org/Examples/Apps',
-	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews'
-;
+var TEST_MANIFEST_URL = 'http://localhost:8080/singleAppTest',
+	TEST_APP_ID = 'com_test_single',
+	TEST_MANIFEST_URL2 = 'http://localhost:8080/singleAppTest2',
+	TEST_APP_ID2 = 'com_test_single2',
+	TEST_BATCH_MANIFEST_URL = 'http://localhost:8080/batchRequestTest',
+	TEST_BATCH_APP_ID = 'com_test_batchable';
 
 /**
  * Addition to Jasmine Async that reloads F2
@@ -21,7 +22,7 @@ AsyncSpec.prototype.beforeEachReloadF2 = function(callback) {
 };
 
 /**
- *
+ * Run the "it" check if the condition is met
  */
 itConditionally = function(condition, desc, func) {
 	if (condition) {
@@ -57,7 +58,7 @@ beforeEach(function() {
 			var result = false;
 			var suite = this;
 			var passedMessage;
-			
+
 			F2.log = function(message) {
 				passedMessage = message;
 			};
