@@ -686,7 +686,9 @@ F2.extend('', (function() {
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url: b.manifestUrl, apps: b });
+					if (b.length) {
+						appStack.push({ url: b[0].manifestUrl, apps: b });
+					}
 				});
 
 				// if an app is being loaded more than once on the page, there is the
