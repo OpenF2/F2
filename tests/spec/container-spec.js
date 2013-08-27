@@ -1,12 +1,12 @@
 describe('F2.registerApps - pre-load', function() {
 
 	it('should throw exception if F2.init() is not called prior.', function() {
-		expect(function(){
+		expect(function() {
 
 			var appConfig = {
 				appId: TEST_APP_ID,
 				manifestUrl: TEST_MANIFEST_URL,
-				root: $("body").find("div."+TEST_APP_ID+":first").get(0)
+				root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
 			};
 
 			F2.registerApps([appConfig]);
@@ -14,36 +14,36 @@ describe('F2.registerApps - pre-load', function() {
 	});
 
 	it('should throw exception if no appConfigs are passed.', function() {
-		expect(function(){
+		expect(function() {
 			F2.init();
 			F2.registerApps();
 		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
 	});
 
 	it('should allow you to pass single appConfig as object to F2.registerApps.', function() {
-		expect(function(){
+		expect(function() {
 			F2.init();
 			var appConfig = {
-				appId:TEST_APP_ID,				
-				root: $("body").find("div."+TEST_APP_ID+":first").get(0)
+				appId: TEST_APP_ID,
+				root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
 			};
 			F2.registerApps(appConfig);
 		}).not.toThrow();
 	});
 
 	it('should not require appConfig.manifestUrl when passing pre-load appConfig to F2.registerApps.', function() {
-		expect(function(){
+		expect(function() {
 			F2.init();
 			var appConfig = {
-				appId: TEST_APP_ID,				
-				root: $("body").find("div."+TEST_APP_ID+":first").get(0)
+				appId: TEST_APP_ID,
+				root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
 			};
 			F2.registerApps(appConfig);
 		}).not.toLog('"manifestUrl" missing from app object');
 	});
 
 	it('should throw exception if you pass an invalid appConfig to F2.registerApps.', function() {
-		expect(function(){
+		expect(function() {
 			F2.init();
 			F2.registerApps({});
 		}).toLog('"appId" missing from app object');
@@ -61,26 +61,25 @@ describe('F2.registerApps - pre-load', function() {
 				manifestUrl: TEST_MANIFEST_URL2
 			},
 			{
-				appId: TEST_APP_ID,				
-				root: $("body").find('div.'+TEST_APP_ID+':first').get(0)
+				appId: TEST_APP_ID,
+				root: $("body").find('div.' + TEST_APP_ID + ':first').get(0)
 			}
 		];
 
 		F2.init();
 
-		F2.AppHandlers.on(F2.AppHandlers.getToken(), F2.Constants.AppHandlers.APP_RENDER_AFTER, function(){ bAfterFired = true; });
-		
+		F2.AppHandlers.on(F2.AppHandlers.getToken(), F2.Constants.AppHandlers.APP_RENDER_AFTER, function() { bAfterFired = true; });
+
 		F2.registerApps(appConfigs);
 
 		waitsFor(
-			function()
-			{
+			function() {
 				return bAfterFired;
 			},
 			'appRenderAfter was never fired',
 			10000
 		);
-		
+
 		runs(function() {
 			F2.Events.emit("PreloadAppCommuncation", [true]);
 			expect(bAfterFired).toBeTruthy();
@@ -88,9 +87,9 @@ describe('F2.registerApps - pre-load', function() {
 			//expect(F2.PreloadRetrievedEmit).toBe(true);			
 		});
 	});
-	
+
 	it('should allow you to init/register apps that are already on the page.', function() {
-		
+
 		F2.PreloadTestComplete = false;
 		F2.PreloadAppInitialized = false;
 		F2.PreloadRetrievedEmit = false;
@@ -98,7 +97,7 @@ describe('F2.registerApps - pre-load', function() {
 		var appConfig = {
 			appId: TEST_APP_ID,
 			manifestUrl: TEST_MANIFEST_URL,
-			root: $("body").find("div."+TEST_APP_ID+":first").get(0)
+			root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
 		};
 
 		F2.init();
@@ -107,8 +106,7 @@ describe('F2.registerApps - pre-load', function() {
 		F2.registerApps([appConfig]);
 
 		waitsFor(
-			function()
-			{
+			function() {
 				return F2.PreloadAppInitialized;
 			},
 			'Emit retrieve was never fired',
@@ -125,7 +123,7 @@ describe('F2.registerApps - pre-load', function() {
 	});
 
 	it('should allow you to init/register multiple of the same app that are already on the page.', function() {
-		
+
 		F2.PreloadTestComplete = false;
 		F2.PreloadAppInitialized = false;
 		F2.PreloadRetrievedEmit = false;
@@ -133,16 +131,16 @@ describe('F2.registerApps - pre-load', function() {
 		F2.PreloadAppInitializedCounter = 0;
 		F2.PreloadRetrievedEmitCounter = 0;
 
-		var $appsOnPage = $("body").find("div."+TEST_APP_ID);
+		var $appsOnPage = $("body").find("div." + TEST_APP_ID);
 		var appConfigs = [
 			{
-				appId:TEST_APP_ID,
-				manifestUrl:TEST_MANIFEST_URL,
+				appId: TEST_APP_ID,
+				manifestUrl: TEST_MANIFEST_URL,
 				root: $appsOnPage.get(0)
 			},
 			{
-				appId:TEST_APP_ID,
-				manifestUrl:TEST_MANIFEST_URL,
+				appId: TEST_APP_ID,
+				manifestUrl: TEST_MANIFEST_URL,
 				root: $appsOnPage.get(1)
 			}
 		];
@@ -151,8 +149,7 @@ describe('F2.registerApps - pre-load', function() {
 		F2.registerApps(appConfigs);
 
 		waitsFor(
-			function()
-			{
+			function() {
 				return (F2.PreloadAppInitializedCounter == 2);
 			},
 			'Emit retrieve was never fired',
@@ -255,7 +252,7 @@ describe('F2.registerApps - basic', function() {
 	it('should fail on empty parameters', function() {
 		expect(function() {
 			F2.registerApps();
-		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');		
+		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
 	});
 
 	it('should fail when passed an empty array', function() {
@@ -276,13 +273,13 @@ describe('F2.registerApps - basic', function() {
 		}).toLog('"appId" missing from app object');
 
 		expect(function() {
-			F2.registerApps({appId:TEST_APP_ID});
+			F2.registerApps({ appId: TEST_APP_ID });
 		}).toLog('"manifestUrl" missing from app object');
 	});
 
 	it('should fail when the parameter lengths do not match', function() {
 		expect(function() {
-			F2.registerApps({appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}, [{}, {}]);
+			F2.registerApps({ appId: TEST_APP_ID, manifestUrl: TEST_MANIFEST_URL }, [{}, {}]);
 		}).toLog('The length of "apps" does not equal the length of "appManifests"');
 	});
 
@@ -294,7 +291,7 @@ describe('F2.registerApps - basic', function() {
 		};
 
 		runs(function() {
-			F2.registerApps({appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}, {apps:[{html:'<div></div>'}]});
+			F2.registerApps({ appId: TEST_APP_ID, manifestUrl: TEST_MANIFEST_URL }, { apps: [{ html: '<div></div>' }] });
 		});
 
 		// wait long enough for registerApps to have failed
@@ -309,7 +306,7 @@ describe('F2.registerApps - basic', function() {
 	it('should not modify the original AppConfig that was passed in', function() {
 		var appConfig = {
 			appId: TEST_APP_ID,
-			manifestUrl:TEST_MANIFEST_URL
+			manifestUrl: TEST_MANIFEST_URL
 		};
 		F2.registerApps(appConfig);
 
@@ -408,7 +405,7 @@ describe('F2.registerApps - xhr overrides', function() {
 		expect(function() {
 			F2.init({
 				xhr: {
-					dataType: function() {}
+					dataType: function() { }
 				}
 			});
 			F2.registerApps(appConfig);
@@ -438,7 +435,7 @@ describe('F2.registerApps - xhr overrides', function() {
 		expect(function() {
 			F2.init({
 				xhr: {
-					type: function() {}
+					type: function() { }
 				}
 			});
 			F2.registerApps(appConfig);
@@ -468,7 +465,7 @@ describe('F2.registerApps - xhr overrides', function() {
 		expect(function() {
 			F2.init({
 				xhr: {
-					url: function() {}
+					url: function() { }
 				}
 			});
 			F2.registerApps(appConfig);
@@ -478,7 +475,7 @@ describe('F2.registerApps - xhr overrides', function() {
 	itConditionally(window.F2_NODE_TEST_SERVER, 'should use POST when the domain of the container matches that of the app (#41, #59)', function() {
 
 		var isPost = false,
-			hasReturned = false;	
+			hasReturned = false;
 		F2.log = function(message) {
 			hasReturned = true;
 			isPost = message;
@@ -495,7 +492,11 @@ describe('F2.registerApps - xhr overrides', function() {
 					}
 				}
 			});
-			F2.registerApps({appId:'com_test_app', manifestUrl:'http://localhost:8080/httpPostTest'});	
+
+			F2.registerApps({
+				appId: 'com_test_app',
+				manifestUrl: 'http://localhost:8080/httpPostTest'
+			});
 		});
 
 		// wait for registerApps to complete and load the app
@@ -511,7 +512,7 @@ describe('F2.registerApps - xhr overrides', function() {
 	itConditionally(window.F2_NODE_TEST_SERVER, 'should use GET when the domain of the container does not match that of the app (#41, #59)', function() {
 
 		var isPost = false,
-			hasReturned = false;	
+			hasReturned = false;
 		F2.log = function(message) {
 			hasReturned = true;
 			isPost = message;
@@ -528,7 +529,7 @@ describe('F2.registerApps - xhr overrides', function() {
 					}
 				}
 			});
-			F2.registerApps({appId:'com_test_app', manifestUrl:'http://127.0.0.1:8080/httpPostTest'});	
+			F2.registerApps({ appId: 'com_test_app', manifestUrl: 'http://127.0.0.1:8080/httpPostTest' });
 		});
 
 		// wait for registerApps to complete and load the app
@@ -554,10 +555,10 @@ describe('F2.registerApps - rendering', function() {
 		manifestUrl: TEST_MANIFEST_URL
 	};
 	var appManifest = {
-		scripts:[],
-		styles:[],
-		inlineScripts:[],
-		apps:[
+		scripts: [],
+		styles: [],
+		inlineScripts: [],
+		apps: [
 			{
 				html: '<div class="test-app">Testing</div>'
 			}
@@ -589,42 +590,40 @@ describe('F2.registerApps - rendering', function() {
 
 		F2.registerApps(appConfig, [appManifest]);
 	});
-	
-	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function(){
+
+	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function() {
 		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'], 'scripts':['js/test.js'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
-		
+		F2.registerApps([{ appId: TEST_APP_ID, manifestUrl: TEST_MANIFEST_URL }], [{ 'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'], 'scripts': ['js/test.js'], 'apps': [{ 'html': '<div class="test-app-2">Testing</div>' }] }]);
+
 		waitsFor(
-			function()
-			{
+			function() {
 				return F2.inlineScriptsEvaluated;
 			},
 			'Inline scripts were never evaluated',
 			10000
 		);
-		
+
 		runs(function() {
 			expect(F2.inlineScriptsEvaluated).toBe(true);
-		});	
-		
+		});
+
 	});
-	
-	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function(){
+
+	it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function() {
 		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:TEST_APP_ID, manifestUrl:TEST_MANIFEST_URL}], [{'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'],'apps':[{'html': '<div class="test-app-2">Testing</div>' }]}]);
+		F2.registerApps([{ appId: TEST_APP_ID, manifestUrl: TEST_MANIFEST_URL }], [{ 'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'], 'apps': [{ 'html': '<div class="test-app-2">Testing</div>' }] }]);
 		waitsFor(
-			function()
-			{
+			function() {
 				return F2.inlineScriptsEvaluated;
 			},
 			'Inline scripts were never evaluated',
 			10000
 		);
-		
+
 		runs(function() {
 			expect(F2.inlineScriptsEvaluated).toBe(true);
-		});	
+		});
 	});
 });
