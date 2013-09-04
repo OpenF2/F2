@@ -110,6 +110,12 @@ module.exports = function(grunt) {
 						cwd: 'sdk/',
 						src: ['f2.debug.js'],
 						dest: 'sdk/'
+					},
+					{
+						expand: true,
+						cwd: 'sdk/',
+						src: ['src/third-party/require.min.js'],
+						dest: 'sdk/'
 					}
 				]
 			}
