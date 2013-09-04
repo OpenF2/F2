@@ -20,7 +20,7 @@ F2.extend('', (function(){
 	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
-
+		
 		var handler = _config.afterAppRender || function(appConfig, html) {
 			return jQuery(html).appendTo('body');
 		};

@@ -10801,7 +10801,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
 /*!
- * F2 v1.2.2 08-22-2013
+ * F2 v1.3.0 09-04-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13385,7 +13385,7 @@ F2.extend('', (function(){
 	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
-
+		
 		var handler = _config.afterAppRender || function(appConfig, html) {
 			return jQuery(html).appendTo('body');
 		};
