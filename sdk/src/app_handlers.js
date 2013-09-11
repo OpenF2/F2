@@ -42,7 +42,8 @@ F2.extend('AppHandlers', (function() {
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
-		appDestroy: []			
+		appDestroy: [],
+		appScriptLoadFailed: []
 	};
 	
 	var _defaultMethods = {
@@ -593,7 +594,27 @@ F2.extend('Constants', {
 			*		}
 			*	);
 			*/
-			APP_DESTROY_AFTER: 'appDestroyAfter'
+			APP_DESTROY_AFTER: 'appDestroyAfter',
+			/**
+			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appConfig, scriptFile )
+			* @property APP_SCRIPT_LOAD_FAILED
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+			*		function(appConfig, scriptFile)
+			*		{
+			*			F2.log(appConfig.appId);
+			*		}
+			*	);
+			*/
+			APP_SCRIPT_LOAD_FAILED: 'appScriptLoadFailed'
 		};
 	})()
 });
