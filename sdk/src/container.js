@@ -72,6 +72,11 @@ F2.extend('', (function(){
 		return handler(appConfig);
 	};
 
+	var _onScriptLoadFailure = function(appConfig, script) {
+		var handler = _config.onScriptLoadFailure || jQuery.noop;
+		return handler(appConfig, script);
+	};
+
 	/**
 	 * Adds properties to the AppConfig object
 	 * @method _createAppConfig
@@ -298,6 +303,17 @@ F2.extend('', (function(){
 				},
 				error:function(jqxhr, settings, exception) {
 					F2.log(['Failed to load script (' + e +')', exception.toString()]);
+					if(!_bUsesAppHandlers) {
+						_onScriptLoadFailure(appConfigs[0],e);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							e
+						);
+					}
 				}
 			});
 		});
@@ -448,7 +464,7 @@ F2.extend('', (function(){
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
-			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
+			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.onScriptLoadFailure);
 			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {

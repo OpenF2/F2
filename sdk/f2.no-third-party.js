@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.2.1 08-08-2013
+ * F2 v1.2.1 09-11-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -357,6 +357,11 @@ F2 = (function() {
  * 1. **'appDestroyBefore'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY\_BEFORE*) handlers are fired in the order they were attached.
  * 2. **'appDestroy'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY*) handlers are fired in the order they were attached.
  * 3. **'appDestroyAfter'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY\_AFTER*) handlers are fired in the order they were attached.
+ * 
+ * **Error Handling**
+
+ * 0. **'appScriptLoadFailed'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_SCRIPT\_LOAD\_FAILED*) handlers are fired in the order they were attached.
+ * 
  * @class F2.AppHandlers
  */
 F2.extend('AppHandlers', (function() {
@@ -372,7 +377,8 @@ F2.extend('AppHandlers', (function() {
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
-		appDestroy: []			
+		appDestroy: [],
+		appScriptLoadFailed: []
 	};
 	
 	var _defaultMethods = {
@@ -923,7 +929,27 @@ F2.extend('Constants', {
 			*		}
 			*	);
 			*/
-			APP_DESTROY_AFTER: 'appDestroyAfter'
+			APP_DESTROY_AFTER: 'appDestroyAfter',
+			/**
+			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( appConfig, scriptFile )
+			* @property APP_SCRIPT_LOAD_FAILED
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+			*		function(appConfig, scriptFile)
+			*		{
+			*			F2.log(appConfig.appId);
+			*		}
+			*	);
+			*/
+			APP_SCRIPT_LOAD_FAILED: 'appScriptLoadFailed'
 		};
 	})()
 });
@@ -2582,6 +2608,11 @@ F2.extend('', (function(){
 		return handler(appConfig);
 	};
 
+	var _onScriptLoadFailure = function(appConfig, script) {
+		var handler = _config.onScriptLoadFailure || jQuery.noop;
+		return handler(appConfig, script);
+	};
+
 	/**
 	 * Adds properties to the AppConfig object
 	 * @method _createAppConfig
@@ -2808,6 +2839,17 @@ F2.extend('', (function(){
 				},
 				error:function(jqxhr, settings, exception) {
 					F2.log(['Failed to load script (' + e +')', exception.toString()]);
+					if(!_bUsesAppHandlers) {
+						_onScriptLoadFailure(appConfigs[0],e);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							e
+						);
+					}
 				}
 			});
 		});
@@ -2958,7 +3000,7 @@ F2.extend('', (function(){
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
-			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
+			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.onScriptLoadFailure);
 			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
