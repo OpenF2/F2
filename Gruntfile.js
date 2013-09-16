@@ -70,6 +70,14 @@ module.exports = function(grunt) {
 						cwd: 'docs/',
 						src: ['**'],
 						dest: '../gh-pages'
+					},
+					{
+						expand: true,
+						cwd: './',
+						src: ['f2.latest.js'],
+						rename: function(dest,src){
+							return '../gh-pages/js/f2.min.js';//See #35
+						}
 					}
 				]
 			},
@@ -94,7 +102,20 @@ module.exports = function(grunt) {
 					{
 						expand: true,
 						cwd: 'examples/',
-						src: ['**']
+						src: ['**'],
+						dest: 'examples/'
+					},
+					{
+						expand: true,
+						cwd: 'sdk/',
+						src: ['f2.debug.js'],
+						dest: 'sdk/'
+					},
+					{
+						expand: true,
+						cwd: 'sdk/',
+						src: ['src/third-party/require.min.js'],
+						dest: 'sdk/'
 					}
 				]
 			}
@@ -442,9 +463,9 @@ module.exports = function(grunt) {
 		});
 
 		// insert readme markdown
-		Y.Handlebars.registerHelper('readme', function() {
+		/*Y.Handlebars.registerHelper('readme', function() {
 			return builder.markdown(readmeMd, true);	
-		});
+		});*/
 
 		builder = new Y.DocBuilder(docOptions, json);
 		builder.compile(function() {
@@ -460,6 +481,16 @@ module.exports = function(grunt) {
 	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'uglify:sourcemap', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
+	grunt.registerTask('packages', [
+		'concat:no-jquery-or-bootstrap',
+		'concat:no-bootstrap',
+		'concat:no-easyXDM',
+		'concat:basic',
+		'uglify:package-no-jquery-or-bootstrap',
+		'uglify:package-no-bootstrap',
+		'uglify:package-no-easyXDM',
+		'uglify:package-basic'
+	]);
 	grunt.registerTask('travis', ['test']);
 
 	// the default task

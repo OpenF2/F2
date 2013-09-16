@@ -1069,7 +1069,7 @@ if (typeof JSON !== 'object') {
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
 /*!
- * F2 v1.2.1 06-24-2013
+ * F2 v1.3.0 09-16-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -1343,15 +1343,60 @@ F2 = (function() {
 			return (bIsNode || bIsElement);
 		},
 		/**
-		 * Wrapper logging function.
+		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console). 
 		 * @method log
-		 * @param {object} obj An object to be logged
+		 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 		 * @param {object} [obj2]* An object to be logged
+		 * @example
+			//Pass any object (string, int, array, object, bool) to .log()
+			F2.log('foo');
+			F2.log(myArray);
+			//Use a console method name as the first argument. 
+			F2.log('error', err);
+			F2.log('info', 'The session ID is ' + sessionId);
+		 * Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
 		 */
 		log: function() {
-			if (window.console && window.console.log) {
-				console.log([].slice.call(arguments));
+			var _log;
+			var _logMethod = 'log';
+			var method;
+			var noop = function () { };
+			var methods = [
+				'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+				'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+				'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+				'timeStamp', 'trace', 'warn'
+			];
+			var length = methods.length;
+			var console = (window.console = window.console || {});
+			var args;
+
+			while (length--) {
+				method = methods[length];
+
+				// Only stub undefined methods.
+				if (!console[method]) {
+					console[method] = noop;
+				}
+
+				//if first arg is a console function, use it. 
+				//defaults to console.log()
+				if (arguments && arguments.length > 1 && arguments[0] == method){
+					_logMethod = method;
+					//remove console func from args
+					args = Array.prototype.slice.call(arguments, 1);
+				}
 			}
+
+			if (Function.prototype.bind) {
+				_log = Function.prototype.bind.call(console[_logMethod], console);
+			} else {
+				_log = function() { 
+					Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
+				};
+			}
+
+			_log.apply(this, (args || arguments));			
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object
@@ -2255,6 +2300,20 @@ F2.extend('', {
 		 * @return {Element} The DOM Element surrounding the app
 		 */
 		beforeAppRender: function(appConfig) {},
+		/**
+		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
+		 * @property debugMode
+		 * @type bool
+		 * @default false
+		 */
+		debugMode: false,
+		/**
+		 * Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.
+		 * @property scriptErrorTimeout
+		 * @type milliseconds
+		 * @default 7000 (7 seconds)
+		 */
+		scriptErrorTimeout: 7000,
 		/**
 		 * Tells the container that it is currently running within
 		 * a secure app page
@@ -3594,7 +3653,7 @@ F2.extend('', (function(){
 	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
-
+		
 		var handler = _config.afterAppRender || function(appConfig, html) {
 			return jQuery(html).appendTo('body');
 		};
@@ -3648,11 +3707,16 @@ F2.extend('', (function(){
 
 	/**
 	 * Adds properties to the AppConfig object
-	 * @method _hydrateAppConfig
+	 * @method _createAppConfig
 	 * @private
 	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @return {F2.AppConfig} The new F2.AppConfig object, prepopulated with
+	 * necessary properties
 	 */
-	var _hydrateAppConfig = function(appConfig) {
+	var _createAppConfig = function(appConfig) {
+
+		// make a copy of the app config to ensure that the original is not modified
+		appConfig = jQuery.extend(true, {}, appConfig);
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
@@ -3661,6 +3725,24 @@ F2.extend('', (function(){
 		appConfig.views = appConfig.views || [];
 		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
+		}
+
+		return appConfig;
+	};
+
+	/**
+	 * Adds properties to the ContainerConfig object to take advantage of defaults
+	 * @method _hydrateContainerConfig
+	 * @private
+	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
+	 */
+	var _hydrateContainerConfig = function(containerConfig) {
+		if (!containerConfig.scriptErrorTimeout){
+			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
+		}
+
+		if (containerConfig.debugMode !== true){
+			containerConfig.debugMode = F2.ContainerConfig.debugMode;
 		}
 	};
 
@@ -3776,6 +3858,41 @@ F2.extend('', (function(){
 				_createAppInstance(a, appManifest.apps[i]);
 			});
 		};
+		//Check to see if any of the ways a file can be ready are available as properties on the file's element (borrowed from yepnope)
+		var isFileReady = function(readyState) {
+			return ( !readyState || readyState == 'loaded' || readyState == 'complete' || readyState == 'uninitialized' );
+		};
+		var _onload = function(e){
+			if ( e.type == 'load' || isFileReady((e.currentTarget || e.srcElement).readyState) ){
+				//done, cleanup
+				var script = e.currentTarget || e.srcElement;
+				if (script.detachEvent){
+					script.detachEvent('onreadystatechange', _onload);//IE
+				} else {
+					removeEventListener(script, _onload, 'load');
+					removeEventListener(script, _error, 'error');
+				}
+			}
+
+			//are we done loading all scripts for this app?
+			if (++scriptsLoaded == scriptCount) {
+				evalInlines();
+				appInit();
+			}
+		};
+		var _error = function(e){
+			//log and emit event for the failed (400,500) scripts
+			setTimeout(function(){
+				var evtData = {
+					src: e.target.src,
+					appId: appConfigs[0].appId
+				};
+				//send error to console
+				F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
+				//emit event 
+				F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
+			}, _config.scriptErrorTimeout);//defaults to 7000
+		};
 		//eval inlines
 		var evalInlines = function(){
 			jQuery.each(inlines, function(i, e) {
@@ -3848,28 +3965,34 @@ F2.extend('', (function(){
 
 		// load scripts and eval inlines once complete
 		jQuery.each(scripts, function(i, e) {
-			jQuery.ajax({
-				url:e,
-				// we want any scripts added this way to be cached by the browser. 
-				// if you don't add 'cache:true' here, jquery adds a number on a URL param (?_=1353339224904)
-				cache:true,
-				async:false,
-				dataType:'script',
-				type:'GET',
-				success:function() {
-					if (++scriptsLoaded == scriptCount) {
-						evalInlines();
-						// fire the load event to tell the app it can proceed
-						appInit();
-					}
-				},
-				error:function(jqxhr, settings, exception) {
-					F2.log(['Failed to load script (' + e +')', exception.toString()]);
-				}
-			});
+			var doc = document, 
+				script = doc.createElement('script'), 
+				resourceUrl = e;
+
+			//if in debugMode, add cache buster to each script URL
+			if (_config.debugMode){
+				resourceUrl += '?cachebuster=' + new Date().getTime();
+			}
+			
+			//scripts needed to be loaded in order they're defined in the AppManifest
+			script.async = false;
+			//add other attrs
+			script.src = resourceUrl;
+			script.type = 'text/javascript';
+			script.charset = 'utf-8';
+			//attach load event to script to evaluate inline scripts and init the AppClass
+			if (script.attachEvent && !(script.attachEvent.toString && script.attachEvent.toString().indexOf('[native code') < 0)){//for IE, from requirejs
+				script.attachEvent('onreadystatechange', _onload);
+			} else {
+				script.addEventListener('load', _onload, false);
+				//attach error event for 400s and 500s
+				script.addEventListener('error', _error, false);
+			}
+			
+			doc.body.appendChild(script);
 		});
 
-		// if no scripts were to be processed, fire the appLoad event
+		// if no scripts were to be processed, fire the appInit event
 		if (!scriptCount) {
 			evalInlines();
 			appInit();
@@ -4010,8 +4133,10 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
-
+			
 			_validateContainerConfig();
+
+			_hydrateContainerConfig(_config);
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
@@ -4172,7 +4297,7 @@ F2.extend('', (function(){
 			jQuery.each(appConfigs, function(i, a) {
 
 				// add properties and methods
-				_hydrateAppConfig(a);
+				a = _createAppConfig(a);
 
 				// Will set to itself, for preloaded apps, or set to null for apps that aren't already
 				// on the page.
