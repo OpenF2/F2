@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.3.0 09-04-2013
+ * F2 v1.3.0 09-16-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
