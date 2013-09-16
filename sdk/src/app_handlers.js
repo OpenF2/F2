@@ -603,7 +603,7 @@ F2.extend('Constants', {
 			/**
 			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
 			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
-			* following argument(s): ( appConfig, scriptFile )
+			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}}, scriptInfo )
 			* @property APP_SCRIPT_LOAD_FAILED
 			* @type string
 			* @static
@@ -613,7 +613,7 @@ F2.extend('Constants', {
 			*	F2.AppHandlers.on(
 			*		_token,
 			*		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-			*		function(appConfig, scriptFile)
+			*		function(appConfig, scriptInfo)
 			*		{
 			*			F2.log(appConfig.appId);
 			*		}

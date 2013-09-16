@@ -221,6 +221,17 @@ F2.extend('', (function(){
 					eval(e);
 				} catch (exception) {
 					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
+					if(!_bUsesAppHandlers) {
+						_onScriptLoadFailure(appConfigs[0],exception);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							exception
+						);
+					}
 				}
 			});
 		};
