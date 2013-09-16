@@ -13308,7 +13308,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.2.1 09-11-2013
+ * F2 v1.2.1 09-16-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -14236,7 +14236,7 @@ F2.extend('Constants', {
 			/**
 			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
 			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
-			* following argument(s): ( appConfig, scriptFile )
+			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}}, scriptInfo )
 			* @property APP_SCRIPT_LOAD_FAILED
 			* @type string
 			* @static
@@ -14246,7 +14246,7 @@ F2.extend('Constants', {
 			*	F2.AppHandlers.on(
 			*		_token,
 			*		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-			*		function(appConfig, scriptFile)
+			*		function(appConfig, scriptInfo)
 			*		{
 			*			F2.log(appConfig.appId);
 			*		}
@@ -16060,6 +16060,17 @@ F2.extend('', (function(){
 					eval(e);
 				} catch (exception) {
 					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
+					if(!_bUsesAppHandlers) {
+						_onScriptLoadFailure(appConfigs[0],exception);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							exception
+						);
+					}
 				}
 			});
 		};
