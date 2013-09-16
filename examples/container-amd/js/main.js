@@ -2,20 +2,13 @@ require(
 	{
 		basePath: 'js',
 		paths: {
-			'bootstrap': 'bootstrap-modal',
-			'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min',
-			'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min',
+			'jquery': 'jquery.min',
+			'jquery-ui': 'jquery-ui.min',
 			'F2': '../../../sdk/f2.debug'
 		},
 		shim: {
-			'bootstrap': {
-				deps: ['jquery'],
-				exports: 'jQuery'
-			},
-			'jquery-ui': {
-				deps: ['jquery'],
-				exports: 'jQuery'
-			}
+			'bootstrap': ['jquery'],
+			'jquery-ui': ['jquery']
 		}
 	},
 	[
