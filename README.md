@@ -15,11 +15,11 @@ Two core components of F2 are **containers** and **apps** which are stitched tog
 
 ### Get F2.js
 
-* **Production**: [F2.js](https://raw.github.com/OpenF2/F2/master/F2.latest.js) (34.3kb, minified and gzipped)
-* **Development**: [F2.debug.js](https://raw.github.com/OpenF2/F2/master/sdk/f2.debug.js)
-* **[F2.js packages](http://docs.openf2.org/f2js-sdk.html#packages)** are also available, including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
-* We have [CDN support](http://blog.openf2.org/2013/09/f2-now-on-cdnjs.html)&mdash;get F2.js and any packages **[on cdnjs.com](http://cdnjs.com/libraries/F2/)**.
-* For .NET developers: install the **[NuGet Package](https://nuget.org/packages/F2/)**.
+* Production: [F2.js](https://raw.github.com/OpenF2/F2/master/F2.latest.js) (34.3kb, minified and gzipped)
+* Development: [F2.debug.js](https://raw.github.com/OpenF2/F2/master/sdk/f2.debug.js)
+* [F2.js packages](http://docs.openf2.org/f2js-sdk.html#packages) are also available, including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
+* We have [CDN support](http://blog.openf2.org/2013/09/f2-now-on-cdnjs.html)&mdash;get F2.js and any packages [on cdnjs.com](http://cdnjs.com/libraries/F2/).
+* For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/).
 
 ### Get Examples
 
