@@ -81,8 +81,8 @@ F2.extend('', (function(){
 	 * @param scriptInfo The path of the script that failed to load or the exception info
 	 * for the inline script that failed to execute
 	 */
-	var _onScriptLoadFailure = function(appConfig, scriptInfo) {
-		var handler = _config.onScriptLoadFailure || jQuery.noop;
+	var _appScriptLoadFailed = function(appConfig, scriptInfo) {
+		var handler = _config.appScriptLoadFailed || jQuery.noop;
 		return handler(appConfig, scriptInfo);
 	};
 
@@ -273,7 +273,7 @@ F2.extend('', (function(){
 				//emit event 
 				F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
 				if(!_bUsesAppHandlers) {
-					_onScriptLoadFailure(appConfigs[0],evtData.src);
+					_appScriptLoadFailed(appConfigs[0],evtData.src);
 				}
 				else {
 					F2.AppHandlers.__trigger(
@@ -293,7 +293,7 @@ F2.extend('', (function(){
 				} catch (exception) {
 					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
 					if(!_bUsesAppHandlers) {
-						_onScriptLoadFailure(appConfigs[0],exception);
+						_appScriptLoadFailed(appConfigs[0],exception);
 					}
 					else {
 						F2.AppHandlers.__trigger(
@@ -543,7 +543,7 @@ F2.extend('', (function(){
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
-			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
+			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
 			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
