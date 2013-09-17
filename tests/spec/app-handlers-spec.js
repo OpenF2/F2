@@ -2241,4 +2241,111 @@ describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 			});
 		}
 	);
+
+});
+
+describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
+
+	var containerAppHandlerToken = null;
+	
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	
+	var appConfig = function()
+	{
+		return {
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
+		};
+	};
+	
+	var appManifest = function()
+	{
+		return {
+			scripts:['http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/doesNotExist.js'],
+			styles:[],
+			inlineScripts:[],
+			apps:[
+				{
+					html: '<div class="test-app">Testing</div>'
+				}
+			]
+		};
+	};
+
+	var invalidInlineAppManifest = appManifest();
+	invalidInlineAppManifest.scripts = [];
+	invalidInlineAppManifest.inlineScripts = ['1alert("a");'];
+
+	it(
+		'handler should receive appScriptLoadFailed event due to invalid appjs path',
+		function() {
+			var bScriptLoadFailedReceived = false;
+
+			F2.init();
+
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+				function(appConfig, scriptInfo)
+				{
+					bScriptLoadFailedReceived = true;
+					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED);
+					F2.removeApp(appConfig.instanceId);
+				}
+			);
+
+			F2.registerApps(appConfig(), appManifest());
+
+			waitsFor(
+				function()
+				{
+					return bScriptLoadFailedReceived;
+				},
+				'AppHandlers.On( appScriptLoadFailed ) was never fired',
+				8000 // Seems to take longer than the other tests for some reason
+			);
+
+			runs(function() {
+				expect(bScriptLoadFailedReceived).toBe(true);
+			});
+		}
+	);
+
+	it(
+		'handler should receive appScriptLoadFailed event due to invalid inline script',
+		function() {
+			var bScriptLoadFailedReceived = false;
+
+			F2.init();
+
+			F2.AppHandlers
+			.on(
+				containerAppHandlerToken,
+				F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+				function(appConfig, scriptInfo)
+				{
+					bScriptLoadFailedReceived = true;
+					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED);
+					F2.removeApp(appConfig.instanceId);
+				}
+			);
+
+			F2.registerApps(appConfig(), invalidInlineAppManifest);
+
+			waitsFor(
+				function()
+				{
+					return bScriptLoadFailedReceived;
+				},
+				'AppHandlers.On( appScriptLoadFailed ) was never fired',
+				3000 // Seems to take longer than the other tests for some reason
+			);
+
+			runs(function() {
+				expect(bScriptLoadFailedReceived).toBe(true);
+			});
+		}
+	);
 });
