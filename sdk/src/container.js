@@ -73,6 +73,20 @@ F2.extend('', (function(){
 	};
 
 	/**
+	 * Handler to inform the container that a script failed to load
+	 * @method _onScriptLoadFailure
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param scriptInfo The path of the script that failed to load or the exception info
+	 * for the inline script that failed to execute
+	 */
+	var _onScriptLoadFailure = function(appConfig, scriptInfo) {
+		var handler = _config.onScriptLoadFailure || jQuery.noop;
+		return handler(appConfig, scriptInfo);
+	};
+
+	/**
 	 * Adds properties to the AppConfig object
 	 * @method _createAppConfig
 	 * @private
@@ -258,6 +272,17 @@ F2.extend('', (function(){
 				F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 				//emit event 
 				F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
+				if(!_bUsesAppHandlers) {
+					_onScriptLoadFailure(appConfigs[0],evtData.src);
+				}
+				else {
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+						appConfigs[0],
+						evtData.src
+					);
+				}
 			}, _config.scriptErrorTimeout);//defaults to 7000
 		};
 		//eval inlines
@@ -267,6 +292,17 @@ F2.extend('', (function(){
 					eval(e);
 				} catch (exception) {
 					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
+					if(!_bUsesAppHandlers) {
+						_onScriptLoadFailure(appConfigs[0],exception);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							exception
+						);
+					}
 				}
 			});
 		};
