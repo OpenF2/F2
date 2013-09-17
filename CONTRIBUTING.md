@@ -9,7 +9,7 @@ F2 is currently maintained by [Markit On Demand](http://www.markitondemand.com) 
 First, a couple of ground rules.
 
 1. Make sure you have a [GitHub account](https://github.com/signup/free).
-2. [Submit a ticket for your issue](https://github.com/OpenF2/F2/issues), assuming one does not already exist. (**Search first!**)
+2. [Submit a ticket for your issue](https://github.com/OpenF2/F2/issues), assuming one does not already exist. **(Search first!)**
 	* Clearly describe the issue including steps to reproduce when it is a bug.
 	* Include the F2 version number.
 3. [Fork the F2 repository](https://github.com/OpenF2/F2/fork).
