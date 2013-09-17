@@ -2282,7 +2282,8 @@ describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
 		function() {
 			var bScriptLoadFailedReceived = false;
 
-			F2.init();
+			// Reduce timeout so this unit test doesn't take 7 seconds
+			F2.init({scriptErrorTimeout: 100});
 
 			F2.AppHandlers
 			.on(
@@ -2304,7 +2305,7 @@ describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
 					return bScriptLoadFailedReceived;
 				},
 				'AppHandlers.On( appScriptLoadFailed ) was never fired',
-				8000 // Seems to take longer than the other tests for some reason
+				3000
 			);
 
 			runs(function() {
@@ -2340,7 +2341,7 @@ describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
 					return bScriptLoadFailedReceived;
 				},
 				'AppHandlers.On( appScriptLoadFailed ) was never fired',
-				3000 // Seems to take longer than the other tests for some reason
+				3000 
 			);
 
 			runs(function() {
