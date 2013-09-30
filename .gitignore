@@ -1,9 +1,6 @@
 .DS_Store
 node_modules
 test.html
-
 js/jquery-ui-1.8.24.effects.core.min.js
-
 js/jquery-ui-1.8.24.custom.min.js
-
 js/modernizr.isTablet.js
