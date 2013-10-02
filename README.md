@@ -15,15 +15,15 @@ Two core components of F2 are **containers** and **apps** which are stitched tog
 
 ### Get F2.js
 
-* Production: [F2.js](https://raw.github.com/OpenF2/F2/master/F2.latest.js) (34.3kb)
+* Production: [F2.js](https://raw.github.com/OpenF2/F2/master/F2.latest.js) (34.3kb, minified and gzipped)
 * Development: [F2.debug.js](https://raw.github.com/OpenF2/F2/master/sdk/f2.debug.js)
-* [F2.js packages](http://docs.openf2.org/f2js-sdk.html#packages) are also available, including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb)
+* [F2.js packages](http://docs.openf2.org/f2js-sdk.html#packages) are also available, including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
 * We have [CDN support](http://blog.openf2.org/2013/09/f2-now-on-cdnjs.html)&mdash;get F2.js and any packages [on cdnjs.com](http://cdnjs.com/libraries/F2/).
-* For .NET developers: a [NuGet Package](https://nuget.org/packages/F2/).
+* For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/).
 
 ### Get Examples
 
-Example containers and apps can be found in at least two places: [openf2.org/examples](http://www.openf2.org/examples) and in the [downloadable F2 examples](http://docs.openf2.org/F2-examples.zip) zip archive. There are also [numerous jsFiddles](http://docs.openf2.org/container-development.html#requesting-apps-on-demand) available in the documentation. Optionally:
+Example containers and apps can be found in at least two places: [openf2.org/examples](http://www.openf2.org/examples) and in the [downloadable F2 examples](http://docs.openf2.org/F2-examples.zip) zip archive. There are also [numerous jsFiddles](http://docs.openf2.org/container-development.html#requesting-apps-on-demand) available in the documentation. This repository contains examples, too. 
 
 * Clone this repository using `git clone git@github.com:OpenF2/F2.git`, or
 * Download the [latest version](https://github.com/OpenF2/F2/zipball/master) of this repository
@@ -32,7 +32,7 @@ Example containers and apps can be found in at least two places: [openf2.org/exa
 
 We have robust documentation divided into three main sections:
 
-* [The Basics](http://docs.openf2.org)
+* Understanding [the Basics](http://docs.openf2.org)
 * Developing [apps](http://docs.openf2.org/app-development.html),  [containers](http://docs.openf2.org/container-development.html), or [F2 plugins](http://docs.openf2.org/extending-f2.html).
 * [F2.js API](http://docs.openf2.org/sdk/classes/F2.html)
 

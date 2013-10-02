@@ -1,40 +1,54 @@
-# How to Contribute to F2
-
-F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.
+# Contributing to F2
 
 F2 is currently maintained by [Markit On Demand](http://www.markitondemand.com) and you're encouraged to contribute to this project right here on GitHub. The following are guidelines for contributing; please familiarize yourself before sending pull requests.
 
+**Thank you to the [growing list of contributors](https://github.com/OpenF2/F2/graphs/contributors)!**
+
 ## Getting Started
 
-A couple of ground rules.
+First, a couple of ground rules.
 
-* Make sure you have a [GitHub account](https://github.com/signup/free).
-* [Submit a ticket for your issue](https://github.com/OpenF2/F2/issues), assuming one does not already exist. (Search first!)
+1. Make sure you have a [GitHub account](https://github.com/signup/free).
+2. [Submit a ticket for your issue](https://github.com/OpenF2/F2/issues), assuming one does not already exist. **(Search first!)**
 	* Clearly describe the issue including steps to reproduce when it is a bug.
-	* Be sure to include the F2 version number.
-* Fork the F2 repository on GitHub.
+	* Include the F2 version number.
+3. [Fork the F2 repository](https://github.com/OpenF2/F2/fork).
 
 ## Making Changes
 
-* Create a branch from where you want to base your changes.
-* Do not work directly in `master`; create a branch _based on_ `master` using `git checkout -b 'your_branch_name' master`.
-* Follow our [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards).
-* Preferably add _and document_ unit test(s) for your changes. 
-* Re-run all the Jasmine tests to confirm your changes didn't break anything.
-* Perform browser testing in our [supported browsers](wiki/Browser-Compatibility).
-* Add a detailed commit message.
+### Understanding the "wip" branch
 
-## Submitting Changes
+The latest F2 changes can be found in the `-wip` branch. This branch's name uses the upcoming version number followed by `-wip` which stands for "work-in-progress", for example `1.3.1-wip` as shown below. There will only be one `-wip` branch at any given time.
 
+Do not work directly in `master`! 
+
+![Branches](http://docs.openf2.org/img/branches.png)
+
+### Steps
+
+Once you've forked the F2 repository:
+
+1. Create a new branch in your fork from the `next.version-wip` branch.  Do not work directly in `master`! 
+    * `$> git checkout -b 'your_branch_name' next.version-wip`
+3. Read the F2 [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards).
+4. Add and document unit test(s) for your changes. At least one unit test is required.
+5. Re-run all the Jasmine tests to confirm your changes didn't break anything. `$> grunt test`
+6. Perform browser testing in [supported browsers](https://github.com/OpenF2/F2/wiki/Browser-Compatibility).
+7. Add a detailed commit message.
+
+### Committing Changes
+
+* You should only commit files you have changed. **Do not commit compiled or generated F2 files, except:**
+    * If you've modified any file in the `/sdk/src/` directory, you must commit `/sdk/f2.min.js` for the [Travis unit tests](https://travis-ci.org/OpenF2/F2).
 * Push committed changes to your branch.
-* [Submit a pull request](https://help.github.com/articles/using-pull-requests) in the F2 project repository.
+* [Submit a pull request](https://help.github.com/articles/using-pull-requests) for `F2\next.version-wip` **not `F2\master`**.
 * Add a message or additional detail for your changes in the pull request.
-* Wait for your change to be reviewed.
+* Wait for your change(s) to be reviewed.
 
 
 ## Coding Standards
 
-Coding standards promote a common vocabulary and syntax so that our fellow developers can concentrate on _what_ you're saying rather than on _how_ you're saying it. It is ultimately up to you how you write your own code, but please become familiar with the standards and use them when contributing back to F2.
+Coding standards promote a common vocabulary and syntax so that our fellow developers can concentrate on _what_ you're saying rather than on _how_ you're saying it. It is ultimately up to you how you write your own code, but please become familiar with the standards and use them when contributing to F2.
 
 Coding standards help an individual project, and also make it easier for one project to reuse components from another project. This, of course, is a core component of F2.
 
@@ -42,7 +56,7 @@ Read our [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards) 
 
 ## Keep in Touch
 
-If you have any questions while writing code to contribute back to F2, contact us on our [Google Group](https://groups.google.com/forum/#!forum/OpenF2), find us on Twitter [@OpenF2](https://twitter.com/OpenF2) or by email at [info@openf2.org](mailto:info@openf2.org). You can also follow [our blog](http://blog.openf2.org) for more in-depth F2 updates.
+If you have any questions while writing code to contribute to F2, post a message on the [Google Group](https://groups.google.com/forum/#!forum/OpenF2), find us on Twitter [@OpenF2](https://twitter.com/OpenF2) or by email at [info@openf2.org](mailto:info@openf2.org). You can also follow [our blog](http://blog.openf2.org) for more in-depth F2 updates.
 
 ## Resources
 
@@ -50,4 +64,5 @@ If you have any questions while writing code to contribute back to F2, contact u
 * [F2 Coding Standards](https://github.com/OpenF2/F2/wiki/Coding-Standards)
 * [GitHub Documentation: Using Pull Requests](https://help.github.com/articles/using-pull-requests)
 * [GitHub Documentation](https://help.github.com/)
-* [Markit On Demand](http://www.markitondemand.com/)
+* [Markit On Demand](http://www.markitondemand.com/) or [@markitondemand](https://twitter.com/markitondemand)
+* Markit On Demand Labs - [@MOD/L](https://twitter.com/mod_labs)

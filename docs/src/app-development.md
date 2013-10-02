@@ -636,7 +636,7 @@ var _appConfigs = [
 ];
 ```
 
-When `F2.registerApps()` is called, the `appConfig` is serialized and posted to the app's manifest URL. The serialized object converts to [stringified JSON](./sdk/classes/F2.html#methods-stringify):
+When `F2.registerApps()` is called, the `appConfig` is serialized and appended to the app's manifest URL. The serialized object converts to [stringified JSON](./sdk/classes/F2.html#methods-stringify):
 
 ```javascript
 {"appId":"com_acmecorp_news","description":"Acme Corp News","manifestUrl":"http://www.acme.com/apps/news-manifest.js","name":"Acme News App","context":{"sessionId":"12345", "someArray":["value1","value2"]}}
@@ -651,6 +651,8 @@ http://www.acme.com/apps/news-manifest.js?params=%7B%22appId%22%3A%22com_acmecor
 This demonstrates complete flexibility of passing arbitrary context values from the container to any F2 app.
 
 <span class="label label-important">Important</span> To receive context from a container during app initialization, F2 App Developers are required to build object deserialization for the `params` value into their app code.
+
+<span class="label">Note</span> It is possible to override the `AppManifest` request and, among other things, change the default HTTP method from `GET` to `POST`. This is useful in a scenario when the serialized `AppConfig` exceeds the maximum URL length or when `AppConfig.context` contains secure information necessitating a `POST`. [Read more about overriding the AppManifest request](container-development.html#override-the-appmanifest-request).
 
 ### App-to-Container Context
 
