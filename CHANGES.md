@@ -16,3 +16,4 @@
 # Modified
 - F2.guid: now RFC4122 compliant and doesn't vary length by browser
 - F2.registerApps: now called `load`.
+- F2.load: removed ability to pass in predefined app manifests

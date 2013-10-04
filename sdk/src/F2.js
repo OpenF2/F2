@@ -6,6 +6,9 @@
 
 	var _config = {};
 
+	// Track whether we've been init() yet
+	var isInit = false;
+
 	// Keep a running tally of legacy apps we've had to wrap in define()
 	var _appsWrappedInDefine = {};
 
@@ -100,19 +103,24 @@
 		return deferArgs;
 	}
 
-	function _loadApps(appData) {
+	function _loadApps(apps, appData) {
 		var appIds = [];
 
-		for (var appId in appData) {
-			appIds.push(appId);
+		for (var i = 0, len = apps.length; i < len; i++) {
+			if (apps[i].appId) {
+				appIds.push(apps[i].appId);
+				
+				// See if this app was defined the old way
+				// e.g., "F2.Apps['goober'] = ...
+				if (F2.Apps[apps[i].appId] && !_appsWrappedInDefine[apps[i].appId]) {
+					// Wrap the app class inside define() so we can load it through AMD
+					define(apps[i].appId, [], F2.Apps[apps[i].appId]);
 
-			// See if this app was defined the old way
-			// e.g., "F2.Apps['goober'] = ...
-			if (F2.Apps[appId] && !_appsWrappedInDefine[appId]) {
-				// Wrap the app class inside define() so we can load it through AMD
-				define(appId, [], F2.Apps[appId]);
+					_appsWrappedInDefine[apps[i].appId] = true;
+				}
 
-				_appsWrappedInDefine[appId] = true;
+				// Add the context to the appData
+				appData[apps[i].appId].context = apps[i].context || {};
 			}
 		}
 
@@ -122,9 +130,9 @@
 
 			// Instantiate the app classes
 			for (var i = 0, len = appIds.length; i < len; i++) {
-				var appDatum = appData[appIds[i]];
+				var data = appData[appIds[i]];
 				
-				var instance = new appClasses[i](appDatum.root, appDatum.instanceId);
+				var instance = new appClasses[i](data.instanceId, data.context, data.root);
 				instance.init();
 			}
 		});
@@ -255,6 +263,7 @@
 	// Every journey begins with a single step
 	var F2 = {};
 
+	// TODO: add documentation
 	F2.Apps = {};
 
 	/** 
@@ -262,6 +271,7 @@
 		* @method guid
 		* @return {string} A random id
 		* @for F2
+		* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 		*/
 	F2.guid = function() {
 		'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -272,18 +282,22 @@
 	};
 
 	/**
-		* Initializes the container. This method must be called before performing
-		* any other actions in the container.
+		* Initializes the container. This method must be called before performing any other actions in the container.
 		* @method init
 		* @param {F2.ContainerConfig} config The configuration object
 		*/
 	F2.init = function(config) {
-		if (config) {
-			F2.extend(true, _config, config);
-		}
+		if (!isInit) {
+			if (config) {
+				_.extend(_config, config);
+			}
 
-		_validateContainerConfig();
-		_hydrateContainerConfig(_config);
+			_validateContainerConfig();
+			_hydrateContainerConfig(_config);
+		}
+		else {
+			throw "F2 has already been initialized";
+		}
 	};
 
 	/**
@@ -303,7 +317,7 @@
 		* Traditional App requests.
 		*
 		*	// Traditional f2 app configs
-		*	var arConfigs = [
+		*	var appConfigs = [
 		*		{
 		*			appId: 'com_externaldomain_example_app',
 		*			context: {},
@@ -317,14 +331,14 @@
 		*	];
 		*	
 		*	F2.init();
-		*	F2.load(arConfigs);
+		*	F2.load(appConfigs);
 		*
 		* @example
 		* Pre-loaded and tradition apps mixed.
 		* 
 		*	// Pre-loaded apps and traditional f2 app configs
 		*	// you can preload the same app multiple times as long as you have a unique root for each
-		*	var arConfigs = [
+		*	var appConfigs = [
 		*		{
 		*			appId: 'com_mydomain_example_app',
 		*			context: {},
@@ -339,35 +353,7 @@
 		*	];
 		*
 		*	F2.init();
-		*	F2.load(arConfigs);
-		*
-		* @example
-		* Apps with predefined manifests.
-		*
-		*	// Traditional f2 app configs
-		*	var arConfigs = [
-		*		{ appId: 'com_externaldomain_example_app' },
-		*		{ appId: 'com_externaldomain_example_app2', context: {} }
-		*	];
-		*
-		*	// Pre requested manifest responses
-		*	var arManifests = [
-		*		{
-		*			apps: ['<div>Example App!</div>'],
-		*			inlineScripts: [],
-		*			scripts: ['http://www.domain.com/js/AppClass.js'],
-		*			styles: ['http://www.domain.com/css/AppStyles.css']
-		*		},
-		*		{
-		*			apps: ['<div>Example App 2!</div>'],
-		*			inlineScripts: [],
-		*			scripts: ['http://www.domain.com/js/App2Class.js'],
-		*			styles: ['http://www.domain.com/css/App2Styles.css'] 
-		*		}
-		*	];
-		*	
-		*	F2.init();
-		*	F2.load(arConfigs, arManifests);
+		*	F2.load(appConfigs);
 		*/
 	F2.load = function(appConfigs) {
 		if (appConfigs instanceof Array === false) {
@@ -424,7 +410,7 @@
 
 						// Add the scripts and, once finished, instantiate the app classes
 						_loadScripts(combined.scripts, combined.inlineScripts, function() {
-							_loadApps(appDataById);
+							_loadApps(combined.apps, appDataById);
 						});
 					}
 				}
