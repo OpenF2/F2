@@ -1,4 +1,4 @@
-﻿define("F2", ["F2.Defer", "json"], function(Defer, JSON) {
+﻿define("F2", ["F2.Defer"], function(Defer) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
