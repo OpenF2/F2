@@ -1,5 +1,23 @@
 ;(function(exports) {
 
+	// Check for console
+	try {
+		console.log;
+	}
+	catch (e) {
+		var noop = function() {};
+		var methods = [
+			'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+			'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+			'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+			'timeStamp', 'trace', 'warn'
+		];
+
+		for (var i = 0, len = methods.length; i < len; i++) {
+			console[methods[i]] = noop;
+		}
+	}
+
 	if (exports.F2 && !exports.F2_TESTING_MODE) {
 		return;
 	}
