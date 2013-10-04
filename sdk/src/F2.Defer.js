@@ -1,5 +1,3 @@
-﻿define("F2.Defer", ["Q"], function(Q) {
-
-	return Q;
-
+﻿define("F2.Defer", [], function() {
+	return exports.Q;
 });
