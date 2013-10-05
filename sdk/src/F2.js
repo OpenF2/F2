@@ -1,16 +1,4 @@
-﻿define("F2", ["F2.Defer"], function(Defer) {
-
-	// ---------------------------------------------------------------------------
-	// Private Storage
-	// ---------------------------------------------------------------------------
-
-	var _config = {};
-
-	// Track whether we've been init() yet
-	var isInit = false;
-
-	// Keep a running tally of legacy apps we've had to wrap in define()
-	var _appsWrappedInDefine = {};
+﻿define("F2", ["F2.Defer", "F2.Classes", "F2.Validators"], function(Defer, Classes, Validators) {
 
 	// ---------------------------------------------------------------------------
 	// Helpers
@@ -26,7 +14,7 @@
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
-	var _absolutizeURI = function(base, href) { // RFC 3986
+	function _absolutizeURI(base, href) { // RFC 3986
 		function removeDotSegments(input) {
 			var output = [];
 			input.replace(/^(\.\.?(\/|$))+/, '')
@@ -51,7 +39,7 @@
 			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
 			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
 			href.hash;
-	};
+	}
 
 	/**
 	 * Parses URI
@@ -62,7 +50,7 @@
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
-	var _parseURI = function(url) {
+	function _parseURI(url) {
 		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
 		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
 		return (m ? {
@@ -109,7 +97,7 @@
 		for (var i = 0, len = apps.length; i < len; i++) {
 			if (apps[i].appId) {
 				appIds.push(apps[i].appId);
-				
+
 				// See if this app was defined the old way
 				// e.g., "F2.Apps['goober'] = ...
 				if (F2.Apps[apps[i].appId] && !_appsWrappedInDefine[apps[i].appId]) {
@@ -131,7 +119,7 @@
 			// Instantiate the app classes
 			for (var i = 0, len = appIds.length; i < len; i++) {
 				var data = appData[appIds[i]];
-				
+
 				var instance = new appClasses[i](data.instanceId, data.context, data.root);
 				instance.init();
 			}
@@ -147,7 +135,7 @@
 			if (_config.loadScripts instanceof Function) {
 				_config.loadScripts(paths, inlines, callback);
 			}
-			else {)
+			else {
 				require(paths, function() {
 					// Load the inline scripts
 					if (hasInlines) {
@@ -256,6 +244,31 @@
 		return matched;
 	}
 
+	/**
+	 * Adds properties to the ContainerConfig object to take advantage of defaults
+	 * @method _hydrateContainerConfig
+	 * @private
+	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
+	 */
+	function _hydrateContainerConfig(config) {
+		if (!config.scriptErrorTimeout) {
+			config.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
+		}
+
+		if (config.debugMode !== true) {
+			config.debugMode = F2.ContainerConfig.debugMode;
+		}
+	}
+
+	// ---------------------------------------------------------------------------
+	// Private Storage
+	// ---------------------------------------------------------------------------
+
+	var _config = _.extend({}, Classes.ContainerConfig);
+
+	// Keep a running tally of legacy apps we've had to wrap in define()
+	var _appsWrappedInDefine = {};
+
 	// ---------------------------------------------------------------------------
 	// F2 Properties
 	// ---------------------------------------------------------------------------
@@ -265,6 +278,19 @@
 
 	// TODO: add documentation
 	F2.Apps = {};
+
+	/**
+		* Initializes the container. This method must be called before performing any other actions in the container.
+		* @method init
+		* @param {F2.ContainerConfig} config The configuration object
+		*/
+	F2.config = function(config) {
+		if (Validators.containerConfig(config)) {
+			_hydrateContainerConfig(config);
+
+			_.extend(_config, config);
+		}
+	};
 
 	/** 
 		* Generates an RFC4122 v4 compliant id
@@ -279,25 +305,6 @@
 			var v = c == 'x' ? r : (r & 0x3 | 0x8);
 			return v.toString(16);
 		});
-	};
-
-	/**
-		* Initializes the container. This method must be called before performing any other actions in the container.
-		* @method init
-		* @param {F2.ContainerConfig} config The configuration object
-		*/
-	F2.init = function(config) {
-		if (!isInit) {
-			if (config) {
-				_.extend(_config, config);
-			}
-
-			_validateContainerConfig();
-			_hydrateContainerConfig(_config);
-		}
-		else {
-			throw "F2 has already been initialized";
-		}
 	};
 
 	/**
@@ -400,8 +407,6 @@
 						// Combine all the valid responses
 						var combined = _.extend.apply(_, responses);
 
-						// Load the styles
-						// We don't need to wait for these to finish since there's not a reliable way to tell
 						_loadStyles(combined.styles);
 
 						// Let the container add the html to the page

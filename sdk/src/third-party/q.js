@@ -1893,7 +1893,5 @@ Promise.prototype.nodeify = function(nodeback) {
 	}
 };
 
-module.exports = Q;
-
 // All code before this point will be filtered from stack traces.
 var qEndingLine = captureLine();
