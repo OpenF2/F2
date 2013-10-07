@@ -1,4 +1,4 @@
-;(function(exports) {
+;(function() {
 
 	// Check for console
 	try {
@@ -18,6 +18,5 @@
 		}
 	}
 
-	if (exports.F2 && !exports.F2_TESTING_MODE) {
-		return;
-	}
+	// Create a local exports object to attach all CommonJS modules to
+	var exports = {};

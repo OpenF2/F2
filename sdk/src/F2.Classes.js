@@ -1,4 +1,4 @@
-﻿define("F2.Classes", [], function() {
+﻿define('F2.Classes', [], function() {
 	return {
 		/**
 			* The App Class is an optional class that can be namespaced onto the 

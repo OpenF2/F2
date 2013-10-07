@@ -1,0 +1,6 @@
+// Toss the AMD functions on the global
+if (!window.define) {
+	window.define = define;
+	window.require = require;
+	window.requirejs = requirejs;
+}

@@ -4,31 +4,39 @@
 		<title></title>
 </head>
 <body>
-	<script src="../sdk/src/third-party/almond.js"></script>
-	<script src="../sdk/src/third-party/eventemitter2.js"></script>
-	<script src="../sdk/src/third-party/json3.js"></script>
-	<script src="../sdk/src/third-party/q.js"></script>
-	<script src="../sdk/src/third-party/underscore.js"></script>
-
-	<script src="../sdk/src/F2.Defer.js"></script>
-	<script src="../sdk/src/F2.Events.js"></script>
-	<script src="../sdk/src/F2.Classes.js"></script>
-	<script src="../sdk/src/F2.Interfaces.js"></script>
-	<script src="../sdk/src/F2.js"></script>
+	<script src="../sdk/f2.debug.js"></script>
 
 	<script>
 		require(["F2.Interfaces"], function(Interfaces) {
+
 			var manifest = {
 				scripts: [],
 				styles: [],
 				inlineScripts: [],
-				apps: [{ html: "asdf", data: {} }]
+				apps: [{ html: "", data: {}, success: true }]
 			};
 
-			console.time("Test manifest");
-			console.log(Interfaces.AppManifest.isValid(manifest));
-			console.timeEnd("Test manifest");
+			console.time("validate");
+			console.log("AppManifest", Interfaces.validate(manifest, "AppManifest"));
+			console.timeEnd("validate");
+
+			// Add a Quote interface
+			Interfaces.add("Quote", {
+				type: "object",
+				properties: {
+					price: {
+						type: "number",
+						minimum: 0
+					}
+				},
+				required: ["price"]
+			});
+			console.log("Quote", Interfaces.validate({ price: 1 }, "Quote"));
+
+
+			console.log("Existing schemas", Interfaces.schemas);
 		});
+
 	</script>
 </body>
 </html>

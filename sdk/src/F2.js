@@ -1,4 +1,4 @@
-﻿define("F2", ["F2.Defer", "F2.Classes", "F2.Validators"], function(Defer, Classes, Validators) {
+﻿define('F2', ['F2.Defer', 'F2.Classes', 'F2.Validators'], function(Defer, Classes, Validators) {
 
 	// ---------------------------------------------------------------------------
 	// Helpers
@@ -14,32 +14,32 @@
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
-	function _absolutizeURI(base, href) { // RFC 3986
-		function removeDotSegments(input) {
-			var output = [];
-			input.replace(/^(\.\.?(\/|$))+/, '')
-				.replace(/\/(\.(\/|$))+/g, '/')
-				.replace(/\/\.\.$/, '/../')
-				.replace(/\/?[^\/]*/g, function(p) {
-					if (p === '/..') {
-						output.pop();
-					} else {
-						output.push(p);
-					}
-				});
+	//function _absolutizeURI(base, href) { // RFC 3986
+	//	function removeDotSegments(input) {
+	//		var output = [];
+	//		input.replace(/^(\.\.?(\/|$))+/, '')
+	//			.replace(/\/(\.(\/|$))+/g, '/')
+	//			.replace(/\/\.\.$/, '/../')
+	//			.replace(/\/?[^\/]*/g, function(p) {
+	//				if (p === '/..') {
+	//					output.pop();
+	//				} else {
+	//					output.push(p);
+	//				}
+	//			});
 
-			return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
-		}
+	//		return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
+	//	}
 
-		var href = _parseURI(href || '');
-		var base = _parseURI(base || '');
+	//	href = _parseURI(href || '');
+	//	base = _parseURI(base || '');
 
-		return !href || !base ? null : (href.protocol || base.protocol) +
-			(href.protocol || href.authority ? href.authority : base.authority) +
-			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
-			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
-			href.hash;
-	}
+	//	return !href || !base ? null : (href.protocol || base.protocol) +
+	//		(href.protocol || href.authority ? href.authority : base.authority) +
+	//		removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
+	//		(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
+	//		href.hash;
+	//}
 
 	/**
 	 * Parses URI
@@ -50,24 +50,24 @@
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
-	function _parseURI(url) {
-		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
-		return (m ? {
-			href: m[0] || '',
-			protocol: m[1] || '',
-			authority: m[2] || '',
-			host: m[3] || '',
-			hostname: m[4] || '',
-			port: m[5] || '',
-			pathname: m[6] || '',
-			search: m[7] || '',
-			hash: m[8] || ''
-		} : null);
-	};
+	//function _parseURI(url) {
+	//	var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+	//	// authority = '//' + user + ':' + pass '@' + hostname + ':' port
+	//	return (m ? {
+	//		href: m[0] || '',
+	//		protocol: m[1] || '',
+	//		authority: m[2] || '',
+	//		host: m[3] || '',
+	//		hostname: m[4] || '',
+	//		port: m[5] || '',
+	//		pathname: m[6] || '',
+	//		search: m[7] || '',
+	//		hash: m[8] || ''
+	//	} : null);
+	//}
 
 	function _loadHtml(apps, deferred) {
-		var rootParent = document.createElement("div");
+		var rootParent = document.createElement('div');
 		var deferArgs = {};
 
 		// Make a promise argument for each app
@@ -79,7 +79,7 @@
 				rootParent.innerHTML = apps[i].html;
 
 				deferArgs[apps[i].appId] = {
-					instanceId: self.guid(),
+					instanceId: F2.guid(),
 					root: rootParent.firstChild
 				};
 			}
@@ -91,7 +91,7 @@
 		return deferArgs;
 	}
 
-	function _loadApps(apps, appData) {
+	function _initApps(apps, appData) {
 		var appIds = [];
 
 		for (var i = 0, len = apps.length; i < len; i++) {
@@ -99,7 +99,7 @@
 				appIds.push(apps[i].appId);
 
 				// See if this app was defined the old way
-				// e.g., "F2.Apps['goober'] = ...
+				// e.g., F2.Apps['goober'] = ...
 				if (F2.Apps[apps[i].appId] && !_appsWrappedInDefine[apps[i].appId]) {
 					// Wrap the app class inside define() so we can load it through AMD
 					define(apps[i].appId, [], F2.Apps[apps[i].appId]);
@@ -166,7 +166,7 @@
 			}
 			else {
 				var frag = document.createDocumentFragment();
-				var tags = document.getElementsByTagName("link");
+				var tags = document.getElementsByTagName('link');
 				var existingPaths = {};
 
 				// Find all the existing paths on the page
@@ -177,16 +177,29 @@
 				// Create a link tag for each path
 				for (var j = 0, jLen = paths.length; j < jLen; j++) {
 					if (!existingPaths[paths[j]]) {
-						var link = document.createElement("link");
+						var link = document.createElement('link');
 						link.href = paths[j];
 						frag.appendChild(link);
 					}
 				}
 
 				// Add tags to the page
-				document.getElementsByName("head")[0].appendChild(frag);
+				document.getElementsByName('head')[0].appendChild(frag);
 			}
 		}
+	}
+
+	function _loadApps(responses, deferred) {
+		_loadStyles(responses.styles);
+
+		// Let the container add the html to the page
+		// Get back an obj keyed by AppId that contains the root and instanceId
+		var appDataById = _loadHtml(responses.apps, deferred);
+
+		// Add the scripts and, once finished, instantiate the app classes
+		_loadScripts(responses.scripts, responses.inlineScripts, function() {
+			_initApps(responses.apps, appDataById);
+		});
 	}
 
 	/**
@@ -195,9 +208,9 @@
 		* @param {object} testObject The object you want to check as native dom node.
 		* @return {bool} Returns true if the object passed is a native dom node.
 		*/
-	function isNativeDomNode(test) {
-		return (test && test.nodeType === 1);
-	}
+	//function isNativeDomNode(test) {
+	//	return (test && test.nodeType === 1);
+	//}
 
 	/**
 		* Tests a URL to see if it's on the same domain (local) or not
@@ -206,43 +219,43 @@
 		* @returns {bool} Whether the URL is local or not
 		* Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 		*/
-	function isLocalRequest(url) {
-		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-			urlLower = url.toLowerCase(),
-			parts = rurl.exec(urlLower),
-			ajaxLocation,
-			ajaxLocParts;
+	//function isLocalRequest(url) {
+	//	var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+	//		urlLower = url.toLowerCase(),
+	//		parts = rurl.exec(urlLower),
+	//		ajaxLocation,
+	//		ajaxLocParts;
 
-		try {
-			ajaxLocation = location.href;
-		}
-		catch (e) {
-			// Use the href attribute of an A element since IE will modify it given document.location
-			ajaxLocation = document.createElement('a');
-			ajaxLocation.href = '';
-			ajaxLocation = ajaxLocation.href;
-		}
+	//	try {
+	//		ajaxLocation = location.href;
+	//	}
+	//	catch (e) {
+	//		// Use the href attribute of an A element since IE will modify it given document.location
+	//		ajaxLocation = document.createElement('a');
+	//		ajaxLocation.href = '';
+	//		ajaxLocation = ajaxLocation.href;
+	//	}
 
-		ajaxLocation = ajaxLocation.toLowerCase();
+	//	ajaxLocation = ajaxLocation.toLowerCase();
 
-		// Uh oh, the url must be relative
-		// Make it fully qualified and re-regex url
-		if (!parts) {
-			urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
-			parts = rurl.exec(urlLower);
-		}
+	//	// Uh oh, the url must be relative
+	//	// Make it fully qualified and re-regex url
+	//	if (!parts) {
+	//		urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
+	//		parts = rurl.exec(urlLower);
+	//	}
 
-		// Segment location into parts
-		ajaxLocParts = rurl.exec(ajaxLocation) || [];
+	//	// Segment location into parts
+	//	ajaxLocParts = rurl.exec(ajaxLocation) || [];
 
-		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
-		var matched = !(parts &&
-				(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
-					(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
-						(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
+	//	// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
+	//	var matched = !(parts &&
+	//			(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
+	//				(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
+	//					(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
 
-		return matched;
-	}
+	//	return matched;
+	//}
 
 	/**
 	 * Adds properties to the ContainerConfig object to take advantage of defaults
@@ -378,7 +391,7 @@
 				numUrlsToRequest += 1;
 			}
 
-			appsByUrl[appConfigs[i].manifestUrl].push(appIds[i]);
+			appsByUrl[appConfigs[i].manifestUrl].push(appConfigs[i]);
 		}
 
 		// Obj that holds all the xhr responses
@@ -393,7 +406,7 @@
 		for (var url in appsByUrl) {
 			$.ajax({
 				url: url,
-				type: "post",
+				type: 'post',
 				data: {
 					params: JSON.stringify(appsByUrl[url])
 				},
@@ -406,17 +419,7 @@
 					if (--numUrlsToRequest === 0 && responses.length > 1) {
 						// Combine all the valid responses
 						var combined = _.extend.apply(_, responses);
-
-						_loadStyles(combined.styles);
-
-						// Let the container add the html to the page
-						// Get back an obj keyed by AppId that contains the root and instanceId
-						var appDataById = _loadHtml(combined.apps, deferred);
-
-						// Add the scripts and, once finished, instantiate the app classes
-						_loadScripts(combined.scripts, combined.inlineScripts, function() {
-							_loadApps(combined.apps, appDataById);
-						});
+						_loadApps(combined, deferred);
 					}
 				}
 			});
