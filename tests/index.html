@@ -9,6 +9,12 @@
 	<script>
 		require(["F2.Interfaces"], function(Interfaces) {
 
+			// --------------------
+			// Test Predefined
+			// --------------------
+
+			console.log("========== Test Predefined ==========");
+
 			var manifest = {
 				scripts: [],
 				styles: [],
@@ -19,6 +25,12 @@
 			console.time("validate");
 			console.log("AppManifest", Interfaces.validate(manifest, "AppManifest"));
 			console.timeEnd("validate");
+
+			// --------------------
+			// Test User Defined
+			// --------------------
+
+			console.log("========== Test User Defined ==========");
 
 			// Add a Quote interface
 			Interfaces.add("Quote", {
@@ -33,8 +45,24 @@
 			});
 			console.log("Quote", Interfaces.validate({ price: 1 }, "Quote"));
 
-
 			console.log("Existing schemas", Interfaces.schemas);
+
+			// --------------------
+			// Test Creation
+			// --------------------
+
+			console.log("========== Test Creation ==========");
+
+			for (var name in Interfaces.schemas) {
+				if (name == "ContainerConfig") {
+					debugger;
+				}
+
+				var newInterfaceObj = Interfaces.create(name);
+				console.log("Create", name, Interfaces.validate(newInterfaceObj, name));
+				console.log(newInterfaceObj);
+			}
+
 		});
 
 	</script>

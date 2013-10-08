@@ -1,4 +1,4 @@
-﻿define('F2', ['F2.Defer', 'F2.Classes', 'F2.Validators'], function(Defer, Classes, Validators) {
+﻿define('F2', ['F2.Defer', 'F2.Classes', 'F2.Interfaces'], function(Defer, Classes, Interfaces) {
 
 	// ---------------------------------------------------------------------------
 	// Helpers
@@ -277,7 +277,7 @@
 	// Private Storage
 	// ---------------------------------------------------------------------------
 
-	var _config = _.extend({}, Classes.ContainerConfig);
+	var _config = $.extend({}, Classes.ContainerConfig);
 
 	// Keep a running tally of legacy apps we've had to wrap in define()
 	var _appsWrappedInDefine = {};
@@ -298,10 +298,10 @@
 		* @param {F2.ContainerConfig} config The configuration object
 		*/
 	F2.config = function(config) {
-		if (Validators.containerConfig(config)) {
+		if (Interfaces.validate(config, 'ContainerConfig')) {
 			_hydrateContainerConfig(config);
 
-			_.extend(_config, config);
+			$.extend(true, _config, config);
 		}
 	};
 
@@ -410,15 +410,17 @@
 				data: {
 					params: JSON.stringify(appsByUrl[url])
 				},
+				cache: false,
 				success: function(response) {
-					if (response && _.isObject(response)) {
+					// Make sure this is a valid AppManifest
+					if (Interfaces.validate(response, 'AppManifest')) {
 						responses.push(response);
 					}
 
 					// See if we've finished requesting all the apps
 					if (--numUrlsToRequest === 0 && responses.length > 1) {
 						// Combine all the valid responses
-						var combined = _.extend.apply(_, responses);
+						var combined = $.extend.apply($, [true].concat(responses));
 						_loadApps(combined, deferred);
 					}
 				}

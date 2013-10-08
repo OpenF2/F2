@@ -1,22 +1,36 @@
 ;(function() {
 
 	// Check for console
-	try {
-		console.log;
-	}
-	catch (e) {
-		var noop = function() {};
-		var methods = [
-			'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-			'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-			'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-			'timeStamp', 'trace', 'warn'
-		];
-
-		for (var i = 0, len = methods.length; i < len; i++) {
-			console[methods[i]] = noop;
-		}
+	if (typeof console === "undefined" || typeof console.log === "undefined") {
+		// Set all console methods to a non process
+		console = {
+			assert: noop,
+			clear: noop,
+			count: noop,
+			debug: noop,
+			dir: noop,
+			dirxml: noop,
+			error: noop,
+			exception: noop,
+			group: noop,
+			groupCollapsed: noop,
+			groupEnd: noop,
+			info: noop,
+			log: noop,
+			markTimeline: noop,
+			profile: noop,
+			profileEnd: noop,
+			table: noop,
+			time: noop,
+			timeEnd: noop,
+			timeStamp: noop,
+			trace: noop,
+			warn: noop
+		};
 	}
 
 	// Create a local exports object to attach all CommonJS modules to
-	var exports = {};
+	var exports = {
+		// Zepto looks for the document on window
+		document: window.document
+	};

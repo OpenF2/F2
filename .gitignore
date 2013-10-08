@@ -43,3 +43,5 @@ src/UpgradeLog.XML
 src/_UpgradeReport_Files/
 *.dbmdl
 tmp
+
+/*.sln

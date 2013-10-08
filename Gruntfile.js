@@ -140,21 +140,22 @@ module.exports = function(grunt) {
 			},
 			thirdParty: {
 				src: [
+					'sdk/src/template/thirdParty/header.js.tmpl',
+					'sdk/src/third-party/zepto.js',
+					'sdk/src/template/thirdParty/zepto.js.tmpl',
+					'sdk/src/third-party/zepto.ajax.js',
 					'sdk/src/third-party/almond.js',
 					'sdk/src/template/thirdParty/amd.js.tmpl',
 					'sdk/src/third-party/json3.js',
 					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/underscore.js',
-					'sdk/src/template/thirdParty/underscore.js.tmpl',
-					'sdk/src/third-party/q/q.js',
+					'sdk/src/third-party/q.js',
 					'sdk/src/template/thirdParty/q.js.tmpl',
-					'sdk/src/third-party/tv4/tv4.js',
-					'sdk/src/template/thirdParty/tv4.js.tmpl'
-				],
+					'sdk/src/third-party/tv4.js',
+					'sdk/src/template/thirdParty/tv4.js.tmpl',
+					'sdk/src/template/thirdParty/footer.js.tmpl',
+			],
 				dest: 'sdk/f2.thirdParty.js',
 				options: {
-					banner: "!(function(exports, module) {",
-					footer: "}).call(exports, exports, module = {});",
 					process: function(src, filename) {
 						// Strip out source maps
 						return src.replace(/[\/\/]+@\s+sourceMappingURL=[a-zA-Z.-_]+.map/g, "");
