@@ -1,5 +1,7 @@
+	_exports.LazyLoad = LazyLoad;
+
 }).call(
-	_exports /* function context */,
+	_window /* function context */,
 	_exports /* param="exports" */,
 	_window /* param="window" */,
 	window /* param="f2Window" */,
@@ -7,12 +9,12 @@
 );
 
 // Create locally scoped vars of our libs
-var EventEmitter2 = _window.EventEmitter2;
 var tv4 = _exports.tv4;
 var Q = _exports.Q;
 var JSON = _exports.JSON;
 var reqwest = _exports.reqwest;
 var _ = _exports._;
+var LazyLoad = _exports.LazyLoad;
 
 // Pull the document off exports
 delete _exports;

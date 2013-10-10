@@ -1,3 +1,37 @@
-define('F2.UI', [], function() {
-	// TODO: implement
+define('F2.UI', ['F2', 'F2.Interfaces'], function(F2, Interfaces) {
+	
+	var _containerConfig = F2.config();
+
+	return {
+		modal: function(params) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
+				if (Interfaces.validate(params, 'uiModalParams')) {
+					_containerConfig.ui.modal(params);
+				}
+				else {
+					console.error('F2.UI: The parameters to ui.modal are incorrect.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.modal.');
+			}
+		},
+		showMask: function(root) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showMask)) {
+				_containerConfig.ui.showMask(root);
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.showMask.');
+			}
+		},
+		hideMask: function(root) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideMask)) {
+				_containerConfig.ui.hideMask(root);
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.hideMask.');
+			}
+		}
+	};
+
 });

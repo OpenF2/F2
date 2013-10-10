@@ -1,10 +1,12 @@
 ﻿# F2
 - Add UI
-- Change F2.Ajax to accept normal jquery inputs
+	- Handle switching "views"
+	- updateHeight?
+	- setTitle?
 - Build in amdConfig to appManifest
-- Add globals?
 - Add standard events
-	- Where do these live?
+	- What events should we add?
+- UI to container config
 
 # Testing
 - Add unit tests

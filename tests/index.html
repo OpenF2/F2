@@ -86,13 +86,13 @@
 		require(["F2.Ajax"], function(Ajax) {
 
 			// Test GET
-			Ajax.get("http://localhost/~bear/f2/tests/test.json").then(function(response) {
+			Ajax.get("test.js").then(function(response) {
 				console.log("========== Test Ajax: GET ==========");
 				console.log("INDEX", response);
 			});
 
 			// Test POST
-			Ajax.post("http://localhost/~bear/f2/tests/test.json").then(function(response) {
+			Ajax.post("test.js").then(function(response) {
 				console.log("========== Test Ajax: POST ==========");
 				console.log("INDEX", response);
 			});
@@ -105,13 +105,8 @@
 
 		});
 
-		require(["F2.BaseAppClass"], function(BaseAppClass) {
-			function Child() {};
-			Child.prototype = new BaseAppClass;
-
-			var c = new Child();
-
-			window.c = c;
+		require(["F2.Events"], function(Events) {
+			window.e = Events;
 		});
 
 	</script>

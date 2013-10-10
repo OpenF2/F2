@@ -1,79 +1,102 @@
 ﻿define('F2.Events', [], function() {
 
-	// Init EventEmitter
-	var _events = new EventEmitter2({
-		wildcard: true
-	});
+	var _cache = {};
 
-	// Unlimited listeners, set to > 0 for debugging
-	_events.setMaxListeners(0);
+	function _subscribe(name, handler, context, timesToListen) {
+		if (!name) {
+			throw 'F2.Events: you must provide an event name.';
+		}
+
+		if (!handler) {
+			throw 'F2.Events: you must provide an event handler.';
+		}
+
+		if (!_cache[name]) {
+			_cache[name] = [];
+		}
+
+		_cache[name].push({
+			handler: handler,
+			context: context || window,
+			timesLeft: timesToListen
+		});
+	}
+
+	function _unsubscribe(name, handler, context) {
+		if (_cache[name] && (handler || context)) {
+			var len = _cache[name].length;
+
+			while (len--) {
+				var matchesHandler = (handler && _cache[name][len].handler === handler);
+				var matchesContext = (context && _cache[name][len].context === context);
+
+				if (matchesHandler || matchesContext) {
+					_cache[name].splice(len, 1);
+				}
+			}
+		}
+		else if (context || handler) {
+			// Search all events for the context
+			for (var eventName in _cache) {
+				_unsubscribe(eventName, handler, context);
+			}
+		}
+	}
 
 	return {
-		/**
-		 * Same as F2.Events.emit except that it will not send the event
-		 * to all sockets.
-		 * @method _socketEmit
-		 * @private
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
-		 */
-		_socketEmit: function() {
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		emit: function(name, args) {
+			if (!name) {
+				throw 'F2.Events: you must provide an event name to emit.';
+			}
+
+			if (_cache[name]) {
+				// Get all the non "name" arguments passed in
+				args = Array.prototype.slice.call(arguments, 1);
+
+				var leakedContexts = [];
+				var len = _cache[name].length;
+
+				while (len--) {
+					var sub = _cache[name][len];
+
+					// Check for possible memory leak
+					if (sub.context.__f2Disposed__) {
+						leakedContexts.push(sub.context);
+					}
+					else {
+						// Execute the handler
+						sub.handler.apply(sub.context, args);
+
+						// See if this is limited to a # of executions
+						if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
+							_cache[name].splice(len, 1);
+						}
+					}
+				}
+
+				// Clean up the leaked contexts
+				while (leakedContexts.length) {
+					_unsubscribe(null, null, leakedContexts.shift());
+				}
+			}
 		},
-		/**
-		 * Execute each of the listeners that may be listening for the specified
-		 * event name in order with the list of arguments.
-		 * @method emit
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
-		 */
-		emit: function() {
-			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		many: function(name, timesToListen, handler, context) {
+			timesToListen = parseInt(timesToListen, 10);
+
+			if (timesToListen < 1) {
+				throw 'F2.Events: "timesToListen" must be greater than 0.';
+			}
+
+			return _subscribe(name, handler, context, timesToListen);
 		},
-		/**
-		 * Adds a listener that will execute n times for the event before being
-		 * removed. The listener is invoked only the first time the event is
-		 * fired, after which it is removed.
-		 * @method many
-		 * @param {string} event The event name
-		 * @param {int} timesToListen The number of times to execute the event
-		 * before being removed
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
-		 */
-		many: function(event, timesToListen, listener) {
-			return _events.many(event, timesToListen, listener);
+		off: function(name, handler, context) {
+			return _unsubscribe(name, handler, context);
 		},
-		/**
-		 * Remove a listener for the specified event.
-		 * @method off
-		 * @param {string} event The event name
-		 * @param {function} listener The function that will be removed
-		 */
-		off: function(event, listener) {
-			return _events.off(event, listener);
+		on: function(name, handler, context) {
+			return _subscribe(name, handler, context);
 		},
-		/**
-		 * Adds a listener for the specified event
-		 * @method on
-		 * @param {string} event The event name
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
-		 */
-		on: function(event, listener) {
-			return _events.on(event, listener);
-		},
-		/**
-		 * Adds a one time listener for the event. The listener is invoked only
-		 * the first time the event is fired, after which it is removed.
-		 * @method once
-		 * @param {string} event The event name
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
-		 */
-		once: function(event, listener) {
-			return _events.once(event, listener);
+		once: function(name, handler, context) {
+			return _subscribe(name, handler, context, 1);
 		}
 	};
 

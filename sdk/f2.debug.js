@@ -1,5 +1,7 @@
 ;(function() {
 
+	function noop() { }
+
 	// Check for console
 	if (typeof console === "undefined" || typeof console.log === "undefined") {
 		// Set all console methods to a non process
@@ -34,6 +36,7 @@ var _exports = {};
 
 // Create a fake window object
 var _window = {
+	document: window.document,
 	// Reqwest looks at XMLHttpRequest
 	XMLHttpRequest: window.XMLHttpRequest,
 	ActiveXObject: window.ActiveXObject,
@@ -2105,404 +2108,404 @@ delete exports.parse;
 /*global setTimeout: false */
 
 var requirejs, require, define;
-(function (undef) {
-    var main, req, makeMap, handlers,
-        defined = {},
-        waiting = {},
-        config = {},
-        defining = {},
-        hasOwn = Object.prototype.hasOwnProperty,
-        aps = [].slice;
+(function(undef) {
+	var main, req, makeMap, handlers,
+			defined = {},
+			waiting = {},
+			config = {},
+			defining = {},
+			hasOwn = Object.prototype.hasOwnProperty,
+			aps = [].slice;
 
-    function hasProp(obj, prop) {
-        return hasOwn.call(obj, prop);
-    }
+	function hasProp(obj, prop) {
+		return hasOwn.call(obj, prop);
+	}
 
-    /**
-     * Given a relative module name, like ./something, normalize it to
-     * a real name that can be mapped to a path.
-     * @param {String} name the relative name
-     * @param {String} baseName a real name that the name arg is relative
-     * to.
-     * @returns {String} normalized name
-     */
-    function normalize(name, baseName) {
-        var nameParts, nameSegment, mapValue, foundMap,
-            foundI, foundStarMap, starI, i, j, part,
-            baseParts = baseName && baseName.split("/"),
-            map = config.map,
-            starMap = (map && map['*']) || {};
+	/**
+	 * Given a relative module name, like ./something, normalize it to
+	 * a real name that can be mapped to a path.
+	 * @param {String} name the relative name
+	 * @param {String} baseName a real name that the name arg is relative
+	 * to.
+	 * @returns {String} normalized name
+	 */
+	function normalize(name, baseName) {
+		var nameParts, nameSegment, mapValue, foundMap,
+				foundI, foundStarMap, starI, i, j, part,
+				baseParts = baseName && baseName.split("/"),
+				map = config.map,
+				starMap = (map && map['*']) || {};
 
-        //Adjust any relative paths.
-        if (name && name.charAt(0) === ".") {
-            //If have a base name, try to normalize against it,
-            //otherwise, assume it is a top-level require that will
-            //be relative to baseUrl in the end.
-            if (baseName) {
-                //Convert baseName to array, and lop off the last part,
-                //so that . matches that "directory" and not name of the baseName's
-                //module. For instance, baseName of "one/two/three", maps to
-                //"one/two/three.js", but we want the directory, "one/two" for
-                //this normalization.
-                baseParts = baseParts.slice(0, baseParts.length - 1);
+		//Adjust any relative paths.
+		if (name && name.charAt(0) === ".") {
+			//If have a base name, try to normalize against it,
+			//otherwise, assume it is a top-level require that will
+			//be relative to baseUrl in the end.
+			if (baseName) {
+				//Convert baseName to array, and lop off the last part,
+				//so that . matches that "directory" and not name of the baseName's
+				//module. For instance, baseName of "one/two/three", maps to
+				//"one/two/three.js", but we want the directory, "one/two" for
+				//this normalization.
+				baseParts = baseParts.slice(0, baseParts.length - 1);
 
-                name = baseParts.concat(name.split("/"));
+				name = baseParts.concat(name.split("/"));
 
-                //start trimDots
-                for (i = 0; i < name.length; i += 1) {
-                    part = name[i];
-                    if (part === ".") {
-                        name.splice(i, 1);
-                        i -= 1;
-                    } else if (part === "..") {
-                        if (i === 1 && (name[2] === '..' || name[0] === '..')) {
-                            //End of the line. Keep at least one non-dot
-                            //path segment at the front so it can be mapped
-                            //correctly to disk. Otherwise, there is likely
-                            //no path mapping for a path starting with '..'.
-                            //This can still fail, but catches the most reasonable
-                            //uses of ..
-                            break;
-                        } else if (i > 0) {
-                            name.splice(i - 1, 2);
-                            i -= 2;
-                        }
-                    }
-                }
-                //end trimDots
+				//start trimDots
+				for (i = 0; i < name.length; i += 1) {
+					part = name[i];
+					if (part === ".") {
+						name.splice(i, 1);
+						i -= 1;
+					} else if (part === "..") {
+						if (i === 1 && (name[2] === '..' || name[0] === '..')) {
+							//End of the line. Keep at least one non-dot
+							//path segment at the front so it can be mapped
+							//correctly to disk. Otherwise, there is likely
+							//no path mapping for a path starting with '..'.
+							//This can still fail, but catches the most reasonable
+							//uses of ..
+							break;
+						} else if (i > 0) {
+							name.splice(i - 1, 2);
+							i -= 2;
+						}
+					}
+				}
+				//end trimDots
 
-                name = name.join("/");
-            } else if (name.indexOf('./') === 0) {
-                // No baseName, so this is ID is resolved relative
-                // to baseUrl, pull off the leading dot.
-                name = name.substring(2);
-            }
-        }
+				name = name.join("/");
+			} else if (name.indexOf('./') === 0) {
+				// No baseName, so this is ID is resolved relative
+				// to baseUrl, pull off the leading dot.
+				name = name.substring(2);
+			}
+		}
 
-        //Apply map config if available.
-        if ((baseParts || starMap) && map) {
-            nameParts = name.split('/');
+		//Apply map config if available.
+		if ((baseParts || starMap) && map) {
+			nameParts = name.split('/');
 
-            for (i = nameParts.length; i > 0; i -= 1) {
-                nameSegment = nameParts.slice(0, i).join("/");
+			for (i = nameParts.length; i > 0; i -= 1) {
+				nameSegment = nameParts.slice(0, i).join("/");
 
-                if (baseParts) {
-                    //Find the longest baseName segment match in the config.
-                    //So, do joins on the biggest to smallest lengths of baseParts.
-                    for (j = baseParts.length; j > 0; j -= 1) {
-                        mapValue = map[baseParts.slice(0, j).join('/')];
+				if (baseParts) {
+					//Find the longest baseName segment match in the config.
+					//So, do joins on the biggest to smallest lengths of baseParts.
+					for (j = baseParts.length; j > 0; j -= 1) {
+						mapValue = map[baseParts.slice(0, j).join('/')];
 
-                        //baseName segment has  config, find if it has one for
-                        //this name.
-                        if (mapValue) {
-                            mapValue = mapValue[nameSegment];
-                            if (mapValue) {
-                                //Match, update name to the new value.
-                                foundMap = mapValue;
-                                foundI = i;
-                                break;
-                            }
-                        }
-                    }
-                }
+						//baseName segment has  config, find if it has one for
+						//this name.
+						if (mapValue) {
+							mapValue = mapValue[nameSegment];
+							if (mapValue) {
+								//Match, update name to the new value.
+								foundMap = mapValue;
+								foundI = i;
+								break;
+							}
+						}
+					}
+				}
 
-                if (foundMap) {
-                    break;
-                }
+				if (foundMap) {
+					break;
+				}
 
-                //Check for a star map match, but just hold on to it,
-                //if there is a shorter segment match later in a matching
-                //config, then favor over this star map.
-                if (!foundStarMap && starMap && starMap[nameSegment]) {
-                    foundStarMap = starMap[nameSegment];
-                    starI = i;
-                }
-            }
+				//Check for a star map match, but just hold on to it,
+				//if there is a shorter segment match later in a matching
+				//config, then favor over this star map.
+				if (!foundStarMap && starMap && starMap[nameSegment]) {
+					foundStarMap = starMap[nameSegment];
+					starI = i;
+				}
+			}
 
-            if (!foundMap && foundStarMap) {
-                foundMap = foundStarMap;
-                foundI = starI;
-            }
+			if (!foundMap && foundStarMap) {
+				foundMap = foundStarMap;
+				foundI = starI;
+			}
 
-            if (foundMap) {
-                nameParts.splice(0, foundI, foundMap);
-                name = nameParts.join('/');
-            }
-        }
+			if (foundMap) {
+				nameParts.splice(0, foundI, foundMap);
+				name = nameParts.join('/');
+			}
+		}
 
-        return name;
-    }
+		return name;
+	}
 
-    function makeRequire(relName, forceSync) {
-        return function () {
-            //A version of a require function that passes a moduleName
-            //value for items that may need to
-            //look up paths relative to the moduleName
-            return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
-        };
-    }
+	function makeRequire(relName, forceSync) {
+		return function() {
+			//A version of a require function that passes a moduleName
+			//value for items that may need to
+			//look up paths relative to the moduleName
+			return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
+		};
+	}
 
-    function makeNormalize(relName) {
-        return function (name) {
-            return normalize(name, relName);
-        };
-    }
+	function makeNormalize(relName) {
+		return function(name) {
+			return normalize(name, relName);
+		};
+	}
 
-    function makeLoad(depName) {
-        return function (value) {
-            defined[depName] = value;
-        };
-    }
+	function makeLoad(depName) {
+		return function(value) {
+			defined[depName] = value;
+		};
+	}
 
-    function callDep(name) {
-        if (hasProp(waiting, name)) {
-            var args = waiting[name];
-            delete waiting[name];
-            defining[name] = true;
-            main.apply(undef, args);
-        }
+	function callDep(name) {
+		if (hasProp(waiting, name)) {
+			var args = waiting[name];
+			delete waiting[name];
+			defining[name] = true;
+			main.apply(undef, args);
+		}
 
-        if (!hasProp(defined, name) && !hasProp(defining, name)) {
-            throw new Error('No ' + name);
-        }
-        return defined[name];
-    }
+		if (!hasProp(defined, name) && !hasProp(defining, name)) {
+			throw new Error('No ' + name);
+		}
+		return defined[name];
+	}
 
-    //Turns a plugin!resource to [plugin, resource]
-    //with the plugin being undefined if the name
-    //did not have a plugin prefix.
-    function splitPrefix(name) {
-        var prefix,
-            index = name ? name.indexOf('!') : -1;
-        if (index > -1) {
-            prefix = name.substring(0, index);
-            name = name.substring(index + 1, name.length);
-        }
-        return [prefix, name];
-    }
+	//Turns a plugin!resource to [plugin, resource]
+	//with the plugin being undefined if the name
+	//did not have a plugin prefix.
+	function splitPrefix(name) {
+		var prefix,
+				index = name ? name.indexOf('!') : -1;
+		if (index > -1) {
+			prefix = name.substring(0, index);
+			name = name.substring(index + 1, name.length);
+		}
+		return [prefix, name];
+	}
 
-    /**
-     * Makes a name map, normalizing the name, and using a plugin
-     * for normalization if necessary. Grabs a ref to plugin
-     * too, as an optimization.
-     */
-    makeMap = function (name, relName) {
-        var plugin,
-            parts = splitPrefix(name),
-            prefix = parts[0];
+	/**
+	 * Makes a name map, normalizing the name, and using a plugin
+	 * for normalization if necessary. Grabs a ref to plugin
+	 * too, as an optimization.
+	 */
+	makeMap = function(name, relName) {
+		var plugin,
+				parts = splitPrefix(name),
+				prefix = parts[0];
 
-        name = parts[1];
+		name = parts[1];
 
-        if (prefix) {
-            prefix = normalize(prefix, relName);
-            plugin = callDep(prefix);
-        }
+		if (prefix) {
+			prefix = normalize(prefix, relName);
+			plugin = callDep(prefix);
+		}
 
-        //Normalize according
-        if (prefix) {
-            if (plugin && plugin.normalize) {
-                name = plugin.normalize(name, makeNormalize(relName));
-            } else {
-                name = normalize(name, relName);
-            }
-        } else {
-            name = normalize(name, relName);
-            parts = splitPrefix(name);
-            prefix = parts[0];
-            name = parts[1];
-            if (prefix) {
-                plugin = callDep(prefix);
-            }
-        }
+		//Normalize according
+		if (prefix) {
+			if (plugin && plugin.normalize) {
+				name = plugin.normalize(name, makeNormalize(relName));
+			} else {
+				name = normalize(name, relName);
+			}
+		} else {
+			name = normalize(name, relName);
+			parts = splitPrefix(name);
+			prefix = parts[0];
+			name = parts[1];
+			if (prefix) {
+				plugin = callDep(prefix);
+			}
+		}
 
-        //Using ridiculous property names for space reasons
-        return {
-            f: prefix ? prefix + '!' + name : name, //fullName
-            n: name,
-            pr: prefix,
-            p: plugin
-        };
-    };
+		//Using ridiculous property names for space reasons
+		return {
+			f: prefix ? prefix + '!' + name : name, //fullName
+			n: name,
+			pr: prefix,
+			p: plugin
+		};
+	};
 
-    function makeConfig(name) {
-        return function () {
-            return (config && config.config && config.config[name]) || {};
-        };
-    }
+	function makeConfig(name) {
+		return function() {
+			return (config && config.config && config.config[name]) || {};
+		};
+	}
 
-    handlers = {
-        require: function (name) {
-            return makeRequire(name);
-        },
-        exports: function (name) {
-            var e = defined[name];
-            if (typeof e !== 'undefined') {
-                return e;
-            } else {
-                return (defined[name] = {});
-            }
-        },
-        module: function (name) {
-            return {
-                id: name,
-                uri: '',
-                exports: defined[name],
-                config: makeConfig(name)
-            };
-        }
-    };
+	handlers = {
+		require: function(name) {
+			return makeRequire(name);
+		},
+		exports: function(name) {
+			var e = defined[name];
+			if (typeof e !== 'undefined') {
+				return e;
+			} else {
+				return (defined[name] = {});
+			}
+		},
+		module: function(name) {
+			return {
+				id: name,
+				uri: '',
+				exports: defined[name],
+				config: makeConfig(name)
+			};
+		}
+	};
 
-    main = function (name, deps, callback, relName) {
-        var cjsModule, depName, ret, map, i,
-            args = [],
-            usingExports;
+	main = function(name, deps, callback, relName) {
+		var cjsModule, depName, ret, map, i,
+				args = [],
+				usingExports;
 
-        //Use name if no relName
-        relName = relName || name;
+		//Use name if no relName
+		relName = relName || name;
 
-        //Call the callback to define the module, if necessary.
-        if (typeof callback === 'function') {
+		//Call the callback to define the module, if necessary.
+		if (typeof callback === 'function') {
 
-            //Pull out the defined dependencies and pass the ordered
-            //values to the callback.
-            //Default to [require, exports, module] if no deps
-            deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
-            for (i = 0; i < deps.length; i += 1) {
-                map = makeMap(deps[i], relName);
-                depName = map.f;
+			//Pull out the defined dependencies and pass the ordered
+			//values to the callback.
+			//Default to [require, exports, module] if no deps
+			deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
+			for (i = 0; i < deps.length; i += 1) {
+				map = makeMap(deps[i], relName);
+				depName = map.f;
 
-                //Fast path CommonJS standard dependencies.
-                if (depName === "require") {
-                    args[i] = handlers.require(name);
-                } else if (depName === "exports") {
-                    //CommonJS module spec 1.1
-                    args[i] = handlers.exports(name);
-                    usingExports = true;
-                } else if (depName === "module") {
-                    //CommonJS module spec 1.1
-                    cjsModule = args[i] = handlers.module(name);
-                } else if (hasProp(defined, depName) ||
-                           hasProp(waiting, depName) ||
-                           hasProp(defining, depName)) {
-                    args[i] = callDep(depName);
-                } else if (map.p) {
-                    map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
-                    args[i] = defined[depName];
-                } else {
-                    throw new Error(name + ' missing ' + depName);
-                }
-            }
+				//Fast path CommonJS standard dependencies.
+				if (depName === "require") {
+					args[i] = handlers.require(name);
+				} else if (depName === "exports") {
+					//CommonJS module spec 1.1
+					args[i] = handlers.exports(name);
+					usingExports = true;
+				} else if (depName === "module") {
+					//CommonJS module spec 1.1
+					cjsModule = args[i] = handlers.module(name);
+				} else if (hasProp(defined, depName) ||
+									 hasProp(waiting, depName) ||
+									 hasProp(defining, depName)) {
+					args[i] = callDep(depName);
+				} else if (map.p) {
+					map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
+					args[i] = defined[depName];
+				} else {
+					throw new Error(name + ' missing ' + depName);
+				}
+			}
 
-            ret = callback.apply(defined[name], args);
+			ret = callback.apply(defined[name], args);
 
-            if (name) {
-                //If setting exports via "module" is in play,
-                //favor that over return value and exports. After that,
-                //favor a non-undefined return value over exports use.
-                if (cjsModule && cjsModule.exports !== undef &&
-                        cjsModule.exports !== defined[name]) {
-                    defined[name] = cjsModule.exports;
-                } else if (ret !== undef || !usingExports) {
-                    //Use the return value from the function.
-                    defined[name] = ret;
-                }
-            }
-        } else if (name) {
-            //May just be an object definition for the module. Only
-            //worry about defining if have a module name.
-            defined[name] = callback;
-        }
-    };
+			if (name) {
+				//If setting exports via "module" is in play,
+				//favor that over return value and exports. After that,
+				//favor a non-undefined return value over exports use.
+				if (cjsModule && cjsModule.exports !== undef &&
+								cjsModule.exports !== defined[name]) {
+					defined[name] = cjsModule.exports;
+				} else if (ret !== undef || !usingExports) {
+					//Use the return value from the function.
+					defined[name] = ret;
+				}
+			}
+		} else if (name) {
+			//May just be an object definition for the module. Only
+			//worry about defining if have a module name.
+			defined[name] = callback;
+		}
+	};
 
-    requirejs = require = req = function (deps, callback, relName, forceSync, alt) {
-        if (typeof deps === "string") {
-            if (handlers[deps]) {
-                //callback in this case is really relName
-                return handlers[deps](callback);
-            }
-            //Just return the module wanted. In this scenario, the
-            //deps arg is the module name, and second arg (if passed)
-            //is just the relName.
-            //Normalize module name, if it contains . or ..
-            return callDep(makeMap(deps, callback).f);
-        } else if (!deps.splice) {
-            //deps is a config object, not an array.
-            config = deps;
-            if (callback.splice) {
-                //callback is an array, which means it is a dependency list.
-                //Adjust args if there are dependencies
-                deps = callback;
-                callback = relName;
-                relName = null;
-            } else {
-                deps = undef;
-            }
-        }
+	requirejs = require = req = function(deps, callback, relName, forceSync, alt) {
+		if (typeof deps === "string") {
+			if (handlers[deps]) {
+				//callback in this case is really relName
+				return handlers[deps](callback);
+			}
+			//Just return the module wanted. In this scenario, the
+			//deps arg is the module name, and second arg (if passed)
+			//is just the relName.
+			//Normalize module name, if it contains . or ..
+			return callDep(makeMap(deps, callback).f);
+		} else if (!deps.splice) {
+			//deps is a config object, not an array.
+			config = deps;
+			if (callback.splice) {
+				//callback is an array, which means it is a dependency list.
+				//Adjust args if there are dependencies
+				deps = callback;
+				callback = relName;
+				relName = null;
+			} else {
+				deps = undef;
+			}
+		}
 
-        //Support require(['a'])
-        callback = callback || function () {};
+		//Support require(['a'])
+		callback = callback || function() { };
 
-        //If relName is a function, it is an errback handler,
-        //so remove it.
-        if (typeof relName === 'function') {
-            relName = forceSync;
-            forceSync = alt;
-        }
+		//If relName is a function, it is an errback handler,
+		//so remove it.
+		if (typeof relName === 'function') {
+			relName = forceSync;
+			forceSync = alt;
+		}
 
-        //Simulate async callback;
-        if (forceSync) {
-            main(undef, deps, callback, relName);
-        } else {
-            //Using a non-zero value because of concern for what old browsers
-            //do, and latest browsers "upgrade" to 4 if lower value is used:
-            //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
-            //If want a value immediately, use require('id') instead -- something
-            //that works in almond on the global level, but not guaranteed and
-            //unlikely to work in other AMD implementations.
-            setTimeout(function () {
-                main(undef, deps, callback, relName);
-            }, 4);
-        }
+		//Simulate async callback;
+		if (forceSync) {
+			main(undef, deps, callback, relName);
+		} else {
+			//Using a non-zero value because of concern for what old browsers
+			//do, and latest browsers "upgrade" to 4 if lower value is used:
+			//http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
+			//If want a value immediately, use require('id') instead -- something
+			//that works in almond on the global level, but not guaranteed and
+			//unlikely to work in other AMD implementations.
+			setTimeout(function() {
+				main(undef, deps, callback, relName);
+			}, 4);
+		}
 
-        return req;
-    };
+		return req;
+	};
 
-    /**
-     * Just drops the config on the floor, but returns req in case
-     * the config return value is used.
-     */
-    req.config = function (cfg) {
-        config = cfg;
-        if (config.deps) {
-            req(config.deps, config.callback);
-        }
-        return req;
-    };
+	/**
+	 * Just drops the config on the floor, but returns req in case
+	 * the config return value is used.
+	 */
+	req.config = function(cfg) {
+		config = cfg;
+		if (config.deps) {
+			req(config.deps, config.callback);
+		}
+		return req;
+	};
 
-    /**
-     * Expose module registry for debugging and tooling
-     */
-    requirejs._defined = defined;
+	/**
+	 * Expose module registry for debugging and tooling
+	 */
+	requirejs._defined = defined;
 
-    define = function (name, deps, callback) {
+	define = function(name, deps, callback) {
 
-        //This module may not have dependencies
-        if (!deps.splice) {
-            //deps is not an array, so probably means
-            //an object literal or factory function for
-            //the value. Adjust args.
-            callback = deps;
-            deps = [];
-        }
+		//This module may not have dependencies
+		if (!deps.splice) {
+			//deps is not an array, so probably means
+			//an object literal or factory function for
+			//the value. Adjust args.
+			callback = deps;
+			deps = [];
+		}
 
-        if (!hasProp(defined, name) && !hasProp(waiting, name)) {
-            waiting[name] = [name, deps, callback];
-        }
-    };
+		if (!hasProp(defined, name) && !hasProp(waiting, name)) {
+			waiting[name] = [name, deps, callback];
+		}
+	};
 
-    define.amd = {
-        jQuery: true
-    };
+	define.amd = {
+		jQuery: true
+	};
 }());
 
 // Toss the AMD functions on the global
@@ -2511,574 +2514,6 @@ if (!f2Window.define) {
 	f2Window.require = require;
 	f2Window.requirejs = requirejs;
 }
-/*!
- * Hij1nx requires the following notice to accompany EventEmitter:
- *
- * Copyright (c) 2011 hij1nx
- *
- * http://www.twitter.com/hij1nx
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the 'Software'), to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
- * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- */
-!function(exports, undefined) {
-
-  var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
-    return Object.prototype.toString.call(obj) === "[object Array]";
-  };
-  var defaultMaxListeners = 10;
-
-  function init() {
-    this._events = new Object;
-  }
-
-  function configure(conf) {
-    if (conf) {
-      conf.delimiter && (this.delimiter = conf.delimiter);
-      conf.wildcard && (this.wildcard = conf.wildcard);
-      if (this.wildcard) {
-        this.listenerTree = new Object;
-      }
-    }
-  }
-
-  function EventEmitter(conf) {
-    this._events = new Object;
-    configure.call(this, conf);
-  }
-
-  //
-  // Attention, function return type now is array, always !
-  // It has zero elements if no any matches found and one or more
-  // elements (leafs) if there are matches
-  //
-  function searchListenerTree(handlers, type, tree, i) {
-    if (!tree) {
-      return [];
-    }
-    var listeners=[], leaf, len, branch, xTree, xxTree, isolatedBranch, endReached,
-        typeLength = type.length, currentType = type[i], nextType = type[i+1];
-    if (i === typeLength && tree._listeners) {
-      //
-      // If at the end of the event(s) list and the tree has listeners
-      // invoke those listeners.
-      //
-      if (typeof tree._listeners === 'function') {
-        handlers && handlers.push(tree._listeners);
-        return [tree];
-      } else {
-        for (leaf = 0, len = tree._listeners.length; leaf < len; leaf++) {
-          handlers && handlers.push(tree._listeners[leaf]);
-        }
-        return [tree];
-      }
-    }
-
-    if ((currentType === '*' || currentType === '**') || tree[currentType]) {
-      //
-      // If the event emitted is '*' at this part
-      // or there is a concrete match at this patch
-      //
-      if (currentType === '*') {
-        for (branch in tree) {
-          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
-            listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+1));
-          }
-        }
-        return listeners;
-      } else if(currentType === '**') {
-        endReached = (i+1 === typeLength || (i+2 === typeLength && nextType === '*'));
-        if(endReached && tree._listeners) {
-          // The next element has a _listeners, add it to the handlers.
-          listeners = listeners.concat(searchListenerTree(handlers, type, tree, typeLength));
-        }
-
-        for (branch in tree) {
-          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
-            if(branch === '*' || branch === '**') {
-              if(tree[branch]._listeners && !endReached) {
-                listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], typeLength));
-              }
-              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
-            } else if(branch === nextType) {
-              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+2));
-            } else {
-              // No match on this one, shift into the tree but not in the type array.
-              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
-            }
-          }
-        }
-        return listeners;
-      }
-
-      listeners = listeners.concat(searchListenerTree(handlers, type, tree[currentType], i+1));
-    }
-
-    xTree = tree['*'];
-    if (xTree) {
-      //
-      // If the listener tree will allow any match for this part,
-      // then recursively explore all branches of the tree
-      //
-      searchListenerTree(handlers, type, xTree, i+1);
-    }
-
-    xxTree = tree['**'];
-    if(xxTree) {
-      if(i < typeLength) {
-        if(xxTree._listeners) {
-          // If we have a listener on a '**', it will catch all, so add its handler.
-          searchListenerTree(handlers, type, xxTree, typeLength);
-        }
-
-        // Build arrays of matching next branches and others.
-        for(branch in xxTree) {
-          if(branch !== '_listeners' && xxTree.hasOwnProperty(branch)) {
-            if(branch === nextType) {
-              // We know the next element will match, so jump twice.
-              searchListenerTree(handlers, type, xxTree[branch], i+2);
-            } else if(branch === currentType) {
-              // Current node matches, move into the tree.
-              searchListenerTree(handlers, type, xxTree[branch], i+1);
-            } else {
-              isolatedBranch = {};
-              isolatedBranch[branch] = xxTree[branch];
-              searchListenerTree(handlers, type, { '**': isolatedBranch }, i+1);
-            }
-          }
-        }
-      } else if(xxTree._listeners) {
-        // We have reached the end and still on a '**'
-        searchListenerTree(handlers, type, xxTree, typeLength);
-      } else if(xxTree['*'] && xxTree['*']._listeners) {
-        searchListenerTree(handlers, type, xxTree['*'], typeLength);
-      }
-    }
-
-    return listeners;
-  }
-
-  function growListenerTree(type, listener) {
-
-    type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-
-    //
-    // Looks for two consecutive '**', if so, don't add the event at all.
-    //
-    for(var i = 0, len = type.length; i+1 < len; i++) {
-      if(type[i] === '**' && type[i+1] === '**') {
-        return;
-      }
-    }
-
-    var tree = this.listenerTree;
-    var name = type.shift();
-
-    while (name) {
-
-      if (!tree[name]) {
-        tree[name] = new Object;
-      }
-
-      tree = tree[name];
-
-      if (type.length === 0) {
-
-        if (!tree._listeners) {
-          tree._listeners = listener;
-        }
-        else if(typeof tree._listeners === 'function') {
-          tree._listeners = [tree._listeners, listener];
-        }
-        else if (isArray(tree._listeners)) {
-
-          tree._listeners.push(listener);
-
-          if (!tree._listeners.warned) {
-
-            var m = defaultMaxListeners;
-
-            if (typeof this._events.maxListeners !== 'undefined') {
-              m = this._events.maxListeners;
-            }
-
-            if (m > 0 && tree._listeners.length > m) {
-
-              tree._listeners.warned = true;
-              console.error('(node) warning: possible EventEmitter memory ' +
-                            'leak detected. %d listeners added. ' +
-                            'Use emitter.setMaxListeners() to increase limit.',
-                            tree._listeners.length);
-              console.trace();
-            }
-          }
-        }
-        return true;
-      }
-      name = type.shift();
-    }
-    return true;
-  };
-
-  // By default EventEmitters will print a warning if more than
-  // 10 listeners are added to it. This is a useful default which
-  // helps finding memory leaks.
-  //
-  // Obviously not all Emitters should be limited to 10. This function allows
-  // that to be increased. Set to zero for unlimited.
-
-  EventEmitter.prototype.delimiter = '.';
-
-  EventEmitter.prototype.setMaxListeners = function(n) {
-    this._events || init.call(this);
-    this._events.maxListeners = n;
-  };
-
-  EventEmitter.prototype.event = '';
-
-  EventEmitter.prototype.once = function(event, fn) {
-    this.many(event, 1, fn);
-    return this;
-  };
-
-  EventEmitter.prototype.many = function(event, ttl, fn) {
-    var self = this;
-
-    if (typeof fn !== 'function') {
-      throw new Error('many only accepts instances of Function');
-    }
-
-    function listener() {
-      if (--ttl === 0) {
-        self.off(event, listener);
-      }
-      fn.apply(this, arguments);
-    };
-
-    listener._origin = fn;
-
-    this.on(event, listener);
-
-    return self;
-  };
-
-  EventEmitter.prototype.emit = function() {
-    this._events || init.call(this);
-
-    var type = arguments[0];
-
-    if (type === 'newListener') {
-      if (!this._events.newListener) { return false; }
-    }
-
-    // Loop through the *_all* functions and invoke them.
-    if (this._all) {
-      var l = arguments.length;
-      var args = new Array(l - 1);
-      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
-      for (i = 0, l = this._all.length; i < l; i++) {
-        this.event = type;
-        this._all[i].apply(this, args);
-      }
-    }
-
-    // If there is no 'error' event listener then throw.
-    if (type === 'error') {
-
-      if (!this._all &&
-        !this._events.error &&
-        !(this.wildcard && this.listenerTree.error)) {
-
-        if (arguments[1] instanceof Error) {
-          throw arguments[1]; // Unhandled 'error' event
-        } else {
-          throw new Error("Uncaught, unspecified 'error' event.");
-        }
-        return false;
-      }
-    }
-
-    var handler;
-
-    if(this.wildcard) {
-      handler = [];
-      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-      searchListenerTree.call(this, handler, ns, this.listenerTree, 0);
-    }
-    else {
-      handler = this._events[type];
-    }
-
-    if (typeof handler === 'function') {
-      this.event = type;
-      if (arguments.length === 1) {
-        handler.call(this);
-      }
-      else if (arguments.length > 1)
-        switch (arguments.length) {
-          case 2:
-            handler.call(this, arguments[1]);
-            break;
-          case 3:
-            handler.call(this, arguments[1], arguments[2]);
-            break;
-          // slower
-          default:
-            var l = arguments.length;
-            var args = new Array(l - 1);
-            for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
-            handler.apply(this, args);
-        }
-      return true;
-    }
-    else if (handler) {
-      var l = arguments.length;
-      var args = new Array(l - 1);
-      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
-
-      var listeners = handler.slice();
-      for (var i = 0, l = listeners.length; i < l; i++) {
-        this.event = type;
-        listeners[i].apply(this, args);
-      }
-      return (listeners.length > 0) || this._all;
-    }
-    else {
-      return this._all;
-    }
-
-  };
-
-  EventEmitter.prototype.on = function(type, listener) {
-
-    if (typeof type === 'function') {
-      this.onAny(type);
-      return this;
-    }
-
-    if (typeof listener !== 'function') {
-      throw new Error('on only accepts instances of Function');
-    }
-    this._events || init.call(this);
-
-    // To avoid recursion in the case that type == "newListeners"! Before
-    // adding it to the listeners, first emit "newListeners".
-    this.emit('newListener', type, listener);
-
-    if(this.wildcard) {
-      growListenerTree.call(this, type, listener);
-      return this;
-    }
-
-    if (!this._events[type]) {
-      // Optimize the case of one listener. Don't need the extra array object.
-      this._events[type] = listener;
-    }
-    else if(typeof this._events[type] === 'function') {
-      // Adding the second element, need to change to array.
-      this._events[type] = [this._events[type], listener];
-    }
-    else if (isArray(this._events[type])) {
-      // If we've already got an array, just append.
-      this._events[type].push(listener);
-
-      // Check for listener leak
-      if (!this._events[type].warned) {
-
-        var m = defaultMaxListeners;
-
-        if (typeof this._events.maxListeners !== 'undefined') {
-          m = this._events.maxListeners;
-        }
-
-        if (m > 0 && this._events[type].length > m) {
-
-          this._events[type].warned = true;
-          console.error('(node) warning: possible EventEmitter memory ' +
-                        'leak detected. %d listeners added. ' +
-                        'Use emitter.setMaxListeners() to increase limit.',
-                        this._events[type].length);
-          console.trace();
-        }
-      }
-    }
-    return this;
-  };
-
-  EventEmitter.prototype.onAny = function(fn) {
-
-    if(!this._all) {
-      this._all = [];
-    }
-
-    if (typeof fn !== 'function') {
-      throw new Error('onAny only accepts instances of Function');
-    }
-
-    // Add the function to the event listener collection.
-    this._all.push(fn);
-    return this;
-  };
-
-  EventEmitter.prototype.addListener = EventEmitter.prototype.on;
-
-  EventEmitter.prototype.off = function(type, listener) {
-    if (typeof listener !== 'function') {
-      throw new Error('removeListener only takes instances of Function');
-    }
-
-    var handlers,leafs=[];
-
-    if(this.wildcard) {
-      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-      leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
-    }
-    else {
-      // does not use listeners(), so no side effect of creating _events[type]
-      if (!this._events[type]) return this;
-      handlers = this._events[type];
-      leafs.push({_listeners:handlers});
-    }
-
-    for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
-      var leaf = leafs[iLeaf];
-      handlers = leaf._listeners;
-      if (isArray(handlers)) {
-
-        var position = -1;
-
-        for (var i = 0, length = handlers.length; i < length; i++) {
-          if (handlers[i] === listener ||
-            (handlers[i].listener && handlers[i].listener === listener) ||
-            (handlers[i]._origin && handlers[i]._origin === listener)) {
-            position = i;
-            break;
-          }
-        }
-
-        if (position < 0) {
-          return this;
-        }
-
-        if(this.wildcard) {
-          leaf._listeners.splice(position, 1)
-        }
-        else {
-          this._events[type].splice(position, 1);
-        }
-
-        if (handlers.length === 0) {
-          if(this.wildcard) {
-            delete leaf._listeners;
-          }
-          else {
-            delete this._events[type];
-          }
-        }
-      }
-      else if (handlers === listener ||
-        (handlers.listener && handlers.listener === listener) ||
-        (handlers._origin && handlers._origin === listener)) {
-        if(this.wildcard) {
-          delete leaf._listeners;
-        }
-        else {
-          delete this._events[type];
-        }
-      }
-    }
-
-    return this;
-  };
-
-  EventEmitter.prototype.offAny = function(fn) {
-    var i = 0, l = 0, fns;
-    if (fn && this._all && this._all.length > 0) {
-      fns = this._all;
-      for(i = 0, l = fns.length; i < l; i++) {
-        if(fn === fns[i]) {
-          fns.splice(i, 1);
-          return this;
-        }
-      }
-    } else {
-      this._all = [];
-    }
-    return this;
-  };
-
-  EventEmitter.prototype.removeListener = EventEmitter.prototype.off;
-
-  EventEmitter.prototype.removeAllListeners = function(type) {
-    if (arguments.length === 0) {
-      !this._events || init.call(this);
-      return this;
-    }
-
-    if(this.wildcard) {
-      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-      var leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
-
-      for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
-        var leaf = leafs[iLeaf];
-        leaf._listeners = null;
-      }
-    }
-    else {
-      if (!this._events[type]) return this;
-      this._events[type] = null;
-    }
-    return this;
-  };
-
-  EventEmitter.prototype.listeners = function(type) {
-    if(this.wildcard) {
-      var handlers = [];
-      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-      searchListenerTree.call(this, handlers, ns, this.listenerTree, 0);
-      return handlers;
-    }
-
-    this._events || init.call(this);
-
-    if (!this._events[type]) this._events[type] = [];
-    if (!isArray(this._events[type])) {
-      this._events[type] = [this._events[type]];
-    }
-    return this._events[type];
-  };
-
-  EventEmitter.prototype.listenersAny = function() {
-
-    if(this._all) {
-      return this._all;
-    }
-    else {
-      return [];
-    }
-
-  };
-
-  // if (typeof define === 'function' && define.amd) {
-  //   define('EventEmitter2', [], function() {
-  //     return EventEmitter;
-  //   });
-  // } else {
-    exports.EventEmitter2 = EventEmitter;
-  // }
-
-}(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
-
 // vim:ts=4:sts=4:sw=4:
 /*!
  *
@@ -6832,8 +6267,401 @@ exports.tv4 = module.exports;
 });
 
 exports.reqwest = module.exports;
+/*jslint browser: true, eqeqeq: true, bitwise: true, newcap: true, immed: true, regexp: false */
+
+/**
+LazyLoad makes it easy and painless to lazily load one or more external
+JavaScript or CSS files on demand either during or after the rendering of a web
+page.
+
+Supported browsers include Firefox 2+, IE6+, Safari 3+ (including Mobile
+Safari), Google Chrome, and Opera 9+. Other browsers may or may not work and
+are not officially supported.
+
+Visit https://github.com/rgrove/lazyload/ for more info.
+
+Copyright (c) 2011 Ryan Grove <ryan@wonko.com>
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the 'Software'), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+@module lazyload
+@class LazyLoad
+@static
+*/
+
+LazyLoad = (function (doc) {
+  // -- Private Variables ------------------------------------------------------
+
+  // User agent and feature test information.
+  var env,
+
+  // Reference to the <head> element (populated lazily).
+  head,
+
+  // Requests currently in progress, if any.
+  pending = {},
+
+  // Number of times we've polled to check whether a pending stylesheet has
+  // finished loading. If this gets too high, we're probably stalled.
+  pollCount = 0,
+
+  // Queued requests.
+  queue = {css: [], js: []},
+
+  // Reference to the browser's list of stylesheets.
+  styleSheets = doc.styleSheets;
+
+  // -- Private Methods --------------------------------------------------------
+
+  /**
+  Creates and returns an HTML element with the specified name and attributes.
+
+  @method createNode
+  @param {String} name element name
+  @param {Object} attrs name/value mapping of element attributes
+  @return {HTMLElement}
+  @private
+  */
+  function createNode(name, attrs) {
+    var node = doc.createElement(name), attr;
+
+    for (attr in attrs) {
+      if (attrs.hasOwnProperty(attr)) {
+        node.setAttribute(attr, attrs[attr]);
+      }
+    }
+
+    return node;
+  }
+
+  /**
+  Called when the current pending resource of the specified type has finished
+  loading. Executes the associated callback (if any) and loads the next
+  resource in the queue.
+
+  @method finish
+  @param {String} type resource type ('css' or 'js')
+  @private
+  */
+  function finish(type) {
+    var p = pending[type],
+        callback,
+        urls;
+
+    if (p) {
+      callback = p.callback;
+      urls     = p.urls;
+
+      urls.shift();
+      pollCount = 0;
+
+      // If this is the last of the pending URLs, execute the callback and
+      // start the next request in the queue (if any).
+      if (!urls.length) {
+        callback && callback.call(p.context, p.obj);
+        pending[type] = null;
+        queue[type].length && load(type);
+      }
+    }
+  }
+
+  /**
+  Populates the <code>env</code> variable with user agent and feature test
+  information.
+
+  @method getEnv
+  @private
+  */
+  function getEnv() {
+    var ua = navigator.userAgent;
+
+    env = {
+      // True if this browser supports disabling async mode on dynamically
+      // created script nodes. See
+      // http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
+      async: doc.createElement('script').async === true
+    };
+
+    (env.webkit = /AppleWebKit\//.test(ua))
+      || (env.ie = /MSIE|Trident/.test(ua))
+      || (env.opera = /Opera/.test(ua))
+      || (env.gecko = /Gecko\//.test(ua))
+      || (env.unknown = true);
+  }
+
+  /**
+  Loads the specified resources, or the next resource of the specified type
+  in the queue if no resources are specified. If a resource of the specified
+  type is already being loaded, the new request will be queued until the
+  first request has been finished.
+
+  When an array of resource URLs is specified, those URLs will be loaded in
+  parallel if it is possible to do so while preserving execution order. All
+  browsers support parallel loading of CSS, but only Firefox and Opera
+  support parallel loading of scripts. In other browsers, scripts will be
+  queued and loaded one at a time to ensure correct execution order.
+
+  @method load
+  @param {String} type resource type ('css' or 'js')
+  @param {String|Array} urls (optional) URL or array of URLs to load
+  @param {Function} callback (optional) callback function to execute when the
+    resource is loaded
+  @param {Object} obj (optional) object to pass to the callback function
+  @param {Object} context (optional) if provided, the callback function will
+    be executed in this object's context
+  @private
+  */
+  function load(type, urls, callback, obj, context) {
+    var _finish = function () { finish(type); },
+        isCSS   = type === 'css',
+        nodes   = [],
+        i, len, node, p, pendingUrls, url;
+
+    env || getEnv();
+
+    if (urls) {
+      // If urls is a string, wrap it in an array. Otherwise assume it's an
+      // array and create a copy of it so modifications won't be made to the
+      // original.
+      urls = typeof urls === 'string' ? [urls] : urls.concat();
+
+      // Create a request object for each URL. If multiple URLs are specified,
+      // the callback will only be executed after all URLs have been loaded.
+      //
+      // Sadly, Firefox and Opera are the only browsers capable of loading
+      // scripts in parallel while preserving execution order. In all other
+      // browsers, scripts must be loaded sequentially.
+      //
+      // All browsers respect CSS specificity based on the order of the link
+      // elements in the DOM, regardless of the order in which the stylesheets
+      // are actually downloaded.
+      if (isCSS || env.async || env.gecko || env.opera) {
+        // Load in parallel.
+        queue[type].push({
+          urls    : urls,
+          callback: callback,
+          obj     : obj,
+          context : context
+        });
+      } else {
+        // Load sequentially.
+        for (i = 0, len = urls.length; i < len; ++i) {
+          queue[type].push({
+            urls    : [urls[i]],
+            callback: i === len - 1 ? callback : null, // callback is only added to the last URL
+            obj     : obj,
+            context : context
+          });
+        }
+      }
+    }
+
+    // If a previous load request of this type is currently in progress, we'll
+    // wait our turn. Otherwise, grab the next item in the queue.
+    if (pending[type] || !(p = pending[type] = queue[type].shift())) {
+      return;
+    }
+
+    head || (head = doc.head || doc.getElementsByTagName('head')[0]);
+    pendingUrls = p.urls;
+
+    for (i = 0, len = pendingUrls.length; i < len; ++i) {
+      url = pendingUrls[i];
+
+      if (isCSS) {
+          node = env.gecko ? createNode('style') : createNode('link', {
+            href: url,
+            rel : 'stylesheet'
+          });
+      } else {
+        node = createNode('script', {src: url});
+        node.async = false;
+      }
+
+      node.className = 'lazyload';
+      node.setAttribute('charset', 'utf-8');
+
+      if (env.ie && !isCSS && 'onreadystatechange' in node && !('draggable' in node)) {
+        node.onreadystatechange = function () {
+          if (/loaded|complete/.test(node.readyState)) {
+            node.onreadystatechange = null;
+            _finish();
+          }
+        };
+      } else if (isCSS && (env.gecko || env.webkit)) {
+        // Gecko and WebKit don't support the onload event on link nodes.
+        if (env.webkit) {
+          // In WebKit, we can poll for changes to document.styleSheets to
+          // figure out when stylesheets have loaded.
+          p.urls[i] = node.href; // resolve relative URLs (or polling won't work)
+          pollWebKit();
+        } else {
+          // In Gecko, we can import the requested URL into a <style> node and
+          // poll for the existence of node.sheet.cssRules. Props to Zach
+          // Leatherman for calling my attention to this technique.
+          node.innerHTML = '@import "' + url + '";';
+          pollGecko(node);
+        }
+      } else {
+        node.onload = node.onerror = _finish;
+      }
+
+      nodes.push(node);
+    }
+
+    for (i = 0, len = nodes.length; i < len; ++i) {
+      head.appendChild(nodes[i]);
+    }
+  }
+
+  /**
+  Begins polling to determine when the specified stylesheet has finished loading
+  in Gecko. Polling stops when all pending stylesheets have loaded or after 10
+  seconds (to prevent stalls).
+
+  Thanks to Zach Leatherman for calling my attention to the @import-based
+  cross-domain technique used here, and to Oleg Slobodskoi for an earlier
+  same-domain implementation. See Zach's blog for more details:
+  http://www.zachleat.com/web/2010/07/29/load-css-dynamically/
+
+  @method pollGecko
+  @param {HTMLElement} node Style node to poll.
+  @private
+  */
+  function pollGecko(node) {
+    var hasRules;
+
+    try {
+      // We don't really need to store this value or ever refer to it again, but
+      // if we don't store it, Closure Compiler assumes the code is useless and
+      // removes it.
+      hasRules = !!node.sheet.cssRules;
+    } catch (ex) {
+      // An exception means the stylesheet is still loading.
+      pollCount += 1;
+
+      if (pollCount < 200) {
+        setTimeout(function () { pollGecko(node); }, 50);
+      } else {
+        // We've been polling for 10 seconds and nothing's happened. Stop
+        // polling and finish the pending requests to avoid blocking further
+        // requests.
+        hasRules && finish('css');
+      }
+
+      return;
+    }
+
+    // If we get here, the stylesheet has loaded.
+    finish('css');
+  }
+
+  /**
+  Begins polling to determine when pending stylesheets have finished loading
+  in WebKit. Polling stops when all pending stylesheets have loaded or after 10
+  seconds (to prevent stalls).
+
+  @method pollWebKit
+  @private
+  */
+  function pollWebKit() {
+    var css = pending.css, i;
+
+    if (css) {
+      i = styleSheets.length;
+
+      // Look for a stylesheet matching the pending URL.
+      while (--i >= 0) {
+        if (styleSheets[i].href === css.urls[0]) {
+          finish('css');
+          break;
+        }
+      }
+
+      pollCount += 1;
+
+      if (css) {
+        if (pollCount < 200) {
+          setTimeout(pollWebKit, 50);
+        } else {
+          // We've been polling for 10 seconds and nothing's happened, which may
+          // indicate that the stylesheet has been removed from the document
+          // before it had a chance to load. Stop polling and finish the pending
+          // request to prevent blocking further requests.
+          finish('css');
+        }
+      }
+    }
+  }
+
+  return {
+
+    /**
+    Requests the specified CSS URL or URLs and executes the specified
+    callback (if any) when they have finished loading. If an array of URLs is
+    specified, the stylesheets will be loaded in parallel and the callback
+    will be executed after all stylesheets have finished loading.
+
+    @method css
+    @param {String|Array} urls CSS URL or array of CSS URLs to load
+    @param {Function} callback (optional) callback function to execute when
+      the specified stylesheets are loaded
+    @param {Object} obj (optional) object to pass to the callback function
+    @param {Object} context (optional) if provided, the callback function
+      will be executed in this object's context
+    @static
+    */
+    css: function (urls, callback, obj, context) {
+      load('css', urls, callback, obj, context);
+    },
+
+    /**
+    Requests the specified JavaScript URL or URLs and executes the specified
+    callback (if any) when they have finished loading. If an array of URLs is
+    specified and the browser supports it, the scripts will be loaded in
+    parallel and the callback will be executed after all scripts have
+    finished loading.
+
+    Currently, only Firefox and Opera support parallel loading of scripts while
+    preserving execution order. In other browsers, scripts will be
+    queued and loaded one at a time to ensure correct execution order.
+
+    @method js
+    @param {String|Array} urls JS URL or array of JS URLs to load
+    @param {Function} callback (optional) callback function to execute when
+      the specified scripts are loaded
+    @param {Object} obj (optional) object to pass to the callback function
+    @param {Object} context (optional) if provided, the callback function
+      will be executed in this object's context
+    @static
+    */
+    js: function (urls, callback, obj, context) {
+      load('js', urls, callback, obj, context);
+    }
+
+  };
+})(this.document);
+
+	_exports.LazyLoad = LazyLoad;
+
 }).call(
-	_exports /* function context */,
+	_window /* function context */,
 	_exports /* param="exports" */,
 	_window /* param="window" */,
 	window /* param="f2Window" */,
@@ -6841,12 +6669,12 @@ exports.reqwest = module.exports;
 );
 
 // Create locally scoped vars of our libs
-var EventEmitter2 = _window.EventEmitter2;
 var tv4 = _exports.tv4;
 var Q = _exports.Q;
 var JSON = _exports.JSON;
 var reqwest = _exports.reqwest;
 var _ = _exports._;
+var LazyLoad = _exports.LazyLoad;
 
 // Pull the document off exports
 delete _exports;
@@ -7086,37 +6914,29 @@ define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 	}
 
 	AppClass.prototype = {
-		dispose: function() {
-			this._dispose();
-		},
-		_dispose: function() {
-			// Unsubscribe events
-			for (var name in this.events) {
-				Events.off(name, this.events[name]);
+		dispose: function() {},
+		events: {
+			many: function(name, timesToListen, handler) {
+				return Events.many(name, timesToListen, handler, this);
+			},
+			off: function(name, handler) {
+				return Events.off(name, handler, this);
+			},
+			on: function(name, handler) {
+				return Events.on(name, handler, this);
+			},
+			once: function(name, handler) {
+				return Events.once(name, handler, this);
 			}
-
-			// Remove ourselves from the DOM
-			if (this.root && this.root.parentNode) {
-				this.root.parentNode.removeChild(this.root);
-			}
-		},
-		init: function() {
-			this._init();
-		},
-		_init: function() {
-			this.events = {};
 		},
 		reload: function(context) {
-			this._reload(context);
-		},
-		_reload: function(context) {
 			var self = this;
-			_.extend(this.appConfig.context);
+			_.extend(this.appConfig.context, context);
 
 			// Reload this app using the existing appConfig
 			F2.load(this.appConfig).then(function(app) {
 				app.root = self.root;
-				self.dispose();
+				F2.removeApp(self.instanceId, false);
 			});
 		}
 	};
@@ -7124,82 +6944,129 @@ define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 	return AppClass;
 
 });
+define('F2.Constants', [], function() {
+	
+	return {
+		EVENTS: {
+			// TODO: do we need this?
+			APP_SYMBOL_CHANGE: '__appSymbolChange__',
+			// TODO: do we need this?
+			APP_WIDTH_CHANGE: '__appWidthChange__',
+			// TODO: do we need this?
+			CONTAINER_SYMBOL_CHANGE: '__containerSymbolChange__',
+			// TODO: do we need this?
+			CONTAINER_WIDTH_CHANGE: '__containerWidthChange__'
+		},
+		VIEWS: {
+			ABOUT: 'about',
+			DATA_ATTRIBUTE: 'data-f2-view',
+			HELP: 'help',
+			HOME: 'home',
+			REMOVE: 'remove',
+			SETTINGS: 'settings'
+		}
+	};
+
+});
 define('F2.Events', [], function() {
 
-	// Init EventEmitter
-	var _events = new EventEmitter2({
-		wildcard: true
-	});
+	var _cache = {};
 
-	// Unlimited listeners, set to > 0 for debugging
-	_events.setMaxListeners(0);
+	function _subscribe(name, handler, context, timesToListen) {
+		if (!name) {
+			throw 'F2.Events: you must provide an event name.';
+		}
+
+		if (!handler) {
+			throw 'F2.Events: you must provide an event handler.';
+		}
+
+		if (!_cache[name]) {
+			_cache[name] = [];
+		}
+
+		_cache[name].push({
+			handler: handler,
+			context: context || window,
+			timesLeft: timesToListen
+		});
+	}
+
+	function _unsubscribe(name, handler, context) {
+		if (_cache[name] && (handler || context)) {
+			var len = _cache[name].length;
+
+			while (len--) {
+				var matchesHandler = (handler && _cache[name][len].handler === handler);
+				var matchesContext = (context && _cache[name][len].context === context);
+
+				if (matchesHandler || matchesContext) {
+					_cache[name].splice(len, 1);
+				}
+			}
+		}
+		else if (context || handler) {
+			// Search all events for the context
+			for (var eventName in _cache) {
+				_unsubscribe(eventName, handler, context);
+			}
+		}
+	}
 
 	return {
-		/**
-		 * Same as F2.Events.emit except that it will not send the event
-		 * to all sockets.
-		 * @method _socketEmit
-		 * @private
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
-		 */
-		_socketEmit: function() {
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		emit: function(name, args) {
+			if (!name) {
+				throw 'F2.Events: you must provide an event name to emit.';
+			}
+
+			if (_cache[name]) {
+				// Get all the non "name" arguments passed in
+				args = Array.prototype.slice.call(arguments, 1);
+
+				var leakedContexts = [];
+				var len = _cache[name].length;
+
+				while (len--) {
+					var sub = _cache[name][len];
+
+					// Check for possible memory leak
+					if (sub.context.__f2Disposed__) {
+						leakedContexts.push(sub.context);
+					}
+					else {
+						// Execute the handler
+						sub.handler.apply(sub.context, args);
+
+						// See if this is limited to a # of executions
+						if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
+							_cache[name].splice(len, 1);
+						}
+					}
+				}
+
+				// Clean up the leaked contexts
+				while (leakedContexts.length) {
+					_unsubscribe(null, null, leakedContexts.shift());
+				}
+			}
 		},
-		/**
-		 * Execute each of the listeners that may be listening for the specified
-		 * event name in order with the list of arguments.
-		 * @method emit
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
-		 */
-		emit: function() {
-			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		many: function(name, timesToListen, handler, context) {
+			timesToListen = parseInt(timesToListen, 10);
+
+			if (timesToListen < 1) {
+				throw 'F2.Events: "timesToListen" must be greater than 0.';
+			}
+
+			return _subscribe(name, handler, context, timesToListen);
 		},
-		/**
-		 * Adds a listener that will execute n times for the event before being
-		 * removed. The listener is invoked only the first time the event is
-		 * fired, after which it is removed.
-		 * @method many
-		 * @param {string} event The event name
-		 * @param {int} timesToListen The number of times to execute the event
-		 * before being removed
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
-		 */
-		many: function(event, timesToListen, listener) {
-			return _events.many(event, timesToListen, listener);
+		off: function(name, handler, context) {
+			return _unsubscribe(name, handler, context);
 		},
-		/**
-		 * Remove a listener for the specified event.
-		 * @method off
-		 * @param {string} event The event name
-		 * @param {function} listener The function that will be removed
-		 */
-		off: function(event, listener) {
-			return _events.off(event, listener);
+		on: function(name, handler, context) {
+			return _subscribe(name, handler, context);
 		},
-		/**
-		 * Adds a listener for the specified event
-		 * @method on
-		 * @param {string} event The event name
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
-		 */
-		on: function(event, listener) {
-			return _events.on(event, listener);
-		},
-		/**
-		 * Adds a one time listener for the event. The listener is invoked only
-		 * the first time the event is fired, after which it is removed.
-		 * @method once
-		 * @param {string} event The event name
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
-		 */
-		once: function(event, listener) {
-			return _events.once(event, listener);
+		once: function(name, handler, context) {
+			return _subscribe(name, handler, context, 1);
 		}
 	};
 
@@ -7301,6 +7168,20 @@ define('F2.Interfaces', [], function() {
 					type: 'string'
 				}
 			},
+			ui: {
+				type: 'object',
+				properties: {
+					modal: {
+						type: 'object'
+					},
+					hideMask: {
+						type: 'object'
+					},
+					showMask: {
+						type: 'object'
+					}
+				}
+			},
 			xhr: {
 				type: 'object',
 				properties: {
@@ -7320,6 +7201,39 @@ define('F2.Interfaces', [], function() {
 				}
 			}
 		}
+	});
+
+	tv4.addSchema('uiModalParams', {
+		id: 'uiModalParams',
+		title: 'F2.UI Modal Parameters',
+		type: 'object',
+		properties: {
+			buttons: {
+				type: 'array',
+				items: {
+					type: 'object',
+					properties: {
+						label: {
+							type: 'string'
+						},
+						handler: {
+							type: 'object'
+						}
+					},
+					required: ['label', 'handler']
+				}
+			},
+			content: {
+				type: 'string'
+			},
+			onClose: {
+				type: 'object'
+			},
+			title: {
+				type: 'string'
+			}
+		},
+		required: ['success']
 	});
 
 	return {
@@ -7362,10 +7276,44 @@ define('F2.Promise', [], function() {
 	return Q;
 
 });
-define('F2.UI', [], function() {
-	// TODO: implement
+define('F2.UI', ['F2', 'F2.Interfaces'], function(F2, Interfaces) {
+	
+	var _containerConfig = F2.config();
+
+	return {
+		modal: function(params) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
+				if (Interfaces.validate(params, 'uiModalParams')) {
+					_containerConfig.ui.modal(params);
+				}
+				else {
+					console.error('F2.UI: The parameters to ui.modal are incorrect.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.modal.');
+			}
+		},
+		showMask: function(root) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showMask)) {
+				_containerConfig.ui.showMask(root);
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.showMask.');
+			}
+		},
+		hideMask: function(root) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideMask)) {
+				_containerConfig.ui.hideMask(root);
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.hideMask.');
+			}
+		}
+	};
+
 });
-define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
+define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Promise, Classes, Interfaces, Ajax, Events) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -7377,11 +7325,19 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 		loadScripts: null,
 		loadStyles: null,
 		supportedViews: [],
-		xhr: null
+		xhr: null,
+		ui: {
+			modal: null,
+			showMask: null,
+			hideMask: null
+		}
 	};
 
 	// Keep a running tally of legacy apps we've had to wrap in define()
 	var _appsWrappedInDefine = {};
+
+	// Track all the apps that have been loaded
+	var _appInstances = {};
 
 	// ---------------------------------------------------------------------------
 	// Helpers
@@ -7412,7 +7368,7 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 		return deferArgs;
 	}
 
-	function _initApps(apps, appData) {
+	function _initApps(apps, appDataByAppId, appConfigsByAppId) {
 		var appIds = [];
 
 		for (var i = 0, len = apps.length; i < len; i++) {
@@ -7429,7 +7385,7 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 				}
 
 				// Add the context to the appData
-				appData[apps[i].appId].context = apps[i].context || {};
+				appDataByAppId[apps[i].appId].context = apps[i].context || {};
 			}
 		}
 
@@ -7439,90 +7395,76 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 
 			// Instantiate the app classes
 			for (var i = 0, len = appIds.length; i < len; i++) {
-				var data = appData[appIds[i]];
+				var data = appDataByAppId[appIds[i]];
+				var appConfig = appConfigsByAppId[appIds[i]];
 
-				var instance = new appClasses[i](data.instanceId, data.context, data.root);
-				instance.init();
+				// Initialize the app and save it to our internal map
+				_appInstances[data.instanceId] = new appClasses[i](data.instanceId, appConfig, data.root);
 			}
 		});
 	}
 
 	function _loadScripts(paths, inlines, callback) {
-		var hasPaths = (paths && paths instanceof Array && paths.length);
-		var hasInlines = (inlines && inlines instanceof Array && inlines.length);
-
-		if (hasPaths || hasInlines) {
-			// Check for user defined loader
-			if (_config.loadScripts instanceof Function) {
-				_config.loadScripts(paths, inlines, callback);
-			}
-			else {
-				require(paths, function() {
-					// Load the inline scripts
-					if (hasInlines) {
-						for (var i = 0, len = inlines.length; i < len; i++) {
-							try {
-								eval(inlines[i]);
-							}
-							catch (exception) {
-								F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
-							}
-						}
-					}
-
-					callback();
-				});
-			}
+		// Check for user defined loader
+		if (_.isFunction(_config.loadScripts)) {
+			_config.loadScripts(paths, inlines, callback);
 		}
 		else {
-			callback();
+			LazyLoad.js(paths, function() {
+				// Load the inline scripts
+				try {
+					eval(inlines.join(';'));
+				}
+				catch (e) {
+					F2.log('Error loading inline scripts: ' + e);
+				}
+
+				callback();
+			});
 		}
 	}
 
-	function _loadStyles(paths) {
-		if (paths && paths instanceof Array && paths.length) {
-			// Check for user defined loader
-			if (_config.loadStyles instanceof Function) {
-				_config.loadStyles(paths);
-			}
-			else {
-				var frag = document.createDocumentFragment();
-				var tags = document.getElementsByTagName('link');
-				var existingPaths = {};
-
-				// Find all the existing paths on the page
-				for (var i = 0, iLen = tags.length; i < iLen; i++) {
-					existingPaths[tags[i].href] = true;
-				}
-
-				// Create a link tag for each path
-				for (var j = 0, jLen = paths.length; j < jLen; j++) {
-					if (!existingPaths[paths[j]]) {
-						var link = document.createElement('link');
-						link.rel = 'stylesheet';
-						link.type = 'text/css';
-						link.href = paths[j];
-						frag.appendChild(link);
-					}
-				}
-
-				// Add tags to the page
-				document.getElementsByName('head')[0].appendChild(frag);
-			}
+	function _loadStyles(paths, callback) {
+		// Check for user defined loader
+		if (_.isFunction(_config.loadStyles)) {
+			_config.loadStyles(paths, callback);
+		}
+		else {
+			LazyLoad.css(paths, callback);
 		}
 	}
 
-	function _loadApps(responses, deferred) {
-		_loadStyles(responses.styles);
+	function _loadApps(responses, appConfigsByAppId, deferred) {
+		_loadStyles(responses.styles, function() {
+			// Let the container add the html to the page
+			// Get back an obj keyed by AppId that contains the root and instanceId
+			var appDataById = _loadHtml(responses.apps, deferred);
 
-		// Let the container add the html to the page
-		// Get back an obj keyed by AppId that contains the root and instanceId
-		var appDataById = _loadHtml(responses.apps, deferred);
-
-		// Add the scripts and, once finished, instantiate the app classes
-		_loadScripts(responses.scripts, responses.inlineScripts, function() {
-			_initApps(responses.apps, appDataById);
+			// Add the scripts and, once finished, instantiate the app classes
+			_loadScripts(responses.scripts, responses.inlineScripts, function() {
+				_initApps(responses.apps, appDataById, appConfigsByAppId);
+			});
 		});
+	}
+
+	function _disposeApp(instance) {
+		if (instance.dispose) {
+			instance.dispose();
+		}
+
+		// Unsubscribe events by context
+		Events.off(null, null, instance);
+
+		// Remove ourselves from the DOM
+		if (instance.root && instance.root.parentNode) {
+			instance.root.parentNode.removeChild(instance.root);
+		}
+
+		// Set a property that will let us watch for memory leaks
+		instance.__f2Disposed__ = true;
+
+		// Remove ourselves from the internal map
+		delete _appInstances[instance.instanceId];
 	}
 
 	// ---------------------------------------------------------------------------
@@ -7531,11 +7473,6 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 
 	return {
 		Apps: {},
-		/**
-			* Initializes the container. This method must be called before performing any other actions in the container.
-			* @method init
-			* @param {F2.ContainerConfig} config The configuration object
-			*/
 		config: function(config) {
 			if (config) {
 				// Don't do anything with the config if it's not valid
@@ -7543,9 +7480,8 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 					_.extend(_config, config);
 				}
 			}
-			else {
-				return _config;
-			}
+
+			return _config;
 		},
 		/**
 			* Generates an RFC4122 v4 compliant id
@@ -7562,12 +7498,13 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 			});
 		},
 		load: function(appConfigs) {
-			if (appConfigs instanceof Array === false) {
+			if (!_.isArray(appConfigs)) {
 				appConfigs = [appConfigs];
 			}
 
 			var deferred = Promise.defer();
-			var appsByUrl = {};
+			var appConfigsByUrl = {};
+			var appConfigsByAppId = {};
 
 			// Get an obj of appIds keyed by manifestUrl
 			for (var i = 0, iLen = appConfigs.length; i < iLen; i++) {
@@ -7575,18 +7512,20 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 				if (Interfaces.validate(appConfigs[i], 'appConfig')) {
 					var manifestUrl = appConfigs[i].manifestUrl;
 
-					appsByUrl[manifestUrl] = appsByUrl[manifestUrl] || {
+					appConfigsByUrl[manifestUrl] = appConfigsByUrl[manifestUrl] || {
 						batch: [],
 						singles: []
 					};
 
 					// Batch or don't based on appConfig.enableBatchRequests
 					if (appConfigs[i].enableBatchRequests) {
-						appsByUrl[manifestUrl].batch.push(appConfigs[i]);
+						appConfigsByUrl[manifestUrl].batch.push(appConfigs[i]);
 					}
 					else {
-						appsByUrl[manifestUrl].singles.push(appConfigs[i]);
+						appConfigsByUrl[manifestUrl].singles.push(appConfigs[i]);
 					}
+
+					appConfigsByAppId[appConfigs[i].appId] = appConfigs[i];
 				}
 			}
 
@@ -7595,41 +7534,75 @@ define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Class
 			var numRequests = 0;
 
 			// Request all apps from each url
-			for (var url in appsByUrl) {
+			for (var url in appConfigsByUrl) {
 				// Smush batched and unbatched apps together in a single collection
 				// e.g., [{ appId: "one" }, [{ appId: "one", batch: true }, { appId: "one", batch: true }]]
-				var appCollection = appsByUrl[url].singles.push(appsByUrl[url].batch);
+				var appCollection = appConfigsByUrl[url].singles.push(appConfigsByUrl[url].batch);
 
 				for (var j = 0, jLen = appCollection.length; j < jLen; j++) {
 					numRequests += 1;
 
-					Ajax(url, appCollection[j], false)
-						.then(function(manifest) {
-							// Make sure this is a valid AppManifest
-							if (Interfaces.validate(manifest, 'AppManifest')) {
-								appManifests.push(manifest);
-							}
-						})
-						.fail(function(reason) {
-							console.warn(reason);
-						})
-						.fin(function() {
-							numRequests -= 1;
+					Ajax({
+						url: url,
+						data: {
+							params: appCollection[j]
+						}
+					}).then(function(manifest) {
+						// Make sure this is a valid AppManifest
+						if (Interfaces.validate(manifest, 'AppManifest')) {
+							appManifests.push(manifest);
+						}
+					}).fail(function(reason) {
+						console.warn(reason);
+					}).fin(function() {
+						numRequests -= 1;
 
-							// See if we've finished requesting all the apps
-							if (numRequests === 0 && appManifests.length) {
-								// Combine all the valid responses
-								var combined = _.extend.apply(_, [{}].concat(appManifests));
-								_loadApps(combined, deferred);
-							}
-						});
+						// See if we've finished requesting all the apps
+						if (numRequests === 0 && appManifests.length) {
+							// Combine all the valid responses
+							var combined = _.extend.apply(_, [{}].concat(appManifests));
+							_loadApps(combined, appConfigsByAppId, deferred);
+						}
+					});
 				}
 			}
 
 			return deferred.promise;
+		},
+		/**
+		 * Removes an app from the container
+		 * @method removeApp
+		 * @param {string} indentifier The app's instanceId or root
+		 */
+		removeApp: function(identifier) {
+			if (!identifier) {
+				throw 'F2: you must provide an instanceId or a root to remove an app';
+			}
+
+			var instance;
+
+			// Treat as root
+			if (identifier.nodeType === 1) {
+				for (var id in _appInstances) {
+					if (_appInstances[id].root === identifier) {
+						instance = _appInstances[id];
+						break;
+					}
+				}
+			}
+			else {
+				// Treat as instanceId
+				instance = _appInstances[identifier];
+			}
+
+			if (!instance || !instance.instanceId) {
+				throw 'F2: could not find the app to remove';
+			}
+
+			_disposeApp(instance);
 		}
 	};
 
 });
-	
+
 })();

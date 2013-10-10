@@ -14,7 +14,8 @@
 		"tv4": true,
 		"Q": true,
 		"reqwest": true,
-		"EventEmitter2": true
+		"EventEmitter2": true,
+		"LazyLoad": true
 	},
 	"latedef": true,
 	"noarg": true,

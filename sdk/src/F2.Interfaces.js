@@ -95,6 +95,20 @@
 					type: 'string'
 				}
 			},
+			ui: {
+				type: 'object',
+				properties: {
+					modal: {
+						type: 'object'
+					},
+					hideMask: {
+						type: 'object'
+					},
+					showMask: {
+						type: 'object'
+					}
+				}
+			},
 			xhr: {
 				type: 'object',
 				properties: {
@@ -114,6 +128,39 @@
 				}
 			}
 		}
+	});
+
+	tv4.addSchema('uiModalParams', {
+		id: 'uiModalParams',
+		title: 'F2.UI Modal Parameters',
+		type: 'object',
+		properties: {
+			buttons: {
+				type: 'array',
+				items: {
+					type: 'object',
+					properties: {
+						label: {
+							type: 'string'
+						},
+						handler: {
+							type: 'object'
+						}
+					},
+					required: ['label', 'handler']
+				}
+			},
+			content: {
+				type: 'string'
+			},
+			onClose: {
+				type: 'object'
+			},
+			title: {
+				type: 'string'
+			}
+		},
+		required: ['success']
 	});
 
 	return {
