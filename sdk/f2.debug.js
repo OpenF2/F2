@@ -7362,6 +7362,9 @@ define('F2.Promise', [], function() {
 	return Q;
 
 });
+define('F2.UI', [], function() {
+	// TODO: implement
+});
 define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
 
 	// ---------------------------------------------------------------------------
