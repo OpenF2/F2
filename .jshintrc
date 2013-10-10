@@ -13,7 +13,8 @@
 		"_": true,
 		"tv4": true,
 		"Q": true,
-		"reqwest": true
+		"reqwest": true,
+		"EventEmitter2": true
 	},
 	"latedef": true,
 	"noarg": true,
