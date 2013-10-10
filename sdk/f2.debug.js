@@ -36,1563 +36,6 @@
 	};
 
 !(function(exports, window, f2Window, module) {
-//     Zepto.js
-//     (c) 2010-2013 Thomas Fuchs
-//     Zepto.js may be freely distributed under the MIT license.
-
-var Zepto = (function() {
-  var undefined, key, $, classList, emptyArray = [], slice = emptyArray.slice, filter = emptyArray.filter,
-    document = window.document,
-    elementDisplay = {}, classCache = {},
-    cssNumber = { 'column-count': 1, 'columns': 1, 'font-weight': 1, 'line-height': 1,'opacity': 1, 'z-index': 1, 'zoom': 1 },
-    fragmentRE = /^\s*<(\w+|!)[^>]*>/,
-    singleTagRE = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
-    tagExpanderRE = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/ig,
-    rootNodeRE = /^(?:body|html)$/i,
-
-    // special attributes that should be get/set via method calls
-    methodAttributes = ['val', 'css', 'html', 'text', 'data', 'width', 'height', 'offset'],
-
-    adjacencyOperators = [ 'after', 'prepend', 'before', 'append' ],
-    table = document.createElement('table'),
-    tableRow = document.createElement('tr'),
-    containers = {
-      'tr': document.createElement('tbody'),
-      'tbody': table, 'thead': table, 'tfoot': table,
-      'td': tableRow, 'th': tableRow,
-      '*': document.createElement('div')
-    },
-    readyRE = /complete|loaded|interactive/,
-    classSelectorRE = /^\.([\w-]+)$/,
-    idSelectorRE = /^#([\w-]*)$/,
-    tagSelectorRE = /^[\w-]+$/,
-    class2type = {},
-    toString = class2type.toString,
-    zepto = {},
-    camelize, uniq,
-    tempParent = document.createElement('div')
-
-  zepto.matches = function(element, selector) {
-    if (!element || element.nodeType !== 1) return false
-    var matchesSelector = element.webkitMatchesSelector || element.mozMatchesSelector ||
-                          element.oMatchesSelector || element.matchesSelector
-    if (matchesSelector) return matchesSelector.call(element, selector)
-    // fall back to performing a selector:
-    var match, parent = element.parentNode, temp = !parent
-    if (temp) (parent = tempParent).appendChild(element)
-    match = ~zepto.qsa(parent, selector).indexOf(element)
-    temp && tempParent.removeChild(element)
-    return match
-  }
-
-  function type(obj) {
-    return obj == null ? String(obj) :
-      class2type[toString.call(obj)] || "object"
-  }
-
-  function isFunction(value) { return type(value) == "function" }
-  function isWindow(obj)     { return obj != null && obj == obj.window }
-  function isDocument(obj)   { return obj != null && obj.nodeType == obj.DOCUMENT_NODE }
-  function isObject(obj)     { return type(obj) == "object" }
-  function isPlainObject(obj) {
-    return isObject(obj) && !isWindow(obj) && Object.getPrototypeOf(obj) == Object.prototype
-  }
-  function isArray(value) { return value instanceof Array }
-  function likeArray(obj) { return typeof obj.length == 'number' }
-
-  function compact(array) { return filter.call(array, function(item){ return item != null }) }
-  function flatten(array) { return array.length > 0 ? $.fn.concat.apply([], array) : array }
-  camelize = function(str){ return str.replace(/-+(.)?/g, function(match, chr){ return chr ? chr.toUpperCase() : '' }) }
-  function dasherize(str) {
-    return str.replace(/::/g, '/')
-           .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
-           .replace(/([a-z\d])([A-Z])/g, '$1_$2')
-           .replace(/_/g, '-')
-           .toLowerCase()
-  }
-  uniq = function(array){ return filter.call(array, function(item, idx){ return array.indexOf(item) == idx }) }
-
-  function classRE(name) {
-    return name in classCache ?
-      classCache[name] : (classCache[name] = new RegExp('(^|\\s)' + name + '(\\s|$)'))
-  }
-
-  function maybeAddPx(name, value) {
-    return (typeof value == "number" && !cssNumber[dasherize(name)]) ? value + "px" : value
-  }
-
-  function defaultDisplay(nodeName) {
-    var element, display
-    if (!elementDisplay[nodeName]) {
-      element = document.createElement(nodeName)
-      document.body.appendChild(element)
-      display = getComputedStyle(element, '').getPropertyValue("display")
-      element.parentNode.removeChild(element)
-      display == "none" && (display = "block")
-      elementDisplay[nodeName] = display
-    }
-    return elementDisplay[nodeName]
-  }
-
-  function children(element) {
-    return 'children' in element ?
-      slice.call(element.children) :
-      $.map(element.childNodes, function(node){ if (node.nodeType == 1) return node })
-  }
-
-  // `$.zepto.fragment` takes a html string and an optional tag name
-  // to generate DOM nodes nodes from the given html string.
-  // The generated DOM nodes are returned as an array.
-  // This function can be overriden in plugins for example to make
-  // it compatible with browsers that don't support the DOM fully.
-  zepto.fragment = function(html, name, properties) {
-    var dom, nodes, container
-
-    // A special case optimization for a single tag
-    if (singleTagRE.test(html)) dom = $(document.createElement(RegExp.$1))
-
-    if (!dom) {
-      if (html.replace) html = html.replace(tagExpanderRE, "<$1></$2>")
-      if (name === undefined) name = fragmentRE.test(html) && RegExp.$1
-      if (!(name in containers)) name = '*'
-
-      container = containers[name]
-      container.innerHTML = '' + html
-      dom = $.each(slice.call(container.childNodes), function(){
-        container.removeChild(this)
-      })
-    }
-
-    if (isPlainObject(properties)) {
-      nodes = $(dom)
-      $.each(properties, function(key, value) {
-        if (methodAttributes.indexOf(key) > -1) nodes[key](value)
-        else nodes.attr(key, value)
-      })
-    }
-
-    return dom
-  }
-
-  // `$.zepto.Z` swaps out the prototype of the given `dom` array
-  // of nodes with `$.fn` and thus supplying all the Zepto functions
-  // to the array. Note that `__proto__` is not supported on Internet
-  // Explorer. This method can be overriden in plugins.
-  zepto.Z = function(dom, selector) {
-    dom = dom || []
-    dom.__proto__ = $.fn
-    dom.selector = selector || ''
-    return dom
-  }
-
-  // `$.zepto.isZ` should return `true` if the given object is a Zepto
-  // collection. This method can be overriden in plugins.
-  zepto.isZ = function(object) {
-    return object instanceof zepto.Z
-  }
-
-  // `$.zepto.init` is Zepto's counterpart to jQuery's `$.fn.init` and
-  // takes a CSS selector and an optional context (and handles various
-  // special cases).
-  // This method can be overriden in plugins.
-  zepto.init = function(selector, context) {
-    // If nothing given, return an empty Zepto collection
-    if (!selector) return zepto.Z()
-    // If a function is given, call it when the DOM is ready
-    else if (isFunction(selector)) return $(document).ready(selector)
-    // If a Zepto collection is given, juts return it
-    else if (zepto.isZ(selector)) return selector
-    else {
-      var dom
-      // normalize array if an array of nodes is given
-      if (isArray(selector)) dom = compact(selector)
-      // Wrap DOM nodes.
-      else if (isObject(selector))
-        dom = [selector], selector = null
-      // If it's a html fragment, create nodes from it
-      else if (fragmentRE.test(selector))
-        dom = zepto.fragment(selector.trim(), RegExp.$1, context), selector = null
-      // If there's a context, create a collection on that context first, and select
-      // nodes from there
-      else if (context !== undefined) return $(context).find(selector)
-      // And last but no least, if it's a CSS selector, use it to select nodes.
-      else dom = zepto.qsa(document, selector)
-      // create a new Zepto collection from the nodes found
-      return zepto.Z(dom, selector)
-    }
-  }
-
-  // `$` will be the base `Zepto` object. When calling this
-  // function just call `$.zepto.init, which makes the implementation
-  // details of selecting nodes and creating Zepto collections
-  // patchable in plugins.
-  $ = function(selector, context){
-    return zepto.init(selector, context)
-  }
-
-  function extend(target, source, deep) {
-    for (key in source)
-      if (deep && (isPlainObject(source[key]) || isArray(source[key]))) {
-        if (isPlainObject(source[key]) && !isPlainObject(target[key]))
-          target[key] = {}
-        if (isArray(source[key]) && !isArray(target[key]))
-          target[key] = []
-        extend(target[key], source[key], deep)
-      }
-      else if (source[key] !== undefined) target[key] = source[key]
-  }
-
-  // Copy all but undefined properties from one or more
-  // objects to the `target` object.
-  $.extend = function(target){
-    var deep, args = slice.call(arguments, 1)
-    if (typeof target == 'boolean') {
-      deep = target
-      target = args.shift()
-    }
-    args.forEach(function(arg){ extend(target, arg, deep) })
-    return target
-  }
-
-  // `$.zepto.qsa` is Zepto's CSS selector implementation which
-  // uses `document.querySelectorAll` and optimizes for some special cases, like `#id`.
-  // This method can be overriden in plugins.
-  zepto.qsa = function(element, selector){
-    var found
-    return (isDocument(element) && idSelectorRE.test(selector)) ?
-      ( (found = element.getElementById(RegExp.$1)) ? [found] : [] ) :
-      (element.nodeType !== 1 && element.nodeType !== 9) ? [] :
-      slice.call(
-        classSelectorRE.test(selector) ? element.getElementsByClassName(RegExp.$1) :
-        tagSelectorRE.test(selector) ? element.getElementsByTagName(selector) :
-        element.querySelectorAll(selector)
-      )
-  }
-
-  function filtered(nodes, selector) {
-    return selector == null ? $(nodes) : $(nodes).filter(selector)
-  }
-
-  $.contains = function(parent, node) {
-    return parent !== node && parent.contains(node)
-  }
-
-  function funcArg(context, arg, idx, payload) {
-    return isFunction(arg) ? arg.call(context, idx, payload) : arg
-  }
-
-  function setAttribute(node, name, value) {
-    value == null ? node.removeAttribute(name) : node.setAttribute(name, value)
-  }
-
-  // access className property while respecting SVGAnimatedString
-  function className(node, value){
-    var klass = node.className,
-        svg   = klass && klass.baseVal !== undefined
-
-    if (value === undefined) return svg ? klass.baseVal : klass
-    svg ? (klass.baseVal = value) : (node.className = value)
-  }
-
-  // "true"  => true
-  // "false" => false
-  // "null"  => null
-  // "42"    => 42
-  // "42.5"  => 42.5
-  // JSON    => parse if valid
-  // String  => self
-  function deserializeValue(value) {
-    var num
-    try {
-      return value ?
-        value == "true" ||
-        ( value == "false" ? false :
-          value == "null" ? null :
-          !isNaN(num = Number(value)) ? num :
-          /^[\[\{]/.test(value) ? $.parseJSON(value) :
-          value )
-        : value
-    } catch(e) {
-      return value
-    }
-  }
-
-  $.type = type
-  $.isFunction = isFunction
-  $.isWindow = isWindow
-  $.isArray = isArray
-  $.isPlainObject = isPlainObject
-
-  $.isEmptyObject = function(obj) {
-    var name
-    for (name in obj) return false
-    return true
-  }
-
-  $.inArray = function(elem, array, i){
-    return emptyArray.indexOf.call(array, elem, i)
-  }
-
-  $.camelCase = camelize
-  $.trim = function(str) {
-    return str == null ? "" : String.prototype.trim.call(str)
-  }
-
-  // plugin compatibility
-  $.uuid = 0
-  $.support = { }
-  $.expr = { }
-
-  $.map = function(elements, callback){
-    var value, values = [], i, key
-    if (likeArray(elements))
-      for (i = 0; i < elements.length; i++) {
-        value = callback(elements[i], i)
-        if (value != null) values.push(value)
-      }
-    else
-      for (key in elements) {
-        value = callback(elements[key], key)
-        if (value != null) values.push(value)
-      }
-    return flatten(values)
-  }
-
-  $.each = function(elements, callback){
-    var i, key
-    if (likeArray(elements)) {
-      for (i = 0; i < elements.length; i++)
-        if (callback.call(elements[i], i, elements[i]) === false) return elements
-    } else {
-      for (key in elements)
-        if (callback.call(elements[key], key, elements[key]) === false) return elements
-    }
-
-    return elements
-  }
-
-  $.grep = function(elements, callback){
-    return filter.call(elements, callback)
-  }
-
-  if (window.JSON) $.parseJSON = JSON.parse
-
-  // Populate the class2type map
-  $.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
-    class2type[ "[object " + name + "]" ] = name.toLowerCase()
-  })
-
-  // Define methods that will be available on all
-  // Zepto collections
-  $.fn = {
-    // Because a collection acts like an array
-    // copy over these useful array functions.
-    forEach: emptyArray.forEach,
-    reduce: emptyArray.reduce,
-    push: emptyArray.push,
-    sort: emptyArray.sort,
-    indexOf: emptyArray.indexOf,
-    concat: emptyArray.concat,
-
-    // `map` and `slice` in the jQuery API work differently
-    // from their array counterparts
-    map: function(fn){
-      return $($.map(this, function(el, i){ return fn.call(el, i, el) }))
-    },
-    slice: function(){
-      return $(slice.apply(this, arguments))
-    },
-
-    ready: function(callback){
-      if (readyRE.test(document.readyState)) callback($)
-      else document.addEventListener('DOMContentLoaded', function(){ callback($) }, false)
-      return this
-    },
-    get: function(idx){
-      return idx === undefined ? slice.call(this) : this[idx >= 0 ? idx : idx + this.length]
-    },
-    toArray: function(){ return this.get() },
-    size: function(){
-      return this.length
-    },
-    remove: function(){
-      return this.each(function(){
-        if (this.parentNode != null)
-          this.parentNode.removeChild(this)
-      })
-    },
-    each: function(callback){
-      emptyArray.every.call(this, function(el, idx){
-        return callback.call(el, idx, el) !== false
-      })
-      return this
-    },
-    filter: function(selector){
-      if (isFunction(selector)) return this.not(this.not(selector))
-      return $(filter.call(this, function(element){
-        return zepto.matches(element, selector)
-      }))
-    },
-    add: function(selector,context){
-      return $(uniq(this.concat($(selector,context))))
-    },
-    is: function(selector){
-      return this.length > 0 && zepto.matches(this[0], selector)
-    },
-    not: function(selector){
-      var nodes=[]
-      if (isFunction(selector) && selector.call !== undefined)
-        this.each(function(idx){
-          if (!selector.call(this,idx)) nodes.push(this)
-        })
-      else {
-        var excludes = typeof selector == 'string' ? this.filter(selector) :
-          (likeArray(selector) && isFunction(selector.item)) ? slice.call(selector) : $(selector)
-        this.forEach(function(el){
-          if (excludes.indexOf(el) < 0) nodes.push(el)
-        })
-      }
-      return $(nodes)
-    },
-    has: function(selector){
-      return this.filter(function(){
-        return isObject(selector) ?
-          $.contains(this, selector) :
-          $(this).find(selector).size()
-      })
-    },
-    eq: function(idx){
-      return idx === -1 ? this.slice(idx) : this.slice(idx, + idx + 1)
-    },
-    first: function(){
-      var el = this[0]
-      return el && !isObject(el) ? el : $(el)
-    },
-    last: function(){
-      var el = this[this.length - 1]
-      return el && !isObject(el) ? el : $(el)
-    },
-    find: function(selector){
-      var result, $this = this
-      if (typeof selector == 'object')
-        result = $(selector).filter(function(){
-          var node = this
-          return emptyArray.some.call($this, function(parent){
-            return $.contains(parent, node)
-          })
-        })
-      else if (this.length == 1) result = $(zepto.qsa(this[0], selector))
-      else result = this.map(function(){ return zepto.qsa(this, selector) })
-      return result
-    },
-    closest: function(selector, context){
-      var node = this[0], collection = false
-      if (typeof selector == 'object') collection = $(selector)
-      while (node && !(collection ? collection.indexOf(node) >= 0 : zepto.matches(node, selector)))
-        node = node !== context && !isDocument(node) && node.parentNode
-      return $(node)
-    },
-    parents: function(selector){
-      var ancestors = [], nodes = this
-      while (nodes.length > 0)
-        nodes = $.map(nodes, function(node){
-          if ((node = node.parentNode) && !isDocument(node) && ancestors.indexOf(node) < 0) {
-            ancestors.push(node)
-            return node
-          }
-        })
-      return filtered(ancestors, selector)
-    },
-    parent: function(selector){
-      return filtered(uniq(this.pluck('parentNode')), selector)
-    },
-    children: function(selector){
-      return filtered(this.map(function(){ return children(this) }), selector)
-    },
-    contents: function() {
-      return this.map(function() { return slice.call(this.childNodes) })
-    },
-    siblings: function(selector){
-      return filtered(this.map(function(i, el){
-        return filter.call(children(el.parentNode), function(child){ return child!==el })
-      }), selector)
-    },
-    empty: function(){
-      return this.each(function(){ this.innerHTML = '' })
-    },
-    // `pluck` is borrowed from Prototype.js
-    pluck: function(property){
-      return $.map(this, function(el){ return el[property] })
-    },
-    show: function(){
-      return this.each(function(){
-        this.style.display == "none" && (this.style.display = '')
-        if (getComputedStyle(this, '').getPropertyValue("display") == "none")
-          this.style.display = defaultDisplay(this.nodeName)
-      })
-    },
-    replaceWith: function(newContent){
-      return this.before(newContent).remove()
-    },
-    wrap: function(structure){
-      var func = isFunction(structure)
-      if (this[0] && !func)
-        var dom   = $(structure).get(0),
-            clone = dom.parentNode || this.length > 1
-
-      return this.each(function(index){
-        $(this).wrapAll(
-          func ? structure.call(this, index) :
-            clone ? dom.cloneNode(true) : dom
-        )
-      })
-    },
-    wrapAll: function(structure){
-      if (this[0]) {
-        $(this[0]).before(structure = $(structure))
-        var children
-        // drill down to the inmost element
-        while ((children = structure.children()).length) structure = children.first()
-        $(structure).append(this)
-      }
-      return this
-    },
-    wrapInner: function(structure){
-      var func = isFunction(structure)
-      return this.each(function(index){
-        var self = $(this), contents = self.contents(),
-            dom  = func ? structure.call(this, index) : structure
-        contents.length ? contents.wrapAll(dom) : self.append(dom)
-      })
-    },
-    unwrap: function(){
-      this.parent().each(function(){
-        $(this).replaceWith($(this).children())
-      })
-      return this
-    },
-    clone: function(){
-      return this.map(function(){ return this.cloneNode(true) })
-    },
-    hide: function(){
-      return this.css("display", "none")
-    },
-    toggle: function(setting){
-      return this.each(function(){
-        var el = $(this)
-        ;(setting === undefined ? el.css("display") == "none" : setting) ? el.show() : el.hide()
-      })
-    },
-    prev: function(selector){ return $(this.pluck('previousElementSibling')).filter(selector || '*') },
-    next: function(selector){ return $(this.pluck('nextElementSibling')).filter(selector || '*') },
-    html: function(html){
-      return arguments.length === 0 ?
-        (this.length > 0 ? this[0].innerHTML : null) :
-        this.each(function(idx){
-          var originHtml = this.innerHTML
-          $(this).empty().append( funcArg(this, html, idx, originHtml) )
-        })
-    },
-    text: function(text){
-      return arguments.length === 0 ?
-        (this.length > 0 ? this[0].textContent : null) :
-        this.each(function(){ this.textContent = (text === undefined) ? '' : ''+text })
-    },
-    attr: function(name, value){
-      var result
-      return (typeof name == 'string' && value === undefined) ?
-        (this.length == 0 || this[0].nodeType !== 1 ? undefined :
-          (name == 'value' && this[0].nodeName == 'INPUT') ? this.val() :
-          (!(result = this[0].getAttribute(name)) && name in this[0]) ? this[0][name] : result
-        ) :
-        this.each(function(idx){
-          if (this.nodeType !== 1) return
-          if (isObject(name)) for (key in name) setAttribute(this, key, name[key])
-          else setAttribute(this, name, funcArg(this, value, idx, this.getAttribute(name)))
-        })
-    },
-    removeAttr: function(name){
-      return this.each(function(){ this.nodeType === 1 && setAttribute(this, name) })
-    },
-    prop: function(name, value){
-      return (value === undefined) ?
-        (this[0] && this[0][name]) :
-        this.each(function(idx){
-          this[name] = funcArg(this, value, idx, this[name])
-        })
-    },
-    data: function(name, value){
-      var data = this.attr('data-' + dasherize(name), value)
-      return data !== null ? deserializeValue(data) : undefined
-    },
-    val: function(value){
-      return arguments.length === 0 ?
-        (this[0] && (this[0].multiple ?
-           $(this[0]).find('option').filter(function(o){ return this.selected }).pluck('value') :
-           this[0].value)
-        ) :
-        this.each(function(idx){
-          this.value = funcArg(this, value, idx, this.value)
-        })
-    },
-    offset: function(coordinates){
-      if (coordinates) return this.each(function(index){
-        var $this = $(this),
-            coords = funcArg(this, coordinates, index, $this.offset()),
-            parentOffset = $this.offsetParent().offset(),
-            props = {
-              top:  coords.top  - parentOffset.top,
-              left: coords.left - parentOffset.left
-            }
-
-        if ($this.css('position') == 'static') props['position'] = 'relative'
-        $this.css(props)
-      })
-      if (this.length==0) return null
-      var obj = this[0].getBoundingClientRect()
-      return {
-        left: obj.left + window.pageXOffset,
-        top: obj.top + window.pageYOffset,
-        width: Math.round(obj.width),
-        height: Math.round(obj.height)
-      }
-    },
-    css: function(property, value){
-      if (arguments.length < 2) {
-        var element = this[0], computedStyle = getComputedStyle(element, '')
-        if(!element) return
-        if (typeof property == 'string')
-          return element.style[camelize(property)] || computedStyle.getPropertyValue(property)
-        else if (isArray(property)) {
-          var props = {}
-          $.each(isArray(property) ? property: [property], function(_, prop){
-            props[prop] = (element.style[camelize(prop)] || computedStyle.getPropertyValue(prop))
-          })
-          return props
-        }
-      }
-
-      var css = ''
-      if (type(property) == 'string') {
-        if (!value && value !== 0)
-          this.each(function(){ this.style.removeProperty(dasherize(property)) })
-        else
-          css = dasherize(property) + ":" + maybeAddPx(property, value)
-      } else {
-        for (key in property)
-          if (!property[key] && property[key] !== 0)
-            this.each(function(){ this.style.removeProperty(dasherize(key)) })
-          else
-            css += dasherize(key) + ':' + maybeAddPx(key, property[key]) + ';'
-      }
-
-      return this.each(function(){ this.style.cssText += ';' + css })
-    },
-    index: function(element){
-      return element ? this.indexOf($(element)[0]) : this.parent().children().indexOf(this[0])
-    },
-    hasClass: function(name){
-      return emptyArray.some.call(this, function(el){
-        return this.test(className(el))
-      }, classRE(name))
-    },
-    addClass: function(name){
-      return this.each(function(idx){
-        classList = []
-        var cls = className(this), newName = funcArg(this, name, idx, cls)
-        newName.split(/\s+/g).forEach(function(klass){
-          if (!$(this).hasClass(klass)) classList.push(klass)
-        }, this)
-        classList.length && className(this, cls + (cls ? " " : "") + classList.join(" "))
-      })
-    },
-    removeClass: function(name){
-      return this.each(function(idx){
-        if (name === undefined) return className(this, '')
-        classList = className(this)
-        funcArg(this, name, idx, classList).split(/\s+/g).forEach(function(klass){
-          classList = classList.replace(classRE(klass), " ")
-        })
-        className(this, classList.trim())
-      })
-    },
-    toggleClass: function(name, when){
-      return this.each(function(idx){
-        var $this = $(this), names = funcArg(this, name, idx, className(this))
-        names.split(/\s+/g).forEach(function(klass){
-          (when === undefined ? !$this.hasClass(klass) : when) ?
-            $this.addClass(klass) : $this.removeClass(klass)
-        })
-      })
-    },
-    scrollTop: function(value){
-      if (!this.length) return
-      var hasScrollTop = 'scrollTop' in this[0]
-      if (value === undefined) return hasScrollTop ? this[0].scrollTop : this[0].pageYOffset
-      return this.each(hasScrollTop ?
-        function(){ this.scrollTop = value } :
-        function(){ this.scrollTo(this.scrollX, value) })
-    },
-    position: function() {
-      if (!this.length) return
-
-      var elem = this[0],
-        // Get *real* offsetParent
-        offsetParent = this.offsetParent(),
-        // Get correct offsets
-        offset       = this.offset(),
-        parentOffset = rootNodeRE.test(offsetParent[0].nodeName) ? { top: 0, left: 0 } : offsetParent.offset()
-
-      // Subtract element margins
-      // note: when an element has margin: auto the offsetLeft and marginLeft
-      // are the same in Safari causing offset.left to incorrectly be 0
-      offset.top  -= parseFloat( $(elem).css('margin-top') ) || 0
-      offset.left -= parseFloat( $(elem).css('margin-left') ) || 0
-
-      // Add offsetParent borders
-      parentOffset.top  += parseFloat( $(offsetParent[0]).css('border-top-width') ) || 0
-      parentOffset.left += parseFloat( $(offsetParent[0]).css('border-left-width') ) || 0
-
-      // Subtract the two offsets
-      return {
-        top:  offset.top  - parentOffset.top,
-        left: offset.left - parentOffset.left
-      }
-    },
-    offsetParent: function() {
-      return this.map(function(){
-        var parent = this.offsetParent || document.body
-        while (parent && !rootNodeRE.test(parent.nodeName) && $(parent).css("position") == "static")
-          parent = parent.offsetParent
-        return parent
-      })
-    }
-  }
-
-  // for now
-  $.fn.detach = $.fn.remove
-
-  // Generate the `width` and `height` functions
-  ;['width', 'height'].forEach(function(dimension){
-    var dimensionProperty =
-      dimension.replace(/./, function(m){ return m[0].toUpperCase() })
-
-    $.fn[dimension] = function(value){
-      var offset, el = this[0]
-      if (value === undefined) return isWindow(el) ? el['inner' + dimensionProperty] :
-        isDocument(el) ? el.documentElement['scroll' + dimensionProperty] :
-        (offset = this.offset()) && offset[dimension]
-      else return this.each(function(idx){
-        el = $(this)
-        el.css(dimension, funcArg(this, value, idx, el[dimension]()))
-      })
-    }
-  })
-
-  function traverseNode(node, fun) {
-    fun(node)
-    for (var key in node.childNodes) traverseNode(node.childNodes[key], fun)
-  }
-
-  // Generate the `after`, `prepend`, `before`, `append`,
-  // `insertAfter`, `insertBefore`, `appendTo`, and `prependTo` methods.
-  adjacencyOperators.forEach(function(operator, operatorIndex) {
-    var inside = operatorIndex % 2 //=> prepend, append
-
-    $.fn[operator] = function(){
-      // arguments can be nodes, arrays of nodes, Zepto objects and HTML strings
-      var argType, nodes = $.map(arguments, function(arg) {
-            argType = type(arg)
-            return argType == "object" || argType == "array" || arg == null ?
-              arg : zepto.fragment(arg)
-          }),
-          parent, copyByClone = this.length > 1
-      if (nodes.length < 1) return this
-
-      return this.each(function(_, target){
-        parent = inside ? target : target.parentNode
-
-        // convert all methods to a "before" operation
-        target = operatorIndex == 0 ? target.nextSibling :
-                 operatorIndex == 1 ? target.firstChild :
-                 operatorIndex == 2 ? target :
-                 null
-
-        nodes.forEach(function(node){
-          if (copyByClone) node = node.cloneNode(true)
-          else if (!parent) return $(node).remove()
-
-          traverseNode(parent.insertBefore(node, target), function(el){
-            if (el.nodeName != null && el.nodeName.toUpperCase() === 'SCRIPT' &&
-               (!el.type || el.type === 'text/javascript') && !el.src)
-              window['eval'].call(window, el.innerHTML)
-          })
-        })
-      })
-    }
-
-    // after    => insertAfter
-    // prepend  => prependTo
-    // before   => insertBefore
-    // append   => appendTo
-    $.fn[inside ? operator+'To' : 'insert'+(operatorIndex ? 'Before' : 'After')] = function(html){
-      $(html)[operator](this)
-      return this
-    }
-  })
-
-  zepto.Z.prototype = $.fn
-
-  // Export internal API functions in the `$.zepto` namespace
-  zepto.uniq = uniq
-  zepto.deserializeValue = deserializeValue
-  $.zepto = zepto
-
-  return $
-})()
-
-// If `$` is not yet defined, point it to `Zepto`
-window.Zepto = Zepto
-window.$ === undefined && (window.$ = Zepto)
-
-$ = Zepto = exports.Zepto;
-//     Zepto.js
-//     (c) 2010-2013 Thomas Fuchs
-//     Zepto.js may be freely distributed under the MIT license.
-
-;(function($){
-  var jsonpID = 0,
-      document = window.document,
-      key,
-      name,
-      rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-      scriptTypeRE = /^(?:text|application)\/javascript/i,
-      xmlTypeRE = /^(?:text|application)\/xml/i,
-      jsonType = 'application/json',
-      htmlType = 'text/html',
-      blankRE = /^\s*$/
-
-  // trigger a custom event and return false if it was cancelled
-  function triggerAndReturn(context, eventName, data) {
-    var event = $.Event(eventName)
-    $(context).trigger(event, data)
-    return !event.defaultPrevented
-  }
-
-  // trigger an Ajax "global" event
-  function triggerGlobal(settings, context, eventName, data) {
-    if (settings.global) return triggerAndReturn(context || document, eventName, data)
-  }
-
-  // Number of active Ajax requests
-  $.active = 0
-
-  function ajaxStart(settings) {
-    if (settings.global && $.active++ === 0) triggerGlobal(settings, null, 'ajaxStart')
-  }
-  function ajaxStop(settings) {
-    if (settings.global && !(--$.active)) triggerGlobal(settings, null, 'ajaxStop')
-  }
-
-  // triggers an extra global event "ajaxBeforeSend" that's like "ajaxSend" but cancelable
-  function ajaxBeforeSend(xhr, settings) {
-    var context = settings.context
-    if (settings.beforeSend.call(context, xhr, settings) === false ||
-        triggerGlobal(settings, context, 'ajaxBeforeSend', [xhr, settings]) === false)
-      return false
-
-    triggerGlobal(settings, context, 'ajaxSend', [xhr, settings])
-  }
-  function ajaxSuccess(data, xhr, settings) {
-    var context = settings.context, status = 'success'
-    settings.success.call(context, data, status, xhr)
-    triggerGlobal(settings, context, 'ajaxSuccess', [xhr, settings, data])
-    ajaxComplete(status, xhr, settings)
-  }
-  // type: "timeout", "error", "abort", "parsererror"
-  function ajaxError(error, type, xhr, settings) {
-    var context = settings.context
-    settings.error.call(context, xhr, type, error)
-    triggerGlobal(settings, context, 'ajaxError', [xhr, settings, error || type])
-    ajaxComplete(type, xhr, settings)
-  }
-  // status: "success", "notmodified", "error", "timeout", "abort", "parsererror"
-  function ajaxComplete(status, xhr, settings) {
-    var context = settings.context
-    settings.complete.call(context, xhr, status)
-    triggerGlobal(settings, context, 'ajaxComplete', [xhr, settings])
-    ajaxStop(settings)
-  }
-
-  // Empty function, used as default callback
-  function empty() {}
-
-  $.ajaxJSONP = function(options){
-    if (!('type' in options)) return $.ajax(options)
-
-    var _callbackName = options.jsonpCallback,
-      callbackName = ($.isFunction(_callbackName) ?
-        _callbackName() : _callbackName) || ('jsonp' + (++jsonpID)),
-      script = document.createElement('script'),
-      cleanup = function() {
-        clearTimeout(abortTimeout)
-        $(script).remove()
-        delete window[callbackName]
-      },
-      abort = function(type){
-        cleanup()
-        // In case of manual abort or timeout, keep an empty function as callback
-        // so that the SCRIPT tag that eventually loads won't result in an error.
-        if (!type || type == 'timeout') window[callbackName] = empty
-        ajaxError(null, type || 'abort', xhr, options)
-      },
-      xhr = { abort: abort }, abortTimeout
-
-    if (ajaxBeforeSend(xhr, options) === false) {
-      abort('abort')
-      return false
-    }
-
-    window[callbackName] = function(data){
-      cleanup()
-      ajaxSuccess(data, xhr, options)
-    }
-
-    script.onerror = function() { abort('error') }
-
-    script.src = options.url.replace(/=\?/, '=' + callbackName)
-    $('head').append(script)
-
-    if (options.timeout > 0) abortTimeout = setTimeout(function(){
-      abort('timeout')
-    }, options.timeout)
-
-    return xhr
-  }
-
-  $.ajaxSettings = {
-    // Default type of request
-    type: 'GET',
-    // Callback that is executed before request
-    beforeSend: empty,
-    // Callback that is executed if the request succeeds
-    success: empty,
-    // Callback that is executed the the server drops error
-    error: empty,
-    // Callback that is executed on request complete (both: error and success)
-    complete: empty,
-    // The context for the callbacks
-    context: null,
-    // Whether to trigger "global" Ajax events
-    global: true,
-    // Transport
-    xhr: function () {
-      return new window.XMLHttpRequest()
-    },
-    // MIME types mapping
-    accepts: {
-      script: 'text/javascript, application/javascript',
-      json:   jsonType,
-      xml:    'application/xml, text/xml',
-      html:   htmlType,
-      text:   'text/plain'
-    },
-    // Whether the request is to another domain
-    crossDomain: false,
-    // Default timeout
-    timeout: 0,
-    // Whether data should be serialized to string
-    processData: true,
-    // Whether the browser should be allowed to cache GET responses
-    cache: true
-  }
-
-  function mimeToDataType(mime) {
-    if (mime) mime = mime.split(';', 2)[0]
-    return mime && ( mime == htmlType ? 'html' :
-      mime == jsonType ? 'json' :
-      scriptTypeRE.test(mime) ? 'script' :
-      xmlTypeRE.test(mime) && 'xml' ) || 'text'
-  }
-
-  function appendQuery(url, query) {
-    if (query == '') return url
-    return (url + '&' + query).replace(/[&?]{1,2}/, '?')
-  }
-
-  // serialize payload and append it to the URL for GET requests
-  function serializeData(options) {
-    if (options.processData && options.data && $.type(options.data) != "string")
-      options.data = $.param(options.data, options.traditional)
-    if (options.data && (!options.type || options.type.toUpperCase() == 'GET'))
-      options.url = appendQuery(options.url, options.data)
-  }
-
-  $.ajax = function(options){
-    var settings = $.extend({}, options || {})
-    for (key in $.ajaxSettings) if (settings[key] === undefined) settings[key] = $.ajaxSettings[key]
-
-    ajaxStart(settings)
-
-    if (!settings.crossDomain) settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) &&
-      RegExp.$2 != window.location.host
-
-    if (!settings.url) settings.url = window.location.toString()
-    serializeData(settings)
-    if (settings.cache === false) settings.url = appendQuery(settings.url, '_=' + Date.now())
-
-    var dataType = settings.dataType, hasPlaceholder = /=\?/.test(settings.url)
-    if (dataType == 'jsonp' || hasPlaceholder) {
-      if (!hasPlaceholder)
-        settings.url = appendQuery(settings.url,
-          settings.jsonp ? (settings.jsonp + '=?') : settings.jsonp === false ? '' : 'callback=?')
-      return $.ajaxJSONP(settings)
-    }
-
-    var mime = settings.accepts[dataType],
-        baseHeaders = { },
-        protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : window.location.protocol,
-        xhr = settings.xhr(), abortTimeout
-
-    if (!settings.crossDomain) baseHeaders['X-Requested-With'] = 'XMLHttpRequest'
-    if (mime) {
-      baseHeaders['Accept'] = mime
-      if (mime.indexOf(',') > -1) mime = mime.split(',', 2)[0]
-      xhr.overrideMimeType && xhr.overrideMimeType(mime)
-    }
-    if (settings.contentType || (settings.contentType !== false && settings.data && settings.type.toUpperCase() != 'GET'))
-      baseHeaders['Content-Type'] = (settings.contentType || 'application/x-www-form-urlencoded')
-    settings.headers = $.extend(baseHeaders, settings.headers || {})
-
-    xhr.onreadystatechange = function(){
-      if (xhr.readyState == 4) {
-        xhr.onreadystatechange = empty;
-        clearTimeout(abortTimeout)
-        var result, error = false
-        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
-          dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
-          result = xhr.responseText
-
-          try {
-            // http://perfectionkills.com/global-eval-what-are-the-options/
-            if (dataType == 'script')    (1,eval)(result)
-            else if (dataType == 'xml')  result = xhr.responseXML
-            else if (dataType == 'json') result = blankRE.test(result) ? null : $.parseJSON(result)
-          } catch (e) { error = e }
-
-          if (error) ajaxError(error, 'parsererror', xhr, settings)
-          else ajaxSuccess(result, xhr, settings)
-        } else {
-          ajaxError(xhr.statusText || null, xhr.status ? 'error' : 'abort', xhr, settings)
-        }
-      }
-    }
-
-    var async = 'async' in settings ? settings.async : true
-    xhr.open(settings.type, settings.url, async)
-
-    for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
-
-    if (ajaxBeforeSend(xhr, settings) === false) {
-      xhr.abort()
-      return false
-    }
-
-    if (settings.timeout > 0) abortTimeout = setTimeout(function(){
-        xhr.onreadystatechange = empty
-        xhr.abort()
-        ajaxError(null, 'timeout', xhr, settings)
-      }, settings.timeout)
-
-    // avoid sending empty string (#319)
-    xhr.send(settings.data ? settings.data : null)
-    return xhr
-  }
-
-  // handle optional data/success arguments
-  function parseArguments(url, data, success, dataType) {
-    var hasData = !$.isFunction(data)
-    return {
-      url:      url,
-      data:     hasData  ? data : undefined,
-      success:  !hasData ? data : $.isFunction(success) ? success : undefined,
-      dataType: hasData  ? dataType || success : success
-    }
-  }
-
-  $.get = function(url, data, success, dataType){
-    return $.ajax(parseArguments.apply(null, arguments))
-  }
-
-  $.post = function(url, data, success, dataType){
-    var options = parseArguments.apply(null, arguments)
-    options.type = 'POST'
-    return $.ajax(options)
-  }
-
-  $.getJSON = function(url, data, success){
-    var options = parseArguments.apply(null, arguments)
-    options.dataType = 'json'
-    return $.ajax(options)
-  }
-
-  $.fn.load = function(url, data, success){
-    if (!this.length) return this
-    var self = this, parts = url.split(/\s/), selector,
-        options = parseArguments(url, data, success),
-        callback = options.success
-    if (parts.length > 1) options.url = parts[0], selector = parts[1]
-    options.success = function(response){
-      self.html(selector ?
-        $('<div>').html(response.replace(rscript, "")).find(selector)
-        : response)
-      callback && callback.apply(self, arguments)
-    }
-    $.ajax(options)
-    return this
-  }
-
-  var escape = encodeURIComponent
-
-  function serialize(params, obj, traditional, scope){
-    var type, array = $.isArray(obj)
-    $.each(obj, function(key, value) {
-      type = $.type(value)
-      if (scope) key = traditional ? scope : scope + '[' + (array ? '' : key) + ']'
-      // handle data in serializeArray() format
-      if (!scope && array) params.add(value.name, value.value)
-      // recurse into nested objects
-      else if (type == "array" || (!traditional && type == "object"))
-        serialize(params, value, traditional, key)
-      else params.add(key, value)
-    })
-  }
-
-  $.param = function(obj, traditional){
-    var params = []
-    params.add = function(k, v){ this.push(escape(k) + '=' + escape(v)) }
-    serialize(params, obj, traditional)
-    return params.join('&').replace(/%20/g, '+')
-  }
-})(Zepto)
-
-/**
- * almond 0.2.6 Copyright (c) 2011-2012, The Dojo Foundation All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: http://github.com/jrburke/almond for details
- */
-//Going sloppy to avoid 'use strict' string cost, but strict practices should
-//be followed.
-/*jslint sloppy: true */
-/*global setTimeout: false */
-
-var requirejs, require, define;
-(function (undef) {
-    var main, req, makeMap, handlers,
-        defined = {},
-        waiting = {},
-        config = {},
-        defining = {},
-        hasOwn = Object.prototype.hasOwnProperty,
-        aps = [].slice;
-
-    function hasProp(obj, prop) {
-        return hasOwn.call(obj, prop);
-    }
-
-    /**
-     * Given a relative module name, like ./something, normalize it to
-     * a real name that can be mapped to a path.
-     * @param {String} name the relative name
-     * @param {String} baseName a real name that the name arg is relative
-     * to.
-     * @returns {String} normalized name
-     */
-    function normalize(name, baseName) {
-        var nameParts, nameSegment, mapValue, foundMap,
-            foundI, foundStarMap, starI, i, j, part,
-            baseParts = baseName && baseName.split("/"),
-            map = config.map,
-            starMap = (map && map['*']) || {};
-
-        //Adjust any relative paths.
-        if (name && name.charAt(0) === ".") {
-            //If have a base name, try to normalize against it,
-            //otherwise, assume it is a top-level require that will
-            //be relative to baseUrl in the end.
-            if (baseName) {
-                //Convert baseName to array, and lop off the last part,
-                //so that . matches that "directory" and not name of the baseName's
-                //module. For instance, baseName of "one/two/three", maps to
-                //"one/two/three.js", but we want the directory, "one/two" for
-                //this normalization.
-                baseParts = baseParts.slice(0, baseParts.length - 1);
-
-                name = baseParts.concat(name.split("/"));
-
-                //start trimDots
-                for (i = 0; i < name.length; i += 1) {
-                    part = name[i];
-                    if (part === ".") {
-                        name.splice(i, 1);
-                        i -= 1;
-                    } else if (part === "..") {
-                        if (i === 1 && (name[2] === '..' || name[0] === '..')) {
-                            //End of the line. Keep at least one non-dot
-                            //path segment at the front so it can be mapped
-                            //correctly to disk. Otherwise, there is likely
-                            //no path mapping for a path starting with '..'.
-                            //This can still fail, but catches the most reasonable
-                            //uses of ..
-                            break;
-                        } else if (i > 0) {
-                            name.splice(i - 1, 2);
-                            i -= 2;
-                        }
-                    }
-                }
-                //end trimDots
-
-                name = name.join("/");
-            } else if (name.indexOf('./') === 0) {
-                // No baseName, so this is ID is resolved relative
-                // to baseUrl, pull off the leading dot.
-                name = name.substring(2);
-            }
-        }
-
-        //Apply map config if available.
-        if ((baseParts || starMap) && map) {
-            nameParts = name.split('/');
-
-            for (i = nameParts.length; i > 0; i -= 1) {
-                nameSegment = nameParts.slice(0, i).join("/");
-
-                if (baseParts) {
-                    //Find the longest baseName segment match in the config.
-                    //So, do joins on the biggest to smallest lengths of baseParts.
-                    for (j = baseParts.length; j > 0; j -= 1) {
-                        mapValue = map[baseParts.slice(0, j).join('/')];
-
-                        //baseName segment has  config, find if it has one for
-                        //this name.
-                        if (mapValue) {
-                            mapValue = mapValue[nameSegment];
-                            if (mapValue) {
-                                //Match, update name to the new value.
-                                foundMap = mapValue;
-                                foundI = i;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (foundMap) {
-                    break;
-                }
-
-                //Check for a star map match, but just hold on to it,
-                //if there is a shorter segment match later in a matching
-                //config, then favor over this star map.
-                if (!foundStarMap && starMap && starMap[nameSegment]) {
-                    foundStarMap = starMap[nameSegment];
-                    starI = i;
-                }
-            }
-
-            if (!foundMap && foundStarMap) {
-                foundMap = foundStarMap;
-                foundI = starI;
-            }
-
-            if (foundMap) {
-                nameParts.splice(0, foundI, foundMap);
-                name = nameParts.join('/');
-            }
-        }
-
-        return name;
-    }
-
-    function makeRequire(relName, forceSync) {
-        return function () {
-            //A version of a require function that passes a moduleName
-            //value for items that may need to
-            //look up paths relative to the moduleName
-            return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
-        };
-    }
-
-    function makeNormalize(relName) {
-        return function (name) {
-            return normalize(name, relName);
-        };
-    }
-
-    function makeLoad(depName) {
-        return function (value) {
-            defined[depName] = value;
-        };
-    }
-
-    function callDep(name) {
-        if (hasProp(waiting, name)) {
-            var args = waiting[name];
-            delete waiting[name];
-            defining[name] = true;
-            main.apply(undef, args);
-        }
-
-        if (!hasProp(defined, name) && !hasProp(defining, name)) {
-            throw new Error('No ' + name);
-        }
-        return defined[name];
-    }
-
-    //Turns a plugin!resource to [plugin, resource]
-    //with the plugin being undefined if the name
-    //did not have a plugin prefix.
-    function splitPrefix(name) {
-        var prefix,
-            index = name ? name.indexOf('!') : -1;
-        if (index > -1) {
-            prefix = name.substring(0, index);
-            name = name.substring(index + 1, name.length);
-        }
-        return [prefix, name];
-    }
-
-    /**
-     * Makes a name map, normalizing the name, and using a plugin
-     * for normalization if necessary. Grabs a ref to plugin
-     * too, as an optimization.
-     */
-    makeMap = function (name, relName) {
-        var plugin,
-            parts = splitPrefix(name),
-            prefix = parts[0];
-
-        name = parts[1];
-
-        if (prefix) {
-            prefix = normalize(prefix, relName);
-            plugin = callDep(prefix);
-        }
-
-        //Normalize according
-        if (prefix) {
-            if (plugin && plugin.normalize) {
-                name = plugin.normalize(name, makeNormalize(relName));
-            } else {
-                name = normalize(name, relName);
-            }
-        } else {
-            name = normalize(name, relName);
-            parts = splitPrefix(name);
-            prefix = parts[0];
-            name = parts[1];
-            if (prefix) {
-                plugin = callDep(prefix);
-            }
-        }
-
-        //Using ridiculous property names for space reasons
-        return {
-            f: prefix ? prefix + '!' + name : name, //fullName
-            n: name,
-            pr: prefix,
-            p: plugin
-        };
-    };
-
-    function makeConfig(name) {
-        return function () {
-            return (config && config.config && config.config[name]) || {};
-        };
-    }
-
-    handlers = {
-        require: function (name) {
-            return makeRequire(name);
-        },
-        exports: function (name) {
-            var e = defined[name];
-            if (typeof e !== 'undefined') {
-                return e;
-            } else {
-                return (defined[name] = {});
-            }
-        },
-        module: function (name) {
-            return {
-                id: name,
-                uri: '',
-                exports: defined[name],
-                config: makeConfig(name)
-            };
-        }
-    };
-
-    main = function (name, deps, callback, relName) {
-        var cjsModule, depName, ret, map, i,
-            args = [],
-            usingExports;
-
-        //Use name if no relName
-        relName = relName || name;
-
-        //Call the callback to define the module, if necessary.
-        if (typeof callback === 'function') {
-
-            //Pull out the defined dependencies and pass the ordered
-            //values to the callback.
-            //Default to [require, exports, module] if no deps
-            deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
-            for (i = 0; i < deps.length; i += 1) {
-                map = makeMap(deps[i], relName);
-                depName = map.f;
-
-                //Fast path CommonJS standard dependencies.
-                if (depName === "require") {
-                    args[i] = handlers.require(name);
-                } else if (depName === "exports") {
-                    //CommonJS module spec 1.1
-                    args[i] = handlers.exports(name);
-                    usingExports = true;
-                } else if (depName === "module") {
-                    //CommonJS module spec 1.1
-                    cjsModule = args[i] = handlers.module(name);
-                } else if (hasProp(defined, depName) ||
-                           hasProp(waiting, depName) ||
-                           hasProp(defining, depName)) {
-                    args[i] = callDep(depName);
-                } else if (map.p) {
-                    map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
-                    args[i] = defined[depName];
-                } else {
-                    throw new Error(name + ' missing ' + depName);
-                }
-            }
-
-            ret = callback.apply(defined[name], args);
-
-            if (name) {
-                //If setting exports via "module" is in play,
-                //favor that over return value and exports. After that,
-                //favor a non-undefined return value over exports use.
-                if (cjsModule && cjsModule.exports !== undef &&
-                        cjsModule.exports !== defined[name]) {
-                    defined[name] = cjsModule.exports;
-                } else if (ret !== undef || !usingExports) {
-                    //Use the return value from the function.
-                    defined[name] = ret;
-                }
-            }
-        } else if (name) {
-            //May just be an object definition for the module. Only
-            //worry about defining if have a module name.
-            defined[name] = callback;
-        }
-    };
-
-    requirejs = require = req = function (deps, callback, relName, forceSync, alt) {
-        if (typeof deps === "string") {
-            if (handlers[deps]) {
-                //callback in this case is really relName
-                return handlers[deps](callback);
-            }
-            //Just return the module wanted. In this scenario, the
-            //deps arg is the module name, and second arg (if passed)
-            //is just the relName.
-            //Normalize module name, if it contains . or ..
-            return callDep(makeMap(deps, callback).f);
-        } else if (!deps.splice) {
-            //deps is a config object, not an array.
-            config = deps;
-            if (callback.splice) {
-                //callback is an array, which means it is a dependency list.
-                //Adjust args if there are dependencies
-                deps = callback;
-                callback = relName;
-                relName = null;
-            } else {
-                deps = undef;
-            }
-        }
-
-        //Support require(['a'])
-        callback = callback || function () {};
-
-        //If relName is a function, it is an errback handler,
-        //so remove it.
-        if (typeof relName === 'function') {
-            relName = forceSync;
-            forceSync = alt;
-        }
-
-        //Simulate async callback;
-        if (forceSync) {
-            main(undef, deps, callback, relName);
-        } else {
-            //Using a non-zero value because of concern for what old browsers
-            //do, and latest browsers "upgrade" to 4 if lower value is used:
-            //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
-            //If want a value immediately, use require('id') instead -- something
-            //that works in almond on the global level, but not guaranteed and
-            //unlikely to work in other AMD implementations.
-            setTimeout(function () {
-                main(undef, deps, callback, relName);
-            }, 4);
-        }
-
-        return req;
-    };
-
-    /**
-     * Just drops the config on the floor, but returns req in case
-     * the config return value is used.
-     */
-    req.config = function (cfg) {
-        config = cfg;
-        if (config.deps) {
-            req(config.deps, config.callback);
-        }
-        return req;
-    };
-
-    /**
-     * Expose module registry for debugging and tooling
-     */
-    requirejs._defined = defined;
-
-    define = function (name, deps, callback) {
-
-        //This module may not have dependencies
-        if (!deps.splice) {
-            //deps is not an array, so probably means
-            //an object literal or factory function for
-            //the value. Adjust args.
-            callback = deps;
-            deps = [];
-        }
-
-        if (!hasProp(defined, name) && !hasProp(waiting, name)) {
-            waiting[name] = [name, deps, callback];
-        }
-    };
-
-    define.amd = {
-        jQuery: true
-    };
-}());
-
-// Toss the AMD functions on the global
-if (!f2Window.define) {
-	f2Window.define = define;
-	f2Window.require = require;
-	f2Window.requirejs = requirejs;
-}
 /*! JSON v3.2.3 | http://bestiejs.github.com/json3 | Copyright 2012, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Convenience aliases.
@@ -2360,6 +803,432 @@ if (!f2Window.define) {
     }
   }
 }).call(this);
+// Create a new object with the JSON methods
+exports.JSON = {
+	stringify: exports.stringify,
+	parse: exports.parse,
+};
+
+// Pull off the methods
+delete exports.stringify;
+delete exports.parse;
+/**
+ * almond 0.2.6 Copyright (c) 2011-2012, The Dojo Foundation All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: http://github.com/jrburke/almond for details
+ */
+//Going sloppy to avoid 'use strict' string cost, but strict practices should
+//be followed.
+/*jslint sloppy: true */
+/*global setTimeout: false */
+
+var requirejs, require, define;
+(function (undef) {
+    var main, req, makeMap, handlers,
+        defined = {},
+        waiting = {},
+        config = {},
+        defining = {},
+        hasOwn = Object.prototype.hasOwnProperty,
+        aps = [].slice;
+
+    function hasProp(obj, prop) {
+        return hasOwn.call(obj, prop);
+    }
+
+    /**
+     * Given a relative module name, like ./something, normalize it to
+     * a real name that can be mapped to a path.
+     * @param {String} name the relative name
+     * @param {String} baseName a real name that the name arg is relative
+     * to.
+     * @returns {String} normalized name
+     */
+    function normalize(name, baseName) {
+        var nameParts, nameSegment, mapValue, foundMap,
+            foundI, foundStarMap, starI, i, j, part,
+            baseParts = baseName && baseName.split("/"),
+            map = config.map,
+            starMap = (map && map['*']) || {};
+
+        //Adjust any relative paths.
+        if (name && name.charAt(0) === ".") {
+            //If have a base name, try to normalize against it,
+            //otherwise, assume it is a top-level require that will
+            //be relative to baseUrl in the end.
+            if (baseName) {
+                //Convert baseName to array, and lop off the last part,
+                //so that . matches that "directory" and not name of the baseName's
+                //module. For instance, baseName of "one/two/three", maps to
+                //"one/two/three.js", but we want the directory, "one/two" for
+                //this normalization.
+                baseParts = baseParts.slice(0, baseParts.length - 1);
+
+                name = baseParts.concat(name.split("/"));
+
+                //start trimDots
+                for (i = 0; i < name.length; i += 1) {
+                    part = name[i];
+                    if (part === ".") {
+                        name.splice(i, 1);
+                        i -= 1;
+                    } else if (part === "..") {
+                        if (i === 1 && (name[2] === '..' || name[0] === '..')) {
+                            //End of the line. Keep at least one non-dot
+                            //path segment at the front so it can be mapped
+                            //correctly to disk. Otherwise, there is likely
+                            //no path mapping for a path starting with '..'.
+                            //This can still fail, but catches the most reasonable
+                            //uses of ..
+                            break;
+                        } else if (i > 0) {
+                            name.splice(i - 1, 2);
+                            i -= 2;
+                        }
+                    }
+                }
+                //end trimDots
+
+                name = name.join("/");
+            } else if (name.indexOf('./') === 0) {
+                // No baseName, so this is ID is resolved relative
+                // to baseUrl, pull off the leading dot.
+                name = name.substring(2);
+            }
+        }
+
+        //Apply map config if available.
+        if ((baseParts || starMap) && map) {
+            nameParts = name.split('/');
+
+            for (i = nameParts.length; i > 0; i -= 1) {
+                nameSegment = nameParts.slice(0, i).join("/");
+
+                if (baseParts) {
+                    //Find the longest baseName segment match in the config.
+                    //So, do joins on the biggest to smallest lengths of baseParts.
+                    for (j = baseParts.length; j > 0; j -= 1) {
+                        mapValue = map[baseParts.slice(0, j).join('/')];
+
+                        //baseName segment has  config, find if it has one for
+                        //this name.
+                        if (mapValue) {
+                            mapValue = mapValue[nameSegment];
+                            if (mapValue) {
+                                //Match, update name to the new value.
+                                foundMap = mapValue;
+                                foundI = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (foundMap) {
+                    break;
+                }
+
+                //Check for a star map match, but just hold on to it,
+                //if there is a shorter segment match later in a matching
+                //config, then favor over this star map.
+                if (!foundStarMap && starMap && starMap[nameSegment]) {
+                    foundStarMap = starMap[nameSegment];
+                    starI = i;
+                }
+            }
+
+            if (!foundMap && foundStarMap) {
+                foundMap = foundStarMap;
+                foundI = starI;
+            }
+
+            if (foundMap) {
+                nameParts.splice(0, foundI, foundMap);
+                name = nameParts.join('/');
+            }
+        }
+
+        return name;
+    }
+
+    function makeRequire(relName, forceSync) {
+        return function () {
+            //A version of a require function that passes a moduleName
+            //value for items that may need to
+            //look up paths relative to the moduleName
+            return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
+        };
+    }
+
+    function makeNormalize(relName) {
+        return function (name) {
+            return normalize(name, relName);
+        };
+    }
+
+    function makeLoad(depName) {
+        return function (value) {
+            defined[depName] = value;
+        };
+    }
+
+    function callDep(name) {
+        if (hasProp(waiting, name)) {
+            var args = waiting[name];
+            delete waiting[name];
+            defining[name] = true;
+            main.apply(undef, args);
+        }
+
+        if (!hasProp(defined, name) && !hasProp(defining, name)) {
+            throw new Error('No ' + name);
+        }
+        return defined[name];
+    }
+
+    //Turns a plugin!resource to [plugin, resource]
+    //with the plugin being undefined if the name
+    //did not have a plugin prefix.
+    function splitPrefix(name) {
+        var prefix,
+            index = name ? name.indexOf('!') : -1;
+        if (index > -1) {
+            prefix = name.substring(0, index);
+            name = name.substring(index + 1, name.length);
+        }
+        return [prefix, name];
+    }
+
+    /**
+     * Makes a name map, normalizing the name, and using a plugin
+     * for normalization if necessary. Grabs a ref to plugin
+     * too, as an optimization.
+     */
+    makeMap = function (name, relName) {
+        var plugin,
+            parts = splitPrefix(name),
+            prefix = parts[0];
+
+        name = parts[1];
+
+        if (prefix) {
+            prefix = normalize(prefix, relName);
+            plugin = callDep(prefix);
+        }
+
+        //Normalize according
+        if (prefix) {
+            if (plugin && plugin.normalize) {
+                name = plugin.normalize(name, makeNormalize(relName));
+            } else {
+                name = normalize(name, relName);
+            }
+        } else {
+            name = normalize(name, relName);
+            parts = splitPrefix(name);
+            prefix = parts[0];
+            name = parts[1];
+            if (prefix) {
+                plugin = callDep(prefix);
+            }
+        }
+
+        //Using ridiculous property names for space reasons
+        return {
+            f: prefix ? prefix + '!' + name : name, //fullName
+            n: name,
+            pr: prefix,
+            p: plugin
+        };
+    };
+
+    function makeConfig(name) {
+        return function () {
+            return (config && config.config && config.config[name]) || {};
+        };
+    }
+
+    handlers = {
+        require: function (name) {
+            return makeRequire(name);
+        },
+        exports: function (name) {
+            var e = defined[name];
+            if (typeof e !== 'undefined') {
+                return e;
+            } else {
+                return (defined[name] = {});
+            }
+        },
+        module: function (name) {
+            return {
+                id: name,
+                uri: '',
+                exports: defined[name],
+                config: makeConfig(name)
+            };
+        }
+    };
+
+    main = function (name, deps, callback, relName) {
+        var cjsModule, depName, ret, map, i,
+            args = [],
+            usingExports;
+
+        //Use name if no relName
+        relName = relName || name;
+
+        //Call the callback to define the module, if necessary.
+        if (typeof callback === 'function') {
+
+            //Pull out the defined dependencies and pass the ordered
+            //values to the callback.
+            //Default to [require, exports, module] if no deps
+            deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
+            for (i = 0; i < deps.length; i += 1) {
+                map = makeMap(deps[i], relName);
+                depName = map.f;
+
+                //Fast path CommonJS standard dependencies.
+                if (depName === "require") {
+                    args[i] = handlers.require(name);
+                } else if (depName === "exports") {
+                    //CommonJS module spec 1.1
+                    args[i] = handlers.exports(name);
+                    usingExports = true;
+                } else if (depName === "module") {
+                    //CommonJS module spec 1.1
+                    cjsModule = args[i] = handlers.module(name);
+                } else if (hasProp(defined, depName) ||
+                           hasProp(waiting, depName) ||
+                           hasProp(defining, depName)) {
+                    args[i] = callDep(depName);
+                } else if (map.p) {
+                    map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
+                    args[i] = defined[depName];
+                } else {
+                    throw new Error(name + ' missing ' + depName);
+                }
+            }
+
+            ret = callback.apply(defined[name], args);
+
+            if (name) {
+                //If setting exports via "module" is in play,
+                //favor that over return value and exports. After that,
+                //favor a non-undefined return value over exports use.
+                if (cjsModule && cjsModule.exports !== undef &&
+                        cjsModule.exports !== defined[name]) {
+                    defined[name] = cjsModule.exports;
+                } else if (ret !== undef || !usingExports) {
+                    //Use the return value from the function.
+                    defined[name] = ret;
+                }
+            }
+        } else if (name) {
+            //May just be an object definition for the module. Only
+            //worry about defining if have a module name.
+            defined[name] = callback;
+        }
+    };
+
+    requirejs = require = req = function (deps, callback, relName, forceSync, alt) {
+        if (typeof deps === "string") {
+            if (handlers[deps]) {
+                //callback in this case is really relName
+                return handlers[deps](callback);
+            }
+            //Just return the module wanted. In this scenario, the
+            //deps arg is the module name, and second arg (if passed)
+            //is just the relName.
+            //Normalize module name, if it contains . or ..
+            return callDep(makeMap(deps, callback).f);
+        } else if (!deps.splice) {
+            //deps is a config object, not an array.
+            config = deps;
+            if (callback.splice) {
+                //callback is an array, which means it is a dependency list.
+                //Adjust args if there are dependencies
+                deps = callback;
+                callback = relName;
+                relName = null;
+            } else {
+                deps = undef;
+            }
+        }
+
+        //Support require(['a'])
+        callback = callback || function () {};
+
+        //If relName is a function, it is an errback handler,
+        //so remove it.
+        if (typeof relName === 'function') {
+            relName = forceSync;
+            forceSync = alt;
+        }
+
+        //Simulate async callback;
+        if (forceSync) {
+            main(undef, deps, callback, relName);
+        } else {
+            //Using a non-zero value because of concern for what old browsers
+            //do, and latest browsers "upgrade" to 4 if lower value is used:
+            //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
+            //If want a value immediately, use require('id') instead -- something
+            //that works in almond on the global level, but not guaranteed and
+            //unlikely to work in other AMD implementations.
+            setTimeout(function () {
+                main(undef, deps, callback, relName);
+            }, 4);
+        }
+
+        return req;
+    };
+
+    /**
+     * Just drops the config on the floor, but returns req in case
+     * the config return value is used.
+     */
+    req.config = function (cfg) {
+        config = cfg;
+        if (config.deps) {
+            req(config.deps, config.callback);
+        }
+        return req;
+    };
+
+    /**
+     * Expose module registry for debugging and tooling
+     */
+    requirejs._defined = defined;
+
+    define = function (name, deps, callback) {
+
+        //This module may not have dependencies
+        if (!deps.splice) {
+            //deps is not an array, so probably means
+            //an object literal or factory function for
+            //the value. Adjust args.
+            callback = deps;
+            deps = [];
+        }
+
+        if (!hasProp(defined, name) && !hasProp(waiting, name)) {
+            waiting[name] = [name, deps, callback];
+        }
+    };
+
+    define.amd = {
+        jQuery: true
+    };
+}());
+
+// Toss the AMD functions on the global
+if (!f2Window.define) {
+	f2Window.define = define;
+	f2Window.require = require;
+	f2Window.requirejs = requirejs;
+}
 /*!
  * Hij1nx requires the following notice to accompany EventEmitter:
  * 
@@ -4828,7 +3697,7 @@ module.exports = Q;
 // All code before this point will be filtered from stack traces.
 var qEndingLine = captureLine();
 
-Q = exports.Q = module.exports;
+exports.Q = module.exports;
 /*
 Author: Geraint Luff and others
 Year: 2013
@@ -6081,7 +4950,7 @@ else {
 })(this);
 
 
-tv4 = exports.tv4 = module.exports;
+exports.tv4 = module.exports;
 }).call(
 	exports /* function context */, 
 	exports /* param="exports" */, 
@@ -6089,15 +4958,128 @@ tv4 = exports.tv4 = module.exports;
 	window /* param="f2Window" */, 
 	module = {} /* param="module" */
 );
-define('F2.Ajax', ['F2.Defer'], function(Defer) {
-	return {
-		get: function(url, params) {
 
-		},
-		post: function(url, postBody) {
+// Create locally scoped vars of our libs
+var tv4 = exports.tv4;
+var Q = exports.Q;
+var EventEmitter2 = exports.EventEmitter2;
+var JSON = exports.JSON;
 
+// Pull the document off exports
+delete exports.document;
+define('F2.Ajax', ['F2.Promise'], function(Promise) {
+
+	// --------------------------------------------------------------------------
+	// GET/POST
+	// --------------------------------------------------------------------------
+
+	// Derived from http://www.quirksmode.org/js/xmlhttp.html
+	function _sendRequest(url, callback, postData) {
+		var req = _createXMLHTTPObject();
+
+		if (!req) {
+			return;
 		}
+
+		var method = (postData) ? 'POST' : 'GET';
+		req.open(method, url, true);
+		req.setRequestHeader('User-Agent', 'XMLHTTP/1.0');
+
+		if (postData) {
+			req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		}
+
+		req.onreadystatechange = function() {
+			if (req.readyState != 4) {
+				return;
+			}
+
+			if (req.status != 200 && req.status != 304) {
+				return;
+			}
+
+			callback(req);
+		};
+
+		if (req.readyState == 4) {
+			return;
+		}
+
+		req.send(postData);
+	}
+
+	var _XMLHttpFactories = [
+		function() {
+			return new XMLHttpRequest();
+		},
+		function() {
+			return new ActiveXObject('Msxml2.XMLHTTP');
+		},
+		function() {
+			return new ActiveXObject('Msxml3.XMLHTTP');
+		},
+		function() {
+			return new ActiveXObject('Microsoft.XMLHTTP');
+		}
+	];
+
+	function _createXMLHTTPObject() {
+		var xmlhttp = false;
+
+		for (var i = 0; i < _XMLHttpFactories.length; i++) {
+			try {
+				xmlhttp = _XMLHttpFactories[i]();
+			}
+			catch (e) {
+				continue;
+			}
+			break;
+		}
+
+		return xmlhttp;
+	}
+
+	// --------------------------------------------------------------------------
+	// JSONP
+	// --------------------------------------------------------------------------
+
+	// --------------------------------------------------------------------------
+	// API
+	// --------------------------------------------------------------------------
+
+	function _ajax() { }
+
+	_ajax.get = function(url, data, cache) {
+		var deferred = Promise.defer();
+
+		// Translate data into query string params
+
+		if (cache) {
+			// Add random
+		}
+
+		_sendRequest(url, function(req) {
+			if (req.status === 200) {
+				var parsed = req.responseText;
+
+				// Attempt to parse the response as JSON
+				try {
+					JSON.parse(req.responseText);
+				}
+				catch (e) { }
+
+				deferred.resolve(parsed);
+			}
+			else {
+				deferred.reject(req);
+			}
+		});
+
+		return deferred.promise;
 	};
+
+	return _ajax;
+
 });
 define('F2.Classes', [], function() {
 	return {
@@ -6413,12 +5395,6 @@ define('F2.Classes', [], function() {
 		}
 	};
 });
-define('F2.Defer', [], function() {
-
-	// This module just wraps the Q library
-	return Q;
-
-});
 define('F2.Events', [], function() {
 
 	// Init EventEmitter
@@ -6501,144 +5477,135 @@ define('F2.Events', [], function() {
 });
 define('F2.Interfaces', [], function() {
 
-	var schemas = {
-		AppManifest: {
-			title: 'App Manifest',
-			type: 'object',
-			properties: {
-				scripts: {
-					type: 'array'
-				},
-				styles: {
-					type: 'array'
-				},
-				inlineScripts: {
-					type: 'array'
-				},
-				apps: {
-					type: 'array',
-					items: {
-						type: 'object',
-						properties: {
-							success: {
-								type: 'boolean'
-							},
-							data: {
-								type: 'object'
-							},
-							html: {
-								type: 'string'
-							}
-						},
-						required: ['success']
-					}
+	tv4.addSchema('appConfig', {
+		id: 'appConfig',
+		title: 'App Config',
+		type: 'object',
+		properties: {
+			appId: {
+				type: 'string'
+			},
+			context: {
+				type: 'object'
+			},
+			manifestUrl: {
+				type: 'string'
+			},
+			enableBatchRequests: {
+				type: 'boolean'
+			},
+			views: {
+				type: 'array'
+			}
+		},
+		required: ['appId', 'manifestUrl']
+	});
+
+	tv4.addSchema('appContent', {
+		id: 'appContent',
+		title: 'App Content',
+		type: 'object',
+		properties: {
+			success: {
+				type: 'boolean'
+			},
+			data: {
+				type: 'object'
+			},
+			html: {
+				type: 'string'
+			}
+		},
+		required: ['success']
+	});
+
+	tv4.addSchema('appManifest', {
+		id: 'appManifest',
+		title: 'App Manifest',
+		type: 'object',
+		properties: {
+			scripts: {
+				type: 'array',
+				items: {
+					type: 'string'
 				}
 			},
-			required: ['scripts', 'styles', 'inlineScripts', 'apps']
+			styles: {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			},
+			inlineScripts: {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			},
+			apps: {
+				type: 'array',
+				items: {
+					$ref: 'appContent'
+				}
+			}
 		},
-		ContainerConfig: {
-			title: 'Container Config',
-			type: 'object',
-			properties: {
-				debugMode: {
-					type: 'boolean'
-				},
-				loadScripts: {
-					type: 'object'
-				},
-				loadStyles: {
-					type: 'object'
-				},
-				scriptErrorTimeout: {
-					type: 'integer',
-					minimum: 0,
-					'default': 7000
-				},
-				supportedViews: {
-					type: 'array'
-				},
-				xhr: {
-					type: 'object',
-					properties: {
-						dataType: {
-							type: 'object'
-						},
-						type: {
-							type: 'object'
-						},
-						url: {
-							type: 'object'
-						}
+		required: ['scripts', 'styles', 'inlineScripts', 'apps']
+	});
+
+	tv4.addSchema('containerConfig', {
+		id: 'containerConfig',
+		title: 'Container Config',
+		type: 'object',
+		properties: {
+			debugMode: {
+				type: 'boolean'
+			},
+			loadScripts: {
+				type: 'object'
+			},
+			loadStyles: {
+				type: 'object'
+			},
+			scriptErrorTimeout: {
+				type: 'integer',
+				minimum: 0
+			},
+			supportedViews: {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			},
+			xhr: {
+				type: 'object',
+				properties: {
+					dataType: {
+						type: 'object'
+					},
+					type: {
+						type: 'object'
+					},
+					url: {
+						type: 'object'
 					}
 				}
 			}
 		}
-	};
-
-	function _getValueFromType(type) {
-		switch (type) {
-			case 'array':
-				return [];
-			case 'boolean':
-				return false;
-			case 'integer':
-			case 'number':
-				return 0;
-			case 'object':
-				return {};
-			case 'string':
-				return '';
-		}
-
-		return null;
-	}
-
-	function _createObj(schema) {
-		var obj;
-
-		if (schema.properties) {
-			obj = {};
-
-			for (var prop in schema.properties) {
-				var def = schema.properties[prop];
-				var value;
-
-				// Use the default if it's available
-				if (typeof def['default'] !== 'undefined') {
-					value = def['default'];
-				}
-				else {
-					if (def.properties) {
-						// Recurse down into oblivion
-						value = _createObj(def);
-					}
-					else {
-						value = _getValueFromType(def.type);
-					}
-				}
-
-				obj[prop] = value;
-			}
-		}
-		else {
-			obj = _getValueFromType(schema.type);
-		}
-
-		return obj;
-	}
+	});
 
 	return {
-		validate: function(json, nameOrSchema) {
-			if (!nameOrSchema) {
-				throw 'F2.Interfaces: you must provide a schema or schema name.';
+		validate: function(json, name) {
+			if (!name) {
+				throw 'F2.Interfaces: you must provide a schema name.';
 			}
 
-			// Grab the actual schema if they passed in a string
-			if (schemas[nameOrSchema]) {
-				nameOrSchema = schemas[nameOrSchema];
+			var schema = tv4.getSchema(name);
+
+			if (!schema) {
+				throw 'F2.Interfaces: unrecognized schema name.';
 			}
 
-			return tv4.validate(json, nameOrSchema);
+			return tv4.validate(json, schema);
 		},
 		add: function(name, schema) {
 			if (!name) {
@@ -6649,95 +5616,44 @@ define('F2.Interfaces', [], function() {
 				throw 'F2.Interfaces: you must provide a schema.';
 			}
 
-			if (schema[name]) {
+			if (tv4.getSchema(name)) {
 				throw 'F2.Interfaces: ' + name + ' is already a registered schema.';
 			}
 
-			schemas[name] = schema;
+			tv4.addSchema(name, schema);
 		},
-		create: function(schema) {
-			if (!schema) {
-				throw 'F2.Interfaces: you must provide a schema or schema name.';
-			}
-
-			// Grab the actual schema if they passed in a string
-			if (schemas[schema]) {
-				schema = schemas[schema];
-			}
-
-			return _createObj(schema);
-		},
-		schemas: schemas
+		getSchemas: function() {
+			return tv4.getSchemaMap();
+		}
 	};
 
 });
-define('F2', ['F2.Defer', 'F2.Classes', 'F2.Interfaces'], function(Defer, Classes, Interfaces) {
+define('F2.Promise', [], function() {
+
+	return Q;
+
+});
+define('F2', ['F2.Promise', 'F2.Classes', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
+
+	// ---------------------------------------------------------------------------
+	// Private Storage
+	// ---------------------------------------------------------------------------
+
+	var _config = {
+		debugMode: false,
+		loadScripts: null,
+		loadStyles: null,
+		scriptErrorTimeout: 7000,
+		supportedViews: [],
+		xhr: null
+	};
+
+	// Keep a running tally of legacy apps we've had to wrap in define()
+	var _appsWrappedInDefine = {};
 
 	// ---------------------------------------------------------------------------
 	// Helpers
 	// ---------------------------------------------------------------------------
-
-	/**
-	 * Abosolutizes a relative URL
-	 * @method _absolutizeURI
-	 * @private
-	 * @param {e.g., location.href} base
-	 * @param {URL to absolutize} href
-	 * @returns {string} URL
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	//function _absolutizeURI(base, href) { // RFC 3986
-	//	function removeDotSegments(input) {
-	//		var output = [];
-	//		input.replace(/^(\.\.?(\/|$))+/, '')
-	//			.replace(/\/(\.(\/|$))+/g, '/')
-	//			.replace(/\/\.\.$/, '/../')
-	//			.replace(/\/?[^\/]*/g, function(p) {
-	//				if (p === '/..') {
-	//					output.pop();
-	//				} else {
-	//					output.push(p);
-	//				}
-	//			});
-
-	//		return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
-	//	}
-
-	//	href = _parseURI(href || '');
-	//	base = _parseURI(base || '');
-
-	//	return !href || !base ? null : (href.protocol || base.protocol) +
-	//		(href.protocol || href.authority ? href.authority : base.authority) +
-	//		removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
-	//		(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
-	//		href.hash;
-	//}
-
-	/**
-	 * Parses URI
-	 * @method _parseURI
-	 * @private
-	 * @param {The URL to parse} url
-	 * @returns {Parsed URL} string
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	//function _parseURI(url) {
-	//	var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-	//	// authority = '//' + user + ':' + pass '@' + hostname + ':' port
-	//	return (m ? {
-	//		href: m[0] || '',
-	//		protocol: m[1] || '',
-	//		authority: m[2] || '',
-	//		host: m[3] || '',
-	//		hostname: m[4] || '',
-	//		port: m[5] || '',
-	//		pathname: m[6] || '',
-	//		search: m[7] || '',
-	//		hash: m[8] || ''
-	//	} : null);
-	//}
 
 	function _loadHtml(apps, deferred) {
 		var rootParent = document.createElement('div');
@@ -6851,6 +5767,8 @@ define('F2', ['F2.Defer', 'F2.Classes', 'F2.Interfaces'], function(Defer, Classe
 				for (var j = 0, jLen = paths.length; j < jLen; j++) {
 					if (!existingPaths[paths[j]]) {
 						var link = document.createElement('link');
+						link.rel = 'stylesheet';
+						link.type = 'text/css';
 						link.href = paths[j];
 						frag.appendChild(link);
 					}
@@ -6875,125 +5793,37 @@ define('F2', ['F2.Defer', 'F2.Classes', 'F2.Interfaces'], function(Defer, Classe
 		});
 	}
 
-	/**
-		* Utility method to determine whether or not the argument passed in is or is not a native dom node.
-		* @method isNativeDOMNode
-		* @param {object} testObject The object you want to check as native dom node.
-		* @return {bool} Returns true if the object passed is a native dom node.
-		*/
-	//function isNativeDomNode(test) {
-	//	return (test && test.nodeType === 1);
-	//}
-
-	/**
-		* Tests a URL to see if it's on the same domain (local) or not
-		* @method isLocalRequest
-		* @param {URL to test} url
-		* @returns {bool} Whether the URL is local or not
-		* Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
-		*/
-	//function isLocalRequest(url) {
-	//	var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-	//		urlLower = url.toLowerCase(),
-	//		parts = rurl.exec(urlLower),
-	//		ajaxLocation,
-	//		ajaxLocParts;
-
-	//	try {
-	//		ajaxLocation = location.href;
-	//	}
-	//	catch (e) {
-	//		// Use the href attribute of an A element since IE will modify it given document.location
-	//		ajaxLocation = document.createElement('a');
-	//		ajaxLocation.href = '';
-	//		ajaxLocation = ajaxLocation.href;
-	//	}
-
-	//	ajaxLocation = ajaxLocation.toLowerCase();
-
-	//	// Uh oh, the url must be relative
-	//	// Make it fully qualified and re-regex url
-	//	if (!parts) {
-	//		urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
-	//		parts = rurl.exec(urlLower);
-	//	}
-
-	//	// Segment location into parts
-	//	ajaxLocParts = rurl.exec(ajaxLocation) || [];
-
-	//	// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
-	//	var matched = !(parts &&
-	//			(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
-	//				(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
-	//					(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
-
-	//	return matched;
-	//}
-
-	/**
-	 * Adds properties to the ContainerConfig object to take advantage of defaults
-	 * @method _hydrateContainerConfig
-	 * @private
-	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
-	 */
-	function _hydrateContainerConfig(config) {
-		if (!config.scriptErrorTimeout) {
-			config.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
-		}
-
-		if (config.debugMode !== true) {
-			config.debugMode = F2.ContainerConfig.debugMode;
-		}
-	}
-
 	// ---------------------------------------------------------------------------
-	// Private Storage
+	// API
 	// ---------------------------------------------------------------------------
 
-	var _config = $.extend({}, Classes.ContainerConfig);
-
-	// Keep a running tally of legacy apps we've had to wrap in define()
-	var _appsWrappedInDefine = {};
-
-	// ---------------------------------------------------------------------------
-	// F2 Properties
-	// ---------------------------------------------------------------------------
-
-	// Every journey begins with a single step
-	var F2 = {};
-
-	// TODO: add documentation
-	F2.Apps = {};
-
-	/**
+	return {
+		Apps: {},
+		/**
 		* Initializes the container. This method must be called before performing any other actions in the container.
 		* @method init
 		* @param {F2.ContainerConfig} config The configuration object
 		*/
-	F2.config = function(config) {
-		if (Interfaces.validate(config, 'ContainerConfig')) {
-			_hydrateContainerConfig(config);
-
-			$.extend(true, _config, config);
-		}
-	};
-
-	/** 
+		config: function(config) {
+			if (Interfaces.validate(config, 'containerConfig')) {
+				$.extend(true, _config, config);
+			}
+		},
+		/** 
 		* Generates an RFC4122 v4 compliant id
 		* @method guid
 		* @return {string} A random id
 		* @for F2
 		* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 		*/
-	F2.guid = function() {
-		'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random() * 16 | 0;
-			var v = c == 'x' ? r : (r & 0x3 | 0x8);
-			return v.toString(16);
-		});
-	};
-
-	/**
+		guid: function() {
+			'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random() * 16 | 0;
+				var v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+		},
+		/**
 		* Begins the loading process for all apps and/or initialization process for pre-loaded apps.
 		* The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
 		* contain the app's unique instanceId within the container. If the 
@@ -7023,7 +5853,6 @@ define('F2', ['F2.Defer', 'F2.Classes', 'F2.Interfaces'], function(Defer, Classe
 		*		}
 		*	];
 		*	
-		*	F2.init();
 		*	F2.load(appConfigs);
 		*
 		* @example
@@ -7045,66 +5874,76 @@ define('F2', ['F2.Defer', 'F2.Classes', 'F2.Interfaces'], function(Defer, Classe
 		*		}
 		*	];
 		*
-		*	F2.init();
 		*	F2.load(appConfigs);
 		*/
-	F2.load = function(appConfigs) {
-		if (appConfigs instanceof Array === false) {
-			appConfigs = [appConfigs];
-		}
-
-		var deferred = Defer.deferred();
-		var appsByUrl = {};
-		var numUrlsToRequest = 0;
-
-		// Get an obj of appIds keyed by manifestUrl
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			if (!appsByUrl[appConfigs[i].manifestUrl]) {
-				appsByUrl[appConfigs[i].manifestUrl] = [];
-				numUrlsToRequest += 1;
+		load: function(appConfigs) {
+			if (appConfigs instanceof Array === false) {
+				appConfigs = [appConfigs];
 			}
 
-			appsByUrl[appConfigs[i].manifestUrl].push(appConfigs[i]);
-		}
+			var deferred = Promise.defer();
+			var appsByUrl = {};
 
-		// Obj that holds all the xhr responses
-		var responses = [{
-			scripts: [],
-			styles: [],
-			inlineScripts: [],
-			apps: []
-		}];
+			// Get an obj of appIds keyed by manifestUrl
+			for (var i = 0, iLen = appConfigs.length; i < iLen; i++) {
+				// Make sure the appConfig is valid
+				if (Interfaces.validate(appConfigs[i], 'appConfig')) {
+					var manifestUrl = appConfigs[i].manifestUrl;
 
-		// Request all apps from each url
-		for (var url in appsByUrl) {
-			$.ajax({
-				url: url,
-				type: 'post',
-				data: {
-					params: JSON.stringify(appsByUrl[url])
-				},
-				cache: false,
-				success: function(response) {
-					// Make sure this is a valid AppManifest
-					if (Interfaces.validate(response, 'AppManifest')) {
-						responses.push(response);
+					appsByUrl[manifestUrl] = appsByUrl[manifestUrl] || {
+						batch: [],
+						singles: []
+					};
+
+					// Batch or don't based on appConfig.enableBatchRequests
+					if (appConfigs[i].enableBatchRequests) {
+						appsByUrl[manifestUrl].batch.push(appConfigs[i]);
 					}
-
-					// See if we've finished requesting all the apps
-					if (--numUrlsToRequest === 0 && responses.length > 1) {
-						// Combine all the valid responses
-						var combined = $.extend.apply($, [true].concat(responses));
-						_loadApps(combined, deferred);
+					else {
+						appsByUrl[manifestUrl].singles.push(appConfigs[i]);
 					}
 				}
-			});
+			}
+
+			// Obj that holds all the xhr responses
+			var appManifests = [];
+			var numRequests = 0;
+
+			// Request all apps from each url
+			for (var url in appsByUrl) {
+				// Smush batched and unbatched apps together in a single collection
+				// e.g., [{ appId: "one" }, [{ appId: "one", batch: true }, { appId: "one", batch: true }]]
+				var appCollection = appsByUrl[url].singles.push(appsByUrl[url].batch);
+
+				for (var j = 0, jLen = appCollection.length; j < jLen; j++) {
+					numRequests += 1;
+
+					Ajax(url, appCollection[j], false)
+						.then(function(manifest) {
+							// Make sure this is a valid AppManifest
+							if (Interfaces.validate(manifest, 'AppManifest')) {
+								appManifests.push(manifest);
+							}
+						})
+						.fail(function(reason) {
+							console.warn(reason);
+						})
+						.fin(function() {
+							numRequests -= 1;
+
+							// See if we've finished requesting all the apps
+							if (numRequests === 0 && appManifests.length) {
+								// Combine all the valid responses
+								var combined = $.extend.apply($, [true].concat(appManifests));
+								_loadApps(combined, deferred);
+							}
+						});
+				}
+			}
+
+			return deferred.promise;
 		}
-
-		return deferred.promise;
 	};
-
-	// Return the singleton instance
-	return F2;
 
 });
 	

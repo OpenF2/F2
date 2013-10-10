@@ -141,19 +141,17 @@ module.exports = function(grunt) {
 			thirdParty: {
 				src: [
 					'sdk/src/template/thirdParty/header.js.tmpl',
-					'sdk/src/third-party/zepto.js',
-					'sdk/src/template/thirdParty/zepto.js.tmpl',
-					'sdk/src/third-party/zepto.ajax.js',
+					'sdk/src/third-party/json3.js',
+					'sdk/src/template/thirdParty/json3.js.tmpl',
 					'sdk/src/third-party/almond.js',
 					'sdk/src/template/thirdParty/amd.js.tmpl',
-					'sdk/src/third-party/json3.js',
 					'sdk/src/third-party/eventemitter2.js',
 					'sdk/src/third-party/q.js',
 					'sdk/src/template/thirdParty/q.js.tmpl',
 					'sdk/src/third-party/tv4.js',
 					'sdk/src/template/thirdParty/tv4.js.tmpl',
 					'sdk/src/template/thirdParty/footer.js.tmpl',
-			],
+				],
 				dest: 'sdk/f2.thirdParty.js',
 				options: {
 					process: function(src, filename) {
@@ -240,6 +238,19 @@ module.exports = function(grunt) {
 				src: 'sdk/f2.min.js',
 				prefix: 'sdk/'
 			}
+		},
+		watch: {
+			scripts: {
+				files: [
+					'Gruntfile.js',
+					'.jshintrc',
+					'sdk/src/**/*.*'
+				],
+				tasks: ['js'],
+				options: {
+					spawn: false
+				}
+			}
 		}
 	});
 
@@ -252,6 +263,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-express');
 
 	// Register tasks

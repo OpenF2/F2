@@ -1,70 +1,24 @@
-﻿define('F2', ['F2.Defer', 'F2.Classes', 'F2.Interfaces'], function(Defer, Classes, Interfaces) {
+﻿define('F2', ['F2.Promise', 'F2.Classes', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
+
+	// ---------------------------------------------------------------------------
+	// Private Storage
+	// ---------------------------------------------------------------------------
+
+	var _config = {
+		debugMode: false,
+		loadScripts: null,
+		loadStyles: null,
+		scriptErrorTimeout: 7000,
+		supportedViews: [],
+		xhr: null
+	};
+
+	// Keep a running tally of legacy apps we've had to wrap in define()
+	var _appsWrappedInDefine = {};
 
 	// ---------------------------------------------------------------------------
 	// Helpers
 	// ---------------------------------------------------------------------------
-
-	/**
-	 * Abosolutizes a relative URL
-	 * @method _absolutizeURI
-	 * @private
-	 * @param {e.g., location.href} base
-	 * @param {URL to absolutize} href
-	 * @returns {string} URL
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	//function _absolutizeURI(base, href) { // RFC 3986
-	//	function removeDotSegments(input) {
-	//		var output = [];
-	//		input.replace(/^(\.\.?(\/|$))+/, '')
-	//			.replace(/\/(\.(\/|$))+/g, '/')
-	//			.replace(/\/\.\.$/, '/../')
-	//			.replace(/\/?[^\/]*/g, function(p) {
-	//				if (p === '/..') {
-	//					output.pop();
-	//				} else {
-	//					output.push(p);
-	//				}
-	//			});
-
-	//		return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
-	//	}
-
-	//	href = _parseURI(href || '');
-	//	base = _parseURI(base || '');
-
-	//	return !href || !base ? null : (href.protocol || base.protocol) +
-	//		(href.protocol || href.authority ? href.authority : base.authority) +
-	//		removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
-	//		(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
-	//		href.hash;
-	//}
-
-	/**
-	 * Parses URI
-	 * @method _parseURI
-	 * @private
-	 * @param {The URL to parse} url
-	 * @returns {Parsed URL} string
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	//function _parseURI(url) {
-	//	var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-	//	// authority = '//' + user + ':' + pass '@' + hostname + ':' port
-	//	return (m ? {
-	//		href: m[0] || '',
-	//		protocol: m[1] || '',
-	//		authority: m[2] || '',
-	//		host: m[3] || '',
-	//		hostname: m[4] || '',
-	//		port: m[5] || '',
-	//		pathname: m[6] || '',
-	//		search: m[7] || '',
-	//		hash: m[8] || ''
-	//	} : null);
-	//}
 
 	function _loadHtml(apps, deferred) {
 		var rootParent = document.createElement('div');
@@ -178,6 +132,8 @@
 				for (var j = 0, jLen = paths.length; j < jLen; j++) {
 					if (!existingPaths[paths[j]]) {
 						var link = document.createElement('link');
+						link.rel = 'stylesheet';
+						link.type = 'text/css';
 						link.href = paths[j];
 						frag.appendChild(link);
 					}
@@ -202,125 +158,37 @@
 		});
 	}
 
-	/**
-		* Utility method to determine whether or not the argument passed in is or is not a native dom node.
-		* @method isNativeDOMNode
-		* @param {object} testObject The object you want to check as native dom node.
-		* @return {bool} Returns true if the object passed is a native dom node.
-		*/
-	//function isNativeDomNode(test) {
-	//	return (test && test.nodeType === 1);
-	//}
-
-	/**
-		* Tests a URL to see if it's on the same domain (local) or not
-		* @method isLocalRequest
-		* @param {URL to test} url
-		* @returns {bool} Whether the URL is local or not
-		* Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
-		*/
-	//function isLocalRequest(url) {
-	//	var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-	//		urlLower = url.toLowerCase(),
-	//		parts = rurl.exec(urlLower),
-	//		ajaxLocation,
-	//		ajaxLocParts;
-
-	//	try {
-	//		ajaxLocation = location.href;
-	//	}
-	//	catch (e) {
-	//		// Use the href attribute of an A element since IE will modify it given document.location
-	//		ajaxLocation = document.createElement('a');
-	//		ajaxLocation.href = '';
-	//		ajaxLocation = ajaxLocation.href;
-	//	}
-
-	//	ajaxLocation = ajaxLocation.toLowerCase();
-
-	//	// Uh oh, the url must be relative
-	//	// Make it fully qualified and re-regex url
-	//	if (!parts) {
-	//		urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
-	//		parts = rurl.exec(urlLower);
-	//	}
-
-	//	// Segment location into parts
-	//	ajaxLocParts = rurl.exec(ajaxLocation) || [];
-
-	//	// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
-	//	var matched = !(parts &&
-	//			(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
-	//				(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
-	//					(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
-
-	//	return matched;
-	//}
-
-	/**
-	 * Adds properties to the ContainerConfig object to take advantage of defaults
-	 * @method _hydrateContainerConfig
-	 * @private
-	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
-	 */
-	function _hydrateContainerConfig(config) {
-		if (!config.scriptErrorTimeout) {
-			config.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
-		}
-
-		if (config.debugMode !== true) {
-			config.debugMode = F2.ContainerConfig.debugMode;
-		}
-	}
-
 	// ---------------------------------------------------------------------------
-	// Private Storage
+	// API
 	// ---------------------------------------------------------------------------
 
-	var _config = $.extend({}, Classes.ContainerConfig);
-
-	// Keep a running tally of legacy apps we've had to wrap in define()
-	var _appsWrappedInDefine = {};
-
-	// ---------------------------------------------------------------------------
-	// F2 Properties
-	// ---------------------------------------------------------------------------
-
-	// Every journey begins with a single step
-	var F2 = {};
-
-	// TODO: add documentation
-	F2.Apps = {};
-
-	/**
+	return {
+		Apps: {},
+		/**
 		* Initializes the container. This method must be called before performing any other actions in the container.
 		* @method init
 		* @param {F2.ContainerConfig} config The configuration object
 		*/
-	F2.config = function(config) {
-		if (Interfaces.validate(config, 'ContainerConfig')) {
-			_hydrateContainerConfig(config);
-
-			$.extend(true, _config, config);
-		}
-	};
-
-	/** 
+		config: function(config) {
+			if (Interfaces.validate(config, 'containerConfig')) {
+				$.extend(true, _config, config);
+			}
+		},
+		/** 
 		* Generates an RFC4122 v4 compliant id
 		* @method guid
 		* @return {string} A random id
 		* @for F2
 		* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 		*/
-	F2.guid = function() {
-		'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random() * 16 | 0;
-			var v = c == 'x' ? r : (r & 0x3 | 0x8);
-			return v.toString(16);
-		});
-	};
-
-	/**
+		guid: function() {
+			'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random() * 16 | 0;
+				var v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+		},
+		/**
 		* Begins the loading process for all apps and/or initialization process for pre-loaded apps.
 		* The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
 		* contain the app's unique instanceId within the container. If the 
@@ -350,7 +218,6 @@
 		*		}
 		*	];
 		*	
-		*	F2.init();
 		*	F2.load(appConfigs);
 		*
 		* @example
@@ -372,65 +239,75 @@
 		*		}
 		*	];
 		*
-		*	F2.init();
 		*	F2.load(appConfigs);
 		*/
-	F2.load = function(appConfigs) {
-		if (appConfigs instanceof Array === false) {
-			appConfigs = [appConfigs];
-		}
-
-		var deferred = Defer.deferred();
-		var appsByUrl = {};
-		var numUrlsToRequest = 0;
-
-		// Get an obj of appIds keyed by manifestUrl
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			if (!appsByUrl[appConfigs[i].manifestUrl]) {
-				appsByUrl[appConfigs[i].manifestUrl] = [];
-				numUrlsToRequest += 1;
+		load: function(appConfigs) {
+			if (appConfigs instanceof Array === false) {
+				appConfigs = [appConfigs];
 			}
 
-			appsByUrl[appConfigs[i].manifestUrl].push(appConfigs[i]);
-		}
+			var deferred = Promise.defer();
+			var appsByUrl = {};
 
-		// Obj that holds all the xhr responses
-		var responses = [{
-			scripts: [],
-			styles: [],
-			inlineScripts: [],
-			apps: []
-		}];
+			// Get an obj of appIds keyed by manifestUrl
+			for (var i = 0, iLen = appConfigs.length; i < iLen; i++) {
+				// Make sure the appConfig is valid
+				if (Interfaces.validate(appConfigs[i], 'appConfig')) {
+					var manifestUrl = appConfigs[i].manifestUrl;
 
-		// Request all apps from each url
-		for (var url in appsByUrl) {
-			$.ajax({
-				url: url,
-				type: 'post',
-				data: {
-					params: JSON.stringify(appsByUrl[url])
-				},
-				cache: false,
-				success: function(response) {
-					// Make sure this is a valid AppManifest
-					if (Interfaces.validate(response, 'AppManifest')) {
-						responses.push(response);
+					appsByUrl[manifestUrl] = appsByUrl[manifestUrl] || {
+						batch: [],
+						singles: []
+					};
+
+					// Batch or don't based on appConfig.enableBatchRequests
+					if (appConfigs[i].enableBatchRequests) {
+						appsByUrl[manifestUrl].batch.push(appConfigs[i]);
 					}
-
-					// See if we've finished requesting all the apps
-					if (--numUrlsToRequest === 0 && responses.length > 1) {
-						// Combine all the valid responses
-						var combined = $.extend.apply($, [true].concat(responses));
-						_loadApps(combined, deferred);
+					else {
+						appsByUrl[manifestUrl].singles.push(appConfigs[i]);
 					}
 				}
-			});
+			}
+
+			// Obj that holds all the xhr responses
+			var appManifests = [];
+			var numRequests = 0;
+
+			// Request all apps from each url
+			for (var url in appsByUrl) {
+				// Smush batched and unbatched apps together in a single collection
+				// e.g., [{ appId: "one" }, [{ appId: "one", batch: true }, { appId: "one", batch: true }]]
+				var appCollection = appsByUrl[url].singles.push(appsByUrl[url].batch);
+
+				for (var j = 0, jLen = appCollection.length; j < jLen; j++) {
+					numRequests += 1;
+
+					Ajax(url, appCollection[j], false)
+						.then(function(manifest) {
+							// Make sure this is a valid AppManifest
+							if (Interfaces.validate(manifest, 'AppManifest')) {
+								appManifests.push(manifest);
+							}
+						})
+						.fail(function(reason) {
+							console.warn(reason);
+						})
+						.fin(function() {
+							numRequests -= 1;
+
+							// See if we've finished requesting all the apps
+							if (numRequests === 0 && appManifests.length) {
+								// Combine all the valid responses
+								var combined = $.extend.apply($, [true].concat(appManifests));
+								_loadApps(combined, deferred);
+							}
+						});
+				}
+			}
+
+			return deferred.promise;
 		}
-
-		return deferred.promise;
 	};
-
-	// Return the singleton instance
-	return F2;
 
 });

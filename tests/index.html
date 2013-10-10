@@ -22,9 +22,7 @@
 				apps: [{ html: "", data: {}, success: true }]
 			};
 
-			console.time("validate");
-			console.log("AppManifest", Interfaces.validate(manifest, "AppManifest"));
-			console.timeEnd("validate");
+			console.log("AppManifest ==", Interfaces.validate(manifest, "appManifest"));
 
 			// --------------------
 			// Test User Defined
@@ -33,7 +31,7 @@
 			console.log("========== Test User Defined ==========");
 
 			// Add a Quote interface
-			Interfaces.add("Quote", {
+			Interfaces.add("quote", {
 				type: "object",
 				properties: {
 					price: {
@@ -43,25 +41,48 @@
 				},
 				required: ["price"]
 			});
-			console.log("Quote", Interfaces.validate({ price: 1 }, "Quote"));
-
-			console.log("Existing schemas", Interfaces.schemas);
+			console.log("Quote ==", Interfaces.validate({ price: 1 }, "quote"));
 
 			// --------------------
-			// Test Creation
+			// Test Nested Definitions
 			// --------------------
 
-			console.log("========== Test Creation ==========");
+			console.log("========== Test Nested Definitions ==========");
 
-			for (var name in Interfaces.schemas) {
-				if (name == "ContainerConfig") {
-					debugger;
+			// Add a Quote interface
+			Interfaces.add("complex", {
+				type: "object",
+				properties: {
+					manifest: {
+						$ref: 'appManifest'
+					},
+					quote: {
+						$ref: 'quote'
+					}
 				}
+			});
 
-				var newInterfaceObj = Interfaces.create(name);
-				console.log("Create", name, Interfaces.validate(newInterfaceObj, name));
-				console.log(newInterfaceObj);
-			}
+			var complexObj = {
+				manifest: {
+					scripts: [],
+					styles: [],
+					inlineScripts: [],
+					apps: [{ html: "", data: {}, success: true }]
+				},
+				quote: {
+					price: 1
+				}
+			};
+			console.log("Complex ==", Interfaces.validate(complexObj, "complex"));
+
+			console.log(Interfaces.getSchemas());
+		});
+
+		require(["F2.Ajax"], function(Ajax) {
+
+			Ajax.get("http://localhost/playground/github/f2-amd/sdk/f2.debug.js").then(function(response) {
+				console.log(response);
+			});
 
 		});
 
