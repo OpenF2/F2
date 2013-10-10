@@ -1,16 +1,18 @@
 }).call(
-	exports /* function context */, 
-	exports /* param="exports" */, 
-	exports /* param="window" */, 
-	window /* param="f2Window" */, 
-	module = {} /* param="module" */
+	_exports /* function context */,
+	_exports /* param="exports" */,
+	_window /* param="window" */,
+	window /* param="f2Window" */,
+	_module = {} /* param="module" */
 );
 
 // Create locally scoped vars of our libs
-var tv4 = exports.tv4;
-var Q = exports.Q;
-var EventEmitter2 = exports.EventEmitter2;
-var JSON = exports.JSON;
+var tv4 = _exports.tv4;
+var Q = _exports.Q;
+var EventEmitter2 = _exports.EventEmitter2;
+var JSON = _exports.JSON;
+var reqwest = _exports.reqwest;
+var _ = _exports._;
 
 // Pull the document off exports
-delete exports.document;
+delete _exports;

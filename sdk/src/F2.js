@@ -4,11 +4,11 @@
 	// Private Storage
 	// ---------------------------------------------------------------------------
 
+	// Set up a default config
 	var _config = {
 		debugMode: false,
 		loadScripts: null,
 		loadStyles: null,
-		scriptErrorTimeout: 7000,
 		supportedViews: [],
 		xhr: null
 	};
@@ -165,82 +165,35 @@
 	return {
 		Apps: {},
 		/**
-		* Initializes the container. This method must be called before performing any other actions in the container.
-		* @method init
-		* @param {F2.ContainerConfig} config The configuration object
-		*/
+			* Initializes the container. This method must be called before performing any other actions in the container.
+			* @method init
+			* @param {F2.ContainerConfig} config The configuration object
+			*/
 		config: function(config) {
-			if (Interfaces.validate(config, 'containerConfig')) {
-				$.extend(true, _config, config);
+			if (config) {
+				// Don't do anything with the config if it's not valid
+				if (Interfaces.validate(config, 'containerConfig')) {
+					_.extend(_config, config);
+				}
+			}
+			else {
+				return _config;
 			}
 		},
-		/** 
-		* Generates an RFC4122 v4 compliant id
-		* @method guid
-		* @return {string} A random id
-		* @for F2
-		* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
-		*/
+		/**
+			* Generates an RFC4122 v4 compliant id
+			* @method guid
+			* @return {string} A random id
+			* @for F2
+			* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
+			*/
 		guid: function() {
-			'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 				var r = Math.random() * 16 | 0;
 				var v = c == 'x' ? r : (r & 0x3 | 0x8);
 				return v.toString(16);
 			});
 		},
-		/**
-		* Begins the loading process for all apps and/or initialization process for pre-loaded apps.
-		* The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
-		* contain the app's unique instanceId within the container. If the 
-		* {{#crossLink "F2.AppConfig"}}{{/crossLink}}.root property is populated the app is considered
-		* to be a pre-loaded app and will be handled accordingly. Optionally, the
-		* {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
-		* assets will be used instead of making a request.
-		* @method load
-		* @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
-		* @param {Array} [appManifests] An array of {{#crossLink "F2.AppManifest"}}{{/crossLink}}
-		* objects. This array must be the same length as the apps array that is passed in. This can 
-		* be useful if apps are loaded on the server-side and passed down to the client.
-		* @example
-		* Traditional App requests.
-		*
-		*	// Traditional f2 app configs
-		*	var appConfigs = [
-		*		{
-		*			appId: 'com_externaldomain_example_app',
-		*			context: {},
-		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
-		*		},
-		*		{
-		*			appId: 'com_externaldomain_example_app2',
-		*			context: {},
-		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
-		*		}
-		*	];
-		*	
-		*	F2.load(appConfigs);
-		*
-		* @example
-		* Pre-loaded and tradition apps mixed.
-		* 
-		*	// Pre-loaded apps and traditional f2 app configs
-		*	// you can preload the same app multiple times as long as you have a unique root for each
-		*	var appConfigs = [
-		*		{
-		*			appId: 'com_mydomain_example_app',
-		*			context: {},
-		*			root: 'div#example-app-1',
-		*			manifestUrl: ''
-		*		},
-		*		{
-		*			appId: 'com_externaldomain_example_app',
-		*			context: {},
-		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
-		*		}
-		*	];
-		*
-		*	F2.load(appConfigs);
-		*/
 		load: function(appConfigs) {
 			if (appConfigs instanceof Array === false) {
 				appConfigs = [appConfigs];
@@ -299,7 +252,7 @@
 							// See if we've finished requesting all the apps
 							if (numRequests === 0 && appManifests.length) {
 								// Combine all the valid responses
-								var combined = $.extend.apply($, [true].concat(appManifests));
+								var combined = _.extend.apply(_, [{}].concat(appManifests));
 								_loadApps(combined, deferred);
 							}
 						});

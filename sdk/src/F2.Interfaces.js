@@ -89,10 +89,6 @@
 			loadStyles: {
 				type: 'object'
 			},
-			scriptErrorTimeout: {
-				type: 'integer',
-				minimum: 0
-			},
 			supportedViews: {
 				type: 'array',
 				items: {
@@ -110,6 +106,10 @@
 					},
 					url: {
 						type: 'object'
+					},
+					timeout: {
+						type: 'integer',
+						minimum: 0
 					}
 				}
 			}

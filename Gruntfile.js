@@ -141,6 +141,7 @@ module.exports = function(grunt) {
 			thirdParty: {
 				src: [
 					'sdk/src/template/thirdParty/header.js.tmpl',
+					'sdk/src/third-party/underscore.js',
 					'sdk/src/third-party/json3.js',
 					'sdk/src/template/thirdParty/json3.js.tmpl',
 					'sdk/src/third-party/almond.js',
@@ -150,6 +151,8 @@ module.exports = function(grunt) {
 					'sdk/src/template/thirdParty/q.js.tmpl',
 					'sdk/src/third-party/tv4.js',
 					'sdk/src/template/thirdParty/tv4.js.tmpl',
+					'sdk/src/third-party/reqwest.js',
+					'sdk/src/template/thirdParty/reqwest.js.tmpl',
 					'sdk/src/template/thirdParty/footer.js.tmpl',
 				],
 				dest: 'sdk/f2.thirdParty.js',
@@ -420,7 +423,7 @@ module.exports = function(grunt) {
 
 		// insert readme markdown
 		/*Y.Handlebars.registerHelper('readme', function() {
-			return builder.markdown(readmeMd, true);	
+			return builder.markdown(readmeMd, true);
 		});*/
 
 		builder = new Y.DocBuilder(docOptions, json);

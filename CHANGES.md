@@ -13,6 +13,7 @@
 - F2.isNativeDOMNode
 - F2.extend
 - F2.inArray
+- scriptErrorTimeout from container config
 
 # Modified
 - F2.guid: now RFC4122 compliant and doesn't vary length by browser
