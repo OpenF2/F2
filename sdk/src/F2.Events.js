@@ -1,7 +1,7 @@
 ﻿define('F2.Events', [], function() {
 
 	// Init EventEmitter
-	var _events = new exports.EventEmitter2({
+	var _events = new EventEmitter2({
 		wildcard: true
 	});
 
@@ -18,7 +18,7 @@
 		 * @param {object} [arg]* The arguments to be passed
 		 */
 		_socketEmit: function() {
-			return exports.EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
 		 * Execute each of the listeners that may be listening for the specified
@@ -29,11 +29,11 @@
 		 */
 		emit: function() {
 			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
-			return exports.EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
-		 * Adds a listener that will execute n times for the event before being 
-		 * removed. The listener is invoked only the first time the event is 
+		 * Adds a listener that will execute n times for the event before being
+		 * removed. The listener is invoked only the first time the event is
 		 * fired, after which it is removed.
 		 * @method many
 		 * @param {string} event The event name

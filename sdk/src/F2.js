@@ -1,4 +1,4 @@
-﻿define('F2', ['F2.Promise', 'F2.Classes', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
+﻿define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage

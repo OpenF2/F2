@@ -2513,23 +2513,23 @@ if (!f2Window.define) {
 }
 /*!
  * Hij1nx requires the following notice to accompany EventEmitter:
- * 
- * Copyright (c) 2011 hij1nx 
- * 
+ *
+ * Copyright (c) 2011 hij1nx
+ *
  * http://www.twitter.com/hij1nx
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
- * documentation files (the 'Software'), to deal in the Software without restriction, including without limitation 
- * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the 'Software'), to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
  * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
- * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+ *
+ * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
  */
 !function(exports, undefined) {
 
@@ -2632,7 +2632,7 @@ if (!f2Window.define) {
       //
       searchListenerTree(handlers, type, xTree, i+1);
     }
-    
+
     xxTree = tree['**'];
     if(xxTree) {
       if(i < typeLength) {
@@ -2640,7 +2640,7 @@ if (!f2Window.define) {
           // If we have a listener on a '**', it will catch all, so add its handler.
           searchListenerTree(handlers, type, xxTree, typeLength);
         }
-        
+
         // Build arrays of matching next branches and others.
         for(branch in xxTree) {
           if(branch !== '_listeners' && xxTree.hasOwnProperty(branch)) {
@@ -2671,7 +2671,7 @@ if (!f2Window.define) {
   function growListenerTree(type, listener) {
 
     type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-    
+
     //
     // Looks for two consecutive '**', if so, don't add the event at all.
     //
@@ -2707,7 +2707,7 @@ if (!f2Window.define) {
           if (!tree._listeners.warned) {
 
             var m = defaultMaxListeners;
-            
+
             if (typeof this._events.maxListeners !== 'undefined') {
               m = this._events.maxListeners;
             }
@@ -2794,9 +2794,9 @@ if (!f2Window.define) {
 
     // If there is no 'error' event listener then throw.
     if (type === 'error') {
-      
-      if (!this._all && 
-        !this._events.error && 
+
+      if (!this._all &&
+        !this._events.error &&
         !(this.wildcard && this.listenerTree.error)) {
 
         if (arguments[1] instanceof Error) {
@@ -2860,7 +2860,7 @@ if (!f2Window.define) {
   };
 
   EventEmitter.prototype.on = function(type, listener) {
-    
+
     if (typeof type === 'function') {
       this.onAny(type);
       return this;
@@ -2896,7 +2896,7 @@ if (!f2Window.define) {
       if (!this._events[type].warned) {
 
         var m = defaultMaxListeners;
-        
+
         if (typeof this._events.maxListeners !== 'undefined') {
           m = this._events.maxListeners;
         }
@@ -3074,7 +3074,7 @@ if (!f2Window.define) {
   //     return EventEmitter;
   //   });
   // } else {
-    exports.EventEmitter2 = EventEmitter; 
+    exports.EventEmitter2 = EventEmitter;
   // }
 
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
@@ -6841,9 +6841,9 @@ exports.reqwest = module.exports;
 );
 
 // Create locally scoped vars of our libs
+var EventEmitter2 = _window.EventEmitter2;
 var tv4 = _exports.tv4;
 var Q = _exports.Q;
-var EventEmitter2 = _exports.EventEmitter2;
 var JSON = _exports.JSON;
 var reqwest = _exports.reqwest;
 var _ = _exports._;
@@ -6859,11 +6859,11 @@ define('F2.Ajax', ['F2', 'F2.Promise'], function(F2, Promise) {
 	function queryStringify(obj) {
 		var qs = [];
 
-	  for (var p in obj) {
-	    qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-	  }
+		for (var p in obj) {
+			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+		}
 
-	  return qs.join('&');
+		return qs.join('&');
 	}
 
 	function delim(url) {
@@ -7077,10 +7077,57 @@ define('F2.Ajax', ['F2', 'F2.Promise'], function(F2, Promise) {
 	return _ajax;
 
 });
+define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
+
+	function AppClass(instanceId, appConfig, root) {
+		this.instanceId = instanceId;
+		this.appConfig = appConfig;
+		this.root = root;
+	}
+
+	AppClass.prototype = {
+		dispose: function() {
+			this._dispose();
+		},
+		_dispose: function() {
+			// Unsubscribe events
+			for (var name in this.events) {
+				Events.off(name, this.events[name]);
+			}
+
+			// Remove ourselves from the DOM
+			if (this.root && this.root.parentNode) {
+				this.root.parentNode.removeChild(this.root);
+			}
+		},
+		init: function() {
+			this._init();
+		},
+		_init: function() {
+			this.events = {};
+		},
+		reload: function(context) {
+			this._reload(context);
+		},
+		_reload: function(context) {
+			var self = this;
+			_.extend(this.appConfig.context);
+
+			// Reload this app using the existing appConfig
+			F2.load(this.appConfig).then(function(app) {
+				app.root = self.root;
+				self.dispose();
+			});
+		}
+	};
+
+	return AppClass;
+
+});
 define('F2.Events', [], function() {
 
 	// Init EventEmitter
-	var _events = new exports.EventEmitter2({
+	var _events = new EventEmitter2({
 		wildcard: true
 	});
 
@@ -7097,7 +7144,7 @@ define('F2.Events', [], function() {
 		 * @param {object} [arg]* The arguments to be passed
 		 */
 		_socketEmit: function() {
-			return exports.EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
 		 * Execute each of the listeners that may be listening for the specified
@@ -7108,11 +7155,11 @@ define('F2.Events', [], function() {
 		 */
 		emit: function() {
 			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
-			return exports.EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
-		 * Adds a listener that will execute n times for the event before being 
-		 * removed. The listener is invoked only the first time the event is 
+		 * Adds a listener that will execute n times for the event before being
+		 * removed. The listener is invoked only the first time the event is
 		 * fired, after which it is removed.
 		 * @method many
 		 * @param {string} event The event name
@@ -7315,7 +7362,7 @@ define('F2.Promise', [], function() {
 	return Q;
 
 });
-define('F2', ['F2.Promise', 'F2.Classes', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
+define('F2', ['F2.Promise', 'F2.Interfaces', 'F2.Ajax'], function(Promise, Classes, Interfaces, Ajax) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage

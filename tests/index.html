@@ -105,6 +105,15 @@
 
 		});
 
+		require(["F2.BaseAppClass"], function(BaseAppClass) {
+			function Child() {};
+			Child.prototype = new BaseAppClass;
+
+			var c = new Child();
+
+			window.c = c;
+		});
+
 	</script>
 </body>
 </html>

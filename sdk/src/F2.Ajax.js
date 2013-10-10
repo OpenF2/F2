@@ -7,11 +7,11 @@
 	function queryStringify(obj) {
 		var qs = [];
 
-	  for (var p in obj) {
-	    qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-	  }
+		for (var p in obj) {
+			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+		}
 
-	  return qs.join('&');
+		return qs.join('&');
 	}
 
 	function delim(url) {
