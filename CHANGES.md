@@ -20,3 +20,4 @@
 - F2.registerApps: renamed to `load`.
 - F2.load: removed ability to pass in predefined app manifests
 - F2.init: renamed to `F2.config`.
+- F2.removeApp: now takes instanceId or app root
