@@ -45,3 +45,5 @@ src/_UpgradeReport_Files/
 tmp
 
 /*.sln
+
+/.grunt/grunt-contrib-jasmine

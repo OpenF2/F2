@@ -140,21 +140,26 @@ module.exports = function(grunt) {
 			},
 			thirdParty: {
 				src: [
-					'sdk/src/template/thirdParty/header.js.tmpl',
-					'sdk/src/third-party/underscore.js',
-					'sdk/src/third-party/json3.js',
-					'sdk/src/template/thirdParty/json3.js.tmpl',
+					'sdk/src/third-party/template/header.js.tmpl',
+					// Almond
+					'sdk/src/third-party/template/amd_header.js.tmpl',
 					'sdk/src/third-party/almond.js',
-					'sdk/src/template/thirdParty/amd.js.tmpl',
-					//'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/q.js',
-					'sdk/src/template/thirdParty/q.js.tmpl',
-					'sdk/src/third-party/tv4.js',
-					'sdk/src/template/thirdParty/tv4.js.tmpl',
+					'sdk/src/third-party/template/amd_footer.js.tmpl',
+					// JSON3
+					'sdk/src/third-party/json3.js',
+					'sdk/src/third-party/template/json3_footer.js.tmpl',
+					// Reqwest
 					'sdk/src/third-party/reqwest.js',
-					'sdk/src/template/thirdParty/reqwest.js.tmpl',
+					'sdk/src/third-party/template/reqwest_footer.js.tmpl',
+					// TV4
+					'sdk/src/third-party/tv4.js',
+					'sdk/src/third-party/template/tv4_footer.js.tmpl',
+					// LazyLoad
 					'sdk/src/third-party/lazyload.js',
-					'sdk/src/template/thirdParty/footer.js.tmpl',
+					// Underscore
+					'sdk/src/third-party/template/underscore_header.js.tmpl',
+					'sdk/src/third-party/underscore.js',
+					'sdk/src/third-party/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.thirdParty.js',
 				options: {
@@ -175,21 +180,15 @@ module.exports = function(grunt) {
 				options: {
 					bases: './',
 					port: 8080,
-					server: (require('path')).resolve('./tests/server')
+					server: (require('path')).resolve('./tests/js/server')
 				}
 			}
 		},
 		jasmine: {
-			'non-amd': {
+			'default': {
 				options: {
 					host: 'http://localhost:8080/tests/',
 					outfile: 'index.html'
-				}
-			},
-			'amd': {
-				options: {
-					host: 'http://localhost:8080/tests/',
-					outfile: 'index-amd.html'
 				}
 			}
 		},
@@ -439,7 +438,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['jshint', 'concat:thirdParty', 'concat:dist', 'clean:thirdParty', 'uglify:dist', 'uglify:sourcemap', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
+	grunt.registerTask('test', ['jshint', 'express', 'jasmine', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
 
 	// the default task

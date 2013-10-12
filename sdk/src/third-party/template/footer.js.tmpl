@@ -5,13 +5,15 @@
 	_exports /* param="exports" */,
 	_window /* param="window" */,
 	window /* param="f2Window" */,
-	_module = {} /* param="module" */
+	_module = { exports: { } } /* param="module" */
 );
+
+if (window.JSON === undefined) {
+	window.JSON = _exports.JSON;
+}
 
 // Create locally scoped vars of our libs
 var tv4 = _exports.tv4;
-var Q = _exports.Q;
-var JSON = _exports.JSON;
 var reqwest = _exports.reqwest;
 var _ = _exports._;
 var LazyLoad = _exports.LazyLoad;

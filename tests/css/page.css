@@ -1,0 +1,30 @@
+#TrivialReporter {
+	display: none;
+}
+
+.f2-app-container {
+	display: none;
+}
+
+#test-server-failure {
+	background-color: #B03911;
+	color: #FFFFFF;
+	display: none;
+	font-family: Monaco, Lucida Console, monospace;
+	font-size: 11px;
+	padding: 3px 9px;
+}
+
+#tests-skipped {
+	background-color: #B03911;
+	color: #FFFFFF;
+	display: none;
+	font-family: Monaco, Lucida Console, monospace;
+	font-size: 11px;
+	margin-top: 2px;
+	padding: 3px 9px;
+}
+
+#test-fixture {
+	display: none;
+}

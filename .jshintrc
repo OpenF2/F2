@@ -12,10 +12,9 @@
 		"F2": true,
 		"_": true,
 		"tv4": true,
-		"Q": true,
 		"reqwest": true,
-		"EventEmitter2": true,
-		"LazyLoad": true
+		"LazyLoad": true,
+		"noop": true
 	},
 	"latedef": true,
 	"noarg": true,

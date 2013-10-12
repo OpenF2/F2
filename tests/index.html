@@ -1,114 +1,88 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-		<title></title>
+	<title>F2 - Jasmine Unit Tests</title>
+	<link rel="shortcut icon" type="image/png" href="libs/jasmine-1.3.1/jasmine_favicon.png">
+	<link rel="stylesheet" type="text/css" href="libs/jasmine-1.3.1/jasmine.css">
+	<link rel="stylesheet" type="text/css" href="css/page.css">
 </head>
 <body>
+	<div id="test-server-failure">
+		The Node.js Test Server is not running. Some tests will not be run.
+	</div>
+	<div id="tests-skipped" data-count="0"></div>
+	<div id="test-fixture">Testing</div>
+
+	<!-- Jasmine scripts -->
+	<script src="libs/jasmine-1.3.1/jasmine.js"></script>
+	<script src="libs/jasmine-1.3.1/jasmine.async.min.js"></script>
+	<script src="libs/jasmine-1.3.1/jasmine-html.js"></script>
+
+	<!-- Phantom-jasmine -->
+	<script src="libs/console-runner.js"></script>
+
+	<!-- grunt-contrib-jasmine -->
+	<script src="../node_modules/grunt-contrib-jasmine/tasks/jasmine/reporters/PhantomReporter.js"></script>
+
+	<!-- Node test server -->
+	<script src="http://localhost:8080/tests/js/init-node.js"></script>
+
+	<!-- RequireJS -->
+	<script src="libs/require.js"></script>
+
+	<!-- F2 -->
 	<script src="../sdk/f2.debug.js"></script>
 
 	<script>
-		require(["F2.Interfaces"], function(Interfaces) {
 
-			// --------------------
-			// Test Predefined
-			// --------------------
+		// Define some globals for the tests
+		DEFAULT_TIMEOUT = 3000;
 
-			console.log("========== Test Predefined ==========");
-
-			var manifest = {
-				scripts: [],
-				styles: [],
-				inlineScripts: [],
-				apps: [{ html: "", data: {}, success: true }]
-			};
-
-			console.log("AppManifest ==", Interfaces.validate(manifest, "appManifest"));
-
-			// --------------------
-			// Test User Defined
-			// --------------------
-
-			console.log("========== Test User Defined ==========");
-
-			// Add a Quote interface
-			Interfaces.add("quote", {
-				type: "object",
-				properties: {
-					price: {
-						type: "number",
-						minimum: 0
-					}
-				},
-				required: ["price"]
-			});
-			console.log("Quote ==", Interfaces.validate({ price: 1 }, "quote"));
-
-			// --------------------
-			// Test Nested Definitions
-			// --------------------
-
-			console.log("========== Test Nested Definitions ==========");
-
-			// Add a Quote interface
-			Interfaces.add("complex", {
-				type: "object",
-				properties: {
-					manifest: {
-						$ref: 'appManifest'
-					},
-					quote: {
-						$ref: 'quote'
-					}
-				}
-			});
-
-			var complexObj = {
-				manifest: {
-					scripts: [],
-					styles: [],
-					inlineScripts: [],
-					apps: [{ html: "", data: {}, success: true }]
-				},
-				quote: {
-					price: 1
-				}
-			};
-			console.log("Complex ==", Interfaces.validate(complexObj, "complex"));
-
-			console.log(Interfaces.getSchemas());
+		require.config({
+			paths: {
+				'domReady': 'libs/domReady'
+			}
 		});
 
-		// --------------------
-		// Test Nested Definitions
-		// --------------------
+		require([
+			'domReady!',
+			'js/specs/amd.spec.js',
+			'js/specs/f2.spec.js'
+		], function() {
 
-		// Test the ajax
-		require(["F2.Ajax"], function(Ajax) {
+			var jasmineEnv = jasmine.getEnv();
+			jasmineEnv.updateInterval = 1000;
 
-			// Test GET
-			Ajax.get("test.js").then(function(response) {
-				console.log("========== Test Ajax: GET ==========");
-				console.log("INDEX", response);
-			});
+			var htmlReporter = new jasmine.HtmlReporter();
+			jasmineEnv.addReporter(htmlReporter);
 
-			// Test POST
-			Ajax.post("test.js").then(function(response) {
-				console.log("========== Test Ajax: POST ==========");
-				console.log("INDEX", response);
-			});
+			jasmineEnv.specFilter = function(spec) {
+				return htmlReporter.specFilter(spec);
+			};
 
-			// Test JSONP
-			Ajax.jsonp("http://dev.markitondemand.com/Api/Lookup/jsonp", { input: "gm" }).then(function(response) {
-				console.log("========== Test Ajax: JSONP ==========");
-				console.log("INDEX", response);
-			});
+			jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
 
-		});
+			var console_reporter = new jasmine.ConsoleReporter()
+			jasmine.getEnv().addReporter(console_reporter);
 
-		require(["F2.Events"], function(Events) {
-			window.e = Events;
+			function execJasmine() {
+				// allow F2 to be reloaded on the fly
+				window.F2_TESTING_MODE = true;
+
+				// defined by the node test server, if it is running
+				if (typeof window.F2_NODE_TEST_SERVER === 'undefined') {
+					window.F2_NODE_TEST_SERVER = false; // just so we don't need to check for 'undefined' elsewhere
+					document.getElementById('test-server-failure').style.display = 'block';
+				}
+
+				jasmineEnv.execute();
+			}
+
+			execJasmine();
+
 		});
 
 	</script>
+
 </body>
 </html>

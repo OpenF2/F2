@@ -1,4 +1,4 @@
-﻿define('F2.Ajax', ['F2', 'F2.Promise'], function(F2, Promise) {
+﻿define('F2.Ajax', ['F2'], function(F2) {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -134,8 +134,6 @@
 			throw 'F2.Ajax: you must provide a url.';
 		}
 
-		var defer = Promise.defer();
-
 		if (_isLocalRequest(params.url)) {
 			params.crossOrigin = false;
 		}
@@ -148,6 +146,10 @@
 			else {
 				params.method = 'post';
 			}
+		}
+
+		if (!params.type) {
+			params.type = 'json';
 		}
 
 		// Look for methods that use query strings
@@ -173,21 +175,17 @@
 
 			// Add a jsonp callback to the window
 			window[params.jsonpCallbackName] = function(response) {
-				defer.resolve(response);
+				if (params.success) {
+					params.success(response);
+				}
 
 				// Pull the callback off the window
 				delete window[params.jsonpCallbackName];
 			};
 		}
-		else {
-			params.success = defer.resolve;
-			params.error = defer.reject;
-		}
 
 		// Make the call
 		reqwest(params);
-
-		return defer.promise;
 	}
 
 	_ajax.get = function(url, data, type, cache) {
