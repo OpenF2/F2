@@ -2,13 +2,12 @@
 
 	describe('AMD', function() {
 
-		it('should expose "define" and "require" to window', function() {
-			expect(define).toBeDefined();
-			expect(require).toBeDefined();
-		});
-
 		it('should be able to load F2 modules', function() {
 			expect(F2).toBeDefined();
+		});
+
+		it('should defer to a previously loaded AMD framework', function() {
+			expect(requirejs._defined).not.toBeDefined();
 		});
 
 	});

@@ -102,7 +102,7 @@
 				F2.load({
 					appConfigs: [{
 						appId: 'com_test_basic',
-						manifestUrl: 'http://localhost:8080/get_single'
+						manifestUrl: 'http://localhost:8080/apps/single'
 					}]
 				});
 
@@ -124,11 +124,11 @@
 					appConfigs: [
 						{
 							appId: 'com_test_basic',
-							manifestUrl: 'http://localhost:8080/get_multiple'
+							manifestUrl: 'http://localhost:8080/apps/multiple'
 						},
 						{
 							appId: 'com_test_inherited',
-							manifestUrl: 'http://localhost:8080/get_multiple'
+							manifestUrl: 'http://localhost:8080/apps/multiple'
 						}
 					]
 				});
@@ -153,12 +153,12 @@
 					appConfigs: [
 						{
 							appId: 'com_test_basic',
-							manifestUrl: 'http://localhost:8080/get_multiple',
+							manifestUrl: 'http://localhost:8080/apps/multiple',
 							enableBatchRequests: true
 						},
 						{
 							appId: 'com_test_inherited',
-							manifestUrl: 'http://localhost:8080/get_multiple',
+							manifestUrl: 'http://localhost:8080/apps/multiple',
 							enableBatchRequests: true
 						}
 					]
@@ -184,13 +184,67 @@
 					appConfigs: [
 						{
 							appId: 'com_test_basic',
-							manifestUrl: 'http://localhost:8080/get_duplicate',
+							manifestUrl: 'http://localhost:8080/apps/duplicate',
 							enableBatchRequests: true
 						},
 						{
 							appId: 'com_test_basic',
-							manifestUrl: 'http://localhost:8080/get_duplicate',
+							manifestUrl: 'http://localhost:8080/apps/duplicate',
 							enableBatchRequests: true
+						}
+					]
+				});
+
+				waitsFor(function() {
+					// Our test classes will throw some properties on the window
+					return window.com_test_basic_ids && window.com_test_basic_ids.length;
+				}, DEFAULT_TIMEOUT);
+
+				runs(function() {
+					var id1 = window.com_test_basic_ids[0];
+					var id2 = window.com_test_basic_ids[1];
+
+					expect(id1).toBeDefined();
+					expect(id2).toBeDefined();
+					expect(id1 !== id2).toBe(true);
+
+					// Clean up
+					F2.removeApp(id1);
+					F2.removeApp(id2);
+				});
+			});
+
+			it('should load a single app on an external domain', function() {
+				F2.load({
+					appConfigs: [{
+						appId: 'com_test_basic',
+						manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
+					}]
+				});
+
+				waitsFor(function() {
+					// Our test classes will throw some properties on the window
+					return window.com_test_basic;
+				}, DEFAULT_TIMEOUT);
+
+				runs(function() {
+					expect(window.com_test_basic).toBeDefined();
+
+					// Clean up
+					F2.removeApp(window.com_test_basic);
+				});
+			});
+
+			it('should load multiple apps on different domains', function() {
+				F2.load({
+					appConfigs: [
+						{
+							appId: 'com_test_basic',
+							manifestUrl: 'http://localhost:8080/apps/single_jsonp'
+						},
+						{
+							appId: 'com_test_basic',
+							manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
 						}
 					]
 				});
@@ -218,13 +272,14 @@
 
 		describe('F2.removeApp', function() {
 
+			// Shortcut func
 			function loadApp(cb) {
 				var root;
 
 				F2.load({
 					appConfigs: [{
 						appId: 'com_test_basic',
-						manifestUrl: 'http://localhost:8080/get_single'
+						manifestUrl: 'http://localhost:8080/apps/single'
 					}],
 					success: function(app) {
 						root = app.root;
@@ -265,7 +320,7 @@
 			it('should automatically remove an app\'s events (when context was specified)', function() {
 				loadApp(function(root) {
 					F2.removeApp(window.com_test_basic);
-					
+
 					Events.emit('com_test_basic');
 					expect(window.com_test_basic_event).not.toBeDefined();
 				});

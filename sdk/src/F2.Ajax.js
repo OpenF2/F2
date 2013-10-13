@@ -134,14 +134,12 @@
 			throw 'F2.Ajax: you must provide a url.';
 		}
 
-		if (_isLocalRequest(params.url)) {
-			params.crossOrigin = false;
-		}
+		params.crossOrigin = !_isLocalRequest(params.url);
 
 		// Determine the method if none was provided
 		if (!params.method) {
 			if (params.crossOrigin) {
-				params.method = 'jsonp';
+				params.type = 'jsonp';
 			}
 			else {
 				params.method = 'post';
@@ -177,6 +175,10 @@
 			window[params.jsonpCallbackName] = function(response) {
 				if (params.success) {
 					params.success(response);
+				}
+
+				if (params.complete) {
+					params.complete();
 				}
 
 				// Pull the callback off the window

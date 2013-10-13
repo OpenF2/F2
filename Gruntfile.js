@@ -139,12 +139,14 @@ module.exports = function(grunt) {
 				dest: 'sdk/f2.debug.js'
 			},
 			thirdParty: {
+				// The order of the third-party libs matters
+				// Don't change them unless you know what you're doing
 				src: [
 					'sdk/src/third-party/template/header.js.tmpl',
 					// Almond
-					'sdk/src/third-party/template/amd_header.js.tmpl',
-					'sdk/src/third-party/almond.js',
-					'sdk/src/third-party/template/amd_footer.js.tmpl',
+					// 'sdk/src/third-party/template/amd_header.js.tmpl',
+					// 'sdk/src/third-party/almond.js',
+					// 'sdk/src/third-party/template/amd_footer.js.tmpl',
 					// JSON3
 					'sdk/src/third-party/json3.js',
 					'sdk/src/third-party/template/json3_footer.js.tmpl',

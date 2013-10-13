@@ -30,3 +30,33 @@
 			warn: noop
 		};
 	}
+
+	// Local copies of AMD we can overwrite if necessary
+	var define = window.define;
+	var require = window.require;
+	var requirejs = window.requirejs;
+
+	// Placeholders for AMD
+	if (!define || !require) {
+		define = function(name, depNames, fn) {
+			var deps = [];
+
+			for (var i = 0, len = depNames.length; i < len; i++) {
+				var depModuleName = depNames[i].split('.')[1];
+				deps.push(F2[depModuleName]);
+			}
+
+			window[name.split('.')[1]] = fn.apply(window, deps);
+		};
+
+		require = function(depNames, fn) {
+			var deps = [];
+
+			for (var i = 0, len = depNames.length; i < len; i++) {
+				var depModuleName = depNames[i].split('.')[1];
+				deps.push(F2[depModuleName]);
+			}
+
+			fn.apply(window, deps);
+		};
+	}

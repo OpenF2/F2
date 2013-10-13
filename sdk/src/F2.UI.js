@@ -1,5 +1,5 @@
 define('F2.UI', ['F2', 'F2.Interfaces'], function(F2, Interfaces) {
-	
+
 	var _containerConfig = F2.config();
 
 	return {

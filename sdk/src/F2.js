@@ -199,12 +199,30 @@
 		return configs;
 	}
 
+	function _combineAppManifests(manifests) {
+		var combined = {
+			apps: [],
+			inlineScripts: [],
+			scripts: [],
+			styles: []
+		};
+
+		for (var i = 0, iLen = manifests.length; i < iLen; i++) {
+			for (var prop in combined) {
+				for (var x = 0, xLen = manifests[i][prop].length; x < xLen; x++) {
+					combined[prop].push(manifests[i][prop][x]);
+				}
+			}
+		}
+
+		return combined;
+	}
+
 	// ---------------------------------------------------------------------------
 	// API
 	// ---------------------------------------------------------------------------
 
 	var F2 = {
-		Apps: {},
 		config: function(config) {
 			if (config) {
 				// Don't do anything with the config if it's invalid
@@ -282,7 +300,7 @@
 								// See if we've finished requesting all the apps
 								if (--numRequests === 0 && appManifests.length) {
 									// Combine all the valid responses
-									var combinedManifest = _.extend.apply(_, [{}].concat(appManifests));
+									var combinedManifest = _combineAppManifests(appManifests);
 
 									// Turn all the app data into a useful object
 									var responseData = _coalesceAppData(params.appConfigs, combinedManifest.apps);

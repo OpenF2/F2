@@ -1,5 +1,5 @@
 define('F2.Constants', [], function() {
-	
+
 	return {
 		EVENTS: {
 			// TODO: do we need this?

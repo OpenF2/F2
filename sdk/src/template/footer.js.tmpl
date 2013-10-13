@@ -1,2 +1,27 @@
 
+	var modules = [
+		'F2',
+		'F2.Ajax',
+		'F2.BaseAppClass',
+		'F2.Constants',
+		'F2.Events',
+		'F2.Interfaces',
+		'F2.UI'
+	];
+
+	// Toss all the modules on the global
+	require.call(window, modules, function() {
+		var args = Array.prototype.slice.call(arguments);
+
+		for (var i = 0, len = args.length; i < len; i++) {
+			if (modules[i] === 'F2') {
+				window.F2 = args[i];
+			}
+			else {
+				var moduleName = modules[i].split('.')[1];
+				window.F2[moduleName] = args[i];
+			}
+		}
+	});
+
 })();

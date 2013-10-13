@@ -9,12 +9,12 @@
 		"exports": true,
 		"require": true,
 		"module": true,
-		"F2": true,
 		"_": true,
 		"tv4": true,
 		"reqwest": true,
 		"LazyLoad": true,
-		"noop": true
+		"noop": true,
+		"moduleNames": true
 	},
 	"latedef": true,
 	"noarg": true,
