@@ -105,11 +105,13 @@ In order to ensure that applications built using F2 are successful, they must be
 
 Support across all desktop browsers and mobile devices is sometimes limited so F2 includes some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?
 
-* F2 uses and recommends [Bootstrap](http://twitter.github.io/bootstrap/) for a consistent HTML & CSS structure for app development regardless of App Developer ([we'll explain more later](app-development.html#container-integration)). 
+* F2 uses and recommends [Bootstrap](http://twitter.github.io/bootstrap/) for a consistent HTML & CSS structure for app development regardless of App Developer.
 * F2 relies on data structures represented in JSON, so it incorporates Crockford's [JSON](http://www.json.org/). 
 * To support a secured container environment, F2 needs cross-domain in-browser messaging. For this, it relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM).
 
 As either an App or a Container Developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the [F2.js JavaScript SDK](f2js-sdk.html) provides a consistent interface and easy-to-use API so you don't have to think about it.
+
+<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. 
 
 ### Apps
 
