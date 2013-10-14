@@ -1,4 +1,4 @@
-﻿define('F2.Interfaces', [], function() {
+﻿define('F2.Schemas', [], function() {
 
 	tv4.addSchema('appConfig', {
 		id: 'appConfig',
@@ -18,10 +18,13 @@
 				type: 'boolean'
 			},
 			views: {
-				type: 'array'
+				type: 'array',
+				items: {
+					type: 'string'
+				}
 			}
 		},
-		required: ['appId', 'manifestUrl']
+		required: ['appId']
 	});
 
 	tv4.addSchema('appContent', {
@@ -166,28 +169,28 @@
 	return {
 		validate: function(json, name) {
 			if (!name) {
-				throw 'F2.Interfaces: you must provide a schema name.';
+				throw 'F2.Schemas: you must provide a schema name.';
 			}
 
 			var schema = tv4.getSchema(name);
 
 			if (!schema) {
-				throw 'F2.Interfaces: unrecognized schema name.';
+				throw 'F2.Schemas: unrecognized schema name.';
 			}
 
 			return tv4.validate(json, schema);
 		},
 		add: function(name, schema) {
 			if (!name) {
-				throw 'F2.Interfaces: you must provide a schema name.';
+				throw 'F2.Schemas: you must provide a schema name.';
 			}
 
 			if (!schema) {
-				throw 'F2.Interfaces: you must provide a schema.';
+				throw 'F2.Schemas: you must provide a schema.';
 			}
 
 			if (tv4.getSchema(name)) {
-				throw 'F2.Interfaces: ' + name + ' is already a registered schema.';
+				throw 'F2.Schemas: ' + name + ' is already a registered schema.';
 			}
 
 			tv4.addSchema(name, schema);

@@ -2,7 +2,7 @@
 - Q.js lib for promises
 - almond.js lib for AMD shim
 - underscore.js for internal utility
-- F2.Interfaces for class validation
+- F2.Schemas for class validation
 
 # Removed
 - jQuery

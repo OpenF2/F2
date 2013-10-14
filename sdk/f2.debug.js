@@ -4959,7 +4959,7 @@ define('F2.Events', [], function() {
 	};
 
 });
-define('F2.Interfaces', [], function() {
+define('F2.Schemas', [], function() {
 
 	tv4.addSchema('appConfig', {
 		id: 'appConfig',
@@ -4979,10 +4979,13 @@ define('F2.Interfaces', [], function() {
 				type: 'boolean'
 			},
 			views: {
-				type: 'array'
+				type: 'array',
+				items: {
+					type: 'string'
+				}
 			}
 		},
-		required: ['appId', 'manifestUrl']
+		required: ['appId']
 	});
 
 	tv4.addSchema('appContent', {
@@ -5127,28 +5130,28 @@ define('F2.Interfaces', [], function() {
 	return {
 		validate: function(json, name) {
 			if (!name) {
-				throw 'F2.Interfaces: you must provide a schema name.';
+				throw 'F2.Schemas: you must provide a schema name.';
 			}
 
 			var schema = tv4.getSchema(name);
 
 			if (!schema) {
-				throw 'F2.Interfaces: unrecognized schema name.';
+				throw 'F2.Schemas: unrecognized schema name.';
 			}
 
 			return tv4.validate(json, schema);
 		},
 		add: function(name, schema) {
 			if (!name) {
-				throw 'F2.Interfaces: you must provide a schema name.';
+				throw 'F2.Schemas: you must provide a schema name.';
 			}
 
 			if (!schema) {
-				throw 'F2.Interfaces: you must provide a schema.';
+				throw 'F2.Schemas: you must provide a schema.';
 			}
 
 			if (tv4.getSchema(name)) {
-				throw 'F2.Interfaces: ' + name + ' is already a registered schema.';
+				throw 'F2.Schemas: ' + name + ' is already a registered schema.';
 			}
 
 			tv4.addSchema(name, schema);
@@ -5159,14 +5162,14 @@ define('F2.Interfaces', [], function() {
 	};
 
 });
-define('F2.UI', ['F2', 'F2.Interfaces'], function(F2, Interfaces) {
+define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
 
 	var _containerConfig = F2.config();
 
 	return {
 		modal: function(params) {
 			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
-				if (Interfaces.validate(params, 'uiModalParams')) {
+				if (Schemas.validate(params, 'uiModalParams')) {
 					_containerConfig.ui.modal(params);
 				}
 				else {
@@ -5196,7 +5199,7 @@ define('F2.UI', ['F2', 'F2.Interfaces'], function(F2, Interfaces) {
 	};
 
 });
-define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
+define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -5262,7 +5265,7 @@ define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
 		// Get an obj of appIds keyed by manifestUrl
 		for (var i = 0, len = appConfigs.length; i < len; i++) {
 			// Make sure the appConfig is valid
-			if (Interfaces.validate(appConfigs[i], 'appConfig')) {
+			if (Schemas.validate(appConfigs[i], 'appConfig')) {
 				var manifestUrl = appConfigs[i].manifestUrl;
 
 				configs[manifestUrl] = configs[manifestUrl] || {
@@ -5292,7 +5295,7 @@ define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
 		config: function(config) {
 			if (config) {
 				// Don't do anything with the config if it's invalid
-				if (Interfaces.validate(config, 'containerConfig')) {
+				if (Schemas.validate(config, 'containerConfig')) {
 					_.extend(_config, config);
 				}
 			}
@@ -5351,7 +5354,7 @@ define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
 								params: JSON.stringify(requestAppConfigs)
 							},
 							success: function(response) {
-								if (!Interfaces.validate(response, 'appManifest')) {
+								if (!Schemas.validate(response, 'appManifest')) {
 									response = { apps: [{ success: false }] };
 								}
 
@@ -5418,87 +5421,6 @@ define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
 			}
 		}
 	};
-
-});
-require(['F2'], function(F2) {
-
-	_helpers.AppLoader = AppLoader = function() {
-		this.instances = {};
-		this.lastHtmlByAppId = {};
-	}
-
-	/*
-		// Single app from url
-		F2.load({ appId: 'test', manifestUrl: 'http://...' });
-
-		// Multiple/duplicate apps from url
-		F2.load([
-			{ appId: 'test', manifestUrl: 'http://...' }, 
-			{ appId: 'test2', manifestUrl: 'http://...' }
-		]);
-
-		// Preload app
-		F2.load({ appId: 'test', root: document.getElementById('app-test') });
-
-		// Local app
-		F2.load({ appId: 'test' });
-
-		// Mixed
-		F2.load([
-			{ appId: 'test', root: document.getElementById('app-test') },
-			{ appId: 'test2', manifestUrl: 'http://...' }
-		]);
-	*/
-	AppLoader.prototype.load = function(appConfigs) {
-		if (!_.isArray(appConfigs)) {
-			appConfigs = [appConfigs];
-		}
-
-		// Apps that already have HTML on the page
-		var preloadedApps = [];
-		// Apps that need HTML & AppClass from a server
-		var remoteApps = [];
-		// Apps that have already been loaded through F2 once (no new scripts, reuse html)
-		var localApps = [];
-
-		// Categorize the apps
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			var config = appConfigs[i];
-
-			if (config.appId) {
-				// Check for preloaded app
-				if (config.root && config.root.nodeType === 1) {
-					preloadedApps.push(config);
-				}
-				else if (config.manifestUrl) {
-					remoteApps.push(config);
-				}
-				else if (this.lastHtmlByAppId[config.appId]) {
-					localApps.push(config);
-				}
-			}
-		}
-
-
-	};
-
-	AppLoader.prototype.getPreloadedAppClasses = function(appConfigs) {
-
-	};
-
-	AppLoader.prototype.getRemoteAppClasses = function(appConfigs) {
-
-	};
-
-	AppLoader.prototype.getLocalAppClasses = function(appConfigs) {
-
-	};
-
-	AppLoader.prototype.remove = function(instanceId) {
-		delete this.instances[instanceId];
-	};
-
-	return AppLoader;
 
 });
 _helpers.ajax = (function() {
@@ -5890,11 +5812,10 @@ require(['F2'], function(F2) {
 	if (!define || !define.amd) {
 		var modules = [
 			'F2',
-			'F2.Ajax',
 			'F2.BaseAppClass',
 			'F2.Constants',
 			'F2.Events',
-			'F2.Interfaces',
+			'F2.Schemas',
 			'F2.UI'
 		];
 

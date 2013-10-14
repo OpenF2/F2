@@ -1,11 +1,11 @@
-define('F2.UI', ['F2', 'F2.Interfaces'], function(F2, Interfaces) {
+define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
 
 	var _containerConfig = F2.config();
 
 	return {
 		modal: function(params) {
 			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
-				if (Interfaces.validate(params, 'uiModalParams')) {
+				if (Schemas.validate(params, 'uiModalParams')) {
 					_containerConfig.ui.modal(params);
 				}
 				else {

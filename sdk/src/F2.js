@@ -1,4 +1,4 @@
-﻿define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
+﻿define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -64,7 +64,7 @@
 		// Get an obj of appIds keyed by manifestUrl
 		for (var i = 0, len = appConfigs.length; i < len; i++) {
 			// Make sure the appConfig is valid
-			if (Interfaces.validate(appConfigs[i], 'appConfig')) {
+			if (Schemas.validate(appConfigs[i], 'appConfig')) {
 				var manifestUrl = appConfigs[i].manifestUrl;
 
 				configs[manifestUrl] = configs[manifestUrl] || {
@@ -94,7 +94,7 @@
 		config: function(config) {
 			if (config) {
 				// Don't do anything with the config if it's invalid
-				if (Interfaces.validate(config, 'containerConfig')) {
+				if (Schemas.validate(config, 'containerConfig')) {
 					_.extend(_config, config);
 				}
 			}
@@ -153,7 +153,7 @@
 								params: JSON.stringify(requestAppConfigs)
 							},
 							success: function(response) {
-								if (!Interfaces.validate(response, 'appManifest')) {
+								if (!Schemas.validate(response, 'appManifest')) {
 									response = { apps: [{ success: false }] };
 								}
 
