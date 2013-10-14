@@ -3,7 +3,7 @@
 <head>
   <title>F2 - Container Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="16 September 2013">
+  <meta name="dcterms.date" content="14 October 2013">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, openf2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container">
   <meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.3.0" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.3.1" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -72,8 +72,8 @@
             <li class="divider-vertical"></li>
             <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.0</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.0)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.1</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.1)</a></li>
           </ul>
         </div>
       </div>
@@ -124,7 +124,7 @@
 <h1 class="title">Container Development</h1>
 </header>
 <p class="lead">
-The container is the foundation of any F2-enabled solution. By leveraging the <a href="f2js-sdk.html">F2.js SDK</a>, Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can <a href="index.html#framework">read more about the framework</a>, <a href="https://github.com/OpenF2/F2#quick-start">download the project on GitHub</a> or <a href="#get-started">get started</a> below. The latest version of F2 is 1.3.0.
+The container is the foundation of any F2-enabled solution. By leveraging the <a href="f2js-sdk.html">F2.js SDK</a>, Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can <a href="index.html#framework">read more about the framework</a>, <a href="https://github.com/OpenF2/F2#quick-start">download the project on GitHub</a> or <a href="#get-started">get started</a> below. The latest version of F2 is 1.3.1.
 </p>
 
 <hr>
@@ -278,7 +278,7 @@ $(<span class="kw">function</span>(){
 </section>
 <section class="level4" id="override-the-appmanifest-request">
 <h4>Override the AppManifest Request</h4>
-<p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>—intentionally obscured from developers through the <code>F2.registerApps()</code> API—is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.) In version 1.3.0 of F2, the <code>AppManifest</code> request can be overridden in the Container Config.</p>
+<p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>—intentionally obscured from developers through the <code>F2.registerApps()</code> API—is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.) In version 1.3.1 of F2, the <code>AppManifest</code> request can be overridden in the Container Config.</p>
 <p><span class="label label-info">Note</span> The <code>AppManifest</code> endpoint is configured in the <code>manifestUrl</code> property within each <a href="#appconfigs"><code>AppConfig</code></a>.</p>
 <p>The following example demonstrates how the <code>xhr</code> property of the <code>ContainerConfig</code> is used to override F2.js.</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
@@ -417,6 +417,26 @@ $(<span class="kw">function</span>(){
 <iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 <p><span class="label label-info">About this jsfiddle</span> To simulate an ajax request, this example uses jsfiddle's <a href="http://doc.jsfiddle.net/use/echo.html">echo feature</a>. Simply replace the <code>getAppConfigs</code> function with your own ajax request and ignore the <code>echoData</code> variable.</p>
+</section>
+</section>
+<section class="level3" id="batch-requesting-apps">
+<h3>Batch Requesting Apps</h3>
+<p>F2 supports batch requesting of multiple apps hosted on the same domain. The default app registration process sends a single outbound HTTP request for <em>each app</em> registered with F2. For example, when registering five apps, five HTTP requests would be made for each app's <code>AppManifest</code>. Implementing the same five apps using a batch request would result in only a single HTTP request thus greatly speeding up page performance.</p>
+<p>Implementing F2 container code for apps to be requested in a batch is as simple as setting the <code>AppConfig.enableBatchRequests</code> property to <code>true</code>. The only additional requirement is that the apps to-be-batched must have the same <code>AppConfig.manifestUrl</code> value. That is, <strong>the batched apps must be on the same domain</strong>.</p>
+<section class="level4" id="example">
+<h4>Example</h4>
+<iframe width="100%" height="450" src="http://jsfiddle.net/OpenF2js/mETUY/3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<p>Open your browser developer tools to see the single HTTP request to <code>http://www.openf2.org/Examples/Apps</code>. You could modify this jsFiddle and set <em>one</em> of the AppConfig <code>enableBatchRequests</code> to <code>false</code>. Then re-run the code to see <em>two</em> HTTP requests sent in your developer tools.</p>
+<div class="alert alert-block alert-warning">
+    <h4>
+Important
+</h4>
+    
+The <code>params</code> querystring value for both batch-requested and non-batch-requested apps is a <a href="#container-to-app-context-server">serialized collection of AppConfigs</a>. In a scenario when many apps are batch-requested it would be possible to quickly reach the maximum HTTP GET character limit. In <a href="http://www.boutell.com/newfaq/misc/urllength.html">IE that limit is 2048 characters</a>, it is longer in more modern browsers. To work around this issue, F2 recommends either configuring <a href="#override-the-appmanifest-request">HTTP POST</a> if the container and apps are on the same domain or by <a href="http://enable-cors.org/">implementing CORS</a>.
+</div>
+
+<p><span class="label label-info">Note</span> For more information about the <code>AppConfig</code>, <a href="#appconfigs">read up on them</a> at the top of App Integration.</p>
 </section>
 </section>
 <section class="level3" id="registering-pre-loaded-apps">
@@ -940,7 +960,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.0, published 16 September 2013</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.1, published 14 October 2013</small></p>
 		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
@@ -949,7 +969,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.3.0"></script>
-<script src="./js/docs.js?1.3.0"></script>
+<script src="./js/f2.js?1.3.1"></script>
+<script src="./js/docs.js?1.3.1"></script>
 </body>
 </html>

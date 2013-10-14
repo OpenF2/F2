@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk/src/container.js</title>
-	<meta name="dcterms.date" content="16 September 2013">
+	<meta name="dcterms.date" content="14 October 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.0" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.3.1" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.1)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -299,6 +299,20 @@ F2.extend(&#x27;&#x27;, (function(){
 	};
 
 	/**
+	 * Handler to inform the container that a script failed to load
+	 * @method _onScriptLoadFailure
+	 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param scriptInfo The path of the script that failed to load or the exception info
+	 * for the inline script that failed to execute
+	 */
+	var _appScriptLoadFailed = function(appConfig, scriptInfo) {
+		var handler = _config.appScriptLoadFailed || jQuery.noop;
+		return handler(appConfig, scriptInfo);
+	};
+
+	/**
 	 * Adds properties to the AppConfig object
 	 * @method _createAppConfig
 	 * @private
@@ -484,6 +498,17 @@ F2.extend(&#x27;&#x27;, (function(){
 				F2.log(&#x27;Script defined in \&#x27;&#x27; + evtData.appId + &#x27;\&#x27; failed to load \&#x27;&#x27; + evtData.src + &#x27;\&#x27;&#x27;);
 				//emit event 
 				F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, evtData);
+				if(!_bUsesAppHandlers) {
+					_appScriptLoadFailed(appConfigs[0],evtData.src);
+				}
+				else {
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+						appConfigs[0],
+						evtData.src
+					);
+				}
 			}, _config.scriptErrorTimeout);//defaults to 7000
 		};
 		//eval inlines
@@ -493,6 +518,17 @@ F2.extend(&#x27;&#x27;, (function(){
 					eval(e);
 				} catch (exception) {
 					F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + e);
+					if(!_bUsesAppHandlers) {
+						_appScriptLoadFailed(appConfigs[0],exception);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							exception
+						);
+					}
 				}
 			});
 		};
@@ -733,7 +769,7 @@ F2.extend(&#x27;&#x27;, (function(){
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
-			_bUsesAppHandlers = (!_config.beforeAppRender &amp;&amp; !_config.appRender &amp;&amp; !_config.afterAppRender);
+			_bUsesAppHandlers = (!_config.beforeAppRender &amp;&amp; !_config.appRender &amp;&amp; !_config.afterAppRender &amp;&amp; !_config.appScriptLoadFailed);
 			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
@@ -1138,7 +1174,7 @@ F2.extend(&#x27;&#x27;, (function(){
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.0"></script>
+<script src="../../js/f2.js?1.3.1"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>

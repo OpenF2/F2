@@ -1069,7 +1069,7 @@ if (typeof JSON !== 'object') {
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
 /*!
- * F2 v1.3.0 09-16-2013
+ * F2 v1.3.1 10-14-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -1466,6 +1466,11 @@ F2 = (function() {
  * 1. **'appDestroyBefore'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY\_BEFORE*) handlers are fired in the order they were attached.
  * 2. **'appDestroy'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY*) handlers are fired in the order they were attached.
  * 3. **'appDestroyAfter'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY\_AFTER*) handlers are fired in the order they were attached.
+ * 
+ * **Error Handling**
+
+ * 0. **'appScriptLoadFailed'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_SCRIPT\_LOAD\_FAILED*) handlers are fired in the order they were attached.
+ * 
  * @class F2.AppHandlers
  */
 F2.extend('AppHandlers', (function() {
@@ -1481,7 +1486,8 @@ F2.extend('AppHandlers', (function() {
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
-		appDestroy: []			
+		appDestroy: [],
+		appScriptLoadFailed: []		
 	};
 	
 	var _defaultMethods = {
@@ -2032,7 +2038,27 @@ F2.extend('Constants', {
 			*		}
 			*	);
 			*/
-			APP_DESTROY_AFTER: 'appDestroyAfter'
+			APP_DESTROY_AFTER: 'appDestroyAfter',
+			/**
+			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}}, scriptInfo )
+			* @property APP_SCRIPT_LOAD_FAILED
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+			*		function(appConfig, scriptInfo)
+			*		{
+			*			F2.log(appConfig.appId);
+			*		}
+			*	);
+			*/
+			APP_SCRIPT_LOAD_FAILED: 'appScriptLoadFailed'
 		};
 	})()
 });
@@ -3706,6 +3732,20 @@ F2.extend('', (function(){
 	};
 
 	/**
+	 * Handler to inform the container that a script failed to load
+	 * @method _onScriptLoadFailure
+	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param scriptInfo The path of the script that failed to load or the exception info
+	 * for the inline script that failed to execute
+	 */
+	var _appScriptLoadFailed = function(appConfig, scriptInfo) {
+		var handler = _config.appScriptLoadFailed || jQuery.noop;
+		return handler(appConfig, scriptInfo);
+	};
+
+	/**
 	 * Adds properties to the AppConfig object
 	 * @method _createAppConfig
 	 * @private
@@ -3891,6 +3931,17 @@ F2.extend('', (function(){
 				F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 				//emit event 
 				F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
+				if(!_bUsesAppHandlers) {
+					_appScriptLoadFailed(appConfigs[0],evtData.src);
+				}
+				else {
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+						appConfigs[0],
+						evtData.src
+					);
+				}
 			}, _config.scriptErrorTimeout);//defaults to 7000
 		};
 		//eval inlines
@@ -3900,6 +3951,17 @@ F2.extend('', (function(){
 					eval(e);
 				} catch (exception) {
 					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
+					if(!_bUsesAppHandlers) {
+						_appScriptLoadFailed(appConfigs[0],exception);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							exception
+						);
+					}
 				}
 			});
 		};
@@ -4140,7 +4202,7 @@ F2.extend('', (function(){
 			
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
-			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender);
+			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
 			
 			// only establish RPC connection if the container supports the secure app page
 			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
