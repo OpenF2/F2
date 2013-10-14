@@ -1,11 +1,5 @@
 describe('globals', function() {
 
-	it('should expose "define", "require", "requirejs" (AMD)', function() {
-		expect(define).toBeDefined();
-		expect(require).toBeDefined();
-		expect(requirejs).toBeDefined();
-	});
-
 	it('should expose "JSON"', function() {
 		expect(JSON).toBeDefined();
 	});

@@ -115,6 +115,7 @@
 				return v.toString(16);
 			});
 
+
 			// Check if we've seen this one before
 			if (_guids[guid]) {
 				// Get a new guid

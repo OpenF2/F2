@@ -2,7 +2,7 @@
 
 	describe('F2', function() {
 
-		describe('F2.config', function() {
+		describe('config', function() {
 
 			it('should accept arbitrary keys', function() {
 				function set() {
@@ -28,7 +28,7 @@
 
 		});
 
-		describe('F2.guid', function() {
+		describe('guid', function() {
 
 			it('should be unique over 100,000 iterations', function() {
 				var seen = {};
@@ -96,7 +96,7 @@
 
 		});
 
-		describe('F2.load', function() {
+		describe('load', function() {
 
 			it('should load a single app on same domain', function() {
 				F2.load({
@@ -270,7 +270,7 @@
 
 		});
 
-		describe('F2.removeApp', function() {
+		describe('removeApp', function() {
 
 			// Shortcut func
 			function loadApp(cb) {

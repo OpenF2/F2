@@ -5128,19 +5128,6 @@ define('F2.Schemas', [], function() {
 	});
 
 	return {
-		validate: function(json, name) {
-			if (!name) {
-				throw 'F2.Schemas: you must provide a schema name.';
-			}
-
-			var schema = tv4.getSchema(name);
-
-			if (!schema) {
-				throw 'F2.Schemas: unrecognized schema name.';
-			}
-
-			return tv4.validate(json, schema);
-		},
 		add: function(name, schema) {
 			if (!name) {
 				throw 'F2.Schemas: you must provide a schema name.';
@@ -5155,9 +5142,24 @@ define('F2.Schemas', [], function() {
 			}
 
 			tv4.addSchema(name, schema);
+
+			return true;
 		},
-		getSchemas: function() {
-			return tv4.getSchemaMap();
+		isDefined: function(name) {
+			return !!tv4.getSchemaMap()[name];
+		},
+		validate: function(json, name) {
+			if (!name) {
+				throw 'F2.Schemas: you must provide a schema name.';
+			}
+
+			var schema = tv4.getSchema(name);
+
+			if (!schema) {
+				throw 'F2.Schemas: unrecognized schema name.';
+			}
+
+			return tv4.validate(json, schema);
 		}
 	};
 
@@ -5315,6 +5317,7 @@ define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 				var v = c === 'x' ? r : (r & 0x3 | 0x8);
 				return v.toString(16);
 			});
+
 
 			// Check if we've seen this one before
 			if (_guids[guid]) {
