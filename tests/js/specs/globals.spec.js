@@ -10,14 +10,8 @@ describe('globals', function() {
 		expect(JSON).toBeDefined();
 	});
 
-	it('should expose F2 modules', function() {
-		expect(window.F2).toBeDefined();
-		expect(window.F2.Ajax).toBeDefined();
-		expect(window.F2.BaseAppClass).toBeDefined();
-		expect(window.F2.Constants).toBeDefined();
-		expect(window.F2.Events).toBeDefined();
-		expect(window.F2.Interfaces).toBeDefined();
-		expect(window.F2.UI).toBeDefined();
+	it('should not expose F2 modules if AMD is present', function() {
+		expect(window.F2).not.toBeDefined();
 	});
 
 	it('should not expose third party libraries', function() {

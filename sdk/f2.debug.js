@@ -31,35 +31,8 @@
 		};
 	}
 
-	// Local copies of AMD we can overwrite if necessary
-	var define = window.define;
-	var require = window.require;
-	var requirejs = window.requirejs;
-
-	// Placeholders for AMD
-	if (!define || !require) {
-		define = function(name, depNames, fn) {
-			var deps = [];
-
-			for (var i = 0, len = depNames.length; i < len; i++) {
-				var depModuleName = depNames[i].split('.')[1];
-				deps.push(F2[depModuleName]);
-			}
-
-			window[name.split('.')[1]] = fn.apply(window, deps);
-		};
-
-		require = function(depNames, fn) {
-			var deps = [];
-
-			for (var i = 0, len = depNames.length; i < len; i++) {
-				var depModuleName = depNames[i].split('.')[1];
-				deps.push(F2[depModuleName]);
-			}
-
-			fn.apply(window, deps);
-		};
-	}
+	// Create the internal helpers object
+	var _helpers = {};
 
 // Create a local exports object to attach all CommonJS modules to
 var _exports = {};
@@ -76,6 +49,428 @@ var _window = {
 
 !(function(exports, window, f2Window, module) {
 
+(function() {
+	// Toss the AMD functions on the global
+	if (!f2Window.define || !f2Window.define.amd) {
+
+/**
+ * almond 0.2.6 Copyright (c) 2011-2012, The Dojo Foundation All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: http://github.com/jrburke/almond for details
+ */
+//Going sloppy to avoid 'use strict' string cost, but strict practices should
+//be followed.
+/*jslint sloppy: true */
+/*global setTimeout: false */
+
+var requirejs, require, define;
+(function(undef) {
+	var main, req, makeMap, handlers,
+			defined = {},
+			waiting = {},
+			config = {},
+			defining = {},
+			hasOwn = Object.prototype.hasOwnProperty,
+			aps = [].slice;
+
+	function hasProp(obj, prop) {
+		return hasOwn.call(obj, prop);
+	}
+
+	/**
+	 * Given a relative module name, like ./something, normalize it to
+	 * a real name that can be mapped to a path.
+	 * @param {String} name the relative name
+	 * @param {String} baseName a real name that the name arg is relative
+	 * to.
+	 * @returns {String} normalized name
+	 */
+	function normalize(name, baseName) {
+		var nameParts, nameSegment, mapValue, foundMap,
+				foundI, foundStarMap, starI, i, j, part,
+				baseParts = baseName && baseName.split("/"),
+				map = config.map,
+				starMap = (map && map['*']) || {};
+
+		//Adjust any relative paths.
+		if (name && name.charAt(0) === ".") {
+			//If have a base name, try to normalize against it,
+			//otherwise, assume it is a top-level require that will
+			//be relative to baseUrl in the end.
+			if (baseName) {
+				//Convert baseName to array, and lop off the last part,
+				//so that . matches that "directory" and not name of the baseName's
+				//module. For instance, baseName of "one/two/three", maps to
+				//"one/two/three.js", but we want the directory, "one/two" for
+				//this normalization.
+				baseParts = baseParts.slice(0, baseParts.length - 1);
+
+				name = baseParts.concat(name.split("/"));
+
+				//start trimDots
+				for (i = 0; i < name.length; i += 1) {
+					part = name[i];
+					if (part === ".") {
+						name.splice(i, 1);
+						i -= 1;
+					} else if (part === "..") {
+						if (i === 1 && (name[2] === '..' || name[0] === '..')) {
+							//End of the line. Keep at least one non-dot
+							//path segment at the front so it can be mapped
+							//correctly to disk. Otherwise, there is likely
+							//no path mapping for a path starting with '..'.
+							//This can still fail, but catches the most reasonable
+							//uses of ..
+							break;
+						} else if (i > 0) {
+							name.splice(i - 1, 2);
+							i -= 2;
+						}
+					}
+				}
+				//end trimDots
+
+				name = name.join("/");
+			} else if (name.indexOf('./') === 0) {
+				// No baseName, so this is ID is resolved relative
+				// to baseUrl, pull off the leading dot.
+				name = name.substring(2);
+			}
+		}
+
+		//Apply map config if available.
+		if ((baseParts || starMap) && map) {
+			nameParts = name.split('/');
+
+			for (i = nameParts.length; i > 0; i -= 1) {
+				nameSegment = nameParts.slice(0, i).join("/");
+
+				if (baseParts) {
+					//Find the longest baseName segment match in the config.
+					//So, do joins on the biggest to smallest lengths of baseParts.
+					for (j = baseParts.length; j > 0; j -= 1) {
+						mapValue = map[baseParts.slice(0, j).join('/')];
+
+						//baseName segment has  config, find if it has one for
+						//this name.
+						if (mapValue) {
+							mapValue = mapValue[nameSegment];
+							if (mapValue) {
+								//Match, update name to the new value.
+								foundMap = mapValue;
+								foundI = i;
+								break;
+							}
+						}
+					}
+				}
+
+				if (foundMap) {
+					break;
+				}
+
+				//Check for a star map match, but just hold on to it,
+				//if there is a shorter segment match later in a matching
+				//config, then favor over this star map.
+				if (!foundStarMap && starMap && starMap[nameSegment]) {
+					foundStarMap = starMap[nameSegment];
+					starI = i;
+				}
+			}
+
+			if (!foundMap && foundStarMap) {
+				foundMap = foundStarMap;
+				foundI = starI;
+			}
+
+			if (foundMap) {
+				nameParts.splice(0, foundI, foundMap);
+				name = nameParts.join('/');
+			}
+		}
+
+		return name;
+	}
+
+	function makeRequire(relName, forceSync) {
+		return function() {
+			//A version of a require function that passes a moduleName
+			//value for items that may need to
+			//look up paths relative to the moduleName
+			return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
+		};
+	}
+
+	function makeNormalize(relName) {
+		return function(name) {
+			return normalize(name, relName);
+		};
+	}
+
+	function makeLoad(depName) {
+		return function(value) {
+			defined[depName] = value;
+		};
+	}
+
+	function callDep(name) {
+		if (hasProp(waiting, name)) {
+			var args = waiting[name];
+			delete waiting[name];
+			defining[name] = true;
+			main.apply(undef, args);
+		}
+
+		if (!hasProp(defined, name) && !hasProp(defining, name)) {
+			throw new Error('No ' + name);
+		}
+		return defined[name];
+	}
+
+	//Turns a plugin!resource to [plugin, resource]
+	//with the plugin being undefined if the name
+	//did not have a plugin prefix.
+	function splitPrefix(name) {
+		var prefix,
+				index = name ? name.indexOf('!') : -1;
+		if (index > -1) {
+			prefix = name.substring(0, index);
+			name = name.substring(index + 1, name.length);
+		}
+		return [prefix, name];
+	}
+
+	/**
+	 * Makes a name map, normalizing the name, and using a plugin
+	 * for normalization if necessary. Grabs a ref to plugin
+	 * too, as an optimization.
+	 */
+	makeMap = function(name, relName) {
+		var plugin,
+				parts = splitPrefix(name),
+				prefix = parts[0];
+
+		name = parts[1];
+
+		if (prefix) {
+			prefix = normalize(prefix, relName);
+			plugin = callDep(prefix);
+		}
+
+		//Normalize according
+		if (prefix) {
+			if (plugin && plugin.normalize) {
+				name = plugin.normalize(name, makeNormalize(relName));
+			} else {
+				name = normalize(name, relName);
+			}
+		} else {
+			name = normalize(name, relName);
+			parts = splitPrefix(name);
+			prefix = parts[0];
+			name = parts[1];
+			if (prefix) {
+				plugin = callDep(prefix);
+			}
+		}
+
+		//Using ridiculous property names for space reasons
+		return {
+			f: prefix ? prefix + '!' + name : name, //fullName
+			n: name,
+			pr: prefix,
+			p: plugin
+		};
+	};
+
+	function makeConfig(name) {
+		return function() {
+			return (config && config.config && config.config[name]) || {};
+		};
+	}
+
+	handlers = {
+		require: function(name) {
+			return makeRequire(name);
+		},
+		exports: function(name) {
+			var e = defined[name];
+			if (typeof e !== 'undefined') {
+				return e;
+			} else {
+				return (defined[name] = {});
+			}
+		},
+		module: function(name) {
+			return {
+				id: name,
+				uri: '',
+				exports: defined[name],
+				config: makeConfig(name)
+			};
+		}
+	};
+
+	main = function(name, deps, callback, relName) {
+		var cjsModule, depName, ret, map, i,
+				args = [],
+				usingExports;
+
+		//Use name if no relName
+		relName = relName || name;
+
+		//Call the callback to define the module, if necessary.
+		if (typeof callback === 'function') {
+
+			//Pull out the defined dependencies and pass the ordered
+			//values to the callback.
+			//Default to [require, exports, module] if no deps
+			deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
+			for (i = 0; i < deps.length; i += 1) {
+				map = makeMap(deps[i], relName);
+				depName = map.f;
+
+				//Fast path CommonJS standard dependencies.
+				if (depName === "require") {
+					args[i] = handlers.require(name);
+				} else if (depName === "exports") {
+					//CommonJS module spec 1.1
+					args[i] = handlers.exports(name);
+					usingExports = true;
+				} else if (depName === "module") {
+					//CommonJS module spec 1.1
+					cjsModule = args[i] = handlers.module(name);
+				} else if (hasProp(defined, depName) ||
+									 hasProp(waiting, depName) ||
+									 hasProp(defining, depName)) {
+					args[i] = callDep(depName);
+				} else if (map.p) {
+					map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
+					args[i] = defined[depName];
+				} else {
+					throw new Error(name + ' missing ' + depName);
+				}
+			}
+
+			ret = callback.apply(defined[name], args);
+
+			if (name) {
+				//If setting exports via "module" is in play,
+				//favor that over return value and exports. After that,
+				//favor a non-undefined return value over exports use.
+				if (cjsModule && cjsModule.exports !== undef &&
+								cjsModule.exports !== defined[name]) {
+					defined[name] = cjsModule.exports;
+				} else if (ret !== undef || !usingExports) {
+					//Use the return value from the function.
+					defined[name] = ret;
+				}
+			}
+		} else if (name) {
+			//May just be an object definition for the module. Only
+			//worry about defining if have a module name.
+			defined[name] = callback;
+		}
+	};
+
+	requirejs = require = req = function(deps, callback, relName, forceSync, alt) {
+		if (typeof deps === "string") {
+			if (handlers[deps]) {
+				//callback in this case is really relName
+				return handlers[deps](callback);
+			}
+			//Just return the module wanted. In this scenario, the
+			//deps arg is the module name, and second arg (if passed)
+			//is just the relName.
+			//Normalize module name, if it contains . or ..
+			return callDep(makeMap(deps, callback).f);
+		} else if (!deps.splice) {
+			//deps is a config object, not an array.
+			config = deps;
+			if (callback.splice) {
+				//callback is an array, which means it is a dependency list.
+				//Adjust args if there are dependencies
+				deps = callback;
+				callback = relName;
+				relName = null;
+			} else {
+				deps = undef;
+			}
+		}
+
+		//Support require(['a'])
+		callback = callback || function() { };
+
+		//If relName is a function, it is an errback handler,
+		//so remove it.
+		if (typeof relName === 'function') {
+			relName = forceSync;
+			forceSync = alt;
+		}
+
+		//Simulate async callback;
+		if (forceSync) {
+			main(undef, deps, callback, relName);
+		} else {
+			//Using a non-zero value because of concern for what old browsers
+			//do, and latest browsers "upgrade" to 4 if lower value is used:
+			//http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
+			//If want a value immediately, use require('id') instead -- something
+			//that works in almond on the global level, but not guaranteed and
+			//unlikely to work in other AMD implementations.
+			setTimeout(function() {
+				main(undef, deps, callback, relName);
+			}, 4);
+		}
+
+		return req;
+	};
+
+	/**
+	 * Just drops the config on the floor, but returns req in case
+	 * the config return value is used.
+	 */
+	req.config = function(cfg) {
+		config = cfg;
+		if (config.deps) {
+			req(config.deps, config.callback);
+		}
+		return req;
+	};
+
+	/**
+	 * Expose module registry for debugging and tooling
+	 */
+	requirejs._defined = defined;
+
+	define = function(name, deps, callback) {
+
+		//This module may not have dependencies
+		if (!deps.splice) {
+			//deps is not an array, so probably means
+			//an object literal or factory function for
+			//the value. Adjust args.
+			callback = deps;
+			deps = [];
+		}
+
+		if (!hasProp(defined, name) && !hasProp(waiting, name)) {
+			waiting[name] = [name, deps, callback];
+		}
+	};
+
+	define.amd = {
+		jQuery: true
+	};
+}());
+
+
+		// Toss the AMD functions on the global
+		f2Window.define = define;
+		f2Window.require = require;
+		f2Window.requirejs = requirejs;
+	}
+})();
 /*! JSON v3.2.3 | http://bestiejs.github.com/json3 | Copyright 2012, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Convenience aliases.
@@ -4397,238 +4792,12 @@ var LazyLoad = _exports.LazyLoad;
 
 // Pull the document off exports
 delete _exports;
-define('F2.Ajax', ['F2'], function(F2) {
-
-	// --------------------------------------------------------------------------
-	// Helpers
-	// --------------------------------------------------------------------------
-
-	function queryStringify(obj) {
-		var qs = [];
-
-		for (var p in obj) {
-			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-		}
-
-		return qs.join('&');
-	}
-
-	function delim(url) {
-		return (url.indexOf('?') === -1) ? '?' : '&';
-	}
-
-	/**
-	 * Parses URI
-	 * @method _parseURI
-	 * @private
-	 * @param {The URL to parse} url
-	 * @returns {Parsed URL} string
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	function _parseURI(url) {
-		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
-		return (m ? {
-				href     : m[0] || '',
-				protocol : m[1] || '',
-				authority: m[2] || '',
-				host     : m[3] || '',
-				hostname : m[4] || '',
-				port     : m[5] || '',
-				pathname : m[6] || '',
-				search   : m[7] || '',
-				hash     : m[8] || ''
-			} : null);
-	}
-
-	/**
-	 * Abosolutizes a relative URL
-	 * @method _absolutizeURI
-	 * @private
-	 * @param {e.g., location.href} base
-	 * @param {URL to absolutize} href
-	 * @returns {string} URL
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	function _absolutizeURI(base, href) { // RFC 3986
-		function removeDotSegments(input) {
-			var output = [];
-			input.replace(/^(\.\.?(\/|$))+/, '')
-				.replace(/\/(\.(\/|$))+/g, '/')
-				.replace(/\/\.\.$/, '/../')
-				.replace(/\/?[^\/]*/g, function (p) {
-					if (p === '/..') {
-						output.pop();
-					} else {
-						output.push(p);
-					}
-				});
-			return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
-		}
-
-		href = _parseURI(href || '');
-		base = _parseURI(base || '');
-
-		return !href || !base ? null : (href.protocol || base.protocol) +
-			(href.protocol || href.authority ? href.authority : base.authority) +
-			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
-			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
-			href.hash;
-	}
-
-	/**
-	 * Tests a URL to see if it's on the same domain (local) or not
-	 * @method isLocalRequest
-	 * @param {URL to test} url
-	 * @returns {bool} Whether the URL is local or not
-	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
-	 */
-	function _isLocalRequest(url) {
-		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-			urlLower = url.toLowerCase(),
-			parts = rurl.exec( urlLower ),
-			ajaxLocation,
-			ajaxLocParts;
-
-		try {
-			ajaxLocation = location.href;
-		}
-		catch(e) {
-			// Use the href attribute of an A element
-			// since IE will modify it given document.location
-			ajaxLocation = document.createElement('a');
-			ajaxLocation.href = '';
-			ajaxLocation = ajaxLocation.href;
-		}
-
-		ajaxLocation = ajaxLocation.toLowerCase();
-
-		// uh oh, the url must be relative
-		// make it fully qualified and re-regex url
-		if (!parts){
-			urlLower = _absolutizeURI(ajaxLocation,urlLower).toLowerCase();
-			parts = rurl.exec(urlLower);
-		}
-
-		// Segment location into parts
-		ajaxLocParts = rurl.exec(ajaxLocation) || [];
-
-		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
-		var matched = !(parts &&
-				(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
-					(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
-						(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
-
-		return matched;
-	}
-
-	// --------------------------------------------------------------------------
-	// GET/POST
-	// --------------------------------------------------------------------------
-
-	function _ajax(params, cache) {
-		if (!params.url) {
-			throw 'F2.Ajax: you must provide a url.';
-		}
-
-		params.crossOrigin = !_isLocalRequest(params.url);
-
-		// Determine the method if none was provided
-		if (!params.method) {
-			if (params.crossOrigin) {
-				params.type = 'jsonp';
-			}
-			else {
-				params.method = 'post';
-			}
-		}
-
-		if (!params.type) {
-			params.type = 'json';
-		}
-
-		// Look for methods that use query strings
-		if (params.method === 'get' || params.type === 'jsonp') {
-			// Stringify the data onto the url
-			if (params.data) {
-				params.url += delim(params.url) + queryStringify(params.data);
-			}
-			else {
-				// Pull data off the obj to avoid confusion
-				delete params.data;
-			}
-
-			// Bust cache if asked
-			if (!cache) {
-				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);
-			}
-		}
-
-		if (params.type === 'jsonp') {
-			// Create a random callback name
-			params.jsonpCallbackName = 'F2_' + Math.floor(Math.random() * 1000000);
-
-			// Add a jsonp callback to the window
-			window[params.jsonpCallbackName] = function(response) {
-				if (params.success) {
-					params.success(response);
-				}
-
-				if (params.complete) {
-					params.complete();
-				}
-
-				// Pull the callback off the window
-				delete window[params.jsonpCallbackName];
-			};
-		}
-
-		// Make the call
-		reqwest(params);
-	}
-
-	_ajax.get = function(url, data, type, cache) {
-		return _ajax(
-			{
-				data: data,
-				method: 'get',
-				type: type,
-				url: url
-			},
-			cache
-		);
-	};
-
-	_ajax.post = function(url, data, type) {
-		return _ajax({
-			data: data,
-			method: 'post',
-			type: type,
-			url: url
-		});
-	};
-
-	_ajax.jsonp = function(url, data, cache) {
-		return _ajax(
-			{
-				data: data,
-				type: 'jsonp',
-				url: url
-			},
-			cache
-		);
-	};
-
-	return _ajax;
-
-});
 define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 
-	function AppClass(instanceId, appConfig, root) {
+	function AppClass(instanceId, appConfig, context, root) {
 		this.instanceId = instanceId;
 		this.appConfig = appConfig;
+		this.context = context;
 		this.root = root;
 	}
 
@@ -5027,7 +5196,7 @@ define('F2.UI', ['F2', 'F2.Interfaces'], function(F2, Interfaces) {
 	};
 
 });
-define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Ajax, Events) {
+define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -5039,7 +5208,11 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 		loadScripts: null,
 		loadStyles: null,
 		supportedViews: [],
-		xhr: null,
+		xhr: {
+			dataType: null,
+			type: null,
+			url: null
+		},
 		ui: {
 			modal: null,
 			showMask: null,
@@ -5057,94 +5230,8 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 	// Helpers
 	// ---------------------------------------------------------------------------
 
-	function _initApps(responseData) {
-		var appIds = [];
-
-		// Gather up the appIds
-		for (var i = 0, len = responseData.length; i < len; i++) {
-			appIds.push(responseData[i].appConfig.appId);
-		}
-
-		if (appIds.length) {
-			// App classes should be wrapped in "define()", so this will load them
-			require(appIds, function(/* appClass1, appClass2 */) {
-				var appClasses = Array.prototype.slice.call(arguments);
-
-				// Instantiate the app classes
-				for (var i = 0, len = responseData.length; i < len; i++) {
-					if (!responseData[i].appContent) {
-						responseData[i].appContent = {};
-					}
-
-					// Initialize the app and save it to our internal map
-					_appInstances[responseData[i].instanceId] = new appClasses[i](
-						responseData[i].instanceId,
-						responseData[i].appConfig,
-						responseData[i].appContent.data || {},
-						responseData[i].root
-					);
-				}
-			});
-		}
-	}
-
-	function _loadInlineScripts(inlines) {
-		// Load the inline scripts
-		try {
-			eval(inlines.join(';'));
-		}
-		catch (e) {
-			F2.log('Error loading inline scripts: ' + e);
-		}
-	}
-
-	function _loadScripts(paths, inlines, callback) {
-		// Check for user defined loader
-		if (_.isFunction(_config.loadScripts)) {
-			_config.loadScripts(paths, inlines, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.js(paths, function() {
-				_loadInlineScripts(inlines);
-				callback();
-			});
-		}
-		else if (inlines.length) {
-			_loadInlineScripts(inlines);
-		}
-		else {
-			callback();
-		}
-	}
-
-	function _loadStyles(paths, callback) {
-		// Check for user defined loader
-		if (_.isFunction(_config.loadStyles)) {
-			_config.loadStyles(paths, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.css(paths, callback);
-		}
-		else {
-			callback();
-		}
-	}
-
-	function _loadApps(scriptPaths, stylePaths, inlineScripts, responseData, successFn, completeFn) {
-		_loadStyles(stylePaths, function() {
-			// Let the container add the html to the page
-			// Get back an obj keyed by AppId that contains the root and instanceId
-			successFn.apply(window, responseData);
-			completeFn();
-
-			// Add the scripts and, once finished, instantiate the app classes
-			_loadScripts(scriptPaths, inlineScripts, function() {
-				_initApps(responseData);
-			});
-		});
-	}
-
 	function _disposeApp(instance) {
+		// Call the app's dipose method if it has one
 		if (instance.dispose) {
 			instance.dispose();
 		}
@@ -5162,38 +5249,6 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 
 		// Remove ourselves from the internal map
 		delete _appInstances[instance.instanceId];
-	}
-
-	// Return an array that contains combined appConfigs and appContent
-	function _coalesceAppData(appConfigs, appContents) {
-		if (!_.isArray(appConfigs)) {
-			appConfigs = [appConfigs];
-		}
-
-		var data = [];
-		var rootParent = document.createElement('div');
-
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			var item = {
-				appConfig: appConfigs[i],
-				instanceId: F2.guid()
-			};
-
-			if (appContents[i].success) {
-				item.appContent = appContents[i];
-
-				if (appContents[i].html) {
-					// Create a new element and add the app html
-					// This will allow us to easily extract a DOM node from the markup
-					rootParent.innerHTML = appContents[i].html;
-					item.root = rootParent.firstChild;
-				}
-			}
-
-			data.push(item);
-		}
-
-		return data;
 	}
 
 	// Get an object keyed on manifestUrl with a value of an array of appConfigs
@@ -5228,30 +5283,12 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 		return configs;
 	}
 
-	function _combineAppManifests(manifests) {
-		var combined = {
-			apps: [],
-			inlineScripts: [],
-			scripts: [],
-			styles: []
-		};
-
-		for (var i = 0, iLen = manifests.length; i < iLen; i++) {
-			for (var prop in combined) {
-				for (var x = 0, xLen = manifests[i][prop].length; x < xLen; x++) {
-					combined[prop].push(manifests[i][prop][x]);
-				}
-			}
-		}
-
-		return combined;
-	}
-
 	// ---------------------------------------------------------------------------
 	// API
 	// ---------------------------------------------------------------------------
 
-	var F2 = {
+	return {
+		Apps: {},
 		config: function(config) {
 			if (config) {
 				// Don't do anything with the config if it's invalid
@@ -5269,7 +5306,7 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 			* @for F2
 			* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 			*/
-		guid: function() {
+		guid: function _guid() {
 			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 				var r = Math.random() * 16 | 0;
 				var v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -5279,7 +5316,7 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 			// Check if we've seen this one before
 			if (_guids[guid]) {
 				// Get a new guid
-				guid = F2.guid();
+				guid = _guid();
 			}
 
 			_guids[guid] = true;
@@ -5307,7 +5344,7 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 					numRequests += 1;
 
 					(function(requestAppConfigs) {
-						Ajax({
+						_helpers.ajax({
 							url: url,
 							type: 'json',
 							data: {
@@ -5328,19 +5365,17 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 							complete: function() {
 								// See if we've finished requesting all the apps
 								if (--numRequests === 0 && appManifests.length) {
-									// Combine all the valid responses
-									var combinedManifest = _combineAppManifests(appManifests);
-
-									// Turn all the app data into a useful object
-									var responseData = _coalesceAppData(params.appConfigs, combinedManifest.apps);
-
-									_loadApps(
-										combinedManifest.scripts,
-										combinedManifest.styles,
-										combinedManifest.inlineScripts,
-										responseData,
-										params.success || noop,
-										params.complete || noop
+									_helpers.loadApps(
+										params.appConfigs,
+										appManifests,
+										params.success,
+										params.error,
+										params.complete,
+										function(instances) {
+											for (var i = 0, len = instances.length; i < len; i++) {
+												_appInstances[instances[i].instanceId] = instances[i];
+											}
+										}
 									);
 								}
 							}
@@ -5375,41 +5410,508 @@ define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Aja
 				instance = _appInstances[identifier];
 			}
 
-			if (!instance || !instance.instanceId) {
-				throw 'F2: could not find the app to remove';
+			if (instance && instance.instanceId) {
+				_disposeApp(instance);
 			}
-
-			_disposeApp(instance);
+			else {
+				console.warn('F2: could not find an app to remove');
+			}
 		}
 	};
 
-	return F2;
+});
+require(['F2'], function(F2) {
+
+	_helpers.AppLoader = AppLoader = function() {
+		this.instances = {};
+		this.lastHtmlByAppId = {};
+	}
+
+	/*
+		// Single app from url
+		F2.load({ appId: 'test', manifestUrl: 'http://...' });
+
+		// Multiple/duplicate apps from url
+		F2.load([
+			{ appId: 'test', manifestUrl: 'http://...' }, 
+			{ appId: 'test2', manifestUrl: 'http://...' }
+		]);
+
+		// Preload app
+		F2.load({ appId: 'test', root: document.getElementById('app-test') });
+
+		// Local app
+		F2.load({ appId: 'test' });
+
+		// Mixed
+		F2.load([
+			{ appId: 'test', root: document.getElementById('app-test') },
+			{ appId: 'test2', manifestUrl: 'http://...' }
+		]);
+	*/
+	AppLoader.prototype.load = function(appConfigs) {
+		if (!_.isArray(appConfigs)) {
+			appConfigs = [appConfigs];
+		}
+
+		// Apps that already have HTML on the page
+		var preloadedApps = [];
+		// Apps that need HTML & AppClass from a server
+		var remoteApps = [];
+		// Apps that have already been loaded through F2 once (no new scripts, reuse html)
+		var localApps = [];
+
+		// Categorize the apps
+		for (var i = 0, len = appConfigs.length; i < len; i++) {
+			var config = appConfigs[i];
+
+			if (config.appId) {
+				// Check for preloaded app
+				if (config.root && config.root.nodeType === 1) {
+					preloadedApps.push(config);
+				}
+				else if (config.manifestUrl) {
+					remoteApps.push(config);
+				}
+				else if (this.lastHtmlByAppId[config.appId]) {
+					localApps.push(config);
+				}
+			}
+		}
+
+
+	};
+
+	AppLoader.prototype.getPreloadedAppClasses = function(appConfigs) {
+
+	};
+
+	AppLoader.prototype.getRemoteAppClasses = function(appConfigs) {
+
+	};
+
+	AppLoader.prototype.getLocalAppClasses = function(appConfigs) {
+
+	};
+
+	AppLoader.prototype.remove = function(instanceId) {
+		delete this.instances[instanceId];
+	};
+
+	return AppLoader;
+
+});
+_helpers.ajax = (function() {
+
+	// --------------------------------------------------------------------------
+	// Helpers
+	// --------------------------------------------------------------------------
+
+	function queryStringify(obj) {
+		var qs = [];
+
+		for (var p in obj) {
+			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+		}
+
+		return qs.join('&');
+	}
+
+	function delim(url) {
+		return (url.indexOf('?') === -1) ? '?' : '&';
+	}
+
+	/**
+	 * Parses URI
+	 * @method _parseURI
+	 * @private
+	 * @param {The URL to parse} url
+	 * @returns {Parsed URL} string
+	 * Source: https://gist.github.com/Yaffle/1088850
+	 * Tests: http://skew.org/uri/uri_tests.html
+	 */
+	function _parseURI(url) {
+		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
+		return (m ? {
+			href: m[0] || '',
+			protocol: m[1] || '',
+			authority: m[2] || '',
+			host: m[3] || '',
+			hostname: m[4] || '',
+			port: m[5] || '',
+			pathname: m[6] || '',
+			search: m[7] || '',
+			hash: m[8] || ''
+		} : null);
+	}
+
+	/**
+	 * Abosolutizes a relative URL
+	 * @method _absolutizeURI
+	 * @private
+	 * @param {e.g., location.href} base
+	 * @param {URL to absolutize} href
+	 * @returns {string} URL
+	 * Source: https://gist.github.com/Yaffle/1088850
+	 * Tests: http://skew.org/uri/uri_tests.html
+	 */
+	function _absolutizeURI(base, href) { // RFC 3986
+		function removeDotSegments(input) {
+			var output = [];
+			input.replace(/^(\.\.?(\/|$))+/, '')
+				.replace(/\/(\.(\/|$))+/g, '/')
+				.replace(/\/\.\.$/, '/../')
+				.replace(/\/?[^\/]*/g, function(p) {
+					if (p === '/..') {
+						output.pop();
+					} else {
+						output.push(p);
+					}
+				});
+			return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
+		}
+
+		href = _parseURI(href || '');
+		base = _parseURI(base || '');
+
+		return !href || !base ? null : (href.protocol || base.protocol) +
+			(href.protocol || href.authority ? href.authority : base.authority) +
+			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
+			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
+			href.hash;
+	}
+
+	/**
+	 * Tests a URL to see if it's on the same domain (local) or not
+	 * @method isLocalRequest
+	 * @param {URL to test} url
+	 * @returns {bool} Whether the URL is local or not
+	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
+	 */
+	function _isLocalRequest(url) {
+		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+			urlLower = url.toLowerCase(),
+			parts = rurl.exec(urlLower),
+			ajaxLocation,
+			ajaxLocParts;
+
+		try {
+			ajaxLocation = location.href;
+		}
+		catch (e) {
+			// Use the href attribute of an A element
+			// since IE will modify it given document.location
+			ajaxLocation = document.createElement('a');
+			ajaxLocation.href = '';
+			ajaxLocation = ajaxLocation.href;
+		}
+
+		ajaxLocation = ajaxLocation.toLowerCase();
+
+		// uh oh, the url must be relative
+		// make it fully qualified and re-regex url
+		if (!parts) {
+			urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
+			parts = rurl.exec(urlLower);
+		}
+
+		// Segment location into parts
+		ajaxLocParts = rurl.exec(ajaxLocation) || [];
+
+		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
+		var matched = !(parts &&
+				(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
+					(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
+						(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
+
+		return matched;
+	}
+
+	// --------------------------------------------------------------------------
+	// GET/POST
+	// --------------------------------------------------------------------------
+
+	return function(params, cache) {
+		if (!params.url) {
+			throw 'F2.Ajax: you must provide a url.';
+		}
+
+		params.crossOrigin = !_isLocalRequest(params.url);
+
+		// Determine the method if none was provided
+		if (!params.method) {
+			if (params.crossOrigin) {
+				params.type = 'jsonp';
+			}
+			else {
+				params.method = 'post';
+			}
+		}
+
+		if (!params.type) {
+			params.type = 'json';
+		}
+
+		// Look for methods that use query strings
+		if (params.method === 'get' || params.type === 'jsonp') {
+			// Stringify the data onto the url
+			if (params.data) {
+				params.url += delim(params.url) + queryStringify(params.data);
+			}
+			else {
+				// Pull data off the obj to avoid confusion
+				delete params.data;
+			}
+
+			// Bust cache if asked
+			if (!cache) {
+				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);
+			}
+		}
+
+		if (params.type === 'jsonp') {
+			// Create a random callback name
+			params.jsonpCallbackName = 'F2_' + Math.floor(Math.random() * 1000000);
+
+			// Add a jsonp callback to the window
+			window[params.jsonpCallbackName] = function(response) {
+				if (params.success) {
+					params.success(response);
+				}
+
+				if (params.complete) {
+					params.complete();
+				}
+
+				// Pull the callback off the window
+				delete window[params.jsonpCallbackName];
+			};
+		}
+
+		// Make the call
+		reqwest(params);
+	};
+
+})();
+require(['F2'], function(F2) {
+
+	// Track which legacy apps we've had to wrap in AMD
+	var _appIdsWrappedInAmd = {};
+
+	function _getAppClasses(appIds, cb) {
+		// Check for the legacy method of registering apps
+		for (var i = 0, len = appIds.length; i < len; i++) {
+			if (F2.Apps[appIds[i]] && !_appIdsWrappedInAmd[appIds[i]]) {
+				define(appIds[i], [], function() {
+					return F2.Apps[appIds[i]];
+				});
+
+				_appIdsWrappedInAmd[appIds[i]] = true;
+			}
+		}
+
+		// Use require to pull the classes
+		require(appIds, function(/* appClass1, appClass2 */) {
+			var appClasses = Array.prototype.slice.call(arguments);
+			cb(appClasses);
+		});
+	}
+
+	function _initApps(responseData, cb) {
+		var appIds = [];
+
+		// Gather up the appIds
+		for (var i = 0, len = responseData.length; i < len; i++) {
+			appIds.push(responseData[i].appConfig.appId);
+		}
+
+		if (appIds.length) {
+			_getAppClasses(appIds, function(appClasses) {
+				var instances = [];
+
+				// Instantiate the app classes
+				for (var i = 0, len = responseData.length; i < len; i++) {
+					if (!responseData[i].appContent) {
+						responseData[i].appContent = {};
+					}
+
+					try {
+						// Initialize the app
+						var instance = new appClasses[i](
+							responseData[i].instanceId,
+							responseData[i].appConfig,
+							responseData[i].appContent.data || {},
+							responseData[i].root
+						);
+
+						if (instance.init) {
+							instance.init();
+						}
+
+						instances.push(instance);
+					}
+					catch (e) {
+						console.error('F2: could not init', appIds[i], '" + e + "');
+					}
+				}
+
+				cb(instances);
+			});
+		}
+	}
+
+	function _loadInlineScripts(inlines) {
+		// Load the inline scripts
+		try {
+			eval(inlines.join(';'));
+		}
+		catch (e) {
+			console.error('Error loading inline scripts: ' + e);
+		}
+	}
+
+	function _loadScripts(config, paths, inlines, callback) {
+		// Check for user defined loader
+		if (_.isFunction(config.loadScripts)) {
+			config.loadScripts(paths, inlines, callback);
+		}
+		else if (paths.length) {
+			LazyLoad.js(paths, function() {
+				_loadInlineScripts(inlines);
+				callback();
+			});
+		}
+		else if (inlines.length) {
+			_loadInlineScripts(inlines);
+		}
+		else {
+			callback();
+		}
+	}
+
+	function _loadStyles(config, paths, callback) {
+		// Check for user defined loader
+		if (_.isFunction(config.loadStyles)) {
+			config.loadStyles(paths, callback);
+		}
+		else if (paths.length) {
+			LazyLoad.css(paths, callback);
+		}
+		else {
+			callback();
+		}
+	}
+
+	// Return an array that contains combined appConfigs and appContent
+	function _coalesceAppData(appConfigs, appContents) {
+		if (!_.isArray(appConfigs)) {
+			appConfigs = [appConfigs];
+		}
+
+		var data = [];
+		var rootParent = document.createElement('div');
+
+		for (var i = 0, len = appConfigs.length; i < len; i++) {
+			var item = {
+				appConfig: appConfigs[i],
+				instanceId: F2.guid()
+			};
+
+			if (appContents[i].success) {
+				item.appContent = appContents[i];
+
+				if (appContents[i].html) {
+					// Create a new element and add the app html
+					// This will allow us to easily extract a DOM node from the markup
+					rootParent.innerHTML = appContents[i].html;
+					item.root = rootParent.firstChild;
+				}
+			}
+
+			data.push(item);
+		}
+
+		return data;
+	}
+
+	function _combineAppManifests(manifests) {
+		var combined = {
+			apps: [],
+			inlineScripts: [],
+			scripts: [],
+			styles: []
+		};
+
+		for (var i = 0, iLen = manifests.length; i < iLen; i++) {
+			for (var prop in combined) {
+				for (var x = 0, xLen = manifests[i][prop].length; x < xLen; x++) {
+					combined[prop].push(manifests[i][prop][x]);
+				}
+			}
+		}
+
+		return combined;
+	}
+
+	_helpers.loadApps = function(appConfigs, appManifests, successFn, errorFn, completeFn, cb) {
+		if (appManifests && appManifests.length) {
+			// Refresh the container config
+			var config = F2.config();
+
+			// Combine all the valid responses
+			var combinedManifest = _combineAppManifests(appManifests);
+
+			// Turn all the app data into a useful object
+			var responseData = _coalesceAppData(appConfigs, combinedManifest.apps);
+
+			_loadStyles(config, combinedManifest.styles, function() {
+				// Let the container add the html to the page
+				// Get back an obj keyed by AppId that contains the root and instanceId
+				if (successFn) {
+					successFn.apply(window, responseData);
+				}
+
+				if (completeFn) {
+					completeFn();
+				}
+
+				// Add the scripts and, once finished, instantiate the app classes
+				_loadScripts(config, combinedManifest.scripts, combinedManifest.inlineScripts, function() {
+					_initApps(responseData, cb);
+				});
+			});
+		}
+	};
 
 });
 
-	var modules = [
-		'F2',
-		'F2.Ajax',
-		'F2.BaseAppClass',
-		'F2.Constants',
-		'F2.Events',
-		'F2.Interfaces',
-		'F2.UI'
-	];
+	// Only set globals if there's no AMD
+	if (!define || !define.amd) {
+		var modules = [
+			'F2',
+			'F2.Ajax',
+			'F2.BaseAppClass',
+			'F2.Constants',
+			'F2.Events',
+			'F2.Interfaces',
+			'F2.UI'
+		];
 
-	// Toss all the modules on the global
-	require.call(window, modules, function() {
-		var args = Array.prototype.slice.call(arguments);
+		// Toss all the modules on the global
+		require.call(window, modules, function() {
+			var args = Array.prototype.slice.call(arguments);
 
-		for (var i = 0, len = args.length; i < len; i++) {
-			if (modules[i] === 'F2') {
-				window.F2 = args[i];
+			for (var i = 0, len = args.length; i < len; i++) {
+				if (modules[i] === 'F2') {
+					window.F2 = args[i];
+				}
+				else {
+					var moduleName = modules[i].split('.')[1];
+					window.F2[moduleName] = args[i];
+				}
 			}
-			else {
-				var moduleName = modules[i].split('.')[1];
-				window.F2[moduleName] = args[i];
-			}
-		}
-	});
+		});
+	}
 
 })();

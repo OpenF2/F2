@@ -1,4 +1,4 @@
-﻿define('F2', ['F2.Interfaces', 'F2.Ajax', 'F2.Events'], function(Interfaces, Ajax, Events) {
+﻿define('F2', ['F2.Interfaces', 'F2.Events'], function(Interfaces, Events) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -10,7 +10,11 @@
 		loadScripts: null,
 		loadStyles: null,
 		supportedViews: [],
-		xhr: null,
+		xhr: {
+			dataType: null,
+			type: null,
+			url: null
+		},
 		ui: {
 			modal: null,
 			showMask: null,
@@ -28,94 +32,8 @@
 	// Helpers
 	// ---------------------------------------------------------------------------
 
-	function _initApps(responseData) {
-		var appIds = [];
-
-		// Gather up the appIds
-		for (var i = 0, len = responseData.length; i < len; i++) {
-			appIds.push(responseData[i].appConfig.appId);
-		}
-
-		if (appIds.length) {
-			// App classes should be wrapped in "define()", so this will load them
-			require(appIds, function(/* appClass1, appClass2 */) {
-				var appClasses = Array.prototype.slice.call(arguments);
-
-				// Instantiate the app classes
-				for (var i = 0, len = responseData.length; i < len; i++) {
-					if (!responseData[i].appContent) {
-						responseData[i].appContent = {};
-					}
-
-					// Initialize the app and save it to our internal map
-					_appInstances[responseData[i].instanceId] = new appClasses[i](
-						responseData[i].instanceId,
-						responseData[i].appConfig,
-						responseData[i].appContent.data || {},
-						responseData[i].root
-					);
-				}
-			});
-		}
-	}
-
-	function _loadInlineScripts(inlines) {
-		// Load the inline scripts
-		try {
-			eval(inlines.join(';'));
-		}
-		catch (e) {
-			F2.log('Error loading inline scripts: ' + e);
-		}
-	}
-
-	function _loadScripts(paths, inlines, callback) {
-		// Check for user defined loader
-		if (_.isFunction(_config.loadScripts)) {
-			_config.loadScripts(paths, inlines, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.js(paths, function() {
-				_loadInlineScripts(inlines);
-				callback();
-			});
-		}
-		else if (inlines.length) {
-			_loadInlineScripts(inlines);
-		}
-		else {
-			callback();
-		}
-	}
-
-	function _loadStyles(paths, callback) {
-		// Check for user defined loader
-		if (_.isFunction(_config.loadStyles)) {
-			_config.loadStyles(paths, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.css(paths, callback);
-		}
-		else {
-			callback();
-		}
-	}
-
-	function _loadApps(scriptPaths, stylePaths, inlineScripts, responseData, successFn, completeFn) {
-		_loadStyles(stylePaths, function() {
-			// Let the container add the html to the page
-			// Get back an obj keyed by AppId that contains the root and instanceId
-			successFn.apply(window, responseData);
-			completeFn();
-
-			// Add the scripts and, once finished, instantiate the app classes
-			_loadScripts(scriptPaths, inlineScripts, function() {
-				_initApps(responseData);
-			});
-		});
-	}
-
 	function _disposeApp(instance) {
+		// Call the app's dipose method if it has one
 		if (instance.dispose) {
 			instance.dispose();
 		}
@@ -133,38 +51,6 @@
 
 		// Remove ourselves from the internal map
 		delete _appInstances[instance.instanceId];
-	}
-
-	// Return an array that contains combined appConfigs and appContent
-	function _coalesceAppData(appConfigs, appContents) {
-		if (!_.isArray(appConfigs)) {
-			appConfigs = [appConfigs];
-		}
-
-		var data = [];
-		var rootParent = document.createElement('div');
-
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			var item = {
-				appConfig: appConfigs[i],
-				instanceId: F2.guid()
-			};
-
-			if (appContents[i].success) {
-				item.appContent = appContents[i];
-
-				if (appContents[i].html) {
-					// Create a new element and add the app html
-					// This will allow us to easily extract a DOM node from the markup
-					rootParent.innerHTML = appContents[i].html;
-					item.root = rootParent.firstChild;
-				}
-			}
-
-			data.push(item);
-		}
-
-		return data;
 	}
 
 	// Get an object keyed on manifestUrl with a value of an array of appConfigs
@@ -199,30 +85,12 @@
 		return configs;
 	}
 
-	function _combineAppManifests(manifests) {
-		var combined = {
-			apps: [],
-			inlineScripts: [],
-			scripts: [],
-			styles: []
-		};
-
-		for (var i = 0, iLen = manifests.length; i < iLen; i++) {
-			for (var prop in combined) {
-				for (var x = 0, xLen = manifests[i][prop].length; x < xLen; x++) {
-					combined[prop].push(manifests[i][prop][x]);
-				}
-			}
-		}
-
-		return combined;
-	}
-
 	// ---------------------------------------------------------------------------
 	// API
 	// ---------------------------------------------------------------------------
 
-	var F2 = {
+	return {
+		Apps: {},
 		config: function(config) {
 			if (config) {
 				// Don't do anything with the config if it's invalid
@@ -240,7 +108,7 @@
 			* @for F2
 			* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 			*/
-		guid: function() {
+		guid: function _guid() {
 			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 				var r = Math.random() * 16 | 0;
 				var v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -250,7 +118,7 @@
 			// Check if we've seen this one before
 			if (_guids[guid]) {
 				// Get a new guid
-				guid = F2.guid();
+				guid = _guid();
 			}
 
 			_guids[guid] = true;
@@ -278,7 +146,7 @@
 					numRequests += 1;
 
 					(function(requestAppConfigs) {
-						Ajax({
+						_helpers.ajax({
 							url: url,
 							type: 'json',
 							data: {
@@ -299,19 +167,17 @@
 							complete: function() {
 								// See if we've finished requesting all the apps
 								if (--numRequests === 0 && appManifests.length) {
-									// Combine all the valid responses
-									var combinedManifest = _combineAppManifests(appManifests);
-
-									// Turn all the app data into a useful object
-									var responseData = _coalesceAppData(params.appConfigs, combinedManifest.apps);
-
-									_loadApps(
-										combinedManifest.scripts,
-										combinedManifest.styles,
-										combinedManifest.inlineScripts,
-										responseData,
-										params.success || noop,
-										params.complete || noop
+									_helpers.loadApps(
+										params.appConfigs,
+										appManifests,
+										params.success,
+										params.error,
+										params.complete,
+										function(instances) {
+											for (var i = 0, len = instances.length; i < len; i++) {
+												_appInstances[instances[i].instanceId] = instances[i];
+											}
+										}
 									);
 								}
 							}
@@ -346,14 +212,13 @@
 				instance = _appInstances[identifier];
 			}
 
-			if (!instance || !instance.instanceId) {
-				throw 'F2: could not find the app to remove';
+			if (instance && instance.instanceId) {
+				_disposeApp(instance);
 			}
-
-			_disposeApp(instance);
+			else {
+				console.warn('F2: could not find an app to remove');
+			}
 		}
 	};
-
-	return F2;
 
 });

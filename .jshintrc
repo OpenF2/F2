@@ -14,7 +14,8 @@
 		"reqwest": true,
 		"LazyLoad": true,
 		"noop": true,
-		"moduleNames": true
+		"moduleNames": true,
+		"_helpers": true
 	},
 	"latedef": true,
 	"noarg": true,

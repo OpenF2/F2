@@ -1,8 +1,9 @@
 define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 
-	function AppClass(instanceId, appConfig, root) {
+	function AppClass(instanceId, appConfig, context, root) {
 		this.instanceId = instanceId;
 		this.appConfig = appConfig;
+		this.context = context;
 		this.root = root;
 	}
 

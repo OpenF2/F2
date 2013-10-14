@@ -326,6 +326,14 @@
 				});
 			});
 
+			it('should not throw if an instance can\'t be found', function() {
+				function attempt() {
+					F2.removeApp(123);
+				}
+
+				expect(attempt).not.toThrow();
+			});
+
 		});
 
 	});

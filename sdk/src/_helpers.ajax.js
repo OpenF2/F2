@@ -1,4 +1,4 @@
-﻿define('F2.Ajax', ['F2'], function(F2) {
+﻿_helpers.ajax = (function() {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -31,16 +31,16 @@
 		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
 		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
 		return (m ? {
-				href     : m[0] || '',
-				protocol : m[1] || '',
-				authority: m[2] || '',
-				host     : m[3] || '',
-				hostname : m[4] || '',
-				port     : m[5] || '',
-				pathname : m[6] || '',
-				search   : m[7] || '',
-				hash     : m[8] || ''
-			} : null);
+			href: m[0] || '',
+			protocol: m[1] || '',
+			authority: m[2] || '',
+			host: m[3] || '',
+			hostname: m[4] || '',
+			port: m[5] || '',
+			pathname: m[6] || '',
+			search: m[7] || '',
+			hash: m[8] || ''
+		} : null);
 	}
 
 	/**
@@ -59,7 +59,7 @@
 			input.replace(/^(\.\.?(\/|$))+/, '')
 				.replace(/\/(\.(\/|$))+/g, '/')
 				.replace(/\/\.\.$/, '/../')
-				.replace(/\/?[^\/]*/g, function (p) {
+				.replace(/\/?[^\/]*/g, function(p) {
 					if (p === '/..') {
 						output.pop();
 					} else {
@@ -89,14 +89,14 @@
 	function _isLocalRequest(url) {
 		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
 			urlLower = url.toLowerCase(),
-			parts = rurl.exec( urlLower ),
+			parts = rurl.exec(urlLower),
 			ajaxLocation,
 			ajaxLocParts;
 
 		try {
 			ajaxLocation = location.href;
 		}
-		catch(e) {
+		catch (e) {
 			// Use the href attribute of an A element
 			// since IE will modify it given document.location
 			ajaxLocation = document.createElement('a');
@@ -108,8 +108,8 @@
 
 		// uh oh, the url must be relative
 		// make it fully qualified and re-regex url
-		if (!parts){
-			urlLower = _absolutizeURI(ajaxLocation,urlLower).toLowerCase();
+		if (!parts) {
+			urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
 			parts = rurl.exec(urlLower);
 		}
 
@@ -129,7 +129,7 @@
 	// GET/POST
 	// --------------------------------------------------------------------------
 
-	function _ajax(params, cache) {
+	return function(params, cache) {
 		if (!params.url) {
 			throw 'F2.Ajax: you must provide a url.';
 		}
@@ -188,40 +188,6 @@
 
 		// Make the call
 		reqwest(params);
-	}
-
-	_ajax.get = function(url, data, type, cache) {
-		return _ajax(
-			{
-				data: data,
-				method: 'get',
-				type: type,
-				url: url
-			},
-			cache
-		);
 	};
 
-	_ajax.post = function(url, data, type) {
-		return _ajax({
-			data: data,
-			method: 'post',
-			type: type,
-			url: url
-		});
-	};
-
-	_ajax.jsonp = function(url, data, cache) {
-		return _ajax(
-			{
-				data: data,
-				type: 'jsonp',
-				url: url
-			},
-			cache
-		);
-	};
-
-	return _ajax;
-
-});
+})();
