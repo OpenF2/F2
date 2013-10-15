@@ -15,7 +15,7 @@
 		"LazyLoad": true,
 		"noop": true,
 		"moduleNames": true,
-		"_helpers": true
+		"Helpers": true
 	},
 	"latedef": true,
 	"noarg": true,

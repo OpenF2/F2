@@ -32,7 +32,7 @@
 	}
 
 	// Create the internal helpers object
-	var _helpers = {};
+	var Helpers = {};
 
 // Create a local exports object to attach all CommonJS modules to
 var _exports = {};
@@ -5225,68 +5225,8 @@ define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 		}
 	};
 
-	// Track all the apps that have been loaded
-	var _appInstances = {};
-
 	// Track all the guids we've made on this page
 	var _guids = {};
-
-	// ---------------------------------------------------------------------------
-	// Helpers
-	// ---------------------------------------------------------------------------
-
-	function _disposeApp(instance) {
-		// Call the app's dipose method if it has one
-		if (instance.dispose) {
-			instance.dispose();
-		}
-
-		// Unsubscribe events by context
-		Events.off(null, null, instance);
-
-		// Remove ourselves from the DOM
-		if (instance.root && instance.root.parentNode) {
-			instance.root.parentNode.removeChild(instance.root);
-		}
-
-		// Set a property that will let us watch for memory leaks
-		instance.__f2Disposed__ = true;
-
-		// Remove ourselves from the internal map
-		delete _appInstances[instance.instanceId];
-	}
-
-	// Get an object keyed on manifestUrl with a value of an array of appConfigs
-	function _getAppConfigsByUrl(appConfigs) {
-		var configs = {};
-
-		if (!_.isArray(appConfigs)) {
-			appConfigs = [appConfigs];
-		}
-
-		// Get an obj of appIds keyed by manifestUrl
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			// Make sure the appConfig is valid
-			if (Schemas.validate(appConfigs[i], 'appConfig')) {
-				var manifestUrl = appConfigs[i].manifestUrl;
-
-				configs[manifestUrl] = configs[manifestUrl] || {
-					batch: [],
-					singles: []
-				};
-
-				// Batch or don't based on appConfig.enableBatchRequests
-				if (appConfigs[i].enableBatchRequests) {
-					configs[manifestUrl].batch.push(appConfigs[i]);
-				}
-				else {
-					configs[manifestUrl].singles.push(appConfigs[i]);
-				}
-			}
-		}
-
-		return configs;
-	}
 
 	// ---------------------------------------------------------------------------
 	// API
@@ -5330,65 +5270,14 @@ define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 			return guid;
 		},
 		load: function(params) {
-			var appConfigsByUrl = _getAppConfigsByUrl(params.appConfigs);
-
-			// Obj that holds all the xhr responses
-			var appManifests = [];
-			var numRequests = 0;
-
-			// Request all apps from each url
-			for (var url in appConfigsByUrl) {
-				var allConfigs = appConfigsByUrl[url].singles.slice();
-
-				// Smush batched and unbatched apps together in a single collection
-				// e.g., [{ appId: "one" }, [{ appId: "one", batch: true }, { appId: "one", batch: true }]]
-				if (appConfigsByUrl[url].batch.length) {
-					allConfigs.push(appConfigsByUrl[url].batch);
-				}
-
-				for (var i = 0, len = allConfigs.length; i < len; i++) {
-					numRequests += 1;
-
-					(function(requestAppConfigs) {
-						_helpers.ajax({
-							url: url,
-							type: 'json',
-							data: {
-								params: JSON.stringify(requestAppConfigs)
-							},
-							success: function(response) {
-								if (!Schemas.validate(response, 'appManifest')) {
-									response = { apps: [{ success: false }] };
-								}
-
-								appManifests.push(response);
-							},
-							error: function(reason) {
-								if (params.error) {
-									params.error(reason);
-								}
-							},
-							complete: function() {
-								// See if we've finished requesting all the apps
-								if (--numRequests === 0 && appManifests.length) {
-									_helpers.loadApps(
-										params.appConfigs,
-										appManifests,
-										params.success,
-										params.error,
-										params.complete,
-										function(instances) {
-											for (var i = 0, len = instances.length; i < len; i++) {
-												_appInstances[instances[i].instanceId] = instances[i];
-											}
-										}
-									);
-								}
-							}
-						});
-					})(allConfigs[i]);
-				}
+			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
+				throw 'F2: you must specify at least one AppConfig to load';
 			}
+			else if (!_.isArray(params.appConfigs)) {
+				params.appConfigs = [params.appConfigs];
+			}
+
+			Helpers.apps.load(params.appConfigs, params.success, params.error, params.complete);
 		},
 		/**
 		 * Removes an app from the container
@@ -5400,24 +5289,27 @@ define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 				throw 'F2: you must provide an instanceId or a root to remove an app';
 			}
 
-			var instance;
-
-			// Treat as root
-			if (identifier.nodeType === 1) {
-				for (var id in _appInstances) {
-					if (_appInstances[id].root === identifier) {
-						instance = _appInstances[id];
-						break;
-					}
-				}
-			}
-			else {
-				// Treat as instanceId
-				instance = _appInstances[identifier];
-			}
+			var instance = Helpers.apps.getInstance(identifier);
 
 			if (instance && instance.instanceId) {
-				_disposeApp(instance);
+				// Call the app's dipose method if it has one
+				if (instance.dispose) {
+					instance.dispose();
+				}
+
+				// Unsubscribe events by context
+				Events.off(null, null, instance);
+
+				// Remove ourselves from the DOM
+				if (instance.root && instance.root.parentNode) {
+					instance.root.parentNode.removeChild(instance.root);
+				}
+
+				// Set a property that will let us watch for memory leaks
+				instance.__f2Disposed__ = true;
+
+				// Remove ourselves from the internal map
+				Helpers.apps.remove(instance.instanceId);
 			}
 			else {
 				console.warn('F2: could not find an app to remove');
@@ -5426,7 +5318,7 @@ define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 	};
 
 });
-_helpers.ajax = (function() {
+Helpers.ajax = (function() {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -5619,148 +5511,208 @@ _helpers.ajax = (function() {
 	};
 
 })();
-require(['F2'], function(F2) {
+require(['F2', 'F2.Schemas'], function(F2, Schemas) {
 
-	// Track which legacy apps we've had to wrap in AMD
-	var _appIdsWrappedInAmd = {};
+	// ---------------------------------------------------------------------------
+	// Private storage
+	// ---------------------------------------------------------------------------
 
-	function _getAppClasses(appIds, cb) {
-		// Check for the legacy method of registering apps
-		for (var i = 0, len = appIds.length; i < len; i++) {
-			if (F2.Apps[appIds[i]] && !_appIdsWrappedInAmd[appIds[i]]) {
-				define(appIds[i], [], function() {
-					return F2.Apps[appIds[i]];
-				});
+	var appInstances = {};
 
-				_appIdsWrappedInAmd[appIds[i]] = true;
+	// ---------------------------------------------------------------------------
+	// Methods
+	// ---------------------------------------------------------------------------
+
+	function remove(instanceId) {
+		delete appInstances[instanceId];
+	}
+
+	function loadApps(appConfigs, successFn, errorFn, completeFn) {
+		// Params used to instantiate AppClasses
+		var allApps = [];
+		// Track which apps need to hit the server
+		var asyncApps = [];
+
+		for (var i = 0, len = appConfigs.length; i < len; i++) {
+			var inputs = {
+				order: i
+			};
+
+			// The AppConfig must be valid
+			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
+				inputs.instanceId = F2.guid();
+				inputs.appConfig = appConfigs[i];
+
+				// See if this is a preloaded app (already has a root)
+				if (appConfigs[i].root && appConfigs[i].root.nodeType === 1) {
+					inputs.root = appConfigs[i].root;
+
+					// Set a dummy AppContent since we won't be hitting the server
+					inputs.appContent = {
+						success: true,
+						data: appConfigs[i].context || {}
+					};
+				}
+				else if (appConfigs[i].manifestUrl) {
+					asyncApps.push(inputs);
+				}
 			}
+
+			allApps.push(inputs);
 		}
 
-		// Use require to pull the classes
-		require(appIds, function(/* appClass1, appClass2 */) {
-			var appClasses = Array.prototype.slice.call(arguments);
-			cb(appClasses);
+		// See if we need to hit the server
+		if (asyncApps.length) {
+			requestApps(asyncApps, function(styles, scripts, inlineScripts) {
+				delegateHtmlLoading(allApps, successFn, completeFn);
+			});
+		}
+		else {
+			delegateHtmlLoading(allApps, successFn, completeFn);
+		}
+	}
+
+	// Pass the apps off to the container so they can place them on the page
+	function delegateHtmlLoading(allApps, successFn, completeFn) {
+		if (successFn) {
+			successFn.apply(window, allApps);
+		}
+
+		initAppClasses(allApps, completeFn);
+	}
+
+	// Instantiate each app class in the order their appConfigs were initially specified
+	function initAppClasses(allApps, completeFn) {
+		var appIds = _.map(allApps, function(app) {
+			return app.appConfig.appId;
+		});
+
+		require(appIds, function() {
+			var appClasses = Array.prototype.slice.apply(arguments);
+
+			// Load each AppClass
+			for (var i = 0, len = allApps.length; i < len; i++) {
+				try {
+					var instance = new appClasses[i](
+						allApps[i].instanceId,
+						allApps[i].appConfig,
+						allApps[i].appContent.data || {},
+						allApps[i].root
+					);
+
+					if (instance.init) {
+						instance.init();
+					}
+
+					appInstances[allApps[i].instanceId] = instance;
+				}
+				catch (e) {
+					console.error('F2: could not init', allApps[i].appConfig.appId, '" + e + "');
+				}
+			}
+
+			// Finally tell the container that we're all finished
+			if (completeFn) {
+				completeFn();
+			}
 		});
 	}
 
-	function _initApps(responseData, cb) {
-		var appIds = [];
+	// Set the 'root' and 'appContent' for each input by hitting the server
+	function requestApps(asyncApps, callback) {
+		var appsByUrl = {};
 
-		// Gather up the appIds
-		for (var i = 0, len = responseData.length; i < len; i++) {
-			appIds.push(responseData[i].appConfig.appId);
-		}
+		// Get a map of apps keyed by url
+		for (var i = 0, len = asyncApps.length; i < len; i++) {
+			var config = asyncApps[i].appConfig;
 
-		if (appIds.length) {
-			_getAppClasses(appIds, function(appClasses) {
-				var instances = [];
-
-				// Instantiate the app classes
-				for (var i = 0, len = responseData.length; i < len; i++) {
-					if (!responseData[i].appContent) {
-						responseData[i].appContent = {};
-					}
-
-					try {
-						// Initialize the app
-						var instance = new appClasses[i](
-							responseData[i].instanceId,
-							responseData[i].appConfig,
-							responseData[i].appContent.data || {},
-							responseData[i].root
-						);
-
-						if (instance.init) {
-							instance.init();
-						}
-
-						instances.push(instance);
-					}
-					catch (e) {
-						console.error('F2: could not init', appIds[i], '" + e + "');
-					}
-				}
-
-				cb(instances);
-			});
-		}
-	}
-
-	function _loadInlineScripts(inlines) {
-		// Load the inline scripts
-		try {
-			eval(inlines.join(';'));
-		}
-		catch (e) {
-			console.error('Error loading inline scripts: ' + e);
-		}
-	}
-
-	function _loadScripts(config, paths, inlines, callback) {
-		// Check for user defined loader
-		if (_.isFunction(config.loadScripts)) {
-			config.loadScripts(paths, inlines, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.js(paths, function() {
-				_loadInlineScripts(inlines);
-				callback();
-			});
-		}
-		else if (inlines.length) {
-			_loadInlineScripts(inlines);
-		}
-		else {
-			callback();
-		}
-	}
-
-	function _loadStyles(config, paths, callback) {
-		// Check for user defined loader
-		if (_.isFunction(config.loadStyles)) {
-			config.loadStyles(paths, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.css(paths, callback);
-		}
-		else {
-			callback();
-		}
-	}
-
-	// Return an array that contains combined appConfigs and appContent
-	function _coalesceAppData(appConfigs, appContents) {
-		if (!_.isArray(appConfigs)) {
-			appConfigs = [appConfigs];
-		}
-
-		var data = [];
-		var rootParent = document.createElement('div');
-
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			var item = {
-				appConfig: appConfigs[i],
-				instanceId: F2.guid()
-			};
-
-			if (appContents[i].success) {
-				item.appContent = appContents[i];
-
-				if (appContents[i].html) {
-					// Create a new element and add the app html
-					// This will allow us to easily extract a DOM node from the markup
-					rootParent.innerHTML = appContents[i].html;
-					item.root = rootParent.firstChild;
-				}
+			if (!appsByUrl[config.manifestUrl]) {
+				appsByUrl[config.manifestUrl] = {
+					singles: [],
+					batch: []
+				};
 			}
 
-			data.push(item);
+			if (config.enableBatchRequests) {
+				appsByUrl[config.manifestUrl].batch.push(asyncApps[i]);
+			}
+			else {
+				appsByUrl[config.manifestUrl].singles.push(asyncApps[i]);
+			}
 		}
 
-		return data;
+		var appManifests = [];
+		var numRequests = 0;
+
+		for (var url in appsByUrl) {
+			// Make a collection of all the configs we'll need to make
+			// Each index maps to one web request
+			var urlApps = appsByUrl[url].singles.slice();
+
+			if (appsByUrl[url].batch.length) {
+				urlApps.push(appsByUrl[url].batch);
+			}
+	
+			numRequests += urlApps.length;
+
+			_.each(urlApps, function(apps) {
+				if (!_.isArray(apps)) {
+					apps = [apps];
+				}
+
+				// Get the configs for this request
+				var urlConfigs = _.map(apps, function(app) {
+					return app.appConfig;
+				});
+
+				Helpers.ajax({
+					complete: function() {
+						if (!--numRequests) {
+							var manifests = combineAppManifests(appManifests);
+
+							// Put the manifest files on the page
+							loadStaticFiles(manifests.styles, manifests.scripts, manifests.inlineScripts, function() {
+								callback();
+							});
+						}
+					},
+					data: {
+						params: JSON.stringify(urlConfigs)
+					},
+					success: function(manifest) {
+						if (!Schemas.validate(manifest, 'appManifest')) {
+							manifest = {
+								apps: []
+							};
+
+							// Make some fake appContent
+							_.each(urlConfigs, function() {
+								manifest.apps.push({ success: false });
+							});
+						}
+
+						// Map the AppContent back to the app data
+						_.each(manifest.apps, function(appContent, i) {
+							apps[i].appContent = appContent;
+
+							// Set the root if applicable
+							if (appContent.html) {
+								var fakeParent = document.createElement('div');
+								fakeParent.innerHTML = appContent.html;
+								apps[i].root = fakeParent.firstChild;
+							}
+						});
+
+						appManifests.push(manifest);
+					},
+					type: 'json',
+					url: url
+				});
+			});
+		}
 	}
 
-	function _combineAppManifests(manifests) {
+	function combineAppManifests(manifests) {
 		var combined = {
 			apps: [],
 			inlineScripts: [],
@@ -5779,34 +5731,99 @@ require(['F2'], function(F2) {
 		return combined;
 	}
 
-	_helpers.loadApps = function(appConfigs, appManifests, successFn, errorFn, completeFn, cb) {
-		if (appManifests && appManifests.length) {
-			// Refresh the container config
-			var config = F2.config();
+	function loadStaticFiles(styles, scripts, inlineScripts, callback) {
+		var containerConfig = F2.config();
+		var stylesDone = false;
+		var scriptsDone = false;
 
-			// Combine all the valid responses
-			var combinedManifest = _combineAppManifests(appManifests);
+		// See if both scripts and styles have completed
+		function checkComplete() {
+			if (stylesDone && scriptsDone) {
+				callback();
+			}
+		}
 
-			// Turn all the app data into a useful object
-			var responseData = _coalesceAppData(appConfigs, combinedManifest.apps);
+		// Kick off styles
+		loadStyles(containerConfig, styles, function() {
+			stylesDone = true;
+			checkComplete();
+		});
 
-			_loadStyles(config, combinedManifest.styles, function() {
-				// Let the container add the html to the page
-				// Get back an obj keyed by AppId that contains the root and instanceId
-				if (successFn) {
-					successFn.apply(window, responseData);
-				}
+		// Kick off scripts
+		loadScripts(containerConfig, scripts, inlineScripts, function() {
+			scriptsDone = true;
+			checkComplete();
+		});
+	}
 
-				if (completeFn) {
-					completeFn();
-				}
+	function loadInlineScripts(inlines) {
+		// Load the inline scripts
+		try {
+			eval(inlines.join(';'));
+		}
+		catch (e) {
+			console.error('Error loading inline scripts: ' + e);
+		}
+	}
 
-				// Add the scripts and, once finished, instantiate the app classes
-				_loadScripts(config, combinedManifest.scripts, combinedManifest.inlineScripts, function() {
-					_initApps(responseData, cb);
-				});
+	function loadScripts(config, paths, inlines, callback) {
+		// Check for user defined loader
+		if (_.isFunction(config.loadScripts)) {
+			config.loadScripts(paths, inlines, callback);
+		}
+		else if (paths.length) {
+			LazyLoad.js(paths, function() {
+				loadInlineScripts(inlines);
+				callback();
 			});
 		}
+		else if (inlines.length) {
+			loadInlineScripts(inlines);
+		}
+		else {
+			callback();
+		}
+	}
+
+	function loadStyles(config, paths, callback) {
+		// Check for user defined loader
+		if (_.isFunction(config.loadStyles)) {
+			config.loadStyles(paths, callback);
+		}
+		else if (paths.length) {
+			LazyLoad.css(paths, callback);
+		}
+		else {
+			callback();
+		}
+	}
+
+	// ---------------------------------------------------------------------------
+	// API
+	// ---------------------------------------------------------------------------
+
+	Helpers.apps = {
+		getInstance: function(identifier) {
+			var instance;
+
+			// Treat as root
+			if (identifier.nodeType === 1) {
+				for (var id in appInstances) {
+					if (appInstances[id].root === identifier) {
+						instance = appInstances[id];
+						break;
+					}
+				}
+			}
+			else {
+				// Treat as instanceId
+				instance = appInstances[identifier];
+			}
+
+			return instance;
+		},
+		load: loadApps,
+		remove: remove
 	};
 
 });

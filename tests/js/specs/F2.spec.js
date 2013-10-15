@@ -122,14 +122,8 @@
 			it('should load multiple unbatched apps on same domain', function() {
 				F2.load({
 					appConfigs: [
-						{
-							appId: 'com_test_basic',
-							manifestUrl: 'http://localhost:8080/apps/multiple'
-						},
-						{
-							appId: 'com_test_inherited',
-							manifestUrl: 'http://localhost:8080/apps/multiple'
-						}
+						{ appId: 'com_test_basic', manifestUrl: 'http://localhost:8080/apps/single' },
+						{ appId: 'com_test_inherited', manifestUrl: 'http://localhost:8080/apps/single' }
 					]
 				});
 
@@ -238,14 +232,8 @@
 			it('should load multiple apps on different domains', function() {
 				F2.load({
 					appConfigs: [
-						{
-							appId: 'com_test_basic',
-							manifestUrl: 'http://localhost:8080/apps/single_jsonp'
-						},
-						{
-							appId: 'com_test_basic',
-							manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
-						}
+						{ appId: 'com_test_basic', manifestUrl: 'http://localhost:8080/apps/single' },
+						{ appId: 'com_test_basic', manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp' }
 					]
 				});
 

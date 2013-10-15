@@ -198,7 +198,10 @@ module.exports = function(grunt) {
 			options: {
 				jshintrc: '.jshintrc'
 			},
-			files: ['sdk/src/*.js']
+			files: [
+				'sdk/src/*.js',
+				'sdk/src/helpers/*.js'
+			]
 		},
 		less: {
 			dist: {

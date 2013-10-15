@@ -22,68 +22,8 @@
 		}
 	};
 
-	// Track all the apps that have been loaded
-	var _appInstances = {};
-
 	// Track all the guids we've made on this page
 	var _guids = {};
-
-	// ---------------------------------------------------------------------------
-	// Helpers
-	// ---------------------------------------------------------------------------
-
-	function _disposeApp(instance) {
-		// Call the app's dipose method if it has one
-		if (instance.dispose) {
-			instance.dispose();
-		}
-
-		// Unsubscribe events by context
-		Events.off(null, null, instance);
-
-		// Remove ourselves from the DOM
-		if (instance.root && instance.root.parentNode) {
-			instance.root.parentNode.removeChild(instance.root);
-		}
-
-		// Set a property that will let us watch for memory leaks
-		instance.__f2Disposed__ = true;
-
-		// Remove ourselves from the internal map
-		delete _appInstances[instance.instanceId];
-	}
-
-	// Get an object keyed on manifestUrl with a value of an array of appConfigs
-	function _getAppConfigsByUrl(appConfigs) {
-		var configs = {};
-
-		if (!_.isArray(appConfigs)) {
-			appConfigs = [appConfigs];
-		}
-
-		// Get an obj of appIds keyed by manifestUrl
-		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			// Make sure the appConfig is valid
-			if (Schemas.validate(appConfigs[i], 'appConfig')) {
-				var manifestUrl = appConfigs[i].manifestUrl;
-
-				configs[manifestUrl] = configs[manifestUrl] || {
-					batch: [],
-					singles: []
-				};
-
-				// Batch or don't based on appConfig.enableBatchRequests
-				if (appConfigs[i].enableBatchRequests) {
-					configs[manifestUrl].batch.push(appConfigs[i]);
-				}
-				else {
-					configs[manifestUrl].singles.push(appConfigs[i]);
-				}
-			}
-		}
-
-		return configs;
-	}
 
 	// ---------------------------------------------------------------------------
 	// API
@@ -127,65 +67,14 @@
 			return guid;
 		},
 		load: function(params) {
-			var appConfigsByUrl = _getAppConfigsByUrl(params.appConfigs);
-
-			// Obj that holds all the xhr responses
-			var appManifests = [];
-			var numRequests = 0;
-
-			// Request all apps from each url
-			for (var url in appConfigsByUrl) {
-				var allConfigs = appConfigsByUrl[url].singles.slice();
-
-				// Smush batched and unbatched apps together in a single collection
-				// e.g., [{ appId: "one" }, [{ appId: "one", batch: true }, { appId: "one", batch: true }]]
-				if (appConfigsByUrl[url].batch.length) {
-					allConfigs.push(appConfigsByUrl[url].batch);
-				}
-
-				for (var i = 0, len = allConfigs.length; i < len; i++) {
-					numRequests += 1;
-
-					(function(requestAppConfigs) {
-						_helpers.ajax({
-							url: url,
-							type: 'json',
-							data: {
-								params: JSON.stringify(requestAppConfigs)
-							},
-							success: function(response) {
-								if (!Schemas.validate(response, 'appManifest')) {
-									response = { apps: [{ success: false }] };
-								}
-
-								appManifests.push(response);
-							},
-							error: function(reason) {
-								if (params.error) {
-									params.error(reason);
-								}
-							},
-							complete: function() {
-								// See if we've finished requesting all the apps
-								if (--numRequests === 0 && appManifests.length) {
-									_helpers.loadApps(
-										params.appConfigs,
-										appManifests,
-										params.success,
-										params.error,
-										params.complete,
-										function(instances) {
-											for (var i = 0, len = instances.length; i < len; i++) {
-												_appInstances[instances[i].instanceId] = instances[i];
-											}
-										}
-									);
-								}
-							}
-						});
-					})(allConfigs[i]);
-				}
+			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
+				throw 'F2: you must specify at least one AppConfig to load';
 			}
+			else if (!_.isArray(params.appConfigs)) {
+				params.appConfigs = [params.appConfigs];
+			}
+
+			Helpers.apps.load(params.appConfigs, params.success, params.error, params.complete);
 		},
 		/**
 		 * Removes an app from the container
@@ -197,24 +86,27 @@
 				throw 'F2: you must provide an instanceId or a root to remove an app';
 			}
 
-			var instance;
-
-			// Treat as root
-			if (identifier.nodeType === 1) {
-				for (var id in _appInstances) {
-					if (_appInstances[id].root === identifier) {
-						instance = _appInstances[id];
-						break;
-					}
-				}
-			}
-			else {
-				// Treat as instanceId
-				instance = _appInstances[identifier];
-			}
+			var instance = Helpers.apps.getInstance(identifier);
 
 			if (instance && instance.instanceId) {
-				_disposeApp(instance);
+				// Call the app's dipose method if it has one
+				if (instance.dispose) {
+					instance.dispose();
+				}
+
+				// Unsubscribe events by context
+				Events.off(null, null, instance);
+
+				// Remove ourselves from the DOM
+				if (instance.root && instance.root.parentNode) {
+					instance.root.parentNode.removeChild(instance.root);
+				}
+
+				// Set a property that will let us watch for memory leaks
+				instance.__f2Disposed__ = true;
+
+				// Remove ourselves from the internal map
+				Helpers.apps.remove(instance.instanceId);
 			}
 			else {
 				console.warn('F2: could not find an app to remove');

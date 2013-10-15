@@ -1,12 +1,21 @@
 var express = require('express');
 var app = express();
 
+// For post data
+app.use(express.bodyParser());
+
 // Single AppManifest in response
 app.all('/apps/single', function(req, res) {
+	var configs = JSON.parse(req.body.params);
+
+	if (!configs) {
+		configs = JSON.parse(req.params.params);
+	}
+
 	res.json({
 		apps: [{ data: {}, html: '<div></div>', success: true }],
 		inlineScripts: [],
-		scripts: ['js/apps/com_test_basic.js'],
+		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
 	});
 });
