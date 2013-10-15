@@ -30,6 +30,13 @@ F2Docs.fn.init = function() {
 	this.buildBookmarks();
 	this.formatSourceCodeElements();
 
+	//on page-load, animate page into place (after css transition is done on header)
+	if (location.hash != '') {
+		setTimeout($.proxy(function(){
+			this._animateAnchor(null,false,location.hash);
+		},this),600);
+	}
+
 	/* removed b/c this removes 'active' class on top-level "Docs" nav <li>. weird.
 	$('body').scrollspy();*/
 
@@ -253,14 +260,14 @@ F2Docs.fn._setupBodyContentAnchorClick = function(){
 	},this));
 }
 
-F2Docs.fn._animateAnchor = function(e, isTableOfContentsLink){
-	var $this = $(e.currentTarget),
-		destinationId = $this.attr("href").replace(".","\\\\."),
+F2Docs.fn._animateAnchor = function(e, isTableOfContentsLink, destinationId){
+	var $this = (destinationId) ? '' : $(e.currentTarget),
+		destinationId = destinationId || $this.attr("href").replace(".","\\\\."),
 		$destination = $(destinationId),
 		offset;
 
 	//don't stop top-level (non-anchor) links from going to their location
-	if (destinationId.indexOf("#") > -1){
+	if (destinationId == '' && destinationId.indexOf("#") > -1){
 		e.preventDefault();
 	}
 
@@ -272,6 +279,9 @@ F2Docs.fn._animateAnchor = function(e, isTableOfContentsLink){
 	//if we have a location.hash change, animate scrollTop to it.
 	if (destinationId.indexOf("#") > -1){
 		offset = $destination.offset() || {};
+		if ($(destinationId).hasClass('level4') && $(window).width() > 978){
+			offset.top -= 100;
+		}
 		$('html,body').animate({ scrollTop: offset.top },function(){
 			location.hash = destinationId;
 		});

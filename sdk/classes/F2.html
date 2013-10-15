@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2</title>
-	<meta name="dcterms.date" content="16 September 2013">
+	<meta name="dcterms.date" content="15 October 2013">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.0" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.3.1" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.0</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.0)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.1</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.1)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -479,6 +479,34 @@ loading</p></td>
 							</a>
 						</td>
 						<td><p>Has the container been init?</p></td>
+					</tr>
+					
+					<tr class=" private deprecated">
+						<td class="name">
+							<a href="#methods-_onScriptLoadFailure">
+								_onScriptLoadFailure
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												appConfig
+											
+										</li>
+										
+										<li>
+											
+												scriptInfo
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Handler to inform the container that a script failed to load</p></td>
 					</tr>
 					
 					<tr class=" private">
@@ -1516,7 +1544,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l75"><code>sdk&#x2F;src&#x2F;container.js:75</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l89"><code>sdk&#x2F;src&#x2F;container.js:89</code></a></dd>
 			
 
 			
@@ -1621,7 +1649,7 @@ necessary properties
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l166"><code>sdk&#x2F;src&#x2F;container.js:166</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l180"><code>sdk&#x2F;src&#x2F;container.js:180</code></a></dd>
 			
 
 			
@@ -1712,7 +1740,7 @@ necessary properties
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l100"><code>sdk&#x2F;src&#x2F;container.js:100</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l114"><code>sdk&#x2F;src&#x2F;container.js:114</code></a></dd>
 			
 
 			
@@ -1793,7 +1821,7 @@ necessary properties
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l116"><code>sdk&#x2F;src&#x2F;container.js:116</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l130"><code>sdk&#x2F;src&#x2F;container.js:130</code></a></dd>
 			
 
 			
@@ -1851,7 +1879,7 @@ necessary properties
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l138"><code>sdk&#x2F;src&#x2F;container.js:138</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l152"><code>sdk&#x2F;src&#x2F;container.js:152</code></a></dd>
 			
 
 			
@@ -1909,7 +1937,7 @@ necessary properties
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l156"><code>sdk&#x2F;src&#x2F;container.js:156</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l170"><code>sdk&#x2F;src&#x2F;container.js:170</code></a></dd>
 			
 
 			
@@ -1933,6 +1961,124 @@ necessary properties
 				
 			</div>
 		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-_onScriptLoadFailure" class="level2  private deprecated">
+	<h3>
+		_onScriptLoadFailure
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						appConfig
+					
+				</li>
+				
+				<li>
+					
+						scriptInfo
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+			<span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Handler to inform the container that a script failed to load</p>
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_container.js.html#l75"><code>sdk&#x2F;src&#x2F;container.js:75</code></a></dd>
+			
+
+			
+				<dt>Deprecated</dt>
+				<dd>This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</dd>
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">appConfig</code>
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+					
+
+					
+
+					<p>
+						<p>The F2.AppConfig object</p>
+					</p>
+
+					
+				</li>
+				
+				<li class="param">
+					
+						<code class="param-name">scriptInfo</code>
+						<span class="label type">Object</span>
+					
+
+					
+
+					<p>
+						<p>The path of the script that failed to load or the exception info
+for the inline script that failed to execute</p>
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
 	
 
 	
@@ -2096,7 +2242,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l430"><code>sdk&#x2F;src&#x2F;container.js:430</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l466"><code>sdk&#x2F;src&#x2F;container.js:466</code></a></dd>
 			
 
 			
@@ -2190,7 +2336,7 @@ Tests: http://skew.org/uri/uri_tests.html
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l451"><code>sdk&#x2F;src&#x2F;container.js:451</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l487"><code>sdk&#x2F;src&#x2F;container.js:487</code></a></dd>
 			
 
 			
@@ -2462,7 +2608,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l480"><code>sdk&#x2F;src&#x2F;container.js:480</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l516"><code>sdk&#x2F;src&#x2F;container.js:516</code></a></dd>
 			
 
 			
@@ -2734,7 +2880,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l495"><code>sdk&#x2F;src&#x2F;container.js:495</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l531"><code>sdk&#x2F;src&#x2F;container.js:531</code></a></dd>
 			
 
 			
@@ -2813,7 +2959,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l523"><code>sdk&#x2F;src&#x2F;container.js:523</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l559"><code>sdk&#x2F;src&#x2F;container.js:559</code></a></dd>
 			
 
 			
@@ -3105,7 +3251,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l194"><code>sdk&#x2F;src&#x2F;container.js:194</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l208"><code>sdk&#x2F;src&#x2F;container.js:208</code></a></dd>
 			
 
 			
@@ -3219,7 +3365,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l369"><code>sdk&#x2F;src&#x2F;container.js:369</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l405"><code>sdk&#x2F;src&#x2F;container.js:405</code></a></dd>
 			
 
 			
@@ -3564,7 +3710,7 @@ assets will be used instead of making a request.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l529"><code>sdk&#x2F;src&#x2F;container.js:529</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l565"><code>sdk&#x2F;src&#x2F;container.js:565</code></a></dd>
 			
 
 			
@@ -3752,7 +3898,7 @@ F2.registerApps(arConfigs, arManifests);
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l845"><code>sdk&#x2F;src&#x2F;container.js:845</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l881"><code>sdk&#x2F;src&#x2F;container.js:881</code></a></dd>
 			
 
 			
@@ -3818,7 +3964,7 @@ F2.registerApps(arConfigs, arManifests);
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l860"><code>sdk&#x2F;src&#x2F;container.js:860</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l896"><code>sdk&#x2F;src&#x2F;container.js:896</code></a></dd>
 			
 
 			
@@ -4204,7 +4350,7 @@ automatically by F2.</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.0"></script>
+<script src="../../js/f2.js?1.3.1"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>

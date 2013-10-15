@@ -163,7 +163,7 @@
             "namespace": "",
             "file": "sdk/src/app_handlers.js",
             "line": 1,
-            "description": "The new `AppHandlers` functionality provides Container Developers a higher level of control over configuring app rendering and interaction.\n\n<p class=\"alert alert-block alert-warning\">\nThe addition of `F2.AppHandlers` replaces the previous {{#crossLink \"F2.ContainerConfig\"}}{{/crossLink}} properties `beforeAppRender`, `appRender`, and `afterAppRender`. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.\n</p>\n\n<p class=\"alert alert-block alert-info\">\nStarting with F2 version 1.2, `AppHandlers` is the preferred method for Container Developers to manage app layout.\n</p>\n\n### Order of Execution\n\n**App Rendering**\n\n0. {{#crossLink \"F2/registerApps\"}}F2.registerApps(){{/crossLink}} method is called by the Container Developer and the following methods are run for *each* {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} passed.\n1. **'appCreateRoot'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_CREATE\\_ROOT*) handlers are fired in the order they were attached.\n2. **'appRenderBefore'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_RENDER\\_BEFORE*) handlers are fired in the order they were attached.\n3. Each app's `manifestUrl` is requested asynchronously; on success the following methods are fired.\n3. **'appRender'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_RENDER*) handlers are fired in the order they were attached.\n4. **'appRenderAfter'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_RENDER\\_AFTER*) handlers are fired in the order they were attached.\n\n\n**App Removal**\n\n0. {{#crossLink \"F2/removeApp\"}}F2.removeApp(){{/crossLink}} with a specific {{#crossLink \"F2.AppConfig/instanceId \"}}{{/crossLink}} or {{#crossLink \"F2/removeAllApps\"}}F2.removeAllApps(){{/crossLink}} method is called by the Container Developer and the following methods are run.\n1. **'appDestroyBefore'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_DESTROY\\_BEFORE*) handlers are fired in the order they were attached.\n2. **'appDestroy'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_DESTROY*) handlers are fired in the order they were attached.\n3. **'appDestroyAfter'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_DESTROY\\_AFTER*) handlers are fired in the order they were attached."
+            "description": "The new `AppHandlers` functionality provides Container Developers a higher level of control over configuring app rendering and interaction.\n\n<p class=\"alert alert-block alert-warning\">\nThe addition of `F2.AppHandlers` replaces the previous {{#crossLink \"F2.ContainerConfig\"}}{{/crossLink}} properties `beforeAppRender`, `appRender`, and `afterAppRender`. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.\n</p>\n\n<p class=\"alert alert-block alert-info\">\nStarting with F2 version 1.2, `AppHandlers` is the preferred method for Container Developers to manage app layout.\n</p>\n\n### Order of Execution\n\n**App Rendering**\n\n0. {{#crossLink \"F2/registerApps\"}}F2.registerApps(){{/crossLink}} method is called by the Container Developer and the following methods are run for *each* {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} passed.\n1. **'appCreateRoot'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_CREATE\\_ROOT*) handlers are fired in the order they were attached.\n2. **'appRenderBefore'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_RENDER\\_BEFORE*) handlers are fired in the order they were attached.\n3. Each app's `manifestUrl` is requested asynchronously; on success the following methods are fired.\n3. **'appRender'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_RENDER*) handlers are fired in the order they were attached.\n4. **'appRenderAfter'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_RENDER\\_AFTER*) handlers are fired in the order they were attached.\n\n\n**App Removal**\n\n0. {{#crossLink \"F2/removeApp\"}}F2.removeApp(){{/crossLink}} with a specific {{#crossLink \"F2.AppConfig/instanceId \"}}{{/crossLink}} or {{#crossLink \"F2/removeAllApps\"}}F2.removeAllApps(){{/crossLink}} method is called by the Container Developer and the following methods are run.\n1. **'appDestroyBefore'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_DESTROY\\_BEFORE*) handlers are fired in the order they were attached.\n2. **'appDestroy'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_DESTROY*) handlers are fired in the order they were attached.\n3. **'appDestroyAfter'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_DESTROY\\_AFTER*) handlers are fired in the order they were attached.\n\n**Error Handling**\n\n0. **'appScriptLoadFailed'** (*{{#crossLink \"F2.Constants.AppHandlers\"}}{{/crossLink}}.APP\\_SCRIPT\\_LOAD\\_FAILED*) handlers are fired in the order they were attached."
         },
         "F2.Constants.AppHandlers": {
             "name": "F2.Constants.AppHandlers",
@@ -176,7 +176,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/app_handlers.js",
-            "line": 416,
+            "line": 422,
             "description": "A convenient collection of all available appHandler events."
         },
         "F2.App": {
@@ -719,7 +719,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 185,
+            "line": 191,
             "description": "Allows Container Developer to retrieve a unique token which must be passed to\nall `on` and `off` methods. This function will self destruct and can only be called \none time. Container Developers must store the return value inside of a closure.",
             "itemtype": "method",
             "name": "getToken",
@@ -728,7 +728,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 199,
+            "line": 205,
             "description": "Allows F2 to get a token internally. Token is required to call {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}.\nThis function will self destruct to eliminate other sources from using the {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}\nand additional internal methods.",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -739,7 +739,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 214,
+            "line": 220,
             "description": "Allows F2 to trigger specific events internally.",
             "itemtype": "method",
             "name": "__trigger",
@@ -763,7 +763,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 282,
+            "line": 288,
             "description": "Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType `appRender`.",
             "itemtype": "method",
             "name": "on",
@@ -794,7 +794,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 307,
+            "line": 313,
             "description": "Allows Container Developer to add listener method that will be triggered when a specific event occurs.",
             "itemtype": "method",
             "name": "on",
@@ -825,7 +825,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 367,
+            "line": 373,
             "description": "Allows Container Developer to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -850,7 +850,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 423,
+            "line": 429,
             "description": "Equivalent to `appCreateRoot`. Identifies the create root method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}} )",
             "itemtype": "property",
             "name": "APP_CREATE_ROOT",
@@ -865,7 +865,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 445,
+            "line": 451,
             "description": "Equivalent to `appRenderBefore`. Identifies the before app render method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}} )",
             "itemtype": "property",
             "name": "APP_RENDER_BEFORE",
@@ -880,7 +880,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 465,
+            "line": 471,
             "description": "Equivalent to `appRender`. Identifies the app render method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}}, [appHtml](../../app-development.html#app-design) )",
             "itemtype": "property",
             "name": "APP_RENDER",
@@ -895,7 +895,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 504,
+            "line": 510,
             "description": "Equivalent to `appRenderAfter`. Identifies the after app render method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}} )",
             "itemtype": "property",
             "name": "APP_RENDER_AFTER",
@@ -910,7 +910,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 524,
+            "line": 530,
             "description": "Equivalent to `appDestroyBefore`. Identifies the before app destroy method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( appInstance )",
             "itemtype": "property",
             "name": "APP_DESTROY_BEFORE",
@@ -925,7 +925,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 544,
+            "line": 550,
             "description": "Equivalent to `appDestroy`. Identifies the app destroy method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( appInstance )",
             "itemtype": "property",
             "name": "APP_DESTROY",
@@ -940,7 +940,7 @@
         },
         {
             "file": "sdk/src/app_handlers.js",
-            "line": 577,
+            "line": 583,
             "description": "Equivalent to `appDestroyAfter`. Identifies the after app destroy method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( appInstance )",
             "itemtype": "property",
             "name": "APP_DESTROY_AFTER",
@@ -949,6 +949,21 @@
             "final": 1,
             "example": [
                 "\n\tvar _token = F2.AppHandlers.getToken();\n\tF2.AppHandlers.on(\n\t\t_token,\n\t\tF2.Constants.AppHandlers.APP_DESTROY_AFTER,\n\t\tfunction(appInstance)\n\t\t{\n\t\t\tF2.log(appInstance);\n\t\t}\n\t);"
+            ],
+            "class": "F2.Constants.AppHandlers",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/app_handlers.js",
+            "line": 603,
+            "description": "Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}}, scriptInfo )",
+            "itemtype": "property",
+            "name": "APP_SCRIPT_LOAD_FAILED",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "example": [
+                "\n\tvar _token = F2.AppHandlers.getToken();\n\tF2.AppHandlers.on(\n\t\t_token,\n\t\tF2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,\n\t\tfunction(appConfig, scriptInfo)\n\t\t{\n\t\t\tF2.log(appConfig.appId);\n\t\t}\n\t);"
             ],
             "class": "F2.Constants.AppHandlers",
             "module": "f2"
@@ -1880,6 +1895,30 @@
         {
             "file": "sdk/src/container.js",
             "line": 75,
+            "description": "Handler to inform the container that a script failed to load",
+            "itemtype": "method",
+            "name": "_onScriptLoadFailure",
+            "deprecated": true,
+            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "appConfig",
+                    "description": "The F2.AppConfig object",
+                    "type": "F2.AppConfig"
+                },
+                {
+                    "name": "scriptInfo",
+                    "description": "The path of the script that failed to load or the exception info\nfor the inline script that failed to execute"
+                }
+            ],
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/container.js",
+            "line": 89,
             "description": "Adds properties to the AppConfig object",
             "itemtype": "method",
             "name": "_createAppConfig",
@@ -1901,7 +1940,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 100,
+            "line": 114,
             "description": "Adds properties to the ContainerConfig object to take advantage of defaults",
             "itemtype": "method",
             "name": "_hydrateContainerConfig",
@@ -1919,7 +1958,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 116,
+            "line": 130,
             "description": "Attach app events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -1930,7 +1969,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 138,
+            "line": 152,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -1941,7 +1980,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 156,
+            "line": 170,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -1956,7 +1995,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 166,
+            "line": 180,
             "description": "Instantiates each app from it's appConfig and stores that in a local private collection",
             "itemtype": "method",
             "name": "_createAppInstance",
@@ -1974,7 +2013,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 194,
+            "line": 208,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -1998,7 +2037,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 369,
+            "line": 405,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -2021,7 +2060,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 430,
+            "line": 466,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -2043,7 +2082,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 451,
+            "line": 487,
             "description": "Checks if the ContainerConfig is valid",
             "itemtype": "method",
             "name": "_validateContainerConfig",
@@ -2058,7 +2097,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 480,
+            "line": 516,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -2071,7 +2110,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 495,
+            "line": 531,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -2087,7 +2126,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 523,
+            "line": 559,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -2100,7 +2139,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 529,
+            "line": 565,
             "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the \n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -2127,7 +2166,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 845,
+            "line": 881,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -2136,7 +2175,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 860,
+            "line": 896,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2766,23 +2805,23 @@
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk/src/app_handlers.js:282"
+            "line": " sdk/src/app_handlers.js:288"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk/src/app_handlers.js:307"
+            "line": " sdk/src/app_handlers.js:313"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:430"
+            "line": " sdk/src/container.js:466"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:451"
+            "line": " sdk/src/container.js:487"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:480"
+            "line": " sdk/src/container.js:516"
         },
         {
             "message": "replacing incorrect tag: params with param",
