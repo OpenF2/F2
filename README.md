@@ -10,7 +10,7 @@ F2 is currently maintained by [MOD/L](http://modl.markit.com) at [Markit On Dema
 
 Two core components of F2 are **containers** and **apps** which are stitched together by **F2.js**. Get started by browsing to the framework documentation at [**docs.openf2.org**](http://docs.openf2.org).
 
-## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2)
+## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.png?branch=master)](https://travis-ci.org/OpenF2/F2) [![Dependency Status](https://gemnasium.com/OpenF2/F2.png)](https://gemnasium.com/OpenF2/F2)
 
 
 ### Get F2.js
