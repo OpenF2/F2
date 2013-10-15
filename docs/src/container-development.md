@@ -367,6 +367,25 @@ As an alternative to static app configuration shown above, the `_appConfig` vari
 
 <span class="label label-info">About this jsfiddle</span> To simulate an ajax request, this example uses jsfiddle's [echo feature](http://doc.jsfiddle.net/use/echo.html). Simply replace the `getAppConfigs` function with your own ajax request and ignore the `echoData` variable.
 
+### Batch Requesting Apps
+
+F2 supports batch requesting of multiple apps hosted on the same domain. The default app registration process sends a single outbound HTTP request for _each app_ registered with F2. For example, when registering five apps, five HTTP requests would be made for each app's `AppManifest`. Implementing the same five apps using a batch request would result in only a single HTTP request thus greatly speeding up page performance.
+
+Implementing F2 container code for apps to be requested in a batch is as simple as setting the `AppConfig.enableBatchRequests` property to `true`. The only additional requirement is that the apps to-be-batched must have the same `AppConfig.manifestUrl` value. That is, **the batched apps must be on the same domain**.
+
+#### Example
+
+<iframe width="100%" height="450" src="http://jsfiddle.net/OpenF2js/mETUY/3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+Open your browser developer tools to see the single HTTP request to `http://www.openf2.org/Examples/Apps`. You could modify this jsFiddle and set _one_ of the AppConfig `enableBatchRequests` to `false`. Then re-run the code to see _two_ HTTP requests sent in your developer tools. 
+
+<div class="alert alert-block alert-warning">
+    <h4>Important</h4>
+    The <code>params</code> querystring value for both batch-requested and non-batch-requested apps is a <a href="#container-to-app-context-server">serialized collection of AppConfigs</a>. In a scenario when many apps are batch-requested it would be possible to quickly reach the maximum HTTP GET character limit. In <a href="http://www.boutell.com/newfaq/misc/urllength.html">IE that limit is 2048 characters</a>, it is longer in more modern browsers. To work around this issue, F2 recommends either configuring <a href="#override-the-appmanifest-request">HTTP POST</a> if the container and apps are on the same domain or by <a href="http://enable-cors.org/">implementing CORS</a>.
+</div>
+
+<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) at the top of App Integration.
+
 ### Registering Pre-Loaded Apps
 
 Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each app's `AppManifest` and its dependencies _before_ the page is rendered.
@@ -686,6 +705,10 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 #### About CSS Resets
 
 It is a common web development practice to use [CSS resets](http://meyerweb.com/eric/tools/css/reset/), and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including [Normalize.css](http://necolas.github.com/normalize.css/) which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.
+
+#### About Bootstrap 3
+
+<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. 
 
 ### Keeping JavaScript Clean
 

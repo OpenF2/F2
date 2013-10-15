@@ -6,7 +6,7 @@
   <meta name="author" content="Mark Healey">
   <meta name="author" content="Brian Baker">
   <meta name="author" content="Kate Dinar">
-  <meta name="dcterms.date" content="16 September 2013">
+  <meta name="dcterms.date" content="15 October 2013">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, openf2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container">
   <meta name="robots" content="all, index, follow" />
@@ -19,7 +19,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.3.0" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.3.1" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -75,8 +75,8 @@
             <li class="divider-vertical"></li>
             <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.0</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.0)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.1</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.1)</a></li>
           </ul>
         </div>
       </div>
@@ -223,8 +223,8 @@ F2 Solution
 <p><img src="./img/bankeo/bankeo_cascade.png" title="F2 Framework">.</p>
 <section class="level3" id="track">
 <h3>Track</h3>
-<p>F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is 1.3.0 released on 16 September 2013. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A <a href="https://github.com/OpenF2/F2/wiki/Docs-Changelog">changelog</a> that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution.</p>
-<p><span class="label">Note</span> There is a <a href="https://github.com/OpenF2/F2/wiki/SDK-Changelog">separate changelog</a> for the <a href="f2js-sdk.html">F2.js SDK</a> which is currently version 1.3.0.</p>
+<p>F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is 1.3.1 released on 15 October 2013. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A <a href="https://github.com/OpenF2/F2/wiki/Docs-Changelog">changelog</a> that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution.</p>
+<p><span class="label">Note</span> There is a <a href="https://github.com/OpenF2/F2/wiki/SDK-Changelog">separate changelog</a> for the <a href="f2js-sdk.html">F2.js SDK</a> which is currently version 1.3.1.</p>
 </section>
 <section class="level3" id="collaborate">
 <h3>Collaborate</h3>
@@ -251,11 +251,12 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'<code>'+e+'</code>'+'<\/'+
 <p>In order to ensure that applications built using F2 are successful, they must be accessible. With this in mind, the front-end technology choice is HTML5. Using the <a href="http://www.alistapart.com/articles/understandingprogressiveenhancement/">progressive enhancement methodology</a>, F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 apps built following the <a href="http://www.lukew.com/presos/preso.asp?26">mobile first</a> design approach and with <a href="http://www.abookapart.com/products/responsive-web-design">responsive</a> <a href="http://twitter.github.io/bootstrap/scaffolding.html#responsive">CSS</a>, allow users to access the apps on their desktop, tablet or smartphone and App Developers only need to build a single app.</p>
 <p>Support across all desktop browsers and mobile devices is sometimes limited so F2 includes some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?</p>
 <ul>
-<li>F2 uses and recommends <a href="http://twitter.github.io/bootstrap/">Bootstrap</a> for a consistent HTML &amp; CSS structure for app development regardless of App Developer (<a href="app-development.html#container-integration">we'll explain more later</a>).</li>
+<li>F2 uses and recommends <a href="http://twitter.github.io/bootstrap/">Bootstrap</a> for a consistent HTML &amp; CSS structure for app development regardless of App Developer.</li>
 <li>F2 relies on data structures represented in JSON, so it incorporates Crockford's <a href="http://www.json.org/">JSON</a>.</li>
 <li>To support a secured container environment, F2 needs cross-domain in-browser messaging. For this, it relies on <a href="https://github.com/oyvindkinsey/easyXDM">easyXDM</a>.</li>
 </ul>
 <p>As either an App or a Container Developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the <a href="f2js-sdk.html">F2.js JavaScript SDK</a> provides a consistent interface and easy-to-use API so you don't have to think about it.</p>
+<p><span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures—and therefore seamless styling—between containers and apps. F2 has not upgraded to <a href="http://getbootstrap.com/">Bootstrap 3</a>, the latest <strong><a href="http://getbootstrap.com/2.3.2/">supported Bootstrap version is 2.3.2</a></strong>.</p>
 </section>
 <section class="level3" id="apps">
 <h3>Apps</h3>
@@ -372,7 +373,7 @@ A data app is a content feed available in industry-standard formats including JS
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.0, published 16 September 2013</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.1, published 15 October 2013</small></p>
 		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
@@ -381,7 +382,7 @@ A data app is a content feed available in industry-standard formats including JS
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.3.0"></script>
-<script src="./js/docs.js?1.3.0"></script>
+<script src="./js/f2.js?1.3.1"></script>
+<script src="./js/docs.js?1.3.1"></script>
 </body>
 </html>
