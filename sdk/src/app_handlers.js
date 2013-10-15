@@ -27,6 +27,11 @@
  * 1. **'appDestroyBefore'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY\_BEFORE*) handlers are fired in the order they were attached.
  * 2. **'appDestroy'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY*) handlers are fired in the order they were attached.
  * 3. **'appDestroyAfter'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_DESTROY\_AFTER*) handlers are fired in the order they were attached.
+ * 
+ * **Error Handling**
+
+ * 0. **'appScriptLoadFailed'** (*{{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.APP\_SCRIPT\_LOAD\_FAILED*) handlers are fired in the order they were attached.
+ * 
  * @class F2.AppHandlers
  */
 F2.extend('AppHandlers', (function() {
@@ -42,7 +47,8 @@ F2.extend('AppHandlers', (function() {
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
-		appDestroy: []			
+		appDestroy: [],
+		appScriptLoadFailed: []		
 	};
 	
 	var _defaultMethods = {
@@ -593,7 +599,27 @@ F2.extend('Constants', {
 			*		}
 			*	);
 			*/
-			APP_DESTROY_AFTER: 'appDestroyAfter'
+			APP_DESTROY_AFTER: 'appDestroyAfter',
+			/**
+			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
+			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}}, scriptInfo )
+			* @property APP_SCRIPT_LOAD_FAILED
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+			*		function(appConfig, scriptInfo)
+			*		{
+			*			F2.log(appConfig.appId);
+			*		}
+			*	);
+			*/
+			APP_SCRIPT_LOAD_FAILED: 'appScriptLoadFailed'
 		};
 	})()
 });
