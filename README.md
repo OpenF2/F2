@@ -4,7 +4,7 @@
 
 F2 is an open and free web integration framework designed to help the financial services community develop custom web and mobile applications. These solutions can combine the best tools and content from multiple parties into one, privately-labeled, seamlessly integrated front-end.
 
-F2 is currently maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information, follow [@OpenF2](http://twitter.com/OpenF2) on Twitter and subscribe to the [F2 blog](http://blog.openf2.org).
+F2 is currently maintained by [MOD/L](http://modl.markit.com) at [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information, follow [@OpenF2](http://twitter.com/OpenF2) on Twitter and subscribe to the [F2 blog](http://blog.openf2.org).
 
 ## Get Started
 
