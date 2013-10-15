@@ -1,0 +1,10 @@
+﻿.com_example_search {
+}
+
+	.com_example_search .search-input {
+		width: 300px;
+	}
+
+	.com_example_search .search-output {
+		display: none;
+	}

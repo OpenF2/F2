@@ -94,7 +94,7 @@
 					appInstances[allApps[i].instanceId] = instance;
 				}
 				catch (e) {
-					console.error('F2: could not init', allApps[i].appConfig.appId, '" + e + "');
+					console.error('F2: could not init', allApps[i].appConfig.appId, '"' + e.toString() + '"');
 				}
 			}
 
