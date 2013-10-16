@@ -5235,11 +5235,8 @@ define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
 	return {
 		Apps: {},
 		config: function(config) {
-			if (config) {
-				// Don't do anything with the config if it's invalid
-				if (Schemas.validate(config, 'containerConfig')) {
-					_.extend(_config, config);
-				}
+			if (config && Schemas.validate(config, 'containerConfig')) {
+				_.extend(_config, config);
 			}
 
 			return _config;
