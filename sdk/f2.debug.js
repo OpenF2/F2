@@ -9981,23 +9981,23 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
 })( window );
 
-/*! =========================================================
- * bootstrap-modal.js v2.2.2
- * http://twitter.github.com/bootstrap/javascript.html#modals
+/* =========================================================
+ * bootstrap-modal.js v2.3.2
+ * http://getbootstrap.com/2.3.2/javascript.html#modals
  * =========================================================
- * Twitter, Inc. require the following notice to accompany Bootstrap:
- * 
- * Copyright (c) 2012 Twitter, Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this work 
- * except in compliance with the License. You may obtain a copy of the License in the LICENSE file, or at:
- * 
+ * Copyright 2013 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied. See the License for the specific language governing permissions and limitations under the License.
- * 
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * ========================================================= */
 
 
@@ -10043,8 +10043,7 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
             that.$element.appendTo(document.body) //don't move modals dom position
           }
 
-          that.$element
-            .show()
+          that.$element.show()
 
           if (transition) {
             that.$element[0].offsetWidth // force reflow
@@ -10122,16 +10121,17 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
         })
       }
 
-    , hideModal: function (that) {
-        this.$element
-          .hide()
-          .trigger('hidden')
-
-        this.backdrop()
+    , hideModal: function () {
+        var that = this
+        this.$element.hide()
+        this.backdrop(function () {
+          that.removeBackdrop()
+          that.$element.trigger('hidden')
+        })
       }
 
     , removeBackdrop: function () {
-        this.$backdrop.remove()
+        this.$backdrop && this.$backdrop.remove()
         this.$backdrop = null
       }
 
@@ -10155,6 +10155,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 
           this.$backdrop.addClass('in')
 
+          if (!callback) return
+
           doAnimate ?
             this.$backdrop.one($.support.transition.end, callback) :
             callback()
@@ -10163,8 +10165,8 @@ if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
           this.$backdrop.removeClass('in')
 
           $.support.transition && this.$element.hasClass('fade')?
-            this.$backdrop.one($.support.transition.end, $.proxy(this.removeBackdrop, this)) :
-            this.removeBackdrop()
+            this.$backdrop.one($.support.transition.end, callback) :
+            callback()
 
         } else if (callback) {
           callback()
@@ -13308,7 +13310,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.3.1 10-15-2013
+ * F2 v1.4.0 10-16-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
