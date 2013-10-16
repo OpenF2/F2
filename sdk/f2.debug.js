@@ -10562,7 +10562,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * 
  */
-!function(exports, undefined) {
+ ;!function(exports, undefined) {
 
   var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
     return Object.prototype.toString.call(obj) === "[object Array]";
@@ -10570,21 +10570,31 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
   var defaultMaxListeners = 10;
 
   function init() {
-    this._events = new Object;
+    this._events = {};
+    if (this._conf) {
+      configure.call(this, this._conf);
+    }
   }
 
   function configure(conf) {
     if (conf) {
+
+      this._conf = conf;
+
       conf.delimiter && (this.delimiter = conf.delimiter);
+      conf.maxListeners && (this._events.maxListeners = conf.maxListeners);
       conf.wildcard && (this.wildcard = conf.wildcard);
+      conf.newListener && (this.newListener = conf.newListener);
+
       if (this.wildcard) {
-        this.listenerTree = new Object;
+        this.listenerTree = {};
       }
     }
   }
 
   function EventEmitter(conf) {
-    this._events = new Object;
+    this._events = {};
+    this.newListener = false;
     configure.call(this, conf);
   }
 
@@ -10663,7 +10673,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
       //
       searchListenerTree(handlers, type, xTree, i+1);
     }
-    
+
     xxTree = tree['**'];
     if(xxTree) {
       if(i < typeLength) {
@@ -10671,7 +10681,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
           // If we have a listener on a '**', it will catch all, so add its handler.
           searchListenerTree(handlers, type, xxTree, typeLength);
         }
-        
+
         // Build arrays of matching next branches and others.
         for(branch in xxTree) {
           if(branch !== '_listeners' && xxTree.hasOwnProperty(branch)) {
@@ -10702,7 +10712,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
   function growListenerTree(type, listener) {
 
     type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-    
+
     //
     // Looks for two consecutive '**', if so, don't add the event at all.
     //
@@ -10718,7 +10728,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
     while (name) {
 
       if (!tree[name]) {
-        tree[name] = new Object;
+        tree[name] = {};
       }
 
       tree = tree[name];
@@ -10738,7 +10748,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
           if (!tree._listeners.warned) {
 
             var m = defaultMaxListeners;
-            
+
             if (typeof this._events.maxListeners !== 'undefined') {
               m = this._events.maxListeners;
             }
@@ -10759,7 +10769,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
       name = type.shift();
     }
     return true;
-  };
+  }
 
   // By default EventEmitters will print a warning if more than
   // 10 listeners are added to it. This is a useful default which
@@ -10773,6 +10783,8 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
   EventEmitter.prototype.setMaxListeners = function(n) {
     this._events || init.call(this);
     this._events.maxListeners = n;
+    if (!this._conf) this._conf = {};
+    this._conf.maxListeners = n;
   };
 
   EventEmitter.prototype.event = '';
@@ -10794,7 +10806,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
         self.off(event, listener);
       }
       fn.apply(this, arguments);
-    };
+    }
 
     listener._origin = fn;
 
@@ -10804,11 +10816,12 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
   };
 
   EventEmitter.prototype.emit = function() {
+
     this._events || init.call(this);
 
     var type = arguments[0];
 
-    if (type === 'newListener') {
+    if (type === 'newListener' && !this.newListener) {
       if (!this._events.newListener) { return false; }
     }
 
@@ -10825,9 +10838,9 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
 
     // If there is no 'error' event listener then throw.
     if (type === 'error') {
-      
-      if (!this._all && 
-        !this._events.error && 
+
+      if (!this._all &&
+        !this._events.error &&
         !(this.wildcard && this.listenerTree.error)) {
 
         if (arguments[1] instanceof Error) {
@@ -10891,7 +10904,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
   };
 
   EventEmitter.prototype.on = function(type, listener) {
-    
+
     if (typeof type === 'function') {
       this.onAny(type);
       return this;
@@ -10927,7 +10940,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
       if (!this._events[type].warned) {
 
         var m = defaultMaxListeners;
-        
+
         if (typeof this._events.maxListeners !== 'undefined') {
           m = this._events.maxListeners;
         }
@@ -10998,11 +11011,11 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
         }
 
         if (position < 0) {
-          return this;
+          continue;
         }
 
         if(this.wildcard) {
-          leaf._listeners.splice(position, 1)
+          leaf._listeners.splice(position, 1);
         }
         else {
           this._events[type].splice(position, 1);
@@ -11016,6 +11029,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
             delete this._events[type];
           }
         }
+        return this;
       }
       else if (handlers === listener ||
         (handlers.listener && handlers.listener === listener) ||
@@ -11100,7 +11114,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
 
   };
 
-  // if (typeof define === 'function' && define.amd) {
+// if (typeof define === 'function' && define.amd) {
   //   define('EventEmitter2', [], function() {
   //     return EventEmitter;
   //   });
@@ -11109,6 +11123,7 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
   // }
 
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
+
 
 /*!
  * Øyvind Sean Kinsey and others require the following notice to accompany easyXDM:
