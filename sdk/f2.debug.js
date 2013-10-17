@@ -10549,6 +10549,11 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
  * 
  * http://www.twitter.com/hij1nx
  * 
+ * Version: 2013-09-17
+ * GitHub SHA: 3caacce662998d7903d368b0c0f847f259cae0f7
+ * https://github.com/hij1nx/EventEmitter2
+ * Diff this version to master: https://github.com/hij1nx/EventEmitter2/compare/3caacce662998d7903d368b0c0f847f259cae0f7...master
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
  * documentation files (the 'Software'), to deal in the Software without restriction, including without limitation 
  * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
@@ -13633,7 +13638,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 10-16-2013
+ * F2 v1.4.0 10-17-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
