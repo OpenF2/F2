@@ -12,8 +12,10 @@ app.all('/apps/single', function(req, res) {
 		configs = JSON.parse(req.params.params);
 	}
 
+	var context = configs[0].context || {};
+
 	res.json({
-		apps: [{ data: {}, html: '<div></div>', success: true }],
+		apps: [{ data: context, html: '<div></div>', success: true }],
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
