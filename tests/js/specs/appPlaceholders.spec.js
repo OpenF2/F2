@@ -3,15 +3,7 @@ describe('App Placeholders', function() {
 	var F2;
 
 	beforeEach(function() {
-		F2 = null;
-
-		require(['F2'], function(localF2) {
-			F2 = localF2;
-		});
-
-		waitsFor(function() {
-			return !!F2;
-		});
+		F2 = require('F2');
 	});
 
 	it('should load a placeholder with valid attributes and no context', function() {
@@ -43,7 +35,7 @@ describe('App Placeholders', function() {
 			}
 
 			// Clean up
-			F2.removeApp(window.com_test_placeholder);
+			F2.removeApp(window.com_test_placeholder.root);
 		});
 	});
 
@@ -69,7 +61,7 @@ describe('App Placeholders', function() {
 			}
 
 			// Clean up
-			F2.removeApp(window.com_test_placeholder2);
+			F2.removeApp(window.com_test_placeholder2.root);
 		});
 	});
 
