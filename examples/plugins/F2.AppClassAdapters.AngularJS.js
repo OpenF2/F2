@@ -13,7 +13,7 @@
 			// Instantiate the app with all the normal params
 			var app = new AppClass(instanceId, appConfig, context, root);
 			// Bootstrap angular on the app's root
-			angular.bootstrap(this.root, moduleName);
+			angular.bootstrap(app.root, [moduleName]);
 
 			return app;
 		};

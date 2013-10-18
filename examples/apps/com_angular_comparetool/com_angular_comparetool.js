@@ -1,62 +1,41 @@
 ﻿define('com_angular_comparetool', ['F2.AppClassAdapters.AngularJS'], function(AngularAdapter) {
 
+	var app = angular.module("compareTool", []);
+
 	// Filters
 	// --------------------
 
-	angular.module("filters", []).
-		// Add a range of indexes to a collection
-		// e.g., ng-repeat="indexes in [] | range:10"
-		filter("range", function() {
-			return function(input, num) {
-				for (var i = 0; i < num; i++) {
-					input.push(i);
-				}
-				return input;
-			};
-		});
+	app.filter("range", function() {
+		return function(input, num) {
+			for (var i = 0; i < num; i++) {
+				input.push(i);
+			}
+			return input;
+		};
+	});
 
 	// Services
 	// --------------------
 
-	angular.module("services", ["ngResource"]).
-		// Retrieve quote data for a symbol
-		service("companyService", function($resource) {
-			var defaultCallbacks = { success: function() { }, error: function() { }, complete: function() { } };
-
-			return {
-				getBySymbol: function(symbol, cbs) {
-					cbs = angular.extend({}, defaultCallbacks, cbs);
-
-					var query = $resource(
-						"http://dev.markitondemand.com/Api/Quote/:action",
-						{ action: "jsonp", callback: "JSON_CALLBACK", symbol: symbol },
-						{ get: { method: "jsonp" } }
-					);
-
-					query.get(
-						function(response) {
-							if (response.Data) {
-								cbs.success(response.Data);
-							}
-							else {
-								cbs.error("Invalid symbol");
-							}
-
-							cbs.complete();
-						},
-						function() {
-							cbs.error();
-							cbs.complete();
-						}
-					);
-				}
-			};
-		});
+	app.service("companyService", function($http) {
+		return {
+			getBySymbol: function(symbol) {
+				return $http({
+					method: 'jsonp',
+					url: 'http://dev.markitondemand.com/Api/Quote/jsonp',
+					params: {
+						action: "jsonp",
+						symbol: symbol,
+						callback: 'JSON_CALLBACK'
+					}
+				});
+			}
+		};
+	});
 
 	// Controller
 	// --------------------
 
-	var app = angular.module("compareTool", ["filters", "services"]);
 
 	// Compare Controller
 	app.controller("CompareCtrl", function($scope, $filter, companyService) {
@@ -65,7 +44,7 @@
 		var maxSymbols = 5;
 
 		// Define what will be displayed
-		$scope.dataPoints = [
+		$scope.columns = [
 			{ label: "Last Price", field: "LastPrice", format: "currency" },
 			{ label: "High", field: "High", format: "currency" },
 			{ label: "Low", field: "Low", format: "currency" },
@@ -95,21 +74,13 @@
 
 				// Use THIS instead of $scope, because we're actually in the scope
 				// of the clicked dom element
-				self.isLoading = true;
+				this.isLoading = true;
 
 				// Grab the symbol data from the service
-				companyService.getBySymbol(ticker, {
-					success: function(data) {
-						$scope.issues.push(data);
-						self.searchSymbol = "";
-					},
-					error: function(msg) {
-						msg = msg || "Sorry, that didn't work for some reason";
-						alert(msg);
-					},
-					complete: function() {
-						self.isLoading = false;
-					}
+				companyService.getBySymbol(ticker).then(function(res) {
+					$scope.issues.push(res.data.Data);
+					self.searchSymbol = "";
+					self.isLoading = false;
 				});
 			}
 			else {
@@ -126,6 +97,34 @@
 					break;
 				}
 			}
+		};
+
+		// Multi-purpose format func
+		$scope.format = function(value, type) {
+			var out = value;
+
+			if (type) {
+				var params = type.split(":");
+				type = params[0];
+
+				switch (type) {
+					case "percent":
+						out = value.toFixed(params[1] || 0) + "%";
+						break;
+					case "number":
+						out = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+						break;
+					case "date":
+						out = moment(value).format("M/DD/YYYY h:mm:ss A");
+						break;
+					default:
+						// Use the default angular filter
+						out = $filter(type)(value);
+						break;
+				}
+			}
+
+			return out;
 		};
 
 	});
