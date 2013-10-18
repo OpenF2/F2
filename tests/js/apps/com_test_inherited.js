@@ -1,4 +1,4 @@
-﻿define('com_test_inherited', [], function() {
+﻿define('com_test_inherited', ['F2.BaseAppClass'], function(BaseAppClass) {
 
 	function AppClass(instanceId, appConfig, data, root) {
 		this.instanceId = instanceId;
@@ -8,6 +8,8 @@
 
 		window.com_test_inherited = instanceId;
 	}
+
+	AppClass.prototype = new BaseAppClass;
 
 	AppClass.prototype.dispose = function() {
 		delete window.com_test_inherited;
