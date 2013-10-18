@@ -34,25 +34,14 @@
 		require(['F2'], function(F2) {
 			var appConfigs = {
 				// Preloaded app with HTML on the page already
-				'quote': {
-					appId: 'com_example_quote',
-					manifestUrl: 'http://...'
+				'search': {
+					appId: 'com_example_search',
+					root: document.getElementById('app-com_example_search')
 				}
 			};
 
 			F2.load({
-				appConfigs: [
-					appConfigs.quote
-				],
-				beforeSend: function() {
-					$('#app-container').addClass('loading');
-				},
-				success: function(quote) {
-					$("#app-container").append(quote.root);
-				},
-				complete: function() {
-					$('#app-container').removeClass('loading');
-				}
+				appConfigs: [appConfigs.search]
 			});
 		});
 
