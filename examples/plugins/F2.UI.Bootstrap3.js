@@ -1,4 +1,4 @@
-﻿define('F2.Plugin.Bootstrap3', [], function() {
+﻿define('F2.UI.Bootstrap3', [], function() {
 	return {
 		/*
 			// Container usage
