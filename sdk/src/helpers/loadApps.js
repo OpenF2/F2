@@ -14,7 +14,9 @@
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(appConfigs, successFn, errorFn, completeFn) {
+	function loadApps(appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+		// Track the ajax requests by url
+		var xhrByUrl = {};
 		// Params used to instantiate AppClasses
 		var allApps = [];
 		// Track which apps need to hit the server
@@ -50,29 +52,49 @@
 
 		// See if we need to hit the server
 		if (asyncApps.length) {
-			requestApps(asyncApps, function(styles, scripts, inlineScripts) {
-				delegateHtmlLoading(allApps, successFn, completeFn);
+			xhrByUrl = requestApps(asyncApps, function() {
+				if (afterRequestFn) {
+					afterRequestFn();
+				}
+
+				delegateHtmlLoading(allApps, xhrByUrl, successFn, completeFn);
 			});
 		}
 		else {
-			delegateHtmlLoading(allApps, successFn, completeFn);
+			if (afterRequestFn) {
+				afterRequestFn();
+			}
+
+			delegateHtmlLoading(allApps, xhrByUrl, successFn, completeFn);
 		}
+
+		return xhrByUrl;
 	}
 
 	// Pass the apps off to the container so they can place them on the page
-	function delegateHtmlLoading(allApps, successFn, completeFn) {
+	function delegateHtmlLoading(allApps, xhrByUrl, successFn, completeFn) {
 		if (successFn) {
 			successFn.apply(window, allApps);
 		}
 
-		initAppClasses(allApps, completeFn);
+		initAppClasses(allApps, xhrByUrl, completeFn);
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
-	function initAppClasses(allApps, completeFn) {
-		var appIds = _.map(allApps, function(app) {
-			return app.appConfig.appId;
-		});
+	function initAppClasses(allApps, xhrByUrl, completeFn) {
+		var appIds = [];
+
+		for (var i = 0, len = allApps.length; i < len; i++) {
+			// Pull out any async apps that were aborted
+			if (allApps[i].xhr && allApps[i].xhr.isAborted) {
+				allApps.splice(i, 1);
+				i -= 1;
+				len -= 1;
+			}
+			else {
+				appIds.push(allApps[i].appConfig.appId);
+			}
+		}
 
 		require(appIds, function() {
 			var appClasses = Array.prototype.slice.apply(arguments);
@@ -107,6 +129,7 @@
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
 	function requestApps(asyncApps, callback) {
+		var xhrByUrl = {};
 		var appsByUrl = {};
 
 		// Get a map of apps keyed by url
@@ -132,6 +155,8 @@
 		var numRequests = 0;
 
 		for (var url in appsByUrl) {
+			xhrByUrl[url] = [];
+
 			// Make a collection of all the configs we'll need to make
 			// Each index maps to one web request
 			var urlApps = appsByUrl[url].singles.slice();
@@ -139,7 +164,7 @@
 			if (appsByUrl[url].batch.length) {
 				urlApps.push(appsByUrl[url].batch);
 			}
-	
+
 			numRequests += urlApps.length;
 
 			_.each(urlApps, function(apps) {
@@ -152,7 +177,7 @@
 					return app.appConfig;
 				});
 
-				Helpers.ajax({
+				var req = Helpers.ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
@@ -195,8 +220,17 @@
 					type: 'json',
 					url: url
 				});
+
+				// Set this xhr on each app
+				_.each(apps, function(app) {
+					app.xhr = req;
+				});
+
+				xhrByUrl[url].push(req);
 			});
 		}
+
+		return xhrByUrl;
 	}
 
 	function combineAppManifests(manifests) {

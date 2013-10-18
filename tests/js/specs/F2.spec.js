@@ -261,6 +261,66 @@
 			});
 		});
 
+		it('should allow requests to be aborted on same domain', function() {
+			var isComplete = false;
+
+			var reqs = F2.load({
+				appConfigs: [{
+					appId: 'com_test_basic',
+					manifestUrl: 'http://localhost:8080/apps/single'
+				}],
+				afterRequest: function() {
+					isComplete = true;
+				}
+			});
+
+			// Abort everything!
+			for (var url in reqs) {
+				for (var i = 0; i < reqs[url].length; i++) {
+					reqs[url][i].abort();
+				}
+			}
+
+			waitsFor(function() {
+				// Our test classes will throw some properties on the window
+				return isComplete;
+			}, DEFAULT_TIMEOUT);
+
+			runs(function() {
+				expect(window.com_test_basic).not.toBeDefined();
+			});
+		});
+
+		it('should allow requests to be aborted on different domains', function() {
+			var isComplete = false;
+
+			var reqs = F2.load({
+				appConfigs: [{
+					appId: 'com_test_basic',
+					manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp_slow'
+				}],
+				afterRequest: function() {
+					isComplete = true;
+				}
+			});
+
+			// Abort everything!
+			for (var url in reqs) {
+				for (var i = 0; i < reqs[url].length; i++) {
+					reqs[url][i].abort();
+				}
+			}
+
+			waitsFor(function() {
+				// Our test classes will throw some properties on the window
+				return isComplete;
+			}, DEFAULT_TIMEOUT);
+
+			runs(function() {
+				expect(window.com_test_basic).not.toBeDefined();
+			});
+		});
+
 	});
 
 	describe('removeApp', function() {

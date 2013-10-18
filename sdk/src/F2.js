@@ -71,7 +71,17 @@
 				params.appConfigs = [params.appConfigs];
 			}
 
-			Helpers.apps.load(params.appConfigs, params.success, params.error, params.complete);
+			if (params.beforeRequest) {
+				params.beforeRequest();
+			}
+
+			return Helpers.apps.load(
+				params.appConfigs,
+				params.success,
+				params.error,
+				params.complete,
+				params.afterRequest
+			);
 		},
 		/**
 		 * Removes an app from the container

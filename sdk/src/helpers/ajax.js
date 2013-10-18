@@ -187,7 +187,21 @@
 		}
 
 		// Make the call
-		reqwest(params);
+		var req = reqwest(params);
+		
+		// Return the xhr object
+		return (function() {
+			var output = {
+				isAborted: false
+			};
+
+			output.abort = function() {
+				output.isAborted = true;
+				req.request.abort();
+			};
+
+			return output;
+		})();
 	};
 
 })();

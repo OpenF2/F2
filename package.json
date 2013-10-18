@@ -41,7 +41,8 @@
 		"moment": "~2.0.0",
 		"pandoc": "0.2.0",
 		"semver": "~1.1.4",
-		"yuidocjs": "~0.3.44"
+		"yuidocjs": "~0.3.44",
+		"sleep": "~1.1.1"
 	},
 	"engines": {
 		"node": ">=0.10"
