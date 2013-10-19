@@ -316,8 +316,29 @@
 				return isComplete;
 			}, DEFAULT_TIMEOUT);
 
+			var conditions = [
+				function didNotInit() {
+					return !window.com_test_basic;
+				},
+				function didNotLoadScript() {
+					var scriptIsLoaded = false;
+					var allScripts = document.getElementsByTagName('script');
+
+					for (var i = 0; i < allScripts.length; i++) {
+						if (allScripts[i].src.indexOf('com_test_basic') !== -1) {
+							scriptIsLoaded = true;
+							break;
+						}
+					}
+
+					return !scriptIsLoaded;
+				}
+			];
+
 			runs(function() {
-				expect(window.com_test_basic).not.toBeDefined();
+				for (var i = 0; i < conditions.length; i++) {
+					expect(conditions[i]()).toBe(true);
+				}
 			});
 		});
 
