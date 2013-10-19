@@ -123,9 +123,9 @@ module.exports = function(grunt) {
 		},
 		concat: {
 			options: {
-				process: {
+				/*process: {
 					data: pkg
-				},
+				},*/
 				separator: '\n',
 				stripBanners: false
 			},
