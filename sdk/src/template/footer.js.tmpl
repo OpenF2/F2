@@ -27,27 +27,28 @@
 	}
 
 	// Automatically parse the DOM for AppConfig placeholders
-	(function() {
-		var placeholders = Helpers.appPlaceholders.getInNode(document.body);
+	require(['F2', 'F2._Helpers.AppPlaceholders'], function(F2, __AppPlaceholders__) {
+		var Helpers = {
+			AppPlaceholders: __AppPlaceholders__
+		};
+
+		var placeholders = Helpers.AppPlaceholders.getInNode(document.body);
 
 		if (placeholders && placeholders.length) {
-		  require(['F2'], function(F2) {
-				var appConfigs = _.map(placeholders, function(placeholder) {
-					return placeholder.appConfig;
-				});
+			var appConfigs = _.map(placeholders, function(placeholder) {
+				return placeholder.appConfig;
+			});
 
-				F2.load({
-					appConfigs: appConfigs,
-					success: function() {
-						var args = Array.prototype.slice.call(arguments);
+			F2.load({
+				appConfigs: appConfigs,
+				success: function() {
+					var args = Array.prototype.slice.call(arguments);
 
-						for (var i = 0, len = args.length; i < len; i++) {
-							placeholders[i].node.appendChild(args[i].root);
-						}
+					for (var i = 0, len = args.length; i < len; i++) {
+						placeholders[i].node.appendChild(args[i].root);
 					}
-				});
+				}
 			});
 		}
-	})();
-
+	});
 })();

@@ -1,4 +1,4 @@
-﻿Helpers.ajax = (function() {
+﻿define('F2._Helpers.Ajax', [], function() {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -190,4 +190,4 @@
 		reqwest(params);
 	};
 
-})();
+});

@@ -1,10 +1,13 @@
-﻿require(['F2', 'F2.Schemas'], function(F2, Schemas) {
-
+﻿define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], function(require, F2, Schemas, __Ajax__) {
+console.log('loadApps.js');
 	// ---------------------------------------------------------------------------
 	// Private storage
 	// ---------------------------------------------------------------------------
 
 	var appInstances = {};
+	var Helpers = {
+		Ajax: __Ajax__
+	};
 
 	// ---------------------------------------------------------------------------
 	// Methods
@@ -27,7 +30,7 @@
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
-				inputs.instanceId = F2.guid();
+				inputs.instanceId = require('F2').guid();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)
@@ -152,7 +155,7 @@
 					return app.appConfig;
 				});
 
-				Helpers.ajax({
+				Helpers.Ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
@@ -219,7 +222,7 @@
 	}
 
 	function loadStaticFiles(styles, scripts, inlineScripts, callback) {
-		var containerConfig = F2.config();
+		var containerConfig = require('F2').config();
 		var stylesDone = false;
 		var scriptsDone = false;
 
@@ -289,7 +292,7 @@
 	// API
 	// ---------------------------------------------------------------------------
 
-	Helpers.apps = {
+	return {
 		getInstance: function(identifier) {
 			var instance;
 

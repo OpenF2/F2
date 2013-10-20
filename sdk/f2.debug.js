@@ -4792,44 +4792,308 @@ var LazyLoad = _exports.LazyLoad;
 
 // Pull the document off exports
 delete _exports;
-define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
+define('F2._Helpers.Ajax', [], function() {
 
-	function AppClass(instanceId, appConfig, context, root) {
-		this.instanceId = instanceId;
-		this.appConfig = appConfig;
-		this.context = context;
-		this.root = root;
+	// --------------------------------------------------------------------------
+	// Helpers
+	// --------------------------------------------------------------------------
+
+	function queryStringify(obj) {
+		var qs = [];
+
+		for (var p in obj) {
+			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+		}
+
+		return qs.join('&');
 	}
 
-	AppClass.prototype = {
-		dispose: function() {},
-		events: {
-			many: function(name, timesToListen, handler) {
-				return Events.many(name, timesToListen, handler, this);
-			},
-			off: function(name, handler) {
-				return Events.off(name, handler, this);
-			},
-			on: function(name, handler) {
-				return Events.on(name, handler, this);
-			},
-			once: function(name, handler) {
-				return Events.once(name, handler, this);
-			}
-		},
-		reload: function(context) {
-			var self = this;
-			_.extend(this.appConfig.context, context);
+	function delim(url) {
+		return (url.indexOf('?') === -1) ? '?' : '&';
+	}
 
-			// Reload this app using the existing appConfig
-			F2.load(this.appConfig).then(function(app) {
-				app.root = self.root;
-				F2.removeApp(self.instanceId, false);
-			});
+	/**
+	 * Parses URI
+	 * @method _parseURI
+	 * @private
+	 * @param {The URL to parse} url
+	 * @returns {Parsed URL} string
+	 * Source: https://gist.github.com/Yaffle/1088850
+	 * Tests: http://skew.org/uri/uri_tests.html
+	 */
+	function _parseURI(url) {
+		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
+		return (m ? {
+			href: m[0] || '',
+			protocol: m[1] || '',
+			authority: m[2] || '',
+			host: m[3] || '',
+			hostname: m[4] || '',
+			port: m[5] || '',
+			pathname: m[6] || '',
+			search: m[7] || '',
+			hash: m[8] || ''
+		} : null);
+	}
+
+	/**
+	 * Abosolutizes a relative URL
+	 * @method _absolutizeURI
+	 * @private
+	 * @param {e.g., location.href} base
+	 * @param {URL to absolutize} href
+	 * @returns {string} URL
+	 * Source: https://gist.github.com/Yaffle/1088850
+	 * Tests: http://skew.org/uri/uri_tests.html
+	 */
+	function _absolutizeURI(base, href) { // RFC 3986
+		function removeDotSegments(input) {
+			var output = [];
+			input.replace(/^(\.\.?(\/|$))+/, '')
+				.replace(/\/(\.(\/|$))+/g, '/')
+				.replace(/\/\.\.$/, '/../')
+				.replace(/\/?[^\/]*/g, function(p) {
+					if (p === '/..') {
+						output.pop();
+					} else {
+						output.push(p);
+					}
+				});
+			return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
 		}
+
+		href = _parseURI(href || '');
+		base = _parseURI(base || '');
+
+		return !href || !base ? null : (href.protocol || base.protocol) +
+			(href.protocol || href.authority ? href.authority : base.authority) +
+			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
+			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
+			href.hash;
+	}
+
+	/**
+	 * Tests a URL to see if it's on the same domain (local) or not
+	 * @method isLocalRequest
+	 * @param {URL to test} url
+	 * @returns {bool} Whether the URL is local or not
+	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
+	 */
+	function _isLocalRequest(url) {
+		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+			urlLower = url.toLowerCase(),
+			parts = rurl.exec(urlLower),
+			ajaxLocation,
+			ajaxLocParts;
+
+		try {
+			ajaxLocation = location.href;
+		}
+		catch (e) {
+			// Use the href attribute of an A element
+			// since IE will modify it given document.location
+			ajaxLocation = document.createElement('a');
+			ajaxLocation.href = '';
+			ajaxLocation = ajaxLocation.href;
+		}
+
+		ajaxLocation = ajaxLocation.toLowerCase();
+
+		// uh oh, the url must be relative
+		// make it fully qualified and re-regex url
+		if (!parts) {
+			urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
+			parts = rurl.exec(urlLower);
+		}
+
+		// Segment location into parts
+		ajaxLocParts = rurl.exec(ajaxLocation) || [];
+
+		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
+		var matched = !(parts &&
+				(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
+					(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
+						(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
+
+		return matched;
+	}
+
+	// --------------------------------------------------------------------------
+	// GET/POST
+	// --------------------------------------------------------------------------
+
+	return function(params, cache) {
+		if (!params.url) {
+			throw 'F2.Ajax: you must provide a url.';
+		}
+
+		params.crossOrigin = !_isLocalRequest(params.url);
+
+		// Determine the method if none was provided
+		if (!params.method) {
+			if (params.crossOrigin) {
+				params.type = 'jsonp';
+			}
+			else {
+				params.method = 'post';
+			}
+		}
+
+		if (!params.type) {
+			params.type = 'json';
+		}
+
+		// Look for methods that use query strings
+		if (params.method === 'get' || params.type === 'jsonp') {
+			// Stringify the data onto the url
+			if (params.data) {
+				params.url += delim(params.url) + queryStringify(params.data);
+			}
+			else {
+				// Pull data off the obj to avoid confusion
+				delete params.data;
+			}
+
+			// Bust cache if asked
+			if (!cache) {
+				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);
+			}
+		}
+
+		if (params.type === 'jsonp') {
+			// Create a random callback name
+			params.jsonpCallbackName = 'F2_' + Math.floor(Math.random() * 1000000);
+
+			// Add a jsonp callback to the window
+			window[params.jsonpCallbackName] = function(response) {
+				if (params.success) {
+					params.success(response);
+				}
+
+				if (params.complete) {
+					params.complete();
+				}
+
+				// Pull the callback off the window
+				delete window[params.jsonpCallbackName];
+			};
+		}
+
+		// Make the call
+		reqwest(params);
 	};
 
-	return AppClass;
+});
+define('F2._Helpers.AppPlaceholders', [], function() {
+
+	// Generate an AppConfig from the element's attributes
+	function getAppConfigFromElement(node) {
+		var output;
+		var appConfig;
+
+		if (node) {
+			var appId = node.getAttribute('data-f2-appid');
+			var manifestUrl = node.getAttribute('data-f2-manifesturl');
+
+			if (appId && manifestUrl) {
+				appConfig = {
+					appId: appId,
+					manifestUrl: manifestUrl
+				};
+
+				// See if the user passed in a block of serialized json
+				var contextJson = node.getAttribute('data-f2-context');
+
+				if (contextJson) {
+					try {
+						appConfig.context = JSON.parse(contextJson);
+					}
+					catch (e) {
+						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
+					}
+				}
+
+				// Look for handwritten properties that can override the previous context
+				// e.g., 'data-f2-context-foo="bar"'
+				for (var name in node.attributes) {
+					if (name.indexOf('data-f2-context-') === 0) {
+						var parts = name.replace('data-f2-context-', '').split('-');
+
+						for (var i = 0, len = parts.length; i < len; i++) {
+							// The last part should be the value
+							if (i === len - 1) {
+								try {
+									// Attempt to get the typed value
+									appConfig.context[parts[i]] = JSON.parse(node.getAttribute(name));
+								}
+								catch (e) {
+									// Default to string
+									appConfig.context[parts[i]] = node.getAttribute(name);
+								}
+							}
+							else {
+								// Treat as a namespace
+								appConfig.context[parts[i]] = {};
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if (appConfig) {
+			output = {
+				node: node,
+				appConfig: appConfig
+			};
+		}
+
+		return output;
+	}
+
+	function getElementsByAttribute(parent, attribute) {
+		var elements = [];
+
+		(function walk(node) {
+			while (node) {
+				// Must be a non-text node and have the specified attribute
+				if (node.nodeType === 1 && node.getAttribute(attribute)) {
+					elements.push(node);
+				}
+
+				// Walk children
+				if (node.hasChildNodes()) {
+					walk(node.firstChild);
+				}
+
+				node = node.nextSibling;
+			}
+		})(parent);
+
+		return elements;
+	}
+
+	// ---------------------------------------------------------------------------
+	// API
+	// ---------------------------------------------------------------------------
+
+	return {
+		getInNode: function(parentNode) {
+			var placeholders = [];
+			var elements = getElementsByAttribute(parentNode, 'data-f2-appid');
+
+			for (var i = 0, len = elements.length; i < len; i++) {
+				var placeholder = getAppConfigFromElement(elements[i]);
+
+				if (placeholder) {
+					placeholders.push(placeholder);
+				}
+			}
+
+			return placeholders;
+		}
+	};
 
 });
 define('F2.Constants', [], function() {
@@ -5164,468 +5428,16 @@ define('F2.Schemas', [], function() {
 	};
 
 });
-define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
-
-	var _containerConfig = F2.config();
-
-	return {
-		modal: function(params) {
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
-				if (Schemas.validate(params, 'uiModalParams')) {
-					_containerConfig.ui.modal(params);
-				}
-				else {
-					console.error('F2.UI: The parameters to ui.modal are incorrect.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.modal.');
-			}
-		},
-		showMask: function(root) {
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showMask)) {
-				_containerConfig.ui.showMask(root);
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.showMask.');
-			}
-		},
-		hideMask: function(root) {
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideMask)) {
-				_containerConfig.ui.hideMask(root);
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.hideMask.');
-			}
-		}
-	};
-
-});
-define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
-
-	// ---------------------------------------------------------------------------
-	// Private Storage
-	// ---------------------------------------------------------------------------
-
-	// Set up a default config
-	var _config = {
-		debugMode: false,
-		loadScripts: null,
-		loadStyles: null,
-		supportedViews: [],
-		xhr: {
-			dataType: null,
-			type: null,
-			url: null
-		},
-		ui: {
-			modal: null,
-			showMask: null,
-			hideMask: null
-		}
-	};
-
-	// Track all the guids we've made on this page
-	var _guids = {};
-
-	// ---------------------------------------------------------------------------
-	// API
-	// ---------------------------------------------------------------------------
-
-	return {
-		Apps: {},
-		config: function(config) {
-			if (config && Schemas.validate(config, 'containerConfig')) {
-				_.extend(_config, config);
-			}
-
-			return _config;
-		},
-		/**
-			* Generates an RFC4122 v4 compliant id
-			* @method guid
-			* @return {string} A random id
-			* @for F2
-			* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
-			*/
-		guid: function _guid() {
-			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-				var r = Math.random() * 16 | 0;
-				var v = c === 'x' ? r : (r & 0x3 | 0x8);
-				return v.toString(16);
-			});
-
-
-			// Check if we've seen this one before
-			if (_guids[guid]) {
-				// Get a new guid
-				guid = _guid();
-			}
-
-			_guids[guid] = true;
-
-			return guid;
-		},
-		load: function(params) {
-			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
-				throw 'F2: you must specify at least one AppConfig to load';
-			}
-			else if (!_.isArray(params.appConfigs)) {
-				params.appConfigs = [params.appConfigs];
-			}
-
-			Helpers.apps.load(params.appConfigs, params.success, params.error, params.complete);
-		},
-		/**
-		 * Removes an app from the container
-		 * @method removeApp
-		 * @param {string} indentifier The app's instanceId or root
-		 */
-		removeApp: function(identifier) {
-			if (!identifier) {
-				throw 'F2: you must provide an instanceId or a root to remove an app';
-			}
-
-			var instance = Helpers.apps.getInstance(identifier);
-
-			if (instance && instance.instanceId) {
-				// Call the app's dipose method if it has one
-				if (instance.dispose) {
-					instance.dispose();
-				}
-
-				// Unsubscribe events by context
-				Events.off(null, null, instance);
-
-				// Remove ourselves from the DOM
-				if (instance.root && instance.root.parentNode) {
-					instance.root.parentNode.removeChild(instance.root);
-				}
-
-				// Set a property that will let us watch for memory leaks
-				instance.__f2Disposed__ = true;
-
-				// Remove ourselves from the internal map
-				Helpers.apps.remove(instance.instanceId);
-			}
-			else {
-				console.warn('F2: could not find an app to remove');
-			}
-		}
-	};
-
-});
-Helpers.ajax = (function() {
-
-	// --------------------------------------------------------------------------
-	// Helpers
-	// --------------------------------------------------------------------------
-
-	function queryStringify(obj) {
-		var qs = [];
-
-		for (var p in obj) {
-			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-		}
-
-		return qs.join('&');
-	}
-
-	function delim(url) {
-		return (url.indexOf('?') === -1) ? '?' : '&';
-	}
-
-	/**
-	 * Parses URI
-	 * @method _parseURI
-	 * @private
-	 * @param {The URL to parse} url
-	 * @returns {Parsed URL} string
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	function _parseURI(url) {
-		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
-		return (m ? {
-			href: m[0] || '',
-			protocol: m[1] || '',
-			authority: m[2] || '',
-			host: m[3] || '',
-			hostname: m[4] || '',
-			port: m[5] || '',
-			pathname: m[6] || '',
-			search: m[7] || '',
-			hash: m[8] || ''
-		} : null);
-	}
-
-	/**
-	 * Abosolutizes a relative URL
-	 * @method _absolutizeURI
-	 * @private
-	 * @param {e.g., location.href} base
-	 * @param {URL to absolutize} href
-	 * @returns {string} URL
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
-	function _absolutizeURI(base, href) { // RFC 3986
-		function removeDotSegments(input) {
-			var output = [];
-			input.replace(/^(\.\.?(\/|$))+/, '')
-				.replace(/\/(\.(\/|$))+/g, '/')
-				.replace(/\/\.\.$/, '/../')
-				.replace(/\/?[^\/]*/g, function(p) {
-					if (p === '/..') {
-						output.pop();
-					} else {
-						output.push(p);
-					}
-				});
-			return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
-		}
-
-		href = _parseURI(href || '');
-		base = _parseURI(base || '');
-
-		return !href || !base ? null : (href.protocol || base.protocol) +
-			(href.protocol || href.authority ? href.authority : base.authority) +
-			removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
-			(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
-			href.hash;
-	}
-
-	/**
-	 * Tests a URL to see if it's on the same domain (local) or not
-	 * @method isLocalRequest
-	 * @param {URL to test} url
-	 * @returns {bool} Whether the URL is local or not
-	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
-	 */
-	function _isLocalRequest(url) {
-		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-			urlLower = url.toLowerCase(),
-			parts = rurl.exec(urlLower),
-			ajaxLocation,
-			ajaxLocParts;
-
-		try {
-			ajaxLocation = location.href;
-		}
-		catch (e) {
-			// Use the href attribute of an A element
-			// since IE will modify it given document.location
-			ajaxLocation = document.createElement('a');
-			ajaxLocation.href = '';
-			ajaxLocation = ajaxLocation.href;
-		}
-
-		ajaxLocation = ajaxLocation.toLowerCase();
-
-		// uh oh, the url must be relative
-		// make it fully qualified and re-regex url
-		if (!parts) {
-			urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
-			parts = rurl.exec(urlLower);
-		}
-
-		// Segment location into parts
-		ajaxLocParts = rurl.exec(ajaxLocation) || [];
-
-		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
-		var matched = !(parts &&
-				(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
-					(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
-						(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
-
-		return matched;
-	}
-
-	// --------------------------------------------------------------------------
-	// GET/POST
-	// --------------------------------------------------------------------------
-
-	return function(params, cache) {
-		if (!params.url) {
-			throw 'F2.Ajax: you must provide a url.';
-		}
-
-		params.crossOrigin = !_isLocalRequest(params.url);
-
-		// Determine the method if none was provided
-		if (!params.method) {
-			if (params.crossOrigin) {
-				params.type = 'jsonp';
-			}
-			else {
-				params.method = 'post';
-			}
-		}
-
-		if (!params.type) {
-			params.type = 'json';
-		}
-
-		// Look for methods that use query strings
-		if (params.method === 'get' || params.type === 'jsonp') {
-			// Stringify the data onto the url
-			if (params.data) {
-				params.url += delim(params.url) + queryStringify(params.data);
-			}
-			else {
-				// Pull data off the obj to avoid confusion
-				delete params.data;
-			}
-
-			// Bust cache if asked
-			if (!cache) {
-				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);
-			}
-		}
-
-		if (params.type === 'jsonp') {
-			// Create a random callback name
-			params.jsonpCallbackName = 'F2_' + Math.floor(Math.random() * 1000000);
-
-			// Add a jsonp callback to the window
-			window[params.jsonpCallbackName] = function(response) {
-				if (params.success) {
-					params.success(response);
-				}
-
-				if (params.complete) {
-					params.complete();
-				}
-
-				// Pull the callback off the window
-				delete window[params.jsonpCallbackName];
-			};
-		}
-
-		// Make the call
-		reqwest(params);
-	};
-
-})();
-(function() {
-
-	// Generate an AppConfig from the element's attributes
-	function getAppConfigFromElement(node) {
-		var output;
-		var appConfig;
-
-		if (node) {
-			var appId = node.getAttribute('data-f2-appid');
-			var manifestUrl = node.getAttribute('data-f2-manifesturl');
-
-			if (appId && manifestUrl) {
-				appConfig = {
-					appId: appId,
-					manifestUrl: manifestUrl
-				};
-
-				// See if the user passed in a block of serialized json
-				var contextJson = node.getAttribute('data-f2-context');
-
-				if (contextJson) {
-					try {
-						appConfig.context = JSON.parse(contextJson);
-					}
-					catch (e) {
-						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
-					}
-				}
-
-				// Look for handwritten properties that can override the previous context
-				// e.g., 'data-f2-context-foo="bar"'
-				for (var name in node.attributes) {
-					if (name.indexOf('data-f2-context-') === 0) {
-						var parts = name.replace('data-f2-context-', '').split('-');
-
-						for (var i = 0, len = parts.length; i < len; i++) {
-							// The last part should be the value
-							if (i === len - 1) {
-								try {
-									// Attempt to get the typed value
-									appConfig.context[parts[i]] = JSON.parse(node.getAttribute(name));
-								}
-								catch (e) {
-									// Default to string
-									appConfig.context[parts[i]] = node.getAttribute(name);
-								}
-							}
-							else {
-								// Treat as a namespace
-								appConfig.context[parts[i]] = {};
-							}
-						}
-					}
-				}
-			}
-		}
-
-		if (appConfig) {
-			output = {
-				node: node,
-				appConfig: appConfig
-			};
-		}
-
-		return output;
-	}
-
-	function getElementsByAttribute(parent, attribute) {
-		var elements = [];
-
-		(function walk(node) {
-			while (node) {
-				// Must be a non-text node and have the specified attribute
-				if (node.nodeType === 1 && node.getAttribute(attribute)) {
-					elements.push(node);
-				}
-
-				// Walk children
-				if (node.hasChildNodes()) {
-					walk(node.firstChild);
-				}
-
-				node = node.nextSibling;
-			}
-		})(parent);
-
-		return elements;
-	}
-
-	// ---------------------------------------------------------------------------
-	// API
-	// ---------------------------------------------------------------------------
-
-	Helpers.appPlaceholders = {
-		getInNode: function(parentNode) {
-			var placeholders = [];
-			var elements = getElementsByAttribute(parentNode, 'data-f2-appid');
-
-			for (var i = 0, len = elements.length; i < len; i++) {
-				var placeholder = getAppConfigFromElement(elements[i]);
-
-				if (placeholder) {
-					placeholders.push(placeholder);
-				}
-			}
-
-			return placeholders;
-		}
-	};
-
-})();
-require(['F2', 'F2.Schemas'], function(F2, Schemas) {
-
+define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], function(require, F2, Schemas, __Ajax__) {
+console.log('loadApps.js');
 	// ---------------------------------------------------------------------------
 	// Private storage
 	// ---------------------------------------------------------------------------
 
 	var appInstances = {};
+	var Helpers = {
+		Ajax: __Ajax__
+	};
 
 	// ---------------------------------------------------------------------------
 	// Methods
@@ -5648,7 +5460,7 @@ require(['F2', 'F2.Schemas'], function(F2, Schemas) {
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
-				inputs.instanceId = F2.guid();
+				inputs.instanceId = require('F2').guid();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)
@@ -5773,7 +5585,7 @@ require(['F2', 'F2.Schemas'], function(F2, Schemas) {
 					return app.appConfig;
 				});
 
-				Helpers.ajax({
+				Helpers.Ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
@@ -5840,7 +5652,7 @@ require(['F2', 'F2.Schemas'], function(F2, Schemas) {
 	}
 
 	function loadStaticFiles(styles, scripts, inlineScripts, callback) {
-		var containerConfig = F2.config();
+		var containerConfig = require('F2').config();
 		var stylesDone = false;
 		var scriptsDone = false;
 
@@ -5910,7 +5722,7 @@ require(['F2', 'F2.Schemas'], function(F2, Schemas) {
 	// API
 	// ---------------------------------------------------------------------------
 
-	Helpers.apps = {
+	return {
 		getInstance: function(identifier) {
 			var instance;
 
@@ -5933,6 +5745,202 @@ require(['F2', 'F2.Schemas'], function(F2, Schemas) {
 		load: loadApps,
 		remove: remove
 	};
+
+});
+define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__, Schemas, Events) {
+
+	// ---------------------------------------------------------------------------
+	// Private Storage
+	// ---------------------------------------------------------------------------
+
+	// Set up the helpers
+	var Helpers = {
+		Apps: __Apps__
+	};
+
+	// Set up a default config
+	var _config = {
+		debugMode: false,
+		loadScripts: null,
+		loadStyles: null,
+		supportedViews: [],
+		xhr: {
+			dataType: null,
+			type: null,
+			url: null
+		},
+		ui: {
+			modal: null,
+			showMask: null,
+			hideMask: null
+		}
+	};
+
+	// Track all the guids we've made on this page
+	var _guids = {};
+
+	// ---------------------------------------------------------------------------
+	// API
+	// ---------------------------------------------------------------------------
+
+	return {
+		Apps: {},
+		config: function(config) {
+			if (config && Schemas.validate(config, 'containerConfig')) {
+				_.extend(_config, config);
+			}
+
+			return _config;
+		},
+		/**
+			* Generates an RFC4122 v4 compliant id
+			* @method guid
+			* @return {string} A random id
+			* @for F2
+			* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
+			*/
+		guid: function _guid() {
+			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random() * 16 | 0;
+				var v = c === 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+
+
+			// Check if we've seen this one before
+			if (_guids[guid]) {
+				// Get a new guid
+				guid = _guid();
+			}
+
+			_guids[guid] = true;
+
+			return guid;
+		},
+		load: function(params) {
+			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
+				throw 'F2: you must specify at least one AppConfig to load';
+			}
+			else if (!_.isArray(params.appConfigs)) {
+				params.appConfigs = [params.appConfigs];
+			}
+
+			Helpers.Apps.load(params.appConfigs, params.success, params.error, params.complete);
+		},
+		/**
+		 * Removes an app from the container
+		 * @method removeApp
+		 * @param {string} indentifier The app's instanceId or root
+		 */
+		removeApp: function(identifier) {
+			if (!identifier) {
+				throw 'F2: you must provide an instanceId or a root to remove an app';
+			}
+
+			var instance = Helpers.Apps.getInstance(identifier);
+
+			if (instance && instance.instanceId) {
+				// Call the app's dipose method if it has one
+				if (instance.dispose) {
+					instance.dispose();
+				}
+
+				// Unsubscribe events by context
+				Events.off(null, null, instance);
+
+				// Remove ourselves from the DOM
+				if (instance.root && instance.root.parentNode) {
+					instance.root.parentNode.removeChild(instance.root);
+				}
+
+				// Set a property that will let us watch for memory leaks
+				instance.__f2Disposed__ = true;
+
+				// Remove ourselves from the internal map
+				Helpers.Apps.remove(instance.instanceId);
+			}
+			else {
+				console.warn('F2: could not find an app to remove');
+			}
+		}
+	};
+
+});
+define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
+
+	var _containerConfig = F2.config();
+
+	return {
+		modal: function(params) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
+				if (Schemas.validate(params, 'uiModalParams')) {
+					_containerConfig.ui.modal(params);
+				}
+				else {
+					console.error('F2.UI: The parameters to ui.modal are incorrect.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.modal.');
+			}
+		},
+		showMask: function(root) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showMask)) {
+				_containerConfig.ui.showMask(root);
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.showMask.');
+			}
+		},
+		hideMask: function(root) {
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideMask)) {
+				_containerConfig.ui.hideMask(root);
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.hideMask.');
+			}
+		}
+	};
+
+});
+define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
+
+	function AppClass(instanceId, appConfig, context, root) {
+		this.instanceId = instanceId;
+		this.appConfig = appConfig;
+		this.context = context;
+		this.root = root;
+	}
+
+	AppClass.prototype = {
+		dispose: function() {},
+		events: {
+			many: function(name, timesToListen, handler) {
+				return Events.many(name, timesToListen, handler, this);
+			},
+			off: function(name, handler) {
+				return Events.off(name, handler, this);
+			},
+			on: function(name, handler) {
+				return Events.on(name, handler, this);
+			},
+			once: function(name, handler) {
+				return Events.once(name, handler, this);
+			}
+		},
+		reload: function(context) {
+			var self = this;
+			_.extend(this.appConfig.context, context);
+
+			// Reload this app using the existing appConfig
+			F2.load(this.appConfig).then(function(app) {
+				app.root = self.root;
+				F2.removeApp(self.instanceId, false);
+			});
+		}
+	};
+
+	return AppClass;
 
 });
 
@@ -5964,27 +5972,28 @@ require(['F2', 'F2.Schemas'], function(F2, Schemas) {
 	}
 
 	// Automatically parse the DOM for AppConfig placeholders
-	(function() {
-		var placeholders = Helpers.appPlaceholders.getInNode(document.body);
+	require(['F2', 'F2._Helpers.AppPlaceholders'], function(F2, __AppPlaceholders__) {
+		var Helpers = {
+			AppPlaceholders: __AppPlaceholders__
+		};
+
+		var placeholders = Helpers.AppPlaceholders.getInNode(document.body);
 
 		if (placeholders && placeholders.length) {
-		  require(['F2'], function(F2) {
-				var appConfigs = _.map(placeholders, function(placeholder) {
-					return placeholder.appConfig;
-				});
+			var appConfigs = _.map(placeholders, function(placeholder) {
+				return placeholder.appConfig;
+			});
 
-				F2.load({
-					appConfigs: appConfigs,
-					success: function() {
-						var args = Array.prototype.slice.call(arguments);
+			F2.load({
+				appConfigs: appConfigs,
+				success: function() {
+					var args = Array.prototype.slice.call(arguments);
 
-						for (var i = 0, len = args.length; i < len; i++) {
-							placeholders[i].node.appendChild(args[i].root);
-						}
+					for (var i = 0, len = args.length; i < len; i++) {
+						placeholders[i].node.appendChild(args[i].root);
 					}
-				});
+				}
 			});
 		}
-	})();
-
+	});
 })();
