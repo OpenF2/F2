@@ -5429,7 +5429,7 @@ define('F2.Schemas', [], function() {
 
 });
 define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], function(require, F2, Schemas, __Ajax__) {
-console.log('loadApps.js');
+
 	// ---------------------------------------------------------------------------
 	// Private storage
 	// ---------------------------------------------------------------------------
