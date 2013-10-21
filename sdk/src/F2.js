@@ -1,8 +1,13 @@
-﻿define('F2', ['F2.Schemas', 'F2.Events'], function(Schemas, Events) {
+﻿define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__, Schemas, Events) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
 	// ---------------------------------------------------------------------------
+
+	// Set up the helpers
+	var Helpers = {
+		Apps: __Apps__
+	};
 
 	// Set up a default config
 	var _config = {
@@ -71,17 +76,7 @@
 				params.appConfigs = [params.appConfigs];
 			}
 
-			if (params.beforeRequest) {
-				params.beforeRequest();
-			}
-
-			return Helpers.apps.load(
-				params.appConfigs,
-				params.success,
-				params.error,
-				params.complete,
-				params.afterRequest
-			);
+			Helpers.Apps.load(params.appConfigs, params.success, params.error, params.complete);
 		},
 		/**
 		 * Removes an app from the container
@@ -93,7 +88,7 @@
 				throw 'F2: you must provide an instanceId or a root to remove an app';
 			}
 
-			var instance = Helpers.apps.getInstance(identifier);
+			var instance = Helpers.Apps.getInstance(identifier);
 
 			if (instance && instance.instanceId) {
 				// Call the app's dipose method if it has one
@@ -113,7 +108,7 @@
 				instance.__f2Disposed__ = true;
 
 				// Remove ourselves from the internal map
-				Helpers.apps.remove(instance.instanceId);
+				Helpers.Apps.remove(instance.instanceId);
 			}
 			else {
 				console.warn('F2: could not find an app to remove');

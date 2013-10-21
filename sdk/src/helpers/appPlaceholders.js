@@ -1,4 +1,4 @@
-﻿(function() {
+﻿define('F2._Helpers.AppPlaceholders', [], function() {
 
 	// Generate an AppConfig from the element's attributes
 	function getAppConfigFromElement(node) {
@@ -91,7 +91,7 @@
 	// API
 	// ---------------------------------------------------------------------------
 
-	Helpers.appPlaceholders = {
+	return {
 		getInNode: function(parentNode) {
 			var placeholders = [];
 			var elements = getElementsByAttribute(parentNode, 'data-f2-appid');
@@ -108,4 +108,4 @@
 		}
 	};
 
-})();
+});

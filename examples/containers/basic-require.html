@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>F2 Container - Basic</title>
+	<link href="../libs/bootstrap3/css/bootstrap.css" rel="stylesheet" />
+	<link href="../apps/com_example_search.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="container">
+		<div class="row-fluid">
+			<div id="app-com_example_search" class="com_example_search">
+				<h4>Company Search</h4>
+				<input type="text" class="search-input" placeholder="Search for a company name or symbol" />
+				<div class="search-output">
+					<h5>Results</h5>
+					<ul class="search-results"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../libs/require.js"></script>
+	<script>
+		require.config({
+			paths: {
+				'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min',
+				'F2': '../../sdk/f2.debug'
+			}
+		});
+
+		require(['jquery', 'F2', '../apps/com_example_search.js'], function($, F2) {
+			var appConfigs = {
+				// Preloaded app with HTML on the page already
+				'search': {
+					appId: 'com_example_search',
+					root: document.getElementById('app-com_example_search')
+				}
+			};
+
+			F2.load({
+				appConfigs: [appConfigs.search]
+			});
+		});
+	</script>
+</body>
+</html>

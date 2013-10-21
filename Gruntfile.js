@@ -123,9 +123,9 @@ module.exports = function(grunt) {
 		},
 		concat: {
 			options: {
-				process: {
+				/*process: {
 					data: pkg
-				},
+				},*/
 				separator: '\n',
 				stripBanners: false
 			},
@@ -133,7 +133,17 @@ module.exports = function(grunt) {
 				src: [
 					'sdk/src/template/header.js.tmpl',
 					'sdk/f2.thirdParty.js',
-					'<%= jshint.files %>',
+					// The order of the src files matters in order to properly resolve
+					// AMD dependencies
+					'sdk/src/helpers/ajax.js',
+					'sdk/src/helpers/appPlaceholders.js',
+					'sdk/src/F2.Constants.js',
+					'sdk/src/F2.Events.js',
+					'sdk/src/F2.Schemas.js',
+					'sdk/src/helpers/loadApps.js',
+					'sdk/src/F2.js',
+					'sdk/src/F2.UI.js',
+					'sdk/src/F2.BaseAppClass.js',
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.debug.js'

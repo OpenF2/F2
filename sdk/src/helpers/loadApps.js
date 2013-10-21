@@ -1,10 +1,13 @@
-﻿require(['F2', 'F2.Schemas'], function(F2, Schemas) {
+﻿define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], function(require, F2, Schemas, __Ajax__) {
 
 	// ---------------------------------------------------------------------------
 	// Private storage
 	// ---------------------------------------------------------------------------
 
 	var appInstances = {};
+	var Helpers = {
+		Ajax: __Ajax__
+	};
 
 	// ---------------------------------------------------------------------------
 	// Methods
@@ -14,9 +17,7 @@
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
-		// Track the ajax requests by url
-		var xhrByUrl = {};
+	function loadApps(appConfigs, successFn, errorFn, completeFn) {
 		// Params used to instantiate AppClasses
 		var allApps = [];
 		// Track which apps need to hit the server
@@ -29,7 +30,7 @@
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
-				inputs.instanceId = F2.guid();
+				inputs.instanceId = require('F2').guid();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)
@@ -52,49 +53,29 @@
 
 		// See if we need to hit the server
 		if (asyncApps.length) {
-			xhrByUrl = requestApps(asyncApps, function() {
-				if (afterRequestFn) {
-					afterRequestFn();
-				}
-
-				delegateHtmlLoading(allApps, xhrByUrl, successFn, completeFn);
+			requestApps(asyncApps, function(styles, scripts, inlineScripts) {
+				delegateHtmlLoading(allApps, successFn, completeFn);
 			});
 		}
 		else {
-			if (afterRequestFn) {
-				afterRequestFn();
-			}
-
-			delegateHtmlLoading(allApps, xhrByUrl, successFn, completeFn);
+			delegateHtmlLoading(allApps, successFn, completeFn);
 		}
-
-		return xhrByUrl;
 	}
 
 	// Pass the apps off to the container so they can place them on the page
-	function delegateHtmlLoading(allApps, xhrByUrl, successFn, completeFn) {
+	function delegateHtmlLoading(allApps, successFn, completeFn) {
 		if (successFn) {
 			successFn.apply(window, allApps);
 		}
 
-		initAppClasses(allApps, xhrByUrl, completeFn);
+		initAppClasses(allApps, completeFn);
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
-	function initAppClasses(allApps, xhrByUrl, completeFn) {
-		var appIds = [];
-
-		for (var i = 0, len = allApps.length; i < len; i++) {
-			// Pull out any async apps that were aborted
-			if (allApps[i].xhr && allApps[i].xhr.isAborted) {
-				allApps.splice(i, 1);
-				i -= 1;
-				len -= 1;
-			}
-			else {
-				appIds.push(allApps[i].appConfig.appId);
-			}
-		}
+	function initAppClasses(allApps, completeFn) {
+		var appIds = _.map(allApps, function(app) {
+			return app.appConfig.appId;
+		});
 
 		require(appIds, function() {
 			var appClasses = Array.prototype.slice.apply(arguments);
@@ -129,7 +110,6 @@
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
 	function requestApps(asyncApps, callback) {
-		var xhrByUrl = {};
 		var appsByUrl = {};
 
 		// Get a map of apps keyed by url
@@ -155,8 +135,6 @@
 		var numRequests = 0;
 
 		for (var url in appsByUrl) {
-			xhrByUrl[url] = [];
-
 			// Make a collection of all the configs we'll need to make
 			// Each index maps to one web request
 			var urlApps = appsByUrl[url].singles.slice();
@@ -164,7 +142,7 @@
 			if (appsByUrl[url].batch.length) {
 				urlApps.push(appsByUrl[url].batch);
 			}
-
+	
 			numRequests += urlApps.length;
 
 			_.each(urlApps, function(apps) {
@@ -177,7 +155,7 @@
 					return app.appConfig;
 				});
 
-				var req = Helpers.ajax({
+				Helpers.Ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
@@ -220,17 +198,8 @@
 					type: 'json',
 					url: url
 				});
-
-				// Set this xhr on each app
-				_.each(apps, function(app) {
-					app.xhr = req;
-				});
-
-				xhrByUrl[url].push(req);
 			});
 		}
-
-		return xhrByUrl;
 	}
 
 	function combineAppManifests(manifests) {
@@ -253,7 +222,7 @@
 	}
 
 	function loadStaticFiles(styles, scripts, inlineScripts, callback) {
-		var containerConfig = F2.config();
+		var containerConfig = require('F2').config();
 		var stylesDone = false;
 		var scriptsDone = false;
 
@@ -323,7 +292,7 @@
 	// API
 	// ---------------------------------------------------------------------------
 
-	Helpers.apps = {
+	return {
 		getInstance: function(identifier) {
 			var instance;
 
