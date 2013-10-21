@@ -36,6 +36,10 @@
 
 		if (placeholders && placeholders.length) {
 			var appConfigs = _.map(placeholders, function(placeholder) {
+				if (placeholder.isPreload) {
+					placeholder.appConfig.root = placeholder.node;
+				}
+				
 				return placeholder.appConfig;
 			});
 
@@ -44,8 +48,11 @@
 				success: function() {
 					var args = Array.prototype.slice.call(arguments);
 
+					// Add to the DOM
 					for (var i = 0, len = args.length; i < len; i++) {
-						placeholders[i].node.appendChild(args[i].root);
+						if (!placeholders[i].isPreload) {
+							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
+						}
 					}
 				}
 			});

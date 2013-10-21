@@ -15,8 +15,10 @@
 
 	<!-- Place code here that needs to be used in tests -->
 	<div id="hard-coded-markup" style="display: none;">
-		<div id="placeholder1" data-f2-appid="com_test_placeholder" data-f2-manifesturl="http://localhost:8080/apps/single"></div>
-		<div id="placeholder2" data-f2-appid="com_test_placeholder2" data-f2-manifesturl="http://localhost:8080/apps/single" data-f2-context='{"didWork":true}'></div>
+		<div id="placeholder-container">
+			<div data-f2-appid="com_test_placeholder" data-f2-manifesturl="http://localhost:8080/apps/single"></div>
+			<div data-f2-appid="com_test_placeholder2" data-f2-manifesturl="http://localhost:8080/apps/single" data-f2-context='{"didWork":true}'></div>
+		</div>
 		<div data-f2-manifesturl="http://localhost:8080/apps/single"></div>
 	</div>
 
@@ -53,11 +55,11 @@
 
 		require([
 			'domReady!',
+			'js/specs/appPlaceholders.spec.js',
 			'js/specs/globals.spec.js',
 			'js/specs/amd.spec.js',
 			'js/specs/f2.spec.js',
-			'js/specs/f2.schemas.spec.js',
-			'js/specs/appPlaceholders.spec.js'
+			'js/specs/f2.schemas.spec.js'
 		], function() {
 
 			var jasmineEnv = jasmine.getEnv();

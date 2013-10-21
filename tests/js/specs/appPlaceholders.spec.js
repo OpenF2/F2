@@ -1,6 +1,7 @@
 describe('App Placeholders', function() {
 
 	var F2;
+	window.test = {};
 
 	beforeEach(function() {
 		F2 = require('F2');
@@ -9,7 +10,7 @@ describe('App Placeholders', function() {
 	it('should load a placeholder with valid attributes and no context', function() {
 		waitsFor(function() {
 			// Our test classes will throw some properties on the window
-			return window.com_test_placeholder;
+			return window.test.com_test_placeholder;
 		}, DEFAULT_TIMEOUT);
 
 		runs(function() {
@@ -17,7 +18,7 @@ describe('App Placeholders', function() {
 				function hasEmptyContext() {
 					var hasProps = false;
 
-					for (var prop in window.com_test_placeholder.context) {
+					for (var prop in window.test.com_test_placeholder.context) {
 						hasProps = true;
 						break;
 					}
@@ -25,7 +26,7 @@ describe('App Placeholders', function() {
 					return !hasProps;
 				},
 				function hasCorrectParentNode() {
-					return window.com_test_placeholder.root.parentNode === document.getElementById('placeholder1');
+					return window.test.com_test_placeholder.root.parentNode === document.getElementById('placeholder-container');
 				}
 			];
 
@@ -35,23 +36,23 @@ describe('App Placeholders', function() {
 			}
 
 			// Clean up
-			F2.removeApp(window.com_test_placeholder.root);
+			F2.removeApp(window.test.com_test_placeholder.instanceId);
 		});
 	});
 
 	it('should load a placeholder with valid attributes and context', function() {
 		waitsFor(function() {
 			// Our test classes will throw some properties on the window
-			return window.com_test_placeholder2;
+			return window.test.com_test_placeholder2;
 		}, DEFAULT_TIMEOUT);
 
 		runs(function() {
 			var conditions = [
 				function hasCorrectContext() {
-					return window.com_test_placeholder2.context.didWork === true;
+					return window.test.com_test_placeholder2.context.didWork === true;
 				},
 				function hasCorrectParentNode() {
-					return window.com_test_placeholder2.root.parentNode === document.getElementById('placeholder2');
+					return window.test.com_test_placeholder2.root.parentNode === document.getElementById('placeholder-container');
 				}
 			];
 
@@ -61,12 +62,12 @@ describe('App Placeholders', function() {
 			}
 
 			// Clean up
-			F2.removeApp(window.com_test_placeholder2.root);
+			F2.removeApp(window.test.com_test_placeholder2.root);
 		});
 	});
 
 	it('should ignore placeholders with invalid attributes', function() {
-		expect(window.com_test_basic).not.toBeDefined();
+		expect(window.test.com_test_basic).not.toBeDefined();
 	});
 
 });

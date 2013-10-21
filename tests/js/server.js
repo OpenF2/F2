@@ -62,13 +62,19 @@ app.all('/apps/multiple', function(req, res) {
 
 // Duplicate AppManifests in response
 app.all('/apps/duplicate', function(req, res) {
+	var configs = JSON.parse(req.body.params);
+
+	if (!configs) {
+		configs = JSON.parse(req.params.params);
+	}
+
 	res.json({
 		apps: [
 			{ data: {}, html: '<div></div>', success: true },
 			{ data: {}, html: '<div></div>', success: true }
 		],
 		inlineScripts: [],
-		scripts: ['js/apps/com_test_basic.js'],
+		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
 	});
 });

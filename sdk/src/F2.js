@@ -76,7 +76,24 @@
 				params.appConfigs = [params.appConfigs];
 			}
 
-			Helpers.Apps.load(params.appConfigs, params.success, params.error, params.complete);
+			var reqs = Helpers.Apps.load(
+				params.appConfigs,
+				params.success,
+				params.error,
+				params.complete,
+				params.afterRequest
+			);
+
+			return {
+				abort: (function() {
+					if (reqs) {
+						for (var url in reqs) {
+							reqs[url].request.abort();
+						}
+					}
+				}),
+				requests: reqs
+			};
 		},
 		/**
 		 * Removes an app from the container

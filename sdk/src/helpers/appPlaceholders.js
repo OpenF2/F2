@@ -1,7 +1,7 @@
 ﻿define('F2._Helpers.AppPlaceholders', [], function() {
 
 	// Generate an AppConfig from the element's attributes
-	function getAppConfigFromElement(node) {
+	function getPlaceholderFromElement(node) {
 		var output;
 		var appConfig;
 
@@ -56,9 +56,14 @@
 		}
 
 		if (appConfig) {
+			// See if this node has children
+			// If it does, assume it has already been loaded
+			var isPreload = hasNonTextChildNodes(node);
+
 			output = {
-				node: node,
-				appConfig: appConfig
+				appConfig: appConfig,
+				isPreload: isPreload,
+				node: node
 			};
 		}
 
@@ -87,6 +92,21 @@
 		return elements;
 	}
 
+	function hasNonTextChildNodes(node) {
+		var hasNodes = false;
+
+		if (node.hasChildNodes()) {
+			for (var i = 0, len = node.childNodes.length; i < len; i++) {
+				if (node.childNodes[i].nodeType === 1) {
+					hasNodes = true;
+					break;
+				}
+			}
+		}
+
+		return hasNodes;
+	}
+
 	// ---------------------------------------------------------------------------
 	// API
 	// ---------------------------------------------------------------------------
@@ -97,7 +117,7 @@
 			var elements = getElementsByAttribute(parentNode, 'data-f2-appid');
 
 			for (var i = 0, len = elements.length; i < len; i++) {
-				var placeholder = getAppConfigFromElement(elements[i]);
+				var placeholder = getPlaceholderFromElement(elements[i]);
 
 				if (placeholder) {
 					placeholders.push(placeholder);

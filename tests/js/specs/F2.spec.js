@@ -5,6 +5,7 @@
 	beforeEach(function() {
 		F2 = require('F2');
 		Events = require('F2.Events');
+		window.test = {};
 	});
 
 	describe('config', function() {
@@ -113,14 +114,14 @@
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
-				return window.com_test_basic;
+				return window.test.com_test_basic;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				expect(window.com_test_basic).toBeDefined();
+				expect(window.test.com_test_basic).toBeDefined();
 
 				// Clean up
-				F2.removeApp(window.com_test_basic);
+				F2.removeApp(window.test.com_test_basic.instanceId);
 			});
 		});
 
@@ -134,16 +135,16 @@
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
-				return window.com_test_basic && window.com_test_inherited;
+				return window.test.com_test_basic && window.test.com_test_inherited;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				expect(window.com_test_basic).toBeDefined();
-				expect(window.com_test_inherited).toBeDefined();
+				expect(window.test.com_test_basic).toBeDefined();
+				expect(window.test.com_test_inherited).toBeDefined();
 
 				// Clean up
-				F2.removeApp(window.com_test_basic);
-				F2.removeApp(window.com_test_inherited);
+				F2.removeApp(window.test.com_test_basic);
+				F2.removeApp(window.test.com_test_inherited);
 			});
 		});
 
@@ -165,16 +166,16 @@
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
-				return window.com_test_basic && window.com_test_inherited;
+				return window.test.com_test_basic && window.test.com_test_inherited;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				expect(window.com_test_basic).toBeDefined();
-				expect(window.com_test_inherited).toBeDefined();
+				expect(window.test.com_test_basic).toBeDefined();
+				expect(window.test.com_test_inherited).toBeDefined();
 
 				// Clean up
-				F2.removeApp(window.com_test_basic);
-				F2.removeApp(window.com_test_inherited);
+				F2.removeApp(window.test.com_test_basic);
+				F2.removeApp(window.test.com_test_inherited);
 			});
 		});
 
@@ -182,12 +183,12 @@
 			F2.load({
 				appConfigs: [
 					{
-						appId: 'com_test_basic',
+						appId: 'com_test_duplicate',
 						manifestUrl: 'http://localhost:8080/apps/duplicate',
 						enableBatchRequests: true
 					},
 					{
-						appId: 'com_test_basic',
+						appId: 'com_test_duplicate',
 						manifestUrl: 'http://localhost:8080/apps/duplicate',
 						enableBatchRequests: true
 					}
@@ -196,15 +197,13 @@
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
-				return window.com_test_basic_ids && window.com_test_basic_ids.length;
+				return window.test.com_test_duplicate && window.test.com_test_duplicate.length === 2;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				var id1 = window.com_test_basic_ids[0];
-				var id2 = window.com_test_basic_ids[1];
+				var id1 = window.test.com_test_duplicate[0].instanceId;
+				var id2 = window.test.com_test_duplicate[1].instanceId;
 
-				expect(id1).toBeDefined();
-				expect(id2).toBeDefined();
 				expect(id1 !== id2).toBe(true);
 
 				// Clean up
@@ -223,33 +222,33 @@
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
-				return window.com_test_basic;
+				return window.test.com_test_basic;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				expect(window.com_test_basic).toBeDefined();
+				expect(window.test.com_test_basic).toBeDefined();
 
 				// Clean up
-				F2.removeApp(window.com_test_basic);
+				F2.removeApp(window.test.com_test_basic);
 			});
 		});
 
 		it('should load multiple apps on different domains', function() {
 			F2.load({
 				appConfigs: [
-					{ appId: 'com_test_basic', manifestUrl: 'http://localhost:8080/apps/single' },
+					{ appId: 'com_test_inherited', manifestUrl: 'http://localhost:8080/apps/single' },
 					{ appId: 'com_test_basic', manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp' }
 				]
 			});
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
-				return window.com_test_basic_ids && window.com_test_basic_ids.length;
+				return window.test.com_test_basic && window.test.com_test_inherited;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				var id1 = window.com_test_basic_ids[0];
-				var id2 = window.com_test_basic_ids[1];
+				var id1 = window.test.com_test_basic.instanceId;
+				var id2 = window.test.com_test_inherited.instanceId;
 
 				expect(id1).toBeDefined();
 				expect(id2).toBeDefined();
@@ -267,7 +266,7 @@
 			var reqs = F2.load({
 				appConfigs: [{
 					appId: 'com_test_basic',
-					manifestUrl: 'http://localhost:8080/apps/single'
+					manifestUrl: 'http://localhost:8080/apps/slow'
 				}],
 				afterRequest: function() {
 					isComplete = true;
@@ -275,11 +274,7 @@
 			});
 
 			// Abort everything!
-			for (var url in reqs) {
-				for (var i = 0; i < reqs[url].length; i++) {
-					reqs[url][i].abort();
-				}
-			}
+			reqs.abort();
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
@@ -287,7 +282,7 @@
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				expect(window.com_test_basic).not.toBeDefined();
+				expect(window.test.com_test_basic).not.toBeDefined();
 			});
 		});
 
@@ -305,40 +300,15 @@
 			});
 
 			// Abort everything!
-			for (var url in reqs) {
-				for (var i = 0; i < reqs[url].length; i++) {
-					reqs[url][i].abort();
-				}
-			}
+			reqs.abort();
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
 				return isComplete;
 			}, DEFAULT_TIMEOUT);
 
-			var conditions = [
-				function didNotInit() {
-					return !window.com_test_basic;
-				},
-				function didNotLoadScript() {
-					var scriptIsLoaded = false;
-					var allScripts = document.getElementsByTagName('script');
-
-					for (var i = 0; i < allScripts.length; i++) {
-						if (allScripts[i].src.indexOf('com_test_basic') !== -1) {
-							scriptIsLoaded = true;
-							break;
-						}
-					}
-
-					return !scriptIsLoaded;
-				}
-			];
-
 			runs(function() {
-				for (var i = 0; i < conditions.length; i++) {
-					expect(conditions[i]()).toBe(true);
-				}
+				expect(window.test.com_test_basic).not.toBeDefined();
 			});
 		});
 
@@ -349,6 +319,7 @@
 		// Shortcut func
 		function loadApp(cb) {
 			var root;
+			var isComplete = false;
 
 			F2.load({
 				appConfigs: [{
@@ -357,12 +328,15 @@
 				}],
 				success: function(app) {
 					root = app.root;
+				},
+				complete: function() {
+					isComplete = true;
 				}
 			});
 
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window
-				return window.com_test_basic;
+				return isComplete;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
@@ -372,31 +346,31 @@
 
 		it('should call the app\'s dispose() method', function() {
 			loadApp(function() {
-				F2.removeApp(window.com_test_basic);
-				expect(window.com_test_basic).not.toBeDefined();
+				F2.removeApp(window.test.com_test_basic.instanceId);
+				expect(window.test.com_test_basic).not.toBeDefined();
 			});
 		});
 
 		it('should remove by instanceId', function() {
 			loadApp(function() {
-				F2.removeApp(window.com_test_basic);
-				expect(window.com_test_basic).not.toBeDefined();
+				F2.removeApp(window.test.com_test_basic.instanceId);
+				expect(window.test.com_test_basic).not.toBeDefined();
 			});
 		});
 
 		it('should remove by root', function() {
-			loadApp(function(root) {
-				F2.removeApp(root);
-				expect(window.com_test_basic).not.toBeDefined();
+			loadApp(function() {
+				F2.removeApp(window.test.com_test_basic.root);
+				expect(window.test.com_test_basic).not.toBeDefined();
 			});
 		});
 
 		it('should automatically remove an app\'s events (when context was specified)', function() {
 			loadApp(function(root) {
-				F2.removeApp(window.com_test_basic);
+				F2.removeApp(window.test.com_test_basic);
 
 				Events.emit('com_test_basic');
-				expect(window.com_test_basic_event).not.toBeDefined();
+				expect(window.test.com_test_basic_event).not.toBeDefined();
 			});
 		});
 

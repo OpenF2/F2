@@ -1,4 +1,4 @@
-﻿define('com_test_placeholder', [], function() {
+﻿define('com_test_duplicate', [], function() {
 
 	function AppClass(instanceId, appConfig, data, root) {
 		this.instanceId = instanceId;
@@ -6,15 +6,19 @@
 		this.data = data;
 		this.root = root;
 
-		window.test.com_test_placeholder = {
+		// Store some properties on the window
+		if (!window.test.com_test_duplicate) {
+			window.test.com_test_duplicate = [];
+		}
+
+		window.test.com_test_duplicate.push({
 			instanceId: instanceId,
-			context: data,
 			root: root
-		};
+		});
 	}
 
 	AppClass.prototype.dispose = function() {
-		delete window.test.com_test_placeholder;
+		delete window.test.com_test_duplicate.pop();
 	};
 
 	return AppClass;

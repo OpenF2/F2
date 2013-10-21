@@ -6,13 +6,17 @@
 		this.data = data;
 		this.root = root;
 
-		window.com_test_inherited = instanceId;
+		window.test.com_test_inherited = {
+			instanceId: instanceId,
+			root: root
+		};
 	}
 
+	// Extend the base class
 	AppClass.prototype = new BaseAppClass;
 
 	AppClass.prototype.dispose = function() {
-		delete window.com_test_inherited;
+		delete window.test.com_test_inherited;
 	};
 
 	return AppClass;

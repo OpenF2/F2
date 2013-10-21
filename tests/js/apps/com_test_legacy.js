@@ -6,11 +6,11 @@
 		this.data = data;
 		this.root = root;
 
-		window.com_test_legacy = instanceId;
+		window.test.com_test_legacy = instanceId;
 	}
 
 	AppClass.prototype.dispose = function() {
-		delete window.com_test_legacy;
+		delete window.test.com_test_legacy;
 	};
 
 	return AppClass;

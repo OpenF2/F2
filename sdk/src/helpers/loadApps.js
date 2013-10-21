@@ -17,16 +17,15 @@
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(appConfigs, successFn, errorFn, completeFn) {
+	function loadApps(appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+		var xhrByUrl;
 		// Params used to instantiate AppClasses
 		var allApps = [];
 		// Track which apps need to hit the server
 		var asyncApps = [];
 
 		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			var inputs = {
-				order: i
-			};
+			var inputs = {};
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
@@ -53,22 +52,70 @@
 
 		// See if we need to hit the server
 		if (asyncApps.length) {
-			requestApps(asyncApps, function(styles, scripts, inlineScripts) {
-				delegateHtmlLoading(allApps, successFn, completeFn);
+			xhrByUrl = requestApps(asyncApps, function() {
+				if (afterRequestFn) {
+					afterRequestFn();
+				}
+
+				delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
 			});
 		}
 		else {
-			delegateHtmlLoading(allApps, successFn, completeFn);
+			if (afterRequestFn) {
+				afterRequestFn();
+			}
+
+			delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
+		}
+
+		return xhrByUrl || {};
+	}
+
+	// Add unhandled apps to document.body
+	function dumpAppsOnDom(/* app1, app2 */) {
+		var args = Array.prototype.slice.call(arguments);
+
+		if (args.length) {
+			var frag = document.createDocumentFragment();
+
+			for (var i = 0, len = args.length; i < len; i++) {
+				if (args[i].root) {
+					frag.appendChild(args[i].root);
+				}
+			}
+
+			document.body.appendChild(frag);
 		}
 	}
 
 	// Pass the apps off to the container so they can place them on the page
-	function delegateHtmlLoading(allApps, successFn, completeFn) {
+	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
+		var abortedIndexes = [];
+
+		for (var i = 0, len = allApps.length; i < len; i++) {
+			var url = allApps[i].appConfig.manifestUrl;
+
+			if (xhrByUrl[url].request.isAborted) {
+				allApps[i].isAborted = true;
+				abortedIndexes.push(i);
+			}
+		}
+
+		// Let the container put the apps on the page
 		if (successFn) {
 			successFn.apply(window, allApps);
 		}
+		else {
+			// Throw the apps on document.body if there's no handler
+			dumpAppsOnDom.apply(window, allApps);
+		}
 
-		initAppClasses(allApps, completeFn);
+		// Pull out the aborted classes so we don't load them
+		while (abortedIndexes.length) {
+			allApps.splice(abortedIndexes.pop(), 1);
+		}
+
+		initAppClasses(allApps, completeFn, xhrByUrl);
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
@@ -77,39 +124,47 @@
 			return app.appConfig.appId;
 		});
 
-		require(appIds, function() {
-			var appClasses = Array.prototype.slice.apply(arguments);
+		if (appIds.length) {
+			require(appIds, function() {
+				var appClasses = Array.prototype.slice.apply(arguments);
 
-			// Load each AppClass
-			for (var i = 0, len = allApps.length; i < len; i++) {
-				try {
-					var instance = new appClasses[i](
-						allApps[i].instanceId,
-						allApps[i].appConfig,
-						allApps[i].appContent.data || {},
-						allApps[i].root
-					);
+				// Load each AppClass
+				for (var i = 0, len = allApps.length; i < len; i++) {
+					try {
+						var instance = new appClasses[i](
+							allApps[i].instanceId,
+							allApps[i].appConfig,
+							allApps[i].appContent.data || {},
+							allApps[i].root
+						);
 
-					if (instance.init) {
-						instance.init();
+						if (instance.init) {
+							instance.init();
+						}
+
+						appInstances[allApps[i].instanceId] = instance;
 					}
-
-					appInstances[allApps[i].instanceId] = instance;
+					catch (e) {
+						console.error('F2: could not init', allApps[i].appConfig.appId, '"' + e.toString() + '"');
+					}
 				}
-				catch (e) {
-					console.error('F2: could not init', allApps[i].appConfig.appId, '"' + e.toString() + '"');
-				}
-			}
 
-			// Finally tell the container that we're all finished
+				// Finally tell the container that we're all finished
+				if (completeFn) {
+					completeFn();
+				}
+			});
+		}
+		else {
 			if (completeFn) {
 				completeFn();
 			}
-		});
+		}
 	}
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
 	function requestApps(asyncApps, callback) {
+		var xhrByUrl = {};
 		var appsByUrl = {};
 
 		// Get a map of apps keyed by url
@@ -135,6 +190,8 @@
 		var numRequests = 0;
 
 		for (var url in appsByUrl) {
+			xhrByUrl[url] = [];
+
 			// Make a collection of all the configs we'll need to make
 			// Each index maps to one web request
 			var urlApps = appsByUrl[url].singles.slice();
@@ -142,7 +199,7 @@
 			if (appsByUrl[url].batch.length) {
 				urlApps.push(appsByUrl[url].batch);
 			}
-	
+
 			numRequests += urlApps.length;
 
 			_.each(urlApps, function(apps) {
@@ -155,7 +212,7 @@
 					return app.appConfig;
 				});
 
-				Helpers.Ajax({
+				var xhr = Helpers.Ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
@@ -198,8 +255,15 @@
 					type: 'json',
 					url: url
 				});
+
+				xhrByUrl[url] = {
+					apps: apps,
+					request: xhr
+				};
 			});
 		}
+
+		return xhrByUrl;
 	}
 
 	function combineAppManifests(manifests) {

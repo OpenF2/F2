@@ -4,16 +4,6 @@
 	// Helpers
 	// --------------------------------------------------------------------------
 
-	function queryStringify(obj) {
-		var qs = [];
-
-		for (var p in obj) {
-			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-		}
-
-		return qs.join('&');
-	}
-
 	function delim(url) {
 		return (url.indexOf('?') === -1) ? '?' : '&';
 	}
@@ -152,15 +142,6 @@
 
 		// Look for methods that use query strings
 		if (params.method === 'get' || params.type === 'jsonp') {
-			// Stringify the data onto the url
-			if (params.data) {
-				params.url += delim(params.url) + queryStringify(params.data);
-			}
-			else {
-				// Pull data off the obj to avoid confusion
-				delete params.data;
-			}
-
 			// Bust cache if asked
 			if (!cache) {
 				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);

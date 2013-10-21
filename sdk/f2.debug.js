@@ -4798,16 +4798,6 @@ define('F2._Helpers.Ajax', [], function() {
 	// Helpers
 	// --------------------------------------------------------------------------
 
-	function queryStringify(obj) {
-		var qs = [];
-
-		for (var p in obj) {
-			qs.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-		}
-
-		return qs.join('&');
-	}
-
 	function delim(url) {
 		return (url.indexOf('?') === -1) ? '?' : '&';
 	}
@@ -4946,15 +4936,6 @@ define('F2._Helpers.Ajax', [], function() {
 
 		// Look for methods that use query strings
 		if (params.method === 'get' || params.type === 'jsonp') {
-			// Stringify the data onto the url
-			if (params.data) {
-				params.url += delim(params.url) + queryStringify(params.data);
-			}
-			else {
-				// Pull data off the obj to avoid confusion
-				delete params.data;
-			}
-
 			// Bust cache if asked
 			if (!cache) {
 				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);
@@ -5003,7 +4984,7 @@ define('F2._Helpers.Ajax', [], function() {
 define('F2._Helpers.AppPlaceholders', [], function() {
 
 	// Generate an AppConfig from the element's attributes
-	function getAppConfigFromElement(node) {
+	function getPlaceholderFromElement(node) {
 		var output;
 		var appConfig;
 
@@ -5058,9 +5039,14 @@ define('F2._Helpers.AppPlaceholders', [], function() {
 		}
 
 		if (appConfig) {
+			// See if this node has children
+			// If it does, assume it has already been loaded
+			var isPreload = hasNonTextChildNodes(node);
+
 			output = {
-				node: node,
-				appConfig: appConfig
+				appConfig: appConfig,
+				isPreload: isPreload,
+				node: node
 			};
 		}
 
@@ -5089,6 +5075,21 @@ define('F2._Helpers.AppPlaceholders', [], function() {
 		return elements;
 	}
 
+	function hasNonTextChildNodes(node) {
+		var hasNodes = false;
+
+		if (node.hasChildNodes()) {
+			for (var i = 0, len = node.childNodes.length; i < len; i++) {
+				if (node.childNodes[i].nodeType === 1) {
+					hasNodes = true;
+					break;
+				}
+			}
+		}
+
+		return hasNodes;
+	}
+
 	// ---------------------------------------------------------------------------
 	// API
 	// ---------------------------------------------------------------------------
@@ -5099,7 +5100,7 @@ define('F2._Helpers.AppPlaceholders', [], function() {
 			var elements = getElementsByAttribute(parentNode, 'data-f2-appid');
 
 			for (var i = 0, len = elements.length; i < len; i++) {
-				var placeholder = getAppConfigFromElement(elements[i]);
+				var placeholder = getPlaceholderFromElement(elements[i]);
 
 				if (placeholder) {
 					placeholders.push(placeholder);
@@ -5462,16 +5463,15 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(appConfigs, successFn, errorFn, completeFn) {
+	function loadApps(appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+		var xhrByUrl;
 		// Params used to instantiate AppClasses
 		var allApps = [];
 		// Track which apps need to hit the server
 		var asyncApps = [];
 
 		for (var i = 0, len = appConfigs.length; i < len; i++) {
-			var inputs = {
-				order: i
-			};
+			var inputs = {};
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
@@ -5498,22 +5498,70 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 
 		// See if we need to hit the server
 		if (asyncApps.length) {
-			requestApps(asyncApps, function(styles, scripts, inlineScripts) {
-				delegateHtmlLoading(allApps, successFn, completeFn);
+			xhrByUrl = requestApps(asyncApps, function() {
+				if (afterRequestFn) {
+					afterRequestFn();
+				}
+
+				delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
 			});
 		}
 		else {
-			delegateHtmlLoading(allApps, successFn, completeFn);
+			if (afterRequestFn) {
+				afterRequestFn();
+			}
+
+			delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
+		}
+
+		return xhrByUrl || {};
+	}
+
+	// Add unhandled apps to document.body
+	function dumpAppsOnDom(/* app1, app2 */) {
+		var args = Array.prototype.slice.call(arguments);
+
+		if (args.length) {
+			var frag = document.createDocumentFragment();
+
+			for (var i = 0, len = args.length; i < len; i++) {
+				if (args[i].root) {
+					frag.appendChild(args[i].root);
+				}
+			}
+
+			document.body.appendChild(frag);
 		}
 	}
 
 	// Pass the apps off to the container so they can place them on the page
-	function delegateHtmlLoading(allApps, successFn, completeFn) {
+	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
+		var abortedIndexes = [];
+
+		for (var i = 0, len = allApps.length; i < len; i++) {
+			var url = allApps[i].appConfig.manifestUrl;
+
+			if (xhrByUrl[url].request.isAborted) {
+				allApps[i].isAborted = true;
+				abortedIndexes.push(i);
+			}
+		}
+
+		// Let the container put the apps on the page
 		if (successFn) {
 			successFn.apply(window, allApps);
 		}
+		else {
+			// Throw the apps on document.body if there's no handler
+			dumpAppsOnDom.apply(window, allApps);
+		}
 
-		initAppClasses(allApps, completeFn);
+		// Pull out the aborted classes so we don't load them
+		while (abortedIndexes.length) {
+			allApps.splice(abortedIndexes.pop(), 1);
+		}
+
+		initAppClasses(allApps, completeFn, xhrByUrl);
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
@@ -5522,39 +5570,47 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 			return app.appConfig.appId;
 		});
 
-		require(appIds, function() {
-			var appClasses = Array.prototype.slice.apply(arguments);
+		if (appIds.length) {
+			require(appIds, function() {
+				var appClasses = Array.prototype.slice.apply(arguments);
 
-			// Load each AppClass
-			for (var i = 0, len = allApps.length; i < len; i++) {
-				try {
-					var instance = new appClasses[i](
-						allApps[i].instanceId,
-						allApps[i].appConfig,
-						allApps[i].appContent.data || {},
-						allApps[i].root
-					);
+				// Load each AppClass
+				for (var i = 0, len = allApps.length; i < len; i++) {
+					try {
+						var instance = new appClasses[i](
+							allApps[i].instanceId,
+							allApps[i].appConfig,
+							allApps[i].appContent.data || {},
+							allApps[i].root
+						);
 
-					if (instance.init) {
-						instance.init();
+						if (instance.init) {
+							instance.init();
+						}
+
+						appInstances[allApps[i].instanceId] = instance;
 					}
-
-					appInstances[allApps[i].instanceId] = instance;
+					catch (e) {
+						console.error('F2: could not init', allApps[i].appConfig.appId, '"' + e.toString() + '"');
+					}
 				}
-				catch (e) {
-					console.error('F2: could not init', allApps[i].appConfig.appId, '"' + e.toString() + '"');
-				}
-			}
 
-			// Finally tell the container that we're all finished
+				// Finally tell the container that we're all finished
+				if (completeFn) {
+					completeFn();
+				}
+			});
+		}
+		else {
 			if (completeFn) {
 				completeFn();
 			}
-		});
+		}
 	}
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
 	function requestApps(asyncApps, callback) {
+		var xhrByUrl = {};
 		var appsByUrl = {};
 
 		// Get a map of apps keyed by url
@@ -5580,6 +5636,8 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 		var numRequests = 0;
 
 		for (var url in appsByUrl) {
+			xhrByUrl[url] = [];
+
 			// Make a collection of all the configs we'll need to make
 			// Each index maps to one web request
 			var urlApps = appsByUrl[url].singles.slice();
@@ -5587,7 +5645,7 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 			if (appsByUrl[url].batch.length) {
 				urlApps.push(appsByUrl[url].batch);
 			}
-	
+
 			numRequests += urlApps.length;
 
 			_.each(urlApps, function(apps) {
@@ -5600,7 +5658,7 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 					return app.appConfig;
 				});
 
-				Helpers.Ajax({
+				var xhr = Helpers.Ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
@@ -5643,8 +5701,15 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 					type: 'json',
 					url: url
 				});
+
+				xhrByUrl[url] = {
+					apps: apps,
+					request: xhr
+				};
 			});
 		}
+
+		return xhrByUrl;
 	}
 
 	function combineAppManifests(manifests) {
@@ -5840,7 +5905,24 @@ define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__,
 				params.appConfigs = [params.appConfigs];
 			}
 
-			Helpers.Apps.load(params.appConfigs, params.success, params.error, params.complete);
+			var reqs = Helpers.Apps.load(
+				params.appConfigs,
+				params.success,
+				params.error,
+				params.complete,
+				params.afterRequest
+			);
+
+			return {
+				abort: (function() {
+					if (reqs) {
+						for (var url in reqs) {
+							reqs[url].request.abort();
+						}
+					}
+				}),
+				requests: reqs
+			};
 		},
 		/**
 		 * Removes an app from the container
@@ -5996,6 +6078,10 @@ define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 
 		if (placeholders && placeholders.length) {
 			var appConfigs = _.map(placeholders, function(placeholder) {
+				if (placeholder.isPreload) {
+					placeholder.appConfig.root = placeholder.node;
+				}
+				
 				return placeholder.appConfig;
 			});
 
@@ -6004,8 +6090,11 @@ define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 				success: function() {
 					var args = Array.prototype.slice.call(arguments);
 
+					// Add to the DOM
 					for (var i = 0, len = args.length; i < len; i++) {
-						placeholders[i].node.appendChild(args[i].root);
+						if (!placeholders[i].isPreload) {
+							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
+						}
 					}
 				}
 			});
