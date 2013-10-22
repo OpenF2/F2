@@ -93,7 +93,7 @@ app.all('/apps/single_jsonp', function(req, res) {
 
 // Simulate a slow jsonp call
 app.all('/apps/single_jsonp_slow', function(req, res) {
-	sleep.sleep(2);
+	sleep.sleep(0.2);
 
 	res.jsonp({
 		apps: [

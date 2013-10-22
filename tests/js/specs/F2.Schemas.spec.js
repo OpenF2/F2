@@ -1,11 +1,7 @@
 ﻿describe('F2.Schemas', function() {
 
-	var F2, Schemas;
-
-	beforeEach(function() {
-		F2 = require('F2');
-		Schemas = require('F2.Schemas');
-	});
+	var F2 = require('F2');
+	var Schemas = require('F2.Schemas');
 
 	describe('add', function() {
 

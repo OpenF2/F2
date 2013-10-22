@@ -23,6 +23,14 @@
 	}
 
 	function _unsubscribe(name, handler, context) {
+		if (!name && !handler && !context) {
+			throw 'F2.Events: "off" accepts the following combinations of parameters: name/handler, name/context, handler, context.';
+		}
+
+		if (name && !handler && !context) {
+			throw 'F2.Events: you must pass either a handler or context along with name';
+		}
+
 		if (_cache[name] && (handler || context)) {
 			var len = _cache[name].length;
 
@@ -81,7 +89,12 @@
 			}
 		},
 		many: function(name, timesToListen, handler, context) {
-			timesToListen = parseInt(timesToListen, 10);
+			if (!timesToListen) {
+				timesToListen = 0;
+			}
+			else {
+				timesToListen = parseInt(timesToListen, 10);
+			}
 
 			if (timesToListen < 1) {
 				throw 'F2.Events: "timesToListen" must be greater than 0.';

@@ -1,10 +1,6 @@
 ﻿describe('AMD', function() {
 
-	var F2;
-
-	beforeEach(function() {
-		F2 = require('F2');
-	});
+	var F2 = require('F2');
 
 	it('should be able to load F2 modules', function() {
 		expect(F2).toBeDefined();

@@ -5161,6 +5161,14 @@ define('F2.Events', [], function() {
 	}
 
 	function _unsubscribe(name, handler, context) {
+		if (!name && !handler && !context) {
+			throw 'F2.Events: "off" accepts the following combinations of parameters: name/handler, name/context, handler, context.';
+		}
+
+		if (name && !handler && !context) {
+			throw 'F2.Events: you must pass either a handler or context along with name';
+		}
+
 		if (_cache[name] && (handler || context)) {
 			var len = _cache[name].length;
 
@@ -5219,6 +5227,10 @@ define('F2.Events', [], function() {
 			}
 		},
 		many: function(name, timesToListen, handler, context) {
+			if (!timesToListen) {
+				timesToListen = 0;
+			}
+
 			timesToListen = parseInt(timesToListen, 10);
 
 			if (timesToListen < 1) {
@@ -5538,12 +5550,15 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
 		var abortedIndexes = [];
 
-		for (var i = 0, len = allApps.length; i < len; i++) {
-			var url = allApps[i].appConfig.manifestUrl;
+		// Look for aborted requests
+		if (xhrByUrl) {
+			for (var i = 0, len = allApps.length; i < len; i++) {
+				var url = allApps[i].appConfig.manifestUrl;
 
-			if (xhrByUrl[url].request.isAborted) {
-				allApps[i].isAborted = true;
-				abortedIndexes.push(i);
+				if (xhrByUrl[url] && xhrByUrl[url].request.isAborted) {
+					allApps[i].isAborted = true;
+					abortedIndexes.push(i);
+				}
 			}
 		}
 
@@ -6100,4 +6115,9 @@ define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 			});
 		}
 	});
+
+	// Undefine private modules
+	//requirejs.undef('F2._Helpers.Ajax');
+	//requirejs.undef('F2._Helpers.AppPlaceholders');
+	//requirejs.undef('F2._Helpers.Apps');
 })();

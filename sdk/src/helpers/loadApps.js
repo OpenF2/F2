@@ -92,12 +92,15 @@
 	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
 		var abortedIndexes = [];
 
-		for (var i = 0, len = allApps.length; i < len; i++) {
-			var url = allApps[i].appConfig.manifestUrl;
+		// Look for aborted requests
+		if (xhrByUrl) {
+			for (var i = 0, len = allApps.length; i < len; i++) {
+				var url = allApps[i].appConfig.manifestUrl;
 
-			if (xhrByUrl[url].request.isAborted) {
-				allApps[i].isAborted = true;
-				abortedIndexes.push(i);
+				if (xhrByUrl[url] && xhrByUrl[url].request.isAborted) {
+					allApps[i].isAborted = true;
+					abortedIndexes.push(i);
+				}
 			}
 		}
 

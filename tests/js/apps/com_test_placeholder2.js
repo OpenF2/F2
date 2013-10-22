@@ -6,15 +6,19 @@
 		this.data = data;
 		this.root = root;
 
-		window.test.com_test_placeholder2 = {
+		if (!window.test.com_test_placeholder2) {
+			window.test.com_test_placeholder2 = [];
+		}
+
+		window.test.com_test_placeholder2.push({
 			instanceId: instanceId,
 			context: data,
 			root: root
-		};
+		});
 	}
 
 	AppClass.prototype.dispose = function() {
-		delete window.test.com_test_placeholder2;
+		delete window.test.com_test_placeholder2.shift();
 	};
 
 	return AppClass;

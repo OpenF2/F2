@@ -1,12 +1,8 @@
 describe('globals', function() {
 
-	var F2;
-
-	beforeEach(function() {
-		// We don't actually need F2 here, but we'll load it just to make sure
-		// globals don't leak out
-		F2 = require('F2');
-	});
+	// We don't actually need F2 here, but we'll load it just to make sure
+	// globals don't leak out
+	var F2 = require('F2');;
 
 	it('should expose "JSON"', function() {
 		expect(JSON).toBeDefined();

@@ -1,13 +1,9 @@
 describe('App Placeholders', function() {
 
-	var F2;
+	var F2 = require('F2');
 	window.test = {};
 
-	beforeEach(function() {
-		F2 = require('F2');
-	});
-
-	it('should load a placeholder with valid attributes and no context', function() {
+	it('should treat placeholders with child elements as preloaded', function() {
 		waitsFor(function() {
 			// Our test classes will throw some properties on the window
 			return window.test.com_test_placeholder;
@@ -26,7 +22,7 @@ describe('App Placeholders', function() {
 					return !hasProps;
 				},
 				function hasCorrectParentNode() {
-					return window.test.com_test_placeholder.root.parentNode === document.getElementById('placeholder-container');
+					return window.test.com_test_placeholder.root.id === 'placeholder1';
 				}
 			];
 
@@ -43,16 +39,16 @@ describe('App Placeholders', function() {
 	it('should load a placeholder with valid attributes and context', function() {
 		waitsFor(function() {
 			// Our test classes will throw some properties on the window
-			return window.test.com_test_placeholder2;
+			return window.test.com_test_placeholder2 && window.test.com_test_placeholder2.length;
 		}, DEFAULT_TIMEOUT);
 
 		runs(function() {
 			var conditions = [
 				function hasCorrectContext() {
-					return window.test.com_test_placeholder2.context.didWork === true;
+					return window.test.com_test_placeholder2[0].context.didWork === true;
 				},
 				function hasCorrectParentNode() {
-					return window.test.com_test_placeholder2.root.parentNode === document.getElementById('placeholder-container');
+					return window.test.com_test_placeholder2[0].root.parentNode === document.getElementById('placeholder-container');
 				}
 			];
 
@@ -62,7 +58,33 @@ describe('App Placeholders', function() {
 			}
 
 			// Clean up
-			F2.removeApp(window.test.com_test_placeholder2.root);
+			F2.removeApp(window.test.com_test_placeholder2[0].root);
+		});
+	});
+
+	it('should load multiple isntances of the same appId', function() {
+		waitsFor(function() {
+			// Our test classes will throw some properties on the window
+			return window.test.com_test_placeholder2 && window.test.com_test_placeholder2.length;
+		}, DEFAULT_TIMEOUT);
+
+		runs(function() {
+			var conditions = [
+				function hasCorrectContext() {
+					return window.test.com_test_placeholder2[0].context.isDuplicate === true;
+				},
+				function hasCorrectParentNode() {
+					return window.test.com_test_placeholder2[0].root.parentNode === document.getElementById('placeholder-container');
+				}
+			];
+
+			// Check all the conditions
+			for (var i = 0; i < conditions.length; i++) {
+				expect(conditions[i]()).toBe(true);
+			}
+
+			// Clean up
+			F2.removeApp(window.test.com_test_placeholder2[0].root);
 		});
 	});
 

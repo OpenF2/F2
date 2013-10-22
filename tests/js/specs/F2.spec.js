@@ -1,10 +1,9 @@
 ﻿describe('F2', function() {
 
-	var F2, Events;
+	var F2 = require('F2');
+	var Events = require('F2.Events');
 
 	beforeEach(function() {
-		F2 = require('F2');
-		Events = require('F2.Events');
 		window.test = {};
 	});
 
@@ -318,7 +317,6 @@
 
 		// Shortcut func
 		function loadApp(cb) {
-			var root;
 			var isComplete = false;
 
 			F2.load({
@@ -326,21 +324,17 @@
 					appId: 'com_test_basic',
 					manifestUrl: 'http://localhost:8080/apps/single'
 				}],
-				success: function(app) {
-					root = app.root;
-				},
 				complete: function() {
 					isComplete = true;
 				}
 			});
 
 			waitsFor(function() {
-				// Our test classes will throw some properties on the window
 				return isComplete;
 			}, DEFAULT_TIMEOUT);
 
 			runs(function() {
-				cb(root);
+				cb();
 			});
 		}
 
