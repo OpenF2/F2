@@ -1,11 +1,11 @@
 define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
 
-	var _containerConfig = F2.config();
-
 	return {
 		modal: function(params) {
+			var _containerConfig = F2.config();
+
 			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
-				if (Schemas.validate(params, 'uiModalParams')) {
+				if (_.isObject(params) && Schemas.validate(params, 'uiModalParams')) {
 					_containerConfig.ui.modal(params);
 				}
 				else {
@@ -16,20 +16,34 @@ define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
 				console.error('F2.UI: The container has not defined ui.modal.');
 			}
 		},
-		showMask: function(root) {
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showMask)) {
-				_containerConfig.ui.showMask(root);
+		showLoading: function(root) {
+			var _containerConfig = F2.config();
+
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showLoading)) {
+				if (!root || (root && root.nodeType === 1)) {
+					_containerConfig.ui.showLoading(root);
+				}
+				else {
+					console.error('F2.UI: the root passed was not a native DOM node.');
+				}
 			}
 			else {
-				console.error('F2.UI: The container has not defined ui.showMask.');
+				console.error('F2.UI: The container has not defined ui.showLoading.');
 			}
 		},
-		hideMask: function(root) {
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideMask)) {
-				_containerConfig.ui.hideMask(root);
+		hideLoading: function(root) {
+			var _containerConfig = F2.config();
+
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideLoading)) {
+				if (!root || (root && root.nodeType === 1)) {
+					_containerConfig.ui.hideLoading(root);
+				}
+				else {
+					console.error('F2.UI: the root passed was not a native DOM node.');
+				}
 			}
 			else {
-				console.error('F2.UI: The container has not defined ui.hideMask.');
+				console.error('F2.UI: The container has not defined ui.hideLoading.');
 			}
 		}
 	};

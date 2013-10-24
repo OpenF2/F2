@@ -66,8 +66,12 @@
 				// First char of 3rd block should be 4
 				// First char of 4th block should be a, b, 8, or 9
 				function() {
-					return guid[14] === "4"
-						&& ({ 8: true, 9: true, a: true, b: true })[guid[19]];
+					return guid[14] === "4" && ({
+						8: true,
+						9: true,
+						a: true,
+						b: true
+					})[guid[19]];
 				},
 				// There should be 5 blocks
 				// Block 1 should be 8 chars
@@ -78,12 +82,7 @@
 				function() {
 					var blocks = guid.split("-");
 
-					return blocks.length === 5
-						&& blocks[0].length === 8
-						&& blocks[1].length === 4
-						&& blocks[2].length === 4
-						&& blocks[3].length === 4
-						&& blocks[4].length === 12;
+					return blocks.length === 5 && blocks[0].length === 8 && blocks[1].length === 4 && blocks[2].length === 4 && blocks[3].length === 4 && blocks[4].length === 12;
 				}
 			];
 
@@ -126,10 +125,13 @@
 
 		it('should load multiple unbatched apps on same domain', function() {
 			F2.load({
-				appConfigs: [
-					{ appId: 'com_test_basic', manifestUrl: 'http://localhost:8080/apps/single' },
-					{ appId: 'com_test_inherited', manifestUrl: 'http://localhost:8080/apps/single' }
-				]
+				appConfigs: [{
+					appId: 'com_test_basic',
+					manifestUrl: 'http://localhost:8080/apps/single'
+				}, {
+					appId: 'com_test_inherited',
+					manifestUrl: 'http://localhost:8080/apps/single'
+				}]
 			});
 
 			waitsFor(function() {
@@ -142,25 +144,22 @@
 				expect(window.test.com_test_inherited).toBeDefined();
 
 				// Clean up
-				F2.removeApp(window.test.com_test_basic);
-				F2.removeApp(window.test.com_test_inherited);
+				F2.removeApp(window.test.com_test_basic.instanceId);
+				F2.removeApp(window.test.com_test_inherited.instanceId);
 			});
 		});
 
 		it('should load multiple batched apps on same domain', function() {
 			F2.load({
-				appConfigs: [
-					{
-						appId: 'com_test_basic',
-						manifestUrl: 'http://localhost:8080/apps/multiple',
-						enableBatchRequests: true
-					},
-					{
-						appId: 'com_test_inherited',
-						manifestUrl: 'http://localhost:8080/apps/multiple',
-						enableBatchRequests: true
-					}
-				]
+				appConfigs: [{
+					appId: 'com_test_basic',
+					manifestUrl: 'http://localhost:8080/apps/multiple',
+					enableBatchRequests: true
+				}, {
+					appId: 'com_test_inherited',
+					manifestUrl: 'http://localhost:8080/apps/multiple',
+					enableBatchRequests: true
+				}]
 			});
 
 			waitsFor(function() {
@@ -173,25 +172,22 @@
 				expect(window.test.com_test_inherited).toBeDefined();
 
 				// Clean up
-				F2.removeApp(window.test.com_test_basic);
-				F2.removeApp(window.test.com_test_inherited);
+				F2.removeApp(window.test.com_test_basic.instanceId);
+				F2.removeApp(window.test.com_test_inherited.instanceId);
 			});
 		});
 
 		it('should load duplicate apps on same domain with unique instanceIds', function() {
 			F2.load({
-				appConfigs: [
-					{
-						appId: 'com_test_duplicate',
-						manifestUrl: 'http://localhost:8080/apps/duplicate',
-						enableBatchRequests: true
-					},
-					{
-						appId: 'com_test_duplicate',
-						manifestUrl: 'http://localhost:8080/apps/duplicate',
-						enableBatchRequests: true
-					}
-				]
+				appConfigs: [{
+					appId: 'com_test_duplicate',
+					manifestUrl: 'http://localhost:8080/apps/duplicate',
+					enableBatchRequests: true
+				}, {
+					appId: 'com_test_duplicate',
+					manifestUrl: 'http://localhost:8080/apps/duplicate',
+					enableBatchRequests: true
+				}]
 			});
 
 			waitsFor(function() {
@@ -228,16 +224,19 @@
 				expect(window.test.com_test_basic).toBeDefined();
 
 				// Clean up
-				F2.removeApp(window.test.com_test_basic);
+				F2.removeApp(window.test.com_test_basic.instanceId);
 			});
 		});
 
 		it('should load multiple apps on different domains', function() {
 			F2.load({
-				appConfigs: [
-					{ appId: 'com_test_inherited', manifestUrl: 'http://localhost:8080/apps/single' },
-					{ appId: 'com_test_basic', manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp' }
-				]
+				appConfigs: [{
+					appId: 'com_test_inherited',
+					manifestUrl: 'http://localhost:8080/apps/single'
+				}, {
+					appId: 'com_test_basic',
+					manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
+				}]
 			});
 
 			waitsFor(function() {

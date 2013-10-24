@@ -1,13 +1,14 @@
 ﻿define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], function(require, F2, Schemas, __Ajax__) {
 
+	var Helpers = {
+		Ajax: __Ajax__
+	};
+
 	// ---------------------------------------------------------------------------
 	// Private storage
 	// ---------------------------------------------------------------------------
 
 	var appInstances = {};
-	var Helpers = {
-		Ajax: __Ajax__
-	};
 
 	// ---------------------------------------------------------------------------
 	// Methods

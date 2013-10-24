@@ -1,17 +1,16 @@
 ﻿define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__, Schemas, Events) {
 
-	// ---------------------------------------------------------------------------
-	// Private Storage
-	// ---------------------------------------------------------------------------
-
 	// Set up the helpers
 	var Helpers = {
 		Apps: __Apps__
 	};
 
+	// ---------------------------------------------------------------------------
+	// Private Storage
+	// ---------------------------------------------------------------------------
+
 	// Set up a default config
 	var _config = {
-		debugMode: false,
 		loadScripts: null,
 		loadStyles: null,
 		supportedViews: [],
@@ -22,8 +21,8 @@
 		},
 		ui: {
 			modal: null,
-			showMask: null,
-			hideMask: null
+			showLoading: null,
+			hideLoading: null
 		}
 	};
 
@@ -38,7 +37,7 @@
 		Apps: {},
 		config: function(config) {
 			if (config && Schemas.validate(config, 'containerConfig')) {
-				_.extend(_config, config);
+				_config = _.defaults({}, config, _config);
 			}
 
 			return _config;
@@ -56,7 +55,6 @@
 				var v = c === 'x' ? r : (r & 0x3 | 0x8);
 				return v.toString(16);
 			});
-
 
 			// Check if we've seen this one before
 			if (_guids[guid]) {

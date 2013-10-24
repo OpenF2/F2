@@ -5337,9 +5337,6 @@ define('F2.Schemas', [], function() {
 		title: 'Container Config',
 		type: 'object',
 		properties: {
-			debugMode: {
-				type: 'boolean'
-			},
 			loadScripts: {
 				type: 'object'
 			},
@@ -5356,13 +5353,13 @@ define('F2.Schemas', [], function() {
 				type: 'object',
 				properties: {
 					modal: {
-						type: 'object'
+						// type: 'object'
 					},
-					hideMask: {
-						type: 'object'
+					hideLoading: {
+						// type: 'object'
 					},
-					showMask: {
-						type: 'object'
+					showLoading: {
+						// type: 'object'
 					}
 				}
 			},
@@ -5416,8 +5413,7 @@ define('F2.Schemas', [], function() {
 			title: {
 				type: 'string'
 			}
-		},
-		required: ['success']
+		}
 	});
 
 	return {
@@ -5459,14 +5455,15 @@ define('F2.Schemas', [], function() {
 });
 define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], function(require, F2, Schemas, __Ajax__) {
 
+	var Helpers = {
+		Ajax: __Ajax__
+	};
+
 	// ---------------------------------------------------------------------------
 	// Private storage
 	// ---------------------------------------------------------------------------
 
 	var appInstances = {};
-	var Helpers = {
-		Ajax: __Ajax__
-	};
 
 	// ---------------------------------------------------------------------------
 	// Methods
@@ -5845,18 +5842,17 @@ define('F2._Helpers.Apps', ['require', 'F2', 'F2.Schemas', 'F2._Helpers.Ajax'], 
 });
 define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__, Schemas, Events) {
 
-	// ---------------------------------------------------------------------------
-	// Private Storage
-	// ---------------------------------------------------------------------------
-
 	// Set up the helpers
 	var Helpers = {
 		Apps: __Apps__
 	};
 
+	// ---------------------------------------------------------------------------
+	// Private Storage
+	// ---------------------------------------------------------------------------
+
 	// Set up a default config
 	var _config = {
-		debugMode: false,
 		loadScripts: null,
 		loadStyles: null,
 		supportedViews: [],
@@ -5867,8 +5863,8 @@ define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__,
 		},
 		ui: {
 			modal: null,
-			showMask: null,
-			hideMask: null
+			showLoading: null,
+			hideLoading: null
 		}
 	};
 
@@ -5883,7 +5879,7 @@ define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__,
 		Apps: {},
 		config: function(config) {
 			if (config && Schemas.validate(config, 'containerConfig')) {
-				_.extend(_config, config);
+				_config = _.defaults({}, config, _config);
 			}
 
 			return _config;
@@ -5901,7 +5897,6 @@ define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__,
 				var v = c === 'x' ? r : (r & 0x3 | 0x8);
 				return v.toString(16);
 			});
-
 
 			// Check if we've seen this one before
 			if (_guids[guid]) {
@@ -5981,12 +5976,12 @@ define('F2', ['F2._Helpers.Apps', 'F2.Schemas', 'F2.Events'], function(__Apps__,
 });
 define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
 
-	var _containerConfig = F2.config();
-
 	return {
 		modal: function(params) {
+			var _containerConfig = F2.config();
+
 			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
-				if (Schemas.validate(params, 'uiModalParams')) {
+				if (_.isObject(params) && Schemas.validate(params, 'uiModalParams')) {
 					_containerConfig.ui.modal(params);
 				}
 				else {
@@ -5997,20 +5992,34 @@ define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
 				console.error('F2.UI: The container has not defined ui.modal.');
 			}
 		},
-		showMask: function(root) {
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showMask)) {
-				_containerConfig.ui.showMask(root);
+		showLoading: function(root) {
+			var _containerConfig = F2.config();
+
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showLoading)) {
+				if (!root || (root && root.nodeType === 1)) {
+					_containerConfig.ui.showLoading(root);
+				}
+				else {
+					console.error('F2.UI: the root passed was not a native DOM node.');
+				}
 			}
 			else {
-				console.error('F2.UI: The container has not defined ui.showMask.');
+				console.error('F2.UI: The container has not defined ui.showLoading.');
 			}
 		},
-		hideMask: function(root) {
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideMask)) {
-				_containerConfig.ui.hideMask(root);
+		hideLoading: function(root) {
+			var _containerConfig = F2.config();
+
+			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideLoading)) {
+				if (!root || (root && root.nodeType === 1)) {
+					_containerConfig.ui.hideLoading(root);
+				}
+				else {
+					console.error('F2.UI: the root passed was not a native DOM node.');
+				}
 			}
 			else {
-				console.error('F2.UI: The container has not defined ui.hideMask.');
+				console.error('F2.UI: The container has not defined ui.hideLoading.');
 			}
 		}
 	};

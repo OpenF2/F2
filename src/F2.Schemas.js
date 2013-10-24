@@ -83,9 +83,6 @@
 		title: 'Container Config',
 		type: 'object',
 		properties: {
-			debugMode: {
-				type: 'boolean'
-			},
 			loadScripts: {
 				type: 'object'
 			},
@@ -102,13 +99,13 @@
 				type: 'object',
 				properties: {
 					modal: {
-						type: 'object'
+						// type: 'object'
 					},
-					hideMask: {
-						type: 'object'
+					hideLoading: {
+						// type: 'object'
 					},
-					showMask: {
-						type: 'object'
+					showLoading: {
+						// type: 'object'
 					}
 				}
 			},
@@ -162,8 +159,7 @@
 			title: {
 				type: 'string'
 			}
-		},
-		required: ['success']
+		}
 	});
 
 	return {
