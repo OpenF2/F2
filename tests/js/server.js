@@ -19,7 +19,11 @@ app.all('/apps/slow', function(req, res) {
 	sleep.sleep(2);
 
 	res.json({
-		apps: [{ data: context, html: '<div></div>', success: true }],
+		apps: [{
+			data: context,
+			html: '<div></div>',
+			success: true
+		}],
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
@@ -37,7 +41,11 @@ app.all('/apps/single', function(req, res) {
 	var context = configs[0].context || {};
 
 	res.json({
-		apps: [{ data: context, html: '<div></div>', success: true }],
+		apps: [{
+			data: context,
+			html: '<div></div>',
+			success: true
+		}],
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
@@ -47,10 +55,15 @@ app.all('/apps/single', function(req, res) {
 // Multiple AppManifests in response
 app.all('/apps/multiple', function(req, res) {
 	res.json({
-		apps: [
-			{ data: {}, html: '<div></div>', success: true },
-			{ data: {}, html: '<div></div>', success: true }
-		],
+		apps: [{
+			data: {},
+			html: '<div></div>',
+			success: true
+		}, {
+			data: {},
+			html: '<div></div>',
+			success: true
+		}],
 		inlineScripts: [],
 		scripts: [
 			'js/apps/com_test_basic.js',
@@ -69,10 +82,15 @@ app.all('/apps/duplicate', function(req, res) {
 	}
 
 	res.json({
-		apps: [
-			{ data: {}, html: '<div></div>', success: true },
-			{ data: {}, html: '<div></div>', success: true }
-		],
+		apps: [{
+			data: {},
+			html: '<div></div>',
+			success: true
+		}, {
+			data: {},
+			html: '<div></div>',
+			success: true
+		}],
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
@@ -82,9 +100,11 @@ app.all('/apps/duplicate', function(req, res) {
 // Single AppManifests over jsonp
 app.all('/apps/single_jsonp', function(req, res) {
 	res.jsonp({
-		apps: [
-			{ data: {}, html: '<div></div>', success: true }
-		],
+		apps: [{
+			data: {},
+			html: '<div></div>',
+			success: true
+		}],
 		inlineScripts: [],
 		scripts: ['js/apps/com_test_basic.js'],
 		styles: []
@@ -96,9 +116,11 @@ app.all('/apps/single_jsonp_slow', function(req, res) {
 	sleep.sleep(0.2);
 
 	res.jsonp({
-		apps: [
-			{ data: {}, html: '<div></div>', success: true }
-		],
+		apps: [{
+			data: {},
+			html: '<div></div>',
+			success: true
+		}],
 		inlineScripts: [],
 		scripts: ['js/apps/com_test_basic.js'],
 		styles: []

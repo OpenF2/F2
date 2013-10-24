@@ -88,7 +88,7 @@
 
 		it('should throw if no count is passed', function() {
 			function attempt() {
-				Events.many('__test-many__', null, function() { });
+				Events.many('__test-many__', null, function() {});
 			}
 
 			expect(attempt).toThrow();
@@ -131,7 +131,7 @@
 
 		it('should not throw if an unrecognized name, handler, or context is passed', function() {
 			function attempt() {
-				Events.off('__notdefined__', function() { }, window);
+				Events.off('__notdefined__', function() {}, window);
 			}
 
 			expect(attempt).not.toThrow();
@@ -207,7 +207,7 @@
 
 		it('should throw without an event name', function() {
 			function attempt() {
-				Events.on(null, function() { });
+				Events.on(null, function() {});
 			}
 			expect(attempt).toThrow();
 		});

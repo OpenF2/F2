@@ -43,12 +43,12 @@
 			return _config;
 		},
 		/**
-			* Generates an RFC4122 v4 compliant id
-			* @method guid
-			* @return {string} A random id
-			* @for F2
-			* Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
-			*/
+		 * Generates an RFC4122 v4 compliant id
+		 * @method guid
+		 * @return {string} A random id
+		 * @for F2
+		 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
+		 */
 		guid: function _guid() {
 			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 				var r = Math.random() * 16 | 0;

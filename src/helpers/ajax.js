@@ -17,6 +17,7 @@
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
+
 	function _parseURI(url) {
 		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
 		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
@@ -43,6 +44,7 @@
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
+
 	function _absolutizeURI(base, href) { // RFC 3986
 		function removeDotSegments(input) {
 			var output = [];
@@ -52,7 +54,8 @@
 				.replace(/\/?[^\/]*/g, function(p) {
 					if (p === '/..') {
 						output.pop();
-					} else {
+					}
+					else {
 						output.push(p);
 					}
 				});
@@ -76,6 +79,7 @@
 	 * @returns {bool} Whether the URL is local or not
 	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 	 */
+
 	function _isLocalRequest(url) {
 		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
 			urlLower = url.toLowerCase(),
@@ -108,9 +112,9 @@
 
 		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
 		var matched = !(parts &&
-				(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
-					(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
-						(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
+			(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
+				(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
+				(ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443'))));
 
 		return matched;
 	}
@@ -169,7 +173,7 @@
 
 		// Make the call
 		var req = reqwest(params);
-		
+
 		// Return the xhr object
 		return (function() {
 			var output = {

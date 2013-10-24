@@ -16,14 +16,18 @@
 				expect(true).toBe(false);
 			}
 			catch (e) {
-				Schemas.add('test1', { id: 'test1' });
+				Schemas.add('test1', {
+					id: 'test1'
+				});
 				var isValid = Schemas.validate({}, 'test1');
 				expect(isValid).toBe(true);
 			}
 		});
 
 		it('should return true if a schema was successfully added', function() {
-			var schema = { id: 'test2' };
+			var schema = {
+				id: 'test2'
+			};
 			var result = Schemas.add('test2', schema);
 			expect(result).toBe(true);
 		});

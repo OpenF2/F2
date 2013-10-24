@@ -73,7 +73,8 @@
 	}
 
 	// Add unhandled apps to document.body
-	function dumpAppsOnDom(/* app1, app2 */) {
+
+	function dumpAppsOnDom( /* app1, app2 */ ) {
 		var args = Array.prototype.slice.call(arguments);
 
 		if (args.length) {
@@ -90,6 +91,7 @@
 	}
 
 	// Pass the apps off to the container so they can place them on the page
+
 	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
 		var abortedIndexes = [];
 
@@ -123,6 +125,7 @@
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
+
 	function initAppClasses(allApps, completeFn) {
 		var appIds = _.map(allApps, function(app) {
 			return app.appConfig.appId;
@@ -167,6 +170,7 @@
 	}
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
+
 	function requestApps(asyncApps, callback) {
 		var xhrByUrl = {};
 		var appsByUrl = {};
@@ -238,7 +242,9 @@
 
 							// Make some fake appContent
 							_.each(urlConfigs, function() {
-								manifest.apps.push({ success: false });
+								manifest.apps.push({
+									success: false
+								});
 							});
 						}
 
@@ -295,6 +301,7 @@
 		var scriptsDone = false;
 
 		// See if both scripts and styles have completed
+
 		function checkComplete() {
 			if (stylesDone && scriptsDone) {
 				callback();
