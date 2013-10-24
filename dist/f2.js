@@ -5230,8 +5230,9 @@ define('F2.Events', [], function() {
 			if (!timesToListen) {
 				timesToListen = 0;
 			}
-
-			timesToListen = parseInt(timesToListen, 10);
+			else {
+				timesToListen = parseInt(timesToListen, 10);
+			}
 
 			if (timesToListen < 1) {
 				throw 'F2.Events: "timesToListen" must be greater than 0.';
@@ -6115,9 +6116,4 @@ define('F2.BaseAppClass', ['F2', 'F2.Events'], function(F2, Events) {
 			});
 		}
 	});
-
-	// Undefine private modules
-	//requirejs.undef('F2._Helpers.Ajax');
-	//requirejs.undef('F2._Helpers.AppPlaceholders');
-	//requirejs.undef('F2._Helpers.Apps');
 })();
