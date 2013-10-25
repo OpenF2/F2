@@ -1,6 +1,9 @@
-﻿require(['F2', 'F2.UI'], function(F2, UI) {
+﻿define(['jasmine', 'F2'], function() {
 
 	describe('F2.UI', function() {
+
+		var F2 = require('F2');
+		var UI = require('F2.UI');
 
 		window.test = {};
 

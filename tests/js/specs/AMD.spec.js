@@ -1,13 +1,17 @@
-﻿describe('AMD', function() {
+﻿define(['jasmine', 'F2'], function() {
 
-	var F2 = require('F2');
+	describe('AMD', function() {
 
-	it('should be able to load F2 modules', function() {
-		expect(F2).toBeDefined();
-	});
+		var F2 = require('F2');
 
-	it('should defer to a previously loaded AMD framework', function() {
-		expect(requirejs._defined).not.toBeDefined();
+		it('should be able to load F2 modules', function() {
+			expect(F2).toBeDefined();
+		});
+
+		it('should defer to a previously loaded AMD framework', function() {
+			expect(requirejs._defined).not.toBeDefined();
+		});
+
 	});
 
 });
