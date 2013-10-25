@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>F2 Container - Basic</title>
-	<link href="../libs/bootstrap3/css/bootstrap.css" rel="stylesheet" />
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="../apps/com_example_search.css" rel="stylesheet" />
 </head>
 <body>
@@ -24,11 +24,13 @@
 		require.config({
 			paths: {
 				'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min',
-				'F2': '../../sdk/f2.debug'
+				'F2': '../../dist/f2',
+				'com_example_search': '../apps/com_example_search'
 			}
 		});
 
-		require(['jquery', 'F2', '../apps/com_example_search.js'], function($, F2) {
+		require(['jquery', 'F2'], function($, F2) {
+			var UI = require('F2.UI');
 			var appConfigs = {
 				// Preloaded app with HTML on the page already
 				'search': {
