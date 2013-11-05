@@ -253,12 +253,12 @@ F2.extend('', (function(){
 					removeEventListener(script, _onload, 'load');
 					removeEventListener(script, _error, 'error');
 				}
-			}
 
-			//are we done loading all scripts for this app?
-			if (++scriptsLoaded == scriptCount) {
-				evalInlines();
-				appInit();
+				//are we done loading all scripts for this app?
+				if (++scriptsLoaded == scriptCount) {
+					evalInlines();
+					appInit();
+				}
 			}
 		};
 		var _error = function(e){
