@@ -13672,7 +13672,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '{{sdk.version}}'; }
+		version: function() { return '1.3.2'; }
 	};
 })();
 
