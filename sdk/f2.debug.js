@@ -13308,7 +13308,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.3.1 10-15-2013
+ * F2 v1.3.2 11-18-2013
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13672,7 +13672,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '{{sdk.version}}'; }
+		version: function() { return '1.3.2'; }
 	};
 })();
 
@@ -16132,32 +16132,12 @@ F2.extend('', (function(){
 		var inlines = appManifest.inlineScripts || [];
 		var scriptCount = scripts.length;
 		var scriptsLoaded = 0;
+		// check for IE10+ so that we don't rely on onreadystatechange
+		var readyStates = 'addEventListener' in window ? {} : { 'loaded': true, 'complete': true };
 		var appInit = function() {
 			jQuery.each(appConfigs, function(i, a) {
 				_createAppInstance(a, appManifest.apps[i]);
 			});
-		};
-		//Check to see if any of the ways a file can be ready are available as properties on the file's element (borrowed from yepnope)
-		var isFileReady = function(readyState) {
-			return ( !readyState || readyState == 'loaded' || readyState == 'complete' || readyState == 'uninitialized' );
-		};
-		var _onload = function(e){
-			if ( e.type == 'load' || isFileReady((e.currentTarget || e.srcElement).readyState) ){
-				//done, cleanup
-				var script = e.currentTarget || e.srcElement;
-				if (script.detachEvent){
-					script.detachEvent('onreadystatechange', _onload);//IE
-				} else {
-					removeEventListener(script, _onload, 'load');
-					removeEventListener(script, _error, 'error');
-				}
-			}
-
-			//are we done loading all scripts for this app?
-			if (++scriptsLoaded == scriptCount) {
-				evalInlines();
-				appInit();
-			}
 		};
 		var _error = function(e){
 			//log and emit event for the failed (400,500) scripts
@@ -16281,14 +16261,26 @@ F2.extend('', (function(){
 			script.src = resourceUrl;
 			script.type = 'text/javascript';
 			script.charset = 'utf-8';
-			//attach load event to script to evaluate inline scripts and init the AppClass
-			if (script.attachEvent && !(script.attachEvent.toString && script.attachEvent.toString().indexOf('[native code') < 0)){//for IE, from requirejs
-				script.attachEvent('onreadystatechange', _onload);
-			} else {
-				script.addEventListener('load', _onload, false);
-				//attach error event for 400s and 500s
-				script.addEventListener('error', _error, false);
-			}
+			script.onerror = _error;
+			// use a closure for the load event so that we can dereference the original script
+			script.onload = script.onreadystatechange = function(e){
+
+				e = e || window.event; // older IE
+				
+				if (e.type == 'load' || readyStates[script.readyState]) {
+					//done, cleanup
+					script.onload = script.onreadystatechange = script.onerror = null;
+
+					// dereference script
+					script = null;
+
+					//are we done loading all scripts for this app?
+					if (++scriptsLoaded == scriptCount) {
+							evalInlines();
+							appInit();
+					}
+				}
+			};
 			
 			doc.body.appendChild(script);
 		});
