@@ -99,3 +99,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 Please note that F2 ("Software") may contain third party material that Markit On Demand Inc. has a license to use and include within the Software (the "Third Party Material").  A list of the software comprising the Third Party Material and the terms and conditions under which such Third Party Material is distributed are reproduced in the [ThirdPartyMaterial.md](ThirdPartyMaterial.md) file. The inclusion of the Third Party Material in the Software does not grant, provide nor result in you having acquiring any rights whatsoever, other than as stipulated in the terms and conditions related to the specific Third Party Material, if any. 
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/OpenF2/f2/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
