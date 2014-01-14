@@ -47,3 +47,5 @@ tmp
 /*.sln
 
 /.grunt/grunt-contrib-jasmine
+/*.sublime-project
+/*.sublime-workspace
