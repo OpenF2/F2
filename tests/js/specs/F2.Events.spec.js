@@ -3,7 +3,6 @@
 	describe('F2.Events', function() {
 
 		var F2 = require('F2');
-		var Events = require('F2.Events');
 
 		beforeEach(function() {
 			window.events = {};
@@ -20,11 +19,11 @@
 				window.events.context2 = this;
 			};
 
-			Events.on('__test-mock__', handler, this);
-			Events.on('__test-mock2__', handler2, this);
+			F2.Events.on('__test-mock__', handler, this);
+			F2.Events.on('__test-mock2__', handler2, this);
 
 			this.dispose = function() {
-				Events.off(null, null, this);
+				F2.Events.off(null, null, this);
 			};
 		}
 
@@ -32,7 +31,7 @@
 
 			it('should throw if no event name is passed', function() {
 				function attempt() {
-					Events.emit();
+					F2.Events.emit();
 				}
 
 				expect(attempt).toThrow();
@@ -40,7 +39,7 @@
 
 			it('should not throw if passed an unrecognized event name', function() {
 				function attempt() {
-					Events.emit('__test-undefined__', {});
+					F2.Events.emit('__test-undefined__', {});
 				}
 
 				expect(attempt).not.toThrow();
@@ -50,9 +49,9 @@
 				function handler() {
 					window.events.emit = true;
 				}
-				Events.on('__test-emit__', handler);
-				Events.emit('__test-emit__');
-				Events.off(null, handler);
+				F2.Events.on('__test-emit__', handler);
+				F2.Events.emit('__test-emit__');
+				F2.Events.off(null, handler);
 
 				expect(window.events.emit).toBe(true);
 			});
@@ -61,9 +60,9 @@
 				function handler(first, second) {
 					window.events.emit = [first, second];
 				}
-				Events.on('__test-emit__', handler);
-				Events.emit('__test-emit__', 1, 2);
-				Events.off(null, handler);
+				F2.Events.on('__test-emit__', handler);
+				F2.Events.emit('__test-emit__', 1, 2);
+				F2.Events.off(null, handler);
 
 				expect(window.events.emit[0] === 1 && window.events.emit[1] === 2).toBe(true);
 			});
@@ -74,7 +73,7 @@
 
 			it('should throw if no event name is passed', function() {
 				function attempt() {
-					Events.many();
+					F2.Events.many();
 				}
 
 				expect(attempt).toThrow();
@@ -82,7 +81,7 @@
 
 			it('should throw if no handler is passed', function() {
 				function attempt() {
-					Events.many('__test-many__');
+					F2.Events.many('__test-many__');
 				}
 
 				expect(attempt).toThrow();
@@ -90,7 +89,7 @@
 
 			it('should throw if no count is passed', function() {
 				function attempt() {
-					Events.many('__test-many__', null, function() {});
+					F2.Events.many('__test-many__', null, function() {});
 				}
 
 				expect(attempt).toThrow();
@@ -103,10 +102,10 @@
 					window.events.count += 1;
 				}
 
-				Events.many('__test-many__', 2, handler);
-				Events.emit('__test-many__');
-				Events.emit('__test-many__');
-				Events.emit('__test-many__'); // Should not run
+				F2.Events.many('__test-many__', 2, handler);
+				F2.Events.emit('__test-many__');
+				F2.Events.emit('__test-many__');
+				F2.Events.emit('__test-many__'); // Should not run
 
 				expect(window.events.count).toBe(2);
 			});
@@ -117,7 +116,7 @@
 
 			it('should throw if no params are passed', function() {
 				function attempt() {
-					Events.off();
+					F2.Events.off();
 				}
 
 				expect(attempt).toThrow();
@@ -125,7 +124,7 @@
 
 			it('should throw if name is passed without handler or context', function() {
 				function attempt() {
-					Events.off('__foo__');
+					F2.Events.off('__foo__');
 				}
 
 				expect(attempt).toThrow();
@@ -133,7 +132,7 @@
 
 			it('should not throw if an unrecognized name, handler, or context is passed', function() {
 				function attempt() {
-					Events.off('__notdefined__', function() {}, window);
+					F2.Events.off('__notdefined__', function() {}, window);
 				}
 
 				expect(attempt).not.toThrow();
@@ -143,28 +142,28 @@
 				var handler = function() {
 					window.events.off = true;
 				};
-				Events.on('__test-off__', handler);
-				Events.on('__test-off2__', handler);
-				Events.off('__test-off__', handler);
+				F2.Events.on('__test-off__', handler);
+				F2.Events.on('__test-off2__', handler);
+				F2.Events.off('__test-off__', handler);
 
 				// Trigger the event we're unsubscribed from
-				Events.emit('__test-off__');
+				F2.Events.emit('__test-off__');
 				expect(window.events.off).not.toBeDefined();
 
-				Events.emit('__test-off2__');
+				F2.Events.emit('__test-off2__');
 				expect(window.events.off).toBe(true);
-				Events.off('__test-off2__', handler);
+				F2.Events.off('__test-off2__', handler);
 			});
 
 			it('should unsubscribe from all events only passing handler', function() {
 				var handler = function() {
 					window.events.off = true;
 				};
-				Events.on('__test-off__', handler);
-				Events.on('__test-off2__', handler);
-				Events.off(null, handler);
-				Events.emit('__test-off__');
-				Events.emit('__test-off2__');
+				F2.Events.on('__test-off__', handler);
+				F2.Events.on('__test-off2__', handler);
+				F2.Events.off(null, handler);
+				F2.Events.emit('__test-off__');
+				F2.Events.emit('__test-off2__');
 
 				expect(window.events.off).not.toBeDefined();
 			});
@@ -173,11 +172,11 @@
 				var mock = new MockClass();
 
 				// Unsub from the first event
-				Events.off('__test-mock__', null, mock);
+				F2.Events.off('__test-mock__', null, mock);
 
 				// Emit both events
-				Events.emit('__test-mock__');
-				Events.emit('__test-mock2__');
+				F2.Events.emit('__test-mock__');
+				F2.Events.emit('__test-mock2__');
 
 				// The first should be undefined, but the second should have run
 				expect(window.events.context).not.toBeDefined();
@@ -190,11 +189,11 @@
 				var mock = new MockClass();
 
 				// Unsub from the first event
-				Events.off(null, null, mock);
+				F2.Events.off(null, null, mock);
 
 				// Emit both events
-				Events.emit('__test-mock__');
-				Events.emit('__test-mock2__');
+				F2.Events.emit('__test-mock__');
+				F2.Events.emit('__test-mock2__');
 
 				// The first should be undefined, but the second should have run
 				expect(window.events.context).not.toBeDefined();
@@ -209,14 +208,14 @@
 
 			it('should throw without an event name', function() {
 				function attempt() {
-					Events.on(null, function() {});
+					F2.Events.on(null, function() {});
 				}
 				expect(attempt).toThrow();
 			});
 
 			it('should throw without a handler', function() {
 				function attempt() {
-					Events.on('__test-on__', null);
+					F2.Events.on('__test-on__', null);
 				}
 				expect(attempt).toThrow();
 			});
@@ -225,17 +224,17 @@
 				var handler = function() {
 					window.events.on = true;
 				};
-				Events.on('__test-on__', handler);
-				Events.off('__test-on__', handler);
-				Events.emit('__test-on__');
+				F2.Events.on('__test-on__', handler);
+				F2.Events.off('__test-on__', handler);
+				F2.Events.emit('__test-on__');
 
 				expect(window.events.on).not.toBeDefined();
 			});
 
 			it('should allow you to subscribe with context', function() {
 				var mock = new MockClass();
-				Events.emit('__test-mock__');
-				Events.off('__test-mock__', null, mock);
+				F2.Events.emit('__test-mock__');
+				F2.Events.off('__test-mock__', null, mock);
 
 				expect(window.events.context).toBeDefined();
 
@@ -244,8 +243,8 @@
 
 			it('should execute the handler in the provided context', function() {
 				var mock = new MockClass();
-				Events.emit('__test-mock__');
-				Events.off('__test-mock__', null, mock);
+				F2.Events.emit('__test-mock__');
+				F2.Events.off('__test-mock__', null, mock);
 
 				expect(window.events.context === mock).toBe(true);
 
@@ -258,7 +257,7 @@
 
 			it('should throw if no event name is passed', function() {
 				function attempt() {
-					Events.once();
+					F2.Events.once();
 				}
 
 				expect(attempt).toThrow();
@@ -266,7 +265,7 @@
 
 			it('should throw if no handler is passed', function() {
 				function attempt() {
-					Events.once('__test-once__');
+					F2.Events.once('__test-once__');
 				}
 
 				expect(attempt).toThrow();
@@ -279,9 +278,9 @@
 					window.events.count += 1;
 				}
 
-				Events.once('__test-once__', handler);
-				Events.emit('__test-once__');
-				Events.emit('__test-once__'); // Should not run
+				F2.Events.once('__test-once__', handler);
+				F2.Events.emit('__test-once__');
+				F2.Events.emit('__test-once__'); // Should not run
 
 				expect(window.events.count).toBe(1);
 			});

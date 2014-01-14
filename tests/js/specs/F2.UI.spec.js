@@ -3,7 +3,6 @@
 	describe('F2.UI', function() {
 
 		var F2 = require('F2');
-		var UI = require('F2.UI');
 
 		window.test = {};
 
@@ -32,7 +31,7 @@
 					title: "I'm flying!",
 					content: "<p>Wheeeee</p>"
 				};
-				UI.modal(params);
+				F2.UI.modal(params);
 
 				expect(window.test.ui.modal).toBe(params);
 			});
@@ -43,7 +42,7 @@
 
 			it('should delegate the app root to the container "showLoading" handler', function() {
 				var fakeRoot = document.createElement('div');
-				UI.showLoading(fakeRoot);
+				F2.UI.showLoading(fakeRoot);
 
 				expect(window.test.ui.showLoading).toBe(fakeRoot);
 			});
@@ -54,7 +53,7 @@
 
 			it('should delegate the app root to the container "hideLoading" handler', function() {
 				var fakeRoot = document.createElement('div');
-				UI.hideLoading(fakeRoot);
+				F2.UI.hideLoading(fakeRoot);
 
 				expect(window.test.ui.hideLoading).toBe(fakeRoot);
 			});

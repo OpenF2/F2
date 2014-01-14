@@ -1,11 +1,11 @@
-define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
+(function(F2) {
 
-	return {
+	F2.UI = {
 		modal: function(params) {
 			var _containerConfig = F2.config();
 
 			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
-				if (_.isObject(params) && Schemas.validate(params, 'uiModalParams')) {
+				if (_.isObject(params) && F2.Schemas.validate(params, 'uiModalParams')) {
 					_containerConfig.ui.modal(params);
 				}
 				else {
@@ -48,4 +48,4 @@ define('F2.UI', ['F2', 'F2.Schemas'], function(F2, Schemas) {
 		}
 	};
 
-});
+})(F2);

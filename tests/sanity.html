@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Sanity check</title>
+</head>
+<body>
+	<script src="libs/require.js"></script>
+	<script>
+
+		require.config({
+			paths: {
+				'domReady': 'libs/domReady',
+				'F2': '../dist/f2'
+			}
+		});
+
+		require([
+			'domReady!',
+			'F2'
+		], function() {
+
+		});
+
+	</script>
+
+</body>
+</html>

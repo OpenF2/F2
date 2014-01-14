@@ -1,4 +1,4 @@
-﻿define('com_test_basic', ['F2.Events'], function(Events) {
+﻿define('com_test_basic', ['F2'], function(F2) {
 
 	function AppClass(instanceId, appConfig, data, root) {
 		this.instanceId = instanceId;
@@ -13,7 +13,7 @@
 		};
 
 		// Listen to an event
-		Events.on('com_test_basic', function() {
+		F2.Events.on('com_test_basic', function() {
 			window.test.com_test_basic.event = true;
 		}, this);
 	}

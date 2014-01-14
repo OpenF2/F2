@@ -1,4 +1,4 @@
-﻿define('F2._Helpers.Ajax', [], function() {
+﻿(function(F2, Helpers) {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -123,7 +123,7 @@
 	// GET/POST
 	// --------------------------------------------------------------------------
 
-	return function(params, cache) {
+	Helpers.Ajax = function(params, cache) {
 		if (!params.url) {
 			throw 'F2.Ajax: you must provide a url.';
 		}
@@ -189,4 +189,4 @@
 		})();
 	};
 
-});
+})(F2, Helpers);

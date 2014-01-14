@@ -1,4 +1,4 @@
-﻿define('com_test_inherited', ['F2.BaseAppClass'], function(BaseAppClass) {
+﻿define('com_test_inherited', ['F2'], function(F2) {
 
 	function AppClass(instanceId, appConfig, data, root) {
 		this.instanceId = instanceId;
@@ -13,7 +13,7 @@
 	}
 
 	// Extend the base class
-	AppClass.prototype = new BaseAppClass;
+	AppClass.prototype = new F2.AppClass;
 
 	AppClass.prototype.dispose = function() {
 		delete window.test.com_test_inherited;

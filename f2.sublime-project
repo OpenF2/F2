@@ -1,0 +1,13 @@
+{
+	"folders": [{
+		"follow_symlinks": true,
+		"path": "."
+	}],
+	"build_systems": [{
+		"name": "grunt",
+		"shell": true,
+		"working_dir": "$project_path",
+		"path": "c:\\users\\chris.montrois\\appdata\\roaming\\npm;c:\\Program Files\\nodejs",
+		"cmd": ["grunt", "js", "--no-color"]
+	}]
+}

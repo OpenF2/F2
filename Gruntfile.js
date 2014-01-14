@@ -17,20 +17,20 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
-					'src/template/header.js.tmpl',
+					'src/template/header.js',
 					'dist/f2.thirdParty.js',
-					// The order of the src files matters in order to properly resolve
-					// AMD dependencies
+					// Helpers
 					'src/helpers/ajax.js',
 					'src/helpers/appPlaceholders.js',
-					'src/F2.Constants.js',
-					'src/F2.Events.js',
-					'src/F2.Schemas.js',
 					'src/helpers/loadApps.js',
-					'src/F2.js',
-					'src/F2.UI.js',
-					'src/F2.BaseAppClass.js',
-					'src/template/footer.js.tmpl'
+					// Core
+					'src/core.js',
+					'src/constants.js',
+					'src/events.js',
+					'src/schemas.js',
+					'src/ui.js',
+					'src/appClass.js',
+					'src/template/footer.js'
 				],
 				dest: 'dist/f2.js'
 			},
@@ -183,16 +183,18 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('version', 'Displays version information for F2', function() {
 		grunt.log.writeln(grunt.template.process(
-			'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>',
-			{ data: pkg }
+			'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>', {
+				data: pkg
+			}
 		));
 	});
 
 	grunt.registerTask('js', ['jshint', 'concat:thirdParty', 'concat:dist', 'clean:thirdParty', 'uglify:dist', 'uglify:sourcemap', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-	grunt.registerTask('test', ['jshint', 'express', 'jasmine', 'express-keepalive']);
+	grunt.registerTask('test', ['js', 'express', 'jasmine', 'express-keepalive']);
+	grunt.registerTask('testweb', ['js', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
 
 	// The default task
-	grunt.registerTask('default', ['test', 'js']);
+	grunt.registerTask('default', ['test']);
 };

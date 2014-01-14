@@ -15,7 +15,8 @@
 		"LazyLoad": true,
 		"noop": true,
 		"moduleNames": true,
-		"Helpers": true
+		"Helpers": true,
+		"F2": true
 	},
 	"latedef": true,
 	"noarg": true,

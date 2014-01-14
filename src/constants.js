@@ -1,6 +1,6 @@
-define('F2.Constants', [], function() {
+(function(F2) {
 
-	return {
+	F2.Constants = {
 		EVENTS: {
 			// TODO: do we need this?
 			APP_SYMBOL_CHANGE: '__appSymbolChange__',
@@ -21,4 +21,4 @@ define('F2.Constants', [], function() {
 		}
 	};
 
-});
+})(F2);

@@ -1,4 +1,4 @@
-﻿define('F2.Schemas', [], function() {
+﻿(function(F2) {
 
 	tv4.addSchema('appConfig', {
 		id: 'appConfig',
@@ -162,7 +162,7 @@
 		}
 	});
 
-	return {
+	F2.Schemas = {
 		add: function(name, schema) {
 			if (!name) {
 				throw 'F2.Schemas: you must provide a schema name.';
@@ -198,4 +198,4 @@
 		}
 	};
 
-});
+})(F2);

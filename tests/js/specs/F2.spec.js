@@ -3,7 +3,6 @@
 	describe('F2', function() {
 
 		var F2 = require('F2');
-		var Events = require('F2.Events');
 
 		beforeEach(function() {
 			window.test = {};
@@ -364,7 +363,7 @@
 				loadApp(function(root) {
 					F2.removeApp(window.test.com_test_basic);
 
-					Events.emit('com_test_basic');
+					F2.Events.emit('com_test_basic');
 					expect(window.test.com_test_basic_event).not.toBeDefined();
 				});
 			});
