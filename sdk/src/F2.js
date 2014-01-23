@@ -1,6 +1,6 @@
 /*!
  * F2 v<%= version%> <%= grunt.template.today("mm-dd-yyyy")%>
- * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
+ * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
