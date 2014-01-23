@@ -89,7 +89,7 @@ To track bugs, issues and enhancement requests, we are using [Issues on GitHub](
 
 ## Copyright and License
 
-Copyright &copy; 2013 Markit On Demand, Inc.
+Copyright &copy; 2014 Markit On Demand, Inc.
 
 "F2" is licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: 
 
