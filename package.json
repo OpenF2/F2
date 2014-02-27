@@ -1,7 +1,7 @@
 {
 	"name": "F2",
 	"description": "An open framework for the financial services industry.",
-	"version": "1.3.2",
+	"version": "1.3.3",
 	"keywords": [
 		"openf2"
 	],
@@ -33,7 +33,7 @@
 		"grunt-contrib-copy": "~0.4.1",
 		"grunt-contrib-jasmine": "~0.4.2",
 		"grunt-contrib-jshint": "~0.4.3",
-		"grunt-contrib-less": "~0.5.1",
+		"grunt-contrib-less": "~0.8.3",
 		"grunt-contrib-uglify": "~0.2.0",
 		"grunt-express": "~0.3.3",
 		"handlebars": "1.0.10",
@@ -45,6 +45,6 @@
 	"engines": {
 		"node": ">=0.10"
 	},
-	"_releaseDate": "2013-11-18T17:41:18.665Z",
-	"_releaseDateFormatted": "18 November 2013"
+	"_releaseDate": "2014-02-27T23:41:56.364Z",
+	"_releaseDateFormatted": "27 February 2014"
 }
