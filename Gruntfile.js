@@ -316,7 +316,7 @@ module.exports = function(grunt) {
 			options = grunt.config('sourcemap.options'),
 			dest = uglifyOptions.sourceMap(options.src),
 			rawMap = grunt.file.read(dest);
-		
+
 		rawMap = rawMap.replace(options.prefix, '');
 		grunt.file.write(dest, rawMap);
 	});
@@ -464,7 +464,7 @@ module.exports = function(grunt) {
 
 		// insert readme markdown
 		/*Y.Handlebars.registerHelper('readme', function() {
-			return builder.markdown(readmeMd, true);	
+			return builder.markdown(readmeMd, true);
 		});*/
 
 		builder = new Y.DocBuilder(docOptions, json);
@@ -480,7 +480,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'uglify:sourcemap', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-	grunt.registerTask('test', ['jshint', 'express', 'jasmine'/*, 'express-keepalive'*/]);
+	grunt.registerTask('test', ['jshint', 'express', 'jasmine', 'express-keepalive']);
+	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',
 		'concat:no-bootstrap',
