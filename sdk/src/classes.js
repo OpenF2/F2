@@ -478,6 +478,36 @@ F2.extend('', {
 			 *     });
 			 */
 			url: function(url, appConfigs) {}
-		}
+		},
+		/**
+		 * Allows the container to override the script loader which requests
+		 * dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
+		 * @property loadScripts
+		 * @type function
+		 *
+		 * @example
+		 *     F2.init({
+		 *			loadScripts: function(scripts,inlines,callback){
+		 *				//load scripts using $.load() for each script or require(scripts)
+		 *				callback();
+		 *			}
+		 *     });
+		 */
+		loadScripts: function(scripts,inlines,callback){},
+		/**
+		 * Allows the container to override the stylesheet loader which requests
+		 * dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
+		 * @property loadStyles
+		 * @type function
+		 *
+		 * @example
+		 *     F2.init({
+		 *			loadStyles: function(styles,callback){
+		 *				//load styles using $.load() for each stylesheet or another method
+		 *				callback();
+		 *			}
+		 *     });
+		 */
+		loadScripts: function(scripts,inlines,callback){}
 	}
 });
