@@ -508,6 +508,6 @@ F2.extend('', {
 		 *			}
 		 *     });
 		 */
-		loadScripts: function(scripts,inlines,callback){}
+		loadStyles: function(styles,callback){}
 	}
 });
