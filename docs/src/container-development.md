@@ -265,6 +265,95 @@ F2.init({
 
 For more information on `F2.ContainerConfig.xhr`, [browse to the F2.js SDK docs](./sdk/classes/F2.ContainerConfig.html).
 
+#### Override the Request for App Dependencies 
+
+Occasionally Container Developers need more granular control over the request mechanism in F2.js for  `AppManifest`-defined dependencies. The current dependency request process is handled by the straightforward `createElement('script')` and `createStyleSheet()` statements for scripts and styles, respectively. In version {{version}} of F2, the app dependency request can be overridden in the [`ContainerConfig`](./sdk/classes/F2.ContainerConfig.html).
+
+##### Override the Script Loader
+
+As defined in the `AppManifest`, each F2 App can have script file dependencies. These are [defined as URLs](app-development.html#app-manifest) in the `AppManifest.scripts` property. The script loader can be replaced with any script loading mechanism such as those found in [RequireJS](http://requirejs.org/) or [jQuery](https://api.jquery.com/load/).
+
+To override the script loader, assign a function to `loadScripts` in `F2.init` as shown below. The function is passed `scripts` (array), `inlines` (array), and `callback` (function) which needs to be called when all scripts have been loaded.
+
+```javascript
+F2.init({
+    loadScripts: function(scripts,inlines,callback){
+        //perform script loading
+        callback();
+    }
+});
+```
+
+The following example demonstrates using `jQuery.ajax` to load script dependencies:
+
+```javascript
+F2.init({
+    loadScripts: function(scripts,inlines,callback){
+        //keep track of whether all scripts have been loaded
+        var scriptsLoaded = 0, scriptCount = scripts.length;
+        //iterate over the scripts
+        $.each(scripts, function(i, scriptUrl) {
+            $.ajax({
+                url:scriptUrl,
+                cache:true,
+                async:false, //load them synchronously!
+                dataType:'script',
+                type:'GET',
+                success:function() {
+                    //when all scripts have been loaded, eval inline scripts
+                    if (++scriptsLoaded == scriptCount) {
+                        $.each(inlines, function(i,inline) {
+                            try {
+                                eval(inline);
+                            } catch (exception) {
+                                console.error('Error loading inline script: ' + exception + '\n\n' + inline);
+                            }
+                        });
+                        //execute the callback when everything is done
+                        callback();
+                    }
+                    ++scriptsLoaded;
+                },
+                error:function(jqxhr, settings, exception) {
+                    console.error('Failed to load script (' + scriptUrl +')', exception.toString());
+                }
+            });
+        });
+    }
+});
+```
+
+<span class="label label-important">Important</span> The `callback` function must be executed on completion of the script loading so F2 can continue registering apps.
+
+##### Override the Stylesheet Loader
+
+As defined in the `AppManifest`, each F2 App can have stylesheet file dependencies. These are [defined as URLs](app-development.html#app-manifest) in the `AppManifest.styles` property. The stylesheet loader can be replaced with any stylesheet loading mechanism such as those found in [HeadJS](http://headjs.com/) or [LazyLoad](https://github.com/rgrove/lazyload).
+
+To override the stylesheet loader, assign a function to `loadStyles` in `F2.init` as shown below. The function is passed `styles` (array) and `callback` (function) which needs to be called when all stylesheets have been loaded.
+
+```javascript
+F2.init({
+    loadStyles: function(styles,callback){
+        //perform stylesheet loading
+        callback();
+    }
+});
+```
+
+The following example demonstrates using [HeadJS](http://headjs.com/site/api/v1.00.html#load) to load stylesheet dependencies:
+
+```javascript
+F2.init({
+    loadStyles: function(styles,callback){
+        head.load(styles, function(){
+            callback();
+        });
+    }
+});
+```
+
+<span class="label label-important">Important</span> The `callback` function must be executed on completion of the stylesheet loading so F2 can continue registering apps.
+
 #### Supported Views
 
 F2 Container Developers should define which [app views](app-development.html#f2.ui.views) their container supports. This is set in the `supportedViews` property of the `ContainerConfig` using [`F2.Constants.Views`](./sdk/classes/F2.Constants.Views.html).
