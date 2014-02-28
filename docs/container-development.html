@@ -3,7 +3,7 @@
 <head>
   <title>F2 - Container Development</title>
   <meta charset="utf-8">
-  <meta name="dcterms.date" content="18 November 2013">
+  <meta name="dcterms.date" content="28 February 2014">
   <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
   <meta name="keywords" content="F2, Open F2, openf2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container">
   <meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
   <script src="./js/respond.min.js"></script>
   
   <link href="./css/prettify.css" rel="stylesheet">
-  <link href="./css/F2.Docs.css?1.3.2" rel="stylesheet">
+  <link href="./css/F2.Docs.css?1.3.3" rel="stylesheet">
   
   <link rel="icon" href="./img/favicon-32px.png" type="image/png"/>
   <link rel="apple-touch-icon" sizes="57x57" href="./img/touch-icon-57.png" />
@@ -72,8 +72,8 @@
             <li class="divider-vertical"></li>
             <li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             <li class="divider-vertical"></li>
-            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.2</span></a></li>
-            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.2)</a></li>
+            <li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
+            <li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
           </ul>
         </div>
       </div>
@@ -124,7 +124,7 @@
 <h1 class="title">Container Development</h1>
 </header>
 <p class="lead">
-The container is the foundation of any F2-enabled solution. By leveraging the <a href="f2js-sdk.html">F2.js SDK</a>, Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can <a href="index.html#framework">read more about the framework</a>, <a href="https://github.com/OpenF2/F2#quick-start">download the project on GitHub</a> or <a href="#get-started">get started</a> below. The latest version of F2 is 1.3.2.
+The container is the foundation of any F2-enabled solution. By leveraging the <a href="f2js-sdk.html">F2.js SDK</a>, Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can <a href="index.html#framework">read more about the framework</a>, <a href="https://github.com/OpenF2/F2#quick-start">download the project on GitHub</a> or <a href="#get-started">get started</a> below. The latest version of F2 is 1.3.3.
 </p>
 
 <hr>
@@ -278,7 +278,7 @@ $(<span class="kw">function</span>(){
 </section>
 <section class="level4" id="override-the-appmanifest-request">
 <h4>Override the AppManifest Request</h4>
-<p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>—intentionally obscured from developers through the <code>F2.registerApps()</code> API—is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.) In version 1.3.2 of F2, the <code>AppManifest</code> request can be overridden in the Container Config.</p>
+<p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>—intentionally obscured from developers through the <code>F2.registerApps()</code> API—is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.) In version 1.3.3 of F2, the <code>AppManifest</code> request can be overridden in the Container Config.</p>
 <p><span class="label label-info">Note</span> The <code>AppManifest</code> endpoint is configured in the <code>manifestUrl</code> property within each <a href="#appconfigs"><code>AppConfig</code></a>.</p>
 <p>The following example demonstrates how the <code>xhr</code> property of the <code>ContainerConfig</code> is used to override F2.js.</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
@@ -333,6 +333,77 @@ $(<span class="kw">function</span>(){
     }
 });</code></pre>
 <p>For more information on <code>F2.ContainerConfig.xhr</code>, <a href="./sdk/classes/F2.ContainerConfig.html">browse to the F2.js SDK docs</a>.</p>
+</section>
+</section>
+<section class="level4" id="override-the-request-for-app-dependencies">
+<h4>Override the Request for App Dependencies</h4>
+<p>Occasionally Container Developers need more granular control over the request mechanism in F2.js for <code>AppManifest</code>-defined dependencies. The current dependency request process is handled by the straightforward <code>createElement('script')</code> and <code>createStyleSheet()</code> statements for scripts and styles, respectively. In version 1.3.3 of F2, the app dependency request can be overridden in the <a href="./sdk/classes/F2.ContainerConfig.html"><code>ContainerConfig</code></a>.</p>
+<section class="level5" id="override-the-script-loader">
+<h5>Override the Script Loader</h5>
+<p>As defined in the <code>AppManifest</code>, each F2 App can have script file dependencies. These are <a href="app-development.html#app-manifest">defined as URLs</a> in the <code>AppManifest.scripts</code> property. The script loader can be replaced with any script loading mechanism such as those found in <a href="http://requirejs.org/">RequireJS</a> or <a href="https://api.jquery.com/load/">jQuery</a>.</p>
+<p>To override the script loader, assign a function to <code>loadScripts</code> in <code>F2.init</code> as shown below. The function is passed <code>scripts</code> (array), <code>inlines</code> (array), and <code>callback</code> (function) which needs to be called when all scripts have been loaded.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
+    <span class="dt">loadScripts</span>: <span class="kw">function</span>(scripts,inlines,callback){
+        <span class="co">//perform script loading</span>
+        callback();
+    }
+});</code></pre>
+<p>The following example demonstrates using <code>jQuery.ajax</code> to load script dependencies:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
+    <span class="dt">loadScripts</span>: <span class="kw">function</span>(scripts,inlines,callback){
+        <span class="co">//keep track of whether all scripts have been loaded</span>
+        <span class="kw">var</span> scriptsLoaded = <span class="dv">0</span>, scriptCount = <span class="kw">scripts</span>.<span class="fu">length</span>;
+        <span class="co">//iterate over the scripts</span>
+        $.<span class="fu">each</span>(scripts, <span class="kw">function</span>(i, scriptUrl) {
+            $.<span class="fu">ajax</span>({
+                <span class="dt">url</span>:scriptUrl,
+                <span class="dt">cache</span>:<span class="kw">true</span>,
+                <span class="dt">async</span>:<span class="kw">false</span>, <span class="co">//load them synchronously!</span>
+                <span class="dt">dataType</span>:<span class="ch">&#39;script&#39;</span>,
+                <span class="dt">type</span>:<span class="ch">&#39;GET&#39;</span>,
+                <span class="dt">success</span>:<span class="kw">function</span>() {
+                    <span class="co">//when all scripts have been loaded, eval inline scripts</span>
+                    <span class="kw">if</span> (++scriptsLoaded == scriptCount) {
+                        $.<span class="fu">each</span>(inlines, <span class="kw">function</span>(i,inline) {
+                            <span class="kw">try</span> {
+                                eval(inline);
+                            } <span class="kw">catch</span> (exception) {
+                                <span class="kw">console</span>.<span class="fu">error</span>(<span class="ch">&#39;Error loading inline script: &#39;</span> + exception + <span class="ch">&#39;\n\n&#39;</span> + inline);
+                            }
+                        });
+                        <span class="co">//execute the callback when everything is done</span>
+                        callback();
+                    }
+                    ++scriptsLoaded;
+                },
+                <span class="dt">error</span>:<span class="kw">function</span>(jqxhr, settings, exception) {
+                    <span class="kw">console</span>.<span class="fu">error</span>(<span class="ch">&#39;Failed to load script (&#39;</span> + scriptUrl +<span class="ch">&#39;)&#39;</span>, <span class="kw">exception</span>.<span class="fu">toString</span>());
+                }
+            });
+        });
+    }
+});</code></pre>
+<p><span class="label label-important">Important</span> The <code>callback</code> function must be executed on completion of the script loading so F2 can continue registering apps.</p>
+</section>
+<section class="level5" id="override-the-stylesheet-loader">
+<h5>Override the Stylesheet Loader</h5>
+<p>As defined in the <code>AppManifest</code>, each F2 App can have stylesheet file dependencies. These are <a href="app-development.html#app-manifest">defined as URLs</a> in the <code>AppManifest.styles</code> property. The stylesheet loader can be replaced with any stylesheet loading mechanism such as those found in <a href="http://headjs.com/">HeadJS</a> or <a href="https://github.com/rgrove/lazyload">LazyLoad</a>.</p>
+<p>To override the stylesheet loader, assign a function to <code>loadStyles</code> in <code>F2.init</code> as shown below. The function is passed <code>styles</code> (array) and <code>callback</code> (function) which needs to be called when all stylesheets have been loaded.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
+    <span class="dt">loadStyles</span>: <span class="kw">function</span>(styles,callback){
+        <span class="co">//perform stylesheet loading</span>
+        callback();
+    }
+});</code></pre>
+<p>The following example demonstrates using <a href="http://headjs.com/site/api/v1.00.html#load">HeadJS</a> to load stylesheet dependencies:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
+    <span class="dt">loadStyles</span>: <span class="kw">function</span>(styles,callback){
+        <span class="kw">head</span>.<span class="fu">load</span>(styles, <span class="kw">function</span>(){
+            callback();
+        });
+    }
+});</code></pre>
+<p><span class="label label-important">Important</span> The <code>callback</code> function must be executed on completion of the stylesheet loading so F2 can continue registering apps.</p>
 </section>
 </section>
 <section class="level4" id="supported-views">
@@ -964,7 +1035,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 	<hr>
 
 	<footer>
-		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.2, published 18 November 2013</small></p>
+		<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification 1.3.3, published 28 February 2014</small></p>
 		<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
 	</footer>
 
@@ -973,7 +1044,7 @@ Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method f
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="./js/bootstrap.min.2.3.0.js"></script>
 <script src="./js/prettify.js"></script>
-<script src="./js/f2.js?1.3.2"></script>
-<script src="./js/docs.js?1.3.2"></script>
+<script src="./js/f2.js?1.3.3"></script>
+<script src="./js/docs.js?1.3.3"></script>
 </body>
 </html>

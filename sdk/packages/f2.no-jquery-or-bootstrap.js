@@ -3576,7 +3576,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.3.2 11-18-2013
+ * F2 v1.3.3 02-28-2014
  * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -3940,7 +3940,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '1.3.2'; }
+		version: function() { return '1.3.3'; }
 	};
 })();
 
@@ -5049,7 +5049,37 @@ F2.extend('', {
 			 *     });
 			 */
 			url: function(url, appConfigs) {}
-		}
+		},
+		/**
+		 * Allows the container to override the script loader which requests
+		 * dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
+		 * @property loadScripts
+		 * @type function
+		 *
+		 * @example
+		 *     F2.init({
+		 *			loadScripts: function(scripts,inlines,callback){
+		 *				//load scripts using $.load() for each script or require(scripts)
+		 *				callback();
+		 *			}
+		 *     });
+		 */
+		loadScripts: function(scripts,inlines,callback){},
+		/**
+		 * Allows the container to override the stylesheet loader which requests
+		 * dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
+		 * @property loadStyles
+		 * @type function
+		 *
+		 * @example
+		 *     F2.init({
+		 *			loadStyles: function(styles,callback){
+		 *				//load styles using $.load() for each stylesheet or another method
+		 *				callback();
+		 *			}
+		 *     });
+		 */
+		loadStyles: function(styles,callback){}
 	}
 });
 /**
@@ -6169,7 +6199,7 @@ F2.extend('UI', (function(){
  * @module f2
  * @class F2
  */
-F2.extend('', (function(){
+F2.extend('', (function() {
 
 	var _apps = {};
 	var _config = false;
@@ -6186,16 +6216,17 @@ F2.extend('', (function(){
 	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
-		
+
 		var handler = _config.afterAppRender || function(appConfig, html) {
-			return jQuery(html).appendTo('body');
-		};
+				return jQuery(html).appendTo('body');
+			};
 		var appContainer = handler(appConfig, html);
 
-		if (!!_config.afterAppRender && !appContainer) {
+		if ( !! _config.afterAppRender && !appContainer) {
 			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app');
 			return;
-		} else {
+		}
+		else {
 			// apply APP class and Instance ID
 			jQuery(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
@@ -6284,11 +6315,11 @@ F2.extend('', (function(){
 	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
 	 */
 	var _hydrateContainerConfig = function(containerConfig) {
-		if (!containerConfig.scriptErrorTimeout){
+		if (!containerConfig.scriptErrorTimeout) {
 			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
 		}
 
-		if (containerConfig.debugMode !== true){
+		if (containerConfig.debugMode !== true) {
 			containerConfig.debugMode = F2.ContainerConfig.debugMode;
 		}
 	};
@@ -6298,7 +6329,7 @@ F2.extend('', (function(){
 	 * @method _initAppEvents
 	 * @private
 	 */
-	var _initAppEvents = function (appConfig) {
+	var _initAppEvents = function(appConfig) {
 
 		jQuery(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
 
@@ -6309,7 +6340,8 @@ F2.extend('', (function(){
 			// handle the special REMOVE view
 			if (view == F2.Constants.Views.REMOVE) {
 				F2.removeApp(appConfig.instanceId);
-			} else {
+			}
+			else {
 				appConfig.ui.Views.change(view);
 			}
 		});
@@ -6349,7 +6381,7 @@ F2.extend('', (function(){
 	 * @private
 	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
 	 */
-	var _createAppInstance = function(appConfig, appContent){
+	var _createAppInstance = function(appConfig, appContent) {
 		// instantiate F2.UI
 		appConfig.ui = new F2.UI(appConfig);
 
@@ -6364,8 +6396,9 @@ F2.extend('', (function(){
 						_apps[appConfig.instanceId].app.init();
 					}
 				}, 0);
-				
-			} else {
+
+			}
+			else {
 				F2.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
 			}
 		}
@@ -6380,7 +6413,6 @@ F2.extend('', (function(){
 	 * @param {F2.AppManifest} [appManifest] The AppManifest object
 	 */
 	var _loadApps = function(appConfigs, appManifest) {
-
 		appConfigs = [].concat(appConfigs);
 
 		// check for secure app
@@ -6395,169 +6427,229 @@ F2.extend('', (function(){
 			return;
 		}
 
-		var scripts = appManifest.scripts || [];
-		var styles = appManifest.styles || [];
-		var inlines = appManifest.inlineScripts || [];
-		var scriptCount = scripts.length;
-		var scriptsLoaded = 0;
-		// check for IE10+ so that we don't rely on onreadystatechange
-		var readyStates = 'addEventListener' in window ? {} : { 'loaded': true, 'complete': true };
-		var appInit = function() {
-			jQuery.each(appConfigs, function(i, a) {
-				_createAppInstance(a, appManifest.apps[i]);
-			});
+		// Fn for loading manifest Styles
+		var _loadStyles = function(styles, cb) {
+			// Attempt to use the user provided method
+			if (_config.loadStyles) {
+				_config.loadStyles(styles, cb);
+			}
+			else {
+				// load styles, see #101
+				var stylesFragment = null,
+					useCreateStyleSheet = !! document.createStyleSheet;
+
+				jQuery.each(styles, function(i, e) {
+					if (useCreateStyleSheet) {
+						document.createStyleSheet(e);
+					}
+					else {
+						stylesFragment = stylesFragment || [];
+						stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
+					}
+				});
+
+				if (stylesFragment) {
+					jQuery('head').append(stylesFragment.join(''));
+				}
+
+				cb();
+			}
 		};
-		var _error = function(e){
-			//log and emit event for the failed (400,500) scripts
-			setTimeout(function(){
-				var evtData = {
-					src: e.target.src,
-					appId: appConfigs[0].appId
+
+		// Fn for loading manifest Scripts
+		var _loadScripts = function(scripts, inlines, cb) {
+			// Attempt to use the user provided method
+			if (_config.loadScripts) {
+				_config.loadScripts(scripts, inlines, cb);
+			}
+			else {
+				// Fn to load inline scripts
+				var evalInlines = function() {
+					jQuery.each(inlines, function(i, e) {
+						try {
+							eval(e);
+						}
+						catch (exception) {
+							F2.log('Error loading inline script: ' + exception + '\n\n' + e);
+							if (!_bUsesAppHandlers) {
+								_appScriptLoadFailed(appConfigs[0], exception);
+							}
+							else {
+								F2.AppHandlers.__trigger(
+									_sAppHandlerToken,
+									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+									appConfigs[0],
+									exception
+								);
+							}
+						}
+					});
 				};
-				//send error to console
-				F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
-				//emit event 
-				F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
-				if(!_bUsesAppHandlers) {
-					_appScriptLoadFailed(appConfigs[0],evtData.src);
+
+				if (scripts.length) {
+					var scriptCount = scripts.length;
+					var scriptsLoaded = 0;
+
+					// Check for IE10+ so that we don't rely on onreadystatechange
+					var readyStates = ('addEventListener' in window) ? {} : {
+						'loaded': true,
+						'complete': true
+					};
+
+					// Log and emit event for the failed (400,500) scripts
+					var _error = function(e) {
+						setTimeout(function() {
+							var evtData = {
+								src: e.target.src,
+								appId: appConfigs[0].appId
+							};
+
+							// Send error to console
+							F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
+
+							// Emit event
+							F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
+
+							if (!_bUsesAppHandlers) {
+								_appScriptLoadFailed(appConfigs[0], evtData.src);
+							}
+							else {
+								F2.AppHandlers.__trigger(
+									_sAppHandlerToken,
+									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+									appConfigs[0],
+									evtData.src
+								);
+							}
+						}, _config.scriptErrorTimeout); // Defaults to 7000
+					};
+
+					// Load scripts and eval inlines once complete
+					jQuery.each(scripts, function(i, e) {
+						var doc = document,
+							script = doc.createElement('script'),
+							resourceUrl = e;
+
+						// If in debugMode, add cache buster to each script URL
+						if (_config.debugMode) {
+							resourceUrl += '?cachebuster=' + new Date().getTime();
+						}
+
+						// Scripts needed to be loaded in order they're defined in the AppManifest
+						script.async = false;
+						// Add other attrs
+						script.src = resourceUrl;
+						script.type = 'text/javascript';
+						script.charset = 'utf-8';
+						script.onerror = _error;
+
+						// Use a closure for the load event so that we can dereference the original script
+						script.onload = script.onreadystatechange = function(e) {
+							e = e || window.event; // For older IE
+
+							if (e.type == 'load' || readyStates[script.readyState]) {
+								// Done, cleanup
+								script.onload = script.onreadystatechange = script.onerror = null;
+
+								// Dereference script
+								script = null;
+
+								// Are we done loading all scripts for this app?
+								if (++scriptsLoaded === scriptCount) {
+									evalInlines(inlines);
+									cb();
+								}
+							}
+						};
+
+						doc.body.appendChild(script);
+					});
+				}
+				else {
+					evalInlines(inlines);
+					cb();
+				}
+			}
+		};
+
+		// Determine whether an element has been added to the page
+		var elementInDocument = function(element) {
+			if (element) {
+				while (element.parentNode) {
+					element = element.parentNode;
+
+					if (element === document) {
+						return true;
+					}
+				}
+			}
+
+			return false;
+		};
+
+		// Fn for loading manifest app html
+		var _loadHtml = function(apps) {
+			jQuery.each(apps, function(i, a) {
+				if (!_bUsesAppHandlers) {
+					// load html and save the root node
+					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
 				else {
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
-						F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-						appConfigs[0],
-						evtData.src
+						F2.Constants.AppHandlers.APP_RENDER,
+						appConfigs[i], // the app config
+						_outerHtml(a.html)
 					);
-				}
-			}, _config.scriptErrorTimeout);//defaults to 7000
-		};
-		//eval inlines
-		var evalInlines = function(){
-			jQuery.each(inlines, function(i, e) {
-				try {
-					eval(e);
-				} catch (exception) {
-					F2.log('Error loading inline script: ' + exception + '\n\n' + e);
-					if(!_bUsesAppHandlers) {
-						_appScriptLoadFailed(appConfigs[0],exception);
+
+					var appId = appConfigs[i].appId;
+					var root = appConfigs[i].root;
+
+					if (!root) {
+						throw ('Root for ' + appId + ' must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.');
 					}
-					else {
-						F2.AppHandlers.__trigger(
-							_sAppHandlerToken,
-							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-							appConfigs[0],
-							exception
-						);
+
+					if (!elementInDocument(root)) {
+						throw ('App root for ' + appId + ' was not appended to the DOM. Check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 					}
+
+					F2.AppHandlers.__trigger(
+						_sAppHandlerToken,
+						F2.Constants.AppHandlers.APP_RENDER_AFTER,
+						appConfigs[i] // the app config
+					);
+
+					if (!F2.isNativeDOMNode(root)) {
+						throw ('App root for ' + appId + ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
+					}
+
+					$(root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appId);
 				}
+
+				// init events
+				_initAppEvents(appConfigs[i]);
 			});
 		};
 
-		// load styles, see #101
-		var stylesFragment = null,
-			useCreateStyleSheet = !!document.createStyleSheet;
-		jQuery.each(styles, function(i, e) {
-			if (useCreateStyleSheet) {
-                document.createStyleSheet(e); 
-			} else {
-				stylesFragment = stylesFragment || [];
-				stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
-			}
+		// Pull out the manifest data
+		var scripts = appManifest.scripts || [];
+		var styles = appManifest.styles || [];
+		var inlines = appManifest.inlineScripts || [];
+		var apps = appManifest.apps || [];
+
+		// Finally, load the styles, html, and scripts
+		_loadStyles(styles, function() {
+			// Put the html on the page
+			_loadHtml(apps);
+
+			// Add the script content to the page
+			_loadScripts(scripts, inlines, function() {
+				// Create the apps
+				jQuery.each(appConfigs, function(i, a) {
+					_createAppInstance(a, appManifest.apps[i]);
+				});
+			});
 		});
-
-		if (stylesFragment){
-			jQuery('head').append(stylesFragment.join(''));
-		}
-
-		// load html
-		jQuery.each(appManifest.apps, function(i, a) {
-			if(!_bUsesAppHandlers) {
-				// load html and save the root node
-				appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
-			} else {
-				
-				F2.AppHandlers.__trigger(
-					_sAppHandlerToken,
-					F2.Constants.AppHandlers.APP_RENDER,
-					appConfigs[i], // the app config
-					_outerHtml(a.html)
-				);
-
-				var appId = appConfigs[i].appId;
-				
-				if (!appConfigs[i].root) {
-					throw('Root for ' +appId+ ' must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.');
-				}
-				
-				var $root = jQuery(appConfigs[i].root);
-				
-				if ($root.parents('body:first').length === 0) {
-					throw('App root for ' +appId+ ' was not appended to the DOM. Check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
-				}
-				
-				F2.AppHandlers.__trigger(
-					_sAppHandlerToken,
-					F2.Constants.AppHandlers.APP_RENDER_AFTER,
-					appConfigs[i] // the app config
-				);
-				
-				if(!F2.isNativeDOMNode(appConfigs[i].root)) {
-					throw('App root for ' +appId+ ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
-				}
-				
-				$root.addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appId);
-			}
-			
-			// init events
-			_initAppEvents(appConfigs[i]);
-		});
-
-		// load scripts and eval inlines once complete
-		jQuery.each(scripts, function(i, e) {
-			var doc = document, 
-				script = doc.createElement('script'), 
-				resourceUrl = e;
-
-			//if in debugMode, add cache buster to each script URL
-			if (_config.debugMode){
-				resourceUrl += '?cachebuster=' + new Date().getTime();
-			}
-			
-			//scripts needed to be loaded in order they're defined in the AppManifest
-			script.async = false;
-			//add other attrs
-			script.src = resourceUrl;
-			script.type = 'text/javascript';
-			script.charset = 'utf-8';
-			script.onerror = _error;
-			// use a closure for the load event so that we can dereference the original script
-			script.onload = script.onreadystatechange = function(e){
-
-				e = e || window.event; // older IE
-				
-				if (e.type == 'load' || readyStates[script.readyState]) {
-					//done, cleanup
-					script.onload = script.onreadystatechange = script.onerror = null;
-
-					// dereference script
-					script = null;
-
-					//are we done loading all scripts for this app?
-					if (++scriptsLoaded == scriptCount) {
-							evalInlines();
-							appInit();
-					}
-				}
-			};
-			
-			doc.body.appendChild(script);
-		});
-
-		// if no scripts were to be processed, fire the appInit event
-		if (!scriptCount) {
-			evalInlines();
-			appInit();
-		}
 	};
 
 	/**
@@ -6572,47 +6664,49 @@ F2.extend('', (function(){
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if(!_bUsesAppHandlers) {
+			if (!_bUsesAppHandlers) {
 				// create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
-			} else {
+			}
+			else {
 				var $root = jQuery(appConfig.root);
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfig, // the app config
 					appManifest.html
 				);
-				
+
 				if ($root.parents('body:first').length === 0) {
-					throw('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
+					throw ('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
 				}
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER_AFTER,
 					appConfig // the app config
 				);
-				
+
 				if (!appConfig.root) {
-					throw('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+					throw ('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
-				
+
 				if (!F2.isNativeDOMNode(appConfig.root)) {
-					throw('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
+					throw ('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
-				
+
 				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
 			}
-			
+
 			// instantiate F2.UI
 			appConfig.ui = new F2.UI(appConfig);
 			// init events
 			_initAppEvents(appConfig);
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
-		} else {
+		}
+		else {
 			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
 		}
 	};
@@ -6634,7 +6728,8 @@ F2.extend('', (function(){
 		if (!appConfig.appId) {
 			F2.log('"appId" missing from app object');
 			return false;
-		} else if (!appConfig.root && !appConfig.manifestUrl) {
+		}
+		else if (!appConfig.root && !appConfig.manifestUrl) {
 			F2.log('"manifestUrl" missing from app object');
 			return false;
 		}
@@ -6653,16 +6748,16 @@ F2.extend('', (function(){
 		if (_config) {
 			if (_config.xhr) {
 				if (!(typeof _config.xhr === 'function' || typeof _config.xhr === 'object')) {
-					throw('ContainerConfig.xhr should be a function or an object');
+					throw ('ContainerConfig.xhr should be a function or an object');
 				}
 				if (_config.xhr.dataType && typeof _config.xhr.dataType !== 'function') {
-					throw('ContainerConfig.xhr.dataType should be a function');
+					throw ('ContainerConfig.xhr.dataType should be a function');
 				}
 				if (_config.xhr.type && typeof _config.xhr.type !== 'function') {
-					throw('ContainerConfig.xhr.type should be a function');
+					throw ('ContainerConfig.xhr.type should be a function');
 				}
 				if (_config.xhr.url && typeof _config.xhr.url !== 'function') {
-					throw('ContainerConfig.xhr.url should be a function');
+					throw ('ContainerConfig.xhr.url should be a function');
 				}
 			}
 		}
@@ -6683,7 +6778,9 @@ F2.extend('', (function(){
 			}
 
 			return jQuery.map(_apps, function(app) {
-				return { appId: app.config.appId };
+				return {
+					appId: app.config.appId
+				};
 			});
 		},
 		/**
@@ -6694,20 +6791,20 @@ F2.extend('', (function(){
 		 */
 		init: function(config) {
 			_config = config || {};
-			
+
 			_validateContainerConfig();
 
 			_hydrateContainerConfig(_config);
-			
+
 			// dictates whether we use the old logic or the new logic.
 			// TODO: Remove in v2.0
 			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
-			
+
 			// only establish RPC connection if the container supports the secure app page
-			if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
-				F2.Rpc.init(!!_config.secureAppPagePath ? _config.secureAppPagePath : false);
+			if ( !! _config.secureAppPagePath || _config.isSecureAppPage) {
+				F2.Rpc.init( !! _config.secureAppPagePath ? _config.secureAppPagePath : false);
 			}
-			
+
 			F2.UI.init(_config);
 
 			if (!_config.isSecureAppPage) {
@@ -6721,116 +6818,117 @@ F2.extend('', (function(){
 		 */
 		isInit: _isInit,
 		/**
-		* Begins the loading process for all apps and/or initialization process for pre-loaded apps.
-		* The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
-		* contain the app's unique instanceId within the container. If the 
-		* {{#crossLink "F2.AppConfig"}}{{/crossLink}}.root property is populated the app is considered
-		* to be a pre-loaded app and will be handled accordingly. Optionally, the
-		* {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
-		* assets will be used instead of making a request.
-		* @method registerApps
-		* @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-		* objects
-		* @param {Array} [appManifests] An array of
-		* {{#crossLink "F2.AppManifest"}}{{/crossLink}}
-		* objects. This array must be the same length as the apps array that is
-		* objects. This array must be the same length as the apps array that is
-		* passed in. This can be useful if apps are loaded on the server-side and
-		* passed down to the client.
-		* @example
-		* Traditional App requests.
-		*
-		*	// Traditional f2 app configs
-		*	var arConfigs = [
-		*		{
-		*			appId: 'com_externaldomain_example_app',
-		*			context: {},
-		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
-		*		},
-		*		{
-		*			appId: 'com_externaldomain_example_app',
-		*			context: {},
-		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
-		*		},
-		*		{
-		*			appId: 'com_externaldomain_example_app2',
-		*			context: {},
-		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
-		*		}
-		*	];
-		*	
-		*	F2.init();
-		*	F2.registerApps(arConfigs);
-		*
-		* @example
-		* Pre-loaded and tradition apps mixed.
-		* 
-		*	// Pre-loaded apps and traditional f2 app configs
-		*	// you can preload the same app multiple times as long as you have a unique root for each
-		*	var arConfigs = [
-		*		{
-		*			appId: 'com_mydomain_example_app',
-		*			context: {},
-		*			root: 'div#example-app-1',
-		*			manifestUrl: ''
-		*		},
-		*		{
-		*			appId: 'com_mydomain_example_app',
-		*			context: {},
-		*			root: 'div#example-app-2',
-		*			manifestUrl: ''
-		*		},
-		*		{
-		*			appId: 'com_externaldomain_example_app',
-		*			context: {},
-		*			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
-		*		}
-		*	];
-		*
-		*	F2.init();
-		*	F2.registerApps(arConfigs);
-		*
-		* @example
-		* Apps with predefined manifests.
-		*
-		*	// Traditional f2 app configs
-		*	var arConfigs = [
-		*		{appId: 'com_externaldomain_example_app', context: {}},
-		*		{appId: 'com_externaldomain_example_app', context: {}},
-		*		{appId: 'com_externaldomain_example_app2', context: {}}
-		*	];
-		*
-		*	// Pre requested manifest responses
-		*	var arManifests = [
-		*		{
-		*			apps: ['<div>Example App!</div>'],
-		*			inlineScripts: [],
-		*			scripts: ['http://www.domain.com/js/AppClass.js'],
-		*			styles: ['http://www.domain.com/css/AppStyles.css']
-		*		},
-		*		{
-		*			apps: ['<div>Example App!</div>'],
-		*			inlineScripts: [],
-		*			scripts: ['http://www.domain.com/js/AppClass.js'],
-		*			styles: ['http://www.domain.com/css/AppStyles.css']
-		*		},
-		*		{
-		*			apps: ['<div>Example App 2!</div>'],
-		*			inlineScripts: [],
-		*			scripts: ['http://www.domain.com/js/App2Class.js'],
-		*			styles: ['http://www.domain.com/css/App2Styles.css'] 
-		*		}
-		*	];
-		*	
-		*	F2.init();
-		*	F2.registerApps(arConfigs, arManifests);
-		*/
+		 * Begins the loading process for all apps and/or initialization process for pre-loaded apps.
+		 * The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
+		 * contain the app's unique instanceId within the container. If the
+		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}}.root property is populated the app is considered
+		 * to be a pre-loaded app and will be handled accordingly. Optionally, the
+		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}} can be passed in and those
+		 * assets will be used instead of making a request.
+		 * @method registerApps
+		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
+		 * objects
+		 * @param {Array} [appManifests] An array of
+		 * {{#crossLink "F2.AppManifest"}}{{/crossLink}}
+		 * objects. This array must be the same length as the apps array that is
+		 * objects. This array must be the same length as the apps array that is
+		 * passed in. This can be useful if apps are loaded on the server-side and
+		 * passed down to the client.
+		 * @example
+		 * Traditional App requests.
+		 *
+		 *	// Traditional f2 app configs
+		 *	var arConfigs = [
+		 *		{
+		 *			appId: 'com_externaldomain_example_app',
+		 *			context: {},
+		 *			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		 *		},
+		 *		{
+		 *			appId: 'com_externaldomain_example_app',
+		 *			context: {},
+		 *			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		 *		},
+		 *		{
+		 *			appId: 'com_externaldomain_example_app2',
+		 *			context: {},
+		 *			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		 *		}
+		 *	];
+		 *
+		 *	F2.init();
+		 *	F2.registerApps(arConfigs);
+		 *
+		 * @example
+		 * Pre-loaded and tradition apps mixed.
+		 *
+		 *	// Pre-loaded apps and traditional f2 app configs
+		 *	// you can preload the same app multiple times as long as you have a unique root for each
+		 *	var arConfigs = [
+		 *		{
+		 *			appId: 'com_mydomain_example_app',
+		 *			context: {},
+		 *			root: 'div#example-app-1',
+		 *			manifestUrl: ''
+		 *		},
+		 *		{
+		 *			appId: 'com_mydomain_example_app',
+		 *			context: {},
+		 *			root: 'div#example-app-2',
+		 *			manifestUrl: ''
+		 *		},
+		 *		{
+		 *			appId: 'com_externaldomain_example_app',
+		 *			context: {},
+		 *			manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+		 *		}
+		 *	];
+		 *
+		 *	F2.init();
+		 *	F2.registerApps(arConfigs);
+		 *
+		 * @example
+		 * Apps with predefined manifests.
+		 *
+		 *	// Traditional f2 app configs
+		 *	var arConfigs = [
+		 *		{appId: 'com_externaldomain_example_app', context: {}},
+		 *		{appId: 'com_externaldomain_example_app', context: {}},
+		 *		{appId: 'com_externaldomain_example_app2', context: {}}
+		 *	];
+		 *
+		 *	// Pre requested manifest responses
+		 *	var arManifests = [
+		 *		{
+		 *			apps: ['<div>Example App!</div>'],
+		 *			inlineScripts: [],
+		 *			scripts: ['http://www.domain.com/js/AppClass.js'],
+		 *			styles: ['http://www.domain.com/css/AppStyles.css']
+		 *		},
+		 *		{
+		 *			apps: ['<div>Example App!</div>'],
+		 *			inlineScripts: [],
+		 *			scripts: ['http://www.domain.com/js/AppClass.js'],
+		 *			styles: ['http://www.domain.com/css/AppStyles.css']
+		 *		},
+		 *		{
+		 *			apps: ['<div>Example App 2!</div>'],
+		 *			inlineScripts: [],
+		 *			scripts: ['http://www.domain.com/js/App2Class.js'],
+		 *			styles: ['http://www.domain.com/css/App2Styles.css']
+		 *		}
+		 *	];
+		 *
+		 *	F2.init();
+		 *	F2.registerApps(arConfigs, arManifests);
+		 */
 		registerApps: function(appConfigs, appManifests) {
 
 			if (!_isInit()) {
 				F2.log('F2.init() must be called before F2.registerApps()');
 				return;
-			} else if (!appConfigs) {
+			}
+			else if (!appConfigs) {
 				F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
 				return;
 			}
@@ -6841,14 +6939,15 @@ F2.extend('', (function(){
 			var haveManifests = false;
 			appConfigs = [].concat(appConfigs);
 			appManifests = [].concat(appManifests || []);
-			haveManifests = !!appManifests.length;
+			haveManifests = !! appManifests.length;
 
 			// appConfigs must have a length
 			if (!appConfigs.length) {
 				F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
 				return;
-			// ensure that the array of apps and manifests are qual
-			} else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
+				// ensure that the array of apps and manifests are qual
+			}
+			else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
 				F2.log('The length of "apps" does not equal the length of "appManifests"');
 				return;
 			}
@@ -6856,7 +6955,6 @@ F2.extend('', (function(){
 			// validate each app and assign it an instanceId
 			// then determine which apps can be batched together
 			jQuery.each(appConfigs, function(i, a) {
-
 				// add properties and methods
 				a = _createAppConfig(a);
 
@@ -6866,34 +6964,33 @@ F2.extend('', (function(){
 
 				// we validate the app after setting the root property because pre-load apps do no require
 				// manifest url
-				if (!_validateApp(a)) {					
+				if (!_validateApp(a)) {
 					return; // move to the next app
 				}
-				
+
 				// save app
-				_apps[a.instanceId] = { config:a };
+				_apps[a.instanceId] = {
+					config: a
+				};
 
 				// If the root property is defined then this app is considered to be preloaded and we will
 				// run it through that logic.
-				if(a.root)
-				{
-					if((!a.root && typeof(a.root) != 'string') && !F2.isNativeDOMNode(a.root))
-					{
+				if (a.root) {
+					if ((!a.root && typeof(a.root) != 'string') && !F2.isNativeDOMNode(a.root)) {
 						F2.log('AppConfig invalid for pre-load, not a valid string and not dom node');
 						F2.log('AppConfig instance:', a);
-						throw('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
+						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
-					else if(jQuery(a.root).length != 1)
-					{
+					else if (jQuery(a.root).length != 1) {
 						F2.log('AppConfig invalid for pre-load, root not unique');
 						F2.log('AppConfig instance:', a);
 						F2.log('Number of dom node instances:', jQuery(a.root).length);
-						throw('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
+						throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
 					}
 
 					// instantiate F2.App
 					_createAppInstance(a);
-					
+
 					// init events
 					_initAppEvents(a);
 
@@ -6902,19 +6999,17 @@ F2.extend('', (function(){
 					return; // equivalent to continue in .each
 				}
 
-				if(!_bUsesAppHandlers)
-				{
+				if (!_bUsesAppHandlers) {
 					// fire beforeAppRender
 					a.root = _beforeAppRender(a);
 				}
-				else
-				{
+				else {
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_CREATE_ROOT,
 						a // the app config
 					);
-					
+
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
@@ -6925,15 +7020,17 @@ F2.extend('', (function(){
 				// if we have the manifest, go ahead and load the app
 				if (haveManifests) {
 					_loadApps(a, appManifests[i]);
-				} else {
+				}
+				else {
 					// check if this app can be batched
 					if (a.enableBatchRequests && !a.isSecure) {
 						batches[a.manifestUrl.toLowerCase()] = batches[a.manifestUrl.toLowerCase()] || [];
 						batches[a.manifestUrl.toLowerCase()].push(a);
-					} else {
+					}
+					else {
 						appStack.push({
-							apps:[a],
-							url:a.manifestUrl
+							apps: [a],
+							url: a.manifestUrl
 						});
 					}
 				}
@@ -6943,7 +7040,10 @@ F2.extend('', (function(){
 			if (!haveManifests) {
 				// add the batches to the appStack
 				jQuery.each(batches, function(i, b) {
-					appStack.push({ url:i, apps:b });
+					appStack.push({
+						url: i,
+						apps: b
+					});
 				});
 
 				// if an app is being loaded more than once on the page, there is the
@@ -6962,12 +7062,14 @@ F2.extend('', (function(){
 				});
 
 				// loop through each item in the callback stack and make the request
-				// for the AppManifest. When the request is complete, pop the next 
+				// for the AppManifest. When the request is complete, pop the next
 				// request off the stack and make the request.
 				jQuery.each(callbackStack, function(i, requests) {
 
 					var manifestRequest = function(jsonpCallback, req) {
-						if (!req) { return; }
+						if (!req) {
+							return;
+						}
 
 						// setup defaults and callbacks
 						var url = req.url,
@@ -6977,8 +7079,8 @@ F2.extend('', (function(){
 								manifestRequest(i, requests.pop());
 							},
 							errorFunc = function() {
-								jQuery.each(req.apps, function(idx,item){
-									F2.log('Removed failed ' +item.name+ ' app', item);
+								jQuery.each(req.apps, function(idx, item) {
+									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.removeApp(item.instanceId);
 								});
 							},
@@ -6990,19 +7092,19 @@ F2.extend('', (function(){
 						if (_config.xhr && _config.xhr.dataType) {
 							dataType = _config.xhr.dataType(req.url, req.apps);
 							if (typeof dataType !== 'string') {
-								throw('ContainerConfig.xhr.dataType should return a string');
+								throw ('ContainerConfig.xhr.dataType should return a string');
 							}
 						}
 						if (_config.xhr && _config.xhr.type) {
 							type = _config.xhr.type(req.url, req.apps);
 							if (typeof type !== 'string') {
-								throw('ContainerConfig.xhr.type should return a string');
+								throw ('ContainerConfig.xhr.type should return a string');
 							}
 						}
 						if (_config.xhr && _config.xhr.url) {
 							url = _config.xhr.url(req.url, req.apps);
 							if (typeof url !== 'string') {
-								throw('ContainerConfig.xhr.url should return a string');
+								throw ('ContainerConfig.xhr.url should return a string');
 							}
 						}
 
@@ -7063,30 +7165,31 @@ F2.extend('', (function(){
 				return;
 			}
 
-			if (_apps[instanceId]) {				
+			if (_apps[instanceId]) {
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
 					_apps[instanceId] // the app instance
 				);
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_DESTROY,
 					_apps[instanceId] // the app instance
 				);
-				
+
 				F2.AppHandlers.__trigger(
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
 					_apps[instanceId] // the app instance
-				);				
-				
+				);
+
 				delete _apps[instanceId];
 			}
 		}
 	};
 })());
+
 	
 	exports.F2 = F2;
 

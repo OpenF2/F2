@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2.Rpc</title>
-	<meta name="dcterms.date" content="18 November 2013">
+	<meta name="dcterms.date" content="28 February 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -224,6 +224,7 @@
 
 <p>
 	<p>Handles socket communication between the container and secure apps</p>
+
 </p>
 
 <div class="well well-small">
@@ -280,7 +281,8 @@
 							</a>
 						</td>
 						<td><p>Creates a socket connection from the app to the container using 
-<a href="http://easyxdm.net" target="_blank">easyXDM</a>.</p></td>
+<a href="http://easyxdm.net" target="_blank">easyXDM</a>.</p>
+</td>
 					</tr>
 					
 					<tr class=" private">
@@ -309,7 +311,8 @@
 							</a>
 						</td>
 						<td><p>Creates a socket connection from the container to the app using 
-<a href="http://easyxdm.net" target="_blank">easyXDM</a>.</p></td>
+<a href="http://easyxdm.net" target="_blank">easyXDM</a>.</p>
+</td>
 					</tr>
 					
 					<tr class=" private">
@@ -371,7 +374,8 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Handles messages that come across the sockets</p></td>
+						<td><p>Handles messages that come across the sockets</p>
+</td>
 					</tr>
 					
 					<tr class=" private">
@@ -393,7 +397,8 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Registers a callback function</p></td>
+						<td><p>Registers a callback function</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -421,7 +426,8 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Broadcast an RPC function to all sockets</p></td>
+						<td><p>Broadcast an RPC function to all sockets</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -461,7 +467,8 @@
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Calls a remote function</p></td>
+						<td><p>Calls a remote function</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -485,7 +492,8 @@
 						</td>
 						<td><p>Init function which tells F2.Rpc whether it is running at the container-
 level or the app-level. This method is generally called by
-F2.<a href="../classes/F2.html#method_init" class="crosslink">init</a></p></td>
+F2.<a href="../classes/F2.html#method_init" class="crosslink">init</a></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -507,9 +515,10 @@ F2.<a href="../classes/F2.html#method_init" class="crosslink">init</a></p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Determines whether the Instance ID is considered to be 'remote'. This is
+						<td><p>Determines whether the Instance ID is considered to be &#39;remote&#39;. This is
 determined by checking if 1) the app has an open socket and 2) whether
-F2.Rpc is running inside of an iframe</p></td>
+F2.Rpc is running inside of an iframe</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -537,7 +546,8 @@ F2.Rpc is running inside of an iframe</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Creates a container-to-app or app-to-container socket for communication</p></td>
+						<td><p>Creates a container-to-app or app-to-container socket for communication</p>
+</td>
 					</tr>
 					
 				</tbody>
@@ -582,6 +592,7 @@ F2.Rpc is running inside of an iframe</p></td>
 	<p>
 		<p>Creates a socket connection from the app to the container using 
 <a href="http://easyxdm.net" target="_blank">easyXDM</a>.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -657,6 +668,7 @@ F2.Rpc is running inside of an iframe</p></td>
 	<p>
 		<p>Creates a socket connection from the container to the app using 
 <a href="http://easyxdm.net" target="_blank">easyXDM</a>.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -694,6 +706,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The F2.AppConfig object</p>
+
 					</p>
 
 					
@@ -709,6 +722,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The F2.AppManifest object</p>
+
 					</p>
 
 					
@@ -805,7 +819,8 @@ F2.Rpc is running inside of an iframe</p></td>
 					
 
 					<p>
-						<p>The app's Instance ID</p>
+						<p>The app&#39;s Instance ID</p>
+
 					</p>
 
 					
@@ -821,6 +836,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The callback ID</p>
+
 					</p>
 
 					
@@ -839,7 +855,8 @@ F2.Rpc is running inside of an iframe</p></td>
 					
 						<span class="label type">Function</span>:
 					
-					A function to make the RPC call
+					<p>A function to make the RPC call</p>
+
 				
 			</div>
 		</div>
@@ -900,6 +917,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 	<p>
 		<p>Handles messages that come across the sockets</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -937,6 +955,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The F2.AppConfig object</p>
+
 					</p>
 
 					
@@ -952,6 +971,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The socket message</p>
+
 					</p>
 
 					
@@ -967,6 +987,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The originator</p>
+
 					</p>
 
 					
@@ -1021,6 +1042,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 	<p>
 		<p>Registers a callback function</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1058,6 +1080,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The callback function</p>
+
 					</p>
 
 					
@@ -1076,7 +1099,8 @@ F2.Rpc is running inside of an iframe</p></td>
 					
 						<span class="label type">String</span>:
 					
-					The callback ID
+					<p>The callback ID</p>
+
 				
 			</div>
 		</div>
@@ -1129,6 +1153,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 	<p>
 		<p>Broadcast an RPC function to all sockets</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1166,6 +1191,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The message type</p>
+
 					</p>
 
 					
@@ -1181,6 +1207,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The parameters to broadcast</p>
+
 					</p>
 
 					
@@ -1251,6 +1278,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 	<p>
 		<p>Calls a remote function</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1287,7 +1315,8 @@ F2.Rpc is running inside of an iframe</p></td>
 					
 
 					<p>
-						<p>The app's Instance ID</p>
+						<p>The app&#39;s Instance ID</p>
+
 					</p>
 
 					
@@ -1303,6 +1332,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The message type</p>
+
 					</p>
 
 					
@@ -1318,6 +1348,7 @@ F2.Rpc is running inside of an iframe</p></td>
 
 					<p>
 						<p>The name of the remote function</p>
+
 					</p>
 
 					
@@ -1335,6 +1366,7 @@ F2.Rpc is running inside of an iframe</p></td>
 						<p>An array of parameters to pass to the remote
 function. Any functions found within the params will be treated as a
 callback function.</p>
+
 					</p>
 
 					
@@ -1389,6 +1421,7 @@ callback function.</p>
 		<p>Init function which tells F2.Rpc whether it is running at the container-
 level or the app-level. This method is generally called by
 F2.<a href="../classes/F2.html#method_init" class="crosslink">init</a></p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1429,6 +1462,7 @@ F2.<a href="../classes/F2.html#method_init" class="crosslink">init</a></p>
 						<p>The
 <a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a>.secureAppPagePath
 property</p>
+
 					</p>
 
 					
@@ -1480,9 +1514,10 @@ property</p>
 	</h3>
 
 	<p>
-		<p>Determines whether the Instance ID is considered to be 'remote'. This is
+		<p>Determines whether the Instance ID is considered to be &#39;remote&#39;. This is
 determined by checking if 1) the app has an open socket and 2) whether
 F2.Rpc is running inside of an iframe</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1520,6 +1555,7 @@ F2.Rpc is running inside of an iframe</p>
 
 					<p>
 						<p>The Instance ID</p>
+
 					</p>
 
 					
@@ -1538,7 +1574,8 @@ F2.Rpc is running inside of an iframe</p>
 					
 						<span class="label type">Bool</span>:
 					
-					True if there is an open socket
+					<p>True if there is an open socket</p>
+
 				
 			</div>
 		</div>
@@ -1591,6 +1628,7 @@ F2.Rpc is running inside of an iframe</p>
 
 	<p>
 		<p>Creates a container-to-app or app-to-container socket for communication</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1629,6 +1667,7 @@ F2.Rpc is running inside of an iframe</p>
 
 					<p>
 						<p>The F2.AppConfig object</p>
+
 					</p>
 
 					
@@ -1645,6 +1684,7 @@ F2.Rpc is running inside of an iframe</p>
 
 					<p>
 						<p>The F2.AppManifest object</p>
+
 					</p>
 
 					
@@ -1697,7 +1737,7 @@ F2.Rpc is running inside of an iframe</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.2"></script>
+<script src="../../js/f2.js?1.3.3"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>

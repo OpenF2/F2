@@ -1533,6 +1533,32 @@
             "module": "f2"
         },
         {
+            "file": "sdk/src/classes.js",
+            "line": 482,
+            "description": "Allows the container to override the script loader which requests\ndependencies defined in the {{#crossLink \"F2.AppManifest\"}}{{/crossLink}}.",
+            "itemtype": "property",
+            "name": "loadScripts",
+            "type": "function",
+            "example": [
+                "\n    F2.init({\n\t\t\tloadScripts: function(scripts,inlines,callback){\n\t\t\t\t//load scripts using $.load() for each script or require(scripts)\n\t\t\t\tcallback();\n\t\t\t}\n    });"
+            ],
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/classes.js",
+            "line": 497,
+            "description": "Allows the container to override the stylesheet loader which requests\ndependencies defined in the {{#crossLink \"F2.AppManifest\"}}{{/crossLink}}.",
+            "itemtype": "property",
+            "name": "loadStyles",
+            "type": "function",
+            "example": [
+                "\n    F2.init({\n\t\t\tloadStyles: function(styles,callback){\n\t\t\t\t//load styles using $.load() for each stylesheet or another method\n\t\t\t\tcallback();\n\t\t\t}\n    });"
+            ],
+            "class": "F2.ContainerConfig",
+            "module": "f2"
+        },
+        {
             "file": "sdk/src/constants.js",
             "line": 13,
             "class": "F2.Constants.Css",
@@ -1845,7 +1871,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 39,
+            "line": 40,
             "description": "Renders the html for an app.",
             "itemtype": "method",
             "name": "_appRender",
@@ -1870,7 +1896,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 61,
+            "line": 62,
             "description": "Rendering hook to allow containers to render some html prior to an app\nloading",
             "itemtype": "method",
             "name": "_beforeAppRender",
@@ -1894,7 +1920,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 75,
+            "line": 76,
             "description": "Handler to inform the container that a script failed to load",
             "itemtype": "method",
             "name": "_onScriptLoadFailure",
@@ -1918,7 +1944,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 89,
+            "line": 90,
             "description": "Adds properties to the AppConfig object",
             "itemtype": "method",
             "name": "_createAppConfig",
@@ -1940,7 +1966,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 114,
+            "line": 115,
             "description": "Adds properties to the ContainerConfig object to take advantage of defaults",
             "itemtype": "method",
             "name": "_hydrateContainerConfig",
@@ -1958,7 +1984,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 130,
+            "line": 131,
             "description": "Attach app events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -1969,7 +1995,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 152,
+            "line": 154,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -1980,7 +2006,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 170,
+            "line": 172,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -1995,7 +2021,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 180,
+            "line": 182,
             "description": "Instantiates each app from it's appConfig and stores that in a local private collection",
             "itemtype": "method",
             "name": "_createAppInstance",
@@ -2013,7 +2039,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 208,
+            "line": 211,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -2037,7 +2063,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 397,
+            "line": 459,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -2060,7 +2086,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 458,
+            "line": 522,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -2082,7 +2108,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 479,
+            "line": 544,
             "description": "Checks if the ContainerConfig is valid",
             "itemtype": "method",
             "name": "_validateContainerConfig",
@@ -2097,7 +2123,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 508,
+            "line": 573,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -2110,7 +2136,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 523,
+            "line": 590,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -2126,7 +2152,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 551,
+            "line": 618,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -2139,8 +2165,8 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 557,
-            "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the \n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
+            "line": 624,
+            "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
             "params": [
@@ -2157,16 +2183,16 @@
                 }
             ],
             "example": [
-                "\nTraditional App requests.\n\n\t// Traditional f2 app configs\n\tvar arConfigs = [\n\t\t{\n\t\t\tappId: 'com_externaldomain_example_app',\n\t\t\tcontext: {},\n\t\t\tmanifestUrl: 'http://www.externaldomain.com/F2/AppManifest'\n\t\t},\n\t\t{\n\t\t\tappId: 'com_externaldomain_example_app',\n\t\t\tcontext: {},\n\t\t\tmanifestUrl: 'http://www.externaldomain.com/F2/AppManifest'\n\t\t},\n\t\t{\n\t\t\tappId: 'com_externaldomain_example_app2',\n\t\t\tcontext: {},\n\t\t\tmanifestUrl: 'http://www.externaldomain.com/F2/AppManifest'\n\t\t}\n\t];\n\t\n\tF2.init();\n\tF2.registerApps(arConfigs);",
+                "\nTraditional App requests.\n\n\t// Traditional f2 app configs\n\tvar arConfigs = [\n\t\t{\n\t\t\tappId: 'com_externaldomain_example_app',\n\t\t\tcontext: {},\n\t\t\tmanifestUrl: 'http://www.externaldomain.com/F2/AppManifest'\n\t\t},\n\t\t{\n\t\t\tappId: 'com_externaldomain_example_app',\n\t\t\tcontext: {},\n\t\t\tmanifestUrl: 'http://www.externaldomain.com/F2/AppManifest'\n\t\t},\n\t\t{\n\t\t\tappId: 'com_externaldomain_example_app2',\n\t\t\tcontext: {},\n\t\t\tmanifestUrl: 'http://www.externaldomain.com/F2/AppManifest'\n\t\t}\n\t];\n\n\tF2.init();\n\tF2.registerApps(arConfigs);",
                 "\nPre-loaded and tradition apps mixed.\n\n\t// Pre-loaded apps and traditional f2 app configs\n\t// you can preload the same app multiple times as long as you have a unique root for each\n\tvar arConfigs = [\n\t\t{\n\t\t\tappId: 'com_mydomain_example_app',\n\t\t\tcontext: {},\n\t\t\troot: 'div#example-app-1',\n\t\t\tmanifestUrl: ''\n\t\t},\n\t\t{\n\t\t\tappId: 'com_mydomain_example_app',\n\t\t\tcontext: {},\n\t\t\troot: 'div#example-app-2',\n\t\t\tmanifestUrl: ''\n\t\t},\n\t\t{\n\t\t\tappId: 'com_externaldomain_example_app',\n\t\t\tcontext: {},\n\t\t\tmanifestUrl: 'http://www.externaldomain.com/F2/AppManifest'\n\t\t}\n\t];\n\n\tF2.init();\n\tF2.registerApps(arConfigs);",
-                "\nApps with predefined manifests.\n\n\t// Traditional f2 app configs\n\tvar arConfigs = [\n\t\t{appId: 'com_externaldomain_example_app', context: {}},\n\t\t{appId: 'com_externaldomain_example_app', context: {}},\n\t\t{appId: 'com_externaldomain_example_app2', context: {}}\n\t];\n\n\t// Pre requested manifest responses\n\tvar arManifests = [\n\t\t{\n\t\t\tapps: ['<div>Example App!</div>'],\n\t\t\tinlineScripts: [],\n\t\t\tscripts: ['http://www.domain.com/js/AppClass.js'],\n\t\t\tstyles: ['http://www.domain.com/css/AppStyles.css']\n\t\t},\n\t\t{\n\t\t\tapps: ['<div>Example App!</div>'],\n\t\t\tinlineScripts: [],\n\t\t\tscripts: ['http://www.domain.com/js/AppClass.js'],\n\t\t\tstyles: ['http://www.domain.com/css/AppStyles.css']\n\t\t},\n\t\t{\n\t\t\tapps: ['<div>Example App 2!</div>'],\n\t\t\tinlineScripts: [],\n\t\t\tscripts: ['http://www.domain.com/js/App2Class.js'],\n\t\t\tstyles: ['http://www.domain.com/css/App2Styles.css'] \n\t\t}\n\t];\n\t\n\tF2.init();\n\tF2.registerApps(arConfigs, arManifests);"
+                "\nApps with predefined manifests.\n\n\t// Traditional f2 app configs\n\tvar arConfigs = [\n\t\t{appId: 'com_externaldomain_example_app', context: {}},\n\t\t{appId: 'com_externaldomain_example_app', context: {}},\n\t\t{appId: 'com_externaldomain_example_app2', context: {}}\n\t];\n\n\t// Pre requested manifest responses\n\tvar arManifests = [\n\t\t{\n\t\t\tapps: ['<div>Example App!</div>'],\n\t\t\tinlineScripts: [],\n\t\t\tscripts: ['http://www.domain.com/js/AppClass.js'],\n\t\t\tstyles: ['http://www.domain.com/css/AppStyles.css']\n\t\t},\n\t\t{\n\t\t\tapps: ['<div>Example App!</div>'],\n\t\t\tinlineScripts: [],\n\t\t\tscripts: ['http://www.domain.com/js/AppClass.js'],\n\t\t\tstyles: ['http://www.domain.com/css/AppStyles.css']\n\t\t},\n\t\t{\n\t\t\tapps: ['<div>Example App 2!</div>'],\n\t\t\tinlineScripts: [],\n\t\t\tscripts: ['http://www.domain.com/js/App2Class.js'],\n\t\t\tstyles: ['http://www.domain.com/css/App2Styles.css']\n\t\t}\n\t];\n\n\tF2.init();\n\tF2.registerApps(arConfigs, arManifests);"
             ],
             "class": "F2",
             "module": "f2"
         },
         {
             "file": "sdk/src/container.js",
-            "line": 873,
+            "line": 945,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -2175,7 +2201,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 888,
+            "line": 960,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2813,15 +2839,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:458"
+            "line": " sdk/src/container.js:522"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:479"
+            "line": " sdk/src/container.js:544"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:508"
+            "line": " sdk/src/container.js:573"
         },
         {
             "message": "replacing incorrect tag: params with param",

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2.Events</title>
-	<meta name="dcterms.date" content="18 November 2013">
+	<meta name="dcterms.date" content="28 February 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -225,6 +225,7 @@
 <p>
 	<p>Handles <a href="../../app-development.html#context">Context</a> passing from
 containers to apps and apps to apps.</p>
+
 </p>
 
 <div class="well well-small">
@@ -297,7 +298,8 @@ containers to apps and apps to apps.</p>
 							</a>
 						</td>
 						<td><p>Same as F2.Events.emit except that it will not send the event
-to all sockets.</p></td>
+to all sockets.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -326,7 +328,8 @@ to all sockets.</p></td>
 							</a>
 						</td>
 						<td><p>Execute each of the listeners that may be listening for the specified
-event name in order with the list of arguments.</p></td>
+event name in order with the list of arguments.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -362,7 +365,8 @@ event name in order with the list of arguments.</p></td>
 						</td>
 						<td><p>Adds a listener that will execute n times for the event before being 
 removed. The listener is invoked only the first time the event is 
-fired, after which it is removed.</p></td>
+fired, after which it is removed.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -390,7 +394,8 @@ fired, after which it is removed.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Remove a listener for the specified event.</p></td>
+						<td><p>Remove a listener for the specified event.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -418,7 +423,8 @@ fired, after which it is removed.</p></td>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>Adds a listener for the specified event</p></td>
+						<td><p>Adds a listener for the specified event</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -447,7 +453,8 @@ fired, after which it is removed.</p></td>
 							</a>
 						</td>
 						<td><p>Adds a one time listener for the event. The listener is invoked only
-the first time the event is fired, after which it is removed.</p></td>
+the first time the event is fired, after which it is removed.</p>
+</td>
 					</tr>
 					
 				</tbody>
@@ -508,6 +515,7 @@ the first time the event is fired, after which it is removed.</p></td>
 	<p>
 		<p>Same as F2.Events.emit except that it will not send the event
 to all sockets.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -545,6 +553,7 @@ to all sockets.</p>
 
 					<p>
 						<p>The event name</p>
+
 					</p>
 
 					
@@ -563,6 +572,7 @@ to all sockets.</p>
 
 					<p>
 						<p>The arguments to be passed</p>
+
 					</p>
 
 					
@@ -622,6 +632,7 @@ to all sockets.</p>
 	<p>
 		<p>Execute each of the listeners that may be listening for the specified
 event name in order with the list of arguments.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -659,6 +670,7 @@ event name in order with the list of arguments.</p>
 
 					<p>
 						<p>The event name</p>
+
 					</p>
 
 					
@@ -677,6 +689,7 @@ event name in order with the list of arguments.</p>
 
 					<p>
 						<p>The arguments to be passed</p>
+
 					</p>
 
 					
@@ -743,6 +756,7 @@ event name in order with the list of arguments.</p>
 		<p>Adds a listener that will execute n times for the event before being 
 removed. The listener is invoked only the first time the event is 
 fired, after which it is removed.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -780,6 +794,7 @@ fired, after which it is removed.</p>
 
 					<p>
 						<p>The event name</p>
+
 					</p>
 
 					
@@ -796,6 +811,7 @@ fired, after which it is removed.</p>
 					<p>
 						<p>The number of times to execute the event
 before being removed</p>
+
 					</p>
 
 					
@@ -812,6 +828,7 @@ before being removed</p>
 					<p>
 						<p>The function to be fired when the event is
 emitted</p>
+
 					</p>
 
 					
@@ -870,6 +887,7 @@ emitted</p>
 
 	<p>
 		<p>Remove a listener for the specified event.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -907,6 +925,7 @@ emitted</p>
 
 					<p>
 						<p>The event name</p>
+
 					</p>
 
 					
@@ -922,6 +941,7 @@ emitted</p>
 
 					<p>
 						<p>The function that will be removed</p>
+
 					</p>
 
 					
@@ -980,6 +1000,7 @@ emitted</p>
 
 	<p>
 		<p>Adds a listener for the specified event</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1017,6 +1038,7 @@ emitted</p>
 
 					<p>
 						<p>The event name</p>
+
 					</p>
 
 					
@@ -1033,6 +1055,7 @@ emitted</p>
 					<p>
 						<p>The function to be fired when the event is
 emitted</p>
+
 					</p>
 
 					
@@ -1092,6 +1115,7 @@ emitted</p>
 	<p>
 		<p>Adds a one time listener for the event. The listener is invoked only
 the first time the event is fired, after which it is removed.</p>
+
 	</p>	
 
 	<div class="well well-small">
@@ -1129,6 +1153,7 @@ the first time the event is fired, after which it is removed.</p>
 
 					<p>
 						<p>The event name</p>
+
 					</p>
 
 					
@@ -1145,6 +1170,7 @@ the first time the event is fired, after which it is removed.</p>
 					<p>
 						<p>The function to be fired when the event is
 emitted</p>
+
 					</p>
 
 					
@@ -1197,7 +1223,7 @@ emitted</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.2"></script>
+<script src="../../js/f2.js?1.3.3"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>
