@@ -176,6 +176,118 @@ describe('F2.init', function() {
 
 });
 
+describe('F2.init - loader overrides', function() {
+
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	var appConfig = {
+		appId: TEST_APP_ID,
+		manifestUrl: TEST_MANIFEST_URL
+	};
+
+	var appManifest = {
+		scripts: [],
+		styles: [],
+		inlineScripts: [],
+		apps: [{
+			html: '<div class="test-app">Testing</div>'
+		}]
+	};
+
+	it('should allow the container to provide a custom "loadScripts", "loadInlineScripts", "loadStyles" function', function() {
+		var didCallScripts = false;
+		var didCallInlineScripts = false;
+		var didCallStyles = false;
+		var didRender = false;
+
+		F2.init({
+			loadScripts: function(scripts, cb) {
+				didCallScripts = true;
+				cb();
+			},
+			loadInlineScripts: function(inlines, cb) {
+				didCallInlineScripts = true;
+				cb();
+			},
+			loadStyles: function(styles, cb) {
+				didCallStyles = true;
+				cb();
+			},
+			beforeAppRender: function() {
+				didRender = true;
+			}
+		});
+
+		F2.registerApps([appConfig], [appManifest]);
+
+		waitsFor(function() {
+			return didRender;
+		}, 3000);
+
+		runs(function() {
+			expect(didCallScripts && didCallInlineScripts && didCallStyles).toBe(true);
+		});
+	});
+
+	it('should not load scripts, inlines, or styles if the user provides overrides', function() {
+		var didRender = false;
+		var didLoadScripts = false;
+		var didLoadInlineScripts = false;
+		var didLoadStyles = false;
+
+		F2.init({
+			loadScripts: function(scripts, cb) {
+				cb();
+			},
+			loadInlineScripts: function(inlines, cb) {
+				cb();
+			},
+			loadStyles: function(styles, cb) {
+				cb();
+			},
+			beforeAppRender: function() {
+				didRender = true;
+			}
+		});
+
+		F2.registerApps([appConfig], [{
+			'inlineScripts': ['window.inlinesLoaded = true;'],
+			'scripts': ['js/test_global.js'],
+			'styles': ['css/test.css'],
+			'apps': [{
+				'html': '<div></div>'
+			}]
+		}]);
+
+		waitsFor(function() {
+			return didRender;
+		}, 3000);
+
+		// See if the script exists
+		if (window.test_global) {
+			didLoadScripts = true;
+		}
+
+		// See if the inlines exist
+		if (window.inlinesLoaded) {
+			didLoadInlineScripts = true;
+		}
+
+		// See if the styles exist
+		$("head link[rel=stylesheet]").each(function(i, link) {
+			if (link.href.indexOf("test.css") != -1) {
+				didLoadStyles = true;
+				return false;
+			}
+		});
+
+		runs(function() {
+			expect(didLoadScripts && didLoadInlineScripts && didLoadStyles).toBe(false);
+		});
+	});
+});
+
 describe('F2.init - xhr overrides', function() {
 	var async = new AsyncSpec(this);
 	async.beforeEachReloadF2(function() {
@@ -705,84 +817,6 @@ describe('F2.registerApps - rendering', function() {
 			});
 
 			expect(bustedCache).toBe(false);
-		});
-	});
-
-	it('should allow the container to provide a custom "loadScripts" and "loadStyles" function', function() {
-		var didCallScripts = false;
-		var didCallStyles = false;
-		var didRender = false;
-
-		F2.init({
-			loadScripts: function(scripts, inlines, cb) {
-				didCallScripts = true;
-				cb();
-			},
-			loadStyles: function(styles, cb) {
-				didCallStyles = true;
-				cb();
-			},
-			beforeAppRender: function() {
-				didRender = true;
-			}
-		});
-
-		F2.registerApps([appConfig], [appManifest]);
-
-		waitsFor(function() {
-			return didRender;
-		}, 3000);
-
-		runs(function() {
-			expect(didCallScripts && didCallStyles).toBe(true);
-		});
-	});
-
-	it('should not load scripts or styles if the user provides overrides', function() {
-		var didRender = false;
-		var didLoadScripts = false;
-		var didLoadStyles = false;
-
-		F2.init({
-			loadScripts: function(scripts, inlines, cb) {
-				cb();
-			},
-			loadStyles: function(styles, cb) {
-				cb();
-			},
-			beforeAppRender: function() {
-				didRender = true;
-			}
-		});
-
-		F2.registerApps([appConfig], [{
-			'inlineScripts': [],
-			'scripts': ['js/test_global.js'],
-			'styles': ['css/test.css'],
-			'apps': [{
-				'html': '<div></div>'
-			}]
-		}]);
-
-		waitsFor(function() {
-			return didRender;
-		}, 3000);
-
-		// See if the script exists
-		if (window.test_global) {
-			didLoadScripts = true;
-		}
-
-		// See if the styles exist
-		$("head link[rel=stylesheet]").each(function(i, link) {
-			if (link.href.indexOf("test.css") != -1) {
-				didLoadStyles = true;
-				return false;
-			}
-		});
-
-		runs(function() {
-			expect(didLoadScripts && didLoadStyles).toBe(false);
 		});
 	});
 });

@@ -261,35 +261,12 @@ F2.extend('', (function() {
 		};
 
 		// Fn for loading manifest Scripts
-		var _loadScripts = function(scripts, inlines, cb) {
+		var _loadScripts = function(scripts, cb) {
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
-				_config.loadScripts(scripts, inlines, cb);
+				_config.loadScripts(scripts, cb);
 			}
 			else {
-				// Fn to load inline scripts
-				var evalInlines = function() {
-					jQuery.each(inlines, function(i, e) {
-						try {
-							eval(e);
-						}
-						catch (exception) {
-							F2.log('Error loading inline script: ' + exception + '\n\n' + e);
-							if (!_bUsesAppHandlers) {
-								_appScriptLoadFailed(appConfigs[0], exception);
-							}
-							else {
-								F2.AppHandlers.__trigger(
-									_sAppHandlerToken,
-									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-									appConfigs[0],
-									exception
-								);
-							}
-						}
-					});
-				};
-
 				if (scripts.length) {
 					var scriptCount = scripts.length;
 					var scriptsLoaded = 0;
@@ -360,7 +337,6 @@ F2.extend('', (function() {
 
 								// Are we done loading all scripts for this app?
 								if (++scriptsLoaded === scriptCount) {
-									evalInlines(inlines);
 									cb();
 								}
 							}
@@ -370,8 +346,36 @@ F2.extend('', (function() {
 					});
 				}
 				else {
-					evalInlines(inlines);
 					cb();
+				}
+			}
+		};
+
+		var _loadInlineScripts = function(inlines, cb) {
+			// Attempt to use the user provided method
+			if (_config.loadInlineScripts) {
+				_config.loadInlineScripts(inlines, cb);
+			}
+			else {
+				for (var i = 0, len = inlines.length; i < len; i++) {
+					try {
+						eval(inlines[i]);
+					}
+					catch (exception) {
+						F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
+
+						if (!_bUsesAppHandlers) {
+							_appScriptLoadFailed(appConfigs[0], exception);
+						}
+						else {
+							F2.AppHandlers.__trigger(
+								_sAppHandlerToken,
+								F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+								appConfigs[0],
+								exception
+							);
+						}
+					}
 				}
 			}
 		};
@@ -445,12 +449,14 @@ F2.extend('', (function() {
 		_loadStyles(styles, function() {
 			// Put the html on the page
 			_loadHtml(apps);
-
 			// Add the script content to the page
-			_loadScripts(scripts, inlines, function() {
-				// Create the apps
-				jQuery.each(appConfigs, function(i, a) {
-					_createAppInstance(a, appManifest.apps[i]);
+			_loadScripts(scripts, function() {
+				// Load any inline scripts
+				_loadInlineScripts(inlines, function() {
+					// Create the apps
+					jQuery.each(appConfigs, function(i, a) {
+						_createAppInstance(a, appManifest.apps[i]);
+					});
 				});
 			});
 		});
