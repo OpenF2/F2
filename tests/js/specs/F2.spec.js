@@ -316,12 +316,14 @@
 		describe('removeApp', function() {
 
 			// Shortcut func
-			function loadApp(cb) {
+			function loadApp(cb, appId) {
 				var isComplete = false;
+				
+				appId = appId || 'com_test_basic'
 
 				F2.load({
 					appConfigs: [{
-						appId: 'com_test_basic',
+						appId: appId,
 						manifestUrl: 'http://localhost:8080/apps/single'
 					}],
 					complete: function() {
@@ -374,6 +376,15 @@
 				}
 
 				expect(attempt).not.toThrow();
+			});
+
+			it('should not throw if the app\'s dispose() method is undefined', function() {
+				loadApp(function(){
+					function attempt() {
+						F2.removeApp(window.test.com_test_no_dispose);
+					},
+					expect(attempt).not.toThrow();
+				}, "com_test_no_dispose");
 			});
 
 		});
