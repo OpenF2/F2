@@ -380,10 +380,13 @@
 
 			it('should not throw if the app\'s dispose() method is undefined', function() {
 				loadApp(function(){
+					
 					function attempt() {
 						F2.removeApp(window.test.com_test_no_dispose);
-					},
+					}
+
 					expect(attempt).not.toThrow();
+					
 				}, "com_test_no_dispose");
 			});
 
