@@ -10,7 +10,7 @@
 
 		function MockClass() {
 			this.didIt = true;
-
+			this.__f2Disposed__ = false;
 			function handler() {
 				window.events.context = this;
 			};
@@ -23,6 +23,7 @@
 			F2.Events.on('__test-mock2__', handler2, this);
 
 			this.dispose = function() {
+				this.__f2Disposed__ = true;
 				F2.Events.off(null, null, this);
 			};
 		}
@@ -67,6 +68,14 @@
 				expect(window.events.emit[0] === 1 && window.events.emit[1] === 2).toBe(true);
 			});
 
+			it('should not run disposed handlers', function() {
+				var mock = new MockClass();
+
+				mock.dispose();
+				F2.Events.emit("__test-mock__");
+				expect(window.events.context).not.toBeDefined();
+			});
+
 		});
 
 		describe('many', function() {
@@ -108,6 +117,13 @@
 				F2.Events.emit('__test-many__'); // Should not run
 
 				expect(window.events.count).toBe(2);
+			});
+
+			if('should throw if \'howMany\' isNaN', function(){
+				function attempt() {
+					F2.Events.many('__test-many__', "a", function(){ });
+				}
+				expect(attempt).toThrow();
 			});
 
 		});
@@ -249,6 +265,13 @@
 				expect(window.events.context === mock).toBe(true);
 
 				mock.dispose();
+			});
+
+			if('should throw if the handler doesn\'t have an "apply" method', function() {
+				function attempt() {
+					F2.Events.on("__test-on__", {});
+				}
+				expect(attempt).toThrow();
 			});
 
 		});
