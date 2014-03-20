@@ -4315,7 +4315,39 @@ Helpers.AppPlaceholders = function() {
 
 };
 
-Helpers.LoadApps = function(Ajax, _, Schemas) {
+Helpers.Guid = function() {
+
+	// Track all the guids we've made on this page
+	var _guids = {};
+
+	/**
+	 * Generates an RFC4122 v4 compliant id
+	 * @method guid
+	 * @return {string} A random id
+	 * @for F2
+	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
+	 */
+	return function _guid() {
+		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16 | 0;
+			var v = c === 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+
+		// Check if we've seen this one before
+		if (_guids[guid]) {
+			// Get a new guid
+			guid = _guid();
+		}
+
+		_guids[guid] = true;
+
+		return guid;
+	};
+
+};
+
+Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 
 	// ---------------------------------------------------------------------------
 	// Private storage
@@ -4331,7 +4363,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas) {
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(guidFn, containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+	function loadApps(containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
 		var xhrByUrl;
 		// Params used to instantiate AppClasses
 		var allApps = [];
@@ -4343,7 +4375,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas) {
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
-				inputs.instanceId = guidFn();
+				inputs.instanceId = Guid();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)
@@ -4781,11 +4813,11 @@ Lib.Constants = function() {
 
 };
 
-Lib.Core = function(LoadApps, _, Schemas, Events) {
+Lib.Core = function(LoadApps, _, Schemas, Events, Guid) {
 
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 	// Private Storage
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	// Set up a default config
 	var _config = {
@@ -4804,34 +4836,9 @@ Lib.Core = function(LoadApps, _, Schemas, Events) {
 		}
 	};
 
-	// Track all the guids we've made on this page
-	var _guids = {};
-
-	// ---------------------------------------------------------------------------
-	// Helpers
-	// ---------------------------------------------------------------------------
-
-	function _guid() {
-		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random() * 16 | 0;
-			var v = c === 'x' ? r : (r & 0x3 | 0x8);
-			return v.toString(16);
-		});
-
-		// Check if we've seen this one before
-		if (_guids[guid]) {
-			// Get a new guid
-			guid = _guid();
-		}
-
-		_guids[guid] = true;
-
-		return guid;
-	}
-
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 	// API
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	return {
 		config: function(config) {
@@ -4841,14 +4848,7 @@ Lib.Core = function(LoadApps, _, Schemas, Events) {
 
 			return _config;
 		},
-		/**
-		 * Generates an RFC4122 v4 compliant id
-		 * @method guid
-		 * @return {string} A random id
-		 * @for F2
-		 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
-		 */
-		guid: _guid,
+		guid: Guid,
 		load: function(params) {
 			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
 				throw 'F2: you must specify at least one AppConfig to load';
@@ -4858,7 +4858,6 @@ Lib.Core = function(LoadApps, _, Schemas, Events) {
 			}
 
 			var reqs = LoadApps.load(
-				_guid,
 				this.config(),
 				params.appConfigs,
 				params.success,
@@ -5317,11 +5316,12 @@ Lib.UI = function(Core, _, Schemas) {
 	// Init the lib
 	var Ajax = Helpers.Ajax();
 	var AppPlaceholders = Helpers.AppPlaceholders();
+	var Guid = Helpers.Guid();
 	var Constants = Lib.Constants();
 	var Events = Lib.Events();
 	var Schemas = Lib.Schemas(tv4);
 	Lib.SchemaModels(Schemas);
-	var LoadApps = Helpers.LoadApps(Ajax, _, Schemas);
+	var LoadApps = Helpers.LoadApps(Ajax, _, Schemas, Guid);
 	var Core = Lib.Core(LoadApps, _, Schemas, Events);
 	var UI = Lib.UI(Core, _, Schemas);
 
