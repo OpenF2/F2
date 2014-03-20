@@ -6,9 +6,7 @@ define('com_test_no_dispose', ['F2'], function(F2) {
 		this.data = data;
 		this.root = root;
 
-		if (!window.test.com_test_no_dispose) {
-			window.test.com_test_no_dispose = instanceId;
-		}
+		window.test.com_test_no_dispose = this.instanceId;
 	}
 
 	return AppClass;

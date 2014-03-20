@@ -108,13 +108,7 @@
 					appConfigs: [{
 						appId: 'com_test_basic',
 						manifestUrl: 'http://localhost:8080/apps/single'
-					}],
-					success: function(one) {
-						console.log("HEY!!!");
-					},
-					complete: function() {
-						console.log("HEY!!!");
-					}
+					}]
 				});
 
 				waitsFor(function() {
@@ -346,9 +340,36 @@
 				});
 			}
 
+			it('should allow multiple apps to be removed at once', function() {
+				var loaded = 0;
+
+				loadApp(function() {
+					loaded += 1;
+				}, "com_test_basic");
+
+				loadApp(function() {
+					loaded += 1;
+				}, "com_test_inherited");
+
+				waitsFor(function() {
+					return loaded === 2;
+				}, DEFAULT_TIMEOUT);
+
+				runs(function() {
+					F2.remove([
+						window.test.com_test_basic.instanceId,
+						window.test.com_test_inherited.instanceId
+					]);
+
+					expect(window.test.com_test_basic).not.toBeDefined();
+					expect(window.test.com_test_inherited).not.toBeDefined();
+				});
+			});
+
 			it('should call the app\'s dispose() method', function() {
 				loadApp(function() {
 					F2.remove(window.test.com_test_basic.instanceId);
+
 					expect(window.test.com_test_basic).not.toBeDefined();
 				});
 			});
@@ -356,6 +377,7 @@
 			it('should remove by instanceId', function() {
 				loadApp(function() {
 					F2.remove(window.test.com_test_basic.instanceId);
+
 					expect(window.test.com_test_basic).not.toBeDefined();
 				});
 			});
@@ -363,6 +385,7 @@
 			it('should remove by root', function() {
 				loadApp(function() {
 					F2.remove(window.test.com_test_basic.root);
+
 					expect(window.test.com_test_basic).not.toBeDefined();
 				});
 			});
@@ -370,8 +393,8 @@
 			it('should automatically remove an app\'s events (when context was specified)', function() {
 				loadApp(function(root) {
 					F2.remove(window.test.com_test_basic);
-
 					F2.Events.emit('com_test_basic');
+
 					expect(window.test.com_test_basic_event).not.toBeDefined();
 				});
 			});
@@ -385,14 +408,12 @@
 			});
 
 			it('should not throw if the app\'s dispose() method is undefined', function() {
-				loadApp(function(){
-
+				loadApp(function() {
 					function attempt() {
 						F2.remove(window.test.com_test_no_dispose);
 					}
 
 					expect(attempt).not.toThrow();
-
 				}, "com_test_no_dispose");
 			});
 

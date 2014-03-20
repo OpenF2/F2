@@ -4877,10 +4877,17 @@ Lib.Core = function(LoadApps, _, Schemas, Events, Guid) {
 		 * @param {string} indentifier The app's instanceId or root
 		 */
 		remove: function(identifiers) {
-			identifiers = [].concat(identifiers);
+			var args = Array.prototype.slice.apply(arguments);
+
+			// See if multiple parameters were passed
+			if (args.length > 1) {
+				identifiers = args;
+			}
+			else {
+				identifiers = [].concat(identifiers);
+			}
 
 			_.each(identifiers, function(identifier) {
-
 				if (!identifier) {
 					throw 'F2: you must provide an instanceId or a root to remove an app';
 				}
