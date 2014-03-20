@@ -64,39 +64,45 @@ Lib.Core = function(LoadApps, _, Schemas, Events, Guid) {
 		},
 		/**
 		 * Removes an app from the container
-		 * @method removeApp
+		 * @method remove
 		 * @param {string} indentifier The app's instanceId or root
 		 */
-		removeApp: function(identifier) {
-			if (!identifier) {
-				throw 'F2: you must provide an instanceId or a root to remove an app';
-			}
+		remove: function(identifiers) {
+			identifiers = [].concat(identifiers);
 
-			var instance = LoadApps.getInstance(identifier);
+			_.each(identifiers, function(identifier) {
 
-			if (instance && instance.instanceId) {
-				// Call the app's dipose method if it has one
-				if (instance.dispose) {
-					instance.dispose();
+				if (!identifier) {
+					throw 'F2: you must provide an instanceId or a root to remove an app';
 				}
 
-				// Unsubscribe events by context
-				Events.off(null, null, instance);
+				// Try to find the app in our internal cache
+				var instance = LoadApps.getInstance(identifier);
 
-				// Remove ourselves from the DOM
-				if (instance.root && instance.root.parentNode) {
-					instance.root.parentNode.removeChild(instance.root);
+				if (instance && instance.instanceId) {
+					// Call the app's dipose method if it has one
+					if (instance.dispose) {
+						instance.dispose();
+					}
+
+					// Unsubscribe events by context
+					Events.off(null, null, instance);
+
+					// Remove ourselves from the DOM
+					if (instance.root && instance.root.parentNode) {
+						instance.root.parentNode.removeChild(instance.root);
+					}
+
+					// Set a property that will let us watch for memory leaks
+					instance.__f2Disposed__ = true;
+
+					// Remove ourselves from the internal map
+					LoadApps.remove(instance.instanceId);
 				}
-
-				// Set a property that will let us watch for memory leaks
-				instance.__f2Disposed__ = true;
-
-				// Remove ourselves from the internal map
-				LoadApps.remove(instance.instanceId);
-			}
-			else {
-				console.warn('F2: could not find an app to remove');
-			}
+				else {
+					console.warn('F2: could not find an app to remove');
+				}
+			});
 		}
 	};
 

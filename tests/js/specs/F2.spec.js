@@ -126,7 +126,7 @@
 					expect(window.test.com_test_basic).toBeDefined();
 
 					// Clean up
-					F2.removeApp(window.test.com_test_basic.instanceId);
+					F2.remove(window.test.com_test_basic.instanceId);
 				});
 			});
 
@@ -151,8 +151,8 @@
 					expect(window.test.com_test_inherited).toBeDefined();
 
 					// Clean up
-					F2.removeApp(window.test.com_test_basic.instanceId);
-					F2.removeApp(window.test.com_test_inherited.instanceId);
+					F2.remove(window.test.com_test_basic.instanceId);
+					F2.remove(window.test.com_test_inherited.instanceId);
 				});
 			});
 
@@ -179,8 +179,8 @@
 					expect(window.test.com_test_inherited).toBeDefined();
 
 					// Clean up
-					F2.removeApp(window.test.com_test_basic.instanceId);
-					F2.removeApp(window.test.com_test_inherited.instanceId);
+					F2.remove(window.test.com_test_basic.instanceId);
+					F2.remove(window.test.com_test_inherited.instanceId);
 				});
 			});
 
@@ -209,8 +209,8 @@
 					expect(id1 !== id2).toBe(true);
 
 					// Clean up
-					F2.removeApp(id1);
-					F2.removeApp(id2);
+					F2.remove(id1);
+					F2.remove(id2);
 				});
 			});
 
@@ -231,7 +231,7 @@
 					expect(window.test.com_test_basic).toBeDefined();
 
 					// Clean up
-					F2.removeApp(window.test.com_test_basic.instanceId);
+					F2.remove(window.test.com_test_basic.instanceId);
 				});
 			});
 
@@ -260,8 +260,8 @@
 					expect(id1 !== id2).toBe(true);
 
 					// Clean up
-					F2.removeApp(id1);
-					F2.removeApp(id2);
+					F2.remove(id1);
+					F2.remove(id2);
 				});
 			});
 
@@ -319,7 +319,7 @@
 
 		});
 
-		describe('removeApp', function() {
+		describe('remove', function() {
 
 			// Shortcut func
 			function loadApp(cb, appId) {
@@ -348,28 +348,28 @@
 
 			it('should call the app\'s dispose() method', function() {
 				loadApp(function() {
-					F2.removeApp(window.test.com_test_basic.instanceId);
+					F2.remove(window.test.com_test_basic.instanceId);
 					expect(window.test.com_test_basic).not.toBeDefined();
 				});
 			});
 
 			it('should remove by instanceId', function() {
 				loadApp(function() {
-					F2.removeApp(window.test.com_test_basic.instanceId);
+					F2.remove(window.test.com_test_basic.instanceId);
 					expect(window.test.com_test_basic).not.toBeDefined();
 				});
 			});
 
 			it('should remove by root', function() {
 				loadApp(function() {
-					F2.removeApp(window.test.com_test_basic.root);
+					F2.remove(window.test.com_test_basic.root);
 					expect(window.test.com_test_basic).not.toBeDefined();
 				});
 			});
 
 			it('should automatically remove an app\'s events (when context was specified)', function() {
 				loadApp(function(root) {
-					F2.removeApp(window.test.com_test_basic);
+					F2.remove(window.test.com_test_basic);
 
 					F2.Events.emit('com_test_basic');
 					expect(window.test.com_test_basic_event).not.toBeDefined();
@@ -378,7 +378,7 @@
 
 			it('should not throw if an instance can\'t be found', function() {
 				function attempt() {
-					F2.removeApp(123);
+					F2.remove(123);
 				}
 
 				expect(attempt).not.toThrow();
@@ -388,7 +388,7 @@
 				loadApp(function(){
 
 					function attempt() {
-						F2.removeApp(window.test.com_test_no_dispose);
+						F2.remove(window.test.com_test_no_dispose);
 					}
 
 					expect(attempt).not.toThrow();

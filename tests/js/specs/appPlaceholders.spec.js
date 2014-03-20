@@ -13,6 +13,7 @@ define(['jasmine', 'F2'], function() {
 
 			runs(function() {
 				var conditions = [
+
 					function hasEmptyContext() {
 						var hasProps = false;
 
@@ -34,7 +35,7 @@ define(['jasmine', 'F2'], function() {
 				}
 
 				// Clean up
-				F2.removeApp(window.test.com_test_placeholder.instanceId);
+				F2.remove(window.test.com_test_placeholder.instanceId);
 			});
 		});
 
@@ -60,7 +61,7 @@ define(['jasmine', 'F2'], function() {
 				}
 
 				// Clean up
-				F2.removeApp(window.test.com_test_placeholder2[0].root);
+				F2.remove(window.test.com_test_placeholder2[0].root);
 			});
 		});
 
@@ -86,7 +87,7 @@ define(['jasmine', 'F2'], function() {
 				}
 
 				// Clean up
-				F2.removeApp(window.test.com_test_placeholder2[0].root);
+				F2.remove(window.test.com_test_placeholder2[0].root);
 			});
 		});
 

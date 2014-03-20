@@ -16,7 +16,7 @@
 			// Core
 			config: Core.config,
 			load: Core.load,
-			removeApp: Core.removeApp,
+			remove: Core.remove,
 			guid: Core.guid,
 			// Events
 			Events: {
