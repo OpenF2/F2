@@ -1,3 +1,7 @@
+/**
+ * F2 Core
+ * @class F2
+ */
 Lib.Core = function(LoadApps, _, Schemas, Events, Guid) {
 
 	// --------------------------------------------------------------------------

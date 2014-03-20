@@ -134,6 +134,17 @@ module.exports = function(grunt) {
 					spawn: false
 				}
 			}
+		},
+		yuidoc: {
+			compile: {
+				options: {
+					exclude: 'helpers',
+					paths: [
+						'src/core'
+					],
+					outdir: './docs'
+				}
+			}
 		}
 	});
 
@@ -143,6 +154,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-yuidoc');
 	grunt.loadNpmTasks('grunt-express');
 
 	grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {

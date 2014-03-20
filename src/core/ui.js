@@ -1,3 +1,7 @@
+/**
+ * 
+ * @class F2.UI
+ */
 Lib.UI = function(Core, _, Schemas) {
 
 	return {
