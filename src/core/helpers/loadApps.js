@@ -1,4 +1,4 @@
-Helpers.LoadApps = function(Ajax, _, Schemas) {
+Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 
 	// ---------------------------------------------------------------------------
 	// Private storage
@@ -14,7 +14,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas) {
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(guidFn, containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+	function loadApps(containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
 		var xhrByUrl;
 		// Params used to instantiate AppClasses
 		var allApps = [];
@@ -26,7 +26,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas) {
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
-				inputs.instanceId = guidFn();
+				inputs.instanceId = Guid();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)

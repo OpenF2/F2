@@ -1,8 +1,8 @@
-Lib.Core = function(LoadApps, _, Schemas, Events) {
+Lib.Core = function(LoadApps, _, Schemas, Events, Guid) {
 
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 	// Private Storage
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	// Set up a default config
 	var _config = {
@@ -21,34 +21,9 @@ Lib.Core = function(LoadApps, _, Schemas, Events) {
 		}
 	};
 
-	// Track all the guids we've made on this page
-	var _guids = {};
-
-	// ---------------------------------------------------------------------------
-	// Helpers
-	// ---------------------------------------------------------------------------
-
-	function _guid() {
-		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random() * 16 | 0;
-			var v = c === 'x' ? r : (r & 0x3 | 0x8);
-			return v.toString(16);
-		});
-
-		// Check if we've seen this one before
-		if (_guids[guid]) {
-			// Get a new guid
-			guid = _guid();
-		}
-
-		_guids[guid] = true;
-
-		return guid;
-	}
-
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 	// API
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	return {
 		config: function(config) {
@@ -58,14 +33,7 @@ Lib.Core = function(LoadApps, _, Schemas, Events) {
 
 			return _config;
 		},
-		/**
-		 * Generates an RFC4122 v4 compliant id
-		 * @method guid
-		 * @return {string} A random id
-		 * @for F2
-		 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
-		 */
-		guid: _guid,
+		guid: Guid,
 		load: function(params) {
 			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
 				throw 'F2: you must specify at least one AppConfig to load';
@@ -75,7 +43,6 @@ Lib.Core = function(LoadApps, _, Schemas, Events) {
 			}
 
 			var reqs = LoadApps.load(
-				_guid,
 				this.config(),
 				params.appConfigs,
 				params.success,

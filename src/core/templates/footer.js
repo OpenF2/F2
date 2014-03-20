@@ -1,11 +1,12 @@
 	// Init the lib
 	var Ajax = Helpers.Ajax();
 	var AppPlaceholders = Helpers.AppPlaceholders();
+	var Guid = Helpers.Guid();
 	var Constants = Lib.Constants();
 	var Events = Lib.Events();
 	var Schemas = Lib.Schemas(tv4);
 	Lib.SchemaModels(Schemas);
-	var LoadApps = Helpers.LoadApps(Ajax, _, Schemas);
+	var LoadApps = Helpers.LoadApps(Ajax, _, Schemas, Guid);
 	var Core = Lib.Core(LoadApps, _, Schemas, Events);
 	var UI = Lib.UI(Core, _, Schemas);
 
