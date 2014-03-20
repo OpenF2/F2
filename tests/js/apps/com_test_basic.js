@@ -1,6 +1,9 @@
 ﻿define('com_test_basic', ['F2'], function(F2) {
 
+	console.log("----- inside define");
+
 	function AppClass(instanceId, appConfig, data, root) {
+		console.log("----- inside app class");
 		this.instanceId = instanceId;
 		this.appConfig = appConfig;
 		this.data = data;

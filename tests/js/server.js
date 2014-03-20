@@ -1,9 +1,25 @@
 var express = require('express');
-var sleep = require('sleep');
+var path = require('path');
 var app = express();
+
+// Stop the current thread for X seconds
+var sleep = function(seconds) {
+	var now = new Date();
+
+	while (true) {
+		var timespan = (new Date().getTime() - now.getTime()) / 1000;
+
+		if (timespan >= seconds) {
+			break;
+		}
+	}
+};
 
 // For post data
 app.use(express.bodyParser());
+
+// Serve static files
+app.use(express.static(path.resolve(__dirname + '../../../')));
 
 // Slow response so we can test aborting requests
 app.all('/apps/slow', function(req, res) {
@@ -16,7 +32,7 @@ app.all('/apps/slow', function(req, res) {
 	var context = configs[0].context || {};
 
 	// Sleep for a couple seconds to simulate slow responses
-	sleep.sleep(2);
+	sleep(2);
 
 	res.json({
 		apps: [{
@@ -113,7 +129,7 @@ app.all('/apps/single_jsonp', function(req, res) {
 
 // Simulate a slow jsonp call
 app.all('/apps/single_jsonp_slow', function(req, res) {
-	sleep.sleep(0.2);
+	sleep(0.2);
 
 	res.jsonp({
 		apps: [{

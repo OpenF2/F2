@@ -1,4 +1,4 @@
-(function(Helpers) {
+Helpers.Ajax = function() {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -127,7 +127,7 @@
 	// GET/POST
 	// --------------------------------------------------------------------------
 
-	Helpers.Ajax = function(params, cache) {
+	return function(params, cache) {
 		if (!params.url) {
 			throw 'F2.Ajax: you must provide a url.';
 		}
@@ -193,4 +193,4 @@
 		})();
 	};
 
-})(Helpers);
+};

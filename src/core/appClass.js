@@ -1,11 +1,11 @@
-;(function(F2, _) {
+define('F2.AppClass', ['F2'], function(F2) {
 
-	function AppClass(instanceId, appConfig, context, root) {
+	var AppClass = function(instanceId, appConfig, context, root) {
 		this.instanceId = instanceId;
 		this.appConfig = appConfig;
 		this.context = context;
 		this.root = root;
-	}
+	};
 
 	AppClass.prototype = {
 		dispose: function() {},
@@ -35,6 +35,6 @@
 		}
 	};
 
-	F2.AppClass = AppClass;
+	return AppClass;
 
-})(F2, _);
+});

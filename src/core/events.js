@@ -1,4 +1,4 @@
-;(function(F2) {
+Lib.Events = function() {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -63,7 +63,7 @@
 	// API
 	// ---------------------------------------------------------------------------
 
-	F2.Events = {
+	return {
 		emit: function(name, args) {
 			if (!name) {
 				throw 'F2.Events: you must provide an event name to emit.';
@@ -125,4 +125,4 @@
 		}
 	};
 
-})(F2);
+};

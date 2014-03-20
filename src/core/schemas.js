@@ -1,6 +1,6 @@
-;(function(F2, tv4) {
+Lib.Schemas = function(tv4) {
 
-	F2.Schemas = {
+	return {
 		add: function(name, schema) {
 			if (!name) {
 				throw 'F2.Schemas: you must provide a schema name.';
@@ -36,4 +36,4 @@
 		}
 	};
 
-})(F2, tv4);
+};

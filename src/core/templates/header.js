@@ -1,5 +1,10 @@
 (function() {
 
+		// Define AMD modules
+		if (typeof define !== 'function' || !define.amd) {
+			throw 'F2 did not detect an AMD loader.';
+		}
+
 		function noop() {}
 
 		// Check for console
@@ -32,5 +37,5 @@
 		}
 
 		// Create the internal objects
-		var F2 = {};
+		var Lib = {};
 		var Helpers = {};

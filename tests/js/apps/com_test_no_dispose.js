@@ -11,8 +11,6 @@ define('com_test_no_dispose', ['F2'], function(F2) {
 		}
 	}
 
-	
-
 	return AppClass;
 
 });

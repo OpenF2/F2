@@ -1,6 +1,7 @@
 {
 	"browser": true,
 	"curly": true,
+	"debug": true,
 	"evil": true,
 	"globals": {
 		"describe": true,
@@ -23,7 +24,8 @@
 		"moduleNames": true,
 		"Helpers": true,
 		"noop": true,
-		"F2": true
+		"F2": true,
+		"Lib": true
 	},
 	"latedef": true,
 	"noarg": true,

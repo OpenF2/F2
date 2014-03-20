@@ -1,6 +1,6 @@
-;(function(F2) {
+Lib.Constants = function() {
 
-	F2.Constants = {
+	return {
 		EVENTS: {
 			// TODO: do we need this?
 			APP_SYMBOL_CHANGE: '__appSymbolChange__',
@@ -21,4 +21,4 @@
 		}
 	};
 
-})(F2);
+};

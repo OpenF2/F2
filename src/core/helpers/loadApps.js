@@ -1,4 +1,4 @@
-(function(F2, Helpers, _) {
+Helpers.LoadApps = function(Ajax, _, Schemas) {
 
 	// ---------------------------------------------------------------------------
 	// Private storage
@@ -14,7 +14,7 @@
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+	function loadApps(guidFn, containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
 		var xhrByUrl;
 		// Params used to instantiate AppClasses
 		var allApps = [];
@@ -25,8 +25,8 @@
 			var inputs = {};
 
 			// The AppConfig must be valid
-			if (appConfigs[i] && F2.Schemas.validate(appConfigs[i], 'appConfig')) {
-				inputs.instanceId = F2.guid();
+			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
+				inputs.instanceId = guidFn();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)
@@ -47,14 +47,23 @@
 			allApps.push(inputs);
 		}
 
+		function done() {
+			delegateHtmlLoading(
+				allApps,
+				successFn,
+				completeFn,
+				xhrByUrl
+			);
+		}
+
 		// See if we need to hit the server
 		if (asyncApps.length) {
-			xhrByUrl = requestApps(asyncApps, function() {
+			xhrByUrl = requestApps(containerConfig, asyncApps, function() {
 				if (afterRequestFn) {
 					afterRequestFn();
 				}
 
-				delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
+				done();
 			});
 		}
 		else {
@@ -62,15 +71,14 @@
 				afterRequestFn();
 			}
 
-			delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
+			done();
 		}
 
 		return xhrByUrl || {};
 	}
 
 	// Add unhandled apps to document.body
-
-	function dumpAppsOnDom( /* app1, app2 */ ) {
+	function dumpAppsOnDom(/* app1, app2 */) {
 		var args = Array.prototype.slice.call(arguments);
 
 		if (args.length) {
@@ -87,7 +95,6 @@
 	}
 
 	// Pass the apps off to the container so they can place them on the page
-
 	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
 		var abortedIndexes = [];
 
@@ -117,11 +124,10 @@
 			allApps.splice(abortedIndexes.pop(), 1);
 		}
 
-		initAppClasses(allApps, completeFn, xhrByUrl);
+		initAppClasses(allApps, completeFn);
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
-
 	function initAppClasses(allApps, completeFn) {
 		var appIds = _.map(allApps, function(app) {
 			return app.appConfig.appId;
@@ -166,8 +172,7 @@
 	}
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
-
-	function requestApps(asyncApps, callback) {
+	function requestApps(containerConfig, asyncApps, callback) {
 		var xhrByUrl = {};
 		var appsByUrl = {};
 
@@ -216,13 +221,13 @@
 					return app.appConfig;
 				});
 
-				var xhr = Helpers.Ajax({
+				var xhr = Ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
 
 							// Put the manifest files on the page
-							loadStaticFiles(manifests.styles, manifests.scripts, manifests.inlineScripts, function() {
+							loadStaticFiles(containerConfig, manifests.styles, manifests.scripts, manifests.inlineScripts, function() {
 								callback();
 							});
 						}
@@ -231,7 +236,8 @@
 						params: JSON.stringify(urlConfigs)
 					},
 					success: function(manifest) {
-						if (!F2.Schemas.validate(manifest, 'appManifest')) {
+						// Make sure the appManifest is valid
+						if (!Schemas.validate(manifest, 'appManifest')) {
 							manifest = {
 								apps: []
 							};
@@ -291,13 +297,11 @@
 		return combined;
 	}
 
-	function loadStaticFiles(styles, scripts, inlineScripts, callback) {
-		var containerConfig = F2.config();
+	function loadStaticFiles(containerConfig, styles, scripts, inlineScripts, callback) {
 		var stylesDone = false;
 		var scriptsDone = false;
 
 		// See if both scripts and styles have completed
-
 		function checkComplete() {
 			if (stylesDone && scriptsDone) {
 				callback();
@@ -319,14 +323,17 @@
 		});
 	}
 
-	function loadInlineScripts(inlines) {
-		// Load the inline scripts
-		try {
-			eval(inlines.join(';'));
+	function loadInlineScripts(inlines, callback) {
+		if (inlines.length) {
+			try {
+				eval(inlines.join(';'));
+			}
+			catch (e) {
+				console.error('Error loading inline scripts: ' + e);
+			}
 		}
-		catch (e) {
-			console.error('Error loading inline scripts: ' + e);
-		}
+
+		callback();
 	}
 
 	function loadScripts(config, paths, callback) {
@@ -365,7 +372,7 @@
 	// API
 	// ---------------------------------------------------------------------------
 
-	Helpers.Apps = {
+	return {
 		getInstance: function(identifier) {
 			var instance;
 
@@ -389,4 +396,4 @@
 		remove: remove
 	};
 
-})(F2, Helpers, _);
+};

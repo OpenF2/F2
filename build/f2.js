@@ -1,5 +1,10 @@
 (function() {
 
+		// Define AMD modules
+		if (typeof define !== 'function' || !define.amd) {
+			throw 'F2 did not detect an AMD loader.';
+		}
+
 		function noop() {}
 
 		// Check for console
@@ -32,7 +37,7 @@
 		}
 
 		// Create the internal objects
-		var F2 = {};
+		var Lib = {};
 		var Helpers = {};
 
 // Create a local exports object to attach all CommonJS modules to
@@ -2677,7 +2682,7 @@ else {
 
 })(this);
 
-//@ sourceMappingURL=tv4.js.map
+
 exports.tv4 = module.exports;
 module = { exports: { } };
 module = undefined;
@@ -3981,7 +3986,7 @@ var LazyLoad = _exports.LazyLoad;
 
 // Pull the document off exports
 delete _exports;
-(function(Helpers) {
+Helpers.Ajax = function() {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -4110,7 +4115,7 @@ delete _exports;
 	// GET/POST
 	// --------------------------------------------------------------------------
 
-	Helpers.Ajax = function(params, cache) {
+	return function(params, cache) {
 		if (!params.url) {
 			throw 'F2.Ajax: you must provide a url.';
 		}
@@ -4176,9 +4181,9 @@ delete _exports;
 		})();
 	};
 
-})(Helpers);
+};
 
-(function(Helpers) {
+Helpers.AppPlaceholders = function() {
 
 	// Generate an AppConfig from the element's attributes
 	function getPlaceholderFromElement(node) {
@@ -4291,7 +4296,7 @@ delete _exports;
 	// API
 	// ---------------------------------------------------------------------------
 
-	Helpers.AppPlaceholders = {
+	return {
 		getInNode: function(parentNode) {
 			var placeholders = [];
 			var elements = getElementsByAttribute(parentNode, 'data-f2-appid');
@@ -4308,9 +4313,9 @@ delete _exports;
 		}
 	};
 
-})(Helpers);
+};
 
-(function(F2, Helpers, _) {
+Helpers.LoadApps = function(Ajax, _, Schemas) {
 
 	// ---------------------------------------------------------------------------
 	// Private storage
@@ -4326,7 +4331,7 @@ delete _exports;
 		delete appInstances[instanceId];
 	}
 
-	function loadApps(appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+	function loadApps(guidFn, containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
 		var xhrByUrl;
 		// Params used to instantiate AppClasses
 		var allApps = [];
@@ -4337,8 +4342,8 @@ delete _exports;
 			var inputs = {};
 
 			// The AppConfig must be valid
-			if (appConfigs[i] && F2.Schemas.validate(appConfigs[i], 'appConfig')) {
-				inputs.instanceId = F2.guid();
+			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
+				inputs.instanceId = guidFn();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)
@@ -4359,14 +4364,23 @@ delete _exports;
 			allApps.push(inputs);
 		}
 
+		function done() {
+			delegateHtmlLoading(
+				allApps,
+				successFn,
+				completeFn,
+				xhrByUrl
+			);
+		}
+
 		// See if we need to hit the server
 		if (asyncApps.length) {
-			xhrByUrl = requestApps(asyncApps, function() {
+			xhrByUrl = requestApps(containerConfig, asyncApps, function() {
 				if (afterRequestFn) {
 					afterRequestFn();
 				}
 
-				delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
+				done();
 			});
 		}
 		else {
@@ -4374,15 +4388,14 @@ delete _exports;
 				afterRequestFn();
 			}
 
-			delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl);
+			done();
 		}
 
 		return xhrByUrl || {};
 	}
 
 	// Add unhandled apps to document.body
-
-	function dumpAppsOnDom( /* app1, app2 */ ) {
+	function dumpAppsOnDom(/* app1, app2 */) {
 		var args = Array.prototype.slice.call(arguments);
 
 		if (args.length) {
@@ -4399,7 +4412,6 @@ delete _exports;
 	}
 
 	// Pass the apps off to the container so they can place them on the page
-
 	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
 		var abortedIndexes = [];
 
@@ -4429,11 +4441,10 @@ delete _exports;
 			allApps.splice(abortedIndexes.pop(), 1);
 		}
 
-		initAppClasses(allApps, completeFn, xhrByUrl);
+		initAppClasses(allApps, completeFn);
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
-
 	function initAppClasses(allApps, completeFn) {
 		var appIds = _.map(allApps, function(app) {
 			return app.appConfig.appId;
@@ -4478,8 +4489,7 @@ delete _exports;
 	}
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
-
-	function requestApps(asyncApps, callback) {
+	function requestApps(containerConfig, asyncApps, callback) {
 		var xhrByUrl = {};
 		var appsByUrl = {};
 
@@ -4528,13 +4538,13 @@ delete _exports;
 					return app.appConfig;
 				});
 
-				var xhr = Helpers.Ajax({
+				var xhr = Ajax({
 					complete: function() {
 						if (!--numRequests) {
 							var manifests = combineAppManifests(appManifests);
 
 							// Put the manifest files on the page
-							loadStaticFiles(manifests.styles, manifests.scripts, manifests.inlineScripts, function() {
+							loadStaticFiles(containerConfig, manifests.styles, manifests.scripts, manifests.inlineScripts, function() {
 								callback();
 							});
 						}
@@ -4543,7 +4553,8 @@ delete _exports;
 						params: JSON.stringify(urlConfigs)
 					},
 					success: function(manifest) {
-						if (!F2.Schemas.validate(manifest, 'appManifest')) {
+						// Make sure the appManifest is valid
+						if (!Schemas.validate(manifest, 'appManifest')) {
 							manifest = {
 								apps: []
 							};
@@ -4603,13 +4614,11 @@ delete _exports;
 		return combined;
 	}
 
-	function loadStaticFiles(styles, scripts, inlineScripts, callback) {
-		var containerConfig = F2.config();
+	function loadStaticFiles(containerConfig, styles, scripts, inlineScripts, callback) {
 		var stylesDone = false;
 		var scriptsDone = false;
 
 		// See if both scripts and styles have completed
-
 		function checkComplete() {
 			if (stylesDone && scriptsDone) {
 				callback();
@@ -4631,14 +4640,17 @@ delete _exports;
 		});
 	}
 
-	function loadInlineScripts(inlines) {
-		// Load the inline scripts
-		try {
-			eval(inlines.join(';'));
+	function loadInlineScripts(inlines, callback) {
+		if (inlines.length) {
+			try {
+				eval(inlines.join(';'));
+			}
+			catch (e) {
+				console.error('Error loading inline scripts: ' + e);
+			}
 		}
-		catch (e) {
-			console.error('Error loading inline scripts: ' + e);
-		}
+
+		callback();
 	}
 
 	function loadScripts(config, paths, callback) {
@@ -4677,7 +4689,7 @@ delete _exports;
 	// API
 	// ---------------------------------------------------------------------------
 
-	Helpers.Apps = {
+	return {
 		getInstance: function(identifier) {
 			var instance;
 
@@ -4701,16 +4713,16 @@ delete _exports;
 		remove: remove
 	};
 
-})(F2, Helpers, _);
+};
 
-;(function(F2, _) {
+define('F2.AppClass', ['F2'], function(F2) {
 
-	function AppClass(instanceId, appConfig, context, root) {
+	var AppClass = function(instanceId, appConfig, context, root) {
 		this.instanceId = instanceId;
 		this.appConfig = appConfig;
 		this.context = context;
 		this.root = root;
-	}
+	};
 
 	AppClass.prototype = {
 		dispose: function() {},
@@ -4740,13 +4752,13 @@ delete _exports;
 		}
 	};
 
-	F2.AppClass = AppClass;
+	return AppClass;
 
-})(F2, _);
+});
 
-;(function(F2) {
+Lib.Constants = function() {
 
-	F2.Constants = {
+	return {
 		EVENTS: {
 			// TODO: do we need this?
 			APP_SYMBOL_CHANGE: '__appSymbolChange__',
@@ -4767,9 +4779,9 @@ delete _exports;
 		}
 	};
 
-})(F2);
+};
 
-;(function(F2, Helpers, _) {
+Lib.Core = function(LoadApps, _, Schemas, Events) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -4796,27 +4808,10 @@ delete _exports;
 	var _guids = {};
 
 	// ---------------------------------------------------------------------------
-	// API
+	// Helpers
 	// ---------------------------------------------------------------------------
 
-	F2.Apps = {};
-
-	F2.config = function(config) {
-		if (config && F2.Schemas.validate(config, 'containerConfig')) {
-			_config = _.defaults({}, config, _config);
-		}
-
-		return _config;
-	};
-
-	/**
-	 * Generates an RFC4122 v4 compliant id
-	 * @method guid
-	 * @return {string} A random id
-	 * @for F2
-	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
-	 */
-	F2.guid = function _guid() {
+	function _guid() {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 			var r = Math.random() * 16 | 0;
 			var v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -4832,76 +4827,98 @@ delete _exports;
 		_guids[guid] = true;
 
 		return guid;
-	};
+	}
 
-	F2.load = function(params) {
-		if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
-			throw 'F2: you must specify at least one AppConfig to load';
-		}
-		else if (!_.isArray(params.appConfigs)) {
-			params.appConfigs = [params.appConfigs];
-		}
+	// ---------------------------------------------------------------------------
+	// API
+	// ---------------------------------------------------------------------------
 
-		var reqs = Helpers.Apps.load(
-			params.appConfigs,
-			params.success,
-			params.error,
-			params.complete,
-			params.afterRequest
-		);
+	return {
+		config: function(config) {
+			if (config && Schemas.validate(config, 'containerConfig')) {
+				_config = _.defaults({}, config, _config);
+			}
 
-		return {
-			abort: (function() {
-				if (reqs) {
-					for (var url in reqs) {
-						reqs[url].request.abort();
+			return _config;
+		},
+		/**
+		 * Generates an RFC4122 v4 compliant id
+		 * @method guid
+		 * @return {string} A random id
+		 * @for F2
+		 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
+		 */
+		guid: _guid,
+		load: function(params) {
+			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
+				throw 'F2: you must specify at least one AppConfig to load';
+			}
+			else if (!_.isArray(params.appConfigs)) {
+				params.appConfigs = [params.appConfigs];
+			}
+
+			var reqs = LoadApps.load(
+				_guid,
+				this.config(),
+				params.appConfigs,
+				params.success,
+				params.error,
+				params.complete,
+				params.afterRequest
+			);
+
+			return {
+				abort: (function() {
+					if (reqs) {
+						for (var url in reqs) {
+							reqs[url].request.abort();
+						}
 					}
+				}),
+				requests: reqs
+			};
+		},
+		/**
+		 * Removes an app from the container
+		 * @method removeApp
+		 * @param {string} indentifier The app's instanceId or root
+		 */
+		removeApp: function(identifier) {
+			if (!identifier) {
+				throw 'F2: you must provide an instanceId or a root to remove an app';
+			}
+
+			var instance = LoadApps.getInstance(identifier);
+
+			if (instance && instance.instanceId) {
+				// Call the app's dipose method if it has one
+				if (instance.dispose) {
+					instance.dispose();
 				}
-			}),
-			requests: reqs
-		};
-	};
 
-	/**
-	 * Removes an app from the container
-	 * @method removeApp
-	 * @param {string} indentifier The app's instanceId or root
-	 */
-	F2.removeApp = function(identifier) {
-		if (!identifier) {
-			throw 'F2: you must provide an instanceId or a root to remove an app';
-		}
+				// Unsubscribe events by context
+				Events.off(null, null, instance);
 
-		var instance = Helpers.Apps.getInstance(identifier);
+				// Remove ourselves from the DOM
+				if (instance.root && instance.root.parentNode) {
+					instance.root.parentNode.removeChild(instance.root);
+				}
 
-		if (instance && instance.instanceId) {
-			// Call the app's dipose method if it has one
-			if (instance.dispose) {
-				instance.dispose();
+				// Set a property that will let us watch for memory leaks
+				instance.__f2Disposed__ = true;
+
+				// Remove ourselves from the internal map
+				LoadApps.remove(instance.instanceId);
 			}
-
-			// Unsubscribe events by context
-			F2.Events.off(null, null, instance);
-
-			// Remove ourselves from the DOM
-			if (instance.root && instance.root.parentNode) {
-				instance.root.parentNode.removeChild(instance.root);
+			else {
+				console.warn('F2: could not find an app to remove');
 			}
-
-			// Set a property that will let us watch for memory leaks
-			instance.__f2Disposed__ = true;
-
-			// Remove ourselves from the internal map
-			Helpers.Apps.remove(instance.instanceId);
-		}
-		else {
-			console.warn('F2: could not find an app to remove');
 		}
 	};
 
-})(F2, Helpers, _);
+};
 
-;(function(F2) {
+Lib.Events = function() {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -4966,7 +4983,7 @@ delete _exports;
 	// API
 	// ---------------------------------------------------------------------------
 
-	F2.Events = {
+	return {
 		emit: function(name, args) {
 			if (!name) {
 				throw 'F2.Events: you must provide an event name to emit.';
@@ -5028,11 +5045,11 @@ delete _exports;
 		}
 	};
 
-})(F2);
+};
 
-;(function(F2, tv4) {
+Lib.Schemas = function(tv4) {
 
-	F2.Schemas = {
+	return {
 		add: function(name, schema) {
 			if (!name) {
 				throw 'F2.Schemas: you must provide a schema name.';
@@ -5068,9 +5085,9 @@ delete _exports;
 		}
 	};
 
-})(F2, tv4);
+};
 
-;(function(F2) {
+Lib.SchemaModels = function(Schemas) {
 
 	var schemas = {
 		'appConfig': {
@@ -5234,119 +5251,140 @@ delete _exports;
 
 	// Add each schema
 	for (var name in schemas) {
-		F2.Schemas.add(name, schemas[name]);
+		Schemas.add(name, schemas[name]);
 	}
 
-})(F2);
+};
 
-;(function(F2, _) {
+Lib.UI = function(Core, _, Schemas) {
 
-	function _modal(params) {
-		var config = F2.config();
-
-		if (config.ui && _.isFunction(config.ui.modal)) {
-			if (_.isObject(params) && F2.Schemas.validate(params, 'uiModalParams')) {
-				config.ui.modal(params);
-			}
-			else {
-				console.error('F2.UI: The parameters to ui.modal are incorrect.');
-			}
-		}
-		else {
-			console.error('F2.UI: The container has not defined ui.modal.');
-		}
-	}
-
-	function _showLoading(root) {
-		var config = F2.config();
-
-		if (config.ui && _.isFunction(config.ui.showLoading)) {
-			if (!root || (root && root.nodeType === 1)) {
-				config.ui.showLoading(root);
-			}
-			else {
-				console.error('F2.UI: the root passed was not a native DOM node.');
-			}
-		}
-		else {
-			console.error('F2.UI: The container has not defined ui.showLoading.');
-		}
-	}
-
-	function _hideLoading(root) {
-		var config = F2.config();
-
-		if (config.ui && _.isFunction(config.ui.hideLoading)) {
-			if (!root || (root && root.nodeType === 1)) {
-				config.ui.hideLoading(root);
-			}
-			else {
-				console.error('F2.UI: the root passed was not a native DOM node.');
-			}
-		}
-		else {
-			console.error('F2.UI: The container has not defined ui.hideLoading.');
-		}
-	}
-
-	// --------------------------------------------------------------------------
-	// API
-	// --------------------------------------------------------------------------
-
-	F2.UI = {
+	return {
 		modal: function(params) {
-			return _modal(params);
+			var config = Core.config();
+
+			if (config.ui && _.isFunction(config.ui.modal)) {
+				if (_.isObject(params) && Schemas.validate(params, 'uiModalParams')) {
+					config.ui.modal(params);
+				}
+				else {
+					console.error('F2.UI: The parameters to ui.modal are incorrect.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.modal.');
+			}
 		},
 		showLoading: function(root) {
-			return _showLoading(root);
+			var config = Core.config();
+
+			if (config.ui && _.isFunction(config.ui.showLoading)) {
+				if (!root || (root && root.nodeType === 1)) {
+					config.ui.showLoading(root);
+				}
+				else {
+					console.error('F2.UI: the root passed was not a native DOM node.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.showLoading.');
+			}
 		},
 		hideLoading: function(root) {
-			return _hideLoading(root);
+			var config = Core.config();
+
+			if (config.ui && _.isFunction(config.ui.hideLoading)) {
+				if (!root || (root && root.nodeType === 1)) {
+					config.ui.hideLoading(root);
+				}
+				else {
+					console.error('F2.UI: the root passed was not a native DOM node.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.hideLoading.');
+			}
 		}
 	};
 
-})(F2, _);
+};
 
-	// Look for placeholders
-	(function(F2, Helpers) {
-		setTimeout(function() {
-			var placeholders = Helpers.AppPlaceholders.getInNode(document.body);
+	// Init the lib
+	var Ajax = Helpers.Ajax();
+	var AppPlaceholders = Helpers.AppPlaceholders();
+	var Constants = Lib.Constants();
+	var Events = Lib.Events();
+	var Schemas = Lib.Schemas(tv4);
+	Lib.SchemaModels(Schemas);
+	var LoadApps = Helpers.LoadApps(Ajax, _, Schemas);
+	var Core = Lib.Core(LoadApps, _, Schemas, Events);
+	var UI = Lib.UI(Core, _, Schemas);
 
-			if (placeholders && placeholders.length) {
-				var appConfigs = _.map(placeholders, function(placeholder) {
-					if (placeholder.isPreload) {
-						placeholder.appConfig.root = placeholder.node;
-					}
+	// Put the API together
+	var F2 = function() {
+		return {
+			config: Core.config,
+			load: Core.load,
+			removeApp: Core.removeApp,
+			guid: Core.guid,
+			Events: {
+				emit: Events.emit,
+				on: Events.on,
+				off: Events.off,
+				once: Events.once,
+				many: Events.many
+			},
+			Constants: Constants,
+			Schemas: {
+				add: Schemas.add,
+				isDefined: Schemas.isDefined,
+				validate: Schemas.validate
+			},
+			UI: {
+				modal: UI.modal,
+				showLoading: UI.showLoading,
+				hideLoading: UI.hideLoading
+			}
+		}
+	};
 
-					return placeholder.appConfig;
-				});
+	// Make the F2 singleton module
+	define('F2', [], function() {
+		return new F2();
+	});
 
-				F2.load({
-					appConfigs: appConfigs,
-					success: function() {
-						var args = Array.prototype.slice.call(arguments);
+	// Make a factory module that can spawn new instances
+	define('F2Factory', [], function() {
+		return F2;
+	});
 
-						// Add to the DOM
-						for (var i = 0, len = args.length; i < len; i++) {
-							if (!placeholders[i].isPreload) {
-								placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
-							}
+	// Load placeholders
+	require(['F2'], function(F2) {
+		// Find the placeholders on the DOM
+		var placeholders = AppPlaceholders.getInNode(document.body);
+
+		if (placeholders.length) {
+			var appConfigs = _.map(placeholders, function(placeholder) {
+				if (placeholder.isPreload) {
+					placeholder.appConfig.root = placeholder.node;
+				}
+
+				return placeholder.appConfig;
+			});
+
+			F2.load({
+				appConfigs: appConfigs,
+				success: function() {
+					var args = Array.prototype.slice.call(arguments);
+
+					// Add to the DOM
+					for (var i = 0, len = args.length; i < len; i++) {
+						if (!placeholders[i].isPreload) {
+							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
 						}
 					}
-				});
-			}
-		}, 0);
-
-	})(F2, Helpers);
-
-	// Define AMD module
-	if (typeof define == 'function' && define.amd) {
-		define('F2', [], function() {
-			return F2;
-		});
-	}
-	else {
-		throw 'F2 did not detect an AMD loader.';
-	}
+				}
+			});
+		}
+	});
 
 })();

@@ -1,4 +1,4 @@
-;(function(F2) {
+Lib.SchemaModels = function(Schemas) {
 
 	var schemas = {
 		'appConfig': {
@@ -162,7 +162,7 @@
 
 	// Add each schema
 	for (var name in schemas) {
-		F2.Schemas.add(name, schemas[name]);
+		Schemas.add(name, schemas[name]);
 	}
 
-})(F2);
+};
