@@ -15,10 +15,11 @@ define(['jasmine', 'F2'], function() {
 		});
 
 		it('should not expose third party libraries', function() {
-			expect(window.tv4).not.toBeDefined();
-			expect(window.reqwest).not.toBeDefined();
-			expect(window.LazyLoad).not.toBeDefined();
-			expect(window._).not.toBeDefined();
+			var vendor = ['tv4', 'reqwest', '_'];
+
+			for (var i = 0; i < vendor.length; i++) {
+				expect(window[vendor[i]]).not.toBeDefined();
+			}
 		});
 
 	});
