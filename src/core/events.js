@@ -23,9 +23,15 @@ Lib.Events = function() {
 			_cache[name] = [];
 		}
 
+		// Don't allow the user to pass in window because it can confuse us later
+		// when we try to unsubscribe
+		if (context === window) {
+			context = undefined;
+		}
+
 		_cache[name].push({
 			handler: handler,
-			context: context || window,
+			context: context,
 			timesLeft: timesToListen
 		});
 	}
@@ -80,12 +86,12 @@ Lib.Events = function() {
 					var sub = _cache[name][len];
 
 					// Check for possible memory leak
-					if (sub.context.__f2Disposed__) {
+					if (sub.context && sub.context.__f2Disposed__) {
 						leakedContexts.push(sub.context);
 					}
 					else {
 						// Execute the handler
-						sub.handler.apply(sub.context, args);
+						sub.handler.apply(sub.context || window, args);
 
 						// See if this is limited to a # of executions
 						if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
