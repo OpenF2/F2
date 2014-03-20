@@ -1,3 +1,7 @@
+/** 
+ * Schema validations
+ * @class F2.Schemas
+ */
 Lib.Schemas = function(tv4) {
 
 	return {

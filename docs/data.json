@@ -1,0 +1,245 @@
+{
+    "project": {},
+    "files": {
+        "src\\core\\core.js": {
+            "name": "src\\core\\core.js",
+            "modules": {},
+            "classes": {
+                "F2": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\core\\events.js": {
+            "name": "src\\core\\events.js",
+            "modules": {},
+            "classes": {
+                "F2.Events": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\core\\schemas.js": {
+            "name": "src\\core\\schemas.js",
+            "modules": {},
+            "classes": {
+                "F2.Schemas": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\core\\ui.js": {
+            "name": "src\\core\\ui.js",
+            "modules": {},
+            "classes": {
+                "F2.UI": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "F2": {
+            "name": "F2",
+            "shortname": "F2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\core\\core.js",
+            "line": 1,
+            "description": "F2 Core"
+        },
+        "F2.Events": {
+            "name": "F2.Events",
+            "shortname": "F2.Events",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\core\\events.js",
+            "line": 1,
+            "description": "Handles context passing"
+        },
+        "F2.Schemas": {
+            "name": "F2.Schemas",
+            "shortname": "F2.Schemas",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\core\\schemas.js",
+            "line": 1,
+            "description": "Schema validations"
+        },
+        "F2.UI": {
+            "name": "F2.UI",
+            "shortname": "F2.UI",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\core\\ui.js",
+            "line": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "src\\core\\core.js",
+            "line": 69,
+            "description": "Removes an app from the container",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "indentifier",
+                    "description": "The app's instanceId or root",
+                    "type": "String"
+                }
+            ],
+            "class": "F2"
+        },
+        {
+            "file": "src\\core\\events.js",
+            "line": 77,
+            "itemtype": "method",
+            "name": "emit",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The event name",
+                    "type": "String"
+                },
+                {
+                    "name": "args",
+                    "description": "The arguments to emit",
+                    "type": "Object",
+                    "multiple": true
+                }
+            ],
+            "return": {
+                "description": "void"
+            },
+            "class": "F2.Events"
+        },
+        {
+            "file": "src\\core\\events.js",
+            "line": 120,
+            "itemtype": "method",
+            "name": "many",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The event name",
+                    "type": "String"
+                },
+                {
+                    "name": "timesToListen",
+                    "description": "The number of times the handler should be fired",
+                    "type": "Number"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to handle the event",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "void"
+            },
+            "class": "F2.Events"
+        },
+        {
+            "file": "src\\core\\events.js",
+            "line": 143,
+            "itemtype": "method",
+            "name": "off",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The event name",
+                    "type": "String"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to handle the event",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "void"
+            },
+            "class": "F2.Events"
+        },
+        {
+            "file": "src\\core\\events.js",
+            "line": 154,
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The event name",
+                    "type": "String"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to handle the event",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "void"
+            },
+            "class": "F2.Events"
+        },
+        {
+            "file": "src\\core\\events.js",
+            "line": 165,
+            "itemtype": "method",
+            "name": "once",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The event name",
+                    "type": "String"
+                },
+                {
+                    "name": "handler",
+                    "description": "Function to handle the event",
+                    "type": "Function"
+                },
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "void"
+            },
+            "class": "F2.Events"
+        }
+    ],
+    "warnings": []
+}

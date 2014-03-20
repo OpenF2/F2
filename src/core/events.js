@@ -1,3 +1,7 @@
+/**
+ * Handles context passing
+ * @class F2.Events
+ */
 Lib.Events = function() {
 
 	// ---------------------------------------------------------------------------
@@ -70,6 +74,13 @@ Lib.Events = function() {
 	// ---------------------------------------------------------------------------
 
 	return {
+		/**
+		 * 
+		 * @method emit
+		 * @param {String} name The event name
+		 * @param {Object} args* The arguments to emit
+		 * @return void
+		 */
 		emit: function(name, args) {
 			if (!name) {
 				throw 'F2.Events: you must provide an event name to emit.';
@@ -106,6 +117,15 @@ Lib.Events = function() {
 				}
 			}
 		},
+		/**
+		 *
+		 * @method many
+		 * @param {String} name The event name
+		 * @param {Number} timesToListen The number of times the handler should be fired
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
 		many: function(name, timesToListen, handler, context) {
 			if (!timesToListen) {
 				timesToListen = 0;
@@ -120,12 +140,36 @@ Lib.Events = function() {
 
 			return _subscribe(name, handler, context, timesToListen);
 		},
+		/**
+		 *
+		 * @method off
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
 		off: function(name, handler, context) {
 			return _unsubscribe(name, handler, context);
 		},
+		/**
+		 *
+		 * @method on
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
 		on: function(name, handler, context) {
 			return _subscribe(name, handler, context);
 		},
+		/**
+		 *
+		 * @method once
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
 		once: function(name, handler, context) {
 			return _subscribe(name, handler, context, 1);
 		}
