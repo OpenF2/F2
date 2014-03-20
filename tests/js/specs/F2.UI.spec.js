@@ -15,11 +15,8 @@
 				modal: function(params) {
 					window.test.ui.modal = params;
 				},
-				showLoading: function(root) {
-					window.test.ui.showLoading = root;
-				},
-				hideLoading: function(root) {
-					window.test.ui.hideLoading = root;
+				toggleLoading: function(root) {
+					window.test.ui.toggleLoading = root;
 				}
 			}
 		});
@@ -38,28 +35,15 @@
 
 		});
 
-		describe('showLoading', function() {
+		describe('toggleLoading', function() {
 
-			it('should delegate the app root to the container "showLoading" handler', function() {
+			it('should delegate the app root to the container "toggleLoading" handler', function() {
 				var fakeRoot = document.createElement('div');
-				F2.UI.showLoading(fakeRoot);
+				F2.UI.toggleLoading(fakeRoot);
 
-				expect(window.test.ui.showLoading).toBe(fakeRoot);
+				expect(window.test.ui.toggleLoading).toBe(fakeRoot);
 			});
 
 		});
-
-		describe('hideLoading', function() {
-
-			it('should delegate the app root to the container "hideLoading" handler', function() {
-				var fakeRoot = document.createElement('div');
-				F2.UI.hideLoading(fakeRoot);
-
-				expect(window.test.ui.hideLoading).toBe(fakeRoot);
-			});
-
-		});
-
-	});
 
 });

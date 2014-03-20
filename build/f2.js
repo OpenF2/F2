@@ -2683,7 +2683,6 @@ else {
 })(this);
 
 
-
 exports.tv4 = module.exports;
 module = { exports: { } };
 module = undefined;
@@ -4006,10 +4005,10 @@ Helpers.Ajax = function() {
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
-
 	function _parseURI(url) {
-		var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-		// authority = '//' + user + ':' + pass '@' + hostname + ':' port
+		var m = String(url)
+			.replace(/^\s+|\s+$/g, '')
+			.match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
 		return (m ? {
 			href: m[0] || '',
 			protocol: m[1] || '',
@@ -4033,7 +4032,6 @@ Helpers.Ajax = function() {
 	 * Source: https://gist.github.com/Yaffle/1088850
 	 * Tests: http://skew.org/uri/uri_tests.html
 	 */
-
 	function _absolutizeURI(base, href) { // RFC 3986
 		function removeDotSegments(input) {
 			var output = [];
@@ -4068,7 +4066,6 @@ Helpers.Ajax = function() {
 	 * @returns {bool} Whether the URL is local or not
 	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 	 */
-
 	function _isLocalRequest(url) {
 		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
 			urlLower = url.toLowerCase(),
@@ -4080,8 +4077,7 @@ Helpers.Ajax = function() {
 			ajaxLocation = location.href;
 		}
 		catch (e) {
-			// Use the href attribute of an A element
-			// since IE will modify it given document.location
+			// Use the href since IE will modify it given document.location
 			ajaxLocation = document.createElement('a');
 			ajaxLocation.href = '';
 			ajaxLocation = ajaxLocation.href;
@@ -4089,8 +4085,7 @@ Helpers.Ajax = function() {
 
 		ajaxLocation = ajaxLocation.toLowerCase();
 
-		// uh oh, the url must be relative
-		// make it fully qualified and re-regex url
+		// The url must be relative. Make it fully qualified and re-regex url
 		if (!parts) {
 			urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
 			parts = rurl.exec(urlLower);
@@ -4099,7 +4094,8 @@ Helpers.Ajax = function() {
 		// Segment location into parts
 		ajaxLocParts = rurl.exec(ajaxLocation) || [];
 
-		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
+		// Do hostname, protocol, port of manifest URL match location.href?
+		// (a "local" request on the same domain)
 		var matched = !(parts &&
 			(parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
 				(parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
@@ -4137,12 +4133,9 @@ Helpers.Ajax = function() {
 			params.type = 'json';
 		}
 
-		// Look for methods that use query strings
-		if (params.method === 'get' || params.type === 'jsonp') {
-			// Bust cache if asked
-			if (!cache) {
-				params.url += delim(params.url) + rand(1000000);
-			}
+		// Bust cache if asked
+		if ((params.method === 'get' || params.type === 'jsonp') && !cache) {
+			params.url += delim(params.url) + rand(1000000);
 		}
 
 		if (params.type === 'jsonp') {
@@ -5280,12 +5273,12 @@ Lib.UI = function(Core, _, Schemas) {
 				console.error('F2.UI: The container has not defined ui.modal.');
 			}
 		},
-		showLoading: function(root) {
+		toggleLoading: function(root) {
 			var config = Core.config();
 
-			if (config.ui && _.isFunction(config.ui.showLoading)) {
+			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
 				if (!root || (root && root.nodeType === 1)) {
-					config.ui.showLoading(root);
+					config.ui.toggleLoading(root);
 				}
 				else {
 					console.error('F2.UI: the root passed was not a native DOM node.');
@@ -5293,21 +5286,6 @@ Lib.UI = function(Core, _, Schemas) {
 			}
 			else {
 				console.error('F2.UI: The container has not defined ui.showLoading.');
-			}
-		},
-		hideLoading: function(root) {
-			var config = Core.config();
-
-			if (config.ui && _.isFunction(config.ui.hideLoading)) {
-				if (!root || (root && root.nodeType === 1)) {
-					config.ui.hideLoading(root);
-				}
-				else {
-					console.error('F2.UI: the root passed was not a native DOM node.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.hideLoading.');
 			}
 		}
 	};
@@ -5351,8 +5329,7 @@ Lib.UI = function(Core, _, Schemas) {
 			// UI
 			UI: {
 				modal: UI.modal,
-				showLoading: UI.showLoading,
-				hideLoading: UI.hideLoading
+				toggleLoading: UI.toggleLoading
 			}
 		}
 	};

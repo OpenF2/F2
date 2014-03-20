@@ -16,12 +16,12 @@ Lib.UI = function(Core, _, Schemas) {
 				console.error('F2.UI: The container has not defined ui.modal.');
 			}
 		},
-		showLoading: function(root) {
+		toggleLoading: function(root) {
 			var config = Core.config();
 
-			if (config.ui && _.isFunction(config.ui.showLoading)) {
+			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
 				if (!root || (root && root.nodeType === 1)) {
-					config.ui.showLoading(root);
+					config.ui.toggleLoading(root);
 				}
 				else {
 					console.error('F2.UI: the root passed was not a native DOM node.');
@@ -29,21 +29,6 @@ Lib.UI = function(Core, _, Schemas) {
 			}
 			else {
 				console.error('F2.UI: The container has not defined ui.showLoading.');
-			}
-		},
-		hideLoading: function(root) {
-			var config = Core.config();
-
-			if (config.ui && _.isFunction(config.ui.hideLoading)) {
-				if (!root || (root && root.nodeType === 1)) {
-					config.ui.hideLoading(root);
-				}
-				else {
-					console.error('F2.UI: the root passed was not a native DOM node.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.hideLoading.');
 			}
 		}
 	};

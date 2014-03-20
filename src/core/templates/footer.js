@@ -35,8 +35,7 @@
 			// UI
 			UI: {
 				modal: UI.modal,
-				showLoading: UI.showLoading,
-				hideLoading: UI.hideLoading
+				toggleLoading: UI.toggleLoading
 			}
 		}
 	};
