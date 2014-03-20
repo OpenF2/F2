@@ -212,7 +212,7 @@
 				F2.load({
 					appConfigs: [{
 						appId: 'com_test_basic',
-						manifestUrl: 'http://0.0.0.0:8080/apps/single_jsonp'
+						manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
 					}]
 				});
 
