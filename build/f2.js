@@ -5120,8 +5120,8 @@ Lib.SchemaModels = function(Schemas) {
 			title: 'App Content',
 			type: 'object',
 			properties: {
-				success: {
-					type: 'boolean'
+				error: {
+					type: 'object'
 				},
 				data: {
 					type: 'object'
@@ -5129,8 +5129,7 @@ Lib.SchemaModels = function(Schemas) {
 				html: {
 					type: 'string'
 				}
-			},
-			required: ['success']
+			}
 		},
 		'appManifest': {
 			id: 'appManifest',
@@ -5175,6 +5174,9 @@ Lib.SchemaModels = function(Schemas) {
 				loadStyles: {
 					type: 'object'
 				},
+				loadInlineScripts: {
+					type: 'object'
+				},
 				supportedViews: {
 					type: 'array',
 					items: {
@@ -5185,13 +5187,10 @@ Lib.SchemaModels = function(Schemas) {
 					type: 'object',
 					properties: {
 						modal: {
-							// type: 'object'
+							type: 'object'
 						},
-						hideLoading: {
-							// type: 'object'
-						},
-						showLoading: {
-							// type: 'object'
+						toggleLoading: {
+							type: 'object'
 						}
 					}
 				},
