@@ -1,4 +1,4 @@
-﻿(function(F2, Helpers) {
+(function(Helpers) {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -119,6 +119,10 @@
 		return matched;
 	}
 
+	function rand(max) {
+		return Math.floor(Math.random() * max);
+	}
+
 	// --------------------------------------------------------------------------
 	// GET/POST
 	// --------------------------------------------------------------------------
@@ -148,13 +152,13 @@
 		if (params.method === 'get' || params.type === 'jsonp') {
 			// Bust cache if asked
 			if (!cache) {
-				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);
+				params.url += delim(params.url) + rand(1000000);
 			}
 		}
 
 		if (params.type === 'jsonp') {
 			// Create a random callback name
-			params.jsonpCallbackName = 'F2_' + Math.floor(Math.random() * 1000000);
+			params.jsonpCallbackName = 'F2_' + rand(1000000);
 
 			// Add a jsonp callback to the window
 			window[params.jsonpCallbackName] = function(response) {
@@ -189,4 +193,4 @@
 		})();
 	};
 
-})(F2, Helpers);
+})(Helpers);

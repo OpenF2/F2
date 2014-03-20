@@ -1,4 +1,4 @@
-﻿(function(F2, Helpers) {
+(function(F2, Helpers, _) {
 
 	// ---------------------------------------------------------------------------
 	// Private storage
@@ -311,9 +311,11 @@
 		});
 
 		// Kick off scripts
-		loadScripts(containerConfig, scripts, inlineScripts, function() {
-			scriptsDone = true;
-			checkComplete();
+		loadScripts(containerConfig, scripts, function() {
+			loadInlineScripts(inlineScripts, function() {
+				scriptsDone = true;
+				checkComplete();
+			});
 		});
 	}
 
@@ -327,22 +329,15 @@
 		}
 	}
 
-	function loadScripts(config, paths, inlines, callback) {
+	function loadScripts(config, paths, callback) {
 		// Check for user defined loader
 		if (_.isFunction(config.loadScripts)) {
-			config.loadScripts(paths, inlines, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.js(paths, function() {
-				loadInlineScripts(inlines);
-				callback();
-			});
-		}
-		else if (inlines.length) {
-			loadInlineScripts(inlines);
+			config.loadScripts(paths, callback);
 		}
 		else {
-			callback();
+			require(paths, function() {
+				callback();
+			});
 		}
 	}
 
@@ -351,10 +346,17 @@
 		if (_.isFunction(config.loadStyles)) {
 			config.loadStyles(paths, callback);
 		}
-		else if (paths.length) {
-			LazyLoad.css(paths, callback);
-		}
 		else {
+			var head = document.getElementsByTagName('head')[0];
+
+			for (var i = 0, len = paths.length; i < len; i++) {
+				var node = document.createNode('link');
+				node.rel = 'stylesheet';
+				node.href = paths[i];
+				node.async = false;
+				head.appendChild(node);
+			}
+
 			callback();
 		}
 	}
@@ -387,4 +389,4 @@
 		remove: remove
 	};
 
-})(F2, Helpers);
+})(F2, Helpers, _);

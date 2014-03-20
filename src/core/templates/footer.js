@@ -1,3 +1,4 @@
+	// Look for placeholders
 	(function(F2, Helpers) {
 		setTimeout(function() {
 			var placeholders = Helpers.AppPlaceholders.getInNode(document.body);
@@ -29,18 +30,14 @@
 
 	})(F2, Helpers);
 
-	!function(name, context, definition) {
-		if (typeof module != 'undefined' && module.exports) {
-			module.exports = definition();
-		}
-		else if (typeof define == 'function' && define.amd) {
-			define(definition);
-		}
-		else {
-			context[name] = definition();
-		}
-	}('F2', this, function() {
-		return F2;
-	})
+	// Define AMD module
+	if (typeof define == 'function' && define.amd) {
+		define('F2', [], function() {
+			return F2;
+		});
+	}
+	else {
+		throw 'F2 did not detect an AMD loader.';
+	}
 
 })();

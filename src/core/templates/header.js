@@ -3,7 +3,7 @@
 		function noop() {}
 
 		// Check for console
-		if (typeof console === "undefined" || typeof console.log === "undefined") {
+		if (typeof console === 'undefined' || typeof console.log === 'undefined') {
 			// Set all console methods to a non process
 			console = {
 				assert: noop,

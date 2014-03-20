@@ -1,4 +1,4 @@
-(function(F2) {
+;(function(F2, _) {
 
 	function AppClass(instanceId, appConfig, context, root) {
 		this.instanceId = instanceId;
@@ -37,4 +37,4 @@
 
 	F2.AppClass = AppClass;
 
-})(F2);
+})(F2, _);

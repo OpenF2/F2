@@ -1,52 +1,42 @@
 {
-	"name": "F2",
-	"description": "An open framework for the financial services industry.",
-	"version": "2.0.0",
-	"keywords": [
-		"openf2"
-	],
-	"homepage": "https://github.com/OpenF2/F2",
-	"author": "Markit On Demand, Inc",
-	"scripts": {
-		"preinstall": "npm install grunt-cli markitdown -g"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/OpenF2/F2.git"
-	},
-	"bugs": {
-		"url": "https://github.com/OpenF2/F2/issues",
-		"email": "OpenF2@googlegroups.com"
-	},
-	"licenses": [
-		{
-			"type": "Apache-2.0",
-			"url": "http://www.apache.org/licenses/LICENSE-2.0"
-		}
-	],
-	"devDependencies": {
-		"express": "~3.2.4",
-		"grunt": "~0.4.1",
-		"grunt-contrib-clean": "~0.4.1",
-		"grunt-contrib-concat": "~0.3.0",
-		"grunt-contrib-compress": "0.4.8",
-		"grunt-contrib-copy": "~0.4.1",
-		"grunt-contrib-jasmine": "~0.4.2",
-		"grunt-contrib-jshint": "~0.4.3",
-		"grunt-contrib-less": "~0.5.1",
-		"grunt-contrib-uglify": "~0.2.0",
-		"grunt-contrib-watch": "~0.5.3",
-		"grunt-express": "~0.3.3",
-		"handlebars": "1.0.10",
-		"moment": "~2.0.0",
-		"pandoc": "0.2.0",
-		"semver": "~1.1.4",
-		"yuidocjs": "~0.3.44",
-		"sleep": "~1.1.1"
-	},
-	"engines": {
-		"node": ">=0.10"
-	},
-	"_releaseDate": "2013-09-16T15:26:32.026Z",
-	"_releaseDateFormatted": "16 September 2013"
+  "name": "F2",
+  "description": "An open framework for the financial services industry.",
+  "version": "2.0.0",
+  "keywords": [
+    "openf2"
+  ],
+  "homepage": "https://github.com/OpenF2/F2",
+  "author": "Markit On Demand, Inc",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenF2/F2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenF2/F2/issues",
+    "email": "OpenF2@googlegroups.com"
+  },
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "devDependencies": {
+    "gulp-concat": "~2.2.0",
+    "gulp": "~3.5.6",
+    "gulp-uglify": "~0.2.1",
+    "gulp-jshint": "~1.5.0",
+    "jshint-stylish": "~0.1.5",
+    "gulp-rename": "~1.2.0",
+    "gulp-filesize": "0.0.6",
+    "gulp-jasmine": "~0.2.0",
+    "gulp-express-service": "~1.0.5",
+    "gulp-plumber": "~0.5.6"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "_releaseDate": "2013-09-16T15:26:32.026Z",
+  "_releaseDateFormatted": "16 September 2013"
 }

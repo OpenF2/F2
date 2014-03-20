@@ -1,4 +1,4 @@
-(function(F2) {
+;(function(F2) {
 
 	F2.Constants = {
 		EVENTS: {

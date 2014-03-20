@@ -10,18 +10,17 @@
 		require.config({
 			paths: {
 				'domReady': 'libs/domReady',
-				'F2': '../dist/f2'
+				'F2': '../build/f2'
 			}
 		});
 
 		require([
 			'domReady!',
 			'F2'
-		], function() {
+		], function(_, F2) {
 
 		});
 
 	</script>
-
 </body>
 </html>

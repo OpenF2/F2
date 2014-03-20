@@ -1,4 +1,4 @@
-﻿(function(F2, Helpers) {
+(function(Helpers) {
 
 	// Generate an AppConfig from the element's attributes
 	function getPlaceholderFromElement(node) {
@@ -128,4 +128,4 @@
 		}
 	};
 
-})(F2, Helpers);
+})(Helpers);

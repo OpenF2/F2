@@ -3,7 +3,7 @@
 		function noop() {}
 
 		// Check for console
-		if (typeof console === "undefined" || typeof console.log === "undefined") {
+		if (typeof console === 'undefined' || typeof console.log === 'undefined') {
 			// Set all console methods to a non process
 			console = {
 				assert: noop,
@@ -34,6 +34,7 @@
 		// Create the internal objects
 		var F2 = {};
 		var Helpers = {};
+
 // Create a local exports object to attach all CommonJS modules to
 var _exports = {};
 var _module = { exports: { } };
@@ -49,428 +50,6 @@ var _window = {
 
 !(function(exports, window, f2Window, module) {
 
-(function() {
-	// Toss the AMD functions on the global
-	if (!f2Window.define || !f2Window.define.amd) {
-
-/**
- * almond 0.2.6 Copyright (c) 2011-2012, The Dojo Foundation All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: http://github.com/jrburke/almond for details
- */
-//Going sloppy to avoid 'use strict' string cost, but strict practices should
-//be followed.
-/*jslint sloppy: true */
-/*global setTimeout: false */
-
-var requirejs, require, define;
-(function(undef) {
-	var main, req, makeMap, handlers,
-			defined = {},
-			waiting = {},
-			config = {},
-			defining = {},
-			hasOwn = Object.prototype.hasOwnProperty,
-			aps = [].slice;
-
-	function hasProp(obj, prop) {
-		return hasOwn.call(obj, prop);
-	}
-
-	/**
-	 * Given a relative module name, like ./something, normalize it to
-	 * a real name that can be mapped to a path.
-	 * @param {String} name the relative name
-	 * @param {String} baseName a real name that the name arg is relative
-	 * to.
-	 * @returns {String} normalized name
-	 */
-	function normalize(name, baseName) {
-		var nameParts, nameSegment, mapValue, foundMap,
-				foundI, foundStarMap, starI, i, j, part,
-				baseParts = baseName && baseName.split("/"),
-				map = config.map,
-				starMap = (map && map['*']) || {};
-
-		//Adjust any relative paths.
-		if (name && name.charAt(0) === ".") {
-			//If have a base name, try to normalize against it,
-			//otherwise, assume it is a top-level require that will
-			//be relative to baseUrl in the end.
-			if (baseName) {
-				//Convert baseName to array, and lop off the last part,
-				//so that . matches that "directory" and not name of the baseName's
-				//module. For instance, baseName of "one/two/three", maps to
-				//"one/two/three.js", but we want the directory, "one/two" for
-				//this normalization.
-				baseParts = baseParts.slice(0, baseParts.length - 1);
-
-				name = baseParts.concat(name.split("/"));
-
-				//start trimDots
-				for (i = 0; i < name.length; i += 1) {
-					part = name[i];
-					if (part === ".") {
-						name.splice(i, 1);
-						i -= 1;
-					} else if (part === "..") {
-						if (i === 1 && (name[2] === '..' || name[0] === '..')) {
-							//End of the line. Keep at least one non-dot
-							//path segment at the front so it can be mapped
-							//correctly to disk. Otherwise, there is likely
-							//no path mapping for a path starting with '..'.
-							//This can still fail, but catches the most reasonable
-							//uses of ..
-							break;
-						} else if (i > 0) {
-							name.splice(i - 1, 2);
-							i -= 2;
-						}
-					}
-				}
-				//end trimDots
-
-				name = name.join("/");
-			} else if (name.indexOf('./') === 0) {
-				// No baseName, so this is ID is resolved relative
-				// to baseUrl, pull off the leading dot.
-				name = name.substring(2);
-			}
-		}
-
-		//Apply map config if available.
-		if ((baseParts || starMap) && map) {
-			nameParts = name.split('/');
-
-			for (i = nameParts.length; i > 0; i -= 1) {
-				nameSegment = nameParts.slice(0, i).join("/");
-
-				if (baseParts) {
-					//Find the longest baseName segment match in the config.
-					//So, do joins on the biggest to smallest lengths of baseParts.
-					for (j = baseParts.length; j > 0; j -= 1) {
-						mapValue = map[baseParts.slice(0, j).join('/')];
-
-						//baseName segment has  config, find if it has one for
-						//this name.
-						if (mapValue) {
-							mapValue = mapValue[nameSegment];
-							if (mapValue) {
-								//Match, update name to the new value.
-								foundMap = mapValue;
-								foundI = i;
-								break;
-							}
-						}
-					}
-				}
-
-				if (foundMap) {
-					break;
-				}
-
-				//Check for a star map match, but just hold on to it,
-				//if there is a shorter segment match later in a matching
-				//config, then favor over this star map.
-				if (!foundStarMap && starMap && starMap[nameSegment]) {
-					foundStarMap = starMap[nameSegment];
-					starI = i;
-				}
-			}
-
-			if (!foundMap && foundStarMap) {
-				foundMap = foundStarMap;
-				foundI = starI;
-			}
-
-			if (foundMap) {
-				nameParts.splice(0, foundI, foundMap);
-				name = nameParts.join('/');
-			}
-		}
-
-		return name;
-	}
-
-	function makeRequire(relName, forceSync) {
-		return function() {
-			//A version of a require function that passes a moduleName
-			//value for items that may need to
-			//look up paths relative to the moduleName
-			return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
-		};
-	}
-
-	function makeNormalize(relName) {
-		return function(name) {
-			return normalize(name, relName);
-		};
-	}
-
-	function makeLoad(depName) {
-		return function(value) {
-			defined[depName] = value;
-		};
-	}
-
-	function callDep(name) {
-		if (hasProp(waiting, name)) {
-			var args = waiting[name];
-			delete waiting[name];
-			defining[name] = true;
-			main.apply(undef, args);
-		}
-
-		if (!hasProp(defined, name) && !hasProp(defining, name)) {
-			throw new Error('No ' + name);
-		}
-		return defined[name];
-	}
-
-	//Turns a plugin!resource to [plugin, resource]
-	//with the plugin being undefined if the name
-	//did not have a plugin prefix.
-	function splitPrefix(name) {
-		var prefix,
-				index = name ? name.indexOf('!') : -1;
-		if (index > -1) {
-			prefix = name.substring(0, index);
-			name = name.substring(index + 1, name.length);
-		}
-		return [prefix, name];
-	}
-
-	/**
-	 * Makes a name map, normalizing the name, and using a plugin
-	 * for normalization if necessary. Grabs a ref to plugin
-	 * too, as an optimization.
-	 */
-	makeMap = function(name, relName) {
-		var plugin,
-				parts = splitPrefix(name),
-				prefix = parts[0];
-
-		name = parts[1];
-
-		if (prefix) {
-			prefix = normalize(prefix, relName);
-			plugin = callDep(prefix);
-		}
-
-		//Normalize according
-		if (prefix) {
-			if (plugin && plugin.normalize) {
-				name = plugin.normalize(name, makeNormalize(relName));
-			} else {
-				name = normalize(name, relName);
-			}
-		} else {
-			name = normalize(name, relName);
-			parts = splitPrefix(name);
-			prefix = parts[0];
-			name = parts[1];
-			if (prefix) {
-				plugin = callDep(prefix);
-			}
-		}
-
-		//Using ridiculous property names for space reasons
-		return {
-			f: prefix ? prefix + '!' + name : name, //fullName
-			n: name,
-			pr: prefix,
-			p: plugin
-		};
-	};
-
-	function makeConfig(name) {
-		return function() {
-			return (config && config.config && config.config[name]) || {};
-		};
-	}
-
-	handlers = {
-		require: function(name) {
-			return makeRequire(name);
-		},
-		exports: function(name) {
-			var e = defined[name];
-			if (typeof e !== 'undefined') {
-				return e;
-			} else {
-				return (defined[name] = {});
-			}
-		},
-		module: function(name) {
-			return {
-				id: name,
-				uri: '',
-				exports: defined[name],
-				config: makeConfig(name)
-			};
-		}
-	};
-
-	main = function(name, deps, callback, relName) {
-		var cjsModule, depName, ret, map, i,
-				args = [],
-				usingExports;
-
-		//Use name if no relName
-		relName = relName || name;
-
-		//Call the callback to define the module, if necessary.
-		if (typeof callback === 'function') {
-
-			//Pull out the defined dependencies and pass the ordered
-			//values to the callback.
-			//Default to [require, exports, module] if no deps
-			deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
-			for (i = 0; i < deps.length; i += 1) {
-				map = makeMap(deps[i], relName);
-				depName = map.f;
-
-				//Fast path CommonJS standard dependencies.
-				if (depName === "require") {
-					args[i] = handlers.require(name);
-				} else if (depName === "exports") {
-					//CommonJS module spec 1.1
-					args[i] = handlers.exports(name);
-					usingExports = true;
-				} else if (depName === "module") {
-					//CommonJS module spec 1.1
-					cjsModule = args[i] = handlers.module(name);
-				} else if (hasProp(defined, depName) ||
-									 hasProp(waiting, depName) ||
-									 hasProp(defining, depName)) {
-					args[i] = callDep(depName);
-				} else if (map.p) {
-					map.p.load(map.n, makeRequire(relName, true), makeLoad(depName), {});
-					args[i] = defined[depName];
-				} else {
-					throw new Error(name + ' missing ' + depName);
-				}
-			}
-
-			ret = callback.apply(defined[name], args);
-
-			if (name) {
-				//If setting exports via "module" is in play,
-				//favor that over return value and exports. After that,
-				//favor a non-undefined return value over exports use.
-				if (cjsModule && cjsModule.exports !== undef &&
-								cjsModule.exports !== defined[name]) {
-					defined[name] = cjsModule.exports;
-				} else if (ret !== undef || !usingExports) {
-					//Use the return value from the function.
-					defined[name] = ret;
-				}
-			}
-		} else if (name) {
-			//May just be an object definition for the module. Only
-			//worry about defining if have a module name.
-			defined[name] = callback;
-		}
-	};
-
-	requirejs = require = req = function(deps, callback, relName, forceSync, alt) {
-		if (typeof deps === "string") {
-			if (handlers[deps]) {
-				//callback in this case is really relName
-				return handlers[deps](callback);
-			}
-			//Just return the module wanted. In this scenario, the
-			//deps arg is the module name, and second arg (if passed)
-			//is just the relName.
-			//Normalize module name, if it contains . or ..
-			return callDep(makeMap(deps, callback).f);
-		} else if (!deps.splice) {
-			//deps is a config object, not an array.
-			config = deps;
-			if (callback.splice) {
-				//callback is an array, which means it is a dependency list.
-				//Adjust args if there are dependencies
-				deps = callback;
-				callback = relName;
-				relName = null;
-			} else {
-				deps = undef;
-			}
-		}
-
-		//Support require(['a'])
-		callback = callback || function() { };
-
-		//If relName is a function, it is an errback handler,
-		//so remove it.
-		if (typeof relName === 'function') {
-			relName = forceSync;
-			forceSync = alt;
-		}
-
-		//Simulate async callback;
-		if (forceSync) {
-			main(undef, deps, callback, relName);
-		} else {
-			//Using a non-zero value because of concern for what old browsers
-			//do, and latest browsers "upgrade" to 4 if lower value is used:
-			//http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
-			//If want a value immediately, use require('id') instead -- something
-			//that works in almond on the global level, but not guaranteed and
-			//unlikely to work in other AMD implementations.
-			setTimeout(function() {
-				main(undef, deps, callback, relName);
-			}, 4);
-		}
-
-		return req;
-	};
-
-	/**
-	 * Just drops the config on the floor, but returns req in case
-	 * the config return value is used.
-	 */
-	req.config = function(cfg) {
-		config = cfg;
-		if (config.deps) {
-			req(config.deps, config.callback);
-		}
-		return req;
-	};
-
-	/**
-	 * Expose module registry for debugging and tooling
-	 */
-	requirejs._defined = defined;
-
-	define = function(name, deps, callback) {
-
-		//This module may not have dependencies
-		if (!deps.splice) {
-			//deps is not an array, so probably means
-			//an object literal or factory function for
-			//the value. Adjust args.
-			callback = deps;
-			deps = [];
-		}
-
-		if (!hasProp(defined, name) && !hasProp(waiting, name)) {
-			waiting[name] = [name, deps, callback];
-		}
-	};
-
-	define.amd = {
-		jQuery: true
-	};
-}());
-
-
-		// Toss the AMD functions on the global
-		f2Window.define = define;
-		f2Window.require = require;
-		f2Window.requirejs = requirejs;
-	}
-})();
 /*! JSON v3.2.3 | http://bestiejs.github.com/json3 | Copyright 2012, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Convenience aliases.
@@ -3098,401 +2677,11 @@ else {
 
 })(this);
 
-
+//@ sourceMappingURL=tv4.js.map
 exports.tv4 = module.exports;
 module = { exports: { } };
-/*jslint browser: true, eqeqeq: true, bitwise: true, newcap: true, immed: true, regexp: false */
-
-/**
-LazyLoad makes it easy and painless to lazily load one or more external
-JavaScript or CSS files on demand either during or after the rendering of a web
-page.
-
-Supported browsers include Firefox 2+, IE6+, Safari 3+ (including Mobile
-Safari), Google Chrome, and Opera 9+. Other browsers may or may not work and
-are not officially supported.
-
-Visit https://github.com/rgrove/lazyload/ for more info.
-
-Copyright (c) 2011 Ryan Grove <ryan@wonko.com>
-All rights reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the 'Software'), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-@module lazyload
-@class LazyLoad
-@static
-*/
-
-LazyLoad = (function (doc) {
-  // -- Private Variables ------------------------------------------------------
-
-  // User agent and feature test information.
-  var env,
-
-  // Reference to the <head> element (populated lazily).
-  head,
-
-  // Requests currently in progress, if any.
-  pending = {},
-
-  // Number of times we've polled to check whether a pending stylesheet has
-  // finished loading. If this gets too high, we're probably stalled.
-  pollCount = 0,
-
-  // Queued requests.
-  queue = {css: [], js: []},
-
-  // Reference to the browser's list of stylesheets.
-  styleSheets = doc.styleSheets;
-
-  // -- Private Methods --------------------------------------------------------
-
-  /**
-  Creates and returns an HTML element with the specified name and attributes.
-
-  @method createNode
-  @param {String} name element name
-  @param {Object} attrs name/value mapping of element attributes
-  @return {HTMLElement}
-  @private
-  */
-  function createNode(name, attrs) {
-    var node = doc.createElement(name), attr;
-
-    for (attr in attrs) {
-      if (attrs.hasOwnProperty(attr)) {
-        node.setAttribute(attr, attrs[attr]);
-      }
-    }
-
-    return node;
-  }
-
-  /**
-  Called when the current pending resource of the specified type has finished
-  loading. Executes the associated callback (if any) and loads the next
-  resource in the queue.
-
-  @method finish
-  @param {String} type resource type ('css' or 'js')
-  @private
-  */
-  function finish(type) {
-    var p = pending[type],
-        callback,
-        urls;
-
-    if (p) {
-      callback = p.callback;
-      urls     = p.urls;
-
-      urls.shift();
-      pollCount = 0;
-
-      // If this is the last of the pending URLs, execute the callback and
-      // start the next request in the queue (if any).
-      if (!urls.length) {
-        callback && callback.call(p.context, p.obj);
-        pending[type] = null;
-        queue[type].length && load(type);
-      }
-    }
-  }
-
-  /**
-  Populates the <code>env</code> variable with user agent and feature test
-  information.
-
-  @method getEnv
-  @private
-  */
-  function getEnv() {
-    var ua = navigator.userAgent;
-
-    env = {
-      // True if this browser supports disabling async mode on dynamically
-      // created script nodes. See
-      // http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
-      async: doc.createElement('script').async === true
-    };
-
-    (env.webkit = /AppleWebKit\//.test(ua))
-      || (env.ie = /MSIE|Trident/.test(ua))
-      || (env.opera = /Opera/.test(ua))
-      || (env.gecko = /Gecko\//.test(ua))
-      || (env.unknown = true);
-  }
-
-  /**
-  Loads the specified resources, or the next resource of the specified type
-  in the queue if no resources are specified. If a resource of the specified
-  type is already being loaded, the new request will be queued until the
-  first request has been finished.
-
-  When an array of resource URLs is specified, those URLs will be loaded in
-  parallel if it is possible to do so while preserving execution order. All
-  browsers support parallel loading of CSS, but only Firefox and Opera
-  support parallel loading of scripts. In other browsers, scripts will be
-  queued and loaded one at a time to ensure correct execution order.
-
-  @method load
-  @param {String} type resource type ('css' or 'js')
-  @param {String|Array} urls (optional) URL or array of URLs to load
-  @param {Function} callback (optional) callback function to execute when the
-    resource is loaded
-  @param {Object} obj (optional) object to pass to the callback function
-  @param {Object} context (optional) if provided, the callback function will
-    be executed in this object's context
-  @private
-  */
-  function load(type, urls, callback, obj, context) {
-    var _finish = function () { finish(type); },
-        isCSS   = type === 'css',
-        nodes   = [],
-        i, len, node, p, pendingUrls, url;
-
-    env || getEnv();
-
-    if (urls) {
-      // If urls is a string, wrap it in an array. Otherwise assume it's an
-      // array and create a copy of it so modifications won't be made to the
-      // original.
-      urls = typeof urls === 'string' ? [urls] : urls.concat();
-
-      // Create a request object for each URL. If multiple URLs are specified,
-      // the callback will only be executed after all URLs have been loaded.
-      //
-      // Sadly, Firefox and Opera are the only browsers capable of loading
-      // scripts in parallel while preserving execution order. In all other
-      // browsers, scripts must be loaded sequentially.
-      //
-      // All browsers respect CSS specificity based on the order of the link
-      // elements in the DOM, regardless of the order in which the stylesheets
-      // are actually downloaded.
-      if (isCSS || env.async || env.gecko || env.opera) {
-        // Load in parallel.
-        queue[type].push({
-          urls    : urls,
-          callback: callback,
-          obj     : obj,
-          context : context
-        });
-      } else {
-        // Load sequentially.
-        for (i = 0, len = urls.length; i < len; ++i) {
-          queue[type].push({
-            urls    : [urls[i]],
-            callback: i === len - 1 ? callback : null, // callback is only added to the last URL
-            obj     : obj,
-            context : context
-          });
-        }
-      }
-    }
-
-    // If a previous load request of this type is currently in progress, we'll
-    // wait our turn. Otherwise, grab the next item in the queue.
-    if (pending[type] || !(p = pending[type] = queue[type].shift())) {
-      return;
-    }
-
-    head || (head = doc.head || doc.getElementsByTagName('head')[0]);
-    pendingUrls = p.urls;
-
-    for (i = 0, len = pendingUrls.length; i < len; ++i) {
-      url = pendingUrls[i];
-
-      if (isCSS) {
-          node = env.gecko ? createNode('style') : createNode('link', {
-            href: url,
-            rel : 'stylesheet'
-          });
-      } else {
-        node = createNode('script', {src: url});
-        node.async = false;
-      }
-
-      node.className = 'lazyload';
-      node.setAttribute('charset', 'utf-8');
-
-      if (env.ie && !isCSS && 'onreadystatechange' in node && !('draggable' in node)) {
-        node.onreadystatechange = function () {
-          if (/loaded|complete/.test(node.readyState)) {
-            node.onreadystatechange = null;
-            _finish();
-          }
-        };
-      } else if (isCSS && (env.gecko || env.webkit)) {
-        // Gecko and WebKit don't support the onload event on link nodes.
-        if (env.webkit) {
-          // In WebKit, we can poll for changes to document.styleSheets to
-          // figure out when stylesheets have loaded.
-          p.urls[i] = node.href; // resolve relative URLs (or polling won't work)
-          pollWebKit();
-        } else {
-          // In Gecko, we can import the requested URL into a <style> node and
-          // poll for the existence of node.sheet.cssRules. Props to Zach
-          // Leatherman for calling my attention to this technique.
-          node.innerHTML = '@import "' + url + '";';
-          pollGecko(node);
-        }
-      } else {
-        node.onload = node.onerror = _finish;
-      }
-
-      nodes.push(node);
-    }
-
-    for (i = 0, len = nodes.length; i < len; ++i) {
-      head.appendChild(nodes[i]);
-    }
-  }
-
-  /**
-  Begins polling to determine when the specified stylesheet has finished loading
-  in Gecko. Polling stops when all pending stylesheets have loaded or after 10
-  seconds (to prevent stalls).
-
-  Thanks to Zach Leatherman for calling my attention to the @import-based
-  cross-domain technique used here, and to Oleg Slobodskoi for an earlier
-  same-domain implementation. See Zach's blog for more details:
-  http://www.zachleat.com/web/2010/07/29/load-css-dynamically/
-
-  @method pollGecko
-  @param {HTMLElement} node Style node to poll.
-  @private
-  */
-  function pollGecko(node) {
-    var hasRules;
-
-    try {
-      // We don't really need to store this value or ever refer to it again, but
-      // if we don't store it, Closure Compiler assumes the code is useless and
-      // removes it.
-      hasRules = !!node.sheet.cssRules;
-    } catch (ex) {
-      // An exception means the stylesheet is still loading.
-      pollCount += 1;
-
-      if (pollCount < 200) {
-        setTimeout(function () { pollGecko(node); }, 50);
-      } else {
-        // We've been polling for 10 seconds and nothing's happened. Stop
-        // polling and finish the pending requests to avoid blocking further
-        // requests.
-        hasRules && finish('css');
-      }
-
-      return;
-    }
-
-    // If we get here, the stylesheet has loaded.
-    finish('css');
-  }
-
-  /**
-  Begins polling to determine when pending stylesheets have finished loading
-  in WebKit. Polling stops when all pending stylesheets have loaded or after 10
-  seconds (to prevent stalls).
-
-  @method pollWebKit
-  @private
-  */
-  function pollWebKit() {
-    var css = pending.css, i;
-
-    if (css) {
-      i = styleSheets.length;
-
-      // Look for a stylesheet matching the pending URL.
-      while (--i >= 0) {
-        if (styleSheets[i].href === css.urls[0]) {
-          finish('css');
-          break;
-        }
-      }
-
-      pollCount += 1;
-
-      if (css) {
-        if (pollCount < 200) {
-          setTimeout(pollWebKit, 50);
-        } else {
-          // We've been polling for 10 seconds and nothing's happened, which may
-          // indicate that the stylesheet has been removed from the document
-          // before it had a chance to load. Stop polling and finish the pending
-          // request to prevent blocking further requests.
-          finish('css');
-        }
-      }
-    }
-  }
-
-  return {
-
-    /**
-    Requests the specified CSS URL or URLs and executes the specified
-    callback (if any) when they have finished loading. If an array of URLs is
-    specified, the stylesheets will be loaded in parallel and the callback
-    will be executed after all stylesheets have finished loading.
-
-    @method css
-    @param {String|Array} urls CSS URL or array of CSS URLs to load
-    @param {Function} callback (optional) callback function to execute when
-      the specified stylesheets are loaded
-    @param {Object} obj (optional) object to pass to the callback function
-    @param {Object} context (optional) if provided, the callback function
-      will be executed in this object's context
-    @static
-    */
-    css: function (urls, callback, obj, context) {
-      load('css', urls, callback, obj, context);
-    },
-
-    /**
-    Requests the specified JavaScript URL or URLs and executes the specified
-    callback (if any) when they have finished loading. If an array of URLs is
-    specified and the browser supports it, the scripts will be loaded in
-    parallel and the callback will be executed after all scripts have
-    finished loading.
-
-    Currently, only Firefox and Opera support parallel loading of scripts while
-    preserving execution order. In other browsers, scripts will be
-    queued and loaded one at a time to ensure correct execution order.
-
-    @method js
-    @param {String|Array} urls JS URL or array of JS URLs to load
-    @param {Function} callback (optional) callback function to execute when
-      the specified scripts are loaded
-    @param {Object} obj (optional) object to pass to the callback function
-    @param {Object} context (optional) if provided, the callback function
-      will be executed in this object's context
-    @static
-    */
-    js: function (urls, callback, obj, context) {
-      load('js', urls, callback, obj, context);
-    }
-
-  };
-})(this.document);
-
 module = undefined;
+
 //     Underscore.js 1.5.2
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -4792,7 +3981,7 @@ var LazyLoad = _exports.LazyLoad;
 
 // Pull the document off exports
 delete _exports;
-(function(F2, Helpers) {
+(function(Helpers) {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -4913,6 +4102,10 @@ delete _exports;
 		return matched;
 	}
 
+	function rand(max) {
+		return Math.floor(Math.random() * max);
+	}
+
 	// --------------------------------------------------------------------------
 	// GET/POST
 	// --------------------------------------------------------------------------
@@ -4942,13 +4135,13 @@ delete _exports;
 		if (params.method === 'get' || params.type === 'jsonp') {
 			// Bust cache if asked
 			if (!cache) {
-				params.url += delim(params.url) + Math.floor(Math.random() * 1000000);
+				params.url += delim(params.url) + rand(1000000);
 			}
 		}
 
 		if (params.type === 'jsonp') {
 			// Create a random callback name
-			params.jsonpCallbackName = 'F2_' + Math.floor(Math.random() * 1000000);
+			params.jsonpCallbackName = 'F2_' + rand(1000000);
 
 			// Add a jsonp callback to the window
 			window[params.jsonpCallbackName] = function(response) {
@@ -4983,8 +4176,9 @@ delete _exports;
 		})();
 	};
 
-})(F2, Helpers);
-(function(F2, Helpers) {
+})(Helpers);
+
+(function(Helpers) {
 
 	// Generate an AppConfig from the element's attributes
 	function getPlaceholderFromElement(node) {
@@ -5114,8 +4308,9 @@ delete _exports;
 		}
 	};
 
-})(F2, Helpers);
-(function(F2, Helpers) {
+})(Helpers);
+
+(function(F2, Helpers, _) {
 
 	// ---------------------------------------------------------------------------
 	// Private storage
@@ -5428,9 +4623,11 @@ delete _exports;
 		});
 
 		// Kick off scripts
-		loadScripts(containerConfig, scripts, inlineScripts, function() {
-			scriptsDone = true;
-			checkComplete();
+		loadScripts(containerConfig, scripts, function() {
+			loadInlineScripts(inlineScripts, function() {
+				scriptsDone = true;
+				checkComplete();
+			});
 		});
 	}
 
@@ -5444,22 +4641,15 @@ delete _exports;
 		}
 	}
 
-	function loadScripts(config, paths, inlines, callback) {
+	function loadScripts(config, paths, callback) {
 		// Check for user defined loader
 		if (_.isFunction(config.loadScripts)) {
-			config.loadScripts(paths, inlines, callback);
-		}
-		else if (paths.length) {
-			LazyLoad.js(paths, function() {
-				loadInlineScripts(inlines);
-				callback();
-			});
-		}
-		else if (inlines.length) {
-			loadInlineScripts(inlines);
+			config.loadScripts(paths, callback);
 		}
 		else {
-			callback();
+			require(paths, function() {
+				callback();
+			});
 		}
 	}
 
@@ -5468,10 +4658,17 @@ delete _exports;
 		if (_.isFunction(config.loadStyles)) {
 			config.loadStyles(paths, callback);
 		}
-		else if (paths.length) {
-			LazyLoad.css(paths, callback);
-		}
 		else {
+			var head = document.getElementsByTagName('head')[0];
+
+			for (var i = 0, len = paths.length; i < len; i++) {
+				var node = document.createNode('link');
+				node.rel = 'stylesheet';
+				node.href = paths[i];
+				node.async = false;
+				head.appendChild(node);
+			}
+
 			callback();
 		}
 	}
@@ -5504,8 +4701,75 @@ delete _exports;
 		remove: remove
 	};
 
-})(F2, Helpers);
-(function(F2, Helpers) {
+})(F2, Helpers, _);
+
+;(function(F2, _) {
+
+	function AppClass(instanceId, appConfig, context, root) {
+		this.instanceId = instanceId;
+		this.appConfig = appConfig;
+		this.context = context;
+		this.root = root;
+	}
+
+	AppClass.prototype = {
+		dispose: function() {},
+		events: {
+			many: function(name, timesToListen, handler) {
+				return F2.Events.many(name, timesToListen, handler, this);
+			},
+			off: function(name, handler) {
+				return F2.Events.off(name, handler, this);
+			},
+			on: function(name, handler) {
+				return F2.Events.on(name, handler, this);
+			},
+			once: function(name, handler) {
+				return F2.Events.once(name, handler, this);
+			}
+		},
+		reload: function(context) {
+			var self = this;
+			_.extend(this.appConfig.context, context);
+
+			// Reload this app using the existing appConfig
+			F2.load(this.appConfig).then(function(app) {
+				app.root = self.root;
+				F2.removeApp(self.instanceId, false);
+			});
+		}
+	};
+
+	F2.AppClass = AppClass;
+
+})(F2, _);
+
+;(function(F2) {
+
+	F2.Constants = {
+		EVENTS: {
+			// TODO: do we need this?
+			APP_SYMBOL_CHANGE: '__appSymbolChange__',
+			// TODO: do we need this?
+			APP_WIDTH_CHANGE: '__appWidthChange__',
+			// TODO: do we need this?
+			CONTAINER_SYMBOL_CHANGE: '__containerSymbolChange__',
+			// TODO: do we need this?
+			CONTAINER_WIDTH_CHANGE: '__containerWidthChange__'
+		},
+		VIEWS: {
+			ABOUT: 'about',
+			DATA_ATTRIBUTE: 'data-f2-view',
+			HELP: 'help',
+			HOME: 'home',
+			REMOVE: 'remove',
+			SETTINGS: 'settings'
+		}
+	};
+
+})(F2);
+
+;(function(F2, Helpers, _) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -5635,32 +4899,9 @@ delete _exports;
 		}
 	};
 
-})(F2, Helpers);
-(function(F2) {
+})(F2, Helpers, _);
 
-	F2.Constants = {
-		EVENTS: {
-			// TODO: do we need this?
-			APP_SYMBOL_CHANGE: '__appSymbolChange__',
-			// TODO: do we need this?
-			APP_WIDTH_CHANGE: '__appWidthChange__',
-			// TODO: do we need this?
-			CONTAINER_SYMBOL_CHANGE: '__containerSymbolChange__',
-			// TODO: do we need this?
-			CONTAINER_WIDTH_CHANGE: '__containerWidthChange__'
-		},
-		VIEWS: {
-			ABOUT: 'about',
-			DATA_ATTRIBUTE: 'data-f2-view',
-			HELP: 'help',
-			HOME: 'home',
-			REMOVE: 'remove',
-			SETTINGS: 'settings'
-		}
-	};
-
-})(F2);
-(function(F2) {
+;(function(F2) {
 
 	// ---------------------------------------------------------------------------
 	// Private Storage
@@ -5788,169 +5029,8 @@ delete _exports;
 	};
 
 })(F2);
-(function(F2) {
 
-	tv4.addSchema('appConfig', {
-		id: 'appConfig',
-		title: 'App Config',
-		type: 'object',
-		properties: {
-			appId: {
-				type: 'string'
-			},
-			context: {
-				type: 'object'
-			},
-			manifestUrl: {
-				type: 'string'
-			},
-			enableBatchRequests: {
-				type: 'boolean'
-			},
-			views: {
-				type: 'array',
-				items: {
-					type: 'string'
-				}
-			}
-		},
-		required: ['appId']
-	});
-
-	tv4.addSchema('appContent', {
-		id: 'appContent',
-		title: 'App Content',
-		type: 'object',
-		properties: {
-			success: {
-				type: 'boolean'
-			},
-			data: {
-				type: 'object'
-			},
-			html: {
-				type: 'string'
-			}
-		},
-		required: ['success']
-	});
-
-	tv4.addSchema('appManifest', {
-		id: 'appManifest',
-		title: 'App Manifest',
-		type: 'object',
-		properties: {
-			scripts: {
-				type: 'array',
-				items: {
-					type: 'string'
-				}
-			},
-			styles: {
-				type: 'array',
-				items: {
-					type: 'string'
-				}
-			},
-			inlineScripts: {
-				type: 'array',
-				items: {
-					type: 'string'
-				}
-			},
-			apps: {
-				type: 'array',
-				items: {
-					$ref: 'appContent'
-				}
-			}
-		},
-		required: ['scripts', 'styles', 'inlineScripts', 'apps']
-	});
-
-	tv4.addSchema('containerConfig', {
-		id: 'containerConfig',
-		title: 'Container Config',
-		type: 'object',
-		properties: {
-			loadScripts: {
-				type: 'object'
-			},
-			loadStyles: {
-				type: 'object'
-			},
-			supportedViews: {
-				type: 'array',
-				items: {
-					type: 'string'
-				}
-			},
-			ui: {
-				type: 'object',
-				properties: {
-					modal: {
-						// type: 'object'
-					},
-					hideLoading: {
-						// type: 'object'
-					},
-					showLoading: {
-						// type: 'object'
-					}
-				}
-			},
-			xhr: {
-				type: 'object',
-				properties: {
-					dataType: {
-						type: 'object'
-					},
-					type: {
-						type: 'object'
-					},
-					url: {
-						type: 'object'
-					},
-					timeout: {
-						type: 'integer',
-						minimum: 0
-					}
-				}
-			}
-		}
-	});
-
-	tv4.addSchema('uiModalParams', {
-		id: 'uiModalParams',
-		title: 'F2.UI Modal Parameters',
-		type: 'object',
-		properties: {
-			buttons: {
-				type: 'array',
-				items: {
-					type: 'object',
-					properties: {
-						label: {
-							type: 'string'
-						},
-						handler: {
-							type: 'object'
-						}
-					},
-					required: ['label', 'handler']
-				}
-			},
-			content: {
-				type: 'string'
-			},
-			onClose: {
-				type: 'object'
-			},
-			title: {
-				type: 'string'
-			}
-		}
-	});
+;(function(F2, tv4) {
 
 	F2.Schemas = {
 		add: function(name, schema) {
@@ -5988,134 +5068,285 @@ delete _exports;
 		}
 	};
 
-})(F2);
-(function(F2) {
+})(F2, tv4);
 
-	F2.UI = {
-		modal: function(params) {
-			var _containerConfig = F2.config();
+;(function(F2) {
 
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.modal)) {
-				if (_.isObject(params) && F2.Schemas.validate(params, 'uiModalParams')) {
-					_containerConfig.ui.modal(params);
+	var schemas = {
+		'appConfig': {
+			id: 'appConfig',
+			title: 'App Config',
+			type: 'object',
+			properties: {
+				appId: {
+					type: 'string'
+				},
+				context: {
+					type: 'object'
+				},
+				manifestUrl: {
+					type: 'string'
+				},
+				enableBatchRequests: {
+					type: 'boolean'
+				},
+				views: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
 				}
-				else {
-					console.error('F2.UI: The parameters to ui.modal are incorrect.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.modal.');
-			}
-		},
-		showLoading: function(root) {
-			var _containerConfig = F2.config();
-
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.showLoading)) {
-				if (!root || (root && root.nodeType === 1)) {
-					_containerConfig.ui.showLoading(root);
-				}
-				else {
-					console.error('F2.UI: the root passed was not a native DOM node.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.showLoading.');
-			}
-		},
-		hideLoading: function(root) {
-			var _containerConfig = F2.config();
-
-			if (_containerConfig.ui && _.isFunction(_containerConfig.ui.hideLoading)) {
-				if (!root || (root && root.nodeType === 1)) {
-					_containerConfig.ui.hideLoading(root);
-				}
-				else {
-					console.error('F2.UI: the root passed was not a native DOM node.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.hideLoading.');
-			}
-		}
-	};
-
-})(F2);
-(function(F2) {
-
-	function AppClass(instanceId, appConfig, context, root) {
-		this.instanceId = instanceId;
-		this.appConfig = appConfig;
-		this.context = context;
-		this.root = root;
-	}
-
-	AppClass.prototype = {
-		dispose: function() {},
-		events: {
-			many: function(name, timesToListen, handler) {
-				return F2.Events.many(name, timesToListen, handler, this);
 			},
-			off: function(name, handler) {
-				return F2.Events.off(name, handler, this);
-			},
-			on: function(name, handler) {
-				return F2.Events.on(name, handler, this);
-			},
-			once: function(name, handler) {
-				return F2.Events.once(name, handler, this);
-			}
+			required: ['appId']
 		},
-		reload: function(context) {
-			var self = this;
-			_.extend(this.appConfig.context, context);
-
-			// Reload this app using the existing appConfig
-			F2.load(this.appConfig).then(function(app) {
-				app.root = self.root;
-				F2.removeApp(self.instanceId, false);
-			});
-		}
-	};
-
-	F2.AppClass = AppClass;
-
-})(F2);
-(function(F2, Helpers) {
-
-	var placeholders = Helpers.AppPlaceholders.getInNode(document.body);
-
-	if (placeholders && placeholders.length) {
-		var appConfigs = _.map(placeholders, function(placeholder) {
-			if (placeholder.isPreload) {
-				placeholder.appConfig.root = placeholder.node;
-			}
-
-			return placeholder.appConfig;
-		});
-
-		F2.load({
-			appConfigs: appConfigs,
-			success: function() {
-				var args = Array.prototype.slice.call(arguments);
-
-				// Add to the DOM
-				for (var i = 0, len = args.length; i < len; i++) {
-					if (!placeholders[i].isPreload) {
-						placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
+		'appContent': {
+			id: 'appContent',
+			title: 'App Content',
+			type: 'object',
+			properties: {
+				success: {
+					type: 'boolean'
+				},
+				data: {
+					type: 'object'
+				},
+				html: {
+					type: 'string'
+				}
+			},
+			required: ['success']
+		},
+		'appManifest': {
+			id: 'appManifest',
+			title: 'App Manifest',
+			type: 'object',
+			properties: {
+				scripts: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				styles: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				inlineScripts: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				apps: {
+					type: 'array',
+					items: {
+						$ref: 'appContent'
+					}
+				}
+			},
+			required: ['scripts', 'styles', 'inlineScripts', 'apps']
+		},
+		'containerConfig': {
+			id: 'containerConfig',
+			title: 'Container Config',
+			type: 'object',
+			properties: {
+				loadScripts: {
+					type: 'object'
+				},
+				loadStyles: {
+					type: 'object'
+				},
+				supportedViews: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				ui: {
+					type: 'object',
+					properties: {
+						modal: {
+							// type: 'object'
+						},
+						hideLoading: {
+							// type: 'object'
+						},
+						showLoading: {
+							// type: 'object'
+						}
+					}
+				},
+				xhr: {
+					type: 'object',
+					properties: {
+						dataType: {
+							type: 'object'
+						},
+						type: {
+							type: 'object'
+						},
+						url: {
+							type: 'object'
+						},
+						timeout: {
+							type: 'integer',
+							minimum: 0
+						}
 					}
 				}
 			}
-		});
+		},
+		'uiModalParams': {
+			id: 'uiModalParams',
+			title: 'F2.UI Modal Parameters',
+			type: 'object',
+			properties: {
+				buttons: {
+					type: 'array',
+					items: {
+						type: 'object',
+						properties: {
+							label: {
+								type: 'string'
+							},
+							handler: {
+								type: 'object'
+							}
+						},
+						required: ['label', 'handler']
+					}
+				},
+				content: {
+					type: 'string'
+				},
+				onClose: {
+					type: 'object'
+				},
+				title: {
+					type: 'string'
+				}
+			}
+		}
+	};
+
+	// Add each schema
+	for (var name in schemas) {
+		F2.Schemas.add(name, schemas[name]);
 	}
 
-})(F2, Helpers);
+})(F2);
 
-! function(name, context, definition) {
-	if (typeof module != 'undefined' && module.exports) module.exports = definition();
-	else if (typeof define == 'function' && define.amd) define(definition);
-	else context[name] = definition();
-}('F2', this, function() {
-return F2;
-})
+;(function(F2, _) {
+
+	function _modal(params) {
+		var config = F2.config();
+
+		if (config.ui && _.isFunction(config.ui.modal)) {
+			if (_.isObject(params) && F2.Schemas.validate(params, 'uiModalParams')) {
+				config.ui.modal(params);
+			}
+			else {
+				console.error('F2.UI: The parameters to ui.modal are incorrect.');
+			}
+		}
+		else {
+			console.error('F2.UI: The container has not defined ui.modal.');
+		}
+	}
+
+	function _showLoading(root) {
+		var config = F2.config();
+
+		if (config.ui && _.isFunction(config.ui.showLoading)) {
+			if (!root || (root && root.nodeType === 1)) {
+				config.ui.showLoading(root);
+			}
+			else {
+				console.error('F2.UI: the root passed was not a native DOM node.');
+			}
+		}
+		else {
+			console.error('F2.UI: The container has not defined ui.showLoading.');
+		}
+	}
+
+	function _hideLoading(root) {
+		var config = F2.config();
+
+		if (config.ui && _.isFunction(config.ui.hideLoading)) {
+			if (!root || (root && root.nodeType === 1)) {
+				config.ui.hideLoading(root);
+			}
+			else {
+				console.error('F2.UI: the root passed was not a native DOM node.');
+			}
+		}
+		else {
+			console.error('F2.UI: The container has not defined ui.hideLoading.');
+		}
+	}
+
+	// --------------------------------------------------------------------------
+	// API
+	// --------------------------------------------------------------------------
+
+	F2.UI = {
+		modal: function(params) {
+			return _modal(params);
+		},
+		showLoading: function(root) {
+			return _showLoading(root);
+		},
+		hideLoading: function(root) {
+			return _hideLoading(root);
+		}
+	};
+
+})(F2, _);
+
+	// Look for placeholders
+	(function(F2, Helpers) {
+		setTimeout(function() {
+			var placeholders = Helpers.AppPlaceholders.getInNode(document.body);
+
+			if (placeholders && placeholders.length) {
+				var appConfigs = _.map(placeholders, function(placeholder) {
+					if (placeholder.isPreload) {
+						placeholder.appConfig.root = placeholder.node;
+					}
+
+					return placeholder.appConfig;
+				});
+
+				F2.load({
+					appConfigs: appConfigs,
+					success: function() {
+						var args = Array.prototype.slice.call(arguments);
+
+						// Add to the DOM
+						for (var i = 0, len = args.length; i < len; i++) {
+							if (!placeholders[i].isPreload) {
+								placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
+							}
+						}
+					}
+				});
+			}
+		}, 0);
+
+	})(F2, Helpers);
+
+	// Define AMD module
+	if (typeof define == 'function' && define.amd) {
+		define('F2', [], function() {
+			return F2;
+		});
+	}
+	else {
+		throw 'F2 did not detect an AMD loader.';
+	}
 
 })();
