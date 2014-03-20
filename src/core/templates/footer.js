@@ -12,10 +12,12 @@
 	// Put the API together
 	var F2 = function() {
 		return {
+			// Core
 			config: Core.config,
 			load: Core.load,
 			removeApp: Core.removeApp,
 			guid: Core.guid,
+			// Events
 			Events: {
 				emit: Events.emit,
 				on: Events.on,
@@ -23,12 +25,13 @@
 				once: Events.once,
 				many: Events.many
 			},
+			// Constants
 			Constants: Constants,
-			Schemas: {
-				add: Schemas.add,
-				isDefined: Schemas.isDefined,
-				validate: Schemas.validate
-			},
+			// Schemas
+			addSchema: Schemas.add,
+			hasSchema: Schemas.isDefined,
+			validate: Schemas.validate,
+			// UI
 			UI: {
 				modal: UI.modal,
 				showLoading: UI.showLoading,
