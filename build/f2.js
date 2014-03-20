@@ -5322,7 +5322,7 @@ Lib.UI = function(Core, _, Schemas) {
 	var Schemas = Lib.Schemas(tv4);
 	Lib.SchemaModels(Schemas);
 	var LoadApps = Helpers.LoadApps(Ajax, _, Schemas, Guid);
-	var Core = Lib.Core(LoadApps, _, Schemas, Events);
+	var Core = Lib.Core(LoadApps, _, Schemas, Events, Guid);
 	var UI = Lib.UI(Core, _, Schemas);
 
 	// Put the API together

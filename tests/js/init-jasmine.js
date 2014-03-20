@@ -15,6 +15,9 @@
  		'com_test_placeholder': 'js/apps/com_test_placeholder'
  	},
  	shim: {
+ 		'F2Factory': {
+ 			deps: ['F2']
+ 		},
  		'jasmine': {
  			exports: 'jasmine'
  		},
@@ -45,10 +48,12 @@
  	'js/specs/f2.events.spec.js',
  	'js/specs/f2.ui.spec.js',
  	'js/specs/f2.spec.js',
+ 	'js/specs/f2factory.spec.js',
  	'js/specs/f2.schemas.spec.js',
  	// Util
  	'domReady!',
- 	'jasmine-async'
+ 	'jasmine-async',
+ 	'F2Factory'
  ], function(jasmine, HtmlReporter, ConsoleReporter) {
 
  	var jasmineEnv = jasmine.getEnv();
