@@ -24,7 +24,7 @@
 			var F2_1 = new F2Factory();
 			var F2_2 = new F2Factory();
 
-			expect(F2_1 !== F2_2).toBe(true);
+			expect(F2_1).not.toBe(F2_2);
 		});
 
 		it('should not allow changes to F2.prototype', function() {
