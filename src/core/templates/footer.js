@@ -1,4 +1,5 @@
 	// Init the lib
+	var _ = Helpers._;
 	var Ajax = Helpers.Ajax();
 	var AppPlaceholders = Helpers.AppPlaceholders();
 	var Guid = Helpers.Guid();

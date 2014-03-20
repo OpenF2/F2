@@ -21,7 +21,6 @@
 		"_": true,
 		"tv4": true,
 		"reqwest": true,
-		"moduleNames": true,
 		"Helpers": true,
 		"noop": true,
 		"F2": true,

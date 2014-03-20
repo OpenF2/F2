@@ -32,9 +32,6 @@ module.exports = function(grunt) {
 				src: [
 					// Header
 					'./src/vendor/templates/header.js',
-					// JSON3
-					'./src/vendor/json3.js',
-					'./src/vendor/templates/json3_footer.js',
 					// Reqwest
 					'./src/vendor/reqwest.js',
 					'./src/vendor/templates/reqwest_footer.js',
@@ -43,9 +40,6 @@ module.exports = function(grunt) {
 					'./src/vendor/templates/tv4_footer.js',
 					// LazyLoad
 					'./src/vendor/lazyload.js',
-					// Underscore
-					'./src/vendor/templates/underscore_header.js',
-					'./src/vendor/underscore.js',
 					// Footer
 					'./src/vendor/templates/footer.js'
 				],
