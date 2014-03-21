@@ -10,20 +10,21 @@
 			this.didIt = true;
 			this.__f2Disposed__ = false;
 
-			function handler() {
+			this.handler = function() {
 				window.events.context = this;
 			};
 
-			function handler2() {
+			this.handler2 = function() {
 				window.events.context2 = this;
 			};
 
-			F2.Events.on('__test-mock__', handler, this);
-			F2.Events.on('__test-mock2__', handler2, this);
+			F2.Events.on('__test-mock__', this.handler);
+			F2.Events.on('__test-mock2__', this.handler2);
 
 			this.dispose = function() {
 				this.__f2Disposed__ = true;
-				F2.Events.off(null, null, this);
+				F2.Events.off(this.handler);
+				F2.Events.off(this.handler2);
 			};
 		}
 
@@ -51,7 +52,7 @@
 				}
 				F2.Events.on('__test-emit__', handler);
 				F2.Events.emit('__test-emit__');
-				F2.Events.off(null, handler);
+				F2.Events.off(handler);
 
 				expect(window.events.emit).toBe(true);
 			});
@@ -62,16 +63,18 @@
 				}
 				F2.Events.on('__test-emit__', handler);
 				F2.Events.emit('__test-emit__', 1, 2);
-				F2.Events.off(null, handler);
+				F2.Events.off(handler);
 
-				expect(window.events.emit[0] === 1 && window.events.emit[1] === 2).toBe(true);
+				expect(window.events.emit[0]).toBe(1);
+				expect(window.events.emit[1]).toBe(2);
 			});
 
 			it('should not run disposed handlers', function() {
 				var mock = new MockClass();
-
 				mock.dispose();
+
 				F2.Events.emit("__test-mock__");
+
 				expect(window.events.context).not.toBeDefined();
 			});
 
@@ -122,6 +125,7 @@
 				function attempt() {
 					F2.Events.many('__test-many__', "a", function(){ });
 				}
+
 				expect(attempt).toThrow();
 			});
 
@@ -137,7 +141,7 @@
 				expect(attempt).toThrow();
 			});
 
-			it('should throw if name is passed without handler or context', function() {
+			it('should throw if name is passed without handler', function() {
 				function attempt() {
 					F2.Events.off('__foo__');
 				}
@@ -145,15 +149,15 @@
 				expect(attempt).toThrow();
 			});
 
-			it('should not throw if an unrecognized name, handler, or context is passed', function() {
+			it('should not throw if an unrecognized name or handler is passed', function() {
 				function attempt() {
-					F2.Events.off('__notdefined__', function() {}, window);
+					F2.Events.off('__notdefined__', function() {});
 				}
 
 				expect(attempt).not.toThrow();
 			});
 
-			it('should unsubscribe from specific events by passing name and handler', function() {
+			it('should unsubscribe by passing name and handler', function() {
 				var handler = function() {
 					window.events.off = true;
 				};
@@ -170,51 +174,17 @@
 				F2.Events.off('__test-off2__', handler);
 			});
 
-			it('should unsubscribe from all events only passing handler', function() {
+			it('should unsubscribe by passing only handler', function() {
 				var handler = function() {
 					window.events.off = true;
 				};
 				F2.Events.on('__test-off__', handler);
 				F2.Events.on('__test-off2__', handler);
-				F2.Events.off(null, handler);
+				F2.Events.off(handler);
 				F2.Events.emit('__test-off__');
 				F2.Events.emit('__test-off2__');
 
 				expect(window.events.off).not.toBeDefined();
-			});
-
-			it('should unsubscribe from specific events by passing name and context', function() {
-				var mock = new MockClass();
-
-				// Unsub from the first event
-				F2.Events.off('__test-mock__', null, mock);
-
-				// Emit both events
-				F2.Events.emit('__test-mock__');
-				F2.Events.emit('__test-mock2__');
-
-				// The first should be undefined, but the second should have run
-				expect(window.events.context).not.toBeDefined();
-				expect(window.events.context2).toBeDefined();
-
-				mock.dispose();
-			});
-
-			it('should unsubscribe from all events only passing context', function() {
-				var mock = new MockClass();
-
-				// Unsub from the first event
-				F2.Events.off(null, null, mock);
-
-				// Emit both events
-				F2.Events.emit('__test-mock__');
-				F2.Events.emit('__test-mock2__');
-
-				// The first should be undefined, but the second should have run
-				expect(window.events.context).not.toBeDefined();
-				expect(window.events.context2).not.toBeDefined();
-
-				mock.dispose();
 			});
 
 		});
@@ -225,6 +195,7 @@
 				function attempt() {
 					F2.Events.on(null, function() {});
 				}
+
 				expect(attempt).toThrow();
 			});
 
@@ -232,44 +203,15 @@
 				function attempt() {
 					F2.Events.on('__test-on__', null);
 				}
+
 				expect(attempt).toThrow();
 			});
 
-			it('should allow you to subscribe without context', function() {
-				var handler = function() {
-					window.events.on = true;
-				};
-				F2.Events.on('__test-on__', handler);
-				F2.Events.off('__test-on__', handler);
-				F2.Events.emit('__test-on__');
-
-				expect(window.events.on).not.toBeDefined();
-			});
-
-			it('should allow you to subscribe with context', function() {
-				var mock = new MockClass();
-				F2.Events.emit('__test-mock__');
-				F2.Events.off('__test-mock__', null, mock);
-
-				expect(window.events.context).toBeDefined();
-
-				mock.dispose();
-			});
-
-			it('should execute the handler in the provided context', function() {
-				var mock = new MockClass();
-				F2.Events.emit('__test-mock__');
-				F2.Events.off('__test-mock__', null, mock);
-
-				expect(window.events.context === mock).toBe(true);
-
-				mock.dispose();
-			});
-
-			if('should throw if the handler doesn\'t have an "apply" method', function() {
+			if('should throw if the handler isn\'t a function', function() {
 				function attempt() {
 					F2.Events.on("__test-on__", {});
 				}
+
 				expect(attempt).toThrow();
 			});
 

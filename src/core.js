@@ -146,9 +146,6 @@
 					instance.dispose();
 				}
 
-				// Unsubscribe events by context
-				this.Events.off(null, null, instance);
-
 				// Remove ourselves from the DOM
 				if (instance.root && instance.root.parentNode) {
 					instance.root.parentNode.removeChild(instance.root);

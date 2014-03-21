@@ -1,4 +1,4 @@
-(function() {
+(function(window, document, undefined) {
 
 	console.time('F2 - startup');
 
@@ -2488,15 +2488,15 @@ delete _exports;
  * Handles context passing
  * @class F2.Events
  */
-(function() {
+(function(_) {
 
-	var _cache = {};
+	var _subs = {};
 
 	// ---------------------------------------------------------------------------
 	// Utils
 	// ---------------------------------------------------------------------------
 
-	function _subscribe(name, handler, context, timesToListen) {
+	function _subscribe(name, handler, timesToListen) {
 		if (!name) {
 			throw 'F2.Events: you must provide an event name.';
 		}
@@ -2505,48 +2505,45 @@ delete _exports;
 			throw 'F2.Events: you must provide an event handler.';
 		}
 
-		if (!_cache[name]) {
-			_cache[name] = [];
+		if (timesToListen !== undefined && isNaN(timesToListen) || timesToListen < 1) {
+			throw 'F2.Events: "timesToListen" must be a number greater than 0.';
 		}
 
-		// Don't allow the user to pass in window because it can confuse us later
-		// when we try to unsubscribe
-		if (context === window) {
-			context = undefined;
+		// Create the event if we haven't seen it
+		if (!_subs[name]) {
+			_subs[name] = [];
 		}
 
-		_cache[name].push({
+		_subs[name].push({
 			handler: handler,
-			context: context,
 			timesLeft: timesToListen
 		});
 	}
 
-	function _unsubscribe(name, handler, context) {
-		if (!name && !handler && !context) {
-			throw 'F2.Events: "off" accepts the following combinations of parameters: name/handler, name/context, handler, context.';
+	function _unsubscribe(name, handler) {
+		// Check for only handler being passed
+		if (name && _.isFunction(name) && !handler) {
+			handler = name;
+			name = undefined;
 		}
 
-		if (name && !handler && !context) {
-			throw 'F2.Events: you must pass either a handler or context along with name';
+		if (!handler) {
+			throw 'F2.Events: you must pass a handler.';
 		}
 
-		if (_cache[name] && (handler || context)) {
-			var len = _cache[name].length;
+		if (_subs[name]) {
+			var len = _subs[name].length;
 
 			while (len--) {
-				var matchesHandler = (handler && _cache[name][len].handler === handler);
-				var matchesContext = (context && _cache[name][len].context === context);
-
-				if (matchesHandler || matchesContext) {
-					_cache[name].splice(len, 1);
+				if (_subs[name][len].handler === handler) {
+					_subs[name].splice(len, 1);
 				}
 			}
 		}
-		else if (context || handler) {
-			// Search all events for the context
-			for (var eventName in _cache) {
-				_unsubscribe(eventName, handler, context);
+		else {
+			// Look for the handler in each subscriber
+			for (var subName in _subs) {
+				_unsubscribe(subName, handler);
 			}
 		}
 	}
@@ -2560,42 +2557,25 @@ delete _exports;
 		 *
 		 * @method emit
 		 * @param {String} name The event name
-		 * @param {Object} args* The arguments to emit
 		 * @return void
 		 */
-		emit: function(name, args) {
-			if (!name) {
+		emit: function(name) {
+			if (!name || name !== name.toString()) {
 				throw 'F2.Events: you must provide an event name to emit.';
 			}
 
-			if (_cache[name]) {
-				// Get all the non "name" arguments passed in
-				args = Array.prototype.slice.call(arguments, 1);
-
-				var leakedContexts = [];
-				var len = _cache[name].length;
+			if (_subs[name]) {
+				var args = Array.prototype.slice.call(arguments, 1);
+				var len = _subs[name].length;
 
 				while (len--) {
-					var sub = _cache[name][len];
+					// Execute the handler
+					_subs[name][len].handler.apply(window, args);
 
-					// Check for possible memory leak
-					if (sub.context && sub.context.__f2Disposed__) {
-						leakedContexts.push(sub.context);
+					// See if this is limited to a # of executions
+					if (_subs[name][len].timesLeft !== undefined && --_subs[name][len].timesLeft === 0) {
+						_subs[name].splice(len, 1);
 					}
-					else {
-						// Execute the handler
-						sub.handler.apply(sub.context || window, args);
-
-						// See if this is limited to a # of executions
-						if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
-							_cache[name].splice(len, 1);
-						}
-					}
-				}
-
-				// Clean up the leaked contexts
-				while (leakedContexts.length) {
-					_unsubscribe(null, null, leakedContexts.shift());
 				}
 			}
 		},
@@ -2605,59 +2585,44 @@ delete _exports;
 		 * @param {String} name The event name
 		 * @param {Number} timesToListen The number of times the handler should be fired
 		 * @param {Function} handler Function to handle the event
-		 * @param {Object} context
 		 * @return void
 		 */
-		many: function(name, timesToListen, handler, context) {
-			if (!timesToListen) {
-				timesToListen = 0;
-			}
-			else {
-				timesToListen = parseInt(timesToListen, 10);
-			}
-
-			if (timesToListen < 1) {
-				throw 'F2.Events: "timesToListen" must be greater than 0.';
-			}
-
-			return _subscribe(name, handler, context, timesToListen);
+		many: function(name, timesToListen, handler) {
+			return _subscribe(name, handler, timesToListen);
 		},
 		/**
 		 *
 		 * @method off
 		 * @param {String} name The event name
 		 * @param {Function} handler Function to handle the event
-		 * @param {Object} context
 		 * @return void
 		 */
-		off: function(name, handler, context) {
-			return _unsubscribe(name, handler, context);
+		off: function(name, handler) {
+			return _unsubscribe(name, handler);
 		},
 		/**
 		 *
 		 * @method on
 		 * @param {String} name The event name
 		 * @param {Function} handler Function to handle the event
-		 * @param {Object} context
 		 * @return void
 		 */
-		on: function(name, handler, context) {
-			return _subscribe(name, handler, context);
+		on: function(name, handler) {
+			return _subscribe(name, handler);
 		},
 		/**
 		 *
 		 * @method once
 		 * @param {String} name The event name
 		 * @param {Function} handler Function to handle the event
-		 * @param {Object} context
 		 * @return void
 		 */
-		once: function(name, handler, context) {
-			return _subscribe(name, handler, context, 1);
+		once: function(name, handler) {
+			return _subscribe(name, handler, 1);
 		}
 	};
 
-})();
+})(Helpers._);
 
 /**
  * Schema validations
@@ -3411,9 +3376,6 @@ delete _exports;
 					instance.dispose();
 				}
 
-				// Unsubscribe events by context
-				this.Events.off(null, null, instance);
-
 				// Remove ourselves from the DOM
 				if (instance.root && instance.root.parentNode) {
 					instance.root.parentNode.removeChild(instance.root);
@@ -3530,4 +3492,4 @@ define('F2.AppClass', ['F2'], function(F2) {
 
 	console.timeEnd('F2 - startup');
 
-})();
+})(window, document);

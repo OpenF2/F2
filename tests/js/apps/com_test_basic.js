@@ -14,12 +14,17 @@
 
 		// Listen to an event
 		F2.Events.on('com_test_basic', function() {
-			window.test.com_test_basic.event = true;
-		}, this);
+		});
 	}
 
-	AppClass.prototype.dispose = function() {
-		delete window.test.com_test_basic;
+	AppClass.prototype = {
+		handleEvent: function() {
+			window.test.com_test_basic.event = true;
+		},
+		dispose: function() {
+			delete window.test.com_test_basic;
+			F2.Events.off(this.handleEvent);
+		}
 	};
 
 	return AppClass;
