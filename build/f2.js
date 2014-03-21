@@ -3588,7 +3588,7 @@ define('F2.AppClass', ['F2'], function(F2) {
 
 	// Make the F2 singleton module
 	define('F2', ['F2Factory'], function(Factory) {
-		return new Factory();
+		return new F2();
 	});
 
 	console.timeEnd('F2 - startup');
