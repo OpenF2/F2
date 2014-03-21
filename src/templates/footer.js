@@ -13,4 +13,4 @@
 
 	console.timeEnd('F2 - startup');
 
-})();
+})(window, document);

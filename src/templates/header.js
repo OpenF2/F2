@@ -1,4 +1,4 @@
-(function() {
+(function(window, document, undefined) {
 
 	console.time('F2 - startup');
 
