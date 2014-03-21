@@ -2,7 +2,7 @@
  * F2 Core
  * @class F2
  */
-(function(LoadApps, _, Events, Guid, AppPlaceholders) {
+(function(LoadApps, _, Guid, AppPlaceholders) {
 
 	// Set up a default config
 	var _config = {
@@ -25,19 +25,19 @@
 	// API
 	// --------------------------------------------------------------------------
 
-	Library.config = function(config) {
-		if (config && Library.validate(config, 'containerConfig')) {
+	F2.prototype.config = function(config) {
+		if (config && this.validate(config, 'containerConfig')) {
 			_config = _.defaults({}, config, _config);
 		}
 
 		return _config;
 	};
 
-	Library.guid = function() {
+	F2.prototype.guid = function() {
 		return Guid();
 	};
 
-	Library.load = function(params) {
+	F2.prototype.load = function(params) {
 		if (!params) {
 			throw 'F2: no params passed to "load"';
 		}
@@ -51,7 +51,7 @@
 
 		// Request all the apps and get the xhr objects so we can abort
 		var reqs = LoadApps.load(
-			Library.config(),
+			this.config(),
 			params.appConfigs,
 			params.success,
 			params.error,
@@ -71,7 +71,7 @@
 		};
 	};
 
-	Library.loadPlaceholders = function(parentNode, callback) {
+	F2.prototype.loadPlaceholders = function(parentNode, callback) {
 		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
 			parentNode = document.body;
 		}
@@ -88,7 +88,7 @@
 				return placeholder.appConfig;
 			});
 
-			Library.load({
+			this.load({
 				appConfigs: appConfigs,
 				success: function() {
 					var args = Array.prototype.slice.call(arguments);
@@ -119,7 +119,7 @@
 	 * @method remove
 	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
 	 */
-	Library.remove = function(identifiers) {
+	F2.prototype.remove = function(identifiers) {
 		var args = Array.prototype.slice.apply(arguments);
 
 		// See if multiple parameters were passed
@@ -130,7 +130,9 @@
 			identifiers = [].concat(identifiers);
 		}
 
-		_.each(identifiers, function(identifier) {
+		for (var i = 0; i < identifiers.length; i++) {
+			var identifier = identifiers[i];
+
 			if (!identifier) {
 				throw 'F2: you must provide an instanceId or a root to remove an app';
 			}
@@ -145,7 +147,7 @@
 				}
 
 				// Unsubscribe events by context
-				Events.off(null, null, instance);
+				this.Events.off(null, null, instance);
 
 				// Remove ourselves from the DOM
 				if (instance.root && instance.root.parentNode) {
@@ -161,7 +163,7 @@
 			else {
 				console.warn('F2: could not find an app to remove');
 			}
-		});
+		}
 	};
 
-})(Helpers.LoadApps, Helpers._, Library.Events, Helpers.Guid, Helpers.AppPlaceholders);
+})(Helpers.LoadApps, Helpers._, Helpers.Guid, Helpers.AppPlaceholders);

@@ -1,6 +1,6 @@
 (function() {
 
-	Library.Constants = {
+	F2.prototype.Constants = {
 		EVENTS: {
 			// TODO: do we need this?
 			APP_SYMBOL_CHANGE: '__appSymbolChange__',

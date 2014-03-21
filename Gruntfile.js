@@ -30,7 +30,6 @@ module.exports = function(grunt) {
 					'./src/constants.js',
 					'./src/events.js',
 					'./src/schemas.js',
-					'./src/schemas.models.js',
 					'./src/helpers/loadApps.js',
 					'./src/core.js',
 					'./src/ui.js',

@@ -4,16 +4,12 @@
  */
 (function(_) {
 
-	function getContainerConfig() {
-		return Library.config();
-	}
-
-	Library.UI = {
+	F2.prototype.UI = {
 		modal: function(params) {
-			var config = getContainerConfig();
+			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.modal)) {
-				if (_.isObject(params) && Library.validate(params, 'uiModalParams')) {
+				if (_.isObject(params) && F2.prototype.validate.call(this, params, 'uiModalParams')) {
 					config.ui.modal(params);
 				}
 				else {
@@ -25,7 +21,7 @@
 			}
 		},
 		toggleLoading: function(root) {
-			var config = getContainerConfig();
+			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
 				if (!root || (root && root.nodeType === 1)) {

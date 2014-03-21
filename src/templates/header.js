@@ -39,5 +39,11 @@
 	}
 
 	// Create the internal objects
-	var Library = {};
+	var F2 = function(params) {
+		if (params) {
+			if (params.plugins && Helpers._.isArray(params.plugins)) {
+				this._plugins = params.plugins;
+			}
+		}
+	};
 	var Helpers = {};

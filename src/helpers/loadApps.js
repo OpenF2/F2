@@ -21,7 +21,7 @@
 			var inputs = {};
 
 			// The AppConfig must be valid
-			if (appConfigs[i] && Library.validate(appConfigs[i], 'appConfig')) {
+			if (appConfigs[i] && F2.prototype.validate.call(this, appConfigs[i], 'appConfig')) {
 				inputs.instanceId = Guid();
 				inputs.appConfig = appConfigs[i];
 
@@ -233,7 +233,7 @@
 					},
 					success: function(manifest) {
 						// Make sure the appManifest is valid
-						if (!Library.validate(manifest, 'appManifest')) {
+						if (!F2.prototype.validate.call(this, manifest, 'appManifest')) {
 							manifest = {
 								apps: []
 							};

@@ -39,7 +39,13 @@
 	}
 
 	// Create the internal objects
-	var Library = {};
+	var F2 = function(params) {
+		if (params) {
+			if (params.plugins && Helpers._.isArray(params.plugins)) {
+				this._plugins = params.plugins;
+			}
+		}
+	};
 	var Helpers = {};
 
 // Create a local exports object to attach all CommonJS modules to
@@ -2455,7 +2461,7 @@ delete _exports;
 
 (function() {
 
-	Library.Constants = {
+	F2.prototype.Constants = {
 		EVENTS: {
 			// TODO: do we need this?
 			APP_SYMBOL_CHANGE: '__appSymbolChange__',
@@ -2549,7 +2555,7 @@ delete _exports;
 	// API
 	// ---------------------------------------------------------------------------
 
-	Library.Events = {
+	F2.prototype.Events = {
 		/**
 		 *
 		 * @method emit
@@ -2659,7 +2665,7 @@ delete _exports;
  */
 (function(tv4, _) {
 
-	Library.addSchema = function(name, schema) {
+	F2.prototype.addSchema = function(name, schema) {
 		if (!name) {
 			throw 'F2.Schemas: you must provide a schema name.';
 		}
@@ -2677,11 +2683,11 @@ delete _exports;
 		return true;
 	};
 
-	Library.hasSchema = function(name) {
+	F2.prototype.hasSchema = function(name) {
 		return !!tv4.getSchemaMap()[name];
 	};
 
-	Library.validate = function(json, name) {
+	F2.prototype.validate = function(json, name) {
 		if (!name) {
 			throw 'F2.Schemas: you must provide a schema name.';
 		}
@@ -2694,10 +2700,6 @@ delete _exports;
 
 		return tv4.validate(json, schema);
 	};
-
-})(tv4, Helpers._);
-
-(function(Schemas) {
 
 	var schemas = {
 		appConfig: {
@@ -2860,10 +2862,10 @@ delete _exports;
 
 	// Add each schema
 	for (var name in schemas) {
-		Library.addSchema(name, schemas[name]);
+		tv4.addSchema(name, schemas[name]);
 	}
 
-})();
+})(tv4, Helpers._);
 
 (function(Ajax, _, Guid) {
 
@@ -2888,7 +2890,7 @@ delete _exports;
 			var inputs = {};
 
 			// The AppConfig must be valid
-			if (appConfigs[i] && Library.validate(appConfigs[i], 'appConfig')) {
+			if (appConfigs[i] && F2.prototype.validate.call(this, appConfigs[i], 'appConfig')) {
 				inputs.instanceId = Guid();
 				inputs.appConfig = appConfigs[i];
 
@@ -3100,7 +3102,7 @@ delete _exports;
 					},
 					success: function(manifest) {
 						// Make sure the appManifest is valid
-						if (!Library.validate(manifest, 'appManifest')) {
+						if (!F2.prototype.validate.call(this, manifest, 'appManifest')) {
 							manifest = {
 								apps: []
 							};
@@ -3265,7 +3267,7 @@ delete _exports;
  * F2 Core
  * @class F2
  */
-(function(LoadApps, _, Events, Guid, AppPlaceholders) {
+(function(LoadApps, _, Guid, AppPlaceholders) {
 
 	// Set up a default config
 	var _config = {
@@ -3288,19 +3290,19 @@ delete _exports;
 	// API
 	// --------------------------------------------------------------------------
 
-	Library.config = function(config) {
-		if (config && Library.validate(config, 'containerConfig')) {
+	F2.prototype.config = function(config) {
+		if (config && this.validate(config, 'containerConfig')) {
 			_config = _.defaults({}, config, _config);
 		}
 
 		return _config;
 	};
 
-	Library.guid = function() {
+	F2.prototype.guid = function() {
 		return Guid();
 	};
 
-	Library.load = function(params) {
+	F2.prototype.load = function(params) {
 		if (!params) {
 			throw 'F2: no params passed to "load"';
 		}
@@ -3314,7 +3316,7 @@ delete _exports;
 
 		// Request all the apps and get the xhr objects so we can abort
 		var reqs = LoadApps.load(
-			Library.config(),
+			this.config(),
 			params.appConfigs,
 			params.success,
 			params.error,
@@ -3334,7 +3336,7 @@ delete _exports;
 		};
 	};
 
-	Library.loadPlaceholders = function(parentNode, callback) {
+	F2.prototype.loadPlaceholders = function(parentNode, callback) {
 		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
 			parentNode = document.body;
 		}
@@ -3351,7 +3353,7 @@ delete _exports;
 				return placeholder.appConfig;
 			});
 
-			Library.load({
+			this.load({
 				appConfigs: appConfigs,
 				success: function() {
 					var args = Array.prototype.slice.call(arguments);
@@ -3382,7 +3384,7 @@ delete _exports;
 	 * @method remove
 	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
 	 */
-	Library.remove = function(identifiers) {
+	F2.prototype.remove = function(identifiers) {
 		var args = Array.prototype.slice.apply(arguments);
 
 		// See if multiple parameters were passed
@@ -3393,7 +3395,9 @@ delete _exports;
 			identifiers = [].concat(identifiers);
 		}
 
-		_.each(identifiers, function(identifier) {
+		for (var i = 0; i < identifiers.length; i++) {
+			var identifier = identifiers[i];
+
 			if (!identifier) {
 				throw 'F2: you must provide an instanceId or a root to remove an app';
 			}
@@ -3408,7 +3412,7 @@ delete _exports;
 				}
 
 				// Unsubscribe events by context
-				Events.off(null, null, instance);
+				this.Events.off(null, null, instance);
 
 				// Remove ourselves from the DOM
 				if (instance.root && instance.root.parentNode) {
@@ -3424,10 +3428,10 @@ delete _exports;
 			else {
 				console.warn('F2: could not find an app to remove');
 			}
-		});
+		}
 	};
 
-})(Helpers.LoadApps, Helpers._, Library.Events, Helpers.Guid, Helpers.AppPlaceholders);
+})(Helpers.LoadApps, Helpers._, Helpers.Guid, Helpers.AppPlaceholders);
 
 /**
  *
@@ -3435,16 +3439,12 @@ delete _exports;
  */
 (function(_) {
 
-	function getContainerConfig() {
-		return Library.config();
-	}
-
-	Library.UI = {
+	F2.prototype.UI = {
 		modal: function(params) {
-			var config = getContainerConfig();
+			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.modal)) {
-				if (_.isObject(params) && Library.validate(params, 'uiModalParams')) {
+				if (_.isObject(params) && F2.prototype.validate.call(this, params, 'uiModalParams')) {
 					config.ui.modal(params);
 				}
 				else {
@@ -3456,7 +3456,7 @@ delete _exports;
 			}
 		},
 		toggleLoading: function(root) {
-			var config = getContainerConfig();
+			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
 				if (!root || (root && root.nodeType === 1)) {
@@ -3515,14 +3515,12 @@ define('F2.AppClass', ['F2'], function(F2) {
 
 });
 
-	// Put the API together
-	var F2 = function() {
-		return Helpers._.defaults({}, Library);
-	};
-
 	// Make a factory module that can spawn new instances
 	define('F2Factory', [], function() {
-		return F2;
+		// Wrap up the output in a function to prevent prototype tempering
+		return function(params) {
+			return new F2(params);
+		};
 	});
 
 	// Make the F2 singleton module

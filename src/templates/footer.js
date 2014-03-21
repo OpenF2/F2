@@ -1,11 +1,9 @@
-	// Put the API together
-	var F2 = function() {
-		return Helpers._.defaults({}, Library);
-	};
-
 	// Make a factory module that can spawn new instances
 	define('F2Factory', [], function() {
-		return F2;
+		// Wrap up the output in a function to prevent prototype tempering
+		return function(params) {
+			return new F2(params);
+		};
 	});
 
 	// Make the F2 singleton module
