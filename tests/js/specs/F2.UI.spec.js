@@ -4,10 +4,10 @@
 
 		var F2 = require('F2');
 
-		window.test = {};
-
 		beforeEach(function() {
-			window.test.ui = {};
+			window.test = {
+				ui: {}
+			};
 		});
 
 		F2.config({
@@ -45,5 +45,7 @@
 			});
 
 		});
+
+	});
 
 });

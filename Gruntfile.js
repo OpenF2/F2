@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: pkg,
 		clean: {
-			thirdParty: ['./build/f2.thirdParty.js']
+			thirdParty: ['./build/f2.vendor.js']
 		},
 		concat: {
 			options: {
@@ -19,9 +19,22 @@ module.exports = function(grunt) {
 			build: {
 				src: [
 					'./src/core/templates/header.js',
-					'./build/f2.thirdParty.js',
-					'./src/core/helpers/*.js',
-					'./src/core/*.js',
+					// Vendor
+					'./build/f2.vendor.js',
+					// Core (order matters)
+					'./src/core/helpers/underline.js',
+					'./src/core/helpers/ajax.js',
+					'./src/core/helpers/appPlaceholders.js',
+					'./src/core/helpers/guid.js',
+					'./src/core/constants.js',
+					'./src/core/events.js',
+					'./src/core/schemas.js',
+					'./src/core/schemas.models.js',
+					'./src/core/helpers/loadApps.js',
+					'./src/core/core.js',
+					'./src/core/ui.js',
+					'./src/core/appClass.js',
+					// Footer
 					'./src/core/templates/footer.js'
 				],
 				dest: './build/f2.js'
@@ -43,7 +56,7 @@ module.exports = function(grunt) {
 					// Footer
 					'./src/vendor/templates/footer.js'
 				],
-				dest: './build/f2.thirdParty.js',
+				dest: './build/f2.vendor.js',
 				options: {
 					process: function(src, filename) {
 						// Strip out source maps

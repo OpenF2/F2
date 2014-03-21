@@ -2,16 +2,12 @@
  * Handles context passing
  * @class F2.Events
  */
-Lib.Events = function() {
-
-	// ---------------------------------------------------------------------------
-	// Private Storage
-	// ---------------------------------------------------------------------------
+(function() {
 
 	var _cache = {};
 
 	// ---------------------------------------------------------------------------
-	// Helpers
+	// Utils
 	// ---------------------------------------------------------------------------
 
 	function _subscribe(name, handler, context, timesToListen) {
@@ -73,9 +69,9 @@ Lib.Events = function() {
 	// API
 	// ---------------------------------------------------------------------------
 
-	return {
+	Library.Events = {
 		/**
-		 * 
+		 *
 		 * @method emit
 		 * @param {String} name The event name
 		 * @param {Object} args* The arguments to emit
@@ -175,4 +171,4 @@ Lib.Events = function() {
 		}
 	};
 
-};
+})();

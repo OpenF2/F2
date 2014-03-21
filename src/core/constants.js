@@ -1,6 +1,6 @@
-Lib.Constants = function() {
+(function() {
 
-	return {
+	Library.Constants = {
 		EVENTS: {
 			// TODO: do we need this?
 			APP_SYMBOL_CHANGE: '__appSymbolChange__',
@@ -21,4 +21,4 @@ Lib.Constants = function() {
 		}
 	};
 
-};
+})();

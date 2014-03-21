@@ -1,13 +1,9 @@
-Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
-
-	// ---------------------------------------------------------------------------
-	// Private storage
-	// ---------------------------------------------------------------------------
+(function(Ajax, _, Guid) {
 
 	var appInstances = {};
 
 	// ---------------------------------------------------------------------------
-	// Methods
+	// Utils
 	// ---------------------------------------------------------------------------
 
 	function remove(instanceId) {
@@ -25,7 +21,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 			var inputs = {};
 
 			// The AppConfig must be valid
-			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
+			if (appConfigs[i] && Library.validate(appConfigs[i], 'appConfig')) {
 				inputs.instanceId = Guid();
 				inputs.appConfig = appConfigs[i];
 
@@ -237,7 +233,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 					},
 					success: function(manifest) {
 						// Make sure the appManifest is valid
-						if (!Schemas.validate(manifest, 'appManifest')) {
+						if (!Library.validate(manifest, 'appManifest')) {
 							manifest = {
 								apps: []
 							};
@@ -372,7 +368,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 	// API
 	// ---------------------------------------------------------------------------
 
-	return {
+	Helpers.LoadApps = {
 		getInstance: function(identifier) {
 			var instance;
 
@@ -396,4 +392,4 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 		remove: remove
 	};
 
-};
+})(Helpers.Ajax, Helpers._, Helpers.Guid);

@@ -1,15 +1,19 @@
 /**
- * 
+ *
  * @class F2.UI
  */
-Lib.UI = function(Core, _, Schemas) {
+(function(_) {
 
-	return {
+	function getContainerConfig() {
+		return Library.config();
+	}
+
+	Library.UI = {
 		modal: function(params) {
-			var config = Core.config();
+			var config = getContainerConfig();
 
 			if (config.ui && _.isFunction(config.ui.modal)) {
-				if (_.isObject(params) && Schemas.validate(params, 'uiModalParams')) {
+				if (_.isObject(params) && Library.validate(params, 'uiModalParams')) {
 					config.ui.modal(params);
 				}
 				else {
@@ -21,7 +25,7 @@ Lib.UI = function(Core, _, Schemas) {
 			}
 		},
 		toggleLoading: function(root) {
-			var config = Core.config();
+			var config = getContainerConfig();
 
 			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
 				if (!root || (root && root.nodeType === 1)) {
@@ -32,9 +36,9 @@ Lib.UI = function(Core, _, Schemas) {
 				}
 			}
 			else {
-				console.error('F2.UI: The container has not defined ui.showLoading.');
+				console.error('F2.UI: The container has not defined ui.toggleLoading.');
 			}
 		}
 	};
 
-};
+})(Helpers._);

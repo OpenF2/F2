@@ -23,8 +23,7 @@
 		"reqwest": true,
 		"Helpers": true,
 		"noop": true,
-		"F2": true,
-		"Lib": true
+		"Library": true
 	},
 	"latedef": true,
 	"noarg": true,

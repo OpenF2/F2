@@ -4,12 +4,12 @@
 
 	http://underscorejs.org/
 */
-Helpers._ = (function() {
+(function() {
 
 	// Establish the object that gets returned to break out of a loop iteration.
 	var breaker = {};
 
-	return {
+	Helpers._ = {
 		map: function(obj, iterator, context) {
 			var results = [];
 

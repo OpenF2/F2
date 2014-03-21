@@ -1,7 +1,7 @@
-Lib.SchemaModels = function(Schemas) {
+(function(Schemas) {
 
 	var schemas = {
-		'appConfig': {
+		appConfig: {
 			id: 'appConfig',
 			title: 'App Config',
 			type: 'object',
@@ -27,7 +27,7 @@ Lib.SchemaModels = function(Schemas) {
 			},
 			required: ['appId']
 		},
-		'appContent': {
+		appContent: {
 			id: 'appContent',
 			title: 'App Content',
 			type: 'object',
@@ -43,7 +43,7 @@ Lib.SchemaModels = function(Schemas) {
 				}
 			}
 		},
-		'appManifest': {
+		appManifest: {
 			id: 'appManifest',
 			title: 'App Manifest',
 			type: 'object',
@@ -75,19 +75,19 @@ Lib.SchemaModels = function(Schemas) {
 			},
 			required: ['scripts', 'styles', 'inlineScripts', 'apps']
 		},
-		'containerConfig': {
+		containerConfig: {
 			id: 'containerConfig',
 			title: 'Container Config',
 			type: 'object',
 			properties: {
 				loadScripts: {
-					type: 'object'
+					type: 'function'
 				},
 				loadStyles: {
-					type: 'object'
+					type: 'function'
 				},
 				loadInlineScripts: {
-					type: 'object'
+					type: 'function'
 				},
 				supportedViews: {
 					type: 'array',
@@ -99,10 +99,10 @@ Lib.SchemaModels = function(Schemas) {
 					type: 'object',
 					properties: {
 						modal: {
-							type: 'object'
+							type: 'function'
 						},
 						toggleLoading: {
-							type: 'object'
+							type: 'function'
 						}
 					}
 				},
@@ -126,7 +126,7 @@ Lib.SchemaModels = function(Schemas) {
 				}
 			}
 		},
-		'uiModalParams': {
+		uiModalParams: {
 			id: 'uiModalParams',
 			title: 'F2.UI Modal Parameters',
 			type: 'object',
@@ -140,7 +140,7 @@ Lib.SchemaModels = function(Schemas) {
 								type: 'string'
 							},
 							handler: {
-								type: 'object'
+								type: 'function'
 							}
 						},
 						required: ['label', 'handler']
@@ -150,7 +150,7 @@ Lib.SchemaModels = function(Schemas) {
 					type: 'string'
 				},
 				onClose: {
-					type: 'object'
+					type: 'function'
 				},
 				title: {
 					type: 'string'
@@ -161,7 +161,7 @@ Lib.SchemaModels = function(Schemas) {
 
 	// Add each schema
 	for (var name in schemas) {
-		Schemas.add(name, schemas[name]);
+		Library.addSchema(name, schemas[name]);
 	}
 
-};
+})();

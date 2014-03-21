@@ -1,44 +1,46 @@
 (function() {
 
-		// Define AMD modules
-		if (typeof define !== 'function' || !define.amd) {
-			throw 'F2 did not detect an AMD loader.';
-		}
+	console.time('F2 - startup');
 
-		function noop() {}
+	// Define AMD modules
+	if (typeof define !== 'function' || !define.amd) {
+		throw 'F2 did not detect an AMD loader.';
+	}
 
-		// Check for console
-		if (typeof console === 'undefined' || typeof console.log === 'undefined') {
-			// Set all console methods to a non process
-			console = {
-				assert: noop,
-				clear: noop,
-				count: noop,
-				debug: noop,
-				dir: noop,
-				dirxml: noop,
-				error: noop,
-				exception: noop,
-				group: noop,
-				groupCollapsed: noop,
-				groupEnd: noop,
-				info: noop,
-				log: noop,
-				markTimeline: noop,
-				profile: noop,
-				profileEnd: noop,
-				table: noop,
-				time: noop,
-				timeEnd: noop,
-				timeStamp: noop,
-				trace: noop,
-				warn: noop
-			};
-		}
+	function noop() {}
 
-		// Create the internal objects
-		var Lib = {};
-		var Helpers = {};
+	// Check for console
+	if (typeof console === 'undefined' || typeof console.log === 'undefined') {
+		// Set all console methods to a non process
+		console = {
+			assert: noop,
+			clear: noop,
+			count: noop,
+			debug: noop,
+			dir: noop,
+			dirxml: noop,
+			error: noop,
+			exception: noop,
+			group: noop,
+			groupCollapsed: noop,
+			groupEnd: noop,
+			info: noop,
+			log: noop,
+			markTimeline: noop,
+			profile: noop,
+			profileEnd: noop,
+			table: noop,
+			time: noop,
+			timeEnd: noop,
+			timeStamp: noop,
+			trace: noop,
+			warn: noop
+		};
+	}
+
+	// Create the internal objects
+	var Library = {};
+	var Helpers = {};
 
 // Create a local exports object to attach all CommonJS modules to
 var _exports = {};
@@ -789,7 +791,9 @@ var ValidatorContext = function ValidatorContext(parent, collectMultiple, errorM
 		this.scanned = [];
 		this.scannedFrozen = [];
 		this.scannedFrozenSchemas = [];
-		this.key = 'tv4_validation_id';
+		this.scannedFrozenValidationErrors = [];
+		this.validatedSchemasKey = 'tv4_validation_id';
+		this.validationErrorsKey = 'tv4_validation_errors_id';
 	}
 	if (trackUnknownProperties) {
 		this.trackUnknownProperties = true;
@@ -797,6 +801,16 @@ var ValidatorContext = function ValidatorContext(parent, collectMultiple, errorM
 		this.unknownPropertyPaths = {};
 	}
 	this.errorMessages = errorMessages;
+	this.definedKeywords = {};
+	if (parent) {
+		for (var key in parent.definedKeywords) {
+			this.definedKeywords[key] = parent.definedKeywords[key].slice(0);
+		}
+	}
+};
+ValidatorContext.prototype.defineKeyword = function (keyword, keywordFunction) {
+	this.definedKeywords[keyword] = this.definedKeywords[keyword] || [];
+	this.definedKeywords[keyword].push(keywordFunction);
 };
 ValidatorContext.prototype.createError = function (code, messageParams, dataPath, schemaPath, subErrors) {
 	var messageTemplate = this.errorMessages[code] || ErrorMessagesDefault[code];
@@ -845,11 +859,22 @@ ValidatorContext.prototype.addFormat = function (format, validator) {
 	}
 	this.formatValidators[format] = validator;
 };
-ValidatorContext.prototype.getSchema = function (url) {
+ValidatorContext.prototype.resolveRefs = function (schema, urlHistory) {
+	if (schema['$ref'] !== undefined) {
+		urlHistory = urlHistory || {};
+		if (urlHistory[schema['$ref']]) {
+			return this.createError(ErrorCodes.CIRCULAR_REFERENCE, {urls: Object.keys(urlHistory).join(', ')}, '', '');
+		}
+		urlHistory[schema['$ref']] = true;
+		schema = this.getSchema(schema['$ref'], urlHistory);
+	}
+	return schema;
+};
+ValidatorContext.prototype.getSchema = function (url, urlHistory) {
 	var schema;
 	if (this.schemas[url] !== undefined) {
 		schema = this.schemas[url];
-		return schema;
+		return this.resolveRefs(schema, urlHistory);
 	}
 	var baseUrl = url;
 	var fragment = "";
@@ -861,7 +886,7 @@ ValidatorContext.prototype.getSchema = function (url) {
 		schema = this.schemas[baseUrl];
 		var pointerPath = decodeURIComponent(fragment);
 		if (pointerPath === "") {
-			return schema;
+			return this.resolveRefs(schema, urlHistory);
 		} else if (pointerPath.charAt(0) !== "/") {
 			return undefined;
 		}
@@ -875,7 +900,7 @@ ValidatorContext.prototype.getSchema = function (url) {
 			schema = schema[component];
 		}
 		if (schema !== undefined) {
-			return schema;
+			return this.resolveRefs(schema, urlHistory);
 		}
 	}
 	if (this.missing[baseUrl] === undefined) {
@@ -885,14 +910,14 @@ ValidatorContext.prototype.getSchema = function (url) {
 	}
 };
 ValidatorContext.prototype.searchSchemas = function (schema, url) {
-	if (typeof schema.id === "string") {
-		if (isTrustedUrl(url, schema.id)) {
-			if (this.schemas[schema.id] === undefined) {
-				this.schemas[schema.id] = schema;
+	if (schema && typeof schema === "object") {
+		if (typeof schema.id === "string") {
+			if (isTrustedUrl(url, schema.id)) {
+				if (this.schemas[schema.id] === undefined) {
+					this.schemas[schema.id] = schema;
+				}
 			}
 		}
-	}
-	if (typeof schema === "object") {
 		for (var key in schema) {
 			if (key !== "enum") {
 				if (typeof schema[key] === "object") {
@@ -909,7 +934,7 @@ ValidatorContext.prototype.searchSchemas = function (schema, url) {
 };
 ValidatorContext.prototype.addSchema = function (url, schema) {
 	//overload
-	if (typeof schema === 'undefined') {
+	if (typeof url !== 'string' || typeof schema === 'undefined') {
 		if (typeof url === 'object' && typeof url.id === 'string') {
 			schema = url;
 			url = schema.id;
@@ -968,20 +993,34 @@ ValidatorContext.prototype.reset = function () {
 
 ValidatorContext.prototype.validateAll = function (data, schema, dataPathParts, schemaPathParts, dataPointerPath) {
 	var topLevel;
-	if (schema['$ref'] !== undefined) {
-		schema = this.getSchema(schema['$ref']);
-		if (!schema) {
-			return null;
-		}
+	schema = this.resolveRefs(schema);
+	if (!schema) {
+		return null;
+	} else if (schema instanceof ValidationError) {
+		this.errors.push(schema);
+		return schema;
 	}
 
-	if (this.checkRecursive && (typeof data) === 'object') {
+	var startErrorCount = this.errors.length;
+	var frozenIndex, scannedFrozenSchemaIndex = null, scannedSchemasIndex = null;
+	if (this.checkRecursive && data && typeof data === 'object') {
 		topLevel = !this.scanned.length;
-		if (data[this.key] && data[this.key].indexOf(schema) !== -1) { return null; }
-		var frozenIndex;
+		if (data[this.validatedSchemasKey]) {
+			var schemaIndex = data[this.validatedSchemasKey].indexOf(schema);
+			if (schemaIndex !== -1) {
+				this.errors = this.errors.concat(data[this.validationErrorsKey][schemaIndex]);
+				return null;
+			}
+		}
 		if (Object.isFrozen(data)) {
 			frozenIndex = this.scannedFrozen.indexOf(data);
-			if (frozenIndex !== -1 && this.scannedFrozenSchemas[frozenIndex].indexOf(schema) !== -1) { return null; }
+			if (frozenIndex !== -1) {
+				var frozenSchemaIndex = this.scannedFrozenSchemas[frozenIndex].indexOf(schema);
+				if (frozenSchemaIndex !== -1) {
+					this.errors = this.errors.concat(this.scannedFrozenValidationErrors[frozenIndex][frozenSchemaIndex]);
+					return null;
+				}
+			}
 		}
 		this.scanned.push(data);
 		if (Object.isFrozen(data)) {
@@ -990,20 +1029,29 @@ ValidatorContext.prototype.validateAll = function (data, schema, dataPathParts, 
 				this.scannedFrozen.push(data);
 				this.scannedFrozenSchemas.push([]);
 			}
-			this.scannedFrozenSchemas[frozenIndex].push(schema);
+			scannedFrozenSchemaIndex = this.scannedFrozenSchemas[frozenIndex].length;
+			this.scannedFrozenSchemas[frozenIndex][scannedFrozenSchemaIndex] = schema;
+			this.scannedFrozenValidationErrors[frozenIndex][scannedFrozenSchemaIndex] = [];
 		} else {
-			if (!data[this.key]) {
+			if (!data[this.validatedSchemasKey]) {
 				try {
-					Object.defineProperty(data, this.key, {
+					Object.defineProperty(data, this.validatedSchemasKey, {
+						value: [],
+						configurable: true
+					});
+					Object.defineProperty(data, this.validationErrorsKey, {
 						value: [],
 						configurable: true
 					});
 				} catch (e) {
 					//IE 7/8 workaround
-					data[this.key] = [];
+					data[this.validatedSchemasKey] = [];
+					data[this.validationErrorsKey] = [];
 				}
 			}
-			data[this.key].push(schema);
+			scannedSchemasIndex = data[this.validatedSchemasKey].length;
+			data[this.validatedSchemasKey][scannedSchemasIndex] = schema;
+			data[this.validationErrorsKey][scannedSchemasIndex] = [];
 		}
 	}
 
@@ -1015,12 +1063,13 @@ ValidatorContext.prototype.validateAll = function (data, schema, dataPathParts, 
 		|| this.validateObject(data, schema, dataPointerPath)
 		|| this.validateCombinations(data, schema, dataPointerPath)
 		|| this.validateFormat(data, schema, dataPointerPath)
+		|| this.validateDefinedKeywords(data, schema, dataPointerPath)
 		|| null;
 
 	if (topLevel) {
 		while (this.scanned.length) {
 			var item = this.scanned.pop();
-			delete item[this.key];
+			delete item[this.validatedSchemasKey];
 		}
 		this.scannedFrozen = [];
 		this.scannedFrozenSchemas = [];
@@ -1037,6 +1086,12 @@ ValidatorContext.prototype.validateAll = function (data, schema, dataPathParts, 
 		}
 	}
 
+	if (scannedFrozenSchemaIndex !== null) {
+		this.scannedFrozenValidationErrors[frozenIndex][scannedFrozenSchemaIndex] = this.errors.slice(startErrorCount);
+	} else if (scannedSchemasIndex !== null) {
+		data[this.validationErrorsKey][scannedSchemasIndex] = this.errors.slice(startErrorCount);
+	}
+
 	return this.handleError(error);
 };
 ValidatorContext.prototype.validateFormat = function (data, schema) {
@@ -1048,6 +1103,30 @@ ValidatorContext.prototype.validateFormat = function (data, schema) {
 		return this.createError(ErrorCodes.FORMAT_CUSTOM, {message: errorMessage}).prefixWith(null, "format");
 	} else if (errorMessage && typeof errorMessage === 'object') {
 		return this.createError(ErrorCodes.FORMAT_CUSTOM, {message: errorMessage.message || "?"}, errorMessage.dataPath || null, errorMessage.schemaPath || "/format");
+	}
+	return null;
+};
+ValidatorContext.prototype.validateDefinedKeywords = function (data, schema) {
+	for (var key in this.definedKeywords) {
+		var validationFunctions = this.definedKeywords[key];
+		for (var i = 0; i < validationFunctions.length; i++) {
+			var func = validationFunctions[i];
+			var result = func(data, schema[key], schema);
+			if (typeof result === 'string' || typeof result === 'number') {
+				return this.createError(ErrorCodes.KEYWORD_CUSTOM, {key: key, message: result}).prefixWith(null, "format");
+			} else if (result && typeof result === 'object') {
+				var code = result.code || ErrorCodes.KEYWORD_CUSTOM;
+				if (typeof code === 'string') {
+					if (!ErrorCodes[code]) {
+						throw new Error('Undefined error code (use defineError): ' + code);
+					}
+					code = ErrorCodes[code];
+				}
+				var messageParams = (typeof result.message === 'object') ? result.message : {key: key, message: result.message || "?"};
+				var schemaPath = result.schemaPath ||( "/" + key.replace(/~/g, '~0').replace(/\//g, '~1'));
+				return this.createError(code, messageParams, result.dataPath || null, schemaPath);
+			}
+		}
 	}
 	return null;
 };
@@ -1485,7 +1564,6 @@ ValidatorContext.prototype.validateAnyOf = function validateAnyOf(data, schema, 
 						oldUnknownPropertyPaths[unknownKey] = true;
 					}
 				}
-				console.log("Continuing");
 				// We need to continue looping so we catch all the property definitions, but we don't want to return an error
 				errorAtEnd = false;
 				continue;
@@ -1641,20 +1719,21 @@ function getDocumentUri(uri) {
 	return uri.split('#')[0];
 }
 function normSchema(schema, baseUri) {
-	if (baseUri === undefined) {
-		baseUri = schema.id;
-	} else if (typeof schema.id === "string") {
-		baseUri = resolveUrl(baseUri, schema.id);
-		schema.id = baseUri;
-	}
-	if (typeof schema === "object") {
+	if (schema && typeof schema === "object") {
+		if (baseUri === undefined) {
+			baseUri = schema.id;
+		} else if (typeof schema.id === "string") {
+			baseUri = resolveUrl(baseUri, schema.id);
+			schema.id = baseUri;
+		}
 		if (Array.isArray(schema)) {
 			for (var i = 0; i < schema.length; i++) {
 				normSchema(schema[i], baseUri);
 			}
-		} else if (typeof schema['$ref'] === "string") {
-			schema['$ref'] = resolveUrl(baseUri, schema['$ref']);
 		} else {
+			if (typeof schema['$ref'] === "string") {
+				schema['$ref'] = resolveUrl(baseUri, schema['$ref']);
+			}
 			for (var key in schema) {
 				if (key !== "enum") {
 					normSchema(schema[key], baseUri);
@@ -1692,11 +1771,18 @@ var ErrorCodes = {
 	ARRAY_LENGTH_LONG: 401,
 	ARRAY_UNIQUE: 402,
 	ARRAY_ADDITIONAL_ITEMS: 403,
-	// Format errors
+	// Custom/user-defined errors
 	FORMAT_CUSTOM: 500,
+	KEYWORD_CUSTOM: 501,
+	// Schema structure
+	CIRCULAR_REFERENCE: 600,
 	// Non-standard validation options
 	UNKNOWN_PROPERTY: 1000
 };
+var ErrorCodeLookup = {};
+for (var key in ErrorCodes) {
+	ErrorCodeLookup[ErrorCodes[key]] = key;
+}
 var ErrorMessagesDefault = {
 	INVALID_TYPE: "invalid type: {type} (expected {expected})",
 	ENUM_MISMATCH: "No enum match for: {value}",
@@ -1727,20 +1813,39 @@ var ErrorMessagesDefault = {
 	ARRAY_ADDITIONAL_ITEMS: "Additional items not allowed",
 	// Format errors
 	FORMAT_CUSTOM: "Format validation failed ({message})",
+	KEYWORD_CUSTOM: "Keyword failed: {key} ({message})",
+	// Schema structure
+	CIRCULAR_REFERENCE: "Circular $refs: {urls}",
+	// Non-standard validation options
 	UNKNOWN_PROPERTY: "Unknown property (not in schema)"
 };
 
 function ValidationError(code, message, dataPath, schemaPath, subErrors) {
+	Error.call(this);
 	if (code === undefined) {
 		throw new Error ("No code supplied for error: "+ message);
 	}
-	this.code = code;
 	this.message = message;
+	this.code = code;
 	this.dataPath = dataPath || "";
 	this.schemaPath = schemaPath || "";
 	this.subErrors = subErrors || null;
+
+	var err = new Error(this.message);
+	this.stack = err.stack || err.stacktrace;
+	if (!this.stack) {
+		try {
+			throw err;
+		}
+		catch(err) {
+			this.stack = err.stack || err.stacktrace;
+		}
+	}
 }
-ValidationError.prototype = new Error();
+ValidationError.prototype = Object.create(Error.prototype);
+ValidationError.prototype.constructor = ValidationError;
+ValidationError.prototype.name = 'ValidationError';
+
 ValidationError.prototype.prefixWith = function (dataPrefix, schemaPrefix) {
 	if (dataPrefix !== null) {
 		dataPrefix = dataPrefix.replace(/~/g, "~0").replace(/\//g, "~1");
@@ -1874,6 +1979,32 @@ function createApi(language) {
 		dropSchemas: function () {
 			globalContext.dropSchemas.apply(globalContext, arguments);
 		},
+		defineKeyword: function () {
+			globalContext.defineKeyword.apply(globalContext, arguments);
+		},
+		defineError: function (codeName, codeNumber, defaultMessage) {
+			if (typeof codeName !== 'string' || !/^[A-Z]+(_[A-Z]+)*$/.test(codeName)) {
+				throw new Error('Code name must be a string in UPPER_CASE_WITH_UNDERSCORES');
+			}
+			if (typeof codeNumber !== 'number' || codeNumber%1 !== 0 || codeNumber < 10000) {
+				throw new Error('Code number must be an integer > 10000');
+			}
+			if (typeof ErrorCodes[codeName] !== 'undefined') {
+				throw new Error('Error already defined: ' + codeName + ' as ' + ErrorCodes[codeName]);
+			}
+			if (typeof ErrorCodeLookup[codeNumber] !== 'undefined') {
+				throw new Error('Error code already used: ' + ErrorCodeLookup[codeNumber] + ' as ' + codeNumber);
+			}
+			ErrorCodes[codeName] = codeNumber;
+			ErrorCodeLookup[codeNumber] = codeName;
+			ErrorMessagesDefault[codeName] = ErrorMessagesDefault[codeNumber] = defaultMessage;
+			for (var langCode in languages) {
+				var language = languages[langCode];
+				if (language[codeName]) {
+					language[codeNumber] = language[codeNumber] || language[codeName];
+				}
+			}
+		},
 		reset: function () {
 			globalContext.reset();
 			this.error = null;
@@ -1906,11 +2037,8 @@ else {
 
 })(this);
 
-
 exports.tv4 = module.exports;
 module = { exports: { } };
-	_exports.LazyLoad = LazyLoad;
-
 }).call(
 	_window /* function context */,
 	_exports /* param="exports" */,
@@ -1919,19 +2047,129 @@ module = { exports: { } };
 	_module = { exports: { } } /* param="module" */
 );
 
-if (window.JSON === undefined) {
-	window.JSON = _exports.JSON;
-}
-
 // Create locally scoped vars of our libs
 var tv4 = _exports.tv4;
 var reqwest = _exports.reqwest;
-var _ = _exports._;
-var LazyLoad = _exports.LazyLoad;
 
 // Pull the document off exports
 delete _exports;
-Helpers.Ajax = function() {
+
+/*
+	Code generously borrowed from the underscore library. Some code has been
+	modified to work outside the complete library.
+
+	http://underscorejs.org/
+*/
+(function() {
+
+	// Establish the object that gets returned to break out of a loop iteration.
+	var breaker = {};
+
+	Helpers._ = {
+		map: function(obj, iterator, context) {
+			var results = [];
+
+			if (obj === null) {
+				return results;
+			}
+
+			if (Array.prototype.map && obj.map === Array.prototype.map) {
+				return obj.map(iterator, context);
+			}
+
+			this.each(obj, function(value, index, list) {
+				results.push(iterator.call(context, value, index, list));
+			});
+
+			return results;
+		},
+		each: function(obj, iterator, context) {
+			if (obj === null) {
+				return;
+			}
+
+			if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
+				obj.forEach(iterator, context);
+			}
+			else if (obj.length === +obj.length) {
+				for (var i = 0; i < obj.length; i++) {
+					if (iterator.call(context, obj[i], i, obj) === breaker) {
+						return;
+					}
+				}
+			}
+			else {
+				var keys = this.keys(obj);
+
+				for (var j = 0; j < obj.length; j++) {
+					if (iterator.call(context, obj[keys[j]], keys[j], obj) === breaker) {
+						return;
+					}
+				}
+			}
+		},
+		keys: function(obj) {
+			if (Object.keys) {
+				return Object.keys(obj);
+			}
+
+			if (obj !== Object(obj)) {
+				throw new TypeError('Invalid object');
+			}
+
+			var keys = [];
+
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) {
+					keys.push(key);
+				}
+			}
+
+			return keys;
+		},
+		defaults: function(obj) {
+			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
+				if (source) {
+					for (var prop in source) {
+						if (obj[prop] === void 0) {
+							obj[prop] = source[prop];
+						}
+					}
+				}
+			});
+
+			return obj;
+		},
+		extend: function(obj) {
+			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
+				if (source) {
+					for (var prop in source) {
+						obj[prop] = source[prop];
+					}
+				}
+			});
+
+			return obj;
+		},
+		isArray: function(test) {
+			if (Array.isArray) {
+				return Array.isArray(test);
+			}
+			else {
+				return Object.prototype.toString.call(test) == '[object Array]';
+			}
+		},
+		isFunction: function(test) {
+			return typeof test === 'function';
+		},
+		isObject: function(test) {
+			return test === Object(test);
+		}
+	};
+
+})();
+
+(function() {
 
 	// --------------------------------------------------------------------------
 	// Helpers
@@ -2057,7 +2295,7 @@ Helpers.Ajax = function() {
 	// GET/POST
 	// --------------------------------------------------------------------------
 
-	return function(params, cache) {
+	Helpers.Ajax = function(params, cache) {
 		if (!params.url) {
 			throw 'F2.Ajax: you must provide a url.';
 		}
@@ -2120,9 +2358,9 @@ Helpers.Ajax = function() {
 		})();
 	};
 
-};
+})();
 
-Helpers.AppPlaceholders = function() {
+(function() {
 
 	// Generate an AppConfig from the element's attributes
 	function getPlaceholderFromElement(node) {
@@ -2235,7 +2473,7 @@ Helpers.AppPlaceholders = function() {
 	// API
 	// ---------------------------------------------------------------------------
 
-	return {
+	Helpers.AppPlaceholders = {
 		getInNode: function(parentNode) {
 			var placeholders = [];
 			var elements = getElementsByAttribute(parentNode, 'data-f2-appid');
@@ -2252,9 +2490,9 @@ Helpers.AppPlaceholders = function() {
 		}
 	};
 
-};
+})();
 
-Helpers.Guid = function() {
+(function() {
 
 	// Track all the guids we've made on this page
 	var _guids = {};
@@ -2266,7 +2504,7 @@ Helpers.Guid = function() {
 	 * @for F2
 	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 	 */
-	return function _guid() {
+	Helpers.Guid = function() {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 			var r = Math.random() * 16 | 0;
 			var v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -2276,7 +2514,7 @@ Helpers.Guid = function() {
 		// Check if we've seen this one before
 		if (_guids[guid]) {
 			// Get a new guid
-			guid = _guid();
+			guid = Helpers.Guid();
 		}
 
 		_guids[guid] = true;
@@ -2284,18 +2522,426 @@ Helpers.Guid = function() {
 		return guid;
 	};
 
-};
+})();
 
-Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
+(function() {
+
+	Library.Constants = {
+		EVENTS: {
+			// TODO: do we need this?
+			APP_SYMBOL_CHANGE: '__appSymbolChange__',
+			// TODO: do we need this?
+			APP_WIDTH_CHANGE: '__appWidthChange__',
+			// TODO: do we need this?
+			CONTAINER_SYMBOL_CHANGE: '__containerSymbolChange__',
+			// TODO: do we need this?
+			CONTAINER_WIDTH_CHANGE: '__containerWidthChange__'
+		},
+		VIEWS: {
+			ABOUT: 'about',
+			DATA_ATTRIBUTE: 'data-f2-view',
+			HELP: 'help',
+			HOME: 'home',
+			REMOVE: 'remove',
+			SETTINGS: 'settings'
+		}
+	};
+
+})();
+
+/**
+ * Handles context passing
+ * @class F2.Events
+ */
+(function() {
+
+	var _cache = {};
 
 	// ---------------------------------------------------------------------------
-	// Private storage
+	// Utils
 	// ---------------------------------------------------------------------------
+
+	function _subscribe(name, handler, context, timesToListen) {
+		if (!name) {
+			throw 'F2.Events: you must provide an event name.';
+		}
+
+		if (!handler) {
+			throw 'F2.Events: you must provide an event handler.';
+		}
+
+		if (!_cache[name]) {
+			_cache[name] = [];
+		}
+
+		// Don't allow the user to pass in window because it can confuse us later
+		// when we try to unsubscribe
+		if (context === window) {
+			context = undefined;
+		}
+
+		_cache[name].push({
+			handler: handler,
+			context: context,
+			timesLeft: timesToListen
+		});
+	}
+
+	function _unsubscribe(name, handler, context) {
+		if (!name && !handler && !context) {
+			throw 'F2.Events: "off" accepts the following combinations of parameters: name/handler, name/context, handler, context.';
+		}
+
+		if (name && !handler && !context) {
+			throw 'F2.Events: you must pass either a handler or context along with name';
+		}
+
+		if (_cache[name] && (handler || context)) {
+			var len = _cache[name].length;
+
+			while (len--) {
+				var matchesHandler = (handler && _cache[name][len].handler === handler);
+				var matchesContext = (context && _cache[name][len].context === context);
+
+				if (matchesHandler || matchesContext) {
+					_cache[name].splice(len, 1);
+				}
+			}
+		}
+		else if (context || handler) {
+			// Search all events for the context
+			for (var eventName in _cache) {
+				_unsubscribe(eventName, handler, context);
+			}
+		}
+	}
+
+	// ---------------------------------------------------------------------------
+	// API
+	// ---------------------------------------------------------------------------
+
+	Library.Events = {
+		/**
+		 *
+		 * @method emit
+		 * @param {String} name The event name
+		 * @param {Object} args* The arguments to emit
+		 * @return void
+		 */
+		emit: function(name, args) {
+			if (!name) {
+				throw 'F2.Events: you must provide an event name to emit.';
+			}
+
+			if (_cache[name]) {
+				// Get all the non "name" arguments passed in
+				args = Array.prototype.slice.call(arguments, 1);
+
+				var leakedContexts = [];
+				var len = _cache[name].length;
+
+				while (len--) {
+					var sub = _cache[name][len];
+
+					// Check for possible memory leak
+					if (sub.context && sub.context.__f2Disposed__) {
+						leakedContexts.push(sub.context);
+					}
+					else {
+						// Execute the handler
+						sub.handler.apply(sub.context || window, args);
+
+						// See if this is limited to a # of executions
+						if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
+							_cache[name].splice(len, 1);
+						}
+					}
+				}
+
+				// Clean up the leaked contexts
+				while (leakedContexts.length) {
+					_unsubscribe(null, null, leakedContexts.shift());
+				}
+			}
+		},
+		/**
+		 *
+		 * @method many
+		 * @param {String} name The event name
+		 * @param {Number} timesToListen The number of times the handler should be fired
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
+		many: function(name, timesToListen, handler, context) {
+			if (!timesToListen) {
+				timesToListen = 0;
+			}
+			else {
+				timesToListen = parseInt(timesToListen, 10);
+			}
+
+			if (timesToListen < 1) {
+				throw 'F2.Events: "timesToListen" must be greater than 0.';
+			}
+
+			return _subscribe(name, handler, context, timesToListen);
+		},
+		/**
+		 *
+		 * @method off
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
+		off: function(name, handler, context) {
+			return _unsubscribe(name, handler, context);
+		},
+		/**
+		 *
+		 * @method on
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
+		on: function(name, handler, context) {
+			return _subscribe(name, handler, context);
+		},
+		/**
+		 *
+		 * @method once
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @param {Object} context
+		 * @return void
+		 */
+		once: function(name, handler, context) {
+			return _subscribe(name, handler, context, 1);
+		}
+	};
+
+})();
+
+/**
+ * Schema validations
+ * @class F2.Schemas
+ */
+(function(tv4, _) {
+
+	Library.addSchema = function(name, schema) {
+		if (!name) {
+			throw 'F2.Schemas: you must provide a schema name.';
+		}
+
+		if (!schema) {
+			throw 'F2.Schemas: you must provide a schema.';
+		}
+
+		if (tv4.getSchema(name)) {
+			throw 'F2.Schemas: ' + name + ' is already a registered schema.';
+		}
+
+		tv4.addSchema(name, schema);
+
+		return true;
+	};
+
+	Library.hasSchema = function(name) {
+		return !!tv4.getSchemaMap()[name];
+	};
+
+	Library.validate = function(json, name) {
+		if (!name) {
+			throw 'F2.Schemas: you must provide a schema name.';
+		}
+
+		var schema = tv4.getSchema(name);
+
+		if (!schema) {
+			throw 'F2.Schemas: unrecognized schema name.';
+		}
+
+		return tv4.validate(json, schema);
+	};
+
+})(tv4, Helpers._);
+
+(function(Schemas) {
+
+	var schemas = {
+		appConfig: {
+			id: 'appConfig',
+			title: 'App Config',
+			type: 'object',
+			properties: {
+				appId: {
+					type: 'string'
+				},
+				context: {
+					type: 'object'
+				},
+				manifestUrl: {
+					type: 'string'
+				},
+				enableBatchRequests: {
+					type: 'boolean'
+				},
+				views: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				}
+			},
+			required: ['appId']
+		},
+		appContent: {
+			id: 'appContent',
+			title: 'App Content',
+			type: 'object',
+			properties: {
+				error: {
+					type: 'object'
+				},
+				data: {
+					type: 'object'
+				},
+				html: {
+					type: 'string'
+				}
+			}
+		},
+		appManifest: {
+			id: 'appManifest',
+			title: 'App Manifest',
+			type: 'object',
+			properties: {
+				scripts: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				styles: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				inlineScripts: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				apps: {
+					type: 'array',
+					items: {
+						$ref: 'appContent'
+					}
+				}
+			},
+			required: ['scripts', 'styles', 'inlineScripts', 'apps']
+		},
+		containerConfig: {
+			id: 'containerConfig',
+			title: 'Container Config',
+			type: 'object',
+			properties: {
+				loadScripts: {
+					type: 'function'
+				},
+				loadStyles: {
+					type: 'function'
+				},
+				loadInlineScripts: {
+					type: 'function'
+				},
+				supportedViews: {
+					type: 'array',
+					items: {
+						type: 'string'
+					}
+				},
+				ui: {
+					type: 'object',
+					properties: {
+						modal: {
+							type: 'function'
+						},
+						toggleLoading: {
+							type: 'function'
+						}
+					}
+				},
+				xhr: {
+					type: 'object',
+					properties: {
+						dataType: {
+							type: 'object'
+						},
+						type: {
+							type: 'object'
+						},
+						url: {
+							type: 'object'
+						},
+						timeout: {
+							type: 'integer',
+							minimum: 0
+						}
+					}
+				}
+			}
+		},
+		uiModalParams: {
+			id: 'uiModalParams',
+			title: 'F2.UI Modal Parameters',
+			type: 'object',
+			properties: {
+				buttons: {
+					type: 'array',
+					items: {
+						type: 'object',
+						properties: {
+							label: {
+								type: 'string'
+							},
+							handler: {
+								type: 'function'
+							}
+						},
+						required: ['label', 'handler']
+					}
+				},
+				content: {
+					type: 'string'
+				},
+				onClose: {
+					type: 'function'
+				},
+				title: {
+					type: 'string'
+				}
+			}
+		}
+	};
+
+	// Add each schema
+	for (var name in schemas) {
+		Library.addSchema(name, schemas[name]);
+	}
+
+})();
+
+(function(Ajax, _, Guid) {
 
 	var appInstances = {};
 
 	// ---------------------------------------------------------------------------
-	// Methods
+	// Utils
 	// ---------------------------------------------------------------------------
 
 	function remove(instanceId) {
@@ -2313,7 +2959,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 			var inputs = {};
 
 			// The AppConfig must be valid
-			if (appConfigs[i] && Schemas.validate(appConfigs[i], 'appConfig')) {
+			if (appConfigs[i] && Library.validate(appConfigs[i], 'appConfig')) {
 				inputs.instanceId = Guid();
 				inputs.appConfig = appConfigs[i];
 
@@ -2525,7 +3171,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 					},
 					success: function(manifest) {
 						// Make sure the appManifest is valid
-						if (!Schemas.validate(manifest, 'appManifest')) {
+						if (!Library.validate(manifest, 'appManifest')) {
 							manifest = {
 								apps: []
 							};
@@ -2660,7 +3306,7 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 	// API
 	// ---------------------------------------------------------------------------
 
-	return {
+	Helpers.LoadApps = {
 		getInstance: function(identifier) {
 			var instance;
 
@@ -2684,122 +3330,210 @@ Helpers.LoadApps = function(Ajax, _, Schemas, Guid) {
 		remove: remove
 	};
 
-};
+})(Helpers.Ajax, Helpers._, Helpers.Guid);
 
-/*
-	Code generously borrowed from the underscore library. Some code has been
-	modified to work outside the complete library.
+/**
+ * F2 Core
+ * @class F2
+ */
+(function(LoadApps, _, Events, Guid, AppPlaceholders) {
 
-	http://underscorejs.org/
-*/
-Helpers._ = (function() {
+	// Set up a default config
+	var _config = {
+		loadInlineScripts: null,
+		loadScripts: null,
+		loadStyles: null,
+		supportedViews: [],
+		xhr: {
+			dataType: null,
+			type: null,
+			url: null
+		},
+		ui: {
+			modal: null,
+			toggleLoading: null
+		}
+	};
 
-	// Establish the object that gets returned to break out of a loop iteration.
-	var breaker = {};
+	// --------------------------------------------------------------------------
+	// API
+	// --------------------------------------------------------------------------
 
-	return {
-		map: function(obj, iterator, context) {
-			var results = [];
+	Library.config = function(config) {
+		if (config && Library.validate(config, 'containerConfig')) {
+			_config = _.defaults({}, config, _config);
+		}
 
-			if (obj === null) {
-				return results;
-			}
+		return _config;
+	};
 
-			if (Array.prototype.map && obj.map === Array.prototype.map) {
-				return obj.map(iterator, context);
-			}
+	Library.guid = function() {
+		return Guid();
+	};
 
-			this.each(obj, function(value, index, list) {
-				results.push(iterator.call(context, value, index, list));
+	Library.load = function(params) {
+		if (!params) {
+			throw 'F2: no params passed to "load"';
+		}
+
+		// Default to an array
+		params.appConfigs = [].concat(params.appConfigs || []);
+
+		if (!params.appConfigs.length) {
+			throw 'F2: you must specify at least one AppConfig to load';
+		}
+
+		// Request all the apps and get the xhr objects so we can abort
+		var reqs = LoadApps.load(
+			this.config(),
+			params.appConfigs,
+			params.success,
+			params.error,
+			params.complete,
+			params.afterRequest
+		);
+
+		return {
+			abort: (function() {
+				if (reqs) {
+					for (var url in reqs) {
+						reqs[url].request.abort();
+					}
+				}
+			}),
+			requests: reqs
+		};
+	};
+
+	Library.loadPlaceholders = function(parentNode) {
+		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
+			parentNode = document.body;
+		}
+
+		// Find the placeholders on the DOM
+		var placeholders = AppPlaceholders.getInNode(parentNode);
+
+		if (placeholders.length) {
+			var appConfigs = _.map(placeholders, function(placeholder) {
+				if (placeholder.isPreload) {
+					placeholder.appConfig.root = placeholder.node;
+				}
+
+				return placeholder.appConfig;
 			});
 
-			return results;
-		},
-		each: function(obj, iterator, context) {
-			if (obj === null) {
-				return;
-			}
+			Library.load({
+				appConfigs: appConfigs,
+				success: function() {
+					var args = Array.prototype.slice.call(arguments);
 
-			if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
-				obj.forEach(iterator, context);
-			}
-			else if (obj.length === +obj.length) {
-				for (var i = 0; i < obj.length; i++) {
-					if (iterator.call(context, obj[i], i, obj) === breaker) {
-						return;
-					}
-				}
-			}
-			else {
-				var keys = this.keys(obj);
-
-				for (var j = 0; j < obj.length; j++) {
-					if (iterator.call(context, obj[keys[j]], keys[j], obj) === breaker) {
-						return;
-					}
-				}
-			}
-		},
-		keys: function(obj) {
-			if (Object.keys) {
-				return Object.keys(obj);
-			}
-
-			if (obj !== Object(obj)) {
-				throw new TypeError('Invalid object');
-			}
-
-			var keys = [];
-
-			for (var key in obj) {
-				if (Object.prototype.hasOwnProperty.call(obj, key)) {
-					keys.push(key);
-				}
-			}
-
-			return keys;
-		},
-		defaults: function(obj) {
-			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
-				if (source) {
-					for (var prop in source) {
-						if (obj[prop] === void 0) {
-							obj[prop] = source[prop];
+					// Add to the DOM
+					for (var i = 0, len = args.length; i < len; i++) {
+						if (!placeholders[i].isPreload) {
+							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
 						}
 					}
 				}
 			});
-
-			return obj;
-		},
-		extend: function(obj) {
-			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
-				if (source) {
-					for (var prop in source) {
-						obj[prop] = source[prop];
-					}
-				}
-			});
-
-			return obj;
-		},
-		isArray: function(test) {
-			if (Array.isArray) {
-				return Array.isArray(test);
-			}
-			else {
-				return Object.prototype.toString.call(test) == '[object Array]';
-			}
-		},
-		isFunction: function(test) {
-			return typeof test === 'function';
-		},
-		isObject: function(test) {
-			return test === Object(test);
 		}
 	};
 
-})();
+	/**
+	 * Removes an app from the container
+	 * @method remove
+	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
+	 */
+	Library.remove = function(identifiers) {
+		var args = Array.prototype.slice.apply(arguments);
+
+		// See if multiple parameters were passed
+		if (args.length > 1) {
+			identifiers = args;
+		}
+		else {
+			identifiers = [].concat(identifiers);
+		}
+
+		_.each(identifiers, function(identifier) {
+			if (!identifier) {
+				throw 'F2: you must provide an instanceId or a root to remove an app';
+			}
+
+			// Try to find the app in our internal cache
+			var instance = LoadApps.getInstance(identifier);
+
+			if (instance && instance.instanceId) {
+				// Call the app's dipose method if it has one
+				if (instance.dispose) {
+					instance.dispose();
+				}
+
+				// Unsubscribe events by context
+				Events.off(null, null, instance);
+
+				// Remove ourselves from the DOM
+				if (instance.root && instance.root.parentNode) {
+					instance.root.parentNode.removeChild(instance.root);
+				}
+
+				// Set a property that will let us watch for memory leaks
+				instance.__f2Disposed__ = true;
+
+				// Remove ourselves from the internal map
+				LoadApps.remove(instance.instanceId);
+			}
+			else {
+				console.warn('F2: could not find an app to remove');
+			}
+		});
+	};
+
+})(Helpers.LoadApps, Helpers._, Library.Events, Helpers.Guid, Helpers.AppPlaceholders);
+
+/**
+ *
+ * @class F2.UI
+ */
+(function(_) {
+
+	function getContainerConfig() {
+		return Library.config();
+	}
+
+	Library.UI = {
+		modal: function(params) {
+			var config = getContainerConfig();
+
+			if (config.ui && _.isFunction(config.ui.modal)) {
+				if (_.isObject(params) && Library.validate(params, 'uiModalParams')) {
+					config.ui.modal(params);
+				}
+				else {
+					console.error('F2.UI: The parameters to ui.modal are incorrect.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.modal.');
+			}
+		},
+		toggleLoading: function(root) {
+			var config = getContainerConfig();
+
+			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
+				if (!root || (root && root.nodeType === 1)) {
+					config.ui.toggleLoading(root);
+				}
+				else {
+					console.error('F2.UI: the root passed was not a native DOM node.');
+				}
+			}
+			else {
+				console.error('F2.UI: The container has not defined ui.toggleLoading.');
+			}
+		}
+	};
+
+})(Helpers._);
 
 define('F2.AppClass', ['F2'], function(F2) {
 
@@ -2842,609 +3576,21 @@ define('F2.AppClass', ['F2'], function(F2) {
 
 });
 
-Lib.Constants = function() {
-
-	return {
-		EVENTS: {
-			// TODO: do we need this?
-			APP_SYMBOL_CHANGE: '__appSymbolChange__',
-			// TODO: do we need this?
-			APP_WIDTH_CHANGE: '__appWidthChange__',
-			// TODO: do we need this?
-			CONTAINER_SYMBOL_CHANGE: '__containerSymbolChange__',
-			// TODO: do we need this?
-			CONTAINER_WIDTH_CHANGE: '__containerWidthChange__'
-		},
-		VIEWS: {
-			ABOUT: 'about',
-			DATA_ATTRIBUTE: 'data-f2-view',
-			HELP: 'help',
-			HOME: 'home',
-			REMOVE: 'remove',
-			SETTINGS: 'settings'
-		}
-	};
-
-};
-
-Lib.Core = function(LoadApps, _, Schemas, Events, Guid) {
-
-	// --------------------------------------------------------------------------
-	// Private Storage
-	// --------------------------------------------------------------------------
-
-	// Set up a default config
-	var _config = {
-		loadScripts: null,
-		loadStyles: null,
-		supportedViews: [],
-		xhr: {
-			dataType: null,
-			type: null,
-			url: null
-		},
-		ui: {
-			modal: null,
-			showLoading: null,
-			hideLoading: null
-		}
-	};
-
-	// --------------------------------------------------------------------------
-	// API
-	// --------------------------------------------------------------------------
-
-	return {
-		config: function(config) {
-			if (config && Schemas.validate(config, 'containerConfig')) {
-				_config = _.defaults({}, config, _config);
-			}
-
-			return _config;
-		},
-		guid: Guid,
-		load: function(params) {
-			if (!params.appConfigs || (_.isArray(params.appConfigs) && !params.appConfigs.length)) {
-				throw 'F2: you must specify at least one AppConfig to load';
-			}
-			else if (!_.isArray(params.appConfigs)) {
-				params.appConfigs = [params.appConfigs];
-			}
-
-			var reqs = LoadApps.load(
-				this.config(),
-				params.appConfigs,
-				params.success,
-				params.error,
-				params.complete,
-				params.afterRequest
-			);
-
-			return {
-				abort: (function() {
-					if (reqs) {
-						for (var url in reqs) {
-							reqs[url].request.abort();
-						}
-					}
-				}),
-				requests: reqs
-			};
-		},
-		/**
-		 * Removes an app from the container
-		 * @method remove
-		 * @param {string} indentifier The app's instanceId or root
-		 */
-		remove: function(identifiers) {
-			var args = Array.prototype.slice.apply(arguments);
-
-			// See if multiple parameters were passed
-			if (args.length > 1) {
-				identifiers = args;
-			}
-			else {
-				identifiers = [].concat(identifiers);
-			}
-
-			_.each(identifiers, function(identifier) {
-				if (!identifier) {
-					throw 'F2: you must provide an instanceId or a root to remove an app';
-				}
-
-				// Try to find the app in our internal cache
-				var instance = LoadApps.getInstance(identifier);
-
-				if (instance && instance.instanceId) {
-					// Call the app's dipose method if it has one
-					if (instance.dispose) {
-						instance.dispose();
-					}
-
-					// Unsubscribe events by context
-					Events.off(null, null, instance);
-
-					// Remove ourselves from the DOM
-					if (instance.root && instance.root.parentNode) {
-						instance.root.parentNode.removeChild(instance.root);
-					}
-
-					// Set a property that will let us watch for memory leaks
-					instance.__f2Disposed__ = true;
-
-					// Remove ourselves from the internal map
-					LoadApps.remove(instance.instanceId);
-				}
-				else {
-					console.warn('F2: could not find an app to remove');
-				}
-			});
-		}
-	};
-
-};
-
-Lib.Events = function() {
-
-	// ---------------------------------------------------------------------------
-	// Private Storage
-	// ---------------------------------------------------------------------------
-
-	var _cache = {};
-
-	// ---------------------------------------------------------------------------
-	// Helpers
-	// ---------------------------------------------------------------------------
-
-	function _subscribe(name, handler, context, timesToListen) {
-		if (!name) {
-			throw 'F2.Events: you must provide an event name.';
-		}
-
-		if (!handler) {
-			throw 'F2.Events: you must provide an event handler.';
-		}
-
-		if (!_cache[name]) {
-			_cache[name] = [];
-		}
-
-		// Don't allow the user to pass in window because it can confuse us later
-		// when we try to unsubscribe
-		if (context === window) {
-			context = undefined;
-		}
-
-		_cache[name].push({
-			handler: handler,
-			context: context,
-			timesLeft: timesToListen
-		});
-	}
-
-	function _unsubscribe(name, handler, context) {
-		if (!name && !handler && !context) {
-			throw 'F2.Events: "off" accepts the following combinations of parameters: name/handler, name/context, handler, context.';
-		}
-
-		if (name && !handler && !context) {
-			throw 'F2.Events: you must pass either a handler or context along with name';
-		}
-
-		if (_cache[name] && (handler || context)) {
-			var len = _cache[name].length;
-
-			while (len--) {
-				var matchesHandler = (handler && _cache[name][len].handler === handler);
-				var matchesContext = (context && _cache[name][len].context === context);
-
-				if (matchesHandler || matchesContext) {
-					_cache[name].splice(len, 1);
-				}
-			}
-		}
-		else if (context || handler) {
-			// Search all events for the context
-			for (var eventName in _cache) {
-				_unsubscribe(eventName, handler, context);
-			}
-		}
-	}
-
-	// ---------------------------------------------------------------------------
-	// API
-	// ---------------------------------------------------------------------------
-
-	return {
-		emit: function(name, args) {
-			if (!name) {
-				throw 'F2.Events: you must provide an event name to emit.';
-			}
-
-			if (_cache[name]) {
-				// Get all the non "name" arguments passed in
-				args = Array.prototype.slice.call(arguments, 1);
-
-				var leakedContexts = [];
-				var len = _cache[name].length;
-
-				while (len--) {
-					var sub = _cache[name][len];
-
-					// Check for possible memory leak
-					if (sub.context && sub.context.__f2Disposed__) {
-						leakedContexts.push(sub.context);
-					}
-					else {
-						// Execute the handler
-						sub.handler.apply(sub.context || window, args);
-
-						// See if this is limited to a # of executions
-						if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
-							_cache[name].splice(len, 1);
-						}
-					}
-				}
-
-				// Clean up the leaked contexts
-				while (leakedContexts.length) {
-					_unsubscribe(null, null, leakedContexts.shift());
-				}
-			}
-		},
-		many: function(name, timesToListen, handler, context) {
-			if (!timesToListen) {
-				timesToListen = 0;
-			}
-			else {
-				timesToListen = parseInt(timesToListen, 10);
-			}
-
-			if (timesToListen < 1) {
-				throw 'F2.Events: "timesToListen" must be greater than 0.';
-			}
-
-			return _subscribe(name, handler, context, timesToListen);
-		},
-		off: function(name, handler, context) {
-			return _unsubscribe(name, handler, context);
-		},
-		on: function(name, handler, context) {
-			return _subscribe(name, handler, context);
-		},
-		once: function(name, handler, context) {
-			return _subscribe(name, handler, context, 1);
-		}
-	};
-
-};
-
-Lib.Schemas = function(tv4) {
-
-	return {
-		add: function(name, schema) {
-			if (!name) {
-				throw 'F2.Schemas: you must provide a schema name.';
-			}
-
-			if (!schema) {
-				throw 'F2.Schemas: you must provide a schema.';
-			}
-
-			if (tv4.getSchema(name)) {
-				throw 'F2.Schemas: ' + name + ' is already a registered schema.';
-			}
-
-			tv4.addSchema(name, schema);
-
-			return true;
-		},
-		isDefined: function(name) {
-			return !!tv4.getSchemaMap()[name];
-		},
-		validate: function(json, name) {
-			if (!name) {
-				throw 'F2.Schemas: you must provide a schema name.';
-			}
-
-			var schema = tv4.getSchema(name);
-
-			if (!schema) {
-				throw 'F2.Schemas: unrecognized schema name.';
-			}
-
-			return tv4.validate(json, schema);
-		}
-	};
-
-};
-
-Lib.SchemaModels = function(Schemas) {
-
-	var schemas = {
-		'appConfig': {
-			id: 'appConfig',
-			title: 'App Config',
-			type: 'object',
-			properties: {
-				appId: {
-					type: 'string'
-				},
-				context: {
-					type: 'object'
-				},
-				manifestUrl: {
-					type: 'string'
-				},
-				enableBatchRequests: {
-					type: 'boolean'
-				},
-				views: {
-					type: 'array',
-					items: {
-						type: 'string'
-					}
-				}
-			},
-			required: ['appId']
-		},
-		'appContent': {
-			id: 'appContent',
-			title: 'App Content',
-			type: 'object',
-			properties: {
-				error: {
-					type: 'object'
-				},
-				data: {
-					type: 'object'
-				},
-				html: {
-					type: 'string'
-				}
-			}
-		},
-		'appManifest': {
-			id: 'appManifest',
-			title: 'App Manifest',
-			type: 'object',
-			properties: {
-				scripts: {
-					type: 'array',
-					items: {
-						type: 'string'
-					}
-				},
-				styles: {
-					type: 'array',
-					items: {
-						type: 'string'
-					}
-				},
-				inlineScripts: {
-					type: 'array',
-					items: {
-						type: 'string'
-					}
-				},
-				apps: {
-					type: 'array',
-					items: {
-						$ref: 'appContent'
-					}
-				}
-			},
-			required: ['scripts', 'styles', 'inlineScripts', 'apps']
-		},
-		'containerConfig': {
-			id: 'containerConfig',
-			title: 'Container Config',
-			type: 'object',
-			properties: {
-				loadScripts: {
-					type: 'object'
-				},
-				loadStyles: {
-					type: 'object'
-				},
-				loadInlineScripts: {
-					type: 'object'
-				},
-				supportedViews: {
-					type: 'array',
-					items: {
-						type: 'string'
-					}
-				},
-				ui: {
-					type: 'object',
-					properties: {
-						modal: {
-							type: 'object'
-						},
-						toggleLoading: {
-							type: 'object'
-						}
-					}
-				},
-				xhr: {
-					type: 'object',
-					properties: {
-						dataType: {
-							type: 'object'
-						},
-						type: {
-							type: 'object'
-						},
-						url: {
-							type: 'object'
-						},
-						timeout: {
-							type: 'integer',
-							minimum: 0
-						}
-					}
-				}
-			}
-		},
-		'uiModalParams': {
-			id: 'uiModalParams',
-			title: 'F2.UI Modal Parameters',
-			type: 'object',
-			properties: {
-				buttons: {
-					type: 'array',
-					items: {
-						type: 'object',
-						properties: {
-							label: {
-								type: 'string'
-							},
-							handler: {
-								type: 'object'
-							}
-						},
-						required: ['label', 'handler']
-					}
-				},
-				content: {
-					type: 'string'
-				},
-				onClose: {
-					type: 'object'
-				},
-				title: {
-					type: 'string'
-				}
-			}
-		}
-	};
-
-	// Add each schema
-	for (var name in schemas) {
-		Schemas.add(name, schemas[name]);
-	}
-
-};
-
-Lib.UI = function(Core, _, Schemas) {
-
-	return {
-		modal: function(params) {
-			var config = Core.config();
-
-			if (config.ui && _.isFunction(config.ui.modal)) {
-				if (_.isObject(params) && Schemas.validate(params, 'uiModalParams')) {
-					config.ui.modal(params);
-				}
-				else {
-					console.error('F2.UI: The parameters to ui.modal are incorrect.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.modal.');
-			}
-		},
-		toggleLoading: function(root) {
-			var config = Core.config();
-
-			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
-				if (!root || (root && root.nodeType === 1)) {
-					config.ui.toggleLoading(root);
-				}
-				else {
-					console.error('F2.UI: the root passed was not a native DOM node.');
-				}
-			}
-			else {
-				console.error('F2.UI: The container has not defined ui.showLoading.');
-			}
-		}
-	};
-
-};
-
-	// Init the lib
-	var _ = Helpers._;
-	var Ajax = Helpers.Ajax();
-	var AppPlaceholders = Helpers.AppPlaceholders();
-	var Guid = Helpers.Guid();
-	var Constants = Lib.Constants();
-	var Events = Lib.Events();
-	var Schemas = Lib.Schemas(tv4);
-	Lib.SchemaModels(Schemas);
-	var LoadApps = Helpers.LoadApps(Ajax, _, Schemas, Guid);
-	var Core = Lib.Core(LoadApps, _, Schemas, Events, Guid);
-	var UI = Lib.UI(Core, _, Schemas);
-
 	// Put the API together
 	var F2 = function() {
-		return {
-			// Core
-			config: Core.config,
-			load: Core.load,
-			remove: Core.remove,
-			guid: Core.guid,
-			// Events
-			Events: {
-				emit: Events.emit,
-				on: Events.on,
-				off: Events.off,
-				once: Events.once,
-				many: Events.many
-			},
-			// Constants
-			Constants: Constants,
-			// Schemas
-			addSchema: Schemas.add,
-			hasSchema: Schemas.isDefined,
-			validate: Schemas.validate,
-			// UI
-			UI: {
-				modal: UI.modal,
-				toggleLoading: UI.toggleLoading
-			}
-		}
+		return Helpers._.defaults({}, Library);
 	};
-
-	// Make the F2 singleton module
-	define('F2', [], function() {
-		return new F2();
-	});
 
 	// Make a factory module that can spawn new instances
 	define('F2Factory', [], function() {
 		return F2;
 	});
 
-	// Load placeholders
-	require(['F2'], function(F2) {
-		// Find the placeholders on the DOM
-		var placeholders = AppPlaceholders.getInNode(document.body);
-
-		if (placeholders.length) {
-			var appConfigs = _.map(placeholders, function(placeholder) {
-				if (placeholder.isPreload) {
-					placeholder.appConfig.root = placeholder.node;
-				}
-
-				return placeholder.appConfig;
-			});
-
-			F2.load({
-				appConfigs: appConfigs,
-				success: function() {
-					var args = Array.prototype.slice.call(arguments);
-
-					// Add to the DOM
-					for (var i = 0, len = args.length; i < len; i++) {
-						if (!placeholders[i].isPreload) {
-							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
-						}
-					}
-				}
-			});
-		}
+	// Make the F2 singleton module
+	define('F2', ['F2Factory'], function(Factory) {
+		return new Factory();
 	});
+
+	console.timeEnd('F2 - startup');
 
 })();

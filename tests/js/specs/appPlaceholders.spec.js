@@ -5,6 +5,8 @@ define(['jasmine', 'F2'], function() {
 		var F2 = require('F2');
 		window.test = {};
 
+		F2.loadPlaceholders();
+
 		it('should treat placeholders with child elements as preloaded', function() {
 			waitsFor(function() {
 				// Our test classes will throw some properties on the window

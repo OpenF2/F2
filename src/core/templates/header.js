@@ -1,41 +1,43 @@
 (function() {
 
-		// Define AMD modules
-		if (typeof define !== 'function' || !define.amd) {
-			throw 'F2 did not detect an AMD loader.';
-		}
+	console.time('F2 - startup');
 
-		function noop() {}
+	// Define AMD modules
+	if (typeof define !== 'function' || !define.amd) {
+		throw 'F2 did not detect an AMD loader.';
+	}
 
-		// Check for console
-		if (typeof console === 'undefined' || typeof console.log === 'undefined') {
-			// Set all console methods to a non process
-			console = {
-				assert: noop,
-				clear: noop,
-				count: noop,
-				debug: noop,
-				dir: noop,
-				dirxml: noop,
-				error: noop,
-				exception: noop,
-				group: noop,
-				groupCollapsed: noop,
-				groupEnd: noop,
-				info: noop,
-				log: noop,
-				markTimeline: noop,
-				profile: noop,
-				profileEnd: noop,
-				table: noop,
-				time: noop,
-				timeEnd: noop,
-				timeStamp: noop,
-				trace: noop,
-				warn: noop
-			};
-		}
+	function noop() {}
 
-		// Create the internal objects
-		var Lib = {};
-		var Helpers = {};
+	// Check for console
+	if (typeof console === 'undefined' || typeof console.log === 'undefined') {
+		// Set all console methods to a non process
+		console = {
+			assert: noop,
+			clear: noop,
+			count: noop,
+			debug: noop,
+			dir: noop,
+			dirxml: noop,
+			error: noop,
+			exception: noop,
+			group: noop,
+			groupCollapsed: noop,
+			groupEnd: noop,
+			info: noop,
+			log: noop,
+			markTimeline: noop,
+			profile: noop,
+			profileEnd: noop,
+			table: noop,
+			time: noop,
+			timeEnd: noop,
+			timeStamp: noop,
+			trace: noop,
+			warn: noop
+		};
+	}
+
+	// Create the internal objects
+	var Library = {};
+	var Helpers = {};

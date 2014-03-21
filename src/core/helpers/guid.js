@@ -1,4 +1,4 @@
-Helpers.Guid = function() {
+(function() {
 
 	// Track all the guids we've made on this page
 	var _guids = {};
@@ -10,7 +10,7 @@ Helpers.Guid = function() {
 	 * @for F2
 	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 	 */
-	return function _guid() {
+	Helpers.Guid = function() {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 			var r = Math.random() * 16 | 0;
 			var v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -20,7 +20,7 @@ Helpers.Guid = function() {
 		// Check if we've seen this one before
 		if (_guids[guid]) {
 			// Get a new guid
-			guid = _guid();
+			guid = Helpers.Guid();
 		}
 
 		_guids[guid] = true;
@@ -28,4 +28,4 @@ Helpers.Guid = function() {
 		return guid;
 	};
 
-};
+})();
