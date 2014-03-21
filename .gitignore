@@ -49,3 +49,4 @@ tmp
 /.grunt/grunt-contrib-jasmine
 /*.sublime-project
 /*.sublime-workspace
+/vendor
