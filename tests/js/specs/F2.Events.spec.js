@@ -1,8 +1,6 @@
-﻿define(['jasmine', 'F2'], function() {
+﻿define(['F2'], function(F2) {
 
 	describe('F2.Events', function() {
-
-		var F2 = require('F2');
 
 		beforeEach(function() {
 			window.events = {};
@@ -11,6 +9,7 @@
 		function MockClass() {
 			this.didIt = true;
 			this.__f2Disposed__ = false;
+
 			function handler() {
 				window.events.context = this;
 			};

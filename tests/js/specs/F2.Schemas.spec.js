@@ -1,8 +1,6 @@
-﻿define(['jasmine', 'F2'], function() {
+﻿define(['F2'], function(F2) {
 
 	describe('F2.Schemas', function() {
-
-		var F2 = require('F2');
 
 		describe('addSchema', function() {
 
@@ -21,6 +19,7 @@
 						id: 'test1'
 					});
 					var isValid = F2.validate({}, 'test1');
+
 					expect(isValid).toBe(true);
 				}
 			});
@@ -30,6 +29,7 @@
 					id: 'test2'
 				};
 				var result = F2.addSchema('test2', schema);
+
 				expect(result).toBe(true);
 			});
 

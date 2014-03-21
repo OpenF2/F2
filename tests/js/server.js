@@ -21,6 +21,8 @@ app.use(express.bodyParser());
 // Serve static files
 app.use(express.static(path.resolve(__dirname + '../../../')));
 
+app.set('jsonp callback', true);
+
 // Slow response so we can test aborting requests
 app.all('/apps/slow', function(req, res) {
 	var configs = JSON.parse(req.body.params);

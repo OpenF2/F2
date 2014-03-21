@@ -59,10 +59,10 @@ var _window = {
 
 /*!
   * Reqwest! A general purpose XHR connection manager
-  * (c) Dustin Diaz 2013
+  * license MIT (c) Dustin Diaz 2014
   * https://github.com/ded/reqwest
-  * license MIT
   */
+
 !function (name, context, definition) {
   if (typeof module != 'undefined' && module.exports) module.exports = definition()
   else if (typeof define == 'function' && define.amd) define(definition)
@@ -71,7 +71,7 @@ var _window = {
 
   var win = window
     , doc = document
-    , twoHundo = /^20\d$/
+    , twoHundo = /^(20\d|1223)$/
     , byTag = 'getElementsByTagName'
     , readyState = 'readyState'
     , contentType = 'Content-Type'
@@ -91,21 +91,21 @@ var _window = {
           }
 
     , defaultHeaders = {
-          contentType: 'application/x-www-form-urlencoded'
-        , requestedWith: xmlHttpRequest
-        , accept: {
+          'contentType': 'application/x-www-form-urlencoded'
+        , 'requestedWith': xmlHttpRequest
+        , 'accept': {
               '*':  'text/javascript, text/html, application/xml, text/xml, */*'
-            , xml:  'application/xml, text/xml'
-            , html: 'text/html'
-            , text: 'text/plain'
-            , json: 'application/json, text/javascript'
-            , js:   'application/javascript, text/javascript'
+            , 'xml':  'application/xml, text/xml'
+            , 'html': 'text/html'
+            , 'text': 'text/plain'
+            , 'json': 'application/json, text/javascript'
+            , 'js':   'application/javascript, text/javascript'
           }
       }
 
     , xhr = function(o) {
         // is it x-domain
-        if (o.crossOrigin === true) {
+        if (o['crossOrigin'] === true) {
           var xhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null
           if (xhr && 'withCredentials' in xhr) {
             return xhr
@@ -133,8 +133,7 @@ var _window = {
       if (r._aborted) return error(r.request)
       if (r.request && r.request[readyState] == 4) {
         r.request.onreadystatechange = noop
-        if (twoHundo.test(r.request.status))
-          success(r.request)
+        if (twoHundo.test(r.request.status)) success(r.request)
         else
           error(r.request)
       }
@@ -142,23 +141,23 @@ var _window = {
   }
 
   function setHeaders(http, o) {
-    var headers = o.headers || {}
+    var headers = o['headers'] || {}
       , h
 
-    headers.Accept = headers.Accept
-      || defaultHeaders.accept[o.type]
-      || defaultHeaders.accept['*']
+    headers['Accept'] = headers['Accept']
+      || defaultHeaders['accept'][o['type']]
+      || defaultHeaders['accept']['*']
 
     // breaks cross-origin requests with legacy browsers
-    if (!o.crossOrigin && !headers[requestedWith]) headers[requestedWith] = defaultHeaders.requestedWith
-    if (!headers[contentType]) headers[contentType] = o.contentType || defaultHeaders.contentType
+    if (!o['crossOrigin'] && !headers[requestedWith]) headers[requestedWith] = defaultHeaders['requestedWith']
+    if (!headers[contentType]) headers[contentType] = o['contentType'] || defaultHeaders['contentType']
     for (h in headers)
       headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
   }
 
   function setCredentials(http, o) {
-    if (typeof o.withCredentials !== 'undefined' && typeof http.withCredentials !== 'undefined') {
-      http.withCredentials = !!o.withCredentials
+    if (typeof o['withCredentials'] !== 'undefined' && typeof http.withCredentials !== 'undefined') {
+      http.withCredentials = !!o['withCredentials']
     }
   }
 
@@ -172,9 +171,8 @@ var _window = {
 
   function handleJsonp(o, fn, err, url) {
     var reqId = uniqid++
-      , cbkey = o.jsonpCallback || 'callback' // the 'callback' key
-      , cbval = o.jsonpCallbackName || reqwest.getcallbackPrefix(reqId)
-      // , cbval = o.jsonpCallbackName || ('reqwest_' + reqId) // the 'callback' value
+      , cbkey = o['jsonpCallback'] || 'callback' // the 'callback' key
+      , cbval = o['jsonpCallbackName'] || reqwest.getcallbackPrefix(reqId)
       , cbreg = new RegExp('((^|\\?|&)' + cbkey + ')=([^&]+)')
       , match = url.match(cbreg)
       , script = doc.createElement('script')
@@ -200,9 +198,6 @@ var _window = {
       // need this for IE due to out-of-order onreadystatechange(), binding script
       // execution to an event listener gives us control over when the script
       // is executed. See http://jaubourg.net/2010/07/loading-script-as-onclick-handler-of.html
-      //
-      // if this hack is used in IE10 jsonp callback are never called
-      script.event = 'onclick'
       script.htmlFor = script.id = '_reqwest_' + reqId
     }
 
@@ -236,26 +231,29 @@ var _window = {
 
   function getRequest(fn, err) {
     var o = this.o
-      , method = (o.method || 'GET').toUpperCase()
-      , url = typeof o === 'string' ? o : o.url
-      // convert non-string objects to query-string form unless o.processData is false
-      , data = (o.processData !== false && o.data && typeof o.data !== 'string')
-        ? reqwest.toQueryString(o.data)
-        : (o.data || null)
+      , method = (o['method'] || 'GET').toUpperCase()
+      , url = typeof o === 'string' ? o : o['url']
+      // convert non-string objects to query-string form unless o['processData'] is false
+      , data = (o['processData'] !== false && o['data'] && typeof o['data'] !== 'string')
+        ? reqwest.toQueryString(o['data'])
+        : (o['data'] || null)
       , http
       , sendWait = false
 
     // if we're working on a GET request and we have data then we should append
     // query string to end of URL and not post data
-    if ((o.type == 'jsonp' || method == 'GET') && data) {
+    if ((o['type'] == 'jsonp' || method == 'GET') && data) {
       url = urlappend(url, data)
       data = null
     }
 
-    if (o.type == 'jsonp') return handleJsonp(o, fn, err, url)
+    if (o['type'] == 'jsonp') return handleJsonp(o, fn, err, url)
 
-    http = xhr(o)
-    http.open(method, url, o.async === false ? false : true)
+    // get the xhr from the factory if passed
+    // if the factory returns null, fall-back to ours
+    http = (o.xhr && o.xhr(o)) || xhr(o)
+
+    http.open(method, url, o['async'] === false ? false : true)
     setHeaders(http, o)
     setCredentials(http, o)
     if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
@@ -268,7 +266,7 @@ var _window = {
     } else {
       http.onreadystatechange = handleReadyState(this, fn, err)
     }
-    o.before && o.before(http)
+    o['before'] && o['before'](http)
     if (sendWait) {
       setTimeout(function () {
         http.send(data)
@@ -286,14 +284,17 @@ var _window = {
     init.apply(this, arguments)
   }
 
-  function setType(url) {
-    var m = url.match(/\.(json|jsonp|html|xml)(\?|$)/)
-    return m ? m[1] : 'js'
+  function setType(header) {
+    // json, javascript, text/plain, text/html, xml
+    if (header.match('json')) return 'json'
+    if (header.match('javascript')) return 'js'
+    if (header.match('text')) return 'html'
+    if (header.match('xml')) return 'xml'
   }
 
   function init(o, fn) {
 
-    this.url = typeof o == 'string' ? o : o.url
+    this.url = typeof o == 'string' ? o : o['url']
     this.timeout = null
 
     // whether request has been fulfilled for purpose
@@ -310,36 +311,35 @@ var _window = {
     this._responseArgs = {}
 
     var self = this
-      , type = o.type || setType(this.url)
 
     fn = fn || function () {}
 
-    if (o.timeout) {
+    if (o['timeout']) {
       this.timeout = setTimeout(function () {
         self.abort()
-      }, o.timeout)
+      }, o['timeout'])
     }
 
-    if (o.success) {
+    if (o['success']) {
       this._successHandler = function () {
-        o.success.apply(o, arguments)
+        o['success'].apply(o, arguments)
       }
     }
 
-    if (o.error) {
+    if (o['error']) {
       this._errorHandlers.push(function () {
-        o.error.apply(o, arguments)
+        o['error'].apply(o, arguments)
       })
     }
 
-    if (o.complete) {
+    if (o['complete']) {
       this._completeHandlers.push(function () {
-        o.complete.apply(o, arguments)
+        o['complete'].apply(o, arguments)
       })
     }
 
     function complete (resp) {
-      o.timeout && clearTimeout(self.timeout)
+      o['timeout'] && clearTimeout(self.timeout)
       self.timeout = null
       while (self._completeHandlers.length > 0) {
         self._completeHandlers.shift()(resp)
@@ -347,7 +347,7 @@ var _window = {
     }
 
     function success (resp) {
-      if (!resp) return;
+      var type = o['type'] || setType(resp.getResponseHeader('Content-Type'))
       resp = (type !== 'jsonp') ? self.request : resp
       // use global data filter on response text
       var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type)
@@ -481,8 +481,8 @@ var _window = {
       , optCb = function (o) {
           // IE gives value="" even where there is no value attribute
           // 'specified' ref: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-862529273
-          if (o && !o.disabled)
-            cb(n, normalize(o.attributes.value && o.attributes.value.specified ? o.value : o.text))
+          if (o && !o['disabled'])
+            cb(n, normalize(o['attributes']['value'] && o['attributes']['value']['specified'] ? o['value'] : o['text']))
         }
       , ch, ra, val, i
 
@@ -589,12 +589,12 @@ var _window = {
         }
     // If an array was passed in, assume that it is an array of form elements.
     if (isArray(o)) {
-      for (i = 0; o && i < o.length; i++) add(o[i].name, o[i].value)
+      for (i = 0; o && i < o.length; i++) add(o[i]['name'], o[i]['value'])
     } else {
       // If traditional, encode the "old" way (the way 1.3.2 or older
       // did it), otherwise encode params recursively.
       for (prefix in o) {
-        buildParams(prefix, o[prefix], traditional, add)
+        if (o.hasOwnProperty(prefix)) buildParams(prefix, o[prefix], traditional, add)
       }
     }
 
@@ -637,10 +637,10 @@ var _window = {
   // .ajax.compat(options, callback)
   reqwest.compat = function (o, fn) {
     if (o) {
-      o.type && (o.method = o.type) && delete o.type
-      o.dataType && (o.type = o.dataType)
-      o.jsonpCallback && (o.jsonpCallbackName = o.jsonpCallback) && delete o.jsonpCallback
-      o.jsonp && (o.jsonpCallback = o.jsonp)
+      o['type'] && (o['method'] = o['type']) && delete o['type']
+      o['dataType'] && (o['type'] = o['dataType'])
+      o['jsonpCallback'] && (o['jsonpCallbackName'] = o['jsonpCallback']) && delete o['jsonpCallback']
+      o['jsonp'] && (o['jsonpCallback'] = o['jsonp'])
     }
     return new Reqwest(o, fn)
   }
@@ -801,16 +801,6 @@ var ValidatorContext = function ValidatorContext(parent, collectMultiple, errorM
 		this.unknownPropertyPaths = {};
 	}
 	this.errorMessages = errorMessages;
-	this.definedKeywords = {};
-	if (parent) {
-		for (var key in parent.definedKeywords) {
-			this.definedKeywords[key] = parent.definedKeywords[key].slice(0);
-		}
-	}
-};
-ValidatorContext.prototype.defineKeyword = function (keyword, keywordFunction) {
-	this.definedKeywords[keyword] = this.definedKeywords[keyword] || [];
-	this.definedKeywords[keyword].push(keywordFunction);
 };
 ValidatorContext.prototype.createError = function (code, messageParams, dataPath, schemaPath, subErrors) {
 	var messageTemplate = this.errorMessages[code] || ErrorMessagesDefault[code];
@@ -1003,7 +993,7 @@ ValidatorContext.prototype.validateAll = function (data, schema, dataPathParts, 
 
 	var startErrorCount = this.errors.length;
 	var frozenIndex, scannedFrozenSchemaIndex = null, scannedSchemasIndex = null;
-	if (this.checkRecursive && data && typeof data === 'object') {
+	if (this.checkRecursive && (typeof data) === 'object') {
 		topLevel = !this.scanned.length;
 		if (data[this.validatedSchemasKey]) {
 			var schemaIndex = data[this.validatedSchemasKey].indexOf(schema);
@@ -1063,7 +1053,6 @@ ValidatorContext.prototype.validateAll = function (data, schema, dataPathParts, 
 		|| this.validateObject(data, schema, dataPointerPath)
 		|| this.validateCombinations(data, schema, dataPointerPath)
 		|| this.validateFormat(data, schema, dataPointerPath)
-		|| this.validateDefinedKeywords(data, schema, dataPointerPath)
 		|| null;
 
 	if (topLevel) {
@@ -1085,7 +1074,7 @@ ValidatorContext.prototype.validateAll = function (data, schema, dataPathParts, 
 			this.prefixErrors(errorCount, dataPart, schemaPart);
 		}
 	}
-
+	
 	if (scannedFrozenSchemaIndex !== null) {
 		this.scannedFrozenValidationErrors[frozenIndex][scannedFrozenSchemaIndex] = this.errors.slice(startErrorCount);
 	} else if (scannedSchemasIndex !== null) {
@@ -1103,30 +1092,6 @@ ValidatorContext.prototype.validateFormat = function (data, schema) {
 		return this.createError(ErrorCodes.FORMAT_CUSTOM, {message: errorMessage}).prefixWith(null, "format");
 	} else if (errorMessage && typeof errorMessage === 'object') {
 		return this.createError(ErrorCodes.FORMAT_CUSTOM, {message: errorMessage.message || "?"}, errorMessage.dataPath || null, errorMessage.schemaPath || "/format");
-	}
-	return null;
-};
-ValidatorContext.prototype.validateDefinedKeywords = function (data, schema) {
-	for (var key in this.definedKeywords) {
-		var validationFunctions = this.definedKeywords[key];
-		for (var i = 0; i < validationFunctions.length; i++) {
-			var func = validationFunctions[i];
-			var result = func(data, schema[key], schema);
-			if (typeof result === 'string' || typeof result === 'number') {
-				return this.createError(ErrorCodes.KEYWORD_CUSTOM, {key: key, message: result}).prefixWith(null, "format");
-			} else if (result && typeof result === 'object') {
-				var code = result.code || ErrorCodes.KEYWORD_CUSTOM;
-				if (typeof code === 'string') {
-					if (!ErrorCodes[code]) {
-						throw new Error('Undefined error code (use defineError): ' + code);
-					}
-					code = ErrorCodes[code];
-				}
-				var messageParams = (typeof result.message === 'object') ? result.message : {key: key, message: result.message || "?"};
-				var schemaPath = result.schemaPath ||( "/" + key.replace(/~/g, '~0').replace(/\//g, '~1'));
-				return this.createError(code, messageParams, result.dataPath || null, schemaPath);
-			}
-		}
 	}
 	return null;
 };
@@ -1730,10 +1695,9 @@ function normSchema(schema, baseUri) {
 			for (var i = 0; i < schema.length; i++) {
 				normSchema(schema[i], baseUri);
 			}
+		} else if (typeof schema['$ref'] === "string") {
+			schema['$ref'] = resolveUrl(baseUri, schema['$ref']);
 		} else {
-			if (typeof schema['$ref'] === "string") {
-				schema['$ref'] = resolveUrl(baseUri, schema['$ref']);
-			}
 			for (var key in schema) {
 				if (key !== "enum") {
 					normSchema(schema[key], baseUri);
@@ -1771,18 +1735,13 @@ var ErrorCodes = {
 	ARRAY_LENGTH_LONG: 401,
 	ARRAY_UNIQUE: 402,
 	ARRAY_ADDITIONAL_ITEMS: 403,
-	// Custom/user-defined errors
+	// Format errors
 	FORMAT_CUSTOM: 500,
-	KEYWORD_CUSTOM: 501,
 	// Schema structure
-	CIRCULAR_REFERENCE: 600,
+	CIRCULAR_REFERENCE: 500,
 	// Non-standard validation options
 	UNKNOWN_PROPERTY: 1000
 };
-var ErrorCodeLookup = {};
-for (var key in ErrorCodes) {
-	ErrorCodeLookup[ErrorCodes[key]] = key;
-}
 var ErrorMessagesDefault = {
 	INVALID_TYPE: "invalid type: {type} (expected {expected})",
 	ENUM_MISMATCH: "No enum match for: {value}",
@@ -1813,7 +1772,6 @@ var ErrorMessagesDefault = {
 	ARRAY_ADDITIONAL_ITEMS: "Additional items not allowed",
 	// Format errors
 	FORMAT_CUSTOM: "Format validation failed ({message})",
-	KEYWORD_CUSTOM: "Keyword failed: {key} ({message})",
 	// Schema structure
 	CIRCULAR_REFERENCE: "Circular $refs: {urls}",
 	// Non-standard validation options
@@ -1979,32 +1937,6 @@ function createApi(language) {
 		dropSchemas: function () {
 			globalContext.dropSchemas.apply(globalContext, arguments);
 		},
-		defineKeyword: function () {
-			globalContext.defineKeyword.apply(globalContext, arguments);
-		},
-		defineError: function (codeName, codeNumber, defaultMessage) {
-			if (typeof codeName !== 'string' || !/^[A-Z]+(_[A-Z]+)*$/.test(codeName)) {
-				throw new Error('Code name must be a string in UPPER_CASE_WITH_UNDERSCORES');
-			}
-			if (typeof codeNumber !== 'number' || codeNumber%1 !== 0 || codeNumber < 10000) {
-				throw new Error('Code number must be an integer > 10000');
-			}
-			if (typeof ErrorCodes[codeName] !== 'undefined') {
-				throw new Error('Error already defined: ' + codeName + ' as ' + ErrorCodes[codeName]);
-			}
-			if (typeof ErrorCodeLookup[codeNumber] !== 'undefined') {
-				throw new Error('Error code already used: ' + ErrorCodeLookup[codeNumber] + ' as ' + codeNumber);
-			}
-			ErrorCodes[codeName] = codeNumber;
-			ErrorCodeLookup[codeNumber] = codeName;
-			ErrorMessagesDefault[codeName] = ErrorMessagesDefault[codeNumber] = defaultMessage;
-			for (var langCode in languages) {
-				var language = languages[langCode];
-				if (language[codeName]) {
-					language[codeNumber] = language[codeNumber] || language[codeName];
-				}
-			}
-		},
 		reset: function () {
 			globalContext.reset();
 			this.error = null;
@@ -2036,6 +1968,7 @@ else {
 }
 
 })(this);
+
 
 exports.tv4 = module.exports;
 module = { exports: { } };
@@ -2170,10 +2103,6 @@ delete _exports;
 })();
 
 (function() {
-
-	// --------------------------------------------------------------------------
-	// Helpers
-	// --------------------------------------------------------------------------
 
 	function delim(url) {
 		return (url.indexOf('?') === -1) ? '?' : '&';
@@ -3385,7 +3314,7 @@ delete _exports;
 
 		// Request all the apps and get the xhr objects so we can abort
 		var reqs = LoadApps.load(
-			this.config(),
+			Library.config(),
 			params.appConfigs,
 			params.success,
 			params.error,
@@ -3405,7 +3334,7 @@ delete _exports;
 		};
 	};
 
-	Library.loadPlaceholders = function(parentNode) {
+	Library.loadPlaceholders = function(parentNode, callback) {
 		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
 			parentNode = document.body;
 		}
@@ -3433,8 +3362,18 @@ delete _exports;
 							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
 						}
 					}
+				},
+				complete: function() {
+					if (callback && _.isFunction(callback)) {
+						callback();
+					}
 				}
 			});
+		}
+		else {
+			if (callback && _.isFunction(callback)) {
+				callback();
+			}
 		}
 	};
 
@@ -3588,7 +3527,7 @@ define('F2.AppClass', ['F2'], function(F2) {
 
 	// Make the F2 singleton module
 	define('F2', ['F2Factory'], function(Factory) {
-		return new F2();
+		return new Factory();
 	});
 
 	console.timeEnd('F2 - startup');

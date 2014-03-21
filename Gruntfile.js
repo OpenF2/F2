@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: pkg,
 		clean: {
-			thirdParty: ['./build/f2.vendor.js']
+			vendor: ['./build/f2.vendor.js']
 		},
 		concat: {
 			options: {
@@ -18,43 +18,40 @@ module.exports = function(grunt) {
 			},
 			build: {
 				src: [
-					'./src/core/templates/header.js',
+					// Header
+					'./src/templates/header.js',
 					// Vendor
 					'./build/f2.vendor.js',
 					// Core (order matters)
-					'./src/core/helpers/underline.js',
-					'./src/core/helpers/ajax.js',
-					'./src/core/helpers/appPlaceholders.js',
-					'./src/core/helpers/guid.js',
-					'./src/core/constants.js',
-					'./src/core/events.js',
-					'./src/core/schemas.js',
-					'./src/core/schemas.models.js',
-					'./src/core/helpers/loadApps.js',
-					'./src/core/core.js',
-					'./src/core/ui.js',
-					'./src/core/appClass.js',
+					'./src/helpers/funderscore.js',
+					'./src/helpers/ajax.js',
+					'./src/helpers/appPlaceholders.js',
+					'./src/helpers/guid.js',
+					'./src/constants.js',
+					'./src/events.js',
+					'./src/schemas.js',
+					'./src/schemas.models.js',
+					'./src/helpers/loadApps.js',
+					'./src/core.js',
+					'./src/ui.js',
+					'./src/appClass.js',
 					// Footer
-					'./src/core/templates/footer.js'
+					'./src/templates/footer.js'
 				],
 				dest: './build/f2.js'
 			},
-			thirdParty: {
-				// The order of the third-party libs matters
-				// Don't change them unless you know what you're doing
+			vendor: {
 				src: [
 					// Header
-					'./src/vendor/templates/header.js',
+					'./src/templates/vendor/header.js',
 					// Reqwest
-					'./src/vendor/reqwest.js',
-					'./src/vendor/templates/reqwest_footer.js',
+					'./vendor/reqwest/reqwest.js',
+					'./src/templates/vendor/reqwest_footer.js',
 					// TV4
-					'./src/vendor/tv4.js',
-					'./src/vendor/templates/tv4_footer.js',
-					// LazyLoad
-					'./src/vendor/lazyload.js',
+					'./vendor/tv4/tv4.js',
+					'./src/templates/vendor/tv4_footer.js',
 					// Footer
-					'./src/vendor/templates/footer.js'
+					'./src/templates/vendor/footer.js'
 				],
 				dest: './build/f2.vendor.js',
 				options: {
@@ -65,11 +62,6 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		/**
-		 * Need to downgrade forever-monitor to v1.1 because of:
-		 * https://github.com/blai/grunt-express/issues/12
-		 * cd node_modules/grunt-express; npm uninstall forever-monitor; npm install forever-monitor@1.1;
-		 */
 		express: {
 			server: {
 				options: {
@@ -93,8 +85,8 @@ module.exports = function(grunt) {
 				jshintrc: './.jshintrc'
 			},
 			files: [
-				'./src/core/helpers/*.js',
-				'./src/core/*.js'
+				'./src/helpers/*.js',
+				'./src/*.js'
 			]
 		},
 		uglify: {
@@ -134,7 +126,7 @@ module.exports = function(grunt) {
 				files: [
 					'./Gruntfile.js',
 					'./.jshintrc',
-					'./src/core/**/*.js',
+					'./src/**/*.js',
 				],
 				tasks: ['js'],
 				options: {
@@ -147,7 +139,7 @@ module.exports = function(grunt) {
 				options: {
 					exclude: 'helpers',
 					paths: [
-						'src/core'
+						'./src/'
 					],
 					outdir: './docs'
 				}
@@ -174,7 +166,7 @@ module.exports = function(grunt) {
 		grunt.file.write(dest, rawMap);
 	});
 
-	grunt.registerTask('js', ['jshint', 'concat:thirdParty', 'concat:build', 'clean:thirdParty', 'uglify:build', 'uglify:sourcemap', 'sourcemap']);
+	grunt.registerTask('js', ['jshint', 'concat:vendor', 'concat:build', 'clean:vendor', 'uglify:build', 'uglify:sourcemap', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['js', 'express', 'jasmine', 'express-keepalive']);
 	grunt.registerTask('testweb', ['js', 'express', 'express-keepalive']);

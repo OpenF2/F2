@@ -1,8 +1,6 @@
-﻿define(['jasmine', 'F2'], function() {
+﻿define(['F2'], function(F2) {
 
 	describe('F2.UI', function() {
-
-		var F2 = require('F2');
 
 		beforeEach(function() {
 			window.test = {
