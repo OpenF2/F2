@@ -1,4 +1,4 @@
-(function() {
+(function(reqwest) {
 
 	function delim(url) {
 		return (url.indexOf('?') === -1) ? '?' : '&';
@@ -165,22 +165,16 @@
 			};
 		}
 
-		// Make the call
+		// Kick off the request
 		var req = reqwest(params);
 
-		// Return the xhr object
-		return (function() {
-			var output = {
-				isAborted: false
-			};
-
-			output.abort = function() {
-				output.isAborted = true;
+		return {
+			isAborted: false,
+			abort: function() {
+				this.isAborted = true;
 				req.request.abort();
-			};
-
-			return output;
-		})();
+			}
+		};
 	};
 
-})();
+})(reqwest);
