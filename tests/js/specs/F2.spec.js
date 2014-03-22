@@ -168,11 +168,11 @@
 				F2.load({
 					appConfigs: [{
 						appId: 'com_test_duplicate',
-						manifestUrl: 'http://localhost:8080/apps/duplicate',
+						manifestUrl: '/apps/duplicate',
 						enableBatchRequests: true
 					}, {
 						appId: 'com_test_duplicate',
-						manifestUrl: 'http://localhost:8080/apps/duplicate',
+						manifestUrl: '/apps/duplicate',
 						enableBatchRequests: true
 					}],
 					complete: function() {
@@ -235,7 +235,7 @@
 				var reqs = F2.load({
 					appConfigs: [{
 						appId: 'com_test_basic',
-						manifestUrl: 'http://localhost:8080/apps/slow'
+						manifestUrl: '/apps/slow'
 					}],
 					complete: function() {
 						expect(window.test.com_test_basic).not.toBeDefined();
