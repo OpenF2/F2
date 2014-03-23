@@ -34,7 +34,7 @@ app.all('/apps/slow', function(req, res) {
 	var context = configs[0].context || {};
 
 	// Sleep for a couple seconds to simulate slow responses
-	sleep(2);
+	sleep(0.5);
 
 	res.json({
 		apps: [{
@@ -131,7 +131,7 @@ app.all('/apps/single_jsonp', function(req, res) {
 
 // Simulate a slow jsonp call
 app.all('/apps/single_jsonp_slow', function(req, res) {
-	sleep(0.2);
+	sleep(0.5);
 
 	res.jsonp({
 		apps: [{
