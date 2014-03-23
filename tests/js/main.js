@@ -8,6 +8,7 @@
 			'jasmine': '/vendor/jasmine/lib/jasmine-core/jasmine',
 			'jasmine-boot': '/vendor/jasmine/lib/jasmine-core/boot/boot',
 			'jasmine-html': '/vendor/jasmine/lib/jasmine-core/jasmine-html',
+			'jasmine-console': '/vendor/jasmine/lib/console/console',
 			// Preloaded Apps
 			'com_test_placeholder': '/tests/js/apps/com_test_placeholder'
 		},
@@ -16,18 +17,25 @@
 				exports: 'jasmine'
 			},
 			'jasmine-html': {
-				deps: ['jasmine']
+				deps: ['jasmine'],
+				exports: 'jasmineRequire'
 			},
 			'jasmine-boot': {
-				deps: ['jasmine-html']
+				deps: ['jasmine', 'jasmine-html'],
+				exports: 'jasmine'
+			},
+			'jasmine-console': {
+				deps: ['jasmine', 'jasmine-html', 'jasmine-boot'],
+				exports: 'getJasmineRequireObj'
 			}
 		}
 	});
 
 	require([
 		'jasmine-boot',
+		'jasmine-console',
 		'domReady!'
-	], function() {
+	], function(jasmine, getJasmineRequireObj) {
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 3000;
 
 		// Pull in all the specs
@@ -40,8 +48,28 @@
 			'/tests/js/specs/f2factory.spec.js',
 			'/tests/js/specs/f2.schemas.spec.js'
 		], function() {
-			// Kick jasmine into gear
-			// http://stackoverflow.com/questions/19240302/does-jasmine-2-0-really-not-work-with-require-js
+			var callPhantomFunc = window.callPhantom || window.parent.callPhantom;
+
+			if (callPhantomFunc) {
+				var print = function(message) {
+					callPhantomFunc({
+						message: 'jasminelog',
+						data: {
+							message: message
+						}
+					});
+				};
+
+				var consoleReporterConstructor = getJasmineRequireObj().ConsoleReporter();
+				var consoleReporter = new consoleReporterConstructor({
+					print: print,
+					timer: new window.jasmine.Timer()
+
+				});
+
+				window.jasmine.getEnv().addReporter(consoleReporter);
+			}
+
 			window.onload();
 		});
 	});
