@@ -1,4 +1,5 @@
 (function(window, document, undefined) {
+	'use strict'
 
 	console.time('F2 - startup');
 
