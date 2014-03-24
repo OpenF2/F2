@@ -108,6 +108,17 @@
 		},
 		isObject: function(test) {
 			return test === Object(test);
+		},
+		filter: function(list, fn) {
+			var output = [];
+
+			for (var i = 0, len = list.length; i < len; i++) {
+				if (fn(list[i], i, list)) {
+					output.push(list[i]);
+				}
+			}
+
+			return output;
 		}
 	};
 
