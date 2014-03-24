@@ -33,13 +33,26 @@
 		return _config;
 	};
 
+	/**
+	 * Generates an RFC4122 v4 compliant id
+	 * @method guid
+	 * @return {string} A random id
+	 * @for F2
+	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
+	 */
 	F2.prototype.guid = function() {
-		return Guid();
+		return Guid.guid();
 	};
 
 	F2.prototype.load = function(params) {
 		if (!params) {
 			throw 'F2: no params passed to "load"';
+		}
+
+		// Kill the token if it hasn't been called
+		// This should prevent apps from pretending to be the container
+		if (!Guid.getOnetimeGuid()) {
+			Guid.onetimeGuid();
 		}
 
 		// Default to an array
@@ -112,6 +125,17 @@
 				callback();
 			}
 		}
+	};
+
+	F2.prototype.new = function(params) {
+		// Wrap up the output in a function to prevent prototype tampering
+		return (function(params) {
+			return new F2(params);
+		})();
+	};
+
+	F2.prototype.onetimeToken = function() {
+		return Guid.onetimeGuid();
 	};
 
 	/**

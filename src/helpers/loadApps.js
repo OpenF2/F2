@@ -22,7 +22,7 @@
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && F2.prototype.validate.call(this, appConfigs[i], 'appConfig')) {
-				inputs.instanceId = Guid();
+				inputs.instanceId = Guid.guid();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)

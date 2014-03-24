@@ -267,6 +267,58 @@
 
 		});
 
+		describe('new', function() {
+
+			it('should create new instances of F2', function() {
+				expect(F2.new()).not.toBe(F2);
+			});
+
+		});
+
+		describe('onetimeToken', function() {
+
+			var onetimeToken;
+
+			beforeEach(function() {
+				if (!onetimeToken) {
+					onetimeToken = F2.onetimeToken();
+				}
+			});
+
+			it('should return a guid', function() {
+				expect(onetimeToken).toBeDefined();
+			});
+
+			it('should throw when called more than once', function() {
+				function attemptToGetTokenTwice() {
+					F2.onetimeToken();
+				}
+
+				expect(attemptToGetTokenTwice).toThrow();
+			});
+
+			it('should throw after \'F2.load\' is called', function(done) {
+				function attemptToGetToken() {
+					F2.onetimeToken();
+				}
+
+				// Load some apps and abort immediately
+				var reqs = F2.load({
+					appConfigs: [{
+						appId: 'com_test_basic',
+						manifestUrl: '/apps/slow'
+					}],
+					complete: function() {
+						expect(attemptToGetToken).toThrow();
+
+						done();
+					}
+				});
+				reqs.abort();
+			});
+
+		});
+
 		describe('remove', function() {
 
 			// Shortcut func

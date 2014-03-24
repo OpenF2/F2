@@ -41,10 +41,6 @@
 
 	// Create the internal objects
 	var F2 = function(params) {
-		if (params) {
-			if (params.plugins && Helpers._.isArray(params.plugins)) {
-				this._plugins = params.plugins;
-			}
-		}
+		// Do something with params
 	};
 	var Helpers = {};

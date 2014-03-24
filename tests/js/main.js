@@ -45,7 +45,6 @@
 			'/tests/js/specs/f2.events.spec.js',
 			'/tests/js/specs/f2.ui.spec.js',
 			'/tests/js/specs/f2.spec.js',
-			'/tests/js/specs/f2factory.spec.js',
 			'/tests/js/specs/f2.schemas.spec.js'
 		], function() {
 			var callPhantomFunc = window.callPhantom || window.parent.callPhantom;
