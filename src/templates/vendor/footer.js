@@ -11,4 +11,4 @@ var tv4 = _exports.tv4;
 var reqwest = _exports.reqwest;
 
 // Pull the document off exports
-delete _exports;
+_exports = undefined;
