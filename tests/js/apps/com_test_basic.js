@@ -16,7 +16,8 @@
 
 		// Listen to an event
 		F2.Events.on(this, 'com_test_basic', function() {
-			window.test.com_test_basic.event = true;
+			var args = Array.prototype.slice.call(arguments);
+			window.test.com_test_basic.eventArgs = args;
 		});
 
 		F2.Events.many(this, 'com_test_basic-many', 3, function() {

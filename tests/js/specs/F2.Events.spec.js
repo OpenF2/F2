@@ -1,4 +1,4 @@
-﻿define(['F2'], function(F2) {
+﻿define(['F2', 'testHelpers'], function(F2, helpers) {
 
 	describe('F2.Events', function() {
 
@@ -24,46 +24,36 @@
 				expect(attempt).not.toThrow();
 			});
 
-			it('should call handlers for a registered event', function() {
-				function handler() {
-					window.events.emit = true;
-				}
-				F2.Events.on('__test-emit__', handler);
-				F2.Events.emit('__test-emit__');
-				F2.Events.off(handler);
-
-				expect(window.events.emit).toBe(true);
+			it('should call handlers for a registered event', function(done) {
+				helpers.easyLoad('com_test_basic', function() {
+					F2.Events.emit('com_test_basic');
+					expect(window.test.com_test_basic.eventArgs).toBeDefined();
+					done();
+					F2.remove(window.test.com_test_basic.instance);
+				});
 			});
 
-			it('should pass all arguments to emitted event', function() {
-				function handler(first, second) {
-					window.events.emit = [first, second];
-				}
-				F2.Events.on('__test-emit__', handler);
-				F2.Events.emit('__test-emit__', 1, 2);
-				F2.Events.off(handler);
-
-				expect(window.events.emit[0]).toBe(1);
-				expect(window.events.emit[1]).toBe(2);
+			it('should pass all arguments to emitted event', function(done) {
+				helpers.easyLoad('com_test_basic', function() {
+					F2.Events.emit('com_test_basic', 1, 2, 3);
+					expect(window.test.com_test_basic.eventArgs.length).toBe(3);
+					done();
+					F2.remove(window.test.com_test_basic.instance);
+				});
 			});
 
-			it('should not run disposed handlers', function() {
-				var mock = new MockClass();
-				mock.dispose();
-
-				F2.Events.emit("__test-mock__");
-
-				expect(window.events.context).not.toBeDefined();
+			it('should not run disposed handlers', function(done) {
+				helpers.easyLoad('com_test_basic', function() {
+					F2.Events.emit('com_test_basic', 1, 2, 3);
+					F2.remove(window.test.com_test_basic.instance);
+					expect(window.test.com_test_basic).not.toBeDefined();
+					done();
+				});
 			});
 
 		});
 
 		describe('many', function() {
-
-			var appConfigs = [{
-				appId: 'com_test_basic',
-				manifestUrl: '/apps/single'
-			}];
 
 			it('should throw if no context is passed', function() {
 				function attempt() {

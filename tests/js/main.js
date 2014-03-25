@@ -34,7 +34,8 @@
 	require([
 		'jasmine-boot',
 		'jasmine-console',
-		'domReady!'
+		'domReady!',
+		'js/testHelpers.js'
 	], function(jasmine, getJasmineRequireObj) {
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 3000;
 
