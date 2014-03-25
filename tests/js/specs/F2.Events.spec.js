@@ -6,28 +6,6 @@
 			window.events = {};
 		});
 
-		function MockClass() {
-			this.didIt = true;
-			this.__f2Disposed__ = false;
-
-			this.handler = function() {
-				window.events.context = this;
-			};
-
-			this.handler2 = function() {
-				window.events.context2 = this;
-			};
-
-			F2.Events.on('__test-mock__', this.handler);
-			F2.Events.on('__test-mock2__', this.handler2);
-
-			this.dispose = function() {
-				this.__f2Disposed__ = true;
-				F2.Events.off(this.handler);
-				F2.Events.off(this.handler2);
-			};
-		}
-
 		describe('emit', function() {
 
 			it('should throw if no event name is passed', function() {
@@ -82,51 +60,121 @@
 
 		describe('many', function() {
 
-			it('should throw if no event name is passed', function() {
+			var appConfigs = [{
+				appId: 'com_test_basic',
+				manifestUrl: '/apps/single'
+			}];
+
+			it('should throw if no context is passed', function() {
 				function attempt() {
-					F2.Events.many();
+					F2.Events.many(null, "test", function() {}, 10);
 				}
 
 				expect(attempt).toThrow();
+			});
+
+			it('should throw if context is not an app instantiated by F2', function() {
+				function attempt() {
+					var fakeApp = function() { };
+					F2.Events.many(new fakeApp(), "test", function() { }, 10);
+				}
+
+				expect(attempt).toThrow();
+			});
+
+			it('should not throw if context is an app instantiated by F2', function(done) {
+				F2.load({
+					appConfigs: appConfigs,
+					complete: function() {
+						function attempt() {
+							F2.Events.many(window.test.com_test_basic.instance, "test", 10, function() { });
+						}
+						expect(attempt).not.toThrow();
+						done();
+						F2.remove(instance);
+					}
+				});
+			});
+
+			it('should throw if no name is passed', function(done) {
+				F2.load({
+					appConfigs: appConfigs,
+					complete: function() {
+						function attempt() {
+							F2.Events.many(window.test.com_test_basic.instance, null, 10, function() { });
+						}
+						expect(attempt).toThrow();
+						done();
+						F2.remove(instance);
+					}
+				});
 			});
 
 			it('should throw if no handler is passed', function() {
-				function attempt() {
-					F2.Events.many('__test-many__');
-				}
-
-				expect(attempt).toThrow();
+				F2.load({
+					appConfigs: appConfigs,
+					complete: function() {
+						function attempt() {
+							F2.Events.many(window.test.com_test_basic.instance, "test", 10, null);
+						}
+						expect(attempt).toThrow();
+						done();
+						F2.remove(instance);
+					}
+				});
 			});
 
 			it('should throw if no count is passed', function() {
-				function attempt() {
-					F2.Events.many('__test-many__', null, function() {});
-				}
+				F2.load({
+					appConfigs: appConfigs,
+					complete: function() {
+						function attempt() {
+							F2.Events.many(window.test.com_test_basic.instance, "test", null, function() { });
+						}
+						expect(attempt).toThrow();
+						done();
+						F2.remove(instance);
+					}
+				});
+			});
 
-				expect(attempt).toThrow();
+			it('should throw if count is NaN, negative, or 0', function() {
+				F2.load({
+					appConfigs: appConfigs,
+					complete: function() {
+						function attemptZero() {
+							F2.Events.many(window.test.com_test_basic.instance, "test", 0, function() { });
+						}
+						function attemptNegative() {
+							F2.Events.many(window.test.com_test_basic.instance, "test", -1, function() { });
+						}
+						function attemptNaN() {
+							F2.Events.many(window.test.com_test_basic.instance, "test", "foo", function() { });
+						}
+						expect(attemptZero).toThrow();
+						expect(attemptNegative).toThrow();
+						expect(attemptNaN).toThrow();
+						done();
+						F2.remove(instance);
+					}
+				});
 			});
 
 			it('should only call handlers the specified number of times', function() {
-				window.events.count = 0;
-
-				function handler() {
-					window.events.count += 1;
-				}
-
-				F2.Events.many('__test-many__', 2, handler);
-				F2.Events.emit('__test-many__');
-				F2.Events.emit('__test-many__');
-				F2.Events.emit('__test-many__'); // Should not run
-
-				expect(window.events.count).toBe(2);
-			});
-
-			if('should throw if \'howMany\' isNaN', function(){
-				function attempt() {
-					F2.Events.many('__test-many__', "a", function(){ });
-				}
-
-				expect(attempt).toThrow();
+				F2.load({
+					appConfigs: appConfigs,
+					complete: function() {
+						// Execute 4 times
+						F2.emit('com_test_basic-many');
+						F2.emit('com_test_basic-many');
+						F2.emit('com_test_basic-many');
+						F2.emit('com_test_basic-many');
+						// Handler should have only fired 3 times
+						expect(window.test.com_test_basic.count).toBe(3);
+						done();
+						F2.remove(instance);
+					}
+				});
 			});
 
 		});
