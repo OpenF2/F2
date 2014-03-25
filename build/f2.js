@@ -3116,7 +3116,7 @@ _exports = undefined;
 			// Treat as root
 			if (identifier.nodeType === 1) {
 				for (var id in appInstances) {
-					if (appInstances[id].root === identifier) {
+					if (appInstances[id] && appInstances[id].root === identifier) {
 						instance = appInstances[id];
 						break;
 					}
@@ -3129,7 +3129,7 @@ _exports = undefined;
 			else {
 				// Look for instance directly
 				for (var id2 in appInstances) {
-					if (appInstances[id2].instance === identifier) {
+					if (appInstances[id2] && appInstances[id2].instance === identifier) {
 						instance = appInstances[id2].instance;
 						break;
 					}
@@ -3147,7 +3147,7 @@ _exports = undefined;
 		},
 		load: loadApps,
 		remove: function(instanceId) {
-			appInstances[instanceId] = undefined;
+			delete appInstances[instanceId];
 		}
 	};
 
@@ -3184,7 +3184,7 @@ _exports = undefined;
 	// ---------------------------------------------------------------------------
 
 	function _send(name, filters, args) {
-		if (!name || name !== name.toString()) {
+		if (!name || !_.isString(name)) {
 			throw 'F2.Events: you must provide an event name to emit.';
 		}
 
@@ -3220,11 +3220,11 @@ _exports = undefined;
 		if (!instance) {
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
-		else {
+		else if (!instanceIsBeingLoaded) {
 			var instanceIsApp = (!!LoadApps.getInstance(instance));
 			var instanceIsToken = (instance === Guid.getOnetimeGuid());
 
-			if (!instanceIsApp && !instanceIsToken && !instanceIsBeingLoaded) {
+			if (!instanceIsApp && !instanceIsToken) {
 				throw 'F2.Events: "instance" must be an app instance or a container token.';
 			}
 		}

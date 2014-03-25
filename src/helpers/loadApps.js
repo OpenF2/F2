@@ -406,7 +406,7 @@
 			// Treat as root
 			if (identifier.nodeType === 1) {
 				for (var id in appInstances) {
-					if (appInstances[id].root === identifier) {
+					if (appInstances[id] && appInstances[id].root === identifier) {
 						instance = appInstances[id];
 						break;
 					}
@@ -419,7 +419,7 @@
 			else {
 				// Look for instance directly
 				for (var id2 in appInstances) {
-					if (appInstances[id2].instance === identifier) {
+					if (appInstances[id2] && appInstances[id2].instance === identifier) {
 						instance = appInstances[id2].instance;
 						break;
 					}
@@ -437,7 +437,7 @@
 		},
 		load: loadApps,
 		remove: function(instanceId) {
-			appInstances[instanceId] = undefined;
+			delete appInstances[instanceId];
 		}
 	};
 

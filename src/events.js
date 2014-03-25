@@ -29,7 +29,7 @@
 	// ---------------------------------------------------------------------------
 
 	function _send(name, filters, args) {
-		if (!name || name !== name.toString()) {
+		if (!name || !_.isString(name)) {
 			throw 'F2.Events: you must provide an event name to emit.';
 		}
 
@@ -65,11 +65,11 @@
 		if (!instance) {
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
-		else {
+		else if (!instanceIsBeingLoaded) {
 			var instanceIsApp = (!!LoadApps.getInstance(instance));
 			var instanceIsToken = (instance === Guid.getOnetimeGuid());
 
-			if (!instanceIsApp && !instanceIsToken && !instanceIsBeingLoaded) {
+			if (!instanceIsApp && !instanceIsToken) {
 				throw 'F2.Events: "instance" must be an app instance or a container token.';
 			}
 		}
