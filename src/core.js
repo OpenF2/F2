@@ -170,13 +170,13 @@
 					instance.dispose();
 				}
 
+				// Automatically pull off events
+				this.Events.off(instance);
+
 				// Remove ourselves from the DOM
 				if (instance.root && instance.root.parentNode) {
 					instance.root.parentNode.removeChild(instance.root);
 				}
-
-				// Set a property that will let us watch for memory leaks
-				instance.__f2Disposed__ = true;
 
 				// Remove ourselves from the internal map
 				LoadApps.remove(instance.instanceId);

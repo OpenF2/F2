@@ -1,14 +1,12 @@
 (function(Ajax, _, Guid) {
 
 	var appInstances = {};
+	var inFlightInstanceIds = {};
+	var loadListeners = {};
 
 	// ---------------------------------------------------------------------------
 	// Utils
 	// ---------------------------------------------------------------------------
-
-	function remove(instanceId) {
-		delete appInstances[instanceId];
-	}
 
 	function loadApps(containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
 		var xhrByUrl;
@@ -131,28 +129,58 @@
 
 		if (appIds.length) {
 			require(appIds, function() {
-				var appClasses = Array.prototype.slice.apply(arguments);
+				var appClasses = Array.prototype.slice.call(arguments);
 
 				// Load each AppClass
-				for (var i = 0, len = allApps.length; i < len; i++) {
+				_.each(allApps, function(app, i) {
 					try {
+						// Track that we're loading this app right now
+						// We need this because an app might try to register an event in
+						// its constructor. When that happens we won't be able to check
+						// that the "context" is a loaded app... cause it's loading
+						inFlightInstanceIds[app.instanceId] = true;
+
+						// Instantiate the app
 						var instance = new appClasses[i](
-							allApps[i].instanceId,
-							allApps[i].appConfig,
-							allApps[i].appContent.data || {},
-							allApps[i].root
+							app.instanceId,
+							app.appConfig,
+							app.appContent.data || {},
+							app.root
 						);
 
+						// Clear out the app so we won't get confused later
+						delete inFlightInstanceIds[app.instanceId];
+
+						// Exit if we didn't get anything back
+						if (!instance) {
+							throw '';
+						}
+
+						// Add the new app to our internal map of loaded apps
+						appInstances[app.instanceId] = {
+							appConfig: app.appConfig,
+							instance: instance,
+							instanceId: app.instanceId,
+							root: app.root
+						};
+
+						// Call any listeners for this app
+						if (loadListeners[app.instanceId]) {
+							while (loadListeners[app.instanceId].length) {
+								var callback = loadListeners[app.instanceId].shift();
+								callback(instance);
+							}
+						}
+
+						// Call "init" if one was provided
 						if (instance.init) {
 							instance.init();
 						}
-
-						appInstances[allApps[i].instanceId] = instance;
 					}
 					catch (e) {
-						console.error('F2: could not init', allApps[i].appConfig.appId, '"' + e.toString() + '"');
+						console.error('F2: could not init', app.appConfig.appId, '"' + e.toString() + '"');
 					}
-				}
+				});
 
 				// Finally tell the container that we're all finished
 				if (completeFn) {
@@ -369,6 +397,9 @@
 	// ---------------------------------------------------------------------------
 
 	Helpers.LoadApps = {
+		isInFlightInstanceId: function(instanceId) {
+			return inFlightInstanceIds[instanceId];
+		},
 		getInstance: function(identifier) {
 			var instance;
 
@@ -381,15 +412,33 @@
 					}
 				}
 			}
-			else {
+			else if (_.isString(identifier)) {
 				// Treat as instanceId
 				instance = appInstances[identifier];
+			}
+			else {
+				// Look for instance directly
+				for (var id2 in appInstances) {
+					if (appInstances[id2].instance === identifier) {
+						instance = appInstances[id2].instance;
+						break;
+					}
+				}
 			}
 
 			return instance;
 		},
+		addLoadListener: function(instanceId, callback) {
+			if (!loadListeners[instanceId]) {
+				loadListeners[instanceId] = [];
+			}
+
+			loadListeners[instanceId].push(callback);
+		},
 		load: loadApps,
-		remove: remove
+		remove: function(instanceId) {
+			appInstances[instanceId] = undefined;
+		}
 	};
 
 })(Helpers.Ajax, Helpers._, Helpers.Guid);

@@ -106,6 +106,9 @@
 		isFunction: function(test) {
 			return typeof test === 'function';
 		},
+		isString: function(test) {
+			return typeof test === 'string';
+		},
 		isObject: function(test) {
 			return test === Object(test);
 		},

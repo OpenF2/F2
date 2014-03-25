@@ -41,11 +41,7 @@
 
 	// Create the internal objects
 	var F2 = function(params) {
-		if (params) {
-			if (params.plugins && Helpers._.isArray(params.plugins)) {
-				this._plugins = params.plugins;
-			}
-		}
+		// Do something with params
 	};
 	var Helpers = {};
 
@@ -1992,7 +1988,7 @@ var tv4 = _exports.tv4;
 var reqwest = _exports.reqwest;
 
 // Pull the document off exports
-delete _exports;
+_exports = undefined;
 
 /*
 	Code generously borrowed from the underscore library. Some code has been
@@ -2102,8 +2098,22 @@ delete _exports;
 		isFunction: function(test) {
 			return typeof test === 'function';
 		},
+		isString: function(test) {
+			return typeof test === 'string';
+		},
 		isObject: function(test) {
 			return test === Object(test);
+		},
+		filter: function(list, fn) {
+			var output = [];
+
+			for (var i = 0, len = list.length; i < len; i++) {
+				if (fn(list[i], i, list)) {
+					output.push(list[i]);
+				}
+			}
+
+			return output;
 		}
 	};
 
@@ -2427,29 +2437,40 @@ delete _exports;
 	// Track all the guids we've made on this page
 	var _guids = {};
 
-	/**
-	 * Generates an RFC4122 v4 compliant id
-	 * @method guid
-	 * @return {string} A random id
-	 * @for F2
-	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
-	 */
-	Helpers.Guid = function() {
-		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random() * 16 | 0;
-			var v = c === 'x' ? r : (r & 0x3 | 0x8);
-			return v.toString(16);
-		});
+	// Reserve this for our "once per page" container token
+	var _onetimeGuid;
 
-		// Check if we've seen this one before
-		if (_guids[guid]) {
-			// Get a new guid
-			guid = Helpers.Guid();
+	Helpers.Guid = {
+		guid: function() {
+			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random() * 16 | 0;
+				var v = c === 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+
+			// Check if we've seen this one before
+			if (_guids[guid]) {
+				// Get a new guid
+				guid = this.guid();
+			}
+
+			_guids[guid] = true;
+
+			return guid;
+		},
+		getOnetimeGuid: function() {
+			return _onetimeGuid;
+		},
+		onetimeGuid: function() {
+			// Kill this function
+			this.onetimeGuid = function() {
+				throw 'F2: onetime token has already been used.';
+			};
+
+			_onetimeGuid = this.guid();
+
+			return _onetimeGuid;
 		}
-
-		_guids[guid] = true;
-
-		return guid;
 	};
 
 })();
@@ -2478,146 +2499,6 @@ delete _exports;
 	};
 
 })();
-
-/**
- * Handles context passing
- * @class F2.Events
- */
-(function(_) {
-
-	var _subs = {};
-
-	// ---------------------------------------------------------------------------
-	// Utils
-	// ---------------------------------------------------------------------------
-
-	function _subscribe(name, handler, timesToListen) {
-		if (!name) {
-			throw 'F2.Events: you must provide an event name.';
-		}
-
-		if (!handler) {
-			throw 'F2.Events: you must provide an event handler.';
-		}
-
-		if (timesToListen !== undefined && isNaN(timesToListen) || timesToListen < 1) {
-			throw 'F2.Events: "timesToListen" must be a number greater than 0.';
-		}
-
-		// Create the event if we haven't seen it
-		if (!_subs[name]) {
-			_subs[name] = [];
-		}
-
-		_subs[name].push({
-			handler: handler,
-			timesLeft: timesToListen
-		});
-	}
-
-	function _unsubscribe(name, handler) {
-		// Check for only handler being passed
-		if (name && _.isFunction(name) && !handler) {
-			handler = name;
-			name = undefined;
-		}
-
-		if (!handler) {
-			throw 'F2.Events: you must pass a handler.';
-		}
-
-		if (_subs[name]) {
-			var len = _subs[name].length;
-
-			while (len--) {
-				if (_subs[name][len].handler === handler) {
-					_subs[name].splice(len, 1);
-				}
-			}
-		}
-		else {
-			// Look for the handler in each subscriber
-			for (var subName in _subs) {
-				_unsubscribe(subName, handler);
-			}
-		}
-	}
-
-	// ---------------------------------------------------------------------------
-	// API
-	// ---------------------------------------------------------------------------
-
-	F2.prototype.Events = {
-		/**
-		 *
-		 * @method emit
-		 * @param {String} name The event name
-		 * @return void
-		 */
-		emit: function(name) {
-			if (!name || name !== name.toString()) {
-				throw 'F2.Events: you must provide an event name to emit.';
-			}
-
-			if (_subs[name]) {
-				var args = Array.prototype.slice.call(arguments, 1);
-				var len = _subs[name].length;
-
-				while (len--) {
-					// Execute the handler
-					_subs[name][len].handler.apply(window, args);
-
-					// See if this is limited to a # of executions
-					if (_subs[name][len].timesLeft !== undefined && --_subs[name][len].timesLeft === 0) {
-						_subs[name].splice(len, 1);
-					}
-				}
-			}
-		},
-		/**
-		 *
-		 * @method many
-		 * @param {String} name The event name
-		 * @param {Number} timesToListen The number of times the handler should be fired
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		many: function(name, timesToListen, handler) {
-			return _subscribe(name, handler, timesToListen);
-		},
-		/**
-		 *
-		 * @method off
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		off: function(name, handler) {
-			return _unsubscribe(name, handler);
-		},
-		/**
-		 *
-		 * @method on
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		on: function(name, handler) {
-			return _subscribe(name, handler);
-		},
-		/**
-		 *
-		 * @method once
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		once: function(name, handler) {
-			return _subscribe(name, handler, 1);
-		}
-	};
-
-})(Helpers._);
 
 /**
  * Schema validations
@@ -2830,14 +2711,12 @@ delete _exports;
 (function(Ajax, _, Guid) {
 
 	var appInstances = {};
+	var inFlightInstanceIds = {};
+	var loadListeners = {};
 
 	// ---------------------------------------------------------------------------
 	// Utils
 	// ---------------------------------------------------------------------------
-
-	function remove(instanceId) {
-		delete appInstances[instanceId];
-	}
 
 	function loadApps(containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
 		var xhrByUrl;
@@ -2851,7 +2730,7 @@ delete _exports;
 
 			// The AppConfig must be valid
 			if (appConfigs[i] && F2.prototype.validate.call(this, appConfigs[i], 'appConfig')) {
-				inputs.instanceId = Guid();
+				inputs.instanceId = Guid.guid();
 				inputs.appConfig = appConfigs[i];
 
 				// See if this is a preloaded app (already has a root)
@@ -2960,28 +2839,58 @@ delete _exports;
 
 		if (appIds.length) {
 			require(appIds, function() {
-				var appClasses = Array.prototype.slice.apply(arguments);
+				var appClasses = Array.prototype.slice.call(arguments);
 
 				// Load each AppClass
-				for (var i = 0, len = allApps.length; i < len; i++) {
+				_.each(allApps, function(app, i) {
 					try {
+						// Track that we're loading this app right now
+						// We need this because an app might try to register an event in
+						// its constructor. When that happens we won't be able to check
+						// that the "context" is a loaded app... cause it's loading
+						inFlightInstanceIds[app.instanceId] = true;
+
+						// Instantiate the app
 						var instance = new appClasses[i](
-							allApps[i].instanceId,
-							allApps[i].appConfig,
-							allApps[i].appContent.data || {},
-							allApps[i].root
+							app.instanceId,
+							app.appConfig,
+							app.appContent.data || {},
+							app.root
 						);
 
+						// Clear out the app so we won't get confused later
+						delete inFlightInstanceIds[app.instanceId];
+
+						// Exit if we didn't get anything back
+						if (!instance) {
+							throw '';
+						}
+
+						// Add the new app to our internal map of loaded apps
+						appInstances[app.instanceId] = {
+							appConfig: app.appConfig,
+							instance: instance,
+							instanceId: app.instanceId,
+							root: app.root
+						};
+
+						// Call any listeners for this app
+						if (loadListeners[app.instanceId]) {
+							while (loadListeners[app.instanceId].length) {
+								var callback = loadListeners[app.instanceId].shift();
+								callback(instance);
+							}
+						}
+
+						// Call "init" if one was provided
 						if (instance.init) {
 							instance.init();
 						}
-
-						appInstances[allApps[i].instanceId] = instance;
 					}
 					catch (e) {
-						console.error('F2: could not init', allApps[i].appConfig.appId, '"' + e.toString() + '"');
+						console.error('F2: could not init', app.appConfig.appId, '"' + e.toString() + '"');
 					}
-				}
+				});
 
 				// Finally tell the container that we're all finished
 				if (completeFn) {
@@ -3198,6 +3107,9 @@ delete _exports;
 	// ---------------------------------------------------------------------------
 
 	Helpers.LoadApps = {
+		isInFlightInstanceId: function(instanceId) {
+			return inFlightInstanceIds[instanceId];
+		},
 		getInstance: function(identifier) {
 			var instance;
 
@@ -3210,18 +3122,237 @@ delete _exports;
 					}
 				}
 			}
-			else {
+			else if (_.isString(identifier)) {
 				// Treat as instanceId
 				instance = appInstances[identifier];
+			}
+			else {
+				// Look for instance directly
+				for (var id2 in appInstances) {
+					if (appInstances[id2].instance === identifier) {
+						instance = appInstances[id2].instance;
+						break;
+					}
+				}
 			}
 
 			return instance;
 		},
+		addLoadListener: function(instanceId, callback) {
+			if (!loadListeners[instanceId]) {
+				loadListeners[instanceId] = [];
+			}
+
+			loadListeners[instanceId].push(callback);
+		},
 		load: loadApps,
-		remove: remove
+		remove: function(instanceId) {
+			appInstances[instanceId] = undefined;
+		}
 	};
 
 })(Helpers.Ajax, Helpers._, Helpers.Guid);
+
+/**
+ * Handles context passing
+ * @class F2.Events
+ */
+(function(_, LoadApps, Guid) {
+
+	var _subs = {};
+
+	function appMatchesPattern(app, filters) {
+		for (var i = 0, len = filters.length; i < len; i++) {
+			// Check exact instanceId or appId match
+			if (app.instanceId === filters[i] || app.appId === filters[i]) {
+				return true;
+			}
+
+			// Pattern match
+			var pattern = new RegExp(filters[i], 'gi');
+
+			if (pattern.test(app.appId)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// ---------------------------------------------------------------------------
+	// Utils
+	// ---------------------------------------------------------------------------
+
+	function _send(name, filters, args) {
+		if (!name || name !== name.toString()) {
+			throw 'F2.Events: you must provide an event name to emit.';
+		}
+
+		if (!filters || !_.isArray(filters)) {
+			filters = [].concat(filters || []);
+		}
+
+		if (_subs[name]) {
+			var len = _subs[name].length;
+
+			while (len--) {
+				var sub = _subs[name][len];
+				// Strip out the bogus filters
+				filters = _.filter(filters, function(filter) {
+					return !!filter;
+				});
+
+				if (!filters.length || (filters.length && appMatchesPattern(sub.instance, filters))) {
+					sub.handler.apply(sub.instance, args);
+				}
+
+				// See if this is limited to a # of executions
+				if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
+					_subs[name].splice(len, 1);
+				}
+			}
+		}
+	}
+
+	function _subscribe(instance, name, handler, timesToListen) {
+		var instanceIsBeingLoaded = (instance && LoadApps.isInFlightInstanceId(instance.instanceId));
+
+		if (!instance) {
+			throw 'F2.Events: you must provide an app instance or container token.';
+		}
+		else {
+			var instanceIsApp = (!!LoadApps.getInstance(instance));
+			var instanceIsToken = (instance === Guid.getOnetimeGuid());
+
+			if (!instanceIsApp && !instanceIsToken && !instanceIsBeingLoaded) {
+				throw 'F2.Events: "instance" must be an app instance or a container token.';
+			}
+		}
+
+		if (!name) {
+			throw 'F2.Events: you must provide an event name.';
+		}
+
+		if (!handler) {
+			throw 'F2.Events: you must provide an event handler.';
+		}
+
+		if (timesToListen !== undefined && isNaN(timesToListen) || timesToListen < 1) {
+			throw 'F2.Events: "timesToListen" must be a number greater than 0.';
+		}
+
+		// Create the event if we haven't seen it
+		if (!_subs[name]) {
+			_subs[name] = [];
+		}
+
+		if (!instanceIsBeingLoaded) {
+			_subs[name].push({
+				handler: handler,
+				instance: instance,
+				timesLeft: timesToListen
+			});
+		}
+		else {
+			// Wait for LoadApps to tell us that this app has been loaded
+			LoadApps.addLoadListener(instance.instanceId, function(instance) {
+				_subscribe(instance, name, handler, timesToListen);
+			});
+		}
+	}
+
+	function _unsubscribe(instance, name, handler) {
+		if (name && !_.isString(name)) {
+			throw 'F2.Events: "name" must be a string if it is passed';
+		}
+
+		var handlerIsValid = (handler && !_.isFunction(handler));
+		var instanceIsValid = instance && !!LoadApps.getInstance(instance);
+
+		if (name && !handlerIsValid && !instanceIsValid) {
+			throw 'F2.Events: you can\'t unsubscribe with a "name" only';
+		}
+
+		if (name) {
+			for (var i = 0; i < _subs[name].length; i++) {
+				var matchesInstance = _subs[name][i].instance === instance;
+				var matchesHandler = _subs[name][i].handler === handler;
+
+				if (matchesInstance || matchesHandler) {
+					_subs[name].splice(i--, 1);
+				}
+			}
+		}
+		else {
+			for (var event in _subs) {
+				_unsubscribe(instance, event, handler);
+			}
+		}
+	}
+
+	// ---------------------------------------------------------------------------
+	// API
+	// ---------------------------------------------------------------------------
+
+	F2.prototype.Events = {
+		/**
+		 *
+		 * @method emit
+		 * @param {String} name The event name
+		 * @return void
+		 */
+		emit: function(name) {
+			var args = Array.prototype.slice.call(arguments, 1);
+			return _send(name, [], args);
+		},
+		emitTo: function(filters, name) {
+			var args = Array.prototype.slice.call(arguments, 2);
+			return _send(name, filters, args);
+		},
+		/**
+		 *
+		 * @method many
+		 * @param {String} name The event name
+		 * @param {Number} timesToListen The number of times the handler should be fired
+		 * @param {Function} handler Function to handle the event
+		 * @return void
+		 */
+		many: function(instance, name, timesToListen, handler) {
+			_subscribe(instance, name, handler, timesToListen);
+		},
+		/**
+		 *
+		 * @method off
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @return void
+		 */
+		off: function(instance, name, handler) {
+			_unsubscribe(instance, name, handler);
+		},
+		/**
+		 *
+		 * @method on
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @return void
+		 */
+		on: function(instance, name, handler) {
+			_subscribe(instance, name, handler);
+		},
+		/**
+		 *
+		 * @method once
+		 * @param {String} name The event name
+		 * @param {Function} handler Function to handle the event
+		 * @return void
+		 */
+		once: function(instance, name, handler) {
+			_subscribe(instance, name, handler, 1);
+		}
+	};
+
+})(Helpers._, Helpers.LoadApps, Helpers.Guid);
 
 /**
  * F2 Core
@@ -3258,13 +3389,26 @@ delete _exports;
 		return _config;
 	};
 
+	/**
+	 * Generates an RFC4122 v4 compliant id
+	 * @method guid
+	 * @return {string} A random id
+	 * @for F2
+	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
+	 */
 	F2.prototype.guid = function() {
-		return Guid();
+		return Guid.guid();
 	};
 
 	F2.prototype.load = function(params) {
 		if (!params) {
 			throw 'F2: no params passed to "load"';
+		}
+
+		// Kill the token if it hasn't been called
+		// This should prevent apps from pretending to be the container
+		if (!Guid.getOnetimeGuid()) {
+			Guid.onetimeGuid();
 		}
 
 		// Default to an array
@@ -3339,6 +3483,17 @@ delete _exports;
 		}
 	};
 
+	F2.prototype.new = function(params) {
+		// Wrap up the output in a function to prevent prototype tampering
+		return (function(params) {
+			return new F2(params);
+		})();
+	};
+
+	F2.prototype.onetimeToken = function() {
+		return Guid.onetimeGuid();
+	};
+
 	/**
 	 * Removes an app from the container
 	 * @method remove
@@ -3371,13 +3526,13 @@ delete _exports;
 					instance.dispose();
 				}
 
+				// Automatically pull off events
+				this.Events.off(instance);
+
 				// Remove ourselves from the DOM
 				if (instance.root && instance.root.parentNode) {
 					instance.root.parentNode.removeChild(instance.root);
 				}
-
-				// Set a property that will let us watch for memory leaks
-				instance.__f2Disposed__ = true;
 
 				// Remove ourselves from the internal map
 				LoadApps.remove(instance.instanceId);
@@ -3472,17 +3627,9 @@ define('F2.AppClass', ['F2'], function(F2) {
 
 });
 
-	// Make a factory module that can spawn new instances
-	define('F2Factory', [], function() {
-		// Wrap up the output in a function to prevent prototype tempering
-		return function(params) {
-			return new F2(params);
-		};
-	});
-
 	// Make the F2 singleton module
-	define('F2', ['F2Factory'], function(Factory) {
-		return new Factory();
+	define('F2', [], function() {
+		return new F2();
 	});
 
 	console.timeEnd('F2 - startup');
