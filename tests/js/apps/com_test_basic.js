@@ -14,20 +14,29 @@
 			count: 0
 		};
 
-		// Listen to an event
-		F2.Events.on(this, 'com_test_basic', function() {
-			var args = Array.prototype.slice.call(arguments);
-			window.test.com_test_basic.eventArgs = args;
-		});
-
-		F2.Events.many(this, 'com_test_basic-many', 3, function() {
-			window.test.com_test_basic.count += 1;
-		});
+		// Listen to some events for testing purposes
+		F2.Events.on(this, 'com_test_basic-args', this.handleArgs);
+		F2.Events.on(this, 'com_test_basic-context', this.handleContext);
+		F2.Events.many(this, 'com_test_basic-many', 3, this.handleMany);
+		F2.Events.once(this, 'com_test_basic-once', this.handleOnce);
 	}
 
 	AppClass.prototype = {
 		dispose: function() {
 			window.test.com_test_basic = undefined;
+		},
+		handleArgs: function() {
+			var args = Array.prototype.slice.call(arguments);
+			window.test.com_test_basic.eventArgs = args;
+		},
+		handleContext: function() {
+			window.test.com_test_basic.handlerContext = this;
+		},
+		handleMany: function() {
+			window.test.com_test_basic.count += 1;
+		},
+		handleOnce: function() {
+			window.test.com_test_basic.count += 1;
 		}
 	};
 

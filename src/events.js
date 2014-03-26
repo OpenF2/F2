@@ -107,18 +107,18 @@
 	}
 
 	function _unsubscribe(instance, name, handler) {
+		var handlerIsValid = (handler && _.isFunction(handler));
+		var instanceIsValid = (instance && !!LoadApps.getInstance(instance));
+
+		if (!handlerIsValid && !instanceIsValid) {
+			throw 'F2.Events: "off" requires at least an instance or handler.';
+		}
+
 		if (name && !_.isString(name)) {
 			throw 'F2.Events: "name" must be a string if it is passed';
 		}
 
-		var handlerIsValid = (handler && !_.isFunction(handler));
-		var instanceIsValid = instance && !!LoadApps.getInstance(instance);
-
-		if (name && !handlerIsValid && !instanceIsValid) {
-			throw 'F2.Events: you can\'t unsubscribe with a "name" only';
-		}
-
-		if (name) {
+		if (name && _subs[name]) {
 			for (var i = 0; i < _subs[name].length; i++) {
 				var matchesInstance = _subs[name][i].instance === instance;
 				var matchesHandler = _subs[name][i].handler === handler;
