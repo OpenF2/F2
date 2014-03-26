@@ -400,7 +400,7 @@
 		isInFlightInstanceId: function(instanceId) {
 			return inFlightInstanceIds[instanceId];
 		},
-		getInstance: function(identifier) {
+		getLoadedApp: function(identifier) {
 			var instance;
 
 			// Treat as root

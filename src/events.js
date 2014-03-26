@@ -66,7 +66,7 @@
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
 		else if (!instanceIsBeingLoaded) {
-			var instanceIsApp = (!!LoadApps.getInstance(instance));
+			var instanceIsApp = (!!LoadApps.getLoadedApp(instance));
 			var instanceIsToken = (instance === Guid.getOnetimeGuid());
 
 			if (!instanceIsApp && !instanceIsToken) {
@@ -108,7 +108,7 @@
 
 	function _unsubscribe(instance, name, handler) {
 		var handlerIsValid = (handler && _.isFunction(handler));
-		var instanceIsValid = (instance && !!LoadApps.getInstance(instance));
+		var instanceIsValid = (instance && !!LoadApps.getLoadedApp(instance));
 
 		if (!handlerIsValid && !instanceIsValid) {
 			throw 'F2.Events: "off" requires at least an instance or handler.';

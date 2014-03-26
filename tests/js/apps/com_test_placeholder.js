@@ -8,13 +8,15 @@
 
 		window.test.com_test_placeholder = {
 			instanceId: instanceId,
-			context: data,
+			context: this,
 			root: root
 		};
 	}
 
-	AppClass.prototype.dispose = function() {
-		delete window.test.com_test_placeholder;
+	AppClass.prototype = {
+		dispose: function() {
+			window.test.com_test_placeholder = undefined;
+		}
 	};
 
 	return AppClass;

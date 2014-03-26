@@ -162,24 +162,24 @@
 			}
 
 			// Try to find the app in our internal cache
-			var instance = LoadApps.getInstance(identifier);
+			var loaded = LoadApps.getLoadedApp(identifier);
 
-			if (instance && instance.instanceId) {
+			if (loaded && loaded.instanceId) {
 				// Call the app's dipose method if it has one
-				if (instance.dispose) {
-					instance.dispose();
+				if (loaded.instance.dispose) {
+					loaded.instance.dispose();
 				}
 
 				// Automatically pull off events
-				this.Events.off(instance);
+				this.Events.off(loaded.instance);
 
 				// Remove ourselves from the DOM
-				if (instance.root && instance.root.parentNode) {
-					instance.root.parentNode.removeChild(instance.root);
+				if (loaded.root && loaded.root.parentNode) {
+					loaded.root.parentNode.removeChild(loaded.root);
 				}
 
 				// Remove ourselves from the internal map
-				LoadApps.remove(instance.instanceId);
+				LoadApps.remove(loaded.instanceId);
 			}
 			else {
 				console.warn('F2: could not find an app to remove');
