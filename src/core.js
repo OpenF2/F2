@@ -85,6 +85,7 @@
 	};
 
 	F2.prototype.loadPlaceholders = function(parentNode, callback) {
+		// Default to the body if no node was passed
 		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
 			parentNode = document.body;
 		}
@@ -108,31 +109,31 @@
 			});
 
 			(function() {
-				var loadedApps;
+				var manifests;
 
 				self.load({
 					appConfigs: appConfigs,
 					success: function() {
-						loadedApps = Array.prototype.slice.call(arguments);
+						manifests = Array.prototype.slice.call(arguments);
 
 						// Add to the DOM
-						for (var i = 0, len = loadedApps.length; i < len; i++) {
+						for (var i = 0, len = manifests.length; i < len; i++) {
 							if (!placeholders[i].isPreload) {
 								placeholders[i].node.parentNode.replaceChild(
-									loadedApps[i].root,
+									manifests[i].root,
 									placeholders[i].node
 								);
 							}
 						}
 					},
 					complete: function() {
-						callback.apply(window, loadedApps);
+						callback.call(window, manifests);
 					}
 				});
 			})();
 		}
 		else {
-			callback();
+			callback([]);
 		}
 	};
 
@@ -168,6 +169,12 @@
 
 			if (!identifier) {
 				throw 'F2: you must provide an instanceId or a root to remove an app';
+			}
+
+			// See if this an another reference to an existing app
+			// If so, switch to that for a more reliable lookup
+			if (identifier.instanceId) {
+				identifier = identifier.instanceId;
 			}
 
 			// Try to find the app in our internal cache

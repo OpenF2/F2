@@ -7,9 +7,10 @@ define(['F2'], function(F2) {
 		it('should treat placeholders with child elements as preloaded', function(done) {
 			var container = document.getElementById('placeholder-test-preload');
 
-			F2.loadPlaceholders(container, function() {
-				expect(window.test.com_test_placeholder.root.parentNode).toBe(container);
-				F2.remove(window.test.com_test_placeholder.root);
+			F2.loadPlaceholders(container, function(manifests) {
+				expect(manifests.length).toBe(1);
+				expect(manifests[0].root.parentNode).toBe(container);
+				F2.remove(manifests[0]);
 				done();
 			});
 		});
@@ -17,10 +18,11 @@ define(['F2'], function(F2) {
 		it('should load a placeholder with valid attributes and context', function(done) {
 			var container = document.getElementById('placeholder-test-valid');
 
-			F2.loadPlaceholders(container, function() {
-				expect(window.test.com_test_placeholder.data.didWork).toBe(true);
-				expect(window.test.com_test_placeholder.root.parentNode).toBe(container);
-				F2.remove(window.test.com_test_placeholder.root);
+			F2.loadPlaceholders(container, function(manifests) {
+				expect(manifests.length).toBe(1);
+				expect(manifests[0].appContent.data.didWork).toBe(true);
+				expect(manifests[0].root.parentNode).toBe(container);
+				F2.remove(manifests[0]);
 				done();
 			});
 		});
@@ -28,12 +30,19 @@ define(['F2'], function(F2) {
 		it('should load multiple instances of the same appId', function(done) {
 			var container = document.getElementById('placeholder-test-dupes');
 
-			F2.loadPlaceholders(container, function() {
-				expect(window.test.com_test_duplicate.length).toBe(2);
-				F2.remove([
-					window.test.com_test_duplicate[0].root,
-					window.test.com_test_duplicate[1].root
-				]);
+			F2.loadPlaceholders(container, function(manifests) {
+				expect(manifests.length).toBe(2);
+				F2.remove(manifests);
+				done();
+			});
+		});
+
+		it('should load apps on different domains', function(done) {
+			var container = document.getElementById('placeholder-test-domains');
+
+			F2.loadPlaceholders(container, function(manifests) {
+				expect(manifests.length).toBe(2);
+				F2.remove(manifests);
 				done();
 			});
 		});
@@ -41,8 +50,8 @@ define(['F2'], function(F2) {
 		it('should ignore placeholders with invalid attributes', function(done) {
 			var container = document.getElementById('placeholder-test-dupes');
 
-			F2.loadPlaceholders(container, function() {
-				expect(window.test.com_test_placeholder).not.toBeDefined();
+			F2.loadPlaceholders(container, function(manifests) {
+				expect(manifests.length).toBe(0);
 				done();
 			});
 		});
