@@ -8,7 +8,8 @@
 
 		window.test.com_test_placeholder = {
 			instanceId: instanceId,
-			context: this,
+			instance: this,
+			data: data,
 			root: root
 		};
 	}

@@ -14,15 +14,22 @@
 	<div id="test-fixture">Testing</div>
 
 	<!-- Place code here that needs to be used in tests -->
-	<div id="hard-coded-markup" style="display: none;">
-		<div id="placeholder-container">
-			<div data-f2-appid="com_test_placeholder" data-f2-manifesturl="/apps/single" id="placeholder1">
+	<div style="display: none;">
+		<div id="placeholder-test-preload">
+			<div data-f2-appid="com_test_placeholder" data-f2-manifesturl="/apps/single">
 				<span>I'm am child content</span>
 			</div>
-			<div data-f2-appid="com_test_placeholder2" data-f2-manifesturl="/apps/single" data-f2-context='{"didWork":true}' id="placeholder2"></div>
-			<div data-f2-appid="com_test_placeholder2" data-f2-manifesturl="/apps/single" data-f2-context='{"isDuplicate":true}' id="placeholder3"></div>
 		</div>
-		<div data-f2-manifesturl="/apps/single"></div>
+		<div id="placeholder-test-valid">
+			<div data-f2-appid="com_test_placeholder" data-f2-manifesturl="/apps/single" data-f2-context='{"didWork":true}'></div>
+		</div>
+		<div id="placeholder-test-dupes">
+			<div data-f2-appid="com_test_duplicate" data-f2-manifesturl="/apps/single"></div>
+			<div data-f2-appid="com_test_duplicate" data-f2-manifesturl="/apps/single"></div>
+		</div>
+		<div id="placeholder-test-invalid">
+			<div data-f2-appid="com_test_placeholder"></div>
+		</div>
 	</div>
 
 	<script src="/vendor/requirejs/require.js" data-main="/tests/js/main.js"></script>

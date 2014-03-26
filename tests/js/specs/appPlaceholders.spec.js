@@ -5,35 +5,44 @@ define(['F2'], function(F2) {
 		window.test = {};
 
 		it('should treat placeholders with child elements as preloaded', function(done) {
-			F2.loadPlaceholders(document.body, function() {
-				expect(window.test.com_test_placeholder.root.id).toBe('placeholder1');
+			var container = document.getElementById('placeholder-test-preload');
+
+			F2.loadPlaceholders(container, function() {
+				expect(window.test.com_test_placeholder.root.parentNode).toBe(container);
 				F2.remove(window.test.com_test_placeholder.root);
 				done();
 			});
 		});
 
 		it('should load a placeholder with valid attributes and context', function(done) {
-			F2.loadPlaceholders(document.body, function() {
-				var windowObj = window.test.com_test_placeholder2[0];
-				expect(windowObj.context.didWork).toBe(true);
-				expect(windowObj.root.parentNode).toBe(document.getElementById('placeholder-container'));
-				F2.remove(window.test.com_test_placeholder2[0].root);
+			var container = document.getElementById('placeholder-test-valid');
+
+			F2.loadPlaceholders(container, function() {
+				expect(window.test.com_test_placeholder.data.didWork).toBe(true);
+				expect(window.test.com_test_placeholder.root.parentNode).toBe(container);
+				F2.remove(window.test.com_test_placeholder.root);
 				done();
 			});
 		});
 
 		it('should load multiple instances of the same appId', function(done) {
-			F2.loadPlaceholders(document.body, function() {
-				var windowObj = window.test.com_test_placeholder2[0];
-				expect(windowObj.root.parentNode).toBe(document.getElementById('placeholder-container'));
-				F2.remove(window.test.com_test_placeholder2[0].root);
+			var container = document.getElementById('placeholder-test-dupes');
+
+			F2.loadPlaceholders(container, function() {
+				expect(window.test.com_test_duplicate.length).toBe(2);
+				F2.remove([
+					window.test.com_test_duplicate[0].root,
+					window.test.com_test_duplicate[1].root
+				]);
 				done();
 			});
 		});
 
 		it('should ignore placeholders with invalid attributes', function(done) {
-			F2.loadPlaceholders(document.body, function() {
-				expect(window.test.com_test_basic).not.toBeDefined();
+			var container = document.getElementById('placeholder-test-dupes');
+
+			F2.loadPlaceholders(container, function() {
+				expect(window.test.com_test_placeholder).not.toBeDefined();
 				done();
 			});
 		});

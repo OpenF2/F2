@@ -2328,32 +2328,6 @@ _exports = undefined;
 						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
 					}
 				}
-
-				// Look for handwritten properties that can override the previous context
-				// e.g., 'data-f2-context-foo="bar"'
-				for (var name in node.attributes) {
-					if (name.indexOf('data-f2-context-') === 0) {
-						var parts = name.replace('data-f2-context-', '').split('-');
-
-						for (var i = 0, len = parts.length; i < len; i++) {
-							// The last part should be the value
-							if (i === len - 1) {
-								try {
-									// Attempt to get the typed value
-									appConfig.context[parts[i]] = JSON.parse(node.getAttribute(name));
-								}
-								catch (e) {
-									// Default to string
-									appConfig.context[parts[i]] = node.getAttribute(name);
-								}
-							}
-							else {
-								// Treat as a namespace
-								appConfig.context[parts[i]] = {};
-							}
-						}
-					}
-				}
 			}
 		}
 
@@ -2374,6 +2348,11 @@ _exports = undefined;
 
 	function getElementsByAttribute(parent, attribute) {
 		var elements = [];
+
+		// Start with the first child if the parent isn't a placeholder itself
+		if (!parent.getAttribute(attribute)) {
+			parent = parent.firstChild;
+		}
 
 		(function walk(node) {
 			while (node) {
@@ -3445,6 +3424,12 @@ _exports = undefined;
 			parentNode = document.body;
 		}
 
+		if (!callback || (callback && !_.isFunction(callback))) {
+			callback = noop;
+		}
+
+		var self = this;
+
 		// Find the placeholders on the DOM
 		var placeholders = AppPlaceholders.getInNode(parentNode);
 
@@ -3457,29 +3442,32 @@ _exports = undefined;
 				return placeholder.appConfig;
 			});
 
-			this.load({
-				appConfigs: appConfigs,
-				success: function() {
-					var args = Array.prototype.slice.call(arguments);
+			(function() {
+				var loadedApps;
 
-					// Add to the DOM
-					for (var i = 0, len = args.length; i < len; i++) {
-						if (!placeholders[i].isPreload) {
-							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
+				self.load({
+					appConfigs: appConfigs,
+					success: function() {
+						loadedApps = Array.prototype.slice.call(arguments);
+
+						// Add to the DOM
+						for (var i = 0, len = loadedApps.length; i < len; i++) {
+							if (!placeholders[i].isPreload) {
+								placeholders[i].node.parentNode.replaceChild(
+									loadedApps[i].root,
+									placeholders[i].node
+								);
+							}
 						}
+					},
+					complete: function() {
+						callback.apply(window, loadedApps);
 					}
-				},
-				complete: function() {
-					if (callback && _.isFunction(callback)) {
-						callback();
-					}
-				}
-			});
+				});
+			})();
 		}
 		else {
-			if (callback && _.isFunction(callback)) {
-				callback();
-			}
+			callback();
 		}
 	};
 

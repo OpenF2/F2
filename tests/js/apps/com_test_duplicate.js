@@ -17,8 +17,10 @@
 		});
 	}
 
-	AppClass.prototype.dispose = function() {
-		delete window.test.com_test_duplicate.pop();
+	AppClass.prototype = {
+		dispose: function() {
+			window.test.com_test_duplicate.pop();
+		}
 	};
 
 	return AppClass;

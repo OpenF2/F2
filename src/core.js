@@ -89,6 +89,12 @@
 			parentNode = document.body;
 		}
 
+		if (!callback || (callback && !_.isFunction(callback))) {
+			callback = noop;
+		}
+
+		var self = this;
+
 		// Find the placeholders on the DOM
 		var placeholders = AppPlaceholders.getInNode(parentNode);
 
@@ -101,29 +107,32 @@
 				return placeholder.appConfig;
 			});
 
-			this.load({
-				appConfigs: appConfigs,
-				success: function() {
-					var args = Array.prototype.slice.call(arguments);
+			(function() {
+				var loadedApps;
 
-					// Add to the DOM
-					for (var i = 0, len = args.length; i < len; i++) {
-						if (!placeholders[i].isPreload) {
-							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
+				self.load({
+					appConfigs: appConfigs,
+					success: function() {
+						loadedApps = Array.prototype.slice.call(arguments);
+
+						// Add to the DOM
+						for (var i = 0, len = loadedApps.length; i < len; i++) {
+							if (!placeholders[i].isPreload) {
+								placeholders[i].node.parentNode.replaceChild(
+									loadedApps[i].root,
+									placeholders[i].node
+								);
+							}
 						}
+					},
+					complete: function() {
+						callback.apply(window, loadedApps);
 					}
-				},
-				complete: function() {
-					if (callback && _.isFunction(callback)) {
-						callback();
-					}
-				}
-			});
+				});
+			})();
 		}
 		else {
-			if (callback && _.isFunction(callback)) {
-				callback();
-			}
+			callback();
 		}
 	};
 

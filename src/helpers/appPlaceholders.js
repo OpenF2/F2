@@ -26,32 +26,6 @@
 						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
 					}
 				}
-
-				// Look for handwritten properties that can override the previous context
-				// e.g., 'data-f2-context-foo="bar"'
-				for (var name in node.attributes) {
-					if (name.indexOf('data-f2-context-') === 0) {
-						var parts = name.replace('data-f2-context-', '').split('-');
-
-						for (var i = 0, len = parts.length; i < len; i++) {
-							// The last part should be the value
-							if (i === len - 1) {
-								try {
-									// Attempt to get the typed value
-									appConfig.context[parts[i]] = JSON.parse(node.getAttribute(name));
-								}
-								catch (e) {
-									// Default to string
-									appConfig.context[parts[i]] = node.getAttribute(name);
-								}
-							}
-							else {
-								// Treat as a namespace
-								appConfig.context[parts[i]] = {};
-							}
-						}
-					}
-				}
 			}
 		}
 
@@ -72,6 +46,11 @@
 
 	function getElementsByAttribute(parent, attribute) {
 		var elements = [];
+
+		// Start with the first child if the parent isn't a placeholder itself
+		if (!parent.getAttribute(attribute)) {
+			parent = parent.firstChild;
+		}
 
 		(function walk(node) {
 			while (node) {
