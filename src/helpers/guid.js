@@ -4,7 +4,7 @@
 	var _guids = {};
 
 	// Reserve this for our "once per page" container token
-	var _onetimeGuid;
+	var trackedGuids = {};
 
 	Helpers.Guid = {
 		guid: function() {
@@ -24,18 +24,13 @@
 
 			return guid;
 		},
-		getOnetimeGuid: function() {
-			return _onetimeGuid;
+		isTrackedGuid: function(id) {
+			return trackedGuids[id];
 		},
-		onetimeGuid: function() {
-			// Kill this function
-			this.onetimeGuid = function() {
-				throw 'F2: onetime token has already been used.';
-			};
-
-			_onetimeGuid = this.guid();
-
-			return _onetimeGuid;
+		trackedGuid: function() {
+			var guid = this.guid();
+			trackedGuids[guid] = true;
+			return guid;
 		}
 	};
 

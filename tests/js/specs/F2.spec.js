@@ -102,166 +102,132 @@
 		describe('load', function() {
 
 			it('should load a single app on same domain', function(done) {
-				F2.load({
-					appConfigs: [{
-						appId: 'com_test_basic',
-						manifestUrl: '/apps/single'
-					}],
-					complete: function() {
-						expect(window.test.com_test_basic).toBeDefined();
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}];
 
-						// Clean up
-						F2.remove(window.test.com_test_basic.instanceId);
-
-						done();
-					}
+				F2.load(configs, function(manifests) {
+					expect(manifests.length).toBe(1);
+					expect(window.test.com_test_basic).toBeDefined();
+					F2.remove(manifests);
+					done();
 				});
 			});
 
 			it('should load multiple unbatched apps on same domain', function(done) {
-				F2.load({
-					appConfigs: [{
-						appId: 'com_test_basic',
-						manifestUrl: '/apps/single'
-					}, {
-						appId: 'com_test_inherited',
-						manifestUrl: '/apps/single'
-					}],
-					complete: function() {
-						expect(window.test.com_test_basic).toBeDefined();
-						expect(window.test.com_test_inherited).toBeDefined();
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}, {
+					appId: 'com_test_inherited',
+					manifestUrl: '/apps/single'
+				}];
 
-						// Clean up
-						F2.remove(window.test.com_test_basic.instanceId);
-						F2.remove(window.test.com_test_inherited.instanceId);
-
-						done();
-					}
+				F2.load(configs, function(manifests) {
+					expect(window.test.com_test_basic).toBeDefined();
+					expect(window.test.com_test_inherited).toBeDefined();
+					F2.remove(manifests);
+					done();
 				});
 			});
 
 			it('should load multiple batched apps on same domain', function(done) {
-				F2.load({
-					appConfigs: [{
-						appId: 'com_test_basic',
-						manifestUrl: '/apps/multiple',
-						enableBatchRequests: true
-					}, {
-						appId: 'com_test_inherited',
-						manifestUrl: '/apps/multiple',
-						enableBatchRequests: true
-					}],
-					complete: function() {
-						expect(window.test.com_test_basic).toBeDefined();
-						expect(window.test.com_test_inherited).toBeDefined();
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/multiple',
+					enableBatchRequests: true
+				}, {
+					appId: 'com_test_inherited',
+					manifestUrl: '/apps/multiple',
+					enableBatchRequests: true
+				}];
 
-						// Clean up
-						F2.remove(window.test.com_test_basic.instanceId);
-						F2.remove(window.test.com_test_inherited.instanceId);
-
-						done();
-					}
+				F2.load(configs, function(manifests) {
+					expect(window.test.com_test_basic).toBeDefined();
+					expect(window.test.com_test_inherited).toBeDefined();
+					F2.remove(window.test.com_test_basic.instanceId);
+					F2.remove(window.test.com_test_inherited.instanceId);
+					done();
 				});
 			});
 
 			it('should load duplicate apps on same domain with unique instanceIds', function(done) {
-				F2.load({
-					appConfigs: [{
-						appId: 'com_test_duplicate',
-						manifestUrl: '/apps/duplicate',
-						enableBatchRequests: true
-					}, {
-						appId: 'com_test_duplicate',
-						manifestUrl: '/apps/duplicate',
-						enableBatchRequests: true
-					}],
-					complete: function() {
-						var id1 = window.test.com_test_duplicate[0].instanceId;
-						var id2 = window.test.com_test_duplicate[1].instanceId;
+				var configs = [{
+					appId: 'com_test_duplicate',
+					manifestUrl: '/apps/duplicate',
+					enableBatchRequests: true
+				}, {
+					appId: 'com_test_duplicate',
+					manifestUrl: '/apps/duplicate',
+					enableBatchRequests: true
+				}];
 
-						expect(id1).not.toBe(id2);
-
-						// Clean up
-						F2.remove(id1, id2);
-
-						done();
-					}
+				F2.load(configs, function(manifests) {
+					var id1 = window.test.com_test_duplicate[0].instanceId;
+					var id2 = window.test.com_test_duplicate[1].instanceId;
+					expect(id1).not.toBe(id2);
+					F2.remove(manifests);
+					done();
 				});
 			});
 
 			it('should load a single app on an external domain', function(done) {
-				F2.load({
-					appConfigs: [{
-						appId: 'com_test_basic',
-						manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
-					}],
-					complete: function() {
-						expect(window.test.com_test_basic).toBeDefined();
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
+				}];
 
-						// Clean up
-						F2.remove(window.test.com_test_basic.instanceId);
-
-						done();
-					}
+				F2.load(configs, function(manifests) {
+					expect(window.test.com_test_basic).toBeDefined();
+					F2.remove(manifests);
+					done();
 				});
 			});
 
 			it('should load multiple apps on different domains', function(done) {
-				F2.load({
-					appConfigs: [{
-						appId: 'com_test_inherited',
-						manifestUrl: '/apps/single'
-					}, {
-						appId: 'com_test_basic',
-						manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
-					}],
-					complete: function() {
-						var id1 = window.test.com_test_basic.instanceId;
-						var id2 = window.test.com_test_inherited.instanceId;
+				var configs = [{
+					appId: 'com_test_inherited',
+					manifestUrl: '/apps/single'
+				}, {
+					appId: 'com_test_basic',
+					manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp'
+				}];
 
-						expect(id1).toBeDefined();
-						expect(id2).toBeDefined();
-						expect(id1).not.toBe(id2);
-
-						// Clean up
-						F2.remove(id1, id2);
-
-						done();
-					}
+				F2.load(configs, function(manifests) {
+					var id1 = window.test.com_test_basic.instanceId;
+					var id2 = window.test.com_test_inherited.instanceId;
+					expect(id1).toBeDefined();
+					expect(id2).toBeDefined();
+					expect(id1).not.toBe(id2);
+					F2.remove(id1, id2);
+					done();
 				});
 			});
 
 			it('should allow requests to be aborted on same domain', function(done) {
-				var reqs = F2.load({
-					appConfigs: [{
-						appId: 'com_test_basic',
-						manifestUrl: '/apps/slow'
-					}],
-					complete: function() {
-						expect(window.test.com_test_basic).not.toBeDefined();
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/slow'
+				}];
 
-						done();
-					}
+				var reqs = F2.load(configs, function(manifests) {
+					expect(window.test.com_test_basic).not.toBeDefined();
+					done();
 				});
-
-				// Abort everything!
 				reqs.abort();
 			});
 
 			it('should allow requests to be aborted on different domains', function(done) {
-				var reqs = F2.load({
-					appConfigs: [{
-						appId: 'com_test_basic',
-						manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp_slow'
-					}],
-					complete: function() {
-						expect(window.test.com_test_basic).not.toBeDefined();
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: 'http://127.0.0.1:8080/apps/single_jsonp_slow'
+				}];
 
-						done();
-					}
+				var reqs = F2.load(configs, function() {
+					expect(window.test.com_test_basic).not.toBeDefined();
+					done();
 				});
-
-				// Abort everything!
 				reqs.abort();
 			});
 
@@ -271,48 +237,45 @@
 
 			it('should create new instances of F2', function() {
 				expect(F2.new()).not.toBe(F2);
+				expect(F2.new()).not.toBe(F2.new());
 			});
 
 		});
 
 		describe('onetimeToken', function() {
 
-			var onetimeToken;
-
-			beforeEach(function() {
-				if (!onetimeToken) {
-					onetimeToken = F2.onetimeToken();
-				}
-			});
-
 			it('should return a guid', function() {
-				expect(onetimeToken).toBeDefined();
+				var LocalF2 = F2.new();
+				expect(LocalF2.onetimeToken()).toBeDefined();
 			});
 
 			it('should throw when called more than once', function() {
+				var LocalF2 = F2.new();
+
 				function attemptToGetTokenTwice() {
-					F2.onetimeToken();
+					LocalF2.onetimeToken();
+					LocalF2.onetimeToken();
 				}
 
 				expect(attemptToGetTokenTwice).toThrow();
 			});
 
 			it('should throw after \'F2.load\' is called', function(done) {
+				var LocalF2 = F2.new();
+
 				function attemptToGetToken() {
-					F2.onetimeToken();
+					LocalF2.onetimeToken();
 				}
 
-				// Load some apps and abort immediately
-				var reqs = F2.load({
-					appConfigs: [{
-						appId: 'com_test_basic',
-						manifestUrl: '/apps/slow'
-					}],
-					complete: function() {
-						expect(attemptToGetToken).toThrow();
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/slow'
+				}];
 
-						done();
-					}
+				// Load some apps and abort immediately
+				var reqs = LocalF2.load(configs, function() {
+					expect(attemptToGetToken).toThrow();
+					done();
 				});
 				reqs.abort();
 			});
@@ -321,76 +284,72 @@
 
 		describe('remove', function() {
 
-			// Shortcut func
-			function loadApp(appIds, callback) {
-				var appConfigs = [];
-
-				for (var i = 0; i < appIds.length; i++) {
-					appConfigs.push({
-						appId: appIds[i],
-						manifestUrl: '/apps/single'
-					});
-				}
-
-				F2.load({
-					appConfigs: appConfigs,
-					complete: function() {
-						callback();
-					}
-				});
-			}
-
 			it('should allow multiple apps to be removed at once', function(done) {
-				loadApp(['com_test_basic', 'com_test_inherited'], function() {
-					F2.remove([
-						window.test.com_test_basic.instanceId,
-						window.test.com_test_inherited.instanceId
-					]);
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}, {
+					appId: 'com_test_inherited',
+					manifestUrl: '/apps/single'
+				}];
 
+				F2.load(configs, function(manifests) {
+					F2.remove(manifests);
 					expect(window.test.com_test_basic).not.toBeDefined();
 					expect(window.test.com_test_inherited).not.toBeDefined();
-
 					done();
 				});
 			});
 
 			it('should call the app\'s dispose() method', function(done) {
-				loadApp(['com_test_basic'], function() {
-					F2.remove(window.test.com_test_basic.instanceId);
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}];
 
+				F2.load(configs, function(manifests) {
+					F2.remove(manifests);
 					expect(window.test.com_test_basic).not.toBeDefined();
-
 					done();
 				});
 			});
 
 			it('should remove by instanceId', function(done) {
-				loadApp(['com_test_basic'], function() {
-					F2.remove(window.test.com_test_basic.instanceId);
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}];
 
+				F2.load(configs, function(manifests) {
+					F2.remove(manifests[0].instanceId);
 					expect(window.test.com_test_basic).not.toBeDefined();
-
 					done();
 				});
 			});
 
 			it('should remove by root', function(done) {
-				loadApp(['com_test_basic'], function() {
-					F2.remove(window.test.com_test_basic.root);
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}];
 
+				F2.load(configs, function(manifests) {
+					F2.remove(manifests[0].root);
 					expect(window.test.com_test_basic).not.toBeDefined();
-
 					done();
 				});
 			});
 
 			it('should automatically remove an app\'s events (when context was specified)', function(done) {
-				loadApp(['com_test_basic'], function(root) {
-					F2.remove(window.test.com_test_basic);
-					F2.Events.emit('com_test_basic');
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}];
 
-					expect(window.test.com_test_basic_event).not.toBeDefined();
-
+				F2.load(configs, function(manifests) {
+					F2.remove(manifests);
+					F2.Events.emit('com_test_basic-context');
+					expect(window.test.com_test_basic).not.toBeDefined();
 					done();
 				});
 			});
@@ -404,13 +363,17 @@
 			});
 
 			it('should not throw if the app\'s dispose() method is undefined', function(done) {
-				loadApp(['com_test_no_dispose'], function() {
+				var configs = [{
+					appId: 'com_test_no_dispose',
+					manifestUrl: '/apps/single'
+				}];
+
+				F2.load(configs, function(manifests) {
 					function attempt() {
-						F2.remove(window.test.com_test_no_dispose);
+						F2.remove(manifests);
 					}
 
 					expect(attempt).not.toThrow();
-
 					done();
 				});
 			});

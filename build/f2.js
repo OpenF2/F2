@@ -2417,7 +2417,7 @@ _exports = undefined;
 	var _guids = {};
 
 	// Reserve this for our "once per page" container token
-	var _onetimeGuid;
+	var trackedGuids = {};
 
 	Helpers.Guid = {
 		guid: function() {
@@ -2437,18 +2437,13 @@ _exports = undefined;
 
 			return guid;
 		},
-		getOnetimeGuid: function() {
-			return _onetimeGuid;
+		isTrackedGuid: function(id) {
+			return trackedGuids[id];
 		},
-		onetimeGuid: function() {
-			// Kill this function
-			this.onetimeGuid = function() {
-				throw 'F2: onetime token has already been used.';
-			};
-
-			_onetimeGuid = this.guid();
-
-			return _onetimeGuid;
+		trackedGuid: function() {
+			var guid = this.guid();
+			trackedGuids[guid] = true;
+			return guid;
 		}
 	};
 
@@ -2697,7 +2692,7 @@ _exports = undefined;
 	// Utils
 	// ---------------------------------------------------------------------------
 
-	function loadApps(containerConfig, appConfigs, successFn, errorFn, completeFn, afterRequestFn) {
+	function loadApps(containerConfig, validateFn, appConfigs, callback) {
 		var xhrByUrl;
 		// Params used to instantiate AppClasses
 		var allApps = [];
@@ -2708,7 +2703,7 @@ _exports = undefined;
 			var inputs = {};
 
 			// The AppConfig must be valid
-			if (appConfigs[i] && F2.prototype.validate.call(this, appConfigs[i], 'appConfig')) {
+			if (appConfigs[i] && validateFn(appConfigs[i], 'appConfig')) {
 				inputs.instanceId = Guid.guid();
 				inputs.appConfig = appConfigs[i];
 
@@ -2730,46 +2725,27 @@ _exports = undefined;
 			allApps.push(inputs);
 		}
 
-		function done() {
-			delegateHtmlLoading(
-				allApps,
-				successFn,
-				completeFn,
-				xhrByUrl
-			);
-		}
-
 		// See if we need to hit the server
 		if (asyncApps.length) {
-			xhrByUrl = requestApps(containerConfig, asyncApps, function() {
-				if (afterRequestFn) {
-					afterRequestFn();
-				}
-
-				done();
+			xhrByUrl = requestApps(containerConfig, asyncApps, validateFn, function() {
+				delegateHtmlLoading(allApps, callback, xhrByUrl);
 			});
 		}
 		else {
-			if (afterRequestFn) {
-				afterRequestFn();
-			}
-
-			done();
+			delegateHtmlLoading(allApps, callback, xhrByUrl);
 		}
 
 		return xhrByUrl || {};
 	}
 
 	// Add unhandled apps to document.body
-	function dumpAppsOnDom(/* app1, app2 */) {
-		var args = Array.prototype.slice.call(arguments);
-
-		if (args.length) {
+	function dumpAppsOnDom(apps) {
+		if (apps.length) {
 			var frag = document.createDocumentFragment();
 
-			for (var i = 0, len = args.length; i < len; i++) {
-				if (args[i].root) {
-					frag.appendChild(args[i].root);
+			for (var i = 0, len = apps.length; i < len; i++) {
+				if (apps[i].root) {
+					frag.appendChild(apps[i].root);
 				}
 			}
 
@@ -2778,7 +2754,7 @@ _exports = undefined;
 	}
 
 	// Pass the apps off to the container so they can place them on the page
-	function delegateHtmlLoading(allApps, successFn, completeFn, xhrByUrl) {
+	function delegateHtmlLoading(allApps, callback, xhrByUrl) {
 		var abortedIndexes = [];
 
 		// Look for aborted requests
@@ -2793,13 +2769,9 @@ _exports = undefined;
 			}
 		}
 
-		// Let the container put the apps on the page
-		if (successFn) {
-			successFn.apply(window, allApps);
-		}
-		else {
-			// Throw the apps on document.body if there's no handler
-			dumpAppsOnDom.apply(window, allApps);
+		// Throw the apps on document.body if there's no handler
+		if (!callback) {
+			dumpAppsOnDom(allApps);
 		}
 
 		// Pull out the aborted classes so we don't load them
@@ -2807,85 +2779,78 @@ _exports = undefined;
 			allApps.splice(abortedIndexes.pop(), 1);
 		}
 
-		initAppClasses(allApps, completeFn);
+		initAppClasses(allApps, callback);
 	}
 
 	// Instantiate each app class in the order their appConfigs were initially specified
-	function initAppClasses(allApps, completeFn) {
+	function initAppClasses(allApps, callback) {
 		var appIds = _.map(allApps, function(app) {
 			return app.appConfig.appId;
 		});
 
-		if (appIds.length) {
-			require(appIds, function() {
-				var appClasses = Array.prototype.slice.call(arguments);
+		require(appIds, function() {
+			var appClasses = Array.prototype.slice.call(arguments);
 
-				// Load each AppClass
-				_.each(allApps, function(app, i) {
-					try {
-						// Track that we're loading this app right now
-						// We need this because an app might try to register an event in
-						// its constructor. When that happens we won't be able to check
-						// that the "context" is a loaded app... cause it's loading
-						inFlightInstanceIds[app.instanceId] = true;
+			// Load each AppClass
+			_.each(allApps, function(app, i) {
+				try {
+					// Track that we're loading this app right now
+					// We need this because an app might try to register an event in
+					// its constructor. When that happens we won't be able to check
+					// that the "context" is a loaded app... cause it's loading
+					inFlightInstanceIds[app.instanceId] = true;
 
-						// Instantiate the app
-						var instance = new appClasses[i](
-							app.instanceId,
-							app.appConfig,
-							app.appContent.data || {},
-							app.root
-						);
+					// Instantiate the app
+					var instance = new appClasses[i](
+						app.instanceId,
+						app.appConfig,
+						app.appContent.data || {},
+						app.root
+					);
 
-						// Clear out the app so we won't get confused later
-						delete inFlightInstanceIds[app.instanceId];
+					// Clear out the app so we won't get confused later
+					delete inFlightInstanceIds[app.instanceId];
 
-						// Exit if we didn't get anything back
-						if (!instance) {
-							throw '';
-						}
+					// Exit if we didn't get anything back
+					if (!instance) {
+						throw '';
+					}
 
-						// Add the new app to our internal map of loaded apps
-						appInstances[app.instanceId] = {
-							appConfig: app.appConfig,
-							instance: instance,
-							instanceId: app.instanceId,
-							root: app.root
-						};
+					// Add the new app to our internal map of loaded apps
+					appInstances[app.instanceId] = {
+						appConfig: app.appConfig,
+						instance: instance,
+						instanceId: app.instanceId,
+						root: app.root
+					};
 
-						// Call any listeners for this app
-						if (loadListeners[app.instanceId]) {
-							while (loadListeners[app.instanceId].length) {
-								var callback = loadListeners[app.instanceId].shift();
-								callback(instance);
-							}
-						}
-
-						// Call "init" if one was provided
-						if (instance.init) {
-							instance.init();
+					// Call any listeners for this app
+					if (loadListeners[app.instanceId]) {
+						while (loadListeners[app.instanceId].length) {
+							loadListeners[app.instanceId].shift()(instance);
 						}
 					}
-					catch (e) {
-						console.error('F2: could not init', app.appConfig.appId, '"' + e.toString() + '"');
-					}
-				});
 
-				// Finally tell the container that we're all finished
-				if (completeFn) {
-					completeFn();
+					// Call "init" if one was provided
+					if (instance.init) {
+						instance.init();
+					}
+				}
+				catch (e) {
+					allApps[i] = {
+						error: e.toString()
+					};
+					console.error('F2: could not init', app.appConfig.appId, '"' + e.toString() + '"');
 				}
 			});
-		}
-		else {
-			if (completeFn) {
-				completeFn();
-			}
-		}
+
+			// Finally tell the container that we're all finished
+			callback(allApps);
+		});
 	}
 
 	// Set the 'root' and 'appContent' for each input by hitting the server
-	function requestApps(containerConfig, asyncApps, callback) {
+	function requestApps(containerConfig, asyncApps, validateFn, callback) {
 		var xhrByUrl = {};
 		var appsByUrl = {};
 
@@ -3201,7 +3166,7 @@ _exports = undefined;
 		}
 		else if (!instanceIsBeingLoaded) {
 			var instanceIsApp = (!!LoadApps.getLoadedApp(instance));
-			var instanceIsToken = (instance === Guid.getOnetimeGuid());
+			var instanceIsToken = (instance === Guid.isTrackedGuid(instance));
 
 			if (!instanceIsApp && !instanceIsToken) {
 				throw 'F2.Events: "instance" must be an app instance or a container token.';
@@ -3356,6 +3321,10 @@ _exports = undefined;
 		}
 	};
 
+	function tokenKiller() {
+		throw 'F2: onetime token has already been used.';
+	}
+
 	// --------------------------------------------------------------------------
 	// API
 	// --------------------------------------------------------------------------
@@ -3379,42 +3348,36 @@ _exports = undefined;
 		return Guid.guid();
 	};
 
-	F2.prototype.load = function(params) {
-		if (!params) {
-			throw 'F2: no params passed to "load"';
+	F2.prototype.load = function(appConfigs, callback) {
+		if (!appConfigs || (_.isArray(appConfigs) && !appConfigs.length)) {
+			throw 'F2: no appConfigs passed to "load"';
+		}
+
+		if (appConfigs && !_.isArray(appConfigs)) {
+			appConfigs = [appConfigs];
+		}
+
+		if (!callback || !_.isFunction(callback)) {
+			callback = noop;
 		}
 
 		// Kill the token if it hasn't been called
 		// This should prevent apps from pretending to be the container
-		if (!Guid.getOnetimeGuid()) {
-			Guid.onetimeGuid();
-		}
-
-		// Default to an array
-		params.appConfigs = [].concat(params.appConfigs || []);
-
-		if (!params.appConfigs.length) {
-			throw 'F2: you must specify at least one AppConfig to load';
+		if (this.onetimeToken !== tokenKiller) {
+			this.onetimeToken();
 		}
 
 		// Request all the apps and get the xhr objects so we can abort
-		var reqs = LoadApps.load(
-			this.config(),
-			params.appConfigs,
-			params.success,
-			params.error,
-			params.complete,
-			params.afterRequest
-		);
+		var reqs = LoadApps.load(this.config(), this.validate, appConfigs, callback);
 
 		return {
-			abort: (function() {
-				if (reqs) {
-					for (var url in reqs) {
-						reqs[url].request.abort();
+			abort: function() {
+				if (this.requests) {
+					for (var url in this.requests) {
+						this.requests[url].request.abort();
 					}
 				}
-			}),
+			},
 			requests: reqs
 		};
 	};
@@ -3444,26 +3407,18 @@ _exports = undefined;
 			});
 
 			(function() {
-				var manifests;
-
-				self.load({
-					appConfigs: appConfigs,
-					success: function() {
-						manifests = Array.prototype.slice.call(arguments);
-
-						// Add to the DOM
-						for (var i = 0, len = manifests.length; i < len; i++) {
-							if (!placeholders[i].isPreload) {
-								placeholders[i].node.parentNode.replaceChild(
-									manifests[i].root,
-									placeholders[i].node
-								);
-							}
+				self.load(appConfigs, function(manifests) {
+					// Add to the DOM
+					for (var i = 0, len = manifests.length; i < len; i++) {
+						if (!placeholders[i].isPreload) {
+							placeholders[i].node.parentNode.replaceChild(
+								manifests[i].root,
+								placeholders[i].node
+							);
 						}
-					},
-					complete: function() {
-						callback.call(window, manifests);
 					}
+
+					callback(manifests);
 				});
 			})();
 		}
@@ -3480,7 +3435,9 @@ _exports = undefined;
 	};
 
 	F2.prototype.onetimeToken = function() {
-		return Guid.onetimeGuid();
+		this.onetimeToken = tokenKiller;
+
+		return Guid.trackedGuid();
 	};
 
 	/**
@@ -3503,7 +3460,7 @@ _exports = undefined;
 			var identifier = identifiers[i];
 
 			if (!identifier) {
-				throw 'F2: you must provide an instanceId or a root to remove an app';
+				throw 'F2: you must provide an instanceId, root, or app instance to remove an app';
 			}
 
 			// See if this an another reference to an existing app

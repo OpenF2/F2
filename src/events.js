@@ -67,7 +67,7 @@
 		}
 		else if (!instanceIsBeingLoaded) {
 			var instanceIsApp = (!!LoadApps.getLoadedApp(instance));
-			var instanceIsToken = (instance === Guid.getOnetimeGuid());
+			var instanceIsToken = (instance === Guid.isTrackedGuid(instance));
 
 			if (!instanceIsApp && !instanceIsToken) {
 				throw 'F2.Events: "instance" must be an app instance or a container token.';
