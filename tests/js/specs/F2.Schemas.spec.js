@@ -73,12 +73,12 @@
 				expect(defined).toBe(false);
 			});
 
-			it('should not throw if the schema name is falsey', function() {
+			it('should throw if the schema name is falsey', function() {
 				function attempt() {
 					F2.hasSchema();
 				}
 
-				expect(attempt).not.toThrow();
+				expect(attempt).toThrow();
 			});
 
 		});

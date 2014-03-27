@@ -2499,19 +2499,19 @@ _exports = undefined;
 	};
 
 	F2.prototype.hasSchema = function(name) {
-		return !!tv4.getSchemaMap()[name];
-	};
-
-	F2.prototype.validate = function(json, name) {
-		if (!name) {
+		if (!name || !_.isString(name)) {
 			throw 'F2.Schemas: you must provide a schema name.';
 		}
 
-		var schema = tv4.getSchema(name);
+		return !!tv4.getSchema(name);
+	};
 
-		if (!schema) {
+	F2.prototype.validate = function(json, name) {
+		if (!this.hasSchema) {
 			throw 'F2.Schemas: unrecognized schema name.';
 		}
+
+		var schema = tv4.getSchema(name);
 
 		return tv4.validate(json, schema);
 	};
@@ -2755,16 +2755,18 @@ _exports = undefined;
 
 	// Pass the apps off to the container so they can place them on the page
 	function delegateHtmlLoading(allApps, callback, xhrByUrl) {
-		var abortedIndexes = [];
-
 		// Look for aborted requests
 		if (xhrByUrl) {
 			for (var i = 0, len = allApps.length; i < len; i++) {
 				var url = allApps[i].appConfig.manifestUrl;
 
-				if (xhrByUrl[url] && xhrByUrl[url].request.isAborted) {
-					allApps[i].isAborted = true;
-					abortedIndexes.push(i);
+				if (xhrByUrl[url]) {
+					if (xhrByUrl[url].request.isAborted) {
+						allApps[i].isAborted = true;
+					}
+					else if (xhrByUrl[url].request.isFailed) {
+						allApps[i].isFailed = true;
+					}
 				}
 			}
 		}
@@ -2772,11 +2774,6 @@ _exports = undefined;
 		// Throw the apps on document.body if there's no handler
 		if (!callback) {
 			dumpAppsOnDom(allApps);
-		}
-
-		// Pull out the aborted classes so we don't load them
-		while (abortedIndexes.length) {
-			allApps.splice(abortedIndexes.pop(), 1);
 		}
 
 		initAppClasses(allApps, callback);
@@ -2787,10 +2784,11 @@ _exports = undefined;
 		var appIds = _.map(allApps, function(app) {
 			return app.appConfig.appId;
 		});
+debugger;
 
 		require(appIds, function() {
 			var appClasses = Array.prototype.slice.call(arguments);
-
+debugger;
 			// Load each AppClass
 			_.each(allApps, function(app, i) {
 				try {
@@ -2913,6 +2911,7 @@ _exports = undefined;
 					data: {
 						params: JSON.stringify(urlConfigs)
 					},
+					error: function() {},
 					success: function(manifest) {
 						// Make sure the appManifest is valid
 						if (!F2.prototype.validate.call(this, manifest, 'appManifest')) {

@@ -23,19 +23,19 @@
 	};
 
 	F2.prototype.hasSchema = function(name) {
-		return !!tv4.getSchemaMap()[name];
-	};
-
-	F2.prototype.validate = function(json, name) {
-		if (!name) {
+		if (!name || !_.isString(name)) {
 			throw 'F2.Schemas: you must provide a schema name.';
 		}
 
-		var schema = tv4.getSchema(name);
+		return !!tv4.getSchema(name);
+	};
 
-		if (!schema) {
+	F2.prototype.validate = function(json, name) {
+		if (!this.hasSchema) {
 			throw 'F2.Schemas: unrecognized schema name.';
 		}
+
+		var schema = tv4.getSchema(name);
 
 		return tv4.validate(json, schema);
 	};
