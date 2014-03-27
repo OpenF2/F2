@@ -31,7 +31,7 @@
 	};
 
 	F2.prototype.validate = function(json, name) {
-		if (!this.hasSchema) {
+		if (!this.hasSchema(name)) {
 			throw 'F2.Schemas: unrecognized schema name.';
 		}
 
