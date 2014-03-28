@@ -109,10 +109,12 @@
 				expect(isValid).toBe(false);
 			});
 
-			it('should return false if no JSON is provided', function() {
-				var isValid = F2.validate(null, 'appConfig');
+			it('should throw if no JSON is provided', function() {
+				function attempt() {
+					F2.validate(null, 'appConfig');
+				}
 
-				expect(isValid).toBe(false);
+				expect(attempt).toThrow();
 			});
 
 			it('should throw if no schema name is provided', function() {

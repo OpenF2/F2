@@ -2,19 +2,6 @@ var express = require('express');
 var path = require('path');
 var app = express();
 
-// Stop the current thread for X seconds
-var sleep = function(seconds) {
-	var now = new Date();
-
-	while (true) {
-		var timespan = (new Date().getTime() - now.getTime()) / 1000;
-
-		if (timespan >= seconds) {
-			break;
-		}
-	}
-};
-
 // For post data
 app.use(express.bodyParser());
 
@@ -33,19 +20,17 @@ app.all('/apps/slow', function(req, res) {
 
 	var context = configs[0].context || {};
 
-	// Sleep for a couple seconds to simulate slow responses
-	sleep(0.5);
-
-	res.json({
-		apps: [{
-			data: context,
-			html: '<div></div>',
-			success: true
-		}],
-		inlineScripts: [],
-		scripts: ['js/apps/' + configs[0].appId + '.js'],
-		styles: []
-	});
+	setTimeout(function() {
+		res.json({
+			apps: [{
+				data: context,
+				html: '<div></div>'
+			}],
+			inlineScripts: [],
+			scripts: ['js/apps/' + configs[0].appId + '.js'],
+			styles: []
+		});
+	}, 500);
 });
 
 // Single AppManifest in response
@@ -61,8 +46,7 @@ app.all('/apps/single', function(req, res) {
 	res.json({
 		apps: [{
 			data: context,
-			html: '<div></div>',
-			success: true
+			html: '<div></div>'
 		}],
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
@@ -75,12 +59,10 @@ app.all('/apps/multiple', function(req, res) {
 	res.json({
 		apps: [{
 			data: {},
-			html: '<div></div>',
-			success: true
+			html: '<div></div>'
 		}, {
 			data: {},
-			html: '<div></div>',
-			success: true
+			html: '<div></div>'
 		}],
 		inlineScripts: [],
 		scripts: [
@@ -102,12 +84,10 @@ app.all('/apps/duplicate', function(req, res) {
 	res.json({
 		apps: [{
 			data: {},
-			html: '<div></div>',
-			success: true
+			html: '<div></div>'
 		}, {
 			data: {},
-			html: '<div></div>',
-			success: true
+			html: '<div></div>'
 		}],
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
@@ -120,8 +100,7 @@ app.all('/apps/single_jsonp', function(req, res) {
 	res.jsonp({
 		apps: [{
 			data: {},
-			html: '<div></div>',
-			success: true
+			html: '<div></div>'
 		}],
 		inlineScripts: [],
 		scripts: ['js/apps/com_test_basic.js'],
@@ -131,18 +110,34 @@ app.all('/apps/single_jsonp', function(req, res) {
 
 // Simulate a slow jsonp call
 app.all('/apps/single_jsonp_slow', function(req, res) {
-	sleep(0.5);
+	setTimeout(function() {
+		res.jsonp({
+			apps: [{
+				data: {},
+				html: '<div></div>'
+			}],
+			inlineScripts: [],
+			scripts: ['js/apps/com_test_basic.js'],
+			styles: []
+		});
+	}, 500);
+});
 
-	res.jsonp({
+// Simulate a data app
+app.all('/apps/data_app', function(req, res) {
+	res.json({
 		apps: [{
-			data: {},
-			html: '<div></div>',
-			success: true
+			data: {}
 		}],
 		inlineScripts: [],
 		scripts: ['js/apps/com_test_basic.js'],
 		styles: []
 	});
+});
+
+// Force an error
+app.all('/apps/error', function(req, res) {
+	res.send(500, 'Uh oh!');
 });
 
 // export the module for use with grunt

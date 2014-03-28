@@ -49,15 +49,11 @@
 	};
 
 	F2.prototype.load = function(appConfigs, callback) {
-		if (!appConfigs || (_.isArray(appConfigs) && !appConfigs.length)) {
+		if (!_.isArray(appConfigs) || !appConfigs.length) {
 			throw 'F2: no appConfigs passed to "load"';
 		}
 
-		if (appConfigs && !_.isArray(appConfigs)) {
-			appConfigs = [appConfigs];
-		}
-
-		if (!callback || !_.isFunction(callback)) {
+		if (!_.isFunction(callback)) {
 			callback = noop;
 		}
 
@@ -68,17 +64,15 @@
 		}
 
 		// Request all the apps and get the xhr objects so we can abort
-		var reqs = LoadApps.load(this.config(), this.validate, appConfigs, callback);
+		var requests = LoadApps.load(this.config(), appConfigs, callback);
 
 		return {
 			abort: function() {
-				if (this.requests) {
-					for (var url in this.requests) {
-						this.requests[url].request.abort();
-					}
+				for (var i = 0; i < this.requests.length; i++) {
+					this.requests[i].xhr.abort();
 				}
 			},
-			requests: reqs
+			requests: requests || []
 		};
 	};
 
@@ -92,35 +86,28 @@
 			callback = noop;
 		}
 
-		var self = this;
-
 		// Find the placeholders on the DOM
 		var placeholders = AppPlaceholders.getInNode(parentNode);
 
 		if (placeholders.length) {
 			var appConfigs = _.map(placeholders, function(placeholder) {
-				if (placeholder.isPreload) {
-					placeholder.appConfig.root = placeholder.node;
-				}
-
+				placeholder.appConfig.isPreload = placeholder.isPreload;
+				placeholder.appConfig.root = placeholder.node;
 				return placeholder.appConfig;
 			});
 
-			(function() {
-				self.load(appConfigs, function(manifests) {
-					// Add to the DOM
-					for (var i = 0, len = manifests.length; i < len; i++) {
-						if (!placeholders[i].isPreload) {
-							placeholders[i].node.parentNode.replaceChild(
-								manifests[i].root,
-								placeholders[i].node
-							);
-						}
+			this.load(appConfigs, function(manifests) {
+				for (var i = 0, len = manifests.length; i < len; i++) {
+					if (!manifests[i].error && !placeholders[i].isPreload) {
+						placeholders[i].node.parentNode.replaceChild(
+							manifests[i].root,
+							placeholders[i].node
+						);
 					}
+				}
 
-					callback(manifests);
-				});
-			})();
+				callback(manifests);
+			});
 		}
 		else {
 			callback([]);

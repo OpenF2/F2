@@ -101,7 +101,7 @@
 
 		describe('load', function() {
 
-			it('should load a single app on same domain', function(done) {
+			it('should pass loaded manifest to the callback', function(done) {
 				var configs = [{
 					appId: 'com_test_basic',
 					manifestUrl: '/apps/single'
@@ -109,6 +109,31 @@
 
 				F2.load(configs, function(manifests) {
 					expect(manifests.length).toBe(1);
+					F2.remove(manifests);
+					done();
+				});
+			});
+
+			it('should pass an error instead of manifest to the callback when requests fail', function(done) {
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/error'
+				}];
+
+				F2.load(configs, function(manifests) {
+					expect(manifests.length).toBe(1);
+					expect(manifests[0].error).toBeDefined();
+					done();
+				});
+			});
+
+			it('should load a single app on same domain', function(done) {
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/single'
+				}];
+
+				F2.load(configs, function(manifests) {
 					expect(window.test.com_test_basic).toBeDefined();
 					F2.remove(manifests);
 					done();

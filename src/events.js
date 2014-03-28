@@ -60,7 +60,7 @@
 	}
 
 	function _subscribe(instance, name, handler, timesToListen) {
-		var instanceIsBeingLoaded = (instance && LoadApps.isInFlightInstanceId(instance.instanceId));
+		var instanceIsBeingLoaded = (instance && LoadApps.isRealInstanceId(instance.instanceId));
 
 		if (!instance) {
 			throw 'F2.Events: you must provide an app instance or container token.';

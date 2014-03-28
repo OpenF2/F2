@@ -20,7 +20,7 @@ define(['F2'], function(F2) {
 
 			F2.loadPlaceholders(container, function(manifests) {
 				expect(manifests.length).toBe(1);
-				expect(manifests[0].appContent.data.didWork).toBe(true);
+				expect(manifests[0].data.didWork).toBe(true);
 				expect(manifests[0].root.parentNode).toBe(container);
 				F2.remove(manifests[0]);
 				done();
