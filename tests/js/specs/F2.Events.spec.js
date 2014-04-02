@@ -1,6 +1,6 @@
 ﻿define(['F2', 'testHelpers'], function(F2, helpers) {
 
-	function getAppConfigsFor(appIds) {
+	function getConfigs(appIds) {
 		appIds = [].concat(appIds);
 		var configs = [];
 
@@ -39,7 +39,7 @@
 			});
 
 			it('should call handlers for a registered event', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).toBeDefined();
 					done();
@@ -48,7 +48,7 @@
 			});
 
 			it('should pass all arguments to emitted event', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.emit('com_test_basic-args', 1, 2, 3);
 					expect(window.test.com_test_basic.eventArgs.length).toBe(3);
 					done();
@@ -57,7 +57,7 @@
 			});
 
 			it('should execute handlers in the context passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.emit('com_test_basic-context');
 					expect(window.test.com_test_basic.handlerContext).toBe(window.test.com_test_basic.instance);
 					done();
@@ -66,7 +66,7 @@
 			});
 
 			it('should not run disposed handlers', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.remove(manifests);
 					F2.Events.emit('com_test_basic-args');
 					expect(window.test.com_test_basic).not.toBeDefined();
@@ -119,9 +119,7 @@
 			});
 
 			it('should not match anything if an empty array of filters is provided', function(done) {
-				var configs = getAppConfigsFor(['com_test_basic']);
-
-				F2.load(configs, function(manifests) {
+				F2.load(getConfigs(['com_test_basic']), function(manifests) {
 					// Target both of the apps
 					// This should pass if both apps are fired
 					F2.Events.emitTo([], 'generic_test_event');
@@ -132,9 +130,7 @@
 			});
 
 			it('should call handlers for a registered event with instanceId as a filter', function(done) {
-				var configs = getAppConfigsFor(['com_test_duplicate', 'com_test_duplicate']);
-
-				F2.load(configs, function(manifests) {
+				F2.load(getConfigs(['com_test_duplicate', 'com_test_duplicate']), function(manifests) {
 					// Target one of the duplicate apps
 					F2.Events.emitTo([manifests[0].instanceId], 'generic_test_event');
 					expect(window.test.generic_test_event).toBe(1);
@@ -144,7 +140,7 @@
 			});
 
 			it('should call handlers for a registered event with appId as a filter', function(done) {
-				var configs = getAppConfigsFor(['com_test_duplicate', 'com_test_duplicate']);
+				var configs = getConfigs(['com_test_duplicate', 'com_test_duplicate']);
 
 				F2.load(configs, function(apps) {
 					// Target both of the apps
@@ -156,7 +152,7 @@
 			});
 
 			it('should apply filters greedily (inclusively)', function(done) {
-				var configs = getAppConfigsFor(['com_test_basic', 'com_test_duplicate']);
+				var configs = getConfigs(['com_test_basic', 'com_test_duplicate']);
 
 				F2.load(configs, function(apps) {
 					// Target both of the apps
@@ -169,7 +165,7 @@
 			});
 
 			it('should pass all arguments to emitted event', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.emitTo(['com_test_basic'], 'com_test_basic-args', 1, 2, 3);
 					expect(window.test.com_test_basic.eventArgs.length).toBe(3);
 					F2.remove(manifests);
@@ -178,7 +174,7 @@
 			});
 
 			it('should execute handlers in the context passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.emitTo(['com_test_basic'], 'com_test_basic-context');
 					expect(window.test.com_test_basic.handlerContext).toBe(window.test.com_test_basic.instance);
 					F2.remove(manifests);
@@ -187,7 +183,7 @@
 			});
 
 			it('should not run disposed handlers', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.remove(manifests);
 					F2.Events.emitTo(['com_test_basic'], 'com_test_basic-args');
 					expect(window.test.com_test_basic).not.toBeDefined();
@@ -217,7 +213,7 @@
 			});
 
 			it('should not throw if context is an app instantiated by F2', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.many(window.test.com_test_basic.instance, "test", 10, function() { });
 					}
@@ -228,7 +224,7 @@
 			});
 
 			it('should throw if no name is passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.many(window.test.com_test_basic.instance, null, 10, function() { });
 					}
@@ -239,7 +235,7 @@
 			});
 
 			it('should throw if no handler is passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.many(window.test.com_test_basic.instance, "test", 10, null);
 					}
@@ -250,7 +246,7 @@
 			});
 
 			it('should throw if no count is passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.many(window.test.com_test_basic.instance, "test", null, function() { });
 					}
@@ -261,7 +257,7 @@
 			});
 
 			it('should throw if count is NaN, negative, or 0', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attemptZero() {
 						F2.Events.many(window.test.com_test_basic.instance, "test", 0, function() { });
 					}
@@ -280,7 +276,7 @@
 			});
 
 			it('should only call handlers the specified number of times', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					// Execute 4 times
 					F2.Events.emit('com_test_basic-many');
 					F2.Events.emit('com_test_basic-many');
@@ -319,7 +315,7 @@
 			});
 
 			it('should unsubscribe by passing name and handler', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.off(null, 'com_test_basic-args', window.test.com_test_basic.instance.handleArgs);
 					F2.Events.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
@@ -329,7 +325,7 @@
 			});
 
 			it('should unsubscribe by passing only handler', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.off(null, null, window.test.com_test_basic.instance.handleArgs);
 					F2.Events.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
@@ -339,7 +335,7 @@
 			});
 
 			it('should unsubscribe by passing name and context', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.off(window.test.com_test_basic.instance, 'com_test_basic-args');
 					F2.Events.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
@@ -349,7 +345,7 @@
 			});
 
 			it('should unsubscribe by passing only context', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.off(window.test.com_test_basic.instance);
 					F2.Events.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
@@ -359,7 +355,7 @@
 			});
 
 			it('should unsubscribe by passing name, handler, and context', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.Events.off(
 						window.test.com_test_basic.instance,
 						'com_test_basic-args',
@@ -394,7 +390,7 @@
 			});
 
 			it('should not throw if context is an app instantiated by F2', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.on(window.test.com_test_basic.instance, "test", function() { });
 					}
@@ -405,7 +401,7 @@
 			});
 
 			it('should throw if no name is passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.on(window.test.com_test_basic.instance, null, function() { });
 					}
@@ -416,7 +412,7 @@
 			});
 
 			it('should throw if no handler is passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.on(window.test.com_test_basic.instance, "test", null);
 					}
@@ -448,7 +444,7 @@
 			});
 
 			it('should not throw if context is an app instantiated by F2', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.once(window.test.com_test_basic.instance, "test", function() { });
 					}
@@ -459,7 +455,7 @@
 			});
 
 			it('should throw if no name is passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.once(window.test.com_test_basic.instance, null, function() { });
 					}
@@ -470,7 +466,7 @@
 			});
 
 			it('should throw if no handler is passed', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.Events.once(window.test.com_test_basic.instance, "test", null);
 					}
@@ -481,7 +477,7 @@
 			});
 
 			it('should only call handler once', function(done) {
-				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					// Execute twice
 					F2.Events.emit('com_test_basic-once');
 					F2.Events.emit('com_test_basic-once');
