@@ -33,8 +33,8 @@
 		else {
 			var head = document.getElementsByTagName('head')[0];
 
-			for (var i = 0, len = paths.length; i < len; i++) {
-				var node = document.createNode('link');
+			for (var i = 0; i < paths.length; i++) {
+				var node = document.createElement('link');
 				node.rel = 'stylesheet';
 				node.href = paths[i];
 				node.async = false;

@@ -127,11 +127,15 @@
 			}
 
 			params.crossOrigin = !_isLocalRequest(params.url);
+			var isFile = (params.url.indexOf('.json') !== -1 || params.url.indexOf('.js') !== -1);
 
 			// Determine the method if none was provided
 			if (!params.method) {
 				if (params.crossOrigin) {
 					params.type = 'jsonp';
+				}
+				else if (isFile) {
+					params.method = 'get';
 				}
 				else {
 					params.method = 'post';

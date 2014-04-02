@@ -1,0 +1,24 @@
+body,
+html {
+	background: #eee;
+}
+
+.page-header {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.container-content {
+	background: #434550;
+	padding: 40px 0;
+}
+
+.apps-list {
+	display: inline;
+}
+
+	.apps-list li {
+		display: inline;
+		list-style-type: none;
+		margin-right: 10px;
+	}

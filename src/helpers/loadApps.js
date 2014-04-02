@@ -111,6 +111,7 @@
 
 		if (asyncApps.length) {
 			var groupedApps = _groupAppsByManifestUrl(asyncApps);
+			var numRequests = 0;
 
 			// Loop over each url
 			for (var url in groupedApps) {
@@ -123,6 +124,8 @@
 				if (appsForUrl.batch.length) {
 					requestsToMake.push(appsForUrl.batch);
 				}
+
+				numRequests += requestsToMake.length;
 
 				var manifests = [];
 
@@ -151,7 +154,7 @@
 						manifests.push(manifest);
 
 						// See if we've completed the last request
-						if (manifests.length === requestsToMake.length) {
+						if (!--numRequests) {
 							var combinedManifests = _combineAppManifests(manifests);
 
 							// Put the manifest files on the page
@@ -360,22 +363,21 @@
 
 	// Turn an app's "html" into a dom node
 	function _createAppRoot(app) {
+		if (!app.appContent) {
+			app.appContent = {
+				data: {},
+				html: ''
+			};
+		}
+
 		if (app.appConfig.root) {
 			app.root = app.appConfig.root;
+			app.root.innerHTML = app.appContent.html || '';
 		}
-		else {
-			if (!app.appContent) {
-				app.appContent = {
-					data: {},
-					html: ''
-				};
-			}
-
-			if (app.appContent.html) {
-				var fakeParent = document.createElement('div');
-				fakeParent.innerHTML = app.appContent.html;
-				app.root = fakeParent.firstChild;
-			}
+		else if (app.appContent.html) {
+			var fakeParent = document.createElement('div');
+			fakeParent.innerHTML = app.appContent.html;
+			app.root = fakeParent.firstChild;
 		}
 	}
 

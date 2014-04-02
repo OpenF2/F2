@@ -1,0 +1,14 @@
+.com_example_a {
+	background: #FD6D68;
+	padding: 20px 0;
+	text-align: center;
+}
+
+	.com_example_a h1 {
+		margin: 0;
+		color: white;
+	}
+
+	.com_example_a button {
+		margin-top: 20px;
+	}

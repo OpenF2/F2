@@ -2168,8 +2168,8 @@ _exports = undefined;
 		else {
 			var head = document.getElementsByTagName('head')[0];
 
-			for (var i = 0, len = paths.length; i < len; i++) {
-				var node = document.createNode('link');
+			for (var i = 0; i < paths.length; i++) {
+				var node = document.createElement('link');
 				node.rel = 'stylesheet';
 				node.href = paths[i];
 				node.async = false;
@@ -2343,11 +2343,15 @@ _exports = undefined;
 			}
 
 			params.crossOrigin = !_isLocalRequest(params.url);
+			var isFile = (params.url.indexOf('.json') !== -1 || params.url.indexOf('.js') !== -1);
 
 			// Determine the method if none was provided
 			if (!params.method) {
 				if (params.crossOrigin) {
 					params.type = 'jsonp';
+				}
+				else if (isFile) {
+					params.method = 'get';
 				}
 				else {
 					params.method = 'post';
@@ -2917,6 +2921,7 @@ _exports = undefined;
 
 		if (asyncApps.length) {
 			var groupedApps = _groupAppsByManifestUrl(asyncApps);
+			var numRequests = 0;
 
 			// Loop over each url
 			for (var url in groupedApps) {
@@ -2929,6 +2934,8 @@ _exports = undefined;
 				if (appsForUrl.batch.length) {
 					requestsToMake.push(appsForUrl.batch);
 				}
+
+				numRequests += requestsToMake.length;
 
 				var manifests = [];
 
@@ -2957,7 +2964,7 @@ _exports = undefined;
 						manifests.push(manifest);
 
 						// See if we've completed the last request
-						if (manifests.length === requestsToMake.length) {
+						if (!--numRequests) {
 							var combinedManifests = _combineAppManifests(manifests);
 
 							// Put the manifest files on the page
@@ -3166,22 +3173,21 @@ _exports = undefined;
 
 	// Turn an app's "html" into a dom node
 	function _createAppRoot(app) {
+		if (!app.appContent) {
+			app.appContent = {
+				data: {},
+				html: ''
+			};
+		}
+
 		if (app.appConfig.root) {
 			app.root = app.appConfig.root;
+			app.root.innerHTML = app.appContent.html || '';
 		}
-		else {
-			if (!app.appContent) {
-				app.appContent = {
-					data: {},
-					html: ''
-				};
-			}
-
-			if (app.appContent.html) {
-				var fakeParent = document.createElement('div');
-				fakeParent.innerHTML = app.appContent.html;
-				app.root = fakeParent.firstChild;
-			}
+		else if (app.appContent.html) {
+			var fakeParent = document.createElement('div');
+			fakeParent.innerHTML = app.appContent.html;
+			app.root = fakeParent.firstChild;
 		}
 	}
 
