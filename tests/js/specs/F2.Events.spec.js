@@ -76,6 +76,127 @@
 
 		});
 
+		describe('emitTo', function() {
+
+			it('should throw if no event name is passed', function() {
+				function attempt() {
+					F2.Events.emitTo([]);
+				}
+
+				expect(attempt).toThrow();
+			});
+
+			it('should throw if no filters are provided', function() {
+				function attempt() {
+					F2.Events.emitTo(null, 'test');
+				}
+
+				expect(attempt).toThrow();
+			});
+
+			it('should not throw if passed an unrecognized event name', function() {
+				function attempt() {
+					F2.Events.emitTo([], '__test-undefined__', {});
+				}
+
+				expect(attempt).not.toThrow();
+			});
+
+			it('should not throw if passed an unknown filter', function() {
+				function attempt() {
+					F2.Events.emitTo(['asdf'], 'test');
+				}
+
+				expect(attempt).not.toThrow();
+			});
+
+			it('should not throw if an empty array of filters is provided', function() {
+				function attempt() {
+					F2.Events.emitTo([], 'test');
+				}
+
+				expect(attempt).not.toThrow();
+			});
+
+			it('should not match anything if an empty array of filters is provided', function(done) {
+				var configs = getAppConfigsFor(['com_test_basic']);
+
+				F2.load(configs, function(manifests) {
+					// Target both of the apps
+					// This should pass if both apps are fired
+					F2.Events.emitTo([], 'generic_test_event');
+					expect(window.test.generic_test_event).not.toBeDefined();
+					F2.remove(manifests);
+					done();
+				});
+			});
+
+			it('should call handlers for a registered event with instanceId as a filter', function(done) {
+				var configs = getAppConfigsFor(['com_test_duplicate', 'com_test_duplicate']);
+
+				F2.load(configs, function(manifests) {
+					// Target one of the duplicate apps
+					F2.Events.emitTo([manifests[0].instanceId], 'generic_test_event');
+					expect(window.test.generic_test_event).toBe(1);
+					F2.remove(manifests);
+					done();
+				});
+			});
+
+			it('should call handlers for a registered event with appId as a filter', function(done) {
+				var configs = getAppConfigsFor(['com_test_duplicate', 'com_test_duplicate']);
+
+				F2.load(configs, function(apps) {
+					// Target both of the apps
+					F2.Events.emitTo(['com_test_duplicate'], 'generic_test_event');
+					expect(window.test.generic_test_event).toBe(2);
+					F2.remove(apps);
+					done();
+				});
+			});
+
+			it('should apply filters greedily (inclusively)', function(done) {
+				var configs = getAppConfigsFor(['com_test_basic', 'com_test_duplicate']);
+
+				F2.load(configs, function(apps) {
+					// Target both of the apps
+					// This should pass if both apps are fire4d
+					F2.Events.emitTo(['com_test_duplicate', 'com_test_basic'], 'generic_test_event');
+					expect(window.test.generic_test_event).toBe(2);
+					F2.remove(apps);
+					done();
+				});
+			});
+
+			it('should pass all arguments to emitted event', function(done) {
+				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+					F2.Events.emitTo(['com_test_basic'], 'com_test_basic-args', 1, 2, 3);
+					expect(window.test.com_test_basic.eventArgs.length).toBe(3);
+					F2.remove(manifests);
+					done();
+				});
+			});
+
+			it('should execute handlers in the context passed', function(done) {
+				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+					F2.Events.emitTo(['com_test_basic'], 'com_test_basic-context');
+					expect(window.test.com_test_basic.handlerContext).toBe(window.test.com_test_basic.instance);
+					F2.remove(manifests);
+					done();
+				});
+			});
+
+			it('should not run disposed handlers', function(done) {
+				F2.load(getAppConfigsFor('com_test_basic'), function(manifests) {
+					F2.remove(manifests);
+					F2.Events.emitTo(['com_test_basic'], 'com_test_basic-args');
+					expect(window.test.com_test_basic).not.toBeDefined();
+					done();
+				});
+			});
+
+		});
+
 		describe('many', function() {
 
 			it('should throw if no context is passed', function() {

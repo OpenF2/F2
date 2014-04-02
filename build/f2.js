@@ -3252,16 +3252,21 @@ _exports = undefined;
 	var _subs = {};
 
 	function appMatchesPattern(app, filters) {
-		for (var i = 0, len = filters.length; i < len; i++) {
+		for (var i = 0; i < filters.length; i++) {
+			// See if it's a straight wildcard
+			if (filters[i] === '*') {
+				return true;
+			}
+
 			// Check exact instanceId or appId match
-			if (app.instanceId === filters[i] || app.appId === filters[i]) {
+			if (app.instanceId === filters[i] || app.appConfig.appId === filters[i]) {
 				return true;
 			}
 
 			// Pattern match
 			var pattern = new RegExp(filters[i], 'gi');
 
-			if (pattern.test(app.appId)) {
+			if (pattern.test(app.appConfig.appId)) {
 				return true;
 			}
 		}
@@ -3279,7 +3284,7 @@ _exports = undefined;
 		}
 
 		if (!filters || !_.isArray(filters)) {
-			filters = [].concat(filters || []);
+			throw 'F2.Events: you must provide an array of filters.';
 		}
 
 		if (_subs[name]) {
@@ -3292,7 +3297,7 @@ _exports = undefined;
 					return !!filter;
 				});
 
-				if (!filters.length || (filters.length && appMatchesPattern(sub.instance, filters))) {
+				if (!filters || appMatchesPattern(sub.instance, filters)) {
 					sub.handler.apply(sub.instance, args);
 				}
 
@@ -3393,7 +3398,7 @@ _exports = undefined;
 		 */
 		emit: function(name) {
 			var args = Array.prototype.slice.call(arguments, 1);
-			return _send(name, [], args);
+			return _send(name, ['*'], args);
 		},
 		emitTo: function(filters, name) {
 			var args = Array.prototype.slice.call(arguments, 2);
@@ -3428,7 +3433,7 @@ _exports = undefined;
 		 * @return void
 		 */
 		on: function(instance, name, handler) {
-			_subscribe(instance, name, handler);
+			return this.many(instance, name, undefined, handler);
 		},
 		/**
 		 *
@@ -3438,7 +3443,7 @@ _exports = undefined;
 		 * @return void
 		 */
 		once: function(instance, name, handler) {
-			_subscribe(instance, name, handler, 1);
+			return this.many(instance, name, 1, handler);
 		}
 	};
 

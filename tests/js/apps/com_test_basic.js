@@ -19,6 +19,15 @@
 		F2.Events.on(this, 'com_test_basic-context', this.handleContext);
 		F2.Events.many(this, 'com_test_basic-many', 3, this.handleMany);
 		F2.Events.once(this, 'com_test_basic-once', this.handleOnce);
+
+		// Add an event that is listened to by multiple classes
+		F2.Events.on(this, 'generic_test_event', function() {
+			if (window.test.generic_test_event === undefined) {
+				window.test.generic_test_event = 0;
+			}
+
+			window.test.generic_test_event++;
+		});
 	}
 
 	AppClass.prototype = {
