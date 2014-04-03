@@ -26,6 +26,10 @@ require(['F2', 'jquery'], function(F2, $) {
 		'com_example_c': {
 			appId: 'com_example_c',
 			manifestUrl: 'com_example_c.json'
+		},
+		'com_example_d': {
+			appId: 'com_example_d',
+			manifestUrl: 'com_example_d.json'
 		}
 	};
 
