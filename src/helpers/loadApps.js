@@ -264,6 +264,16 @@
 	function _initAppClasses(apps, callback) {
 		if (apps.length) {
 			var appIds = _.map(apps, function(app) {
+				// Define a dummy app that will help the dev find missing classes
+				define(app.appConfig.appId, [], function() {
+					return function() {
+						console.error(
+							'F2: the app "' + app.appConfig.appId + '" was never defined and could not be loaded.',
+							'Did you forget to include a script file?'
+						);
+					};
+				});
+
 				return app.appConfig.appId;
 			});
 
