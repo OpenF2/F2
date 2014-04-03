@@ -3074,6 +3074,16 @@ _exports = undefined;
 	function _initAppClasses(apps, callback) {
 		if (apps.length) {
 			var appIds = _.map(apps, function(app) {
+				// Define a dummy app that will help the dev find missing classes
+				define(app.appConfig.appId, [], function() {
+					return function() {
+						console.error(
+							'F2: the app "' + app.appConfig.appId + '" was never defined and could not be loaded.',
+							'Did you forget to include a script file?'
+						);
+					};
+				});
+
 				return app.appConfig.appId;
 			});
 
@@ -3289,8 +3299,12 @@ _exports = undefined;
 			throw 'F2.Events: you must provide an event name to emit.';
 		}
 
-		if (!filters || !_.isArray(filters)) {
+		if (!filters) {
 			throw 'F2.Events: you must provide an array of filters.';
+		}
+
+		if (!_.isArray(filters)) {
+			filters = [filters];
 		}
 
 		if (_subs[name]) {

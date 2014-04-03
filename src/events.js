@@ -38,8 +38,12 @@
 			throw 'F2.Events: you must provide an event name to emit.';
 		}
 
-		if (!filters || !_.isArray(filters)) {
+		if (!filters) {
 			throw 'F2.Events: you must provide an array of filters.';
+		}
+
+		if (!_.isArray(filters)) {
+			filters = [filters];
 		}
 
 		if (_subs[name]) {

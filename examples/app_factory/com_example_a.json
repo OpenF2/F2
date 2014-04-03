@@ -1,9 +1,16 @@
 {
 	"inlineScripts": [],
-	"scripts": ["com_example_a.js"],
+	"scripts": [],
 	"styles": ["com_example_a.css"],
 	"apps": [{
 		"data": {},
-		"html": "<div class='com_example_a'><h1>App A</h1><button>Remove me</button></div>"
+		"html":
+			"<div class='com_example_a'>" +
+				"<h1>App A</h1>" +
+				"<p>I'm a wallflower. I only like to talk to other apps I know.</p>" +
+				"<button data-action='remove'>Remove me</button>" +
+				"<button data-action='event'>Send event</button>" +
+				"<ul class='output'></ul>" +
+			"</div>"
 	}]
 }

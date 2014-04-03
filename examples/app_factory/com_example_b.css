@@ -1,8 +1,13 @@
 .com_example_b {
 	background: #FEAA74;
-	padding: 20px 0;
+	padding: 20px;
 	text-align: center;
 }
+
+	.com_example_b p {
+		margin: 20px 0;
+		color: white;
+	}
 
 	.com_example_b h1 {
 		margin: 0;
@@ -10,5 +15,15 @@
 	}
 
 	.com_example_b button {
-		margin-top: 20px;
+		margin: 0 5px;
 	}
+
+	.com_example_b .output {
+		margin: 20px 0 0 0;
+		padding: 0;
+	}
+
+		.com_example_b .output li {
+			list-style-type: none;
+			color: white;
+		}
