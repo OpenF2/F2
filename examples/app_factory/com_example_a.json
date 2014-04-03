@@ -1,6 +1,6 @@
 {
 	"inlineScripts": [],
-	"scripts": [],
+	"scripts": ["com_example_a.js"],
 	"styles": ["com_example_a.css"],
 	"apps": [{
 		"data": {},
