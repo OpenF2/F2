@@ -39,7 +39,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		testname: "hasSchema (default + 1100 schemas)",
 		numTimes: 1e4,
 		fxn: F2.hasSchema,
-		context: F2.new(),
+		context: F2,
 		params: [new Perf.Factory(F2.guid, F2)]
 	}));
 	testSuite.push(new Perf.Test({
@@ -55,31 +55,22 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		context: F2.new(),
 		params: []
 	}));
-	
-	testSuite.push(new Perf.Test({
-		testname: "hasSchema",
-		numTimes: 1e4,
-		fxn: F2.hasSchema,
-		context: F2.new(),
-		params: [new Perf.Factory(F2.guid, F2)]
-	}));
 
 	var RemoveDuplicates = function() {
 		var _i, _length;
 		if( !window.test || !window.test.com_test_duplicate ) { return; }
 		for(_i = 0, _length = window.test.com_test_duplicate.length; _i < _length; ++_i ) {
-			if(!window.test.com_test_duplicate) { continue; }
-			LoadContext.remove(window.test.com_test_duplicate[_i].instanceId);
+			F2.remove(window.test.com_test_duplicate[_i].instanceId);
 		}
-		window.test.com_test_duplicate = [];
+		//window.test.com_test_duplicate = [];
 	}
 
 	var LoadContext = F2.new();
 	testSuite.push(new Perf.Test({
 		testname: "load (1 app)", 
 		fxn: F2.load,
-		context: LoadContext,
-		numTimes: 1,
+		context: F2,
+		numTimes: 10,
 		params: [
 			[{
 				appId: "com_test_duplicate",
@@ -111,29 +102,26 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	var largeNodes = largeTree.getElementsByTagName("DIV").length;
 	var largeApps = largeTree.getElementsByClassName("app").length;
 	
-	var smallContext = F2.new();
 	testSuite.push(new Perf.Test({
 		testname: "loadPlaceholders ("+smallNodes+" nodes: "+smallApps+" apps)",
 		fxn: F2.loadPlaceholders,
-		context: smallContext,
+		context: F2,
 		numTimes: 10,
 		params: [smallTree, RemoveDuplicates],
 	}));
 
-	var mediumContext = F2.new();
 	testSuite.push(new Perf.Test({
 		testname: "loadPlaceholders ("+mediumNodes+" nodes: "+mediumApps+" apps)",
 		fxn: F2.loadPlaceholders,
-		context: mediumContext,
+		context: F2,
 		numTimes: 10,
 		params: [mediumTree, RemoveDuplicates],
 	}));
 
-	var largeContext = F2.new();
 	testSuite.push(new Perf.Test({
 		testname: "loadPlaceholders ("+largeNodes+" nodes: "+largeApps+" apps)",
 		fxn: F2.loadPlaceholders,
-		context: largeContext,
+		context: F2,
 		numTimes: 10,
 		params: [largeTree, RemoveDuplicates],
 	}));

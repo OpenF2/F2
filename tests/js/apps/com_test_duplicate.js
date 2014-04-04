@@ -32,7 +32,9 @@
 
 	AppClass.prototype = {
 		dispose: function() {
-			window.test.com_test_duplicate.pop();
+			var index = window.test.com_test_duplicate.indexOf(this.instanceId);
+
+			window.test.com_test_duplicate.splice(index, 1);
 
 			if (!window.test.com_test_duplicate.length) {
 				window.test.com_test_duplicate = undefined;
