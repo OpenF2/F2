@@ -23,7 +23,7 @@
 	};
 
 	F2.prototype.hasSchema = function(name) {
-		return !!tv4.getSchemaMap()[name];
+		return !!tv4.getSchema(name);
 	};
 
 	F2.prototype.validate = function(json, name) {

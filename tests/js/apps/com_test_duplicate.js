@@ -7,6 +7,10 @@
 		this.root = root;
 
 		// Store some properties on the window
+		if(!window.test) {
+			window.test = {};
+		}
+
 		if (!window.test.com_test_duplicate) {
 			window.test.com_test_duplicate = [];
 		}
