@@ -71,6 +71,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 			if(!window.test.com_test_duplicate) { continue; }
 			LoadContext.remove(window.test.com_test_duplicate[_i].instanceId);
 		}
+		window.test.com_test_duplicate = [];
 	}
 
 	var LoadContext = F2.new();
@@ -78,15 +79,17 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		testname: "load (1 app)", 
 		fxn: F2.load,
 		context: LoadContext,
-		numTimes: 10,
-		params: [{
-			appConfigs: [{
+		numTimes: 1,
+		params: [
+			[{
 				appId: "com_test_duplicate",
 				manifestUrl: '/apps/single'
 			}],
-			complete: RemoveDuplicates
-		}]
-	}));	
+			RemoveDuplicates
+		]
+	}));
+
+	
 	var simpleApplier = function(Node, NumSiblings) { 
 		if(Math.random() * NumSiblings < .5) {
 			Node.className = "app";

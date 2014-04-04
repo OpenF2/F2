@@ -39,7 +39,6 @@ define('PerfHelpers', [], function() {
 					_params.push(Params[_p]);
 				}
 			}
-			//console.info(_context, _params);
 			ActionToTest.apply(_context, _params);
 		}
 		return ((new Date()) - StartDate)/NumberOfTimes;
