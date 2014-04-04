@@ -163,6 +163,7 @@
 								combinedManifests.styles,
 								combinedManifests.scripts,
 								combinedManifests.inlineScripts,
+								combinedManifests.dependencies,
 								function() {
 									// Look for aborted requests
 									_.each(requests, function(request) {
@@ -228,20 +229,19 @@
 	function _combineAppManifests(manifests) {
 		var combined = {
 			apps: [],
+			dependencies: {},
 			inlineScripts: [],
 			scripts: [],
 			styles: []
 		};
 
-		for (var i = 0; i < manifests.length; i++) {
-			if (!manifests[i].error) {
-				for (var prop in combined) {
-					for (var x = 0; x < manifests[i][prop].length; x++) {
-						combined[prop].push(manifests[i][prop][x]);
-					}
-				}
-			}
-		}
+		_.each(manifests, function(manifest) {
+			combined.apps = combined.apps.concat(manifest.apps || []);
+			combined.inlineScripts = combined.inlineScripts.concat(manifest.inlineScripts || []);
+			combined.scripts = combined.scripts.concat(manifest.scripts || []);
+			combined.styles = combined.styles.concat(manifest.styles || []);
+			_.extend(combined.dependencies, manifest.dependencies || {});
+		});
 
 		return combined;
 	}

@@ -2135,6 +2135,21 @@ _exports = undefined;
 
 (function(_) {
 
+	function loadDependencies(config, deps, callback) {
+		// Check for user defined loader
+		if (_.isObject(config.loadDependencies)) {
+			config.loadDependencies(deps, callback);
+		}
+		else {
+			// Add the paths to the global config
+			require.config({
+				paths: deps
+			});
+
+			callback();
+		}
+	}
+
 	function loadInlineScripts(inlines, callback) {
 		if (inlines.length) {
 			try {
@@ -2185,28 +2200,14 @@ _exports = undefined;
 	// ---------------------------------------------------------------------------
 
 	Helpers.LoadStaticFiles = {
-		load: function(containerConfig, styles, scripts, inlineScripts, callback) {
-			var stylesDone = false;
-			var scriptsDone = false;
-
-			// See if both scripts and styles have completed
-			function checkComplete() {
-				if (stylesDone && scriptsDone) {
-					callback();
-				}
-			}
-
-			// Kick off styles
+		load: function(containerConfig, styles, scripts, inlineScripts, deps, callback) {
 			loadStyles(containerConfig, styles, function() {
-				stylesDone = true;
-				checkComplete();
-			});
-
-			// Kick off scripts
-			loadScripts(containerConfig, scripts, function() {
-				loadInlineScripts(inlineScripts, function() {
-					scriptsDone = true;
-					checkComplete();
+				loadScripts(containerConfig, scripts, function() {
+					loadDependencies(containerConfig, deps, function() {
+						loadInlineScripts(inlineScripts, function() {
+							callback();
+						});
+					});
 				});
 			});
 		}
@@ -2973,6 +2974,7 @@ _exports = undefined;
 								combinedManifests.styles,
 								combinedManifests.scripts,
 								combinedManifests.inlineScripts,
+								combinedManifests.dependencies,
 								function() {
 									// Look for aborted requests
 									_.each(requests, function(request) {
@@ -3038,20 +3040,19 @@ _exports = undefined;
 	function _combineAppManifests(manifests) {
 		var combined = {
 			apps: [],
+			dependencies: {},
 			inlineScripts: [],
 			scripts: [],
 			styles: []
 		};
 
-		for (var i = 0; i < manifests.length; i++) {
-			if (!manifests[i].error) {
-				for (var prop in combined) {
-					for (var x = 0; x < manifests[i][prop].length; x++) {
-						combined[prop].push(manifests[i][prop][x]);
-					}
-				}
-			}
-		}
+		_.each(manifests, function(manifest) {
+			combined.apps = combined.apps.concat(manifest.apps || []);
+			combined.inlineScripts = combined.inlineScripts.concat(manifest.inlineScripts || []);
+			combined.scripts = combined.scripts.concat(manifest.scripts || []);
+			combined.styles = combined.styles.concat(manifest.styles || []);
+			_.extend(combined.dependencies, manifest.dependencies || {});
+		});
 
 		return combined;
 	}

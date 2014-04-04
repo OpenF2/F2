@@ -1,4 +1,8 @@
 {
+	"dependencies": {
+		"jquery-2.1": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min",
+		"moment": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min"
+	},
 	"inlineScripts": [],
 	"scripts": ["com_example_a.js"],
 	"styles": ["com_example_a.css"],
