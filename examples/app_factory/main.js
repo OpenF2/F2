@@ -14,6 +14,9 @@ require.config({
 
 require(['F2', 'jquery'], function(F2, $) {
 
+	// Pick up the placeholders
+	F2.loadPlaceholders();
+
 	var appConfigs = {
 		'com_example_a': {
 			appId: 'com_example_a',
@@ -32,9 +35,6 @@ require(['F2', 'jquery'], function(F2, $) {
 			manifestUrl: 'com_example_d.json'
 		}
 	};
-
-	// Pick up the placeholders
-	F2.loadPlaceholders();
 
 	// Find the first available place we can place an app
 	function getAvailableBucket() {
