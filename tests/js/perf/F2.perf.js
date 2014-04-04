@@ -56,30 +56,21 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		params: []
 	}));
 
-	var RemoveDuplicates = function() {
-		var _i, _length;
-		if( !window.test || !window.test.com_test_duplicate ) { return; }
-		for(_i = 0, _length = window.test.com_test_duplicate.length; _i < _length; ++_i ) {
-			F2.remove(window.test.com_test_duplicate[_i].instanceId);
-		}
-		//window.test.com_test_duplicate = [];
-	}
-
-	var LoadContext = F2.new();
+	var myAppConfig = {
+				appId: "com_test_duplicate",
+				manifestUrl: '/apps/single'
+			};
 	testSuite.push(new Perf.Test({
 		testname: "load (1 app)", 
 		fxn: F2.load,
 		context: F2,
 		numTimes: 10,
 		params: [
-			[{
-				appId: "com_test_duplicate",
-				manifestUrl: '/apps/single'
-			}],
-			RemoveDuplicates
+			[myAppConfig],
+			Perf.Feeder.queue
 		]
 	}));
-
+	Perf.Feeder.add(1, 10);
 	
 	var simpleApplier = function(Node, NumSiblings) { 
 		if(Math.random() * NumSiblings < .5) {
@@ -107,24 +98,58 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		fxn: F2.loadPlaceholders,
 		context: F2,
 		numTimes: 10,
-		params: [smallTree, RemoveDuplicates],
+		params: [smallTree, Perf.Feeder.queue],
 	}));
-
+	Perf.Feeder.add(smallApps, 10);
+	
 	testSuite.push(new Perf.Test({
 		testname: "loadPlaceholders ("+mediumNodes+" nodes: "+mediumApps+" apps)",
 		fxn: F2.loadPlaceholders,
 		context: F2,
 		numTimes: 10,
-		params: [mediumTree, RemoveDuplicates],
+		params: [mediumTree, Perf.Feeder.queue],
 	}));
+	Perf.Feeder.add(mediumApps, 10);
 
 	testSuite.push(new Perf.Test({
 		testname: "loadPlaceholders ("+largeNodes+" nodes: "+largeApps+" apps)",
 		fxn: F2.loadPlaceholders,
 		context: F2,
 		numTimes: 10,
-		params: [largeTree, RemoveDuplicates],
+		params: [largeTree, Perf.Feeder.queue],
 	}));
+	Perf.Feeder.add(largeApps, 10);
+
+	testSuite.push(new Perf.Test({
+		testname: "new",
+		fxn: F2.new,
+		context: F2
+	}));
+
+	testSuite.push(new Perf.Test({
+		testname: "onetimeToken",
+		fxn: F2.onetimeToken,
+		context: new Perf.Factory(F2.new, F2)
+	}));
+
+	testSuite.push(new Perf.Test({
+		testname: "remove",
+		fxn: F2.remove,
+		deferUntilTrue: function() { 
+			console.info("Remaining Requests: ", Perf.Feeder.requests);
+			return (Perf.Feeder.requests <= 0); 
+		},
+		numTimes: Perf.Feeder.length,
+		context: F2,
+		params: new Perf.Factory( Perf.Feeder.pop, Perf.Feeder )
+	}));
+
+	testSuite.push(new Perf.Test({
+		testname: "validate valid appConfig",
+		fxn: F2.validate,
+		context: F2,
+		params: [myAppConfig, "appConfig"]
+	}))
 
 	var run = function( ) {
 		var _i, _length;

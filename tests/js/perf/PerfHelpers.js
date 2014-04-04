@@ -11,6 +11,9 @@ define('PerfHelpers', [], function() {
 		Params = 4 <= arguments.length ? [].slice.call(arguments, 3) : [],
 		paramsThatAreFactories = [];
 
+		if(typeof NumberOfTimes === "function") {
+			NumberOfTimes = NumberOfTimes();
+		}
 		if(typeof NumberOfTimes !== "number") {
 			throw "First Argument expected to be a number";
 		}
@@ -58,6 +61,7 @@ define('PerfHelpers', [], function() {
 	var _test = function(config)
 	{
 		this.testname = config.testname;
+		this.deferUntilTrue = config.deferUntilTrue || function() { return true; }
 		this.testfxn = config.fxn;
 		this.numTimes = config.numTimes || 1e4;
 		this.context = config.context || this;
@@ -69,14 +73,25 @@ define('PerfHelpers', [], function() {
 		this.Title = document.createElement("SPAN");
 		this.Title.innerHTML = this.testname + ": ";
 		this.resultNode = document.createElement("SPAN");
-
+		this.timeout = null;
 		this.root.appendChild(this.Title);
 		this.root.appendChild(this.resultNode);
 		document.getElementsByTagName("body")[0].appendChild(this.root);
 	}
 
 	_test.prototype.run = function() {
-		setTimeout(this._run.apply(this));
+		self = this;
+		if(self.timeout) {
+			clearTimeout(self.timeout);
+		}
+		if( !self.deferUntilTrue() ) {
+			//console.info("Deferring ", this.testname);
+			self.timeout = setTimeout(function() {self.run.apply(self); }, 2000);
+		}
+		else {
+			//console.info("Applying ", this.testname);
+			self.timeout = setTimeout(this._run.apply(this));
+		}
 	}
 
 	_test.prototype._run = function() {
@@ -99,10 +114,34 @@ define('PerfHelpers', [], function() {
 		return Root;
 	}
 
+	var _feeder = {
+		requests: 0,
+		instanceIDs: [],
+		queue: function(manifests) {
+			var _i, _length;
+			_length = manifests.length;
+			for(_i = 0; _i < _length; ++_i){
+				_feeder.instanceIDs.push(manifests[_i].instanceId);
+			}
+			_feeder.requests -= _length;
+		},
+		add: function(numberofApps, numberofTimes) {
+			_feeder.requests += (numberofApps * numberofTimes);
+		},
+		pop: function() {
+			return _feeder.instanceIDs.pop();
+		},
+		length: function() {
+			if (!_feeder.instanceIDs) return 0;
+			return _feeder.instanceIDs.length;
+		}
+	}
+
 	return {
 		runXTimes: _runXTimes,
 		Factory: _factory,
 		Test: _test,
-		Tree: _tree
+		Tree: _tree,
+		Feeder: _feeder
 	};
 })
