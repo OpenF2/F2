@@ -73,12 +73,12 @@
 				expect(defined).toBe(false);
 			});
 
-			it('should not throw if the schema name is falsey', function() {
+			it('should throw if the schema name is falsey', function() {
 				function attempt() {
 					F2.hasSchema();
 				}
 
-				expect(attempt).not.toThrow();
+				expect(attempt).toThrow();
 			});
 
 		});
@@ -109,10 +109,12 @@
 				expect(isValid).toBe(false);
 			});
 
-			it('should return false if no JSON is provided', function() {
-				var isValid = F2.validate(null, 'appConfig');
+			it('should throw if no JSON is provided', function() {
+				function attempt() {
+					F2.validate(null, 'appConfig');
+				}
 
-				expect(isValid).toBe(false);
+				expect(attempt).toThrow();
 			});
 
 			it('should throw if no schema name is provided', function() {

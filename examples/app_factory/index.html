@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>F2 Example - App Factory</title>
+	<link href="../../vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+	<link href="container.css" rel="stylesheet" />
+</head>
+<body>
+	<header class="page-header container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>App Factory</h1>
+				<span>Load app:</span>
+				<ul class="apps-list list-unstyled">
+					<li>
+						<a href="javascript:;" data-load="com_example_a">App A</a>
+					</li>
+					<li>
+						<a href="javascript:;" data-load="com_example_b">App B</a>
+					</li>
+					<li>
+						<a href="javascript:;" data-load="com_example_c">App C</a>
+					</li>
+					<li>
+						<a href="javascript:;" data-load="com_example_d">App C</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<div class="container-content">
+		<div class="container">
+			<div class="row">
+				<div class="bucket col-md-4">
+					<div data-f2-appid="com_example_a" data-f2-manifesturl="com_example_a.json"></div>
+				</div>
+				<div class="bucket col-md-4">
+					<div data-f2-appid="com_example_b" data-f2-manifesturl="com_example_b.json"></div>
+				</div>
+				<div class="bucket col-md-4">
+					<div data-f2-appid="com_example_c" data-f2-manifesturl="com_example_c.json"></div>
+				</div>
+				<div class="bucket col-md-4">
+					<div data-f2-appid="com_example_d" data-f2-manifesturl="com_example_d.json"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../vendor/requirejs/require.js" data-main="main"></script>
+</body>
+</html>

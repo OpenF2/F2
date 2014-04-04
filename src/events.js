@@ -7,16 +7,21 @@
 	var _subs = {};
 
 	function appMatchesPattern(app, filters) {
-		for (var i = 0, len = filters.length; i < len; i++) {
+		for (var i = 0; i < filters.length; i++) {
+			// See if it's a straight wildcard
+			if (filters[i] === '*') {
+				return true;
+			}
+
 			// Check exact instanceId or appId match
-			if (app.instanceId === filters[i] || app.appId === filters[i]) {
+			if (app.instanceId === filters[i] || app.appConfig.appId === filters[i]) {
 				return true;
 			}
 
 			// Pattern match
 			var pattern = new RegExp(filters[i], 'gi');
 
-			if (pattern.test(app.appId)) {
+			if (pattern.test(app.appConfig.appId)) {
 				return true;
 			}
 		}
@@ -33,8 +38,12 @@
 			throw 'F2.Events: you must provide an event name to emit.';
 		}
 
-		if (!filters || !_.isArray(filters)) {
-			filters = [].concat(filters || []);
+		if (!filters) {
+			throw 'F2.Events: you must provide an array of filters.';
+		}
+
+		if (!_.isArray(filters)) {
+			filters = [filters];
 		}
 
 		if (_subs[name]) {
@@ -47,7 +56,7 @@
 					return !!filter;
 				});
 
-				if (!filters.length || (filters.length && appMatchesPattern(sub.instance, filters))) {
+				if (!filters || appMatchesPattern(sub.instance, filters)) {
 					sub.handler.apply(sub.instance, args);
 				}
 
@@ -60,14 +69,14 @@
 	}
 
 	function _subscribe(instance, name, handler, timesToListen) {
-		var instanceIsBeingLoaded = (instance && LoadApps.isInFlightInstanceId(instance.instanceId));
+		var instanceIsBeingLoaded = (instance && LoadApps.isRealInstanceId(instance.instanceId));
 
 		if (!instance) {
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
 		else if (!instanceIsBeingLoaded) {
 			var instanceIsApp = (!!LoadApps.getLoadedApp(instance));
-			var instanceIsToken = (instance === Guid.getOnetimeGuid());
+			var instanceIsToken = (instance === Guid.isTrackedGuid(instance));
 
 			if (!instanceIsApp && !instanceIsToken) {
 				throw 'F2.Events: "instance" must be an app instance or a container token.';
@@ -148,7 +157,7 @@
 		 */
 		emit: function(name) {
 			var args = Array.prototype.slice.call(arguments, 1);
-			return _send(name, [], args);
+			return _send(name, ['*'], args);
 		},
 		emitTo: function(filters, name) {
 			var args = Array.prototype.slice.call(arguments, 2);
@@ -183,7 +192,7 @@
 		 * @return void
 		 */
 		on: function(instance, name, handler) {
-			_subscribe(instance, name, handler);
+			return this.many(instance, name, undefined, handler);
 		},
 		/**
 		 *
@@ -193,7 +202,7 @@
 		 * @return void
 		 */
 		once: function(instance, name, handler) {
-			_subscribe(instance, name, handler, 1);
+			return this.many(instance, name, 1, handler);
 		}
 	};
 

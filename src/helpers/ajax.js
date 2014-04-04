@@ -120,61 +120,67 @@
 	// GET/POST
 	// --------------------------------------------------------------------------
 
-	Helpers.Ajax = function(params, cache) {
-		if (!params.url) {
-			throw 'F2.Ajax: you must provide a url.';
-		}
-
-		params.crossOrigin = !_isLocalRequest(params.url);
-
-		// Determine the method if none was provided
-		if (!params.method) {
-			if (params.crossOrigin) {
-				params.type = 'jsonp';
+	Helpers.Ajax = {
+		request: function(params, cache) {
+			if (!params.url) {
+				throw 'F2.Ajax: you must provide a url.';
 			}
-			else {
-				params.method = 'post';
+
+			params.crossOrigin = !_isLocalRequest(params.url);
+			var isFile = (params.url.indexOf('.json') !== -1 || params.url.indexOf('.js') !== -1);
+
+			// Determine the method if none was provided
+			if (!params.method) {
+				if (params.crossOrigin) {
+					params.type = 'jsonp';
+				}
+				else if (isFile) {
+					params.method = 'get';
+				}
+				else {
+					params.method = 'post';
+				}
 			}
-		}
 
-		if (!params.type) {
-			params.type = 'json';
-		}
+			if (!params.type) {
+				params.type = 'json';
+			}
 
-		// Bust cache if asked
-		if ((params.method === 'get' || params.type === 'jsonp') && !cache) {
-			params.url += delim(params.url) + rand(1000000);
-		}
+			// Bust cache if asked
+			if ((params.method === 'get' || params.type === 'jsonp') && !cache) {
+				params.url += delim(params.url) + rand(1000000);
+			}
 
-		if (params.type === 'jsonp') {
-			// Create a random callback name
-			params.jsonpCallbackName = 'F2_' + rand(1000000);
+			if (params.type === 'jsonp') {
+				// Create a random callback name
+				params.jsonpCallbackName = 'F2_' + rand(1000000);
 
-			// Add a jsonp callback to the window
-			window[params.jsonpCallbackName] = function(response) {
-				if (params.success) {
-					params.success(response);
+				// Add a jsonp callback to the window
+				window[params.jsonpCallbackName] = function(response) {
+					if (params.success) {
+						params.success(response);
+					}
+
+					if (params.complete) {
+						params.complete();
+					}
+
+					// Pull the callback off the window
+					delete window[params.jsonpCallbackName];
+				};
+			}
+
+			// Kick off the request
+			var req = reqwest(params);
+
+			return {
+				isAborted: false,
+				abort: function() {
+					this.isAborted = true;
+					req.request.abort();
 				}
-
-				if (params.complete) {
-					params.complete();
-				}
-
-				// Pull the callback off the window
-				delete window[params.jsonpCallbackName];
 			};
 		}
-
-		// Kick off the request
-		var req = reqwest(params);
-
-		return {
-			isAborted: false,
-			abort: function() {
-				this.isAborted = true;
-				req.request.abort();
-			}
-		};
 	};
 
 })(reqwest);

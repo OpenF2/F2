@@ -24,6 +24,7 @@ module.exports = function(grunt) {
 					'./build/f2.vendor.js',
 					// Core (order matters)
 					'./src/helpers/funderscore.js',
+					'./src/helpers/loadFiles.js',
 					'./src/helpers/ajax.js',
 					'./src/helpers/appPlaceholders.js',
 					'./src/helpers/guid.js',

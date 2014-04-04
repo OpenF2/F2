@@ -1,0 +1,29 @@
+.com_example_a {
+	background: #FD6D68;
+	padding: 20px;
+	text-align: center;
+}
+
+	.com_example_a p {
+		margin: 20px 0;
+		color: white;
+	}
+
+	.com_example_a h1 {
+		margin: 0;
+		color: white;
+	}
+
+	.com_example_a button {
+		margin: 0 5px;
+	}
+
+	.com_example_a .output {
+		margin: 20px 0 0 0;
+		padding: 0;
+	}
+
+		.com_example_a .output li {
+			list-style-type: none;
+			color: white;
+		}

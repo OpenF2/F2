@@ -1,0 +1,16 @@
+{
+	"inlineScripts": [],
+	"scripts": ["com_example_b.js"],
+	"styles": ["com_example_b.css"],
+	"apps": [{
+		"data": {},
+		"html":
+			"<div class='com_example_b'>" +
+				"<h1>App B</h1>" +
+				"<p>I only talk to myself.</p>" +
+				"<button data-action='remove'>Remove me</button>" +
+				"<button data-action='event'>Send event</button>" +
+				"<ul class='output'></ul>" +
+			"</div>"
+	}]
+}

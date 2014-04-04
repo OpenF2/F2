@@ -106,6 +106,9 @@
 		isFunction: function(test) {
 			return typeof test === 'function';
 		},
+		isNode: function(test) {
+			return test && test.nodeType === 1;
+		},
 		isString: function(test) {
 			return typeof test === 'string';
 		},
@@ -122,6 +125,17 @@
 			}
 
 			return output;
+		},
+		pluck: function(list, property) {
+			var props = [];
+
+			for (var i = 0; i < list.length; i++) {
+				if (list[i] && list[i][property]) {
+					props.push(list[i][property]);
+				}
+			}
+
+			return props;
 		}
 	};
 

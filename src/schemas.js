@@ -3,44 +3,69 @@
  * @class F2.Schemas
  */
 (function(tv4, _) {
+	'use strict';
 
-	F2.prototype.addSchema = function(name, schema) {
-		if (!name) {
-			throw 'F2.Schemas: you must provide a schema name.';
+	var ERRORS = {
+		BAD_NAME: function() {
+			return 'F2.Schemas: you must provide a string schema name.';
+		},
+		BAD_JSON: function() {
+			return 'F2.Schemas: you must provide a schema.';
+		},
+		DUPE_SCHEMA: function(name) {
+			return 'F2.Schemas: "' + name + '" is already a registered schema.';
+		},
+		NO_SCHEMA: function(name) {
+			return 'F2.Schemas: "' + name + '" is not a registered schema.';
+		}
+	};
+
+	F2.prototype.addSchema = function(name, json) {
+		if (!_.isString(name)) {
+			throw ERRORS.BAD_NAME();
 		}
 
-		if (!schema) {
-			throw 'F2.Schemas: you must provide a schema.';
+		if (Helpers.hasSchema(name)) {
+			throw ERRORS.DUPE_SCHEMA(name);
 		}
 
-		if (tv4.getSchema(name)) {
-			throw 'F2.Schemas: ' + name + ' is already a registered schema.';
+		if (!_.isObject(json)) {
+			throw ERRORS.BAD_JSON();
 		}
 
-		tv4.addSchema(name, schema);
+		tv4.addSchema(name, json);
 
 		return true;
 	};
 
-	F2.prototype.hasSchema = function(name) {
+	F2.prototype.hasSchema = Helpers.hasSchema = function(name) {
+		if (!_.isString(name)) {
+			throw ERRORS.BAD_NAME();
+		}
+
 		return !!tv4.getSchema(name);
 	};
 
-	F2.prototype.validate = function(json, name) {
-		if (!name) {
-			throw 'F2.Schemas: you must provide a schema name.';
+	F2.prototype.validate = Helpers.validate = function(json, name) {
+		if (!_.isString(name)) {
+			throw ERRORS.BAD_NAME();
+		}
+
+		if (!Helpers.hasSchema(name)) {
+			throw ERRORS.NO_SCHEMA(name);
+		}
+
+		if (!_.isObject(json)) {
+			throw ERRORS.BAD_JSON();
 		}
 
 		var schema = tv4.getSchema(name);
 
-		if (!schema) {
-			throw 'F2.Schemas: unrecognized schema name.';
-		}
-
 		return tv4.validate(json, schema);
 	};
 
-	var schemas = {
+	// Hard code some predefined schemas
+	var librarySchemas = {
 		appConfig: {
 			id: 'appConfig',
 			title: 'App Config',
@@ -200,8 +225,8 @@
 	};
 
 	// Add each schema
-	for (var name in schemas) {
-		tv4.addSchema(name, schemas[name]);
+	for (var name in librarySchemas) {
+		tv4.addSchema(name, librarySchemas[name]);
 	}
 
 })(tv4, Helpers._);

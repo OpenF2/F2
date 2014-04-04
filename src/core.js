@@ -21,6 +21,10 @@
 		}
 	};
 
+	function tokenKiller() {
+		throw 'F2: onetime token has already been used.';
+	}
+
 	// --------------------------------------------------------------------------
 	// API
 	// --------------------------------------------------------------------------
@@ -44,49 +48,42 @@
 		return Guid.guid();
 	};
 
-	F2.prototype.load = function(params) {
-		if (!params) {
-			throw 'F2: no params passed to "load"';
+	F2.prototype.load = function(appConfigs, callback) {
+		if (!_.isArray(appConfigs) || !appConfigs.length) {
+			throw 'F2: no appConfigs passed to "load"';
+		}
+
+		if (!_.isFunction(callback)) {
+			callback = noop;
 		}
 
 		// Kill the token if it hasn't been called
 		// This should prevent apps from pretending to be the container
-		if (!Guid.getOnetimeGuid()) {
-			Guid.onetimeGuid();
-		}
-
-		// Default to an array
-		params.appConfigs = [].concat(params.appConfigs || []);
-
-		if (!params.appConfigs.length) {
-			throw 'F2: you must specify at least one AppConfig to load';
+		if (this.onetimeToken !== tokenKiller) {
+			this.onetimeToken();
 		}
 
 		// Request all the apps and get the xhr objects so we can abort
-		var reqs = LoadApps.load(
-			this.config(),
-			params.appConfigs,
-			params.success,
-			params.error,
-			params.complete,
-			params.afterRequest
-		);
+		var requests = LoadApps.load(this.config(), appConfigs, callback);
 
 		return {
-			abort: (function() {
-				if (reqs) {
-					for (var url in reqs) {
-						reqs[url].request.abort();
-					}
+			abort: function() {
+				for (var i = 0; i < this.requests.length; i++) {
+					this.requests[i].xhr.abort();
 				}
-			}),
-			requests: reqs
+			},
+			requests: requests || []
 		};
 	};
 
 	F2.prototype.loadPlaceholders = function(parentNode, callback) {
+		// Default to the body if no node was passed
 		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
 			parentNode = document.body;
+		}
+
+		if (!callback || (callback && !_.isFunction(callback))) {
+			callback = noop;
 		}
 
 		// Find the placeholders on the DOM
@@ -94,36 +91,26 @@
 
 		if (placeholders.length) {
 			var appConfigs = _.map(placeholders, function(placeholder) {
-				if (placeholder.isPreload) {
-					placeholder.appConfig.root = placeholder.node;
-				}
-
+				placeholder.appConfig.isPreload = placeholder.isPreload;
+				placeholder.appConfig.root = placeholder.node;
 				return placeholder.appConfig;
 			});
 
-			this.load({
-				appConfigs: appConfigs,
-				success: function() {
-					var args = Array.prototype.slice.call(arguments);
-
-					// Add to the DOM
-					for (var i = 0, len = args.length; i < len; i++) {
-						if (!placeholders[i].isPreload) {
-							placeholders[i].node.parentNode.replaceChild(args[i].root, placeholders[i].node);
-						}
-					}
-				},
-				complete: function() {
-					if (callback && _.isFunction(callback)) {
-						callback();
+			this.load(appConfigs, function(manifests) {
+				for (var i = 0, len = manifests.length; i < len; i++) {
+					if (!manifests[i].error && !placeholders[i].isPreload) {
+						placeholders[i].node.parentNode.replaceChild(
+							manifests[i].root,
+							placeholders[i].node
+						);
 					}
 				}
+
+				callback(manifests);
 			});
 		}
 		else {
-			if (callback && _.isFunction(callback)) {
-				callback();
-			}
+			callback([]);
 		}
 	};
 
@@ -135,7 +122,9 @@
 	};
 
 	F2.prototype.onetimeToken = function() {
-		return Guid.onetimeGuid();
+		this.onetimeToken = tokenKiller;
+
+		return Guid.trackedGuid();
 	};
 
 	/**
@@ -158,7 +147,13 @@
 			var identifier = identifiers[i];
 
 			if (!identifier) {
-				throw 'F2: you must provide an instanceId or a root to remove an app';
+				throw 'F2: you must provide an instanceId, root, or app instance to remove an app';
+			}
+
+			// See if this an another reference to an existing app
+			// If so, switch to that for a more reliable lookup
+			if (identifier.instanceId) {
+				identifier = identifier.instanceId;
 			}
 
 			// Try to find the app in our internal cache
