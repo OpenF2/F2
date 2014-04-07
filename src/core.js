@@ -6,15 +6,10 @@
 
 	// Set up a default config
 	var _config = {
+		loadDependencies: null,
 		loadInlineScripts: null,
 		loadScripts: null,
 		loadStyles: null,
-		supportedViews: [],
-		xhr: {
-			dataType: null,
-			type: null,
-			url: null
-		},
 		ui: {
 			modal: null,
 			toggleLoading: null
