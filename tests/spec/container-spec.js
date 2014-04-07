@@ -650,7 +650,7 @@ describe('F2.registerApps - xhr overrides', function() {
 			});
 			F2.registerApps({
 				appId: 'com_test_app',
-				manifestUrl: 'http://127.0.0.1:8080/httpPostTest'
+				manifestUrl: 'http://openf2.herokuapp.com/httpPostTest'
 			});
 		});
 
