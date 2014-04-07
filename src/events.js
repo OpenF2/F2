@@ -52,7 +52,7 @@
 			while (len--) {
 				var sub = _subs[name][len];
 				// Strip out the bogus filters
-				filters = _.filter(filters, function(filter) {
+				filters = filters.filter(function(filter) {
 					return !!filter;
 				});
 

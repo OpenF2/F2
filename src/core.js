@@ -85,7 +85,7 @@
 		var placeholders = AppPlaceholders.getInNode(parentNode);
 
 		if (placeholders.length) {
-			var appConfigs = _.map(placeholders, function(placeholder) {
+			var appConfigs = placeholders.map(function(placeholder) {
 				placeholder.appConfig.isPreload = placeholder.isPreload;
 				placeholder.appConfig.root = placeholder.node;
 				return placeholder.appConfig;

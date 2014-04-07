@@ -7,7 +7,7 @@
 		}
 		else {
 			// Add the paths to the global config
-			_.each(deps, function(map) {
+			deps.forEach(function(map) {
 				require.config({
 					paths: map
 				});

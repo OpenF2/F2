@@ -137,16 +137,16 @@
 				numRequests += requestsToMake.length;
 
 				// Loop for each request
-				_.each(requestsToMake, function(appsForRequest, i) {
+				requestsToMake.forEach(function(appsForRequest, i) {
 					appsForRequest = [].concat(appsForRequest);
 					var appConfigs = _.pluck(appsForRequest, 'appConfig');
 
 					// Make the actual request to the remote server
 					var xhr = _getManifestFromUrl(url, appConfigs, function(manifests) {
-						_.each(manifests, function(manifest, i) {
+						manifests.forEach(function(manifest, i) {
 							if (manifest.error) {
 								// Track that every app in this request failed
-								_.each(appsForRequest, function(app) {
+								appsForRequest.forEach(function(app) {
 									app.isFailed = true;
 								});
 							}
@@ -175,7 +175,7 @@
 								parts.dependencies,
 								function() {
 									// Look for aborted requests
-									_.each(requests, function(request) {
+									requests.forEach(function(request) {
 										if (request.xhr.isAborted) {
 											_.each(request.apps, function(app) {
 												app.isAborted = true;
@@ -248,9 +248,9 @@
 			styles = _.unique(styles);
 
 			// Filter out invalid paths
-			inlineScripts = _.filter(inlineScripts, _isNonEmptyString);
-			scripts = _.filter(scripts, _isNonEmptyString);
-			styles = _.filter(styles, _isNonEmptyString);
+			inlineScripts = inlineScripts.filter(_isNonEmptyString);
+			scripts = scripts.filter(_isNonEmptyString);
+			styles = styles.filter(_isNonEmptyString);
 		}
 
 		return {
@@ -267,7 +267,7 @@
 		};
 
 		// Strip out any properties the server doesn't need
-		var fixedConfigs = _.map(appConfigs, function(config) {
+		var fixedConfigs = appConfigs.map(function(config) {
 			var params = {
 				appId: config.appId
 			};
@@ -308,7 +308,7 @@
 
 	function _initAppClasses(apps, callback) {
 		if (apps.length) {
-			var appIds = _.map(apps, function(app) {
+			var appIds = apps.map(function(app) {
 				// Define a dummy app that will help the dev find missing classes
 				define(app.appConfig.appId, [], function() {
 					return function() {
@@ -326,7 +326,7 @@
 				var classes = Array.prototype.slice.call(arguments);
 
 				// Load each AppClass
-				_.each(apps, function(app, i) {
+				apps.forEach(function(app, i) {
 					try {
 						// Track that we're loading this app right now
 						// We need this because an app might try to register an event in
@@ -386,10 +386,6 @@
 		}
 	}
 
-	function _sortApps(a, b) {
-		return a.index - b.index;
-	}
-
 	// Whittle down the app's data into something we can pass to the container
 	function _extractAppPropsForCallback(app) {
 		var output = {
@@ -432,7 +428,7 @@
 	function _dumpAppsToDom(apps, container) {
 		var fragment = document.createDocumentFragment();
 
-		_.each(apps, function(app) {
+		apps.forEach(function(app) {
 			if (!app.isFailed && !app.isAborted) {
 				// Data apps won't need a root, so we still need to check for one
 				if (app.root) {
@@ -471,21 +467,23 @@
 
 			return _requestAsyncApps(config, apps.async, function() {
 				var allApps = [].concat(apps.async, apps.preloaded, apps.broken);
-				allApps.sort(_sortApps);
+				allApps.sort(function(a, b) {
+					return a.index - b.index;
+				});
 
 				// Strip out the failed apps
-				var appsToLoad = _.filter(allApps, _appDidSucceed);
+				var appsToLoad = allApps.filter(_appDidSucceed);
 
 				// Make sure async apps have valid roots
 				if (apps.async.length) {
-					_.each(apps.async, _createAppRoot);
+					apps.async.forEach(_createAppRoot);
 				}
 
 				// Instantiate the apps
 				_initAppClasses(appsToLoad, function() {
 					if (callback) {
 						// Get the properties we want to expose to the container
-						var outputs = _.map(allApps, _extractAppPropsForCallback);
+						var outputs = allApps.map(_extractAppPropsForCallback);
 						callback(outputs);
 					}
 					else {

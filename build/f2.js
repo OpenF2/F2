@@ -1998,101 +1998,12 @@ _exports = undefined;
 */
 (function() {
 
-	// Establish the object that gets returned to break out of a loop iteration.
-	var breaker = {};
-
 	Helpers._ = {
-		contains: function(obj, target) {
-			if (!obj) {
-				return false;
-			}
-
-			return this.some(obj, function(value) {
-				return value === target;
-			});
-		},
-		some: function(obj, predicate, context) {
-			predicate = predicate || this.identity;
-			var result = false;
-
-			if (!obj) {
-				return result;
-			}
-
-			this.each(obj, function(value, index, list) {
-				if (result || (result = predicate.call(context, value, index, list))) {
-					return breaker;
-				}
-			});
-
-			return !!result;
-		},
 		identity: function(value) {
 			return value;
 		},
-		map: function(obj, iterator, context) {
-			var results = [];
-
-			if (!obj) {
-				return results;
-			}
-
-			if (Array.prototype.map && obj.map === Array.prototype.map) {
-				return obj.map(iterator, context);
-			}
-
-			this.each(obj, function(value, index, list) {
-				results.push(iterator.call(context, value, index, list));
-			});
-
-			return results;
-		},
-		each: function(obj, iterator, context) {
-			if (!obj) {
-				return;
-			}
-
-			if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
-				obj.forEach(iterator, context);
-			}
-			else if (obj.length === +obj.length) {
-				for (var i = 0; i < obj.length; i++) {
-					if (iterator.call(context, obj[i], i, obj) === breaker) {
-						return;
-					}
-				}
-			}
-			else {
-				var keys = this.keys(obj);
-
-				for (var j = 0; j < obj.length; j++) {
-					if (iterator.call(context, obj[keys[j]], keys[j], obj) === breaker) {
-						return;
-					}
-				}
-			}
-		},
-		keys: function(obj) {
-			if (Object.keys) {
-				return Object.keys(obj);
-			}
-
-			if (obj !== Object(obj)) {
-				throw new TypeError('Invalid object');
-			}
-
-			var keys = [];
-
-			for (var key in obj) {
-				if (Object.prototype.hasOwnProperty.call(obj, key)) {
-					keys.push(key);
-				}
-			}
-
-			return keys;
-		},
 		defaults: function(obj) {
-			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
+			Array.prototype.slice.call(arguments, 1).forEach(function(source) {
 				if (source) {
 					for (var prop in source) {
 						if (obj[prop] === void 0) {
@@ -2105,7 +2016,7 @@ _exports = undefined;
 			return obj;
 		},
 		extend: function(obj) {
-			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
+			Array.prototype.slice.call(arguments, 1).forEach(function(source) {
 				if (source) {
 					for (var prop in source) {
 						obj[prop] = source[prop];
@@ -2135,17 +2046,6 @@ _exports = undefined;
 		isObject: function(test) {
 			return test === Object(test);
 		},
-		filter: function(list, fn) {
-			var output = [];
-
-			for (var i = 0, len = list.length; i < len; i++) {
-				if (fn(list[i], i, list)) {
-					output.push(list[i]);
-				}
-			}
-
-			return output;
-		},
 		pluck: function(list, property) {
 			var props = [];
 
@@ -2157,15 +2057,9 @@ _exports = undefined;
 
 			return props;
 		},
-		unique: function(array, isSorted, iterator, context) {
+		unique: function(array) {
 			if (!array) {
 				return [];
-			}
-
-			if (this.isFunction(isSorted)) {
-				context = iterator;
-				iterator = isSorted;
-				isSorted = false;
 			}
 
 			var result = [];
@@ -2174,20 +2068,11 @@ _exports = undefined;
 			for (var i = 0, length = array.length; i < length; i++) {
 				var value = array[i];
 
-				if (iterator) {
-					value = iterator.call(context, value, i, array);
+				if (value && result.indexOf(value) === -1) {
+					result.push(value);
 				}
 
-				if (isSorted ? (!i || seen !== value) : !this.contains(seen, value)) {
-					if (isSorted) {
-						seen = value;
-					}
-					else {
-						seen.push(value);
-					}
-
-					result.push(array[i]);
-				}
+				seen.push(value);
 			}
 
 			return result;
@@ -2205,7 +2090,7 @@ _exports = undefined;
 		}
 		else {
 			// Add the paths to the global config
-			_.each(deps, function(map) {
+			deps.forEach(function(map) {
 				require.config({
 					paths: map
 				});
@@ -3001,16 +2886,16 @@ _exports = undefined;
 				numRequests += requestsToMake.length;
 
 				// Loop for each request
-				_.each(requestsToMake, function(appsForRequest, i) {
+				requestsToMake.forEach(function(appsForRequest, i) {
 					appsForRequest = [].concat(appsForRequest);
 					var appConfigs = _.pluck(appsForRequest, 'appConfig');
 
 					// Make the actual request to the remote server
 					var xhr = _getManifestFromUrl(url, appConfigs, function(manifests) {
-						_.each(manifests, function(manifest, i) {
+						manifests.forEach(function(manifest, i) {
 							if (manifest.error) {
 								// Track that every app in this request failed
-								_.each(appsForRequest, function(app) {
+								appsForRequest.forEach(function(app) {
 									app.isFailed = true;
 								});
 							}
@@ -3039,7 +2924,7 @@ _exports = undefined;
 								parts.dependencies,
 								function() {
 									// Look for aborted requests
-									_.each(requests, function(request) {
+									requests.forEach(function(request) {
 										if (request.xhr.isAborted) {
 											_.each(request.apps, function(app) {
 												app.isAborted = true;
@@ -3112,9 +2997,9 @@ _exports = undefined;
 			styles = _.unique(styles);
 
 			// Filter out invalid paths
-			inlineScripts = _.filter(inlineScripts, _isNonEmptyString);
-			scripts = _.filter(scripts, _isNonEmptyString);
-			styles = _.filter(styles, _isNonEmptyString);
+			inlineScripts = inlineScripts.filter(_isNonEmptyString);
+			scripts = scripts.filter(_isNonEmptyString);
+			styles = styles.filter(_isNonEmptyString);
 		}
 
 		return {
@@ -3131,7 +3016,7 @@ _exports = undefined;
 		};
 
 		// Strip out any properties the server doesn't need
-		var fixedConfigs = _.map(appConfigs, function(config) {
+		var fixedConfigs = appConfigs.map(function(config) {
 			var params = {
 				appId: config.appId
 			};
@@ -3172,7 +3057,7 @@ _exports = undefined;
 
 	function _initAppClasses(apps, callback) {
 		if (apps.length) {
-			var appIds = _.map(apps, function(app) {
+			var appIds = apps.map(function(app) {
 				// Define a dummy app that will help the dev find missing classes
 				define(app.appConfig.appId, [], function() {
 					return function() {
@@ -3190,7 +3075,7 @@ _exports = undefined;
 				var classes = Array.prototype.slice.call(arguments);
 
 				// Load each AppClass
-				_.each(apps, function(app, i) {
+				apps.forEach(function(app, i) {
 					try {
 						// Track that we're loading this app right now
 						// We need this because an app might try to register an event in
@@ -3250,10 +3135,6 @@ _exports = undefined;
 		}
 	}
 
-	function _sortApps(a, b) {
-		return a.index - b.index;
-	}
-
 	// Whittle down the app's data into something we can pass to the container
 	function _extractAppPropsForCallback(app) {
 		var output = {
@@ -3296,7 +3177,7 @@ _exports = undefined;
 	function _dumpAppsToDom(apps, container) {
 		var fragment = document.createDocumentFragment();
 
-		_.each(apps, function(app) {
+		apps.forEach(function(app) {
 			if (!app.isFailed && !app.isAborted) {
 				// Data apps won't need a root, so we still need to check for one
 				if (app.root) {
@@ -3335,21 +3216,23 @@ _exports = undefined;
 
 			return _requestAsyncApps(config, apps.async, function() {
 				var allApps = [].concat(apps.async, apps.preloaded, apps.broken);
-				allApps.sort(_sortApps);
+				allApps.sort(function(a, b) {
+					return a.index - b.index;
+				});
 
 				// Strip out the failed apps
-				var appsToLoad = _.filter(allApps, _appDidSucceed);
+				var appsToLoad = allApps.filter(_appDidSucceed);
 
 				// Make sure async apps have valid roots
 				if (apps.async.length) {
-					_.each(apps.async, _createAppRoot);
+					apps.async.forEach(_createAppRoot);
 				}
 
 				// Instantiate the apps
 				_initAppClasses(appsToLoad, function() {
 					if (callback) {
 						// Get the properties we want to expose to the container
-						var outputs = _.map(allApps, _extractAppPropsForCallback);
+						var outputs = allApps.map(_extractAppPropsForCallback);
 						callback(outputs);
 					}
 					else {
@@ -3420,7 +3303,7 @@ _exports = undefined;
 			while (len--) {
 				var sub = _subs[name][len];
 				// Strip out the bogus filters
-				filters = _.filter(filters, function(filter) {
+				filters = filters.filter(function(filter) {
 					return !!filter;
 				});
 
@@ -3663,7 +3546,7 @@ _exports = undefined;
 		var placeholders = AppPlaceholders.getInNode(parentNode);
 
 		if (placeholders.length) {
-			var appConfigs = _.map(placeholders, function(placeholder) {
+			var appConfigs = placeholders.map(function(placeholder) {
 				placeholder.appConfig.isPreload = placeholder.isPreload;
 				placeholder.appConfig.root = placeholder.node;
 				return placeholder.appConfig;
