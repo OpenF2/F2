@@ -7,6 +7,10 @@
 		this.root = root;
 
 		// Store some properties on the window
+		if(!window.test) {
+			window.test = {};
+		}
+
 		if (!window.test.com_test_duplicate) {
 			window.test.com_test_duplicate = [];
 		}
@@ -28,7 +32,21 @@
 
 	AppClass.prototype = {
 		dispose: function() {
-			window.test.com_test_duplicate.pop();
+			var index = 
+			(function(instanceId) {
+				var _i, _length;
+				for(_i = 0, _length = window.test.com_test_duplicate.length; _i < _length; ++_i) {
+					if( window.test.com_test_duplicate[_i].instanceId == instanceId) {
+						return _i;
+					}
+				}
+				return -1
+			})(this.instanceId);
+
+			if(index > -1) {
+				window.test.com_test_duplicate =
+				window.test.com_test_duplicate.splice(index, 1);
+			}
 
 			if (!window.test.com_test_duplicate.length) {
 				window.test.com_test_duplicate = undefined;

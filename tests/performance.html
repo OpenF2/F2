@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>F2  - Performance Tests</title>
+		<style>
+
+.loading {
+	-webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -mox-stransform: rotate(360deg);}}
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate{360deg);}}
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+		</style>
+	</head>
+
+	<body>
+
+		<script src="/vendor/requirejs/require.js" data-main="/tests/js/perf/main.js"></script>
+	</body>
+</html>
