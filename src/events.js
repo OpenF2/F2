@@ -76,7 +76,7 @@
 		}
 		else if (!instanceIsBeingLoaded) {
 			var instanceIsApp = (!!LoadApps.getLoadedApp(instance));
-			var instanceIsToken = (instance === Guid.isTrackedGuid(instance));
+			var instanceIsToken = Guid.isTrackedGuid(instance);
 
 			if (!instanceIsApp && !instanceIsToken) {
 				throw 'F2.Events: "instance" must be an app instance or a container token.';
@@ -117,7 +117,10 @@
 
 	function _unsubscribe(instance, name, handler) {
 		var handlerIsValid = (handler && _.isFunction(handler));
-		var instanceIsValid = (instance && !!LoadApps.getLoadedApp(instance));
+		var instanceIsValid = (instance && (
+			!!LoadApps.getLoadedApp(instance) || Guid.isTrackedGuid(instance)));
+
+		var _i, matchesInstance, matchesHandler, namedSubs;
 
 		if (!handlerIsValid && !instanceIsValid) {
 			throw 'F2.Events: "off" requires at least an instance or handler.';
@@ -127,13 +130,26 @@
 			throw 'F2.Events: "name" must be a string if it is passed';
 		}
 
-		if (name && _subs[name]) {
-			for (var i = 0; i < _subs[name].length; i++) {
-				var matchesInstance = _subs[name][i].instance === instance;
-				var matchesHandler = _subs[name][i].handler === handler;
+		// Create a local reference to reduce access time:
+		// http://oreilly.com/server-administration/excerpts/even-faster-websites/writing-efficient-javascript.html
+		namedSubs = _subs[name];
+		if (name && namedSubs) {
+			// Start from the end to reduce index unnecessary index shifting
+			for (_i = namedSubs.length - 1; _i >= 0; --_i) {
+				matchesInstance = namedSubs[_i].instance === instance;
+				matchesHandler = namedSubs[_i].handler === handler;
 
-				if (matchesInstance || matchesHandler) {
-					_subs[name].splice(i--, 1);
+				if ( matchesInstance &&
+						(!handlerIsValid) ||
+						(handlerIsValid && matchesHandler) 
+					) 
+				{
+					namedSubs.splice(_i, 1);
+				}
+				// Do some garbage collection, otherwise the
+				// subs object only grows and lookups take forever
+				if( namedSubs.length === 0 ) {
+					delete _subs[name];
 				}
 			}
 		}

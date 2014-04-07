@@ -1,4 +1,5 @@
-define('PerfHelpers', [], function() {
+define('PerfHelpers', ['F2'], function(F2) {
+	var _oneTimeToken = F2.onetimeToken();
 	var _runXTimes = function()
 	{
 		var NumberOfTimes, ActionToTest, Context, Params, _i, StartDate, _p, _params, _context;
@@ -28,6 +29,7 @@ define('PerfHelpers', [], function() {
 			_context = null;
 
 			if(Context instanceof _factory) {
+				console.info(Context, Context.hasOwnProperty("ImAFactory"));
 				_context = Context.create();
 			}
 			else {
@@ -35,8 +37,14 @@ define('PerfHelpers', [], function() {
 			}
 
 			for(_p = 0; _p < Params.length; ++_p) {
-				if(Params[_p] instanceof _factory) {
-					_params.push(Params[_p].create())
+				if(Params[_p].hasOwnProperty("ImAFactory")) {
+					var value = Params[_p].create();
+					if(value.hasOwnProperty("length")) {
+						_params = _params.concat(value);
+					}
+					else {
+						_params.push(value);
+					}
 				}
 				else {
 					_params.push(Params[_p]);
@@ -49,6 +57,7 @@ define('PerfHelpers', [], function() {
 
 	var _factory = function() {
 		var Action, Context, Params;
+		this.ImAFactory = true;
 		this.Action = arguments[0];
 		this.Context = arguments[1];
 		this.Params = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
@@ -60,6 +69,7 @@ define('PerfHelpers', [], function() {
 
 	var _test = function(config)
 	{
+		this.section = config.section || document.getElementsByTagName("body")[0];
 		this.testname = config.testname;
 		this.deferUntilTrue = config.deferUntilTrue || function() { return true; }
 		this.testfxn = config.fxn;
@@ -78,7 +88,7 @@ define('PerfHelpers', [], function() {
 		this.timeout = null;
 		this.root.appendChild(this.Title);
 		this.root.appendChild(this.resultNode);
-		document.getElementsByTagName("body")[0].appendChild(this.root);
+		this.section.appendChild(this.root);
 	}
 
 	_test.prototype.run = function() {
@@ -87,11 +97,9 @@ define('PerfHelpers', [], function() {
 			clearTimeout(self.timeout);
 		}
 		if( !self.deferUntilTrue() ) {
-			console.info("Deferring ", self.testname);
 			self.timeout = setTimeout(self.run.bind(self), 2000);
 		}
 		else {
-			console.info("Applying ", self.testname);
 			self.timeout = setTimeout(self._run.bind(self));
 		}
 	}
@@ -132,11 +140,13 @@ define('PerfHelpers', [], function() {
 			_feeder.requests += (numberofApps * numberofTimes);
 		},
 		pop: function() {
-			return _feeder.instanceIDs.pop();
+			var instance = _feeder.instanceIDs.pop();
+			return instance;
 		},
 		length: function() {
 			if (!_feeder.instanceIDs) return 0;
-			return _feeder.instanceIDs.length;
+			var length = _feeder.instanceIDs.length;
+			return length;
 		}
 	}
 
@@ -145,6 +155,7 @@ define('PerfHelpers', [], function() {
 		Factory: _factory,
 		Test: _test,
 		Tree: _tree,
-		Feeder: _feeder
+		Feeder: _feeder,
+		ContainerToken: _oneTimeToken
 	};
 })

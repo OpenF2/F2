@@ -13,6 +13,7 @@
 		// Other than PerfHelpers, it should just be the data from their
 		// performance tests to pass to D3 or whatever.
 		], function(PerfHelpers, Core, Events) {
-			var CoreResults = Core.run();
+			Core.run();
+			Events.run();
 		});
 })()
