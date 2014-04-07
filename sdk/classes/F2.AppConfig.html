@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2.AppConfig</title>
-	<meta name="dcterms.date" content="18 November 2013">
+	<meta name="dcterms.date" content="7 April 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.2" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.2</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.2)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -223,7 +223,8 @@
 				<h1>F2.AppConfig</h1>
 
 <p>
-	<p>The AppConfig object represents an app's meta data</p>
+	<p>The AppConfig object represents an app&#39;s meta data</p>
+
 </p>
 
 <div class="well well-small">
@@ -277,21 +278,24 @@
 							<a href="#properties-appId">appId</a>
 						</td>
 						<td><p>The unique ID of the app. More information can be found
-<a href="../../app-development.html#f2-appid">here</a></p></td>
+<a href="../../app-development.html#f2-appid">here</a></p>
+</td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-context">context</a>
 						</td>
-						<td><p>An object that represents the context of an app</p></td>
+						<td><p>An object that represents the context of an app</p>
+</td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-enableBatchRequests">enableBatchRequests</a>
 						</td>
-						<td><p>True if the app should be requested in a single request with other apps.</p></td>
+						<td><p>True if the app should be requested in a single request with other apps.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -302,7 +306,8 @@
 the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
 modified by calling
 F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
-for secure apps to be able to set the initial height of the iframe.</p></td>
+for secure apps to be able to set the initial height of the iframe.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -310,9 +315,9 @@ for secure apps to be able to set the initial height of the iframe.</p></td>
 							<a href="#properties-instanceId">instanceId</a>
 						</td>
 						<td><p>The unique runtime ID of the app.</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -323,7 +328,8 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
 sets isSecure = true. It will also be true if the
 <a href="../../container-development.html">container</a> has made the decision to
-run apps in iframes.</p></td>
+run apps in iframes.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -331,7 +337,8 @@ run apps in iframes.</p></td>
 							<a href="#properties-manifestUrl">manifestUrl</a>
 						</td>
 						<td><p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
-object.</p></td>
+object.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -341,7 +348,8 @@ object.</p></td>
 						<td><p>The recommended maximum width in pixels that this app should be run.
 <strong>It is up to the <a href="../../container-development.html">container</a> to
 implement the logic to prevent an app from being run when the maxWidth
-requirements are not met.</strong></p></td>
+requirements are not met.</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -351,7 +359,8 @@ requirements are not met.</strong></p></td>
 						<td><p>The recommended minimum grid size that this app should be run. This
 value corresponds to the 12-grid system that is used by the
 <a href="../../container-development.html">container</a>. This property should be
-set by apps that require a certain number of columns in their layout.</p></td>
+set by apps that require a certain number of columns in their layout.</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -361,14 +370,16 @@ set by apps that require a certain number of columns in their layout.</p></td>
 						<td><p>The recommended minimum width in pixels that this app should be run. **It
 is up to the <a href="../../container-development.html">container</a> to implement
 the logic to prevent an app from being run when the minWidth requirements
-are not met.</p></td>
+are not met.</p>
+</td>
 					</tr>
 					
 					<tr class="">
 						<td class="name">
 							<a href="#properties-name">name</a>
 						</td>
-						<td><p>The name of the app</p></td>
+						<td><p>The name of the app</p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -376,9 +387,9 @@ are not met.</p></td>
 							<a href="#properties-root">root</a>
 						</td>
 						<td><p>The root DOM element that contains the app</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -386,9 +397,9 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 							<a href="#properties-ui">ui</a>
 						</td>
 						<td><p>The instance of F2.UI providing easy access to F2.UI methods</p>
-
 <p><strong>This property is populated during the
-F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p></td>
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+</td>
 					</tr>
 					
 					<tr class="">
@@ -399,9 +410,8 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
 F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
-
-<pre><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-</code></pre></td>
+<pre><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)</code></pre>
+</td>
 					</tr>
 					
 				</tbody>
@@ -441,6 +451,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 	<p>
 		<p>The unique ID of the app. More information can be found
 <a href="../../app-development.html#f2-appid">here</a></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -490,6 +501,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 
 	<p>
 		<p>An object that represents the context of an app</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -539,6 +551,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 
 	<p>
 		<p>True if the app should be requested in a single request with other apps.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -594,6 +607,7 @@ the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> ob
 modified by calling
 F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
 for secure apps to be able to set the initial height of the iframe.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -643,9 +657,9 @@ for secure apps to be able to set the initial height of the iframe.</p>
 
 	<p>
 		<p>The unique runtime ID of the app.</p>
-
 <p><strong>This property is populated during the
 F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -699,6 +713,7 @@ will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.
 sets isSecure = true. It will also be true if the
 <a href="../../container-development.html">container</a> has made the decision to
 run apps in iframes.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -751,6 +766,7 @@ run apps in iframes.</p>
 	<p>
 		<p>The url to retrieve the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>
 object.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -803,6 +819,7 @@ object.</p>
 <strong>It is up to the <a href="../../container-development.html">container</a> to
 implement the logic to prevent an app from being run when the maxWidth
 requirements are not met.</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -855,6 +872,7 @@ requirements are not met.</strong></p>
 value corresponds to the 12-grid system that is used by the
 <a href="../../container-development.html">container</a>. This property should be
 set by apps that require a certain number of columns in their layout.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -909,6 +927,7 @@ set by apps that require a certain number of columns in their layout.</p>
 is up to the <a href="../../container-development.html">container</a> to implement
 the logic to prevent an app from being run when the minWidth requirements
 are not met.</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -960,6 +979,7 @@ are not met.</p>
 
 	<p>
 		<p>The name of the app</p>
+
 	</p>
 
 	<div class="well well-small">
@@ -1009,9 +1029,9 @@ are not met.</p>
 
 	<p>
 		<p>The root DOM element that contains the app</p>
-
 <p><strong>This property is populated during the
 F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -1061,9 +1081,9 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 
 	<p>
 		<p>The instance of F2.UI providing easy access to F2.UI methods</p>
-
 <p><strong>This property is populated during the
 F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
+
 	</p>
 
 	<div class="well well-small">
@@ -1116,9 +1136,8 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
 presence of a view can be checked via
 F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
+<pre class="code prettyprint"><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)</code></pre>
 
-<pre class="code prettyprint"><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-</code></pre>
 	</p>
 
 	<div class="well well-small">
@@ -1179,7 +1198,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.2"></script>
+<script src="../../js/f2.js?1.3.3"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>
