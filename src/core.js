@@ -6,15 +6,10 @@
 
 	// Set up a default config
 	var _config = {
+		loadDependencies: null,
 		loadInlineScripts: null,
 		loadScripts: null,
 		loadStyles: null,
-		supportedViews: [],
-		xhr: {
-			dataType: null,
-			type: null,
-			url: null
-		},
 		ui: {
 			modal: null,
 			toggleLoading: null
@@ -90,7 +85,7 @@
 		var placeholders = AppPlaceholders.getInNode(parentNode);
 
 		if (placeholders.length) {
-			var appConfigs = _.map(placeholders, function(placeholder) {
+			var appConfigs = placeholders.map(function(placeholder) {
 				placeholder.appConfig.isPreload = placeholder.isPreload;
 				placeholder.appConfig.root = placeholder.node;
 				return placeholder.appConfig;
@@ -141,7 +136,7 @@
 		}
 		else {
 			identifiers = [].concat(identifiers);
-		}
+		} 
 
 		for (var i = 0; i < identifiers.length; i++) {
 			var identifier = identifiers[i];

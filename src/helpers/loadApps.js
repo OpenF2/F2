@@ -5,6 +5,15 @@
 	var _loadingApps = {};
 	var _loadListeners = {};
 
+	var EMPTY_MANIFEST = {
+		data: {},
+		dependencies: {},
+		html: '',
+		inlineScripts: [],
+		scripts: [],
+		styles: []
+	};
+
 	// ---------------------------------------------------------------------------
 	// Utils
 	// ---------------------------------------------------------------------------
@@ -56,7 +65,7 @@
 			else if (isPreloaded) {
 				preloaded.push({
 					appConfig: appConfigs[i],
-					appContent: appConfigs[i].context || {},
+					data: appConfigs[i].context || {},
 					index: i,
 					instanceId: Guid.guid(),
 					root: appConfigs[i].root
@@ -65,7 +74,6 @@
 			else if (isAsync) {
 				async.push({
 					appConfig: appConfigs[i],
-					appManifest: {}, // This comes later
 					index: i,
 					instanceId: Guid.guid(),
 					isAborted: false,
@@ -82,7 +90,7 @@
 	}
 
 	// Group an array of apps into an object keyed by manifestUrl
-	function _groupAppsByManifestUrl(apps) {
+	function _groupAppsByUrl(apps) {
 		var urls = {};
 
 		for (var i = 0; i < apps.length; i++) {
@@ -110,8 +118,9 @@
 		var requests = [];
 
 		if (asyncApps.length) {
-			var groupedApps = _groupAppsByManifestUrl(asyncApps);
+			var groupedApps = _groupAppsByUrl(asyncApps);
 			var numRequests = 0;
+			var allManifests = [];
 
 			// Loop over each url
 			for (var url in groupedApps) {
@@ -127,45 +136,46 @@
 
 				numRequests += requestsToMake.length;
 
-				var manifests = [];
-
 				// Loop for each request
-				_.each(requestsToMake, function(appsForRequest, i) {
+				requestsToMake.forEach(function(appsForRequest, i) {
 					appsForRequest = [].concat(appsForRequest);
 					var appConfigs = _.pluck(appsForRequest, 'appConfig');
 
 					// Make the actual request to the remote server
-					var xhr = _getManifestFromUrl(url, appConfigs, function(manifest) {
-						if (manifest.error) {
-							// Track that every app in this request failed
-							_.each(appsForRequest, function(app, i) {
-								app.isFailed = true;
-							});
-						}
-						else {
-							// Add the AppContent back to the app collection so we can use it later
-							// If we don't do this, we'll have problems figuring out which content
-							// goes with which app
-							_.each(manifest.apps, function(appContent, i) {
-								appsForRequest[i].appContent = appContent;
-							});
-						}
+					var xhr = _getManifestFromUrl(url, appConfigs, function(manifests) {
+						manifests.forEach(function(manifest, i) {
+							if (manifest.error) {
+								// Track that every app in this request failed
+								appsForRequest.forEach(function(app) {
+									app.isFailed = true;
+								});
+							}
+							else {
+								// Make sure we have certain properties
+								_.defaults({}, manifest, EMPTY_MANIFEST);
 
-						manifests.push(manifest);
+								// Tack on the returned data
+								appsForRequest[i].data = manifest.data;
+								appsForRequest[i].html = manifest.html;
+							}
+						});
+
+						allManifests = allManifests.concat(manifests);
 
 						// See if we've completed the last request
 						if (!--numRequests) {
-							var combinedManifests = _combineAppManifests(manifests);
+							var parts = _getManifestParts(allManifests);
 
 							// Put the manifest files on the page
 							LoadStaticFiles.load(
 								config,
-								combinedManifests.styles,
-								combinedManifests.scripts,
-								combinedManifests.inlineScripts,
+								parts.styles,
+								parts.scripts,
+								parts.inlineScripts,
+								parts.dependencies,
 								function() {
 									// Look for aborted requests
-									_.each(requests, function(request) {
+									requests.forEach(function(request) {
 										if (request.xhr.isAborted) {
 											_.each(request.apps, function(app) {
 												app.isAborted = true;
@@ -193,16 +203,80 @@
 		return requests;
 	}
 
+	function _isNonEmptyString(str) {
+		return str && str.trim();
+	}
+
+	// Pick out scripts, styles, inlineScripts, and dependencies from each AppManifest
+	function _getManifestParts(manifests) {
+		var dependencies = [];
+		var inlineScripts = [];
+		var scripts = [];
+		var styles = [];
+
+		if (manifests.length) {
+			// Pick out all the arrays
+			for (var i = 0; i < manifests.length; i++) {
+				if (!manifests[i].error) {
+					if (_.isObject(manifests[i].dependencies)) {
+						dependencies.push(manifests[i].dependencies);
+					}
+
+					if (_.isArray(manifests[i].inlineScripts) && manifests[i].inlineScripts.length) {
+						inlineScripts.push(manifests[i].inlineScripts);
+					}
+
+					if (_.isArray(manifests[i].scripts) && manifests[i].scripts.length) {
+						scripts.push(manifests[i].scripts);
+					}
+
+					if (_.isArray(manifests[i].styles) && manifests[i].styles.length) {
+						scripts.push(manifests[i].styles);
+					}
+				}
+			}
+
+			// Flatten
+			dependencies = Array.prototype.concat.apply([], dependencies);
+			inlineScripts = Array.prototype.concat.apply([], inlineScripts);
+			scripts = Array.prototype.concat.apply([], scripts);
+			styles = Array.prototype.concat.apply([], styles);
+
+			// Dedupe
+			inlineScripts = _.unique(inlineScripts);
+			scripts = _.unique(scripts);
+			styles = _.unique(styles);
+
+			// Filter out invalid paths
+			inlineScripts = inlineScripts.filter(_isNonEmptyString);
+			scripts = scripts.filter(_isNonEmptyString);
+			styles = styles.filter(_isNonEmptyString);
+		}
+
+		return {
+			dependencies: dependencies,
+			inlineScripts: inlineScripts,
+			scripts: scripts,
+			styles: styles
+		};
+	}
+
 	function _getManifestFromUrl(url, appConfigs, callback) {
 		var invalidManifest = {
 			error: 'Invalid app manifest'
 		};
 
-		// Strip out any "root" that found its way into the config
-		var fixedConfigs = _.map(appConfigs, function(config) {
-			var copy = _.defaults({}, config);
-			copy.root = undefined;
-			return copy;
+		// Strip out any properties the server doesn't need
+		var fixedConfigs = appConfigs.map(function(config) {
+			var params = {
+				appId: config.appId
+			};
+
+			if (_.isObject(config.context)) {
+				params.context = config.context;
+			}
+
+			return params;
 		});
 
 		return Ajax.request({
@@ -210,60 +284,31 @@
 				params: JSON.stringify(fixedConfigs)
 			},
 			error: function() {
-				callback(invalidManifest);
+				callback([invalidManifest]);
 			},
-			success: function(manifest) {
-				// Make sure the appManifest is valid
-				if (!manifest || !Helpers.validate(manifest, 'appManifest')) {
-					manifest = invalidManifest;
+			success: function(manifests) {
+				// Make sure the response is valid
+				if (!manifests || !_.isArray(manifests)) {
+					manifests = [manifests || {}];
 				}
 
-				callback(manifest);
+				// Make sure each manifest complies with the spec
+				for (var i = 0; i < manifests.length; i++) {
+					if (!manifests[i] || !Helpers.validate(manifests[i], 'appManifest')) {
+						manifests[i] = invalidManifest;
+					}
+				}
+
+				callback(manifests);
 			},
 			type: 'json',
 			url: url
 		});
 	}
 
-	function _combineAppManifests(manifests) {
-		var combined = {
-			apps: [],
-			inlineScripts: [],
-			scripts: [],
-			styles: []
-		};
-
-		for (var i = 0; i < manifests.length; i++) {
-			if (!manifests[i].error) {
-				for (var prop in combined) {
-					for (var x = 0; x < manifests[i][prop].length; x++) {
-						combined[prop].push(manifests[i][prop][x]);
-					}
-				}
-			}
-		}
-
-		return combined;
-	}
-
-	function _dumpAppsToDom(apps, container) {
-		var fragment = document.createDocumentFragment();
-
-		_.each(apps, function(app) {
-			if (!app.isFailed && !app.isAborted) {
-				// Data apps won't need a root, so we still need to check for one
-				if (app.root) {
-					fragment.appendChild(app.root);
-				}
-			}
-		});
-
-		container.appendChild(fragment);
-	}
-
 	function _initAppClasses(apps, callback) {
 		if (apps.length) {
-			var appIds = _.map(apps, function(app) {
+			var appIds = apps.map(function(app) {
 				// Define a dummy app that will help the dev find missing classes
 				define(app.appConfig.appId, [], function() {
 					return function() {
@@ -281,7 +326,7 @@
 				var classes = Array.prototype.slice.call(arguments);
 
 				// Load each AppClass
-				_.each(apps, function(app, i) {
+				apps.forEach(function(app, i) {
 					try {
 						// Track that we're loading this app right now
 						// We need this because an app might try to register an event in
@@ -293,7 +338,7 @@
 						var instance = new classes[i](
 							app.instanceId,
 							app.appConfig,
-							app.appContent.data || {},
+							app.data,
 							app.root
 						);
 
@@ -341,10 +386,6 @@
 		}
 	}
 
-	function _sortApps(a, b) {
-		return a.index - b.index;
-	}
-
 	// Whittle down the app's data into something we can pass to the container
 	function _extractAppPropsForCallback(app) {
 		var output = {
@@ -358,7 +399,7 @@
 			output.error = 'App request was aborted';
 		}
 		else {
-			output.data = (app.appContent && app.appContent.data) ? app.appContent.data : {};
+			output.data = app.data || {};
 			output.root = app.root;
 			output.instanceId = app.instanceId;
 		}
@@ -373,22 +414,30 @@
 
 	// Turn an app's "html" into a dom node
 	function _createAppRoot(app) {
-		if (!app.appContent) {
-			app.appContent = {
-				data: {},
-				html: ''
-			};
-		}
-
 		if (app.appConfig.root) {
 			app.root = app.appConfig.root;
-			app.root.innerHTML = app.appContent.html || '';
+			app.root.innerHTML = app.html || '';
 		}
-		else if (app.appContent.html) {
+		else if (app.html && app.html.trim()) {
 			var fakeParent = document.createElement('div');
-			fakeParent.innerHTML = app.appContent.html;
+			fakeParent.innerHTML = app.html;
 			app.root = fakeParent.firstChild;
 		}
+	}
+
+	function _dumpAppsToDom(apps, container) {
+		var fragment = document.createDocumentFragment();
+
+		apps.forEach(function(app) {
+			if (!app.isFailed && !app.isAborted) {
+				// Data apps won't need a root, so we still need to check for one
+				if (app.root) {
+					fragment.appendChild(app.root);
+				}
+			}
+		});
+
+		container.appendChild(fragment);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -418,21 +467,23 @@
 
 			return _requestAsyncApps(config, apps.async, function() {
 				var allApps = [].concat(apps.async, apps.preloaded, apps.broken);
-				allApps.sort(_sortApps);
+				allApps.sort(function(a, b) {
+					return a.index - b.index;
+				});
 
 				// Strip out the failed apps
-				var appsToLoad = _.filter(allApps, _appDidSucceed);
+				var appsToLoad = allApps.filter(_appDidSucceed);
 
 				// Make sure async apps have valid roots
 				if (apps.async.length) {
-					_.each(apps.async, _createAppRoot);
+					apps.async.forEach(_createAppRoot);
 				}
 
 				// Instantiate the apps
 				_initAppClasses(appsToLoad, function() {
 					if (callback) {
 						// Get the properties we want to expose to the container
-						var outputs = _.map(allApps, _extractAppPropsForCallback);
+						var outputs = allApps.map(_extractAppPropsForCallback);
 						callback(outputs);
 					}
 					else {

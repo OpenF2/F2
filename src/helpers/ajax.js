@@ -112,8 +112,8 @@
 		return matched;
 	}
 
-	function rand(max) {
-		return Math.floor(Math.random() * max);
+	function rand() {
+		return Math.floor(Math.random() * 1000000);
 	}
 
 	// --------------------------------------------------------------------------
@@ -148,12 +148,12 @@
 
 			// Bust cache if asked
 			if ((params.method === 'get' || params.type === 'jsonp') && !cache) {
-				params.url += delim(params.url) + rand(1000000);
+				params.url += delim(params.url) + rand();
 			}
 
 			if (params.type === 'jsonp') {
 				// Create a random callback name
-				params.jsonpCallbackName = 'F2_' + rand(1000000);
+				params.jsonpCallbackName = 'F2_' + rand();
 
 				// Add a jsonp callback to the window
 				window[params.jsonpCallbackName] = function(response) {

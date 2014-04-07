@@ -1998,73 +1998,12 @@ _exports = undefined;
 */
 (function() {
 
-	// Establish the object that gets returned to break out of a loop iteration.
-	var breaker = {};
-
 	Helpers._ = {
-		map: function(obj, iterator, context) {
-			var results = [];
-
-			if (obj === null) {
-				return results;
-			}
-
-			if (Array.prototype.map && obj.map === Array.prototype.map) {
-				return obj.map(iterator, context);
-			}
-
-			this.each(obj, function(value, index, list) {
-				results.push(iterator.call(context, value, index, list));
-			});
-
-			return results;
-		},
-		each: function(obj, iterator, context) {
-			if (obj === null) {
-				return;
-			}
-
-			if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
-				obj.forEach(iterator, context);
-			}
-			else if (obj.length === +obj.length) {
-				for (var i = 0; i < obj.length; i++) {
-					if (iterator.call(context, obj[i], i, obj) === breaker) {
-						return;
-					}
-				}
-			}
-			else {
-				var keys = this.keys(obj);
-
-				for (var j = 0; j < obj.length; j++) {
-					if (iterator.call(context, obj[keys[j]], keys[j], obj) === breaker) {
-						return;
-					}
-				}
-			}
-		},
-		keys: function(obj) {
-			if (Object.keys) {
-				return Object.keys(obj);
-			}
-
-			if (obj !== Object(obj)) {
-				throw new TypeError('Invalid object');
-			}
-
-			var keys = [];
-
-			for (var key in obj) {
-				if (Object.prototype.hasOwnProperty.call(obj, key)) {
-					keys.push(key);
-				}
-			}
-
-			return keys;
+		identity: function(value) {
+			return value;
 		},
 		defaults: function(obj) {
-			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
+			Array.prototype.slice.call(arguments, 1).forEach(function(source) {
 				if (source) {
 					for (var prop in source) {
 						if (obj[prop] === void 0) {
@@ -2077,7 +2016,7 @@ _exports = undefined;
 			return obj;
 		},
 		extend: function(obj) {
-			this.each(Array.prototype.slice.call(arguments, 1), function(source) {
+			Array.prototype.slice.call(arguments, 1).forEach(function(source) {
 				if (source) {
 					for (var prop in source) {
 						obj[prop] = source[prop];
@@ -2107,17 +2046,6 @@ _exports = undefined;
 		isObject: function(test) {
 			return test === Object(test);
 		},
-		filter: function(list, fn) {
-			var output = [];
-
-			for (var i = 0, len = list.length; i < len; i++) {
-				if (fn(list[i], i, list)) {
-					output.push(list[i]);
-				}
-			}
-
-			return output;
-		},
 		pluck: function(list, property) {
 			var props = [];
 
@@ -2128,12 +2056,49 @@ _exports = undefined;
 			}
 
 			return props;
+		},
+		unique: function(array) {
+			if (!array) {
+				return [];
+			}
+
+			var result = [];
+			var seen = [];
+
+			for (var i = 0, length = array.length; i < length; i++) {
+				var value = array[i];
+
+				if (value && result.indexOf(value) === -1) {
+					result.push(value);
+				}
+
+				seen.push(value);
+			}
+
+			return result;
 		}
 	};
 
 })();
 
 (function(_) {
+
+	function loadDependencies(config, deps, callback) {
+		// Check for user defined loader
+		if (_.isFunction(config.loadDependencies)) {
+			config.loadDependencies(deps, callback);
+		}
+		else {
+			// Add the paths to the global config
+			deps.forEach(function(map) {
+				require.config({
+					paths: map
+				});
+			});
+
+			callback();
+		}
+	}
 
 	function loadInlineScripts(inlines, callback) {
 		if (inlines.length) {
@@ -2185,28 +2150,15 @@ _exports = undefined;
 	// ---------------------------------------------------------------------------
 
 	Helpers.LoadStaticFiles = {
-		load: function(containerConfig, styles, scripts, inlineScripts, callback) {
-			var stylesDone = false;
-			var scriptsDone = false;
-
-			// See if both scripts and styles have completed
-			function checkComplete() {
-				if (stylesDone && scriptsDone) {
-					callback();
-				}
-			}
-
-			// Kick off styles
+		load: function(containerConfig, styles, scripts, inlineScripts, deps, callback) {
+			// Waterfall of doom
 			loadStyles(containerConfig, styles, function() {
-				stylesDone = true;
-				checkComplete();
-			});
-
-			// Kick off scripts
-			loadScripts(containerConfig, scripts, function() {
-				loadInlineScripts(inlineScripts, function() {
-					scriptsDone = true;
-					checkComplete();
+				loadScripts(containerConfig, scripts, function() {
+					loadDependencies(containerConfig, deps, function() {
+						loadInlineScripts(inlineScripts, function() {
+							callback();
+						});
+					});
 				});
 			});
 		}
@@ -2328,8 +2280,8 @@ _exports = undefined;
 		return matched;
 	}
 
-	function rand(max) {
-		return Math.floor(Math.random() * max);
+	function rand() {
+		return Math.floor(Math.random() * 1000000);
 	}
 
 	// --------------------------------------------------------------------------
@@ -2364,12 +2316,12 @@ _exports = undefined;
 
 			// Bust cache if asked
 			if ((params.method === 'get' || params.type === 'jsonp') && !cache) {
-				params.url += delim(params.url) + rand(1000000);
+				params.url += delim(params.url) + rand();
 			}
 
 			if (params.type === 'jsonp') {
 				// Create a random callback name
-				params.jsonpCallbackName = 'F2_' + rand(1000000);
+				params.jsonpCallbackName = 'F2_' + rand();
 
 				// Add a jsonp callback to the window
 				window[params.jsonpCallbackName] = function(response) {
@@ -2669,22 +2621,6 @@ _exports = undefined;
 			},
 			required: ['appId']
 		},
-		appContent: {
-			id: 'appContent',
-			title: 'App Content',
-			type: 'object',
-			properties: {
-				error: {
-					type: 'object'
-				},
-				data: {
-					type: 'object'
-				},
-				html: {
-					type: 'string'
-				}
-			}
-		},
 		appManifest: {
 			id: 'appManifest',
 			title: 'App Manifest',
@@ -2708,14 +2644,17 @@ _exports = undefined;
 						type: 'string'
 					}
 				},
-				apps: {
-					type: 'array',
-					items: {
-						$ref: 'appContent'
-					}
+				error: {
+					type: 'object'
+				},
+				data: {
+					type: 'object'
+				},
+				html: {
+					type: 'string'
 				}
 			},
-			required: ['scripts', 'styles', 'inlineScripts', 'apps']
+			required: ['scripts', 'styles', 'inlineScripts']
 		},
 		containerConfig: {
 			id: 'containerConfig',
@@ -2815,6 +2754,15 @@ _exports = undefined;
 	var _loadingApps = {};
 	var _loadListeners = {};
 
+	var EMPTY_MANIFEST = {
+		data: {},
+		dependencies: {},
+		html: '',
+		inlineScripts: [],
+		scripts: [],
+		styles: []
+	};
+
 	// ---------------------------------------------------------------------------
 	// Utils
 	// ---------------------------------------------------------------------------
@@ -2866,7 +2814,7 @@ _exports = undefined;
 			else if (isPreloaded) {
 				preloaded.push({
 					appConfig: appConfigs[i],
-					appContent: appConfigs[i].context || {},
+					data: appConfigs[i].context || {},
 					index: i,
 					instanceId: Guid.guid(),
 					root: appConfigs[i].root
@@ -2875,7 +2823,6 @@ _exports = undefined;
 			else if (isAsync) {
 				async.push({
 					appConfig: appConfigs[i],
-					appManifest: {}, // This comes later
 					index: i,
 					instanceId: Guid.guid(),
 					isAborted: false,
@@ -2892,7 +2839,7 @@ _exports = undefined;
 	}
 
 	// Group an array of apps into an object keyed by manifestUrl
-	function _groupAppsByManifestUrl(apps) {
+	function _groupAppsByUrl(apps) {
 		var urls = {};
 
 		for (var i = 0; i < apps.length; i++) {
@@ -2920,8 +2867,9 @@ _exports = undefined;
 		var requests = [];
 
 		if (asyncApps.length) {
-			var groupedApps = _groupAppsByManifestUrl(asyncApps);
+			var groupedApps = _groupAppsByUrl(asyncApps);
 			var numRequests = 0;
+			var allManifests = [];
 
 			// Loop over each url
 			for (var url in groupedApps) {
@@ -2937,45 +2885,46 @@ _exports = undefined;
 
 				numRequests += requestsToMake.length;
 
-				var manifests = [];
-
 				// Loop for each request
-				_.each(requestsToMake, function(appsForRequest, i) {
+				requestsToMake.forEach(function(appsForRequest, i) {
 					appsForRequest = [].concat(appsForRequest);
 					var appConfigs = _.pluck(appsForRequest, 'appConfig');
 
 					// Make the actual request to the remote server
-					var xhr = _getManifestFromUrl(url, appConfigs, function(manifest) {
-						if (manifest.error) {
-							// Track that every app in this request failed
-							_.each(appsForRequest, function(app, i) {
-								app.isFailed = true;
-							});
-						}
-						else {
-							// Add the AppContent back to the app collection so we can use it later
-							// If we don't do this, we'll have problems figuring out which content
-							// goes with which app
-							_.each(manifest.apps, function(appContent, i) {
-								appsForRequest[i].appContent = appContent;
-							});
-						}
+					var xhr = _getManifestFromUrl(url, appConfigs, function(manifests) {
+						manifests.forEach(function(manifest, i) {
+							if (manifest.error) {
+								// Track that every app in this request failed
+								appsForRequest.forEach(function(app) {
+									app.isFailed = true;
+								});
+							}
+							else {
+								// Make sure we have certain properties
+								_.defaults({}, manifest, EMPTY_MANIFEST);
 
-						manifests.push(manifest);
+								// Tack on the returned data
+								appsForRequest[i].data = manifest.data;
+								appsForRequest[i].html = manifest.html;
+							}
+						});
+
+						allManifests = allManifests.concat(manifests);
 
 						// See if we've completed the last request
 						if (!--numRequests) {
-							var combinedManifests = _combineAppManifests(manifests);
+							var parts = _getManifestParts(allManifests);
 
 							// Put the manifest files on the page
 							LoadStaticFiles.load(
 								config,
-								combinedManifests.styles,
-								combinedManifests.scripts,
-								combinedManifests.inlineScripts,
+								parts.styles,
+								parts.scripts,
+								parts.inlineScripts,
+								parts.dependencies,
 								function() {
 									// Look for aborted requests
-									_.each(requests, function(request) {
+									requests.forEach(function(request) {
 										if (request.xhr.isAborted) {
 											_.each(request.apps, function(app) {
 												app.isAborted = true;
@@ -3003,16 +2952,80 @@ _exports = undefined;
 		return requests;
 	}
 
+	function _isNonEmptyString(str) {
+		return str && str.trim();
+	}
+
+	// Pick out scripts, styles, inlineScripts, and dependencies from each AppManifest
+	function _getManifestParts(manifests) {
+		var dependencies = [];
+		var inlineScripts = [];
+		var scripts = [];
+		var styles = [];
+
+		if (manifests.length) {
+			// Pick out all the arrays
+			for (var i = 0; i < manifests.length; i++) {
+				if (!manifests[i].error) {
+					if (_.isObject(manifests[i].dependencies)) {
+						dependencies.push(manifests[i].dependencies);
+					}
+
+					if (_.isArray(manifests[i].inlineScripts) && manifests[i].inlineScripts.length) {
+						inlineScripts.push(manifests[i].inlineScripts);
+					}
+
+					if (_.isArray(manifests[i].scripts) && manifests[i].scripts.length) {
+						scripts.push(manifests[i].scripts);
+					}
+
+					if (_.isArray(manifests[i].styles) && manifests[i].styles.length) {
+						scripts.push(manifests[i].styles);
+					}
+				}
+			}
+
+			// Flatten
+			dependencies = Array.prototype.concat.apply([], dependencies);
+			inlineScripts = Array.prototype.concat.apply([], inlineScripts);
+			scripts = Array.prototype.concat.apply([], scripts);
+			styles = Array.prototype.concat.apply([], styles);
+
+			// Dedupe
+			inlineScripts = _.unique(inlineScripts);
+			scripts = _.unique(scripts);
+			styles = _.unique(styles);
+
+			// Filter out invalid paths
+			inlineScripts = inlineScripts.filter(_isNonEmptyString);
+			scripts = scripts.filter(_isNonEmptyString);
+			styles = styles.filter(_isNonEmptyString);
+		}
+
+		return {
+			dependencies: dependencies,
+			inlineScripts: inlineScripts,
+			scripts: scripts,
+			styles: styles
+		};
+	}
+
 	function _getManifestFromUrl(url, appConfigs, callback) {
 		var invalidManifest = {
 			error: 'Invalid app manifest'
 		};
 
-		// Strip out any "root" that found its way into the config
-		var fixedConfigs = _.map(appConfigs, function(config) {
-			var copy = _.defaults({}, config);
-			copy.root = undefined;
-			return copy;
+		// Strip out any properties the server doesn't need
+		var fixedConfigs = appConfigs.map(function(config) {
+			var params = {
+				appId: config.appId
+			};
+
+			if (_.isObject(config.context)) {
+				params.context = config.context;
+			}
+
+			return params;
 		});
 
 		return Ajax.request({
@@ -3020,60 +3033,31 @@ _exports = undefined;
 				params: JSON.stringify(fixedConfigs)
 			},
 			error: function() {
-				callback(invalidManifest);
+				callback([invalidManifest]);
 			},
-			success: function(manifest) {
-				// Make sure the appManifest is valid
-				if (!manifest || !Helpers.validate(manifest, 'appManifest')) {
-					manifest = invalidManifest;
+			success: function(manifests) {
+				// Make sure the response is valid
+				if (!manifests || !_.isArray(manifests)) {
+					manifests = [manifests || {}];
 				}
 
-				callback(manifest);
+				// Make sure each manifest complies with the spec
+				for (var i = 0; i < manifests.length; i++) {
+					if (!manifests[i] || !Helpers.validate(manifests[i], 'appManifest')) {
+						manifests[i] = invalidManifest;
+					}
+				}
+
+				callback(manifests);
 			},
 			type: 'json',
 			url: url
 		});
 	}
 
-	function _combineAppManifests(manifests) {
-		var combined = {
-			apps: [],
-			inlineScripts: [],
-			scripts: [],
-			styles: []
-		};
-
-		for (var i = 0; i < manifests.length; i++) {
-			if (!manifests[i].error) {
-				for (var prop in combined) {
-					for (var x = 0; x < manifests[i][prop].length; x++) {
-						combined[prop].push(manifests[i][prop][x]);
-					}
-				}
-			}
-		}
-
-		return combined;
-	}
-
-	function _dumpAppsToDom(apps, container) {
-		var fragment = document.createDocumentFragment();
-
-		_.each(apps, function(app) {
-			if (!app.isFailed && !app.isAborted) {
-				// Data apps won't need a root, so we still need to check for one
-				if (app.root) {
-					fragment.appendChild(app.root);
-				}
-			}
-		});
-
-		container.appendChild(fragment);
-	}
-
 	function _initAppClasses(apps, callback) {
 		if (apps.length) {
-			var appIds = _.map(apps, function(app) {
+			var appIds = apps.map(function(app) {
 				// Define a dummy app that will help the dev find missing classes
 				define(app.appConfig.appId, [], function() {
 					return function() {
@@ -3091,7 +3075,7 @@ _exports = undefined;
 				var classes = Array.prototype.slice.call(arguments);
 
 				// Load each AppClass
-				_.each(apps, function(app, i) {
+				apps.forEach(function(app, i) {
 					try {
 						// Track that we're loading this app right now
 						// We need this because an app might try to register an event in
@@ -3103,7 +3087,7 @@ _exports = undefined;
 						var instance = new classes[i](
 							app.instanceId,
 							app.appConfig,
-							app.appContent.data || {},
+							app.data,
 							app.root
 						);
 
@@ -3151,10 +3135,6 @@ _exports = undefined;
 		}
 	}
 
-	function _sortApps(a, b) {
-		return a.index - b.index;
-	}
-
 	// Whittle down the app's data into something we can pass to the container
 	function _extractAppPropsForCallback(app) {
 		var output = {
@@ -3168,7 +3148,7 @@ _exports = undefined;
 			output.error = 'App request was aborted';
 		}
 		else {
-			output.data = (app.appContent && app.appContent.data) ? app.appContent.data : {};
+			output.data = app.data || {};
 			output.root = app.root;
 			output.instanceId = app.instanceId;
 		}
@@ -3183,22 +3163,30 @@ _exports = undefined;
 
 	// Turn an app's "html" into a dom node
 	function _createAppRoot(app) {
-		if (!app.appContent) {
-			app.appContent = {
-				data: {},
-				html: ''
-			};
-		}
-
 		if (app.appConfig.root) {
 			app.root = app.appConfig.root;
-			app.root.innerHTML = app.appContent.html || '';
+			app.root.innerHTML = app.html || '';
 		}
-		else if (app.appContent.html) {
+		else if (app.html && app.html.trim()) {
 			var fakeParent = document.createElement('div');
-			fakeParent.innerHTML = app.appContent.html;
+			fakeParent.innerHTML = app.html;
 			app.root = fakeParent.firstChild;
 		}
+	}
+
+	function _dumpAppsToDom(apps, container) {
+		var fragment = document.createDocumentFragment();
+
+		apps.forEach(function(app) {
+			if (!app.isFailed && !app.isAborted) {
+				// Data apps won't need a root, so we still need to check for one
+				if (app.root) {
+					fragment.appendChild(app.root);
+				}
+			}
+		});
+
+		container.appendChild(fragment);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -3228,21 +3216,23 @@ _exports = undefined;
 
 			return _requestAsyncApps(config, apps.async, function() {
 				var allApps = [].concat(apps.async, apps.preloaded, apps.broken);
-				allApps.sort(_sortApps);
+				allApps.sort(function(a, b) {
+					return a.index - b.index;
+				});
 
 				// Strip out the failed apps
-				var appsToLoad = _.filter(allApps, _appDidSucceed);
+				var appsToLoad = allApps.filter(_appDidSucceed);
 
 				// Make sure async apps have valid roots
 				if (apps.async.length) {
-					_.each(apps.async, _createAppRoot);
+					apps.async.forEach(_createAppRoot);
 				}
 
 				// Instantiate the apps
 				_initAppClasses(appsToLoad, function() {
 					if (callback) {
 						// Get the properties we want to expose to the container
-						var outputs = _.map(allApps, _extractAppPropsForCallback);
+						var outputs = allApps.map(_extractAppPropsForCallback);
 						callback(outputs);
 					}
 					else {
@@ -3313,7 +3303,7 @@ _exports = undefined;
 			while (len--) {
 				var sub = _subs[name][len];
 				// Strip out the bogus filters
-				filters = _.filter(filters, function(filter) {
+				filters = filters.filter(function(filter) {
 					return !!filter;
 				});
 
@@ -3493,15 +3483,10 @@ _exports = undefined;
 
 	// Set up a default config
 	var _config = {
+		loadDependencies: null,
 		loadInlineScripts: null,
 		loadScripts: null,
 		loadStyles: null,
-		supportedViews: [],
-		xhr: {
-			dataType: null,
-			type: null,
-			url: null
-		},
 		ui: {
 			modal: null,
 			toggleLoading: null
@@ -3577,7 +3562,7 @@ _exports = undefined;
 		var placeholders = AppPlaceholders.getInNode(parentNode);
 
 		if (placeholders.length) {
-			var appConfigs = _.map(placeholders, function(placeholder) {
+			var appConfigs = placeholders.map(function(placeholder) {
 				placeholder.appConfig.isPreload = placeholder.isPreload;
 				placeholder.appConfig.root = placeholder.node;
 				return placeholder.appConfig;
@@ -3628,7 +3613,7 @@ _exports = undefined;
 		}
 		else {
 			identifiers = [].concat(identifiers);
-		}
+		} 
 
 		for (var i = 0; i < identifiers.length; i++) {
 			var identifier = identifiers[i];

@@ -1,5 +1,22 @@
 (function(_) {
 
+	function loadDependencies(config, deps, callback) {
+		// Check for user defined loader
+		if (_.isFunction(config.loadDependencies)) {
+			config.loadDependencies(deps, callback);
+		}
+		else {
+			// Add the paths to the global config
+			deps.forEach(function(map) {
+				require.config({
+					paths: map
+				});
+			});
+
+			callback();
+		}
+	}
+
 	function loadInlineScripts(inlines, callback) {
 		if (inlines.length) {
 			try {
@@ -50,28 +67,15 @@
 	// ---------------------------------------------------------------------------
 
 	Helpers.LoadStaticFiles = {
-		load: function(containerConfig, styles, scripts, inlineScripts, callback) {
-			var stylesDone = false;
-			var scriptsDone = false;
-
-			// See if both scripts and styles have completed
-			function checkComplete() {
-				if (stylesDone && scriptsDone) {
-					callback();
-				}
-			}
-
-			// Kick off styles
+		load: function(containerConfig, styles, scripts, inlineScripts, deps, callback) {
+			// Waterfall of doom
 			loadStyles(containerConfig, styles, function() {
-				stylesDone = true;
-				checkComplete();
-			});
-
-			// Kick off scripts
-			loadScripts(containerConfig, scripts, function() {
-				loadInlineScripts(inlineScripts, function() {
-					scriptsDone = true;
-					checkComplete();
+				loadScripts(containerConfig, scripts, function() {
+					loadDependencies(containerConfig, deps, function() {
+						loadInlineScripts(inlineScripts, function() {
+							callback();
+						});
+					});
 				});
 			});
 		}

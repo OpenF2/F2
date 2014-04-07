@@ -92,22 +92,6 @@
 			},
 			required: ['appId']
 		},
-		appContent: {
-			id: 'appContent',
-			title: 'App Content',
-			type: 'object',
-			properties: {
-				error: {
-					type: 'object'
-				},
-				data: {
-					type: 'object'
-				},
-				html: {
-					type: 'string'
-				}
-			}
-		},
 		appManifest: {
 			id: 'appManifest',
 			title: 'App Manifest',
@@ -131,14 +115,17 @@
 						type: 'string'
 					}
 				},
-				apps: {
-					type: 'array',
-					items: {
-						$ref: 'appContent'
-					}
+				error: {
+					type: 'object'
+				},
+				data: {
+					type: 'object'
+				},
+				html: {
+					type: 'string'
 				}
 			},
-			required: ['scripts', 'styles', 'inlineScripts', 'apps']
+			required: ['scripts', 'styles', 'inlineScripts']
 		},
 		containerConfig: {
 			id: 'containerConfig',
