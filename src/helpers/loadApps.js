@@ -231,7 +231,7 @@
 					}
 
 					if (_.isArray(manifests[i].styles) && manifests[i].styles.length) {
-						scripts.push(manifests[i].styles);
+						styles.push(manifests[i].styles);
 					}
 				}
 			}
