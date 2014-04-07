@@ -15,7 +15,7 @@ define('com_example_c', ['F2', 'jquery-2.1', 'moment'], function(F2, $, moment) 
 
 			// Remove ourselves from the page
 			$(this.root).on('click', '[data-action=remove]', function() {
-				F2.remove(self);
+				F2.unload(self);
 			});
 
 			// Broadcast an event

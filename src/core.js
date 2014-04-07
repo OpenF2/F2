@@ -128,7 +128,7 @@
 	 * @method remove
 	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
 	 */
-	F2.prototype.remove = function(identifiers) {
+	F2.prototype.unload = function(identifiers) {
 		var args = Array.prototype.slice.apply(arguments);
 
 		// See if multiple parameters were passed

@@ -30,7 +30,7 @@ define('F2.AppClass', ['F2'], function(F2) {
 			// Reload this app using the existing appConfig
 			F2.load(this.appConfig).then(function(app) {
 				app.root = self.root;
-				F2.remove(self.instanceId);
+				F2.unload(self.instanceId);
 			});
 		}
 	};

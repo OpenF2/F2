@@ -42,7 +42,7 @@
 				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.emit('com_test_basic-context');
 					expect(window.test.com_test_basic.handlerContext).toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -51,7 +51,7 @@
 				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.emit('com_test_basic-args', [1, 2, 3]);
 					expect(window.test.com_test_basic.eventArgs.length).toBe(3);
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -60,14 +60,14 @@
 				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					F2.emit('com_test_basic-context');
 					expect(window.test.com_test_basic.handlerContext).toBe(window.test.com_test_basic.instance);
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
 
 			it('should not run disposed handlers', function(done) {
 				F2.load(getConfigs('com_test_basic'), function(manifests) {
-					F2.remove(manifests);
+					F2.unload(manifests);
 					F2.emit('com_test_basic-args');
 					expect(window.test.com_test_basic).not.toBeDefined();
 					done();
@@ -96,7 +96,7 @@
 					// This should pass if both apps are fired
 					F2.emit('generic_test_event', null, []);
 					expect(window.test.generic_test_event).not.toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -106,7 +106,7 @@
 					// Target one of the duplicate apps
 					F2.emit('generic_test_event', null, [manifests[0].instanceId]);
 					expect(window.test.generic_test_event).toBe(1);
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -118,7 +118,7 @@
 					// Target both of the apps
 					F2.emit('generic_test_event', null, ['com_test_duplicate']);
 					expect(window.test.generic_test_event).toBe(2);
-					F2.remove(apps);
+					F2.unload(apps);
 					done();
 				});
 			});
@@ -131,7 +131,7 @@
 					// This should pass if both apps are fire4d
 					F2.emit('generic_test_event', null, ['com_test_duplicate', 'com_test_basic']);
 					expect(window.test.generic_test_event).toBe(2);
-					F2.remove(apps);
+					F2.unload(apps);
 					done();
 				});
 			});
@@ -166,7 +166,7 @@
 					F2.off(null, 'com_test_basic-args', window.test.com_test_basic.instance.handleArgs);
 					F2.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -176,7 +176,7 @@
 					F2.off(null, null, window.test.com_test_basic.instance.handleArgs);
 					F2.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -186,7 +186,7 @@
 					F2.off(window.test.com_test_basic.instance, 'com_test_basic-args');
 					F2.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -196,7 +196,7 @@
 					F2.off(window.test.com_test_basic.instance);
 					F2.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -210,7 +210,7 @@
 					);
 					F2.emit('com_test_basic-args');
 					expect(window.test.com_test_basic.eventArgs).not.toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -242,7 +242,7 @@
 						F2.on(window.test.com_test_basic.instance, "test", function() { });
 					}
 					expect(attempt).not.toThrow();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -253,7 +253,7 @@
 						F2.on(window.test.com_test_basic.instance, null, function() { });
 					}
 					expect(attempt).toThrow();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -264,7 +264,7 @@
 						F2.on(window.test.com_test_basic.instance, "test", null);
 					}
 					expect(attempt).toThrow();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -283,7 +283,7 @@
 					expect(attemptZero).toThrow();
 					expect(attemptNegative).toThrow();
 					expect(attemptNaN).toThrow();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -297,7 +297,7 @@
 					F2.emit('com_test_basic-many');
 					// Handler should have only fired 3 times
 					expect(window.test.com_test_basic.count).toBe(3);
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
