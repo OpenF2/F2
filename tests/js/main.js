@@ -8,9 +8,7 @@
 			'jasmine': '/vendor/jasmine/lib/jasmine-core/jasmine',
 			'jasmine-boot': '/vendor/jasmine/lib/jasmine-core/boot/boot',
 			'jasmine-html': '/vendor/jasmine/lib/jasmine-core/jasmine-html',
-			'jasmine-console': '/vendor/jasmine/lib/console/console',
-			// Preloaded Apps
-			'com_test_placeholder': '/tests/js/apps/com_test_placeholder'
+			'jasmine-console': '/vendor/jasmine/lib/console/console'
 		},
 		shim: {
 			'jasmine': {
@@ -41,6 +39,9 @@
 
 		// Pull in all the specs
 		require([
+			// Preload some apps
+			'/tests/js/apps/com_test_placeholder.js',
+			// Load the specs
 			'/tests/js/specs/appPlaceholders.spec.js',
 			'/tests/js/specs/globals.spec.js',
 			'/tests/js/specs/f2.events.spec.js',

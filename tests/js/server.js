@@ -21,15 +21,13 @@ app.all('/apps/slow', function(req, res) {
 	var context = configs[0].context || {};
 
 	setTimeout(function() {
-		res.json({
-			apps: [{
-				data: context,
-				html: '<div></div>'
-			}],
+		res.json([{
+			data: context,
+			html: '<div></div>',
 			inlineScripts: [],
 			scripts: ['js/apps/' + configs[0].appId + '.js'],
 			styles: []
-		});
+		}]);
 	}, 500);
 });
 
@@ -43,34 +41,30 @@ app.all('/apps/single', function(req, res) {
 
 	var context = configs[0].context || {};
 
-	res.json({
-		apps: [{
-			data: context,
-			html: '<div></div>'
-		}],
+	res.json([{
+		data: context,
+		html: '<div></div>',
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
-	});
+	}]);
 });
 
 // Multiple AppManifests in response
 app.all('/apps/multiple', function(req, res) {
-	res.json({
-		apps: [{
-			data: {},
-			html: '<div></div>'
-		}, {
-			data: {},
-			html: '<div></div>'
-		}],
+	res.json([{
+		data: {},
+		html: '<div></div>',
 		inlineScripts: [],
-		scripts: [
-			'js/apps/com_test_basic.js',
-			'js/apps/com_test_inherited.js'
-		],
+		scripts: ['js/apps/com_test_basic.js'],
 		styles: []
-	});
+	}, {
+		data: {},
+		html: '<div></div>',
+		inlineScripts: [],
+		scripts: ['js/apps/com_test_inherited.js'],
+		styles: []
+	}]);
 });
 
 // Duplicate AppManifests in response
@@ -81,58 +75,53 @@ app.all('/apps/duplicate', function(req, res) {
 		configs = JSON.parse(req.params.params);
 	}
 
-	res.json({
-		apps: [{
-			data: {},
-			html: '<div></div>'
-		}, {
-			data: {},
-			html: '<div></div>'
-		}],
+	res.json([{
+		data: {},
+		html: '<div></div>',
 		inlineScripts: [],
 		scripts: ['js/apps/' + configs[0].appId + '.js'],
 		styles: []
-	});
+	}, {
+		data: {},
+		html: '<div></div>',
+		inlineScripts: [],
+		scripts: ['js/apps/' + configs[0].appId + '.js'],
+		styles: []
+	}]);
 });
 
 // Single AppManifests over jsonp
 app.all('/apps/single_jsonp', function(req, res) {
-	res.jsonp({
-		apps: [{
-			data: {},
-			html: '<div></div>'
-		}],
+	res.jsonp([{
+		data: {},
+		html: '<div></div>',
 		inlineScripts: [],
 		scripts: ['js/apps/com_test_basic.js'],
 		styles: []
-	});
+	}]);
 });
 
 // Simulate a slow jsonp call
 app.all('/apps/single_jsonp_slow', function(req, res) {
 	setTimeout(function() {
-		res.jsonp({
-			apps: [{
-				data: {},
-				html: '<div></div>'
-			}],
+		res.jsonp([{
+			data: {},
+			html: '<div></div>',
 			inlineScripts: [],
 			scripts: ['js/apps/com_test_basic.js'],
 			styles: []
-		});
+		}]);
 	}, 500);
 });
 
 // Simulate a data app
 app.all('/apps/data_app', function(req, res) {
-	res.json({
-		apps: [{
-			data: {}
-		}],
+	res.json([{
+		data: {},
 		inlineScripts: [],
 		scripts: ['js/apps/com_test_basic.js'],
 		styles: []
-	});
+	}]);
 });
 
 // Force an error

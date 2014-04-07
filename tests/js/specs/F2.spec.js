@@ -121,7 +121,6 @@
 				}];
 
 				F2.load(configs, function(manifests) {
-					expect(manifests.length).toBe(1);
 					expect(manifests[0].error).toBeDefined();
 					done();
 				});

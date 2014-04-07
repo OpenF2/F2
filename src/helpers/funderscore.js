@@ -10,10 +10,38 @@
 	var breaker = {};
 
 	Helpers._ = {
+		contains: function(obj, target) {
+			if (!obj) {
+				return false;
+			}
+
+			return this.some(obj, function(value) {
+				return value === target;
+			});
+		},
+		some: function(obj, predicate, context) {
+			predicate = predicate || this.identity;
+			var result = false;
+
+			if (!obj) {
+				return result;
+			}
+
+			this.each(obj, function(value, index, list) {
+				if (result || (result = predicate.call(context, value, index, list))) {
+					return breaker;
+				}
+			});
+
+			return !!result;
+		},
+		identity: function(value) {
+			return value;
+		},
 		map: function(obj, iterator, context) {
 			var results = [];
 
-			if (obj === null) {
+			if (!obj) {
 				return results;
 			}
 
@@ -28,7 +56,7 @@
 			return results;
 		},
 		each: function(obj, iterator, context) {
-			if (obj === null) {
+			if (!obj) {
 				return;
 			}
 
@@ -136,6 +164,41 @@
 			}
 
 			return props;
+		},
+		unique: function(array, isSorted, iterator, context) {
+			if (!array) {
+				return [];
+			}
+
+			if (this.isFunction(isSorted)) {
+				context = iterator;
+				iterator = isSorted;
+				isSorted = false;
+			}
+
+			var result = [];
+			var seen = [];
+
+			for (var i = 0, length = array.length; i < length; i++) {
+				var value = array[i];
+
+				if (iterator) {
+					value = iterator.call(context, value, i, array);
+				}
+
+				if (isSorted ? (!i || seen !== value) : !this.contains(seen, value)) {
+					if (isSorted) {
+						seen = value;
+					}
+					else {
+						seen.push(value);
+					}
+
+					result.push(array[i]);
+				}
+			}
+
+			return result;
 		}
 	};
 

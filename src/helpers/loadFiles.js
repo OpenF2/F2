@@ -2,13 +2,15 @@
 
 	function loadDependencies(config, deps, callback) {
 		// Check for user defined loader
-		if (_.isObject(config.loadDependencies)) {
+		if (_.isFunction(config.loadDependencies)) {
 			config.loadDependencies(deps, callback);
 		}
 		else {
 			// Add the paths to the global config
-			require.config({
-				paths: deps
+			_.each(deps, function(map) {
+				require.config({
+					paths: map
+				});
 			});
 
 			callback();
@@ -66,6 +68,7 @@
 
 	Helpers.LoadStaticFiles = {
 		load: function(containerConfig, styles, scripts, inlineScripts, deps, callback) {
+			// Waterfall of doom
 			loadStyles(containerConfig, styles, function() {
 				loadScripts(containerConfig, scripts, function() {
 					loadDependencies(containerConfig, deps, function() {
