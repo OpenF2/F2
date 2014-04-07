@@ -149,7 +149,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	//var throwaway = function() {}
 	testSuite.push(new Perf.Test({
 		section: section,
-		testname: "remove",
+		testname: "unload",
 		fxn: F2.unload, //throwaway,
 		deferUntilTrue: function() {
 			return (Perf.Feeder.requests <= 0);

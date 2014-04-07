@@ -37,7 +37,7 @@ define('PerfHelpers', ['F2'], function(F2) {
 			}
 
 			for(_p = 0; _p < Params.length; ++_p) {
-				if(Params[_p].hasOwnProperty("ImAFactory")) {
+				if(Params[_p] && Params[_p].hasOwnProperty("ImAFactory")) {
 					var value = Params[_p].create();
 					if(value.hasOwnProperty("length")) {
 						_params = _params.concat(value);
