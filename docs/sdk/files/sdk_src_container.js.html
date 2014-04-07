@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk/src/container.js</title>
-	<meta name="dcterms.date" content="28 February 2014">
+	<meta name="dcterms.date" content="7 April 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -487,35 +487,12 @@ F2.extend(&#x27;&#x27;, (function() {
 		};
 
 		// Fn for loading manifest Scripts
-		var _loadScripts = function(scripts, inlines, cb) {
+		var _loadScripts = function(scripts, cb) {
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
-				_config.loadScripts(scripts, inlines, cb);
+				_config.loadScripts(scripts, cb);
 			}
 			else {
-				// Fn to load inline scripts
-				var evalInlines = function() {
-					jQuery.each(inlines, function(i, e) {
-						try {
-							eval(e);
-						}
-						catch (exception) {
-							F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + e);
-							if (!_bUsesAppHandlers) {
-								_appScriptLoadFailed(appConfigs[0], exception);
-							}
-							else {
-								F2.AppHandlers.__trigger(
-									_sAppHandlerToken,
-									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-									appConfigs[0],
-									exception
-								);
-							}
-						}
-					});
-				};
-
 				if (scripts.length) {
 					var scriptCount = scripts.length;
 					var scriptsLoaded = 0;
@@ -586,7 +563,6 @@ F2.extend(&#x27;&#x27;, (function() {
 
 								// Are we done loading all scripts for this app?
 								if (++scriptsLoaded === scriptCount) {
-									evalInlines(inlines);
 									cb();
 								}
 							}
@@ -596,9 +572,38 @@ F2.extend(&#x27;&#x27;, (function() {
 					});
 				}
 				else {
-					evalInlines(inlines);
 					cb();
 				}
+			}
+		};
+
+		var _loadInlineScripts = function(inlines, cb) {
+			// Attempt to use the user provided method
+			if (_config.loadInlineScripts) {
+				_config.loadInlineScripts(inlines, cb);
+			}
+			else {
+				for (var i = 0, len = inlines.length; i &lt; len; i++) {
+					try {
+						eval(inlines[i]);
+					}
+					catch (exception) {
+						F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + inlines[i]);
+
+						if (!_bUsesAppHandlers) {
+							_appScriptLoadFailed(appConfigs[0], exception);
+						}
+						else {
+							F2.AppHandlers.__trigger(
+								_sAppHandlerToken,
+								F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+								appConfigs[0],
+								exception
+							);
+						}
+					}
+				}
+				cb();
 			}
 		};
 
@@ -671,12 +676,14 @@ F2.extend(&#x27;&#x27;, (function() {
 		_loadStyles(styles, function() {
 			// Put the html on the page
 			_loadHtml(apps);
-
 			// Add the script content to the page
-			_loadScripts(scripts, inlines, function() {
-				// Create the apps
-				jQuery.each(appConfigs, function(i, a) {
-					_createAppInstance(a, appManifest.apps[i]);
+			_loadScripts(scripts, function() {
+				// Load any inline scripts
+				_loadInlineScripts(inlines, function() {
+					// Create the apps
+					jQuery.each(appConfigs, function(i, a) {
+						_createAppInstance(a, appManifest.apps[i]);
+					});
 				});
 			});
 		});

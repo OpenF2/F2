@@ -2063,7 +2063,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 459,
+            "line": 466,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -2086,7 +2086,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 522,
+            "line": 529,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -2108,7 +2108,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 544,
+            "line": 551,
             "description": "Checks if the ContainerConfig is valid",
             "itemtype": "method",
             "name": "_validateContainerConfig",
@@ -2123,7 +2123,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 573,
+            "line": 580,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -2136,7 +2136,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 590,
+            "line": 597,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -2152,7 +2152,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 618,
+            "line": 625,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -2165,7 +2165,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 624,
+            "line": 631,
             "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -2192,7 +2192,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 945,
+            "line": 952,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -2201,7 +2201,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 960,
+            "line": 967,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2839,15 +2839,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:522"
+            "line": " sdk/src/container.js:529"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:544"
+            "line": " sdk/src/container.js:551"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:573"
+            "line": " sdk/src/container.js:580"
         },
         {
             "message": "replacing incorrect tag: params with param",

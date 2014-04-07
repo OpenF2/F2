@@ -4,6 +4,14 @@
 
 * * * *
 
+## Version 2
+
+<div class="alert alert-block alert-info">
+    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
+</div>
+
+* * * *
+
 ## Plugins
 
 Now that you're comfortable with F2 and all the individual [components of the framework](index.html#framework), you are ready to extend F2 and add your own custom logic in the form of an F2 plugin. 
