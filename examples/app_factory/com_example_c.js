@@ -20,7 +20,7 @@ define('com_example_c', ['F2', 'jquery-2.1', 'moment'], function(F2, $, moment) 
 
 			// Broadcast an event
 			$(this.root).on('click', '[data-action=event]', function() {
-				F2.Events.emit('PING', 'C', new Date());
+				F2.Events.emit('PING', { sender: 'C', timestamp: new Date() });
 			});
 
 			// Listen for a PING event

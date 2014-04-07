@@ -33,7 +33,7 @@
 	// Utils
 	// ---------------------------------------------------------------------------
 
-	function _send(name, filters, args) {
+	function _send(name, args, filters) {
 		if (!name || !_.isString(name)) {
 			throw 'F2.Events: you must provide an event name to emit.';
 		}
@@ -57,7 +57,7 @@
 				});
 
 				if (!filters || appMatchesPattern(sub.instance, filters)) {
-					sub.handler.apply(sub.instance, args);
+					sub.handler.call(sub.instance, args);
 				}
 
 				// See if this is limited to a # of executions
@@ -75,8 +75,8 @@
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
 		else if (!instanceIsBeingLoaded) {
-			var instanceIsApp = (!!LoadApps.getLoadedApp(instance));
-			var instanceIsToken = (instance === Guid.isTrackedGuid(instance));
+			var instanceIsApp = ( !! LoadApps.getLoadedApp(instance));
+			var instanceIsToken = Guid.isTrackedGuid(instance);
 
 			if (!instanceIsApp && !instanceIsToken) {
 				throw 'F2.Events: "instance" must be an app instance or a container token.';
@@ -117,7 +117,9 @@
 
 	function _unsubscribe(instance, name, handler) {
 		var handlerIsValid = (handler && _.isFunction(handler));
-		var instanceIsValid = (instance && !!LoadApps.getLoadedApp(instance));
+		var instanceIsValid = (instance && ( !! LoadApps.getLoadedApp(instance) || Guid.isTrackedGuid(instance)));
+
+		var _i, matchesInstance, matchesHandler, namedSubs;
 
 		if (!handlerIsValid && !instanceIsValid) {
 			throw 'F2.Events: "off" requires at least an instance or handler.';
@@ -127,13 +129,25 @@
 			throw 'F2.Events: "name" must be a string if it is passed';
 		}
 
-		if (name && _subs[name]) {
-			for (var i = 0; i < _subs[name].length; i++) {
-				var matchesInstance = _subs[name][i].instance === instance;
-				var matchesHandler = _subs[name][i].handler === handler;
+		// Create a local reference to reduce access time:
+		// http://oreilly.com/server-administration/excerpts/even-faster-websites/writing-efficient-javascript.html
+		namedSubs = _subs[name];
+		if (name && namedSubs) {
+			// Start from the end to reduce index unnecessary index shifting
+			for (_i = namedSubs.length - 1; _i >= 0; --_i) {
+				matchesInstance = namedSubs[_i].instance === instance;
+				matchesHandler = namedSubs[_i].handler === handler;
 
-				if (matchesInstance || matchesHandler) {
-					_subs[name].splice(i--, 1);
+				if (matchesInstance &&
+					(!handlerIsValid) ||
+					(handlerIsValid && matchesHandler)
+				) {
+					namedSubs.splice(_i, 1);
+				}
+				// Do some garbage collection, otherwise the
+				// subs object only grows and lookups take forever
+				if (namedSubs.length === 0) {
+					delete _subs[name];
 				}
 			}
 		}
@@ -155,24 +169,9 @@
 		 * @param {String} name The event name
 		 * @return void
 		 */
-		emit: function(name) {
-			var args = Array.prototype.slice.call(arguments, 1);
-			return _send(name, ['*'], args);
-		},
-		emitTo: function(filters, name) {
-			var args = Array.prototype.slice.call(arguments, 2);
-			return _send(name, filters, args);
-		},
-		/**
-		 *
-		 * @method many
-		 * @param {String} name The event name
-		 * @param {Number} timesToListen The number of times the handler should be fired
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		many: function(instance, name, timesToListen, handler) {
-			_subscribe(instance, name, handler, timesToListen);
+		emit: function(name, filters, args) {
+			filters = filters || ['*'];
+			return _send(name, args, filters);
 		},
 		/**
 		 *
@@ -191,18 +190,8 @@
 		 * @param {Function} handler Function to handle the event
 		 * @return void
 		 */
-		on: function(instance, name, handler) {
-			return this.many(instance, name, undefined, handler);
-		},
-		/**
-		 *
-		 * @method once
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		once: function(instance, name, handler) {
-			return this.many(instance, name, 1, handler);
+		on: function(instance, name, handler, timesToListen) {
+			_subscribe(instance, name, handler, timesToListen);
 		}
 	};
 

@@ -136,7 +136,7 @@
 		}
 		else {
 			identifiers = [].concat(identifiers);
-		}
+		} 
 
 		for (var i = 0; i < identifiers.length; i++) {
 			var identifier = identifiers[i];
