@@ -273,57 +273,30 @@ For more information on `F2.ContainerConfig.xhr`, [browse to the F2.js SDK docs]
 
 #### Override the Request for App Dependencies 
 
-Occasionally Container Developers need more granular control over the request mechanism in F2.js for  `AppManifest`-defined dependencies. The current dependency request process is handled by the straightforward `createElement('script')` and `createStyleSheet()` statements for scripts and styles, respectively. In version {{version}} of F2, the app dependency request can be overridden in the [`ContainerConfig`](./sdk/classes/F2.ContainerConfig.html).
+Occasionally Container Developers need more granular control over the request mechanism in F2.js for `AppManifest`-defined dependencies. The current dependency request process is handled by the straightforward `createElement('script')` and `createStyleSheet()` statements for scripts and styles, respectively. In version {{version}} of F2, the app dependency request can be overridden in the [`ContainerConfig`](./sdk/classes/F2.ContainerConfig.html).
 
 ##### Override the Script Loader
 
-As defined in the `AppManifest`, each F2 App can have script file dependencies. These are [defined as URLs](app-development.html#app-manifest) in the `AppManifest.scripts` property. The script loader can be replaced with any script loading mechanism such as those found in [RequireJS](http://requirejs.org/) or [jQuery](https://api.jquery.com/load/).
+As defined in the `AppManifest`, each F2 App can have script file dependencies. These are [defined as URLs](app-development.html#app-manifest) in the `AppManifest.scripts` property (type array). The script loader can be replaced with any script loading mechanism such as those found in [RequireJS](http://requirejs.org/), [jQuery](http://jquery.com) or [HeadJS](http://headjs.com/).
 
-To override the script loader, assign a function to `loadScripts` in `F2.init` as shown below. The function is passed `scripts` (array), `inlines` (array), and `callback` (function) which needs to be called when all scripts have been loaded.
+To override the script loader, assign a function to `loadScripts` in `F2.init` as shown below. The function is passed `scripts` (array) and `callback` (function) which needs to be called when all scripts have been loaded.
 
 ```javascript
 F2.init({
-    loadScripts: function(scripts,inlines,callback){
+    loadScripts: function(scripts,callback){
         //perform script loading
         callback();
     }
 });
 ```
 
-The following example demonstrates using `jQuery.ajax` to load script dependencies:
+The following example demonstrates using [HeadJS](http://headjs.com/site/api/v1.00.html#load) to load script dependencies:
 
 ```javascript
 F2.init({
-    loadScripts: function(scripts,inlines,callback){
-        //keep track of whether all scripts have been loaded
-        var scriptsLoaded = 0, scriptCount = scripts.length;
-        //iterate over the scripts
-        $.each(scripts, function(i, scriptUrl) {
-            $.ajax({
-                url:scriptUrl,
-                cache:true,
-                async:false, //load them synchronously!
-                dataType:'script',
-                type:'GET',
-                success:function() {
-                    //when all scripts have been loaded, eval inline scripts
-                    if (++scriptsLoaded == scriptCount) {
-                        $.each(inlines, function(i,inline) {
-                            try {
-                                eval(inline);
-                            } catch (exception) {
-                                console.error('Error loading inline script: ' + exception + '\n\n' + inline);
-                            }
-                        });
-                        //execute the callback when everything is done
-                        callback();
-                    }
-                    ++scriptsLoaded;
-                },
-                error:function(jqxhr, settings, exception) {
-                    console.error('Failed to load script (' + scriptUrl +')', exception.toString());
-                }
-            });
+    loadStyles: function(scripts,callback){
+        head.load(scripts, function(){
+            callback();
         });
     }
 });
@@ -359,6 +332,25 @@ F2.init({
 ```
 
 <span class="label label-important">Important</span> The `callback` function must be executed on completion of the stylesheet loading so F2 can continue registering apps.
+
+##### Override the Inline Script Loader
+
+As defined in the `AppManifest`, each F2 App can have inline script dependencies. These are [defined as strings](app-development.html#app-manifest) in the `AppManifest.inlineScripts` property (type array). The inline script evaluator can be replaced with any script evaluator, however, it is expected Container Developers will not require an alternative to the `eval` currently in use.
+
+To override the inline script evaluator, assign a function to `loadInlineScripts` in `F2.init` as shown below. The function is passed `inlines` (array) and `callback` (function) which needs to be called when all inline scripts have been evaluated.
+
+```javascript
+F2.init({
+    loadInlineScripts: function(inlines,callback){
+        //perform inline script evaluation
+        callback();
+    }
+});
+```
+
+<span class="label label-important">Important</span> The `callback` function must be executed on completion of the script loading so F2 can continue registering apps.
+
+<span class="label label-info">Note</span> This Container Config option was added not because it is expected Container Developers will need or use it but rather to prevent unnecessary scripting in the [script override config option](#override-the-request-for-app-dependencies).
 
 #### Supported Views
 

@@ -348,46 +348,19 @@ $(<span class="kw">function</span>(){
 <p>Occasionally Container Developers need more granular control over the request mechanism in F2.js for <code>AppManifest</code>-defined dependencies. The current dependency request process is handled by the straightforward <code>createElement('script')</code> and <code>createStyleSheet()</code> statements for scripts and styles, respectively. In version 1.3.3 of F2, the app dependency request can be overridden in the <a href="./sdk/classes/F2.ContainerConfig.html"><code>ContainerConfig</code></a>.</p>
 <section class="level5" id="override-the-script-loader">
 <h5>Override the Script Loader</h5>
-<p>As defined in the <code>AppManifest</code>, each F2 App can have script file dependencies. These are <a href="app-development.html#app-manifest">defined as URLs</a> in the <code>AppManifest.scripts</code> property. The script loader can be replaced with any script loading mechanism such as those found in <a href="http://requirejs.org/">RequireJS</a> or <a href="https://api.jquery.com/load/">jQuery</a>.</p>
-<p>To override the script loader, assign a function to <code>loadScripts</code> in <code>F2.init</code> as shown below. The function is passed <code>scripts</code> (array), <code>inlines</code> (array), and <code>callback</code> (function) which needs to be called when all scripts have been loaded.</p>
+<p>As defined in the <code>AppManifest</code>, each F2 App can have script file dependencies. These are <a href="app-development.html#app-manifest">defined as URLs</a> in the <code>AppManifest.scripts</code> property (type array). The script loader can be replaced with any script loading mechanism such as those found in <a href="http://requirejs.org/">RequireJS</a>, <a href="http://jquery.com">jQuery</a> or <a href="http://headjs.com/">HeadJS</a>.</p>
+<p>To override the script loader, assign a function to <code>loadScripts</code> in <code>F2.init</code> as shown below. The function is passed <code>scripts</code> (array) and <code>callback</code> (function) which needs to be called when all scripts have been loaded.</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
-    <span class="dt">loadScripts</span>: <span class="kw">function</span>(scripts,inlines,callback){
+    <span class="dt">loadScripts</span>: <span class="kw">function</span>(scripts,callback){
         <span class="co">//perform script loading</span>
         callback();
     }
 });</code></pre>
-<p>The following example demonstrates using <code>jQuery.ajax</code> to load script dependencies:</p>
+<p>The following example demonstrates using <a href="http://headjs.com/site/api/v1.00.html#load">HeadJS</a> to load script dependencies:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
-    <span class="dt">loadScripts</span>: <span class="kw">function</span>(scripts,inlines,callback){
-        <span class="co">//keep track of whether all scripts have been loaded</span>
-        <span class="kw">var</span> scriptsLoaded = <span class="dv">0</span>, scriptCount = <span class="kw">scripts</span>.<span class="fu">length</span>;
-        <span class="co">//iterate over the scripts</span>
-        $.<span class="fu">each</span>(scripts, <span class="kw">function</span>(i, scriptUrl) {
-            $.<span class="fu">ajax</span>({
-                <span class="dt">url</span>:scriptUrl,
-                <span class="dt">cache</span>:<span class="kw">true</span>,
-                <span class="dt">async</span>:<span class="kw">false</span>, <span class="co">//load them synchronously!</span>
-                <span class="dt">dataType</span>:<span class="ch">&#39;script&#39;</span>,
-                <span class="dt">type</span>:<span class="ch">&#39;GET&#39;</span>,
-                <span class="dt">success</span>:<span class="kw">function</span>() {
-                    <span class="co">//when all scripts have been loaded, eval inline scripts</span>
-                    <span class="kw">if</span> (++scriptsLoaded == scriptCount) {
-                        $.<span class="fu">each</span>(inlines, <span class="kw">function</span>(i,inline) {
-                            <span class="kw">try</span> {
-                                eval(inline);
-                            } <span class="kw">catch</span> (exception) {
-                                <span class="kw">console</span>.<span class="fu">error</span>(<span class="ch">&#39;Error loading inline script: &#39;</span> + exception + <span class="ch">&#39;\n\n&#39;</span> + inline);
-                            }
-                        });
-                        <span class="co">//execute the callback when everything is done</span>
-                        callback();
-                    }
-                    ++scriptsLoaded;
-                },
-                <span class="dt">error</span>:<span class="kw">function</span>(jqxhr, settings, exception) {
-                    <span class="kw">console</span>.<span class="fu">error</span>(<span class="ch">&#39;Failed to load script (&#39;</span> + scriptUrl +<span class="ch">&#39;)&#39;</span>, <span class="kw">exception</span>.<span class="fu">toString</span>());
-                }
-            });
+    <span class="dt">loadStyles</span>: <span class="kw">function</span>(scripts,callback){
+        <span class="kw">head</span>.<span class="fu">load</span>(scripts, <span class="kw">function</span>(){
+            callback();
         });
     }
 });</code></pre>
@@ -412,6 +385,19 @@ $(<span class="kw">function</span>(){
     }
 });</code></pre>
 <p><span class="label label-important">Important</span> The <code>callback</code> function must be executed on completion of the stylesheet loading so F2 can continue registering apps.</p>
+</section>
+<section class="level5" id="override-the-inline-script-loader">
+<h5>Override the Inline Script Loader</h5>
+<p>As defined in the <code>AppManifest</code>, each F2 App can have inline script dependencies. These are <a href="app-development.html#app-manifest">defined as strings</a> in the <code>AppManifest.inlineScripts</code> property (type array). The inline script evaluator can be replaced with any script evaluator, however, it is expected Container Developers will not require an alternative to the <code>eval</code> currently in use.</p>
+<p>To override the inline script evaluator, assign a function to <code>loadInlineScripts</code> in <code>F2.init</code> as shown below. The function is passed <code>inlines</code> (array) and <code>callback</code> (function) which needs to be called when all inline scripts have been evaluated.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">F2</span>.<span class="fu">init</span>({
+    <span class="dt">loadInlineScripts</span>: <span class="kw">function</span>(inlines,callback){
+        <span class="co">//perform inline script evaluation</span>
+        callback();
+    }
+});</code></pre>
+<p><span class="label label-important">Important</span> The <code>callback</code> function must be executed on completion of the script loading so F2 can continue registering apps.</p>
+<p><span class="label label-info">Note</span> This Container Config option was added not because it is expected Container Developers will need or use it but rather to prevent unnecessary scripting in the <a href="#override-the-request-for-app-dependencies">script override config option</a>.</p>
 </section>
 </section>
 <section class="level4" id="supported-views">
