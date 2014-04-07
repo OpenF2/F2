@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+*.grunt
 *.sh
 bin
 obj

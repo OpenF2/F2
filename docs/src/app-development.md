@@ -17,6 +17,12 @@ _Interested in developing F2 containers? [Browse to Container Development](conta
 
 * * * *
 
+## Version 2
+
+<div class="alert alert-block alert-info">
+    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
+</div>
+
 ## Get Started
 
 To help you get started building an F2 app, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.
