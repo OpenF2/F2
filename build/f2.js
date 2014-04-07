@@ -3526,7 +3526,7 @@ _exports = undefined;
 
 	F2.prototype.loadPlaceholders = function(parentNode, callback) {
 		// Default to the body if no node was passed
-		if (!parentNode || !_.isNode(parentNode.nodeType)) {
+		if (!parentNode || !_.isNode(parentNode)) {
 			parentNode = document.body;
 		}
 
