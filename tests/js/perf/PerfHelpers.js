@@ -73,6 +73,8 @@ define('PerfHelpers', [], function() {
 		this.Title = document.createElement("SPAN");
 		this.Title.innerHTML = this.testname + ": ";
 		this.resultNode = document.createElement("SPAN");
+		this.resultNode.className = "loading";
+		this.resultNode.innerHTML = " ҉";
 		this.timeout = null;
 		this.root.appendChild(this.Title);
 		this.root.appendChild(this.resultNode);
@@ -85,12 +87,12 @@ define('PerfHelpers', [], function() {
 			clearTimeout(self.timeout);
 		}
 		if( !self.deferUntilTrue() ) {
-			//console.info("Deferring ", this.testname);
-			self.timeout = setTimeout(function() {self.run.apply(self); }, 2000);
+			console.info("Deferring ", self.testname);
+			self.timeout = setTimeout(self.run.bind(self), 2000);
 		}
 		else {
-			//console.info("Applying ", this.testname);
-			self.timeout = setTimeout(this._run.apply(this));
+			console.info("Applying ", self.testname);
+			self.timeout = setTimeout(self._run.bind(self));
 		}
 	}
 
@@ -98,6 +100,7 @@ define('PerfHelpers', [], function() {
 		this.resultTime = _runXTimes.apply(this, this.params);
 		this.ran = true;
 		this.resultNode.innerHTML = this.resultTime + "ms";
+		this.resultNode.className = "";
 	}
 
 	var _tree = function(NumChildren, Depth, ChildrenApplier) {

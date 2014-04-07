@@ -2,7 +2,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	var testSuite = [];
 
 	console.info(F2);
-
+	
 	testSuite.push(new Perf.Test({
 		testname: "hasSchema (default Schemas)",
 		numTimes: 1e4,
@@ -55,7 +55,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		context: F2.new(),
 		params: []
 	}));
-
+	
 	var myAppConfig = {
 				appId: "com_test_duplicate",
 				manifestUrl: '/apps/single'
@@ -119,7 +119,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		params: [largeTree, Perf.Feeder.queue],
 	}));
 	Perf.Feeder.add(largeApps, 10);
-
+	
 	testSuite.push(new Perf.Test({
 		testname: "new",
 		fxn: F2.new,
@@ -131,7 +131,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		fxn: F2.onetimeToken,
 		context: new Perf.Factory(F2.new, F2)
 	}));
-
+	
 	testSuite.push(new Perf.Test({
 		testname: "remove",
 		fxn: F2.remove,
@@ -143,18 +143,18 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		context: F2,
 		params: new Perf.Factory( Perf.Feeder.pop, Perf.Feeder )
 	}));
-
+	
 	testSuite.push(new Perf.Test({
 		testname: "validate valid appConfig",
 		fxn: F2.validate,
 		context: F2,
 		params: [myAppConfig, "appConfig"]
 	}))
-
+	
 	var run = function( ) {
 		var _i, _length;
 		for(_i = 0, _length = testSuite.length; _i < _length; ++_i) {
-			testSuite[_i].run();
+			setTimeout(testSuite[_i].run.bind(testSuite[_i]), 100);
 		}
 	}
 
