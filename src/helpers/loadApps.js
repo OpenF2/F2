@@ -177,7 +177,7 @@
 									// Look for aborted requests
 									requests.forEach(function(request) {
 										if (request.xhr.isAborted) {
-											_.each(request.apps, function(app) {
+											request.apps.forEach(function(app) {
 												app.isAborted = true;
 											});
 										}
