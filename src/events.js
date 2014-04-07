@@ -75,7 +75,7 @@
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
 		else if (!instanceIsBeingLoaded) {
-			var instanceIsApp = ( !! LoadApps.getLoadedApp(instance));
+			var instanceIsApp = LoadApps.isLoadedApp(instance);
 			var instanceIsToken = Guid.isTrackedGuid(instance);
 
 			if (!instanceIsApp && !instanceIsToken) {
@@ -117,7 +117,7 @@
 
 	function _unsubscribe(instance, name, handler) {
 		var handlerIsValid = (handler && _.isFunction(handler));
-		var instanceIsValid = (instance && ( !! LoadApps.getLoadedApp(instance) || Guid.isTrackedGuid(instance)));
+		var instanceIsValid = (instance && (LoadApps.isLoadedApp(instance) || Guid.isTrackedGuid(instance)));
 
 		var _i, matchesInstance, matchesHandler, namedSubs;
 
@@ -162,37 +162,37 @@
 	// API
 	// ---------------------------------------------------------------------------
 
-	F2.prototype.Events = {
-		/**
-		 *
-		 * @method emit
-		 * @param {String} name The event name
-		 * @return void
-		 */
-		emit: function(name, filters, args) {
-			filters = filters || ['*'];
-			return _send(name, args, filters);
-		},
-		/**
-		 *
-		 * @method off
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		off: function(instance, name, handler) {
-			_unsubscribe(instance, name, handler);
-		},
-		/**
-		 *
-		 * @method on
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		on: function(instance, name, handler, timesToListen) {
-			_subscribe(instance, name, handler, timesToListen);
-		}
+	/**
+	 *
+	 * @method emit
+	 * @param {String} name The event name
+	 * @return void
+	 */
+	F2.prototype.emit = function(name, args, filters) {
+		filters = filters || ['*'];
+		return _send(name, args, filters);
+	};
+
+	/**
+	 *
+	 * @method off
+	 * @param {String} name The event name
+	 * @param {Function} handler Function to handle the event
+	 * @return void
+	 */
+	F2.prototype.off = function(instance, name, handler) {
+		_unsubscribe(instance, name, handler);
+	};
+
+	/**
+	 *
+	 * @method on
+	 * @param {String} name The event name
+	 * @param {Function} handler Function to handle the event
+	 * @return void
+	 */
+	F2.prototype.on = function(instance, name, handler, timesToListen) {
+		_subscribe(instance, name, handler, timesToListen);
 	};
 
 })(Helpers._, Helpers.LoadApps, Helpers.Guid);

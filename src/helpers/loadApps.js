@@ -455,6 +455,9 @@
 
 			return _getLoadedApp(identifier);
 		},
+		isLoadedApp: function(identifier) {
+			return !!this.getLoadedApp(identifier);
+		},
 		addLoadListener: function(instanceId, callback) {
 			if (!_loadListeners[instanceId]) {
 				_loadListeners[instanceId] = [];

@@ -21,7 +21,7 @@
 		});
 
 		// Add an event that is listened to by multiple classes
-		F2.Events.on(this, 'generic_test_event', function() {
+		F2.on(this, 'generic_test_event', function() {
 			if (window.test.generic_test_event === undefined) {
 				window.test.generic_test_event = 0;
 			}
@@ -32,7 +32,7 @@
 
 	AppClass.prototype = {
 		dispose: function() {
-			var index = 
+			var index =
 			(function(instanceId) {
 				var _i, _length;
 				for(_i = 0, _length = window.test.com_test_duplicate.length; _i < _length; ++_i) {

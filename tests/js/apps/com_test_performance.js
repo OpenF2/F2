@@ -15,8 +15,8 @@ define('com_test_performance', ['F2'], function(F2) {
 		};
 
 		self = this;
-		F2.Events.on(this, 'get_performance_instance', function() { 
-			F2.Events.emit('performance_instance', self);
+		F2.on(this, 'get_performance_instance', function() {
+			F2.emit('performance_instance', self);
 		});
 	}
 

@@ -372,7 +372,7 @@
 
 				F2.load(configs, function(manifests) {
 					F2.remove(manifests);
-					F2.Events.emit('com_test_basic-context');
+					F2.emit('com_test_basic-context');
 					expect(window.test.com_test_basic).not.toBeDefined();
 					done();
 				});

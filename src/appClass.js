@@ -14,13 +14,13 @@ define('F2.AppClass', ['F2'], function(F2) {
 				return F2.Events.many(name, timesToListen, handler, this);
 			},
 			off: function(name, handler) {
-				return F2.Events.off(name, handler, this);
+				return F2.off(name, handler, this);
 			},
 			on: function(name, handler) {
-				return F2.Events.on(name, handler, this);
+				return F2.on(name, handler, this);
 			},
 			once: function(name, handler) {
-				return F2.Events.once(name, handler, this);
+				return F2.once(name, handler, this);
 			}
 		},
 		reload: function(context) {

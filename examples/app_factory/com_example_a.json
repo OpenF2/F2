@@ -1,4 +1,4 @@
-{
+[{
 	"dependencies": {
 		"jquery-2.1": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min",
 		"moment": "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min"
@@ -6,15 +6,13 @@
 	"inlineScripts": [],
 	"scripts": ["com_example_a.js"],
 	"styles": ["com_example_a.css"],
-	"apps": [{
-		"data": {},
-		"html":
-			"<div class='com_example_a'>" +
-				"<h1>App A</h1>" +
-				"<p>I'm a wallflower. I only like to talk to other apps I know.</p>" +
-				"<button data-action='remove'>Remove me</button>" +
-				"<button data-action='event'>Send event</button>" +
-				"<ul class='output'></ul>" +
-			"</div>"
-	}]
-}
+	"data": {},
+	"html":
+		"<div class='com_example_a'>" +
+			"<h1>App A</h1>" +
+			"<p>I'm a wallflower. I only like to talk to other apps I know.</p>" +
+			"<button data-action='remove'>Remove me</button>" +
+			"<button data-action='event'>Send event</button>" +
+			"<ul class='output'></ul>" +
+		"</div>"
+}]

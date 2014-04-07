@@ -8,21 +8,21 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 				appId: "com_test_performance",
 				manifestUrl: '/apps/single'
 			};
-	var EventRegister = { 
+	var EventRegister = {
 		Events: [],
-		length: function() { 
-			return EventRegister.Events.length; 
+		length: function() {
+			return EventRegister.Events.length;
 		},
-		on: function() { 
-			var Name = F2.guid(),	
+		on: function() {
+			var Name = F2.guid(),
 				Handler = function() { };
-				EventRegister.Events.push({Name: Name, Handler: Handler}); 
+				EventRegister.Events.push({Name: Name, Handler: Handler});
 			return [Perf.ContainerToken, Name, Handler];
 		},
-		many: function() { 
+		many: function() {
 			var Name = F2.guid(),
 				Handler = function() {};
-				EventRegister.Events.push({Name: Name, Handler: Handler}); 
+				EventRegister.Events.push({Name: Name, Handler: Handler});
 			return [Perf.ContainerToken, Name, 1e4, Handler];
 		},
 		pop: function() {
@@ -34,7 +34,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	testSuite.push(new Perf.Test({
 		section: section,
 		testname: "emit",
-		fxn: F2.Events.emit,
+		fxn: F2.emit,
 		context: F2.Events,
 		params: ["generic_test_event", {}]
 	}));
@@ -42,11 +42,11 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	testSuite.push(new Perf.Test({
 		section: section,
 		testname: "emitTo",
-		fxn: F2.Events.emitTo,
+		fxn: F2.emitTo,
 		context: F2.Events,
 		params: ["com_test_*", "performance_test_event"]
 	}));
-	
+
 	testSuite.push(new Perf.Test({
 		section: section,
 		testname: "many",
@@ -58,7 +58,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	testSuite.push(new Perf.Test({
 		section: section,
 		testname: "on",
-		fxn: F2.Events.on,
+		fxn: F2.on,
 		context: F2.Events,
 		params: new Perf.Factory(EventRegister.on, EventRegister)
 	}));
@@ -66,7 +66,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	testSuite.push(new Perf.Test({
 		section: section,
 		testname: "once",
-		fxn: F2.Events.once,
+		fxn: F2.once,
 		context: F2.Events,
 		params: new Perf.Factory(EventRegister.on, EventRegister)
 	}));
@@ -74,7 +74,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	testSuite.push(new Perf.Test({
 		section: section,
 		testname: "off",
-		fxn: F2.Events.off,
+		fxn: F2.off,
 		numTimes: EventRegister.length,
 		context: F2.Events,
 		params: new Perf.Factory(EventRegister.pop, EventRegister)

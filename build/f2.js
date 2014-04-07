@@ -3204,6 +3204,9 @@ _exports = undefined;
 
 			return _getLoadedApp(identifier);
 		},
+		isLoadedApp: function(identifier) {
+			return !!this.getLoadedApp(identifier);
+		},
 		addLoadListener: function(instanceId, callback) {
 			if (!_loadListeners[instanceId]) {
 				_loadListeners[instanceId] = [];
@@ -3326,7 +3329,7 @@ _exports = undefined;
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
 		else if (!instanceIsBeingLoaded) {
-			var instanceIsApp = ( !! LoadApps.getLoadedApp(instance));
+			var instanceIsApp = LoadApps.isLoadedApp(instance);
 			var instanceIsToken = Guid.isTrackedGuid(instance);
 
 			if (!instanceIsApp && !instanceIsToken) {
@@ -3368,7 +3371,7 @@ _exports = undefined;
 
 	function _unsubscribe(instance, name, handler) {
 		var handlerIsValid = (handler && _.isFunction(handler));
-		var instanceIsValid = (instance && ( !! LoadApps.getLoadedApp(instance) || Guid.isTrackedGuid(instance)));
+		var instanceIsValid = (instance && (LoadApps.isLoadedApp(instance) || Guid.isTrackedGuid(instance)));
 
 		var _i, matchesInstance, matchesHandler, namedSubs;
 
@@ -3413,37 +3416,37 @@ _exports = undefined;
 	// API
 	// ---------------------------------------------------------------------------
 
-	F2.prototype.Events = {
-		/**
-		 *
-		 * @method emit
-		 * @param {String} name The event name
-		 * @return void
-		 */
-		emit: function(name, filters, args) {
-			filters = filters || ['*'];
-			return _send(name, args, filters);
-		},
-		/**
-		 *
-		 * @method off
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		off: function(instance, name, handler) {
-			_unsubscribe(instance, name, handler);
-		},
-		/**
-		 *
-		 * @method on
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		on: function(instance, name, handler, timesToListen) {
-			_subscribe(instance, name, handler, timesToListen);
-		}
+	/**
+	 *
+	 * @method emit
+	 * @param {String} name The event name
+	 * @return void
+	 */
+	F2.prototype.emit = function(name, args, filters) {
+		filters = filters || ['*'];
+		return _send(name, args, filters);
+	};
+
+	/**
+	 *
+	 * @method off
+	 * @param {String} name The event name
+	 * @param {Function} handler Function to handle the event
+	 * @return void
+	 */
+	F2.prototype.off = function(instance, name, handler) {
+		_unsubscribe(instance, name, handler);
+	};
+
+	/**
+	 *
+	 * @method on
+	 * @param {String} name The event name
+	 * @param {Function} handler Function to handle the event
+	 * @return void
+	 */
+	F2.prototype.on = function(instance, name, handler, timesToListen) {
+		_subscribe(instance, name, handler, timesToListen);
 	};
 
 })(Helpers._, Helpers.LoadApps, Helpers.Guid);
@@ -3523,11 +3526,11 @@ _exports = undefined;
 
 	F2.prototype.loadPlaceholders = function(parentNode, callback) {
 		// Default to the body if no node was passed
-		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
+		if (!parentNode || !_.isNode(parentNode.nodeType)) {
 			parentNode = document.body;
 		}
 
-		if (!callback || (callback && !_.isFunction(callback))) {
+		if (!callback || (!_.isFunction(callback))) {
 			callback = noop;
 		}
 
@@ -3542,19 +3545,20 @@ _exports = undefined;
 			});
 
 			this.load(appConfigs, function(manifests) {
-				for (var i = 0, len = manifests.length; i < len; i++) {
-					if (!manifests[i].error && !placeholders[i].isPreload) {
+				manifests.forEach(function(manifest, i) {
+					if (!manifest.error && !placeholders[i].isPreload) {
 						placeholders[i].node.parentNode.replaceChild(
-							manifests[i].root,
+							manifest.root,
 							placeholders[i].node
 						);
 					}
-				}
+				});
 
 				callback(manifests);
 			});
 		}
 		else {
+			console.warn('F2: no placeholders were found inside', parentNode);
 			callback([]);
 		}
 	};
@@ -3586,7 +3590,7 @@ _exports = undefined;
 		}
 		else {
 			identifiers = [].concat(identifiers);
-		} 
+		}
 
 		for (var i = 0; i < identifiers.length; i++) {
 			var identifier = identifiers[i];
@@ -3611,7 +3615,7 @@ _exports = undefined;
 				}
 
 				// Automatically pull off events
-				this.Events.off(loaded.instance);
+				this.off(loaded.instance);
 
 				// Remove ourselves from the DOM
 				if (loaded.root && loaded.root.parentNode) {
@@ -3686,13 +3690,13 @@ define('F2.AppClass', ['F2'], function(F2) {
 				return F2.Events.many(name, timesToListen, handler, this);
 			},
 			off: function(name, handler) {
-				return F2.Events.off(name, handler, this);
+				return F2.off(name, handler, this);
 			},
 			on: function(name, handler) {
-				return F2.Events.on(name, handler, this);
+				return F2.on(name, handler, this);
 			},
 			once: function(name, handler) {
-				return F2.Events.once(name, handler, this);
+				return F2.once(name, handler, this);
 			}
 		},
 		reload: function(context) {

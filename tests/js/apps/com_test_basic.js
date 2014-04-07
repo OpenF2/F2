@@ -15,13 +15,13 @@
 		};
 
 		// Listen to some events for testing purposes
-		F2.Events.on(this, 'com_test_basic-args', this.handleArgs);
-		F2.Events.on(this, 'com_test_basic-context', this.handleContext);
-		F2.Events.on(this, 'com_test_basic-many', this.handleMany, 3);
-		F2.Events.on(this, 'com_test_basic-once', this.handleOnce, 1);
+		F2.on(this, 'com_test_basic-args', this.handleArgs);
+		F2.on(this, 'com_test_basic-context', this.handleContext);
+		F2.on(this, 'com_test_basic-many', this.handleMany, 3);
+		F2.on(this, 'com_test_basic-once', this.handleOnce, 1);
 
 		// Add an event that is listened to by multiple classes
-		F2.Events.on(this, 'generic_test_event', function() {
+		F2.on(this, 'generic_test_event', function() {
 			if (window.test.generic_test_event === undefined) {
 				window.test.generic_test_event = 0;
 			}

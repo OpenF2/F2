@@ -1,9 +1,7 @@
-{
+[{
 	"inlineScripts": [],
 	"scripts": ["com_example_d.layer.js"],
 	"styles": ["com_example_d.css"],
-	"apps": [{
-		"data": {},
-		"html": "<div class='com_example_d'><h1>App D</h1><button>Remove me</button></div>"
-	}]
-}
+	"data": {},
+	"html": "<div class='com_example_d'><h1>App D</h1><button>Remove me</button></div>"
+}]

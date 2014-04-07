@@ -20,14 +20,14 @@ define('com_example_b', ['F2', 'jquery-2.1', 'moment'], function(F2, $, moment) 
 
 			// Broadcast an event
 			$(this.root).on('click', '[data-action=event]', function() {
-				F2.Events.emit('PING', { sender: 'B', timestamp: new Date() }, [self.instanceId]);
+				F2.emit('PING', { sender: 'B', timestamp: new Date() }, [self.instanceId]);
 			});
 
 			// Listen for a PING event
-			F2.Events.on(this, 'PING', function(sender, timestamp) {
+			F2.on(this, 'PING', function(args) {
 				$(this.root).find('.output').append(
 					$('<li />').html(
-						'<strong>Pinged by ' + sender + ':</strong> ' + moment(timestamp).format('YYYY-M-D h:mm:ss a')
+						'<strong>Pinged by ' + args.sender + ':</strong> ' + moment(args.timestamp).format('YYYY-M-D h:mm:ss a')
 					)
 				);
 			});
