@@ -377,6 +377,7 @@ F2.extend('', (function() {
 						}
 					}
 				}
+				cb();
 			}
 		};
 
