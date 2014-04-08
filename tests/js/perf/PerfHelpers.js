@@ -29,7 +29,6 @@ define('PerfHelpers', ['F2'], function(F2) {
 			_context = null;
 
 			if(Context instanceof _factory) {
-				console.info(Context, Context.hasOwnProperty("ImAFactory"));
 				_context = Context.create();
 			}
 			else {
@@ -150,12 +149,32 @@ define('PerfHelpers', ['F2'], function(F2) {
 		}
 	}
 
+	var _PanelGenerator = function(Title) {
+		this.panel = document.createElement("DIV");
+		this.panel.className = "panel panel-default";
+		this.panel.innerHTML = "<div class='panel-heading'><h1 class='panel-title'>" +
+							Title + "</h1></div>";
+	}
+
+	_PanelGenerator.prototype.GeneratePanel = function() {
+		return this.panel;
+	}
+
+	_PanelGenerator.prototype.GenerateSection = function() {
+		section = document.createElement("DIV");
+		section.className = "panel-body";
+		this.panel.appendChild(section);
+		return section;
+	}
+
+
 	return {
 		runXTimes: _runXTimes,
 		Factory: _factory,
 		Test: _test,
 		Tree: _tree,
 		Feeder: _feeder,
-		ContainerToken: _oneTimeToken
+		ContainerToken: _oneTimeToken,
+		PanelGenerator: _PanelGenerator
 	};
 })

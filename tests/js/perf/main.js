@@ -9,11 +9,13 @@
 	require([
 		'js/perf/PerfHelpers.js',
 		'js/perf/F2.perf.js',
-		'js/perf/F2.Events.perf.js'
+		'js/perf/F2.Events.perf.js',
+		'js/perf/F2.UI.perf.js'
 		// Other than PerfHelpers, it should just be the data from their
 		// performance tests to pass to D3 or whatever.
-		], function(PerfHelpers, Core, Events) {
+		], function(PerfHelpers, Core, Events, UI) {
 			Core.run();
 			Events.run();
+			UI.run();
 		});
 })()
