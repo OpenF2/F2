@@ -500,7 +500,7 @@
 		},
 		getLoadedApp: function(identifier) {
 			if (!identifier) {
-				throw 'F2: invalid id';
+				return null;
 			}
 
 			return _getLoadedApp(identifier);
