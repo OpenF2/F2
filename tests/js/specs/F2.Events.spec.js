@@ -49,7 +49,7 @@
 
 			it('should pass arguments to event handler', function(done) {
 				F2.load(getConfigs('com_test_basic'), function(manifests) {
-					F2.emit('com_test_basic-args', [1, 2, 3]);
+					F2.emit('com_test_basic-args', 1, 2, 3);
 					expect(window.test.com_test_basic.eventArgs.length).toBe(3);
 					F2.unload(manifests);
 					done();
@@ -76,7 +76,7 @@
 
 			it('should not throw if passed an unknown filter', function() {
 				function attempt() {
-					F2.emit('test', null, ['asdf']);
+					F2.emit(['asdf'], 'test');
 				}
 
 				expect(attempt).not.toThrow();
@@ -84,7 +84,7 @@
 
 			it('should not throw if an empty array of filters is provided', function() {
 				function attempt() {
-					F2.emit('test', null, []);
+					F2.emit([], 'test');
 				}
 
 				expect(attempt).not.toThrow();
@@ -94,7 +94,7 @@
 				F2.load(getConfigs(['com_test_basic']), function(manifests) {
 					// Target both of the apps
 					// This should pass if both apps are fired
-					F2.emit('generic_test_event', null, []);
+					F2.emit([], 'generic_test_event');
 					expect(window.test.generic_test_event).not.toBeDefined();
 					F2.unload(manifests);
 					done();
@@ -104,7 +104,7 @@
 			it('should call handlers for a registered event with instanceId as a filter', function(done) {
 				F2.load(getConfigs(['com_test_duplicate', 'com_test_duplicate']), function(manifests) {
 					// Target one of the duplicate apps
-					F2.emit('generic_test_event', null, [manifests[0].instanceId]);
+					F2.emit([manifests[0].instanceId], 'generic_test_event');
 					expect(window.test.generic_test_event).toBe(1);
 					F2.unload(manifests);
 					done();
@@ -116,7 +116,7 @@
 
 				F2.load(configs, function(apps) {
 					// Target both of the apps
-					F2.emit('generic_test_event', null, ['com_test_duplicate']);
+					F2.emit(['com_test_duplicate'], 'generic_test_event');
 					expect(window.test.generic_test_event).toBe(2);
 					F2.unload(apps);
 					done();
@@ -128,8 +128,8 @@
 
 				F2.load(configs, function(apps) {
 					// Target both of the apps
-					// This should pass if both apps are fire4d
-					F2.emit('generic_test_event', null, ['com_test_duplicate', 'com_test_basic']);
+					// This should pass if both apps are fired
+					F2.emit(['com_test_duplicate', 'com_test_basic'], 'generic_test_event');
 					expect(window.test.generic_test_event).toBe(2);
 					F2.unload(apps);
 					done();

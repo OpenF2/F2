@@ -34,8 +34,8 @@
 		dispose: function() {
 			window.test.com_test_basic = undefined;
 		},
-		handleArgs: function(args) {
-			window.test.com_test_basic.eventArgs = args;
+		handleArgs: function() {
+			window.test.com_test_basic.eventArgs = Array.prototype.slice.call(arguments);
 		},
 		handleContext: function() {
 			window.test.com_test_basic.handlerContext = this;

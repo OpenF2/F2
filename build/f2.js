@@ -3286,7 +3286,9 @@ _exports = undefined;
 
 	function _send(name, args, filters) {
 		if (!name || !_.isString(name)) {
-			throw 'F2.Events: you must provide an event name to emit.';
+			throw new Error('F2.Events: ' +
+				'You need to provide an event name to emit.'
+			);
 		}
 
 		if (!filters) {
@@ -3308,7 +3310,7 @@ _exports = undefined;
 				});
 
 				if (!filters || appMatchesPattern(sub.instance, filters)) {
-					sub.handler.call(sub.instance, args);
+					sub.handler.apply(sub.instance, args);
 				}
 
 				// See if this is limited to a # of executions
@@ -3419,8 +3421,20 @@ _exports = undefined;
 	 * @param {String} name The event name
 	 * @return void
 	 */
-	F2.prototype.emit = function(name, args, filters) {
-		filters = filters || ['*'];
+	F2.prototype.emit = function(filters, name) {
+		var args = Array.prototype.slice.call(arguments, 2);
+
+		// If "filters" is a string then the user didn't actually pass any
+		// "filters" will be "name" and "name" will be the first param to the handler
+		if (_.isString(filters)) {
+			// Reassign the params
+			name = filters;
+			// Provide a default filter set
+			filters = ['*'];
+			// Recalculate the N-args
+			args = Array.prototype.slice.call(arguments, 1);
+		}
+
 		return _send(name, args, filters);
 	};
 
@@ -3744,7 +3758,5 @@ define('F2.AppClass', ['F2'], function(F2) {
 	define('F2', [], function() {
 		return new F2();
 	});
-
-	console.timeEnd('F2 - startup');
 
 })(window, document);
