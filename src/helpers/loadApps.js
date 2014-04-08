@@ -154,6 +154,8 @@
 								// Make sure we have certain properties
 								_.defaults({}, manifest, EMPTY_MANIFEST);
 
+								manifest.appConfig = appConfigs[i];
+
 								// Tack on the returned data
 								appsForRequest[i].data = manifest.data;
 								appsForRequest[i].html = manifest.html;
@@ -207,6 +209,48 @@
 		return str && str.trim();
 	}
 
+	// Combine the baseurl and path to get a single unified path
+	function _reconcilePaths(baseUrl, path) {
+		if (!path || !path.trim()) {
+			return null;
+		}
+
+		// See if the path is already fine
+		if (path.indexOf('//') !== -1) {
+			return path;
+		}
+
+		// Pull off the trailing action no matter what
+		baseUrl = baseUrl.substr(0, baseUrl.lastIndexOf('/') + 1);
+
+		// Create a regex that will match the current directory indicator (./)
+		var thisDirectoryMatcher = new RegExp(/^(\.\/)+/i);
+		var thisMatches = thisDirectoryMatcher.exec(path);
+
+		if (thisMatches) {
+			path = path.substr(2);
+		}
+		else {
+			// Create a regex that will match parent directory traversal (../)
+			var parentDirectoryMatcher = new RegExp(/^(\.\.\/)+/i);
+			var parentMatches = parentDirectoryMatcher.exec(path);
+
+			if (parentMatches && parentMatches.length) {
+				for (var i = 0; i < parentMatches.length - 1; i++) {
+					// Go "up" one directory on the base path
+					var lastSlash = baseUrl.lastIndexOf('/');
+					var secondLastSlash = baseUrl.lastIndexOf('/', lastSlash - 1);
+					baseUrl = baseUrl.substr(0, secondLastSlash + 1);
+
+					// Remove the leading "../"
+					path = path.substr(3);
+				}
+			}
+		}
+
+		return baseUrl + path;
+	}
+
 	// Pick out scripts, styles, inlineScripts, and dependencies from each AppManifest
 	function _getManifestParts(manifests) {
 		var dependencies = [];
@@ -227,10 +271,16 @@
 					}
 
 					if (_.isArray(manifests[i].scripts) && manifests[i].scripts.length) {
+						manifests[i].scripts = manifests[i].scripts.map(function(path) {
+							return _reconcilePaths(manifests[i].appConfig.manifestUrl, path);
+						});
 						scripts.push(manifests[i].scripts);
 					}
 
 					if (_.isArray(manifests[i].styles) && manifests[i].styles.length) {
+						manifests[i].styles = manifests[i].styles.map(function(path) {
+							return _reconcilePaths(manifests[i].appConfig.manifestUrl, path);
+						});
 						styles.push(manifests[i].styles);
 					}
 				}

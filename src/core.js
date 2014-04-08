@@ -25,7 +25,15 @@
 	// --------------------------------------------------------------------------
 
 	F2.prototype.config = function(config) {
-		if (config && this.validate(config, 'containerConfig')) {
+		if (_.isObject(config)) {
+			var fnProps = ['loadDependencies', 'loadInlineScripts', 'loadScripts', 'loadStyles'];
+
+			fnProps.forEach(function(prop) {
+				if (!config[prop] || _.isFunction(config[prop])) {
+					_config[prop] = config[prop];
+				}
+			});
+
 			_config = _.defaults({}, config, _config);
 		}
 

@@ -127,57 +127,6 @@
 			},
 			required: ['scripts', 'styles', 'inlineScripts']
 		},
-		containerConfig: {
-			id: 'containerConfig',
-			title: 'Container Config',
-			type: 'object',
-			properties: {
-				loadScripts: {
-					type: 'function'
-				},
-				loadStyles: {
-					type: 'function'
-				},
-				loadInlineScripts: {
-					type: 'function'
-				},
-				supportedViews: {
-					type: 'array',
-					items: {
-						type: 'string'
-					}
-				},
-				ui: {
-					type: 'object',
-					properties: {
-						modal: {
-							type: 'function'
-						},
-						toggleLoading: {
-							type: 'function'
-						}
-					}
-				},
-				xhr: {
-					type: 'object',
-					properties: {
-						dataType: {
-							type: 'object'
-						},
-						type: {
-							type: 'object'
-						},
-						url: {
-							type: 'object'
-						},
-						timeout: {
-							type: 'integer',
-							minimum: 0
-						}
-					}
-				}
-			}
-		},
 		uiModalParams: {
 			id: 'uiModalParams',
 			title: 'F2.UI Modal Parameters',

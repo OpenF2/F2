@@ -139,6 +139,48 @@
 				});
 			});
 
+			it('should change relative script/style paths to be absolute', function(done) {
+				var scriptsWorked = false;
+				var stylesWorked = false;
+
+				F2.config({
+					loadScripts: function(scripts, cb) {
+						scriptsWorked = (
+							scripts[0].indexOf('../') === -1 &&
+							scripts[1].indexOf('./') === -1 &&
+							scripts[2].indexOf('//') !== -1
+						);
+
+						require([scripts[0]], function() {
+							cb();
+						});
+					},
+					loadStyles: function(styles, cb) {
+						stylesWorked = styles[0].indexOf('../') === -1;
+						cb();
+					}
+				});
+
+				var configs = [{
+					appId: 'com_test_basic',
+					manifestUrl: '/apps/paths'
+				}];
+
+				F2.load(configs, function(manifests) {
+					expect(scriptsWorked).toBe(true);
+					expect(stylesWorked).toBe(true);
+					F2.unload(manifests);
+
+					// Undo our config
+					F2.config({
+						loadScripts: null,
+						loadStyles: null
+					});
+
+					done();
+				});
+			});
+
 			it('should load multiple unbatched apps on same domain', function(done) {
 				var configs = [{
 					appId: 'com_test_basic',
