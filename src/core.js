@@ -43,6 +43,10 @@
 			}
 
 			if (_.isObject(config.ui)) {
+				if (!_config.ui) {
+					_config.ui = {};
+				}
+
 				if (!config.ui.modal || _.isFunction(config.ui.modal)) {
 					_config.ui.modal = config.ui.modal;
 				}
@@ -51,8 +55,6 @@
 					_config.ui.toggleLoading = config.ui.toggleLoading;
 				}
 			}
-
-			_config = _.defaults({}, config, _config);
 		}
 
 		return _config;
