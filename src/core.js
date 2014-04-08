@@ -25,8 +25,36 @@
 	// --------------------------------------------------------------------------
 
 	F2.prototype.config = function(config) {
-		if (config && this.validate(config, 'containerConfig')) {
-			_config = _.defaults({}, config, _config);
+		if (_.isObject(config)) {
+			if (!config.loadDependencies || _.isFunction(config.loadDependencies)) {
+				_config.loadDependencies = config.loadDependencies;
+			}
+
+			if (!config.loadInlineScripts || _.isFunction(config.loadInlineScripts)) {
+				_config.loadInlineScripts = config.loadInlineScripts;
+			}
+
+			if (!config.loadScripts || _.isFunction(config.loadScripts)) {
+				_config.loadScripts = config.loadScripts;
+			}
+
+			if (!config.loadStyles || _.isFunction(config.loadStyles)) {
+				_config.loadStyles = config.loadStyles;
+			}
+
+			if (_.isObject(config.ui)) {
+				if (!_config.ui) {
+					_config.ui = {};
+				}
+
+				if (!config.ui.modal || _.isFunction(config.ui.modal)) {
+					_config.ui.modal = config.ui.modal;
+				}
+
+				if (!config.ui.toggleLoading || _.isFunction(config.ui.toggleLoading)) {
+					_config.ui.toggleLoading = config.ui.toggleLoading;
+				}
+			}
 		}
 
 		return _config;

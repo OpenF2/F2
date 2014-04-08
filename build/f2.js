@@ -2656,57 +2656,6 @@ _exports = undefined;
 			},
 			required: ['scripts', 'styles', 'inlineScripts']
 		},
-		containerConfig: {
-			id: 'containerConfig',
-			title: 'Container Config',
-			type: 'object',
-			properties: {
-				loadScripts: {
-					type: 'function'
-				},
-				loadStyles: {
-					type: 'function'
-				},
-				loadInlineScripts: {
-					type: 'function'
-				},
-				supportedViews: {
-					type: 'array',
-					items: {
-						type: 'string'
-					}
-				},
-				ui: {
-					type: 'object',
-					properties: {
-						modal: {
-							type: 'function'
-						},
-						toggleLoading: {
-							type: 'function'
-						}
-					}
-				},
-				xhr: {
-					type: 'object',
-					properties: {
-						dataType: {
-							type: 'object'
-						},
-						type: {
-							type: 'object'
-						},
-						url: {
-							type: 'object'
-						},
-						timeout: {
-							type: 'integer',
-							minimum: 0
-						}
-					}
-				}
-			}
-		},
 		uiModalParams: {
 			id: 'uiModalParams',
 			title: 'F2.UI Modal Parameters',
@@ -2903,6 +2852,8 @@ _exports = undefined;
 								// Make sure we have certain properties
 								_.defaults({}, manifest, EMPTY_MANIFEST);
 
+								manifest.appConfig = appConfigs[i];
+
 								// Tack on the returned data
 								appsForRequest[i].data = manifest.data;
 								appsForRequest[i].html = manifest.html;
@@ -2956,6 +2907,48 @@ _exports = undefined;
 		return str && str.trim();
 	}
 
+	// Combine the baseurl and path to get a single unified path
+	function _reconcilePaths(baseUrl, path) {
+		if (!path || !path.trim()) {
+			return null;
+		}
+
+		// See if the path is already fine
+		if (path.indexOf('//') !== -1) {
+			return path;
+		}
+
+		// Pull off the trailing action no matter what
+		baseUrl = baseUrl.substr(0, baseUrl.lastIndexOf('/') + 1);
+
+		// Create a regex that will match the current directory indicator (./)
+		var thisDirectoryMatcher = new RegExp(/^(\.\/)+/i);
+		var thisMatches = thisDirectoryMatcher.exec(path);
+
+		if (thisMatches) {
+			path = path.substr(2);
+		}
+		else {
+			// Create a regex that will match parent directory traversal (../)
+			var parentDirectoryMatcher = new RegExp(/^(\.\.\/)+/i);
+			var parentMatches = parentDirectoryMatcher.exec(path);
+
+			if (parentMatches && parentMatches.length) {
+				for (var i = 0; i < parentMatches.length - 1; i++) {
+					// Go "up" one directory on the base path
+					var lastSlash = baseUrl.lastIndexOf('/');
+					var secondLastSlash = baseUrl.lastIndexOf('/', lastSlash - 1);
+					baseUrl = baseUrl.substr(0, secondLastSlash + 1);
+
+					// Remove the leading "../"
+					path = path.substr(3);
+				}
+			}
+		}
+
+		return baseUrl + path;
+	}
+
 	// Pick out scripts, styles, inlineScripts, and dependencies from each AppManifest
 	function _getManifestParts(manifests) {
 		var dependencies = [];
@@ -2976,10 +2969,16 @@ _exports = undefined;
 					}
 
 					if (_.isArray(manifests[i].scripts) && manifests[i].scripts.length) {
+						manifests[i].scripts = manifests[i].scripts.map(function(path) {
+							return _reconcilePaths(manifests[i].appConfig.manifestUrl, path);
+						});
 						scripts.push(manifests[i].scripts);
 					}
 
 					if (_.isArray(manifests[i].styles) && manifests[i].styles.length) {
+						manifests[i].styles = manifests[i].styles.map(function(path) {
+							return _reconcilePaths(manifests[i].appConfig.manifestUrl, path);
+						});
 						styles.push(manifests[i].styles);
 					}
 				}
@@ -3478,8 +3477,36 @@ _exports = undefined;
 	// --------------------------------------------------------------------------
 
 	F2.prototype.config = function(config) {
-		if (config && this.validate(config, 'containerConfig')) {
-			_config = _.defaults({}, config, _config);
+		if (_.isObject(config)) {
+			if (!config.loadDependencies || _.isFunction(config.loadDependencies)) {
+				_config.loadDependencies = config.loadDependencies;
+			}
+
+			if (!config.loadInlineScripts || _.isFunction(config.loadInlineScripts)) {
+				_config.loadInlineScripts = config.loadInlineScripts;
+			}
+
+			if (!config.loadScripts || _.isFunction(config.loadScripts)) {
+				_config.loadScripts = config.loadScripts;
+			}
+
+			if (!config.loadStyles || _.isFunction(config.loadStyles)) {
+				_config.loadStyles = config.loadStyles;
+			}
+
+			if (_.isObject(config.ui)) {
+				if (!_config.ui) {
+					_config.ui = {};
+				}
+
+				if (!config.ui.modal || _.isFunction(config.ui.modal)) {
+					_config.ui.modal = config.ui.modal;
+				}
+
+				if (!config.ui.toggleLoading || _.isFunction(config.ui.toggleLoading)) {
+					_config.ui.toggleLoading = config.ui.toggleLoading;
+				}
+			}
 		}
 
 		return _config;

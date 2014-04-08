@@ -25,7 +25,7 @@ app.all('/apps/slow', function(req, res) {
 			data: context,
 			html: '<div></div>',
 			inlineScripts: [],
-			scripts: ['js/apps/' + configs[0].appId + '.js'],
+			scripts: ['../tests/js/apps/' + configs[0].appId + '.js'],
 			styles: []
 		}]);
 	}, 500);
@@ -45,8 +45,31 @@ app.all('/apps/single', function(req, res) {
 		data: context,
 		html: '<div></div>',
 		inlineScripts: [],
-		scripts: ['js/apps/' + configs[0].appId + '.js'],
+		scripts: ['../tests/js/apps/' + configs[0].appId + '.js'],
 		styles: []
+	}]);
+});
+
+// Try all sorts of script paths
+app.all('/apps/paths', function(req, res) {
+	var configs = JSON.parse(req.body.params);
+
+	if (!configs) {
+		configs = JSON.parse(req.params.params);
+	}
+
+	var context = configs[0].context || {};
+
+	res.json([{
+		data: context,
+		html: '<div></div>',
+		inlineScripts: [],
+		scripts: [
+			'../tests/js/apps/com_test_basic.js',
+			'./tests/js/apps/com_test_basic.js',
+			'//localhost:8080/tests/js/apps/com_test_basic.js'
+		],
+		styles: ['../tests/apps/css/com_test_basic.css']
 	}]);
 });
 
@@ -56,13 +79,13 @@ app.all('/apps/multiple', function(req, res) {
 		data: {},
 		html: '<div></div>',
 		inlineScripts: [],
-		scripts: ['js/apps/com_test_basic.js'],
+		scripts: ['../tests/js/apps/com_test_basic.js'],
 		styles: []
 	}, {
 		data: {},
 		html: '<div></div>',
 		inlineScripts: [],
-		scripts: ['js/apps/com_test_inherited.js'],
+		scripts: ['../tests/js/apps/com_test_inherited.js'],
 		styles: []
 	}]);
 });
@@ -79,13 +102,13 @@ app.all('/apps/duplicate', function(req, res) {
 		data: {},
 		html: '<div></div>',
 		inlineScripts: [],
-		scripts: ['js/apps/' + configs[0].appId + '.js'],
+		scripts: ['../tests/js/apps/' + configs[0].appId + '.js'],
 		styles: []
 	}, {
 		data: {},
 		html: '<div></div>',
 		inlineScripts: [],
-		scripts: ['js/apps/' + configs[0].appId + '.js'],
+		scripts: ['../tests/js/apps/' + configs[0].appId + '.js'],
 		styles: []
 	}]);
 });
@@ -96,7 +119,7 @@ app.all('/apps/single_jsonp', function(req, res) {
 		data: {},
 		html: '<div></div>',
 		inlineScripts: [],
-		scripts: ['js/apps/com_test_basic.js'],
+		scripts: ['../tests/js/apps/com_test_basic.js'],
 		styles: []
 	}]);
 });
@@ -108,7 +131,7 @@ app.all('/apps/single_jsonp_slow', function(req, res) {
 			data: {},
 			html: '<div></div>',
 			inlineScripts: [],
-			scripts: ['js/apps/com_test_basic.js'],
+			scripts: ['../tests/js/apps/com_test_basic.js'],
 			styles: []
 		}]);
 	}, 500);
@@ -119,7 +142,7 @@ app.all('/apps/data_app', function(req, res) {
 	res.json([{
 		data: {},
 		inlineScripts: [],
-		scripts: ['js/apps/com_test_basic.js'],
+		scripts: ['../tests/js/apps/com_test_basic.js'],
 		styles: []
 	}]);
 });
