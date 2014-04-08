@@ -177,7 +177,7 @@
 									// Look for aborted requests
 									requests.forEach(function(request) {
 										if (request.xhr.isAborted) {
-											_.each(request.apps, function(app) {
+											request.apps.forEach(function(app) {
 												app.isAborted = true;
 											});
 										}
@@ -231,7 +231,7 @@
 					}
 
 					if (_.isArray(manifests[i].styles) && manifests[i].styles.length) {
-						scripts.push(manifests[i].styles);
+						styles.push(manifests[i].styles);
 					}
 				}
 			}
@@ -454,6 +454,9 @@
 			}
 
 			return _getLoadedApp(identifier);
+		},
+		isLoadedApp: function(identifier) {
+			return !!this.getLoadedApp(identifier);
 		},
 		addLoadListener: function(instanceId, callback) {
 			if (!_loadListeners[instanceId]) {

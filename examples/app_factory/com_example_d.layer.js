@@ -18,7 +18,7 @@ define('com_example_d.layer', [], function() {
 
 				// Remove ourselves from the page
 				$(this.root).on('click', 'button', function() {
-					F2.remove(self);
+					F2.unload(self);
 				});
 			}
 		};

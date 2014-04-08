@@ -73,11 +73,11 @@
 
 	F2.prototype.loadPlaceholders = function(parentNode, callback) {
 		// Default to the body if no node was passed
-		if (!parentNode || !parentNode.nodeType || parentNode.nodeType !== 1) {
+		if (!parentNode || !_.isNode(parentNode)) {
 			parentNode = document.body;
 		}
 
-		if (!callback || (callback && !_.isFunction(callback))) {
+		if (!callback || (!_.isFunction(callback))) {
 			callback = noop;
 		}
 
@@ -92,19 +92,20 @@
 			});
 
 			this.load(appConfigs, function(manifests) {
-				for (var i = 0, len = manifests.length; i < len; i++) {
-					if (!manifests[i].error && !placeholders[i].isPreload) {
+				manifests.forEach(function(manifest, i) {
+					if (!manifest.error && !placeholders[i].isPreload) {
 						placeholders[i].node.parentNode.replaceChild(
-							manifests[i].root,
+							manifest.root,
 							placeholders[i].node
 						);
 					}
-				}
+				});
 
 				callback(manifests);
 			});
 		}
 		else {
+			console.warn('F2: no placeholders were found inside', parentNode);
 			callback([]);
 		}
 	};
@@ -127,7 +128,7 @@
 	 * @method remove
 	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
 	 */
-	F2.prototype.remove = function(identifiers) {
+	F2.prototype.unload = function(identifiers) {
 		var args = Array.prototype.slice.apply(arguments);
 
 		// See if multiple parameters were passed
@@ -136,7 +137,7 @@
 		}
 		else {
 			identifiers = [].concat(identifiers);
-		} 
+		}
 
 		for (var i = 0; i < identifiers.length; i++) {
 			var identifier = identifiers[i];
@@ -161,7 +162,7 @@
 				}
 
 				// Automatically pull off events
-				this.Events.off(loaded.instance);
+				this.off(loaded.instance);
 
 				// Remove ourselves from the DOM
 				if (loaded.root && loaded.root.parentNode) {

@@ -15,19 +15,19 @@ define('com_example_c', ['F2', 'jquery-2.1', 'moment'], function(F2, $, moment) 
 
 			// Remove ourselves from the page
 			$(this.root).on('click', '[data-action=remove]', function() {
-				F2.remove(self);
+				F2.unload(self);
 			});
 
 			// Broadcast an event
 			$(this.root).on('click', '[data-action=event]', function() {
-				F2.Events.emit('PING', 'C', new Date());
+				F2.emit('PING', { sender: 'C', timestamp: new Date() });
 			});
 
 			// Listen for a PING event
-			F2.Events.on(this, 'PING', function(sender, timestamp) {
+			F2.on(this, 'PING', function(args) {
 				$(this.root).find('.output').append(
 					$('<li />').html(
-						'<strong>Pinged by ' + sender + ':</strong> ' + moment(timestamp).format('YYYY-M-D h:mm:ss a')
+						'<strong>Pinged by ' + args.sender + ':</strong> ' + moment(args.timestamp).format('YYYY-M-D h:mm:ss a')
 					)
 				);
 			});

@@ -1,16 +1,14 @@
-{
+[{
 	"inlineScripts": [],
 	"scripts": ["com_example_c.js"],
 	"styles": ["com_example_c.css"],
-	"apps": [{
-		"data": {},
-		"html":
-			"<div class='com_example_c'>" +
-				"<h1>App C</h1>" +
-				"<p>I'm a social butterfly. I'll talk to anyone who will listen.</p>" +
-				"<button data-action='remove'>Remove me</button>" +
-				"<button data-action='event'>Send event</button>" +
-				"<ul class='output'></ul>" +
-			"</div>"
-	}]
-}
+	"data": {},
+	"html":
+		"<div class='com_example_c'>" +
+			"<h1>App C</h1>" +
+			"<p>I'm a social butterfly. I'll talk to anyone who will listen.</p>" +
+			"<button data-action='remove'>Remove me</button>" +
+			"<button data-action='event'>Send event</button>" +
+			"<ul class='output'></ul>" +
+		"</div>"
+}]

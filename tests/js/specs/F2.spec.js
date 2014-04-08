@@ -109,7 +109,7 @@
 
 				F2.load(configs, function(manifests) {
 					expect(manifests.length).toBe(1);
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -134,7 +134,7 @@
 
 				F2.load(configs, function(manifests) {
 					expect(window.test.com_test_basic).toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -151,7 +151,7 @@
 				F2.load(configs, function(manifests) {
 					expect(window.test.com_test_basic).toBeDefined();
 					expect(window.test.com_test_inherited).toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -170,8 +170,8 @@
 				F2.load(configs, function(manifests) {
 					expect(window.test.com_test_basic).toBeDefined();
 					expect(window.test.com_test_inherited).toBeDefined();
-					F2.remove(window.test.com_test_basic.instanceId);
-					F2.remove(window.test.com_test_inherited.instanceId);
+					F2.unload(window.test.com_test_basic.instanceId);
+					F2.unload(window.test.com_test_inherited.instanceId);
 					done();
 				});
 			});
@@ -191,7 +191,7 @@
 					var id1 = window.test.com_test_duplicate[0].instanceId;
 					var id2 = window.test.com_test_duplicate[1].instanceId;
 					expect(id1).not.toBe(id2);
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -204,7 +204,7 @@
 
 				F2.load(configs, function(manifests) {
 					expect(window.test.com_test_basic).toBeDefined();
-					F2.remove(manifests);
+					F2.unload(manifests);
 					done();
 				});
 			});
@@ -224,7 +224,7 @@
 					expect(id1).toBeDefined();
 					expect(id2).toBeDefined();
 					expect(id1).not.toBe(id2);
-					F2.remove(id1, id2);
+					F2.unload(id1, id2);
 					done();
 				});
 			});
@@ -318,7 +318,7 @@
 				}];
 
 				F2.load(configs, function(manifests) {
-					F2.remove(manifests);
+					F2.unload(manifests);
 					expect(window.test.com_test_basic).not.toBeDefined();
 					expect(window.test.com_test_inherited).not.toBeDefined();
 					done();
@@ -332,7 +332,7 @@
 				}];
 
 				F2.load(configs, function(manifests) {
-					F2.remove(manifests);
+					F2.unload(manifests);
 					expect(window.test.com_test_basic).not.toBeDefined();
 					done();
 				});
@@ -345,7 +345,7 @@
 				}];
 
 				F2.load(configs, function(manifests) {
-					F2.remove(manifests[0].instanceId);
+					F2.unload(manifests[0].instanceId);
 					expect(window.test.com_test_basic).not.toBeDefined();
 					done();
 				});
@@ -358,7 +358,7 @@
 				}];
 
 				F2.load(configs, function(manifests) {
-					F2.remove(manifests[0].root);
+					F2.unload(manifests[0].root);
 					expect(window.test.com_test_basic).not.toBeDefined();
 					done();
 				});
@@ -371,8 +371,8 @@
 				}];
 
 				F2.load(configs, function(manifests) {
-					F2.remove(manifests);
-					F2.Events.emit('com_test_basic-context');
+					F2.unload(manifests);
+					F2.emit('com_test_basic-context');
 					expect(window.test.com_test_basic).not.toBeDefined();
 					done();
 				});
@@ -380,7 +380,7 @@
 
 			it('should not throw if an instance can\'t be found', function() {
 				function attempt() {
-					F2.remove(123);
+					F2.unload(123);
 				}
 
 				expect(attempt).not.toThrow();
@@ -394,7 +394,7 @@
 
 				F2.load(configs, function(manifests) {
 					function attempt() {
-						F2.remove(manifests);
+						F2.unload(manifests);
 					}
 
 					expect(attempt).not.toThrow();

@@ -33,7 +33,7 @@
 	// Utils
 	// ---------------------------------------------------------------------------
 
-	function _send(name, filters, args) {
+	function _send(name, args, filters) {
 		if (!name || !_.isString(name)) {
 			throw 'F2.Events: you must provide an event name to emit.';
 		}
@@ -57,7 +57,7 @@
 				});
 
 				if (!filters || appMatchesPattern(sub.instance, filters)) {
-					sub.handler.apply(sub.instance, args);
+					sub.handler.call(sub.instance, args);
 				}
 
 				// See if this is limited to a # of executions
@@ -75,7 +75,7 @@
 			throw 'F2.Events: you must provide an app instance or container token.';
 		}
 		else if (!instanceIsBeingLoaded) {
-			var instanceIsApp = (!!LoadApps.getLoadedApp(instance));
+			var instanceIsApp = LoadApps.isLoadedApp(instance);
 			var instanceIsToken = Guid.isTrackedGuid(instance);
 
 			if (!instanceIsApp && !instanceIsToken) {
@@ -117,8 +117,7 @@
 
 	function _unsubscribe(instance, name, handler) {
 		var handlerIsValid = (handler && _.isFunction(handler));
-		var instanceIsValid = (instance && (
-			!!LoadApps.getLoadedApp(instance) || Guid.isTrackedGuid(instance)));
+		var instanceIsValid = (instance && (LoadApps.isLoadedApp(instance) || Guid.isTrackedGuid(instance)));
 
 		var _i, matchesInstance, matchesHandler, namedSubs;
 
@@ -139,16 +138,15 @@
 				matchesInstance = namedSubs[_i].instance === instance;
 				matchesHandler = namedSubs[_i].handler === handler;
 
-				if ( matchesInstance &&
-						(!handlerIsValid) ||
-						(handlerIsValid && matchesHandler) 
-					) 
-				{
+				if (matchesInstance &&
+					(!handlerIsValid) ||
+					(handlerIsValid && matchesHandler)
+				) {
 					namedSubs.splice(_i, 1);
 				}
 				// Do some garbage collection, otherwise the
 				// subs object only grows and lookups take forever
-				if( namedSubs.length === 0 ) {
+				if (namedSubs.length === 0) {
 					delete _subs[name];
 				}
 			}
@@ -164,62 +162,37 @@
 	// API
 	// ---------------------------------------------------------------------------
 
-	F2.prototype.Events = {
-		/**
-		 *
-		 * @method emit
-		 * @param {String} name The event name
-		 * @return void
-		 */
-		emit: function(name) {
-			var args = Array.prototype.slice.call(arguments, 1);
-			return _send(name, ['*'], args);
-		},
-		emitTo: function(filters, name) {
-			var args = Array.prototype.slice.call(arguments, 2);
-			return _send(name, filters, args);
-		},
-		/**
-		 *
-		 * @method many
-		 * @param {String} name The event name
-		 * @param {Number} timesToListen The number of times the handler should be fired
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		many: function(instance, name, timesToListen, handler) {
-			_subscribe(instance, name, handler, timesToListen);
-		},
-		/**
-		 *
-		 * @method off
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		off: function(instance, name, handler) {
-			_unsubscribe(instance, name, handler);
-		},
-		/**
-		 *
-		 * @method on
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		on: function(instance, name, handler) {
-			return this.many(instance, name, undefined, handler);
-		},
-		/**
-		 *
-		 * @method once
-		 * @param {String} name The event name
-		 * @param {Function} handler Function to handle the event
-		 * @return void
-		 */
-		once: function(instance, name, handler) {
-			return this.many(instance, name, 1, handler);
-		}
+	/**
+	 *
+	 * @method emit
+	 * @param {String} name The event name
+	 * @return void
+	 */
+	F2.prototype.emit = function(name, args, filters) {
+		filters = filters || ['*'];
+		return _send(name, args, filters);
+	};
+
+	/**
+	 *
+	 * @method off
+	 * @param {String} name The event name
+	 * @param {Function} handler Function to handle the event
+	 * @return void
+	 */
+	F2.prototype.off = function(instance, name, handler) {
+		_unsubscribe(instance, name, handler);
+	};
+
+	/**
+	 *
+	 * @method on
+	 * @param {String} name The event name
+	 * @param {Function} handler Function to handle the event
+	 * @return void
+	 */
+	F2.prototype.on = function(instance, name, handler, timesToListen) {
+		_subscribe(instance, name, handler, timesToListen);
 	};
 
 })(Helpers._, Helpers.LoadApps, Helpers.Guid);
