@@ -88,26 +88,37 @@ define('PerfHelpers', ['F2'], function(F2) {
 		this.root.appendChild(this.Title);
 		this.root.appendChild(this.resultNode);
 		this.section.appendChild(this.root);
+		ProgressBar.newTest();
 	}
 
 	_test.prototype.run = function() {
 		self = this;
+		var callback = arguments[0] || function() {};
+		var params = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
+
 		if(self.timeout) {
 			clearTimeout(self.timeout);
 		}
 		if( !self.deferUntilTrue() ) {
-			self.timeout = setTimeout(self.run.bind(self), 2000);
+			self.timeout = setTimeout(self.run.bind(self), 2000, callback, params);
 		}
 		else {
-			self.timeout = setTimeout(self._run.bind(self));
+			self.timeout = setTimeout(self._run.bind(self), 0, callback, params);
 		}
 	}
 
 	_test.prototype._run = function() {
+
+		var callback = arguments[0] || function() {};
+		var params = arguments[1] || [];
+
 		this.resultTime = _runXTimes.apply(this, this.params);
 		this.ran = true;
 		this.resultNode.innerHTML = this.resultTime + "ms";
 		this.resultNode.className = "";
+		ProgressBar.finishedTest();
+
+		callback.apply(window, params);
 	}
 
 	var _tree = function(NumChildren, Depth, ChildrenApplier) {
@@ -167,6 +178,28 @@ define('PerfHelpers', ['F2'], function(F2) {
 		return section;
 	}
 
+	var _progressBar = function() {
+		this.numTests = 0;
+		this.finishedTests = 0;
+		this.bar = document.getElementsByClassName("progress-bar")[0];
+		this.text = this.bar.getElementsByTagName("span")[0];
+	}
+
+	_progressBar.prototype.newTest = function() {
+		++this.numTests;
+	}
+
+ 	_progressBar.prototype.finishedTest = function() {
+ 		++this.finishedTests;
+ 		var percent = parseInt(this.finishedTests / this.numTests * 100);
+ 		this.bar.style.width = percent + "%";
+ 		this.text.innerHTML = percent + "% Complete";
+ 		if( percent === 100) {
+ 			this.bar.parentNode.style.display = "none";
+ 		}
+ 	}
+
+ 	var ProgressBar = new _progressBar();
 
 	return {
 		runXTimes: _runXTimes,

@@ -165,16 +165,18 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 		fxn: F2.validate,
 		context: F2,
 		params: [myAppConfig, "appConfig"]
-	}))
+	}));
 
-	var run = function( ) {
-		var _i, _length;
+	var _run = function() {
+		var index = arguments[0] || 0;
+		var nextIndex = index + 1;
+		if(index >= testSuite.length) { return; }
+		setTimeout(testSuite[index].run.bind(testSuite[index]), 0, _run, nextIndex);
+	}
 
+	var run = function() {
 		document.getElementsByClassName("container-fluid")[0].appendChild(panel);
-
-		for(_i = 0, _length = testSuite.length; _i < _length; ++_i) {
-			setTimeout(testSuite[_i].run.bind(testSuite[_i]), 100);
-		}
+		_run(0);
 	}
 
 	return {
