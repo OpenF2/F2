@@ -27,12 +27,17 @@
 					F2.emit();
 				}
 
+				function attempt2() {
+					F2.emit([]);
+				}
+
 				expect(attempt).toThrow();
+				expect(attempt2).toThrow();
 			});
 
 			it('should not throw if passed an unrecognized event name', function() {
 				function attempt() {
-					F2.emit('__test-undefined__', {});
+					F2.emit('__test-undefined__');
 				}
 
 				expect(attempt).not.toThrow();
