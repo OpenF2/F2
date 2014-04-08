@@ -3,6 +3,4 @@
 		return new F2();
 	});
 
-	console.timeEnd('F2 - startup');
-
 })(window, document);

@@ -1,8 +1,6 @@
 (function(window, document, undefined) {
 	'use strict'
 
-	console.time('F2 - startup');
-
 	// Define AMD modules
 	if (typeof define !== 'function' || !define.amd) {
 		throw 'F2 did not detect an AMD loader.';
