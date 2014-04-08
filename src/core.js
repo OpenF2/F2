@@ -26,13 +26,31 @@
 
 	F2.prototype.config = function(config) {
 		if (_.isObject(config)) {
-			var fnProps = ['loadDependencies', 'loadInlineScripts', 'loadScripts', 'loadStyles'];
+			if (!config.loadDependencies || _.isFunction(config.loadDependencies)) {
+				_config.loadDependencies = config.loadDependencies;
+			}
 
-			fnProps.forEach(function(prop) {
-				if (!config[prop] || _.isFunction(config[prop])) {
-					_config[prop] = config[prop];
+			if (!config.loadInlineScripts || _.isFunction(config.loadInlineScripts)) {
+				_config.loadInlineScripts = config.loadInlineScripts;
+			}
+
+			if (!config.loadScripts || _.isFunction(config.loadScripts)) {
+				_config.loadScripts = config.loadScripts;
+			}
+
+			if (!config.loadStyles || _.isFunction(config.loadStyles)) {
+				_config.loadStyles = config.loadStyles;
+			}
+
+			if (_.isObject(config.ui)) {
+				if (!config.ui.modal || _.isFunction(config.ui.modal)) {
+					_config.ui.modal = config.ui.modal;
 				}
-			});
+
+				if (!config.ui.toggleLoading || _.isFunction(config.ui.toggleLoading)) {
+					_config.ui.toggleLoading = config.ui.toggleLoading;
+				}
+			}
 
 			_config = _.defaults({}, config, _config);
 		}
