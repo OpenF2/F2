@@ -56,6 +56,39 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 
 	testSuite.push(new Perf.Test({
 		section: section,
+		testname: "emit to with registered 'on's",
+		fxn: F2.emit,
+		context: F2.Events,
+		params: ["generic_test_event"]
+	}));
+
+	testSuite.push(new Perf.Test({
+		section: section,
+		testname: "emit (filtered) with registered 'on's",
+		fxn: F2.emit,
+		context: F2.Events,
+		params: ["performance_test_event", null, ["com_test_*"]]
+	}));
+
+	testSuite.push(new Perf.Test({
+		section: section,
+		testname: "emit (filtered on ^([^:]+)+$ )",
+		fxn: F2.emit,
+		context: F2.Events,
+		params: ["performance_test_event", null, ["^([^:]+)+$"]]
+	}));
+
+	testSuite.push(new Perf.Test({
+		section: section,
+		testname: "emit (filtered on (x+x+)+y )",
+		fxn: F2.emit,
+		context: F2.Events,
+		params: ["performance_test_event", null, ["(x+x+)+y"]]
+	}));
+
+
+	testSuite.push(new Perf.Test({
+		section: section,
 		testname: "off",
 		fxn: F2.off,
 		numTimes: EventRegister.length,
