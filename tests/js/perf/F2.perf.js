@@ -60,6 +60,7 @@ define(['F2', 'PerfHelpers'], function(F2, Perf) {
 	testSuite.push(new Perf.Test({
 		section: section,
 		testname: "guid",
+		numTimes: 1e6,
 		fxn: F2.config,
 		context: F2.new(),
 		params: []
