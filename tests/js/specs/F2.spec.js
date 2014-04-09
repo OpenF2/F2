@@ -8,7 +8,7 @@
 
 		describe('config', function() {
 
-			it('should accept arbitrary keys', function() {
+			it('should not throw with unrecognized keys', function() {
 				function set() {
 					F2.config({
 						__test__: true
@@ -19,15 +19,7 @@
 			});
 
 			it('should return current config when called', function() {
-				// Test when passing in obj
-				var _config = F2.config({
-					__test2__: true
-				});
-				expect(_config.__test2__).toBeDefined();
-
-				// Test with no params
-				_config = F2.config();
-				expect(_config.__test2__).toBeDefined();
+				expect(F2.config()).toBeDefined();
 			});
 
 		});
@@ -348,7 +340,7 @@
 
 		});
 
-		describe('remove', function() {
+		describe('unload', function() {
 
 			it('should allow multiple apps to be removed at once', function(done) {
 				var configs = [{

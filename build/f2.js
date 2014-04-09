@@ -1,8 +1,6 @@
 (function(window, document, undefined) {
 	'use strict'
 
-	console.time('F2 - startup');
-
 	// Define AMD modules
 	if (typeof define !== 'function' || !define.amd) {
 		throw 'F2 did not detect an AMD loader.';
@@ -1999,9 +1997,6 @@ _exports = undefined;
 (function() {
 
 	Helpers._ = {
-		identity: function(value) {
-			return value;
-		},
 		defaults: function(obj) {
 			Array.prototype.slice.call(arguments, 1).forEach(function(source) {
 				if (source) {
@@ -3198,7 +3193,7 @@ _exports = undefined;
 		},
 		getLoadedApp: function(identifier) {
 			if (!identifier) {
-				throw 'F2: invalid id';
+				return null;
 			}
 
 			return _getLoadedApp(identifier);
@@ -3288,35 +3283,34 @@ _exports = undefined;
 
 	function _send(name, args, filters) {
 		if (!name || !_.isString(name)) {
-			throw 'F2.Events: you must provide an event name to emit.';
+			throw new TypeError('F2: ' +
+				'You need to provide an event name to emit.'
+			);
 		}
 
-		if (!filters) {
-			throw 'F2.Events: you must provide an array of filters.';
-		}
-
-		if (!_.isArray(filters)) {
-			filters = [filters];
+		if (filters && _.isArray(filters) && !filters.every(_.isString)) {
+			throw new TypeError('F2: ' +
+				'Your "emit" filters must either be an AppId or an InstanceId.'
+			);
 		}
 
 		if (_subs[name]) {
-			var len = _subs[name].length;
-
-			while (len--) {
-				var sub = _subs[name][len];
-				// Strip out the bogus filters
-				filters = filters.filter(function(filter) {
-					return !!filter;
-				});
+			for (var i = 0; i < _subs[name].length; i++) {
+				var sub = _subs[name][i];
 
 				if (!filters || appMatchesPattern(sub.instance, filters)) {
-					sub.handler.call(sub.instance, args);
+					sub.handler.apply(sub.instance, args);
 				}
 
 				// See if this is limited to a # of executions
 				if (sub.timesLeft !== undefined && --sub.timesLeft === 0) {
-					_subs[name].splice(len, 1);
+					_subs[name].splice(i--, 1);
 				}
+			}
+
+			// Clear out the list if there's no one left
+			if (!_subs[name].length) {
+				delete _subs[name];
 			}
 		}
 	}
@@ -3325,27 +3319,37 @@ _exports = undefined;
 		var instanceIsBeingLoaded = (instance && LoadApps.isRealInstanceId(instance.instanceId));
 
 		if (!instance) {
-			throw 'F2.Events: you must provide an app instance or container token.';
+			throw new TypeError('F2: ' +
+				'Your "instance" must be an app loaded via F2 or the container token.'
+			);
 		}
 		else if (!instanceIsBeingLoaded) {
 			var instanceIsApp = LoadApps.isLoadedApp(instance);
 			var instanceIsToken = Guid.isTrackedGuid(instance);
 
 			if (!instanceIsApp && !instanceIsToken) {
-				throw 'F2.Events: "instance" must be an app instance or a container token.';
+				throw new TypeError('F2: ' +
+					'Your "instance" must be an app loaded via F2 or the container token.'
+				);
 			}
 		}
 
 		if (!name) {
-			throw 'F2.Events: you must provide an event name.';
+			throw new TypeError('F2: ' +
+				'You must provide the "name" of the event to which you\'re subscribing.'
+			);
 		}
 
 		if (!handler) {
-			throw 'F2.Events: you must provide an event handler.';
+			throw new TypeError('F2: ' +
+				'You must provide a "handler" that will fire when your event is triggered.'
+			);
 		}
 
 		if (timesToListen !== undefined && isNaN(timesToListen) || timesToListen < 1) {
-			throw 'F2.Events: "timesToListen" must be a number greater than 0.';
+			throw new TypeError('F2: ' +
+				'If passed, "timesToListen" must be a number greater than 0.'
+			);
 		}
 
 		// Create the event if we haven't seen it
@@ -3375,11 +3379,15 @@ _exports = undefined;
 		var _i, matchesInstance, matchesHandler, namedSubs;
 
 		if (!handlerIsValid && !instanceIsValid) {
-			throw 'F2.Events: "off" requires at least an instance or handler.';
+			throw new TypeError('F2: ' +
+				'The "off" function requires an app instance, InstanceId, or the container token'
+			);
 		}
 
 		if (name && !_.isString(name)) {
-			throw 'F2.Events: "name" must be a string if it is passed';
+			throw new TypeError('F2: ' +
+				'If passed, "name" must be a string.'
+			);
 		}
 
 		// Create a local reference to reduce access time:
@@ -3421,8 +3429,20 @@ _exports = undefined;
 	 * @param {String} name The event name
 	 * @return void
 	 */
-	F2.prototype.emit = function(name, args, filters) {
-		filters = filters || ['*'];
+	F2.prototype.emit = function(filters, name) {
+		var args = Array.prototype.slice.call(arguments, 2);
+
+		// If "filters" is a string then the user didn't actually pass any
+		// "filters" will be "name" and "name" will be the first param to the handler
+		if (_.isString(filters)) {
+			// Reassign the params
+			name = filters;
+			// Provide a default filter set
+			filters = ['*'];
+			// Recalculate the N-args
+			args = Array.prototype.slice.call(arguments, 1);
+		}
+
 		return _send(name, args, filters);
 	};
 
@@ -3746,7 +3766,5 @@ define('F2.AppClass', ['F2'], function(F2) {
 	define('F2', [], function() {
 		return new F2();
 	});
-
-	console.timeEnd('F2 - startup');
 
 })(window, document);

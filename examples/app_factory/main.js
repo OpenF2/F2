@@ -14,6 +14,8 @@ require.config({
 
 require(['F2', 'jquery'], function(F2, $) {
 
+	var token = F2.onetimeToken();
+
 	// Pick up the placeholders
 	F2.loadPlaceholders();
 
@@ -36,27 +38,21 @@ require(['F2', 'jquery'], function(F2, $) {
 		}
 	};
 
-	// Find the first available place we can place an app
-	function getAvailableBucket() {
-		var $buckets = $('.bucket');
-
-		for (var i = 0; i < $buckets.length; i++) {
-			var $bucket = $buckets.eq(i);
-			if (!$bucket.children().length) {
-				return $bucket;
-			}
-		}
-	}
+	F2.on(token, 'unload', function(root) {
+		$(root).parent().remove();
+		F2.unload(root);
+	});
 
 	// Add some events for loading apps
 	$('.page-header').on('click', '[data-load]', function(e) {
 		var target = e.currentTarget;
 		var appId = target.getAttribute('data-load');
-		var $bucket = getAvailableBucket();
 
-		if (appId in appConfigs && $bucket) {
+		if (appId in appConfigs) {
 			F2.load([appConfigs[appId]], function(manifests) {
-				$bucket.append(manifests[0].root);
+				$('.app-container').append(
+					$('<div class="bucket col-md-4" />').append(manifests[0].root)
+				);
 			});
 		}
 	});
