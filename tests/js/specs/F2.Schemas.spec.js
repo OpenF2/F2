@@ -36,7 +36,7 @@
 			it('should throw if a duplicate schema name is added', function() {
 				function attempt() {
 					F2.addSchema('test1', {});
-				}
+				};
 
 				expect(attempt).toThrow();
 			});
@@ -44,7 +44,15 @@
 			it('should throw if no schema name is specified', function() {
 				function attempt() {
 					F2.addSchema(null, {});
-				}
+				};
+
+				expect(attempt).toThrow();
+			});
+
+			it('should throw if the schema name is not a string', function() {
+				function attempt() {
+					F2.addSchema({}, {});
+				};
 
 				expect(attempt).toThrow();
 			});
@@ -52,7 +60,15 @@
 			it('should throw if no schema definition is specified', function() {
 				function attempt() {
 					F2.addSchema('test3');
-				}
+				};
+
+				expect(attempt).toThrow();
+			});
+
+			it('should throw if the schema definition is not an object', function() {
+				function attempt() {
+					F2.addSchema('test4', 0);
+				};
 
 				expect(attempt).toThrow();
 			});
@@ -60,6 +76,13 @@
 		});
 
 		describe('hasSchema', function() {
+
+			it('should throw if the schema name is not a string', function() {
+				function attempt() {
+					F2.hasSchema({});
+				};
+				expect(attempt).toThrow();
+			});
 
 			it('should return true if checking a registered schema name', function() {
 				var defined = F2.hasSchema('appConfig');
@@ -128,6 +151,22 @@
 			it('should throw if the schema name is unrecognized', function() {
 				function attempt() {
 					F2.validate({}, 'nothing');
+				}
+
+				expect(attempt).toThrow();
+			});
+
+			it('should throw if the schema name is not a string', function() {
+				function attempt() {
+					F2.validate({}, {});
+				}
+
+				expect(attempt).toThrow();
+			});
+
+			it('should throw if the object to validate is not an object', function() {
+				function attempt() {
+					F2.validate("", "appConfig");
 				}
 
 				expect(attempt).toThrow();
