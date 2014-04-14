@@ -22,6 +22,74 @@
 				expect(F2.config()).toBeDefined();
 			});
 
+			it('should not set loadDependencies if the config.loadDependencies is not a function', function() {
+				var resetConfig = F2.config({
+					loadDependencies: null
+				});
+				var setConfig = F2.config({
+					loadDependencies: ""
+				});
+				expect(setConfig.loadDependencies).toBe(null);
+			});
+
+			it('should not set loadInlineScripts if the config.loadInlineScripts is not a function', function() {
+				var resetConfig = F2.config({
+					loadInlineScripts: null
+				});
+				var setConfig = F2.config({
+					loadInlineScripts: ""
+				});
+				expect(setConfig.loadInlineScripts).toBe(null);
+			});
+
+			it('should not set loadScripts if the config.loadScripts is not a function', function() {
+				var resetConfig = F2.config({
+					loadScripts: null
+				});
+				var setConfig = F2.config({
+					loadScripts: ""
+				});
+				expect(setConfig.loadScripts).toBe(null);
+			});
+
+			it('should not set loadStyles if the config.loadStyles is not a function', function() {
+				var resetConfig = F2.config({
+					loadStyles: null
+				});
+				var setConfig = F2.config({
+					loadStyles: ""
+				});
+				expect(setConfig.loadStyles).toBe(null);
+			});
+
+			it('should not set ui.modal if the config.ui.modal is not a function', function() {
+				var resetConfig = F2.config({
+					ui: {
+						modal: null
+					}
+				});
+				var setConfig = F2.config({
+					ui: {
+						modal: ""
+					}
+				});
+				expect(setConfig.ui.modal).toBe(null);
+			});
+
+			it('should not set ui.toggleLoading if the config.ui.toggleLoading is not a function', function() {
+				var resetConfig = F2.config({
+					ui: {
+						toggleLoading: null
+					}
+				});
+				var setConfig = F2.config({
+					ui: {
+						toggleLoading: ""
+					}
+				});
+				expect(setConfig.ui.toggleLoading).toBe(null);
+			});
+
 		});
 
 		describe('guid', function() {
@@ -174,6 +242,9 @@
 			});
 
 			it('should load multiple unbatched apps on same domain', function(done) {
+
+				console.info(F2.config());
+
 				var configs = [{
 					appId: 'com_test_basic',
 					manifestUrl: '/apps/single'

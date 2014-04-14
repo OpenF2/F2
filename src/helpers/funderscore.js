@@ -51,6 +51,9 @@
 		isObject: function(test) {
 			return test === Object(test);
 		},
+		isNull: function(test) {
+			return test === null;
+		},
 		pluck: function(list, property) {
 			var props = [];
 

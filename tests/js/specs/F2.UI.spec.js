@@ -3,6 +3,7 @@
 	describe('F2.UI', function() {
 
 		beforeEach(function() {
+			F2 = F2.new();
 			window.test = {
 				ui: {}
 			};

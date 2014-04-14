@@ -25,20 +25,23 @@
 	// --------------------------------------------------------------------------
 
 	F2.prototype.config = function(config) {
+		var isSettable = function(test) {
+			return _.isNull(test) || _.isFunction(test);
+		};
 		if (_.isObject(config)) {
-			if (!config.loadDependencies || _.isFunction(config.loadDependencies)) {
+			if (isSettable(config.loadDependencies)) {
 				_config.loadDependencies = config.loadDependencies;
 			}
 
-			if (!config.loadInlineScripts || _.isFunction(config.loadInlineScripts)) {
+			if (isSettable(config.loadInlineScripts)) {
 				_config.loadInlineScripts = config.loadInlineScripts;
 			}
 
-			if (!config.loadScripts || _.isFunction(config.loadScripts)) {
+			if (isSettable(config.loadScripts)) {
 				_config.loadScripts = config.loadScripts;
 			}
 
-			if (!config.loadStyles || _.isFunction(config.loadStyles)) {
+			if (isSettable(config.loadStyles)) {
 				_config.loadStyles = config.loadStyles;
 			}
 
@@ -47,11 +50,11 @@
 					_config.ui = {};
 				}
 
-				if (!config.ui.modal || _.isFunction(config.ui.modal)) {
+				if (isSettable(config.ui.modal)) {
 					_config.ui.modal = config.ui.modal;
 				}
 
-				if (!config.ui.toggleLoading || _.isFunction(config.ui.toggleLoading)) {
+				if (isSettable(config.ui.toggleLoading)) {
 					_config.ui.toggleLoading = config.ui.toggleLoading;
 				}
 			}
