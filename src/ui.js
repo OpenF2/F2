@@ -24,7 +24,7 @@
 			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
-				if (!root || (root && root.nodeType === 1)) {
+				if (_.isNull(root) || (root && root.nodeType === 1)) {
 					config.ui.toggleLoading(root);
 				}
 				else {
