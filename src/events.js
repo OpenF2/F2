@@ -86,15 +86,15 @@
 			}
 		}
 
-		if (!name) {
+		if (!_.isString(name)) {
 			throw new TypeError('F2: ' +
-				'You must provide the "name" of the event to which you\'re subscribing.'
+				'You must provide a "name" string of the event to which you\'re subscribing.'
 			);
 		}
 
-		if (!handler) {
+		if (!_.isFunction(handler)) {
 			throw new TypeError('F2: ' +
-				'You must provide a "handler" that will fire when your event is triggered.'
+				'You must provide a "handler" function that will be called when your event is fired.'
 			);
 		}
 
@@ -156,12 +156,12 @@
 					(handlerIsValid && matchesHandler)
 				) {
 					namedSubs.splice(_i, 1);
-				}
-				// Do some garbage collection, otherwise the
-				// subs object only grows and lookups take forever
-				if (namedSubs.length === 0) {
-					delete _subs[name];
-				}
+				}	
+			}
+			// Do some garbage collection, otherwise the
+			// subs object only grows and lookups take forever
+			if (namedSubs.length === 0) {
+				delete _subs[name];
 			}
 		}
 		else {

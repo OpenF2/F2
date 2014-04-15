@@ -263,10 +263,32 @@
 				});
 			});
 
+			it('should throw if name is not a string', function(done){
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
+					function attempt() {
+						F2.on(window.test.com_test_basic.instance, {}, function() { });
+					}
+					expect(attempt).toThrow();
+					F2.unload(manifests);
+					done();
+				});
+			});
+
 			it('should throw if no handler is passed', function(done) {
 				F2.load(getConfigs('com_test_basic'), function(manifests) {
 					function attempt() {
 						F2.on(window.test.com_test_basic.instance, "test", null);
+					}
+					expect(attempt).toThrow();
+					F2.unload(manifests);
+					done();
+				});
+			});
+
+			it('should throw if name is not a function', function(done){
+				F2.load(getConfigs('com_test_basic'), function(manifests) {
+					function attempt() {
+						F2.on(window.test.com_test_basic.instance, "test", { apply: function() {}});
 					}
 					expect(attempt).toThrow();
 					F2.unload(manifests);

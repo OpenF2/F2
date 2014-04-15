@@ -2044,6 +2044,16 @@ _exports = undefined;
 		isNull: function(test) {
 			return test === null;
 		},
+		isNullOrUndefined: function(object, propertyName) {
+			if(typeof propertyName !== 'string') {
+				return object === undefined ||
+						object === null;
+			}
+			return (object.hasOwnProperty(propertyName)) ?
+				object[propertyName] === undefined ||
+				object[propertyName] === null :
+			false;
+		},
 		pluck: function(list, property) {
 			var props = [];
 
@@ -3337,15 +3347,15 @@ _exports = undefined;
 			}
 		}
 
-		if (!name) {
+		if (!_.isString(name)) {
 			throw new TypeError('F2: ' +
-				'You must provide the "name" of the event to which you\'re subscribing.'
+				'You must provide a "name" string of the event to which you\'re subscribing.'
 			);
 		}
 
-		if (!handler) {
+		if (!_.isFunction(handler)) {
 			throw new TypeError('F2: ' +
-				'You must provide a "handler" that will fire when your event is triggered.'
+				'You must provide a "handler" function that will be called when your event is fired.'
 			);
 		}
 
@@ -3407,12 +3417,12 @@ _exports = undefined;
 					(handlerIsValid && matchesHandler)
 				) {
 					namedSubs.splice(_i, 1);
-				}
-				// Do some garbage collection, otherwise the
-				// subs object only grows and lookups take forever
-				if (namedSubs.length === 0) {
-					delete _subs[name];
-				}
+				}	
+			}
+			// Do some garbage collection, otherwise the
+			// subs object only grows and lookups take forever
+			if (namedSubs.length === 0) {
+				delete _subs[name];
 			}
 		}
 		else {
@@ -3500,23 +3510,23 @@ _exports = undefined;
 	// --------------------------------------------------------------------------
 
 	F2.prototype.config = function(config) {
-		var isSettable = function(test) {
-			return _.isNull(test) || _.isFunction(test);
+		var isSettable = function(obj, propName) {
+			return _.isNullOrUndefined(obj, propName) || _.isFunction(obj[propName]);
 		};
 		if (_.isObject(config)) {
-			if (isSettable(config.loadDependencies)) {
+			if (isSettable(config, 'loadDependencies')) {
 				_config.loadDependencies = config.loadDependencies;
 			}
 
-			if (isSettable(config.loadInlineScripts)) {
+			if (isSettable(config, 'loadInlineScripts')) {
 				_config.loadInlineScripts = config.loadInlineScripts;
 			}
 
-			if (isSettable(config.loadScripts)) {
+			if (isSettable(config, 'loadScripts')) {
 				_config.loadScripts = config.loadScripts;
 			}
 
-			if (isSettable(config.loadStyles)) {
+			if (isSettable(config, 'loadStyles')) {
 				_config.loadStyles = config.loadStyles;
 			}
 
@@ -3525,11 +3535,11 @@ _exports = undefined;
 					_config.ui = {};
 				}
 
-				if (isSettable(config.ui.modal)) {
+				if (isSettable(config.ui, 'modal')) {
 					_config.ui.modal = config.ui.modal;
 				}
 
-				if (isSettable(config.ui.toggleLoading)) {
+				if (isSettable(config.ui, 'toggleLoading')) {
 					_config.ui.toggleLoading = config.ui.toggleLoading;
 				}
 			}
@@ -3712,7 +3722,7 @@ _exports = undefined;
 			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
-				if (_.isNull(root) || (root && root.nodeType === 1)) {
+				if (_.isNullOrUndefined(root) || _.isNode(root)) {
 					config.ui.toggleLoading(root);
 				}
 				else {

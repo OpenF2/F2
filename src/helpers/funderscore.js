@@ -54,6 +54,16 @@
 		isNull: function(test) {
 			return test === null;
 		},
+		isNullOrUndefined: function(object, propertyName) {
+			if(typeof propertyName !== 'string') {
+				return object === undefined ||
+						object === null;
+			}
+			return (object.hasOwnProperty(propertyName)) ?
+				object[propertyName] === undefined ||
+				object[propertyName] === null :
+			false;
+		},
 		pluck: function(list, property) {
 			var props = [];
 

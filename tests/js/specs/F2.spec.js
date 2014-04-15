@@ -73,6 +73,7 @@
 						modal: ""
 					}
 				});
+				console.info("A: ", setConfig.ui.modal)
 				expect(setConfig.ui.modal).toBe(null);
 			});
 
@@ -242,9 +243,6 @@
 			});
 
 			it('should load multiple unbatched apps on same domain', function(done) {
-
-				console.info(F2.config());
-
 				var configs = [{
 					appId: 'com_test_basic',
 					manifestUrl: '/apps/single'
