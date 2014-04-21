@@ -23,8 +23,7 @@
 	// --------------------------------------------------------------------------
 	// API
 	// --------------------------------------------------------------------------
-
-	F2.prototype.config = function(config) {
+	var _prototype_config = function(config) {
 		var isSettable = function(obj, propName) {
 			return _.isNullOrUndefined(obj, propName) || _.isFunction(obj[propName]);
 		};
@@ -63,6 +62,12 @@
 		return _config;
 	};
 
+	Object.defineProperty(F2.prototype, 'config', {
+		value : _prototype_config,
+		writable : false,
+		configurable : false
+	});
+
 	/**
 	 * Generates an RFC4122 v4 compliant id
 	 * @method guid
@@ -70,11 +75,17 @@
 	 * @for F2
 	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 	 */
-	F2.prototype.guid = function() {
+	var _prototype_guid = function() {
 		return Guid.guid();
 	};
 
-	F2.prototype.load = function(appConfigs, callback) {
+	Object.defineProperty(F2.prototype, 'guid', {
+		value : _prototype_guid,
+		writable : false,
+		configurable : false
+	});
+
+	var _prototype_load = function(appConfigs, callback) {
 		if (!_.isArray(appConfigs) || !appConfigs.length) {
 			throw 'F2: no appConfigs passed to "load"';
 		}
@@ -102,7 +113,13 @@
 		};
 	};
 
-	F2.prototype.loadPlaceholders = function(parentNode, callback) {
+	Object.defineProperty(F2.prototype, 'load', {
+		value : _prototype_load,
+		writable : false,
+		configurable : false
+	});
+
+	var _prototype_loadPlaceholders = function(parentNode, callback) {
 		// Default to the body if no node was passed
 		if (!parentNode || !_.isNode(parentNode)) {
 			parentNode = document.body;
@@ -141,25 +158,59 @@
 		}
 	};
 
-	F2.prototype.new = function(params) {
+	Object.defineProperty(F2.prototype, 'loadPlaceholders', {
+		value : _prototype_loadPlaceholders,
+		writable : false,
+		configurable : false
+	});
+
+	var _prototype_new = function(params) {
 		// Wrap up the output in a function to prevent prototype tampering
 		return (function(params) {
 			return new F2(params);
 		})();
 	};
 
-	F2.prototype.onetimeToken = function() {
-		this.onetimeToken = tokenKiller;
+	Object.defineProperty(F2.prototype, 'new', {
+		value : _prototype_new,
+		writable : false,
+		configurable : false
+	});
 
+	var _prototype_onetimeToken = function() {
+		/*
+		* When doing a property lookup, the lookup chain first looks at
+		* properties on the object, then properties on the object's 
+		* prototype. The first time "onetimeToken" gets invoked the F2
+		* object, it does not have the property on itself, but rather on
+		* its prototype; the prototypical version gets run. The prototype
+		* then adds a version onto the instantiated object that subsequent
+		* calls will hit first in the lookup chain. That new instantiated 
+		* version throws the error.
+		*/
+		if(!this.hasOwnProperty('onetimeToken')) {
+			Object.defineProperty(this, 'onetimeToken', { 
+				value : tokenKiller,
+				writable : false,
+				configurable : false
+			});
+		}
+		
 		return Guid.trackedGuid();
 	};
+
+	Object.defineProperty(F2.prototype, 'onetimeToken', {
+		value : _prototype_onetimeToken,
+		writable : false,
+		configurable : false
+	});
 
 	/**
 	 * Removes an app from the container
 	 * @method remove
 	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
 	 */
-	F2.prototype.unload = function(identifiers) {
+	var _prototype_unload = function(identifiers) {
 		var args = Array.prototype.slice.apply(arguments);
 
 		// See if multiple parameters were passed
@@ -208,5 +259,11 @@
 			}
 		}
 	};
+
+	Object.defineProperty(F2.prototype, 'unload', {
+		value : _prototype_unload,
+		writable : false,
+		configurable : false
+	});
 
 })(Helpers.LoadApps, Helpers._, Helpers.Guid, Helpers.AppPlaceholders);

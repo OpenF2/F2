@@ -1,24 +1,44 @@
 (function() {
 
-	F2.prototype.Constants = {
-		EVENTS: {
-			// TODO: do we need this?
-			APP_SYMBOL_CHANGE: '__appSymbolChange__',
-			// TODO: do we need this?
-			APP_WIDTH_CHANGE: '__appWidthChange__',
-			// TODO: do we need this?
-			CONTAINER_SYMBOL_CHANGE: '__containerSymbolChange__',
-			// TODO: do we need this?
-			CONTAINER_WIDTH_CHANGE: '__containerWidthChange__'
+	var EVENTS = {},
+		VIEWS = {};
+
+	/*
+	* writable and configurable are false by default.
+	*/
+
+	Object.defineProperty(EVENTS, 'APP_SYMBOL_CHANGE',
+		{ value: '__appSymbolChange__'});
+	Object.defineProperty(EVENTS, 'APP_WIDTH_CHANGE', 
+		{ value: '__appWidthChange__'});
+	Object.defineProperty(EVENTS, 'CONTAINER_SYMBOL_CHANGE', 
+		{ value: '__containerSymbolChange__'});
+	Object.defineProperty(EVENTS, 'APP_SYMBOL_CHANGE', 
+		{ value: '__appSymbolChange__'});
+
+	Object.defineProperty(VIEWS, 'ABOUT', 
+		{ value: 'about'});
+	Object.defineProperty(VIEWS, 'DATA_ATTRIBUTE', 
+		{ value: 'data-f2-view'});
+	Object.defineProperty(VIEWS, 'HELP', 
+		{ value: 'help'});
+	Object.defineProperty(VIEWS, 'HOME', 
+		{ value: 'home'});
+	Object.defineProperty(VIEWS, 'REMOVE', 
+		{ value: 'remove'});
+	Object.defineProperty(VIEWS, 'SETTINGS', 
+		{ value: 'settings'});
+
+
+	// Leave the constants open for development,
+	// but keep the default immutable.
+	Object.defineProperty(F2.prototype, 'Constants', {
+		value : {
+			EVENTS: EVENTS,
+			VIEWS: VIEWS
 		},
-		VIEWS: {
-			ABOUT: 'about',
-			DATA_ATTRIBUTE: 'data-f2-view',
-			HELP: 'help',
-			HOME: 'home',
-			REMOVE: 'remove',
-			SETTINGS: 'settings'
-		}
-	};
+		writable : true,
+		configurable : true
+	});
 
 })();

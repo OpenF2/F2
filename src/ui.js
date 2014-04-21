@@ -4,8 +4,7 @@
  */
 (function(_) {
 
-	F2.prototype.UI = {
-		modal: function(params) {
+	var _prototype_UI_modal = function(params) {
 			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.modal)) {
@@ -19,8 +18,9 @@
 			else {
 				console.error('F2.UI: The container has not defined ui.modal.');
 			}
-		},
-		toggleLoading: function(root) {
+		};
+
+	var _prototype_UI_toggleLoading = function(root) {
 			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
@@ -34,7 +34,15 @@
 			else {
 				console.error('F2.UI: The container has not defined ui.toggleLoading.');
 			}
-		}
-	};
+		};
+
+	Object.defineProperty(F2.prototype, 'UI', {
+		value : {
+			modal : _prototype_UI_modal,
+			toggleLoading : _prototype_UI_toggleLoading
+		},
+		writable : false,
+		configurable : false
+	});
 
 })(Helpers._);

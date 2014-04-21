@@ -2512,26 +2512,46 @@ _exports = undefined;
 
 (function() {
 
-	F2.prototype.Constants = {
-		EVENTS: {
-			// TODO: do we need this?
-			APP_SYMBOL_CHANGE: '__appSymbolChange__',
-			// TODO: do we need this?
-			APP_WIDTH_CHANGE: '__appWidthChange__',
-			// TODO: do we need this?
-			CONTAINER_SYMBOL_CHANGE: '__containerSymbolChange__',
-			// TODO: do we need this?
-			CONTAINER_WIDTH_CHANGE: '__containerWidthChange__'
+	var EVENTS = {},
+		VIEWS = {};
+
+	/*
+	* writable and configurable are false by default.
+	*/
+
+	Object.defineProperty(EVENTS, 'APP_SYMBOL_CHANGE',
+		{ value: '__appSymbolChange__'});
+	Object.defineProperty(EVENTS, 'APP_WIDTH_CHANGE', 
+		{ value: '__appWidthChange__'});
+	Object.defineProperty(EVENTS, 'CONTAINER_SYMBOL_CHANGE', 
+		{ value: '__containerSymbolChange__'});
+	Object.defineProperty(EVENTS, 'APP_SYMBOL_CHANGE', 
+		{ value: '__appSymbolChange__'});
+
+	Object.defineProperty(VIEWS, 'ABOUT', 
+		{ value: 'about'});
+	Object.defineProperty(VIEWS, 'DATA_ATTRIBUTE', 
+		{ value: 'data-f2-view'});
+	Object.defineProperty(VIEWS, 'HELP', 
+		{ value: 'help'});
+	Object.defineProperty(VIEWS, 'HOME', 
+		{ value: 'home'});
+	Object.defineProperty(VIEWS, 'REMOVE', 
+		{ value: 'remove'});
+	Object.defineProperty(VIEWS, 'SETTINGS', 
+		{ value: 'settings'});
+
+
+	// Leave the constants open for development,
+	// but keep the default immutable.
+	Object.defineProperty(F2.prototype, 'Constants', {
+		value : {
+			EVENTS: EVENTS,
+			VIEWS: VIEWS
 		},
-		VIEWS: {
-			ABOUT: 'about',
-			DATA_ATTRIBUTE: 'data-f2-view',
-			HELP: 'help',
-			HOME: 'home',
-			REMOVE: 'remove',
-			SETTINGS: 'settings'
-		}
-	};
+		writable : true,
+		configurable : true
+	});
 
 })();
 
@@ -2557,7 +2577,7 @@ _exports = undefined;
 		}
 	};
 
-	F2.prototype.addSchema = function(name, json) {
+	var _prototype_addSchema = function(name, json) {
 		if (!_.isString(name)) {
 			throw ERRORS.BAD_NAME();
 		}
@@ -2575,7 +2595,14 @@ _exports = undefined;
 		return true;
 	};
 
-	F2.prototype.hasSchema = Helpers.hasSchema = function(name) {
+	Object.defineProperty(F2.prototype, 'addSchema', {
+		value : _prototype_addSchema,
+		writable : false,
+		configurable : false
+	});
+
+
+	Helpers.hasSchema = function(name) {
 		if (!_.isString(name)) {
 			throw ERRORS.BAD_NAME();
 		}
@@ -2583,7 +2610,13 @@ _exports = undefined;
 		return !!tv4.getSchema(name);
 	};
 
-	F2.prototype.validate = Helpers.validate = function(json, name) {
+	Object.defineProperty(F2.prototype, 'hasSchema', {
+		value : Helpers.hasSchema,
+		writable : false,
+		configurable : false
+	});
+
+	Helpers.validate = function(json, name) {
 		if (!_.isString(name)) {
 			throw ERRORS.BAD_NAME();
 		}
@@ -2600,6 +2633,12 @@ _exports = undefined;
 
 		return tv4.validate(json, schema);
 	};
+
+	Object.defineProperty(F2.prototype, 'validate', {
+		value : Helpers.validate,
+		writable : false,
+		configurable : false
+	});
 
 	// Hard code some predefined schemas
 	var librarySchemas = {
@@ -3442,7 +3481,7 @@ _exports = undefined;
 	 * @param {String} name The event name
 	 * @return void
 	 */
-	F2.prototype.emit = function(filters, name) {
+	var _prototype_emit = function(filters, name) {
 		var args = Array.prototype.slice.call(arguments, 2);
 
 		// If "filters" is a string then the user didn't actually pass any
@@ -3459,6 +3498,12 @@ _exports = undefined;
 		return _send(name, args, filters);
 	};
 
+	Object.defineProperty(F2.prototype, 'emit', {
+		value : _prototype_emit,
+		writable : false,
+		configurable : false
+	});
+
 	/**
 	 *
 	 * @method off
@@ -3466,9 +3511,15 @@ _exports = undefined;
 	 * @param {Function} handler Function to handle the event
 	 * @return void
 	 */
-	F2.prototype.off = function(instance, name, handler) {
+	var _prototype_off = function(instance, name, handler) {
 		_unsubscribe(instance, name, handler);
 	};
+
+	Object.defineProperty(F2.prototype, 'off', {
+		value : _prototype_off,
+		writable : false,
+		configurable : false
+	});
 
 	/**
 	 *
@@ -3477,9 +3528,16 @@ _exports = undefined;
 	 * @param {Function} handler Function to handle the event
 	 * @return void
 	 */
-	F2.prototype.on = function(instance, name, handler, timesToListen) {
+	var _prototype_on = function(instance, name, handler, timesToListen) {
 		_subscribe(instance, name, handler, timesToListen);
 	};
+
+	Object.defineProperty(F2.prototype, 'on', {
+		value : _prototype_on,
+		writable : false,
+		configurable : false
+	});
+
 
 })(Helpers._, Helpers.LoadApps, Helpers.Guid);
 
@@ -3508,8 +3566,7 @@ _exports = undefined;
 	// --------------------------------------------------------------------------
 	// API
 	// --------------------------------------------------------------------------
-
-	F2.prototype.config = function(config) {
+	var _prototype_config = function(config) {
 		var isSettable = function(obj, propName) {
 			return _.isNullOrUndefined(obj, propName) || _.isFunction(obj[propName]);
 		};
@@ -3548,6 +3605,12 @@ _exports = undefined;
 		return _config;
 	};
 
+	Object.defineProperty(F2.prototype, 'config', {
+		value : _prototype_config,
+		writable : false,
+		configurable : false
+	});
+
 	/**
 	 * Generates an RFC4122 v4 compliant id
 	 * @method guid
@@ -3555,11 +3618,17 @@ _exports = undefined;
 	 * @for F2
 	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 	 */
-	F2.prototype.guid = function() {
+	var _prototype_guid = function() {
 		return Guid.guid();
 	};
 
-	F2.prototype.load = function(appConfigs, callback) {
+	Object.defineProperty(F2.prototype, 'guid', {
+		value : _prototype_guid,
+		writable : false,
+		configurable : false
+	});
+
+	var _prototype_load = function(appConfigs, callback) {
 		if (!_.isArray(appConfigs) || !appConfigs.length) {
 			throw 'F2: no appConfigs passed to "load"';
 		}
@@ -3587,7 +3656,13 @@ _exports = undefined;
 		};
 	};
 
-	F2.prototype.loadPlaceholders = function(parentNode, callback) {
+	Object.defineProperty(F2.prototype, 'load', {
+		value : _prototype_load,
+		writable : false,
+		configurable : false
+	});
+
+	var _prototype_loadPlaceholders = function(parentNode, callback) {
 		// Default to the body if no node was passed
 		if (!parentNode || !_.isNode(parentNode)) {
 			parentNode = document.body;
@@ -3626,25 +3701,59 @@ _exports = undefined;
 		}
 	};
 
-	F2.prototype.new = function(params) {
+	Object.defineProperty(F2.prototype, 'loadPlaceholders', {
+		value : _prototype_loadPlaceholders,
+		writable : false,
+		configurable : false
+	});
+
+	var _prototype_new = function(params) {
 		// Wrap up the output in a function to prevent prototype tampering
 		return (function(params) {
 			return new F2(params);
 		})();
 	};
 
-	F2.prototype.onetimeToken = function() {
-		this.onetimeToken = tokenKiller;
+	Object.defineProperty(F2.prototype, 'new', {
+		value : _prototype_new,
+		writable : false,
+		configurable : false
+	});
 
+	var _prototype_onetimeToken = function() {
+		/*
+		* When doing a property lookup, the lookup chain first looks at
+		* properties on the object, then properties on the object's 
+		* prototype. The first time "onetimeToken" gets invoked the F2
+		* object, it does not have the property on itself, but rather on
+		* its prototype; the prototypical version gets run. The prototype
+		* then adds a version onto the instantiated object that subsequent
+		* calls will hit first in the lookup chain. That new instantiated 
+		* version throws the error.
+		*/
+		if(!this.hasOwnProperty('onetimeToken')) {
+			Object.defineProperty(this, 'onetimeToken', { 
+				value : tokenKiller,
+				writable : false,
+				configurable : false
+			});
+		}
+		
 		return Guid.trackedGuid();
 	};
+
+	Object.defineProperty(F2.prototype, 'onetimeToken', {
+		value : _prototype_onetimeToken,
+		writable : false,
+		configurable : false
+	});
 
 	/**
 	 * Removes an app from the container
 	 * @method remove
 	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
 	 */
-	F2.prototype.unload = function(identifiers) {
+	var _prototype_unload = function(identifiers) {
 		var args = Array.prototype.slice.apply(arguments);
 
 		// See if multiple parameters were passed
@@ -3694,6 +3803,12 @@ _exports = undefined;
 		}
 	};
 
+	Object.defineProperty(F2.prototype, 'unload', {
+		value : _prototype_unload,
+		writable : false,
+		configurable : false
+	});
+
 })(Helpers.LoadApps, Helpers._, Helpers.Guid, Helpers.AppPlaceholders);
 
 /**
@@ -3702,8 +3817,7 @@ _exports = undefined;
  */
 (function(_) {
 
-	F2.prototype.UI = {
-		modal: function(params) {
+	var _prototype_UI_modal = function(params) {
 			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.modal)) {
@@ -3717,8 +3831,9 @@ _exports = undefined;
 			else {
 				console.error('F2.UI: The container has not defined ui.modal.');
 			}
-		},
-		toggleLoading: function(root) {
+		};
+
+	var _prototype_UI_toggleLoading = function(root) {
 			var config = F2.prototype.config.call(this);
 
 			if (config.ui && _.isFunction(config.ui.toggleLoading)) {
@@ -3732,8 +3847,16 @@ _exports = undefined;
 			else {
 				console.error('F2.UI: The container has not defined ui.toggleLoading.');
 			}
-		}
-	};
+		};
+
+	Object.defineProperty(F2.prototype, 'UI', {
+		value : {
+			modal : _prototype_UI_modal,
+			toggleLoading : _prototype_UI_toggleLoading
+		},
+		writable : false,
+		configurable : false
+	});
 
 })(Helpers._);
 

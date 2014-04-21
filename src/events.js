@@ -181,7 +181,7 @@
 	 * @param {String} name The event name
 	 * @return void
 	 */
-	F2.prototype.emit = function(filters, name) {
+	var _prototype_emit = function(filters, name) {
 		var args = Array.prototype.slice.call(arguments, 2);
 
 		// If "filters" is a string then the user didn't actually pass any
@@ -198,6 +198,12 @@
 		return _send(name, args, filters);
 	};
 
+	Object.defineProperty(F2.prototype, 'emit', {
+		value : _prototype_emit,
+		writable : false,
+		configurable : false
+	});
+
 	/**
 	 *
 	 * @method off
@@ -205,9 +211,15 @@
 	 * @param {Function} handler Function to handle the event
 	 * @return void
 	 */
-	F2.prototype.off = function(instance, name, handler) {
+	var _prototype_off = function(instance, name, handler) {
 		_unsubscribe(instance, name, handler);
 	};
+
+	Object.defineProperty(F2.prototype, 'off', {
+		value : _prototype_off,
+		writable : false,
+		configurable : false
+	});
 
 	/**
 	 *
@@ -216,8 +228,15 @@
 	 * @param {Function} handler Function to handle the event
 	 * @return void
 	 */
-	F2.prototype.on = function(instance, name, handler, timesToListen) {
+	var _prototype_on = function(instance, name, handler, timesToListen) {
 		_subscribe(instance, name, handler, timesToListen);
 	};
+
+	Object.defineProperty(F2.prototype, 'on', {
+		value : _prototype_on,
+		writable : false,
+		configurable : false
+	});
+
 
 })(Helpers._, Helpers.LoadApps, Helpers.Guid);

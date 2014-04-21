@@ -20,7 +20,7 @@
 		}
 	};
 
-	F2.prototype.addSchema = function(name, json) {
+	var _prototype_addSchema = function(name, json) {
 		if (!_.isString(name)) {
 			throw ERRORS.BAD_NAME();
 		}
@@ -38,7 +38,14 @@
 		return true;
 	};
 
-	F2.prototype.hasSchema = Helpers.hasSchema = function(name) {
+	Object.defineProperty(F2.prototype, 'addSchema', {
+		value : _prototype_addSchema,
+		writable : false,
+		configurable : false
+	});
+
+
+	Helpers.hasSchema = function(name) {
 		if (!_.isString(name)) {
 			throw ERRORS.BAD_NAME();
 		}
@@ -46,7 +53,13 @@
 		return !!tv4.getSchema(name);
 	};
 
-	F2.prototype.validate = Helpers.validate = function(json, name) {
+	Object.defineProperty(F2.prototype, 'hasSchema', {
+		value : Helpers.hasSchema,
+		writable : false,
+		configurable : false
+	});
+
+	Helpers.validate = function(json, name) {
 		if (!_.isString(name)) {
 			throw ERRORS.BAD_NAME();
 		}
@@ -63,6 +76,12 @@
 
 		return tv4.validate(json, schema);
 	};
+
+	Object.defineProperty(F2.prototype, 'validate', {
+		value : Helpers.validate,
+		writable : false,
+		configurable : false
+	});
 
 	// Hard code some predefined schemas
 	var librarySchemas = {

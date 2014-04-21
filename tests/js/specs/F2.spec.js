@@ -73,7 +73,6 @@
 						modal: ""
 					}
 				});
-				console.info("A: ", setConfig.ui.modal)
 				expect(setConfig.ui.modal).toBe(null);
 			});
 
