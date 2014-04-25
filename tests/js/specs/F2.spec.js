@@ -1,8 +1,10 @@
-﻿define(['F2'], function(F2) {
+﻿define(['F2', 'testHelpers'], function(F2, testHelpers) {
 
 	describe('F2', function() {
 
 		beforeEach(function() {
+			spyOn(console, 'error');
+			spyOn(console, 'warn');
 			window.test = {};
 		});
 
@@ -10,7 +12,7 @@
 
 			it('should not throw with unrecognized keys', function() {
 				function set() {
-					F2.config({
+					F2.config(testHelpers.containerToken, {
 						__test__: true
 					});
 				}
@@ -23,52 +25,52 @@
 			});
 
 			it('should not set loadDependencies if the config.loadDependencies is not a function', function() {
-				var resetConfig = F2.config({
+				var resetConfig = F2.config(testHelpers.containerToken, {
 					loadDependencies: null
 				});
-				var setConfig = F2.config({
+				var setConfig = F2.config(testHelpers.containerToken, {
 					loadDependencies: ""
 				});
 				expect(setConfig.loadDependencies).toBe(null);
 			});
 
 			it('should not set loadInlineScripts if the config.loadInlineScripts is not a function', function() {
-				var resetConfig = F2.config({
+				var resetConfig = F2.config(testHelpers.containerToken, {
 					loadInlineScripts: null
 				});
-				var setConfig = F2.config({
+				var setConfig = F2.config(testHelpers.containerToken, {
 					loadInlineScripts: ""
 				});
 				expect(setConfig.loadInlineScripts).toBe(null);
 			});
 
 			it('should not set loadScripts if the config.loadScripts is not a function', function() {
-				var resetConfig = F2.config({
+				var resetConfig = F2.config(testHelpers.containerToken, {
 					loadScripts: null
 				});
-				var setConfig = F2.config({
+				var setConfig = F2.config(testHelpers.containerToken, {
 					loadScripts: ""
 				});
 				expect(setConfig.loadScripts).toBe(null);
 			});
 
 			it('should not set loadStyles if the config.loadStyles is not a function', function() {
-				var resetConfig = F2.config({
+				var resetConfig = F2.config(testHelpers.containerToken, {
 					loadStyles: null
 				});
-				var setConfig = F2.config({
+				var setConfig = F2.config(testHelpers.containerToken, {
 					loadStyles: ""
 				});
 				expect(setConfig.loadStyles).toBe(null);
 			});
 
 			it('should not set ui.modal if the config.ui.modal is not a function', function() {
-				var resetConfig = F2.config({
+				var resetConfig = F2.config(testHelpers.containerToken, {
 					ui: {
 						modal: null
 					}
 				});
-				var setConfig = F2.config({
+				var setConfig = F2.config(testHelpers.containerToken, {
 					ui: {
 						modal: ""
 					}
@@ -77,12 +79,12 @@
 			});
 
 			it('should not set ui.toggleLoading if the config.ui.toggleLoading is not a function', function() {
-				var resetConfig = F2.config({
+				var resetConfig = F2.config(testHelpers.containerToken, {
 					ui: {
 						toggleLoading: null
 					}
 				});
-				var setConfig = F2.config({
+				var setConfig = F2.config(testHelpers.containerToken, {
 					ui: {
 						toggleLoading: ""
 					}
@@ -203,7 +205,7 @@
 				var scriptsWorked = false;
 				var stylesWorked = false;
 
-				F2.config({
+				F2.config(testHelpers.containerToken, {
 					loadScripts: function(scripts, cb) {
 						scriptsWorked = (
 							scripts[0].indexOf('../') === -1 &&
@@ -232,7 +234,7 @@
 					F2.unload(manifests);
 
 					// Undo our config
-					F2.config({
+					F2.config(testHelpers.containerToken, {
 						loadScripts: null,
 						loadStyles: null
 					});
@@ -496,13 +498,26 @@
 
 				F2.load(configs, function(manifests) {
 					function attempt() {
-						F2.unload(manifests);
+						
 					}
 
 					expect(attempt).not.toThrow();
 					done();
 				});
 			});
+
+			it('should warn if the app\'s dispose property is not a function', function(done){
+				var configs = [{
+					appId: 'com_test_falsy_dispose',
+					manifestUrl: '/apps/single'
+				}];
+				
+				F2.load(configs, function(manifests){
+					F2.unload(manifests);
+					expect(console.warn).toHaveBeenCalled();
+					done();
+				});
+			})
 
 		});
 

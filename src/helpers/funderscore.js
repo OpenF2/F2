@@ -55,14 +55,18 @@
 			return test === null;
 		},
 		isNullOrUndefined: function(object, propertyName) {
+			//console.info(object, propertyName, typeof propertyName);
 			if(typeof propertyName !== 'string') {
 				return object === undefined ||
 						object === null;
 			}
-			return (object.hasOwnProperty(propertyName)) ?
-				object[propertyName] === undefined ||
-				object[propertyName] === null :
-			false;
+			//console.info(object.hasOwnProperty(propertyName),
+			//	object[propertyName] === undefined,
+			//	object[propertyName] === null
+			//);
+			return object[propertyName] === undefined ||
+				object[propertyName] === null;
+
 		},
 		pluck: function(list, property) {
 			var props = [];

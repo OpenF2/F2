@@ -49,7 +49,7 @@ define(['F2'], function(F2) {
 
 		it('should ignore placeholders with invalid attributes', function(done) {
 			var container = document.getElementById('placeholder-test-dupes');
-
+			console.info("test");
 			F2.loadPlaceholders(container, function(manifests) {
 				expect(manifests.length).toBe(0);
 				done();

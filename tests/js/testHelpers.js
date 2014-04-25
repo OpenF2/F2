@@ -1,5 +1,7 @@
 define('testHelpers', ['F2'], function(F2) {
 
+	var oneTimeToken = F2.onetimeToken();
+
 	return {
 		easyLoad: function(appIds, completeFn) {
 			appIds = [].concat(appIds);
@@ -16,7 +18,8 @@ define('testHelpers', ['F2'], function(F2) {
 				appConfigs: appConfigs,
 				complete: completeFn
 			});
-		}
+		},
+		containerToken: oneTimeToken
 	};
 
 });

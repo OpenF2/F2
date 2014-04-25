@@ -2045,14 +2045,18 @@ _exports = undefined;
 			return test === null;
 		},
 		isNullOrUndefined: function(object, propertyName) {
+			//console.info(object, propertyName, typeof propertyName);
 			if(typeof propertyName !== 'string') {
 				return object === undefined ||
 						object === null;
 			}
-			return (object.hasOwnProperty(propertyName)) ?
-				object[propertyName] === undefined ||
-				object[propertyName] === null :
-			false;
+			//console.info(object.hasOwnProperty(propertyName),
+			//	object[propertyName] === undefined,
+			//	object[propertyName] === null
+			//);
+			return object[propertyName] === undefined ||
+				object[propertyName] === null;
+
 		},
 		pluck: function(list, property) {
 			var props = [];
@@ -3545,7 +3549,7 @@ _exports = undefined;
  * F2 Core
  * @class F2
  */
-(function(LoadApps, _, Guid, AppPlaceholders) {
+(function(LoadApps, _, _Guid, AppPlaceholders) {
 
 	// Set up a default config
 	var _config = {
@@ -3566,7 +3570,17 @@ _exports = undefined;
 	// --------------------------------------------------------------------------
 	// API
 	// --------------------------------------------------------------------------
-	var _prototype_config = function(config) {
+	var Config = function(ContainerToken, config) {
+
+		if(_.isNullOrUndefined(ContainerToken) && _.isNullOrUndefined(config)) {
+			return _config;
+		}
+
+		if(!_Guid.isTrackedGuid(ContainerToken)) {
+			console.error('F2: Only the container can modify F2.');
+			return null;
+		}
+
 		var isSettable = function(obj, propName) {
 			return _.isNullOrUndefined(obj, propName) || _.isFunction(obj[propName]);
 		};
@@ -3606,7 +3620,7 @@ _exports = undefined;
 	};
 
 	Object.defineProperty(F2.prototype, 'config', {
-		value : _prototype_config,
+		value : Config,
 		writable : false,
 		configurable : false
 	});
@@ -3618,17 +3632,17 @@ _exports = undefined;
 	 * @for F2
 	 * Derived from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript#answer-2117523
 	 */
-	var _prototype_guid = function() {
-		return Guid.guid();
+	var Guid = function() {
+		return _Guid.guid();
 	};
 
 	Object.defineProperty(F2.prototype, 'guid', {
-		value : _prototype_guid,
+		value : Guid,
 		writable : false,
 		configurable : false
 	});
 
-	var _prototype_load = function(appConfigs, callback) {
+	var Load = function(appConfigs, callback) {
 		if (!_.isArray(appConfigs) || !appConfigs.length) {
 			throw 'F2: no appConfigs passed to "load"';
 		}
@@ -3657,12 +3671,12 @@ _exports = undefined;
 	};
 
 	Object.defineProperty(F2.prototype, 'load', {
-		value : _prototype_load,
+		value : Load,
 		writable : false,
 		configurable : false
 	});
 
-	var _prototype_loadPlaceholders = function(parentNode, callback) {
+	var LoadPlaceholders = function(parentNode, callback) {
 		// Default to the body if no node was passed
 		if (!parentNode || !_.isNode(parentNode)) {
 			parentNode = document.body;
@@ -3702,12 +3716,12 @@ _exports = undefined;
 	};
 
 	Object.defineProperty(F2.prototype, 'loadPlaceholders', {
-		value : _prototype_loadPlaceholders,
+		value : LoadPlaceholders,
 		writable : false,
 		configurable : false
 	});
 
-	var _prototype_new = function(params) {
+	var New = function(params) {
 		// Wrap up the output in a function to prevent prototype tampering
 		return (function(params) {
 			return new F2(params);
@@ -3715,12 +3729,12 @@ _exports = undefined;
 	};
 
 	Object.defineProperty(F2.prototype, 'new', {
-		value : _prototype_new,
+		value : New,
 		writable : false,
 		configurable : false
 	});
 
-	var _prototype_onetimeToken = function() {
+	var OnetimeToken = function() {
 		/*
 		* When doing a property lookup, the lookup chain first looks at
 		* properties on the object, then properties on the object's 
@@ -3739,11 +3753,11 @@ _exports = undefined;
 			});
 		}
 		
-		return Guid.trackedGuid();
+		return _Guid.trackedGuid();
 	};
 
 	Object.defineProperty(F2.prototype, 'onetimeToken', {
-		value : _prototype_onetimeToken,
+		value : OnetimeToken,
 		writable : false,
 		configurable : false
 	});
@@ -3753,7 +3767,7 @@ _exports = undefined;
 	 * @method remove
 	 * @param {string} indentifiers Array of app instanceIds or roots to be removed
 	 */
-	var _prototype_unload = function(identifiers) {
+	var Unload = function(identifiers) {
 		var args = Array.prototype.slice.apply(arguments);
 
 		// See if multiple parameters were passed
@@ -3782,8 +3796,13 @@ _exports = undefined;
 
 			if (loaded && loaded.instanceId) {
 				// Call the app's dipose method if it has one
-				if (loaded.instance.dispose) {
-					loaded.instance.dispose();
+				if (!_.isNullOrUndefined(loaded.instance, 'dispose')) {
+					if( _.isFunction(loaded.instance.dispose)) {
+						loaded.instance.dispose();
+					}
+					else {
+						console.warn('F2: ' + loaded.appConfig.appId + '\'s dispose is not a function and will not be called.');
+					}
 				}
 
 				// Automatically pull off events
@@ -3804,7 +3823,7 @@ _exports = undefined;
 	};
 
 	Object.defineProperty(F2.prototype, 'unload', {
-		value : _prototype_unload,
+		value : Unload,
 		writable : false,
 		configurable : false
 	});

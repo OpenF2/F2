@@ -1,10 +1,11 @@
-﻿define(['F2'], function(F2) {
+﻿define(['F2', 'testHelpers'], function(F2, testHelpers) {
 
 	describe('F2.UI', function() {
 
 		beforeEach(function() {
 			spyOn(console, 'error');
-			F2.config({
+			spyOn(console, 'warn');
+			F2.config(testHelpers.containerToken, {
 				ui: {
 					modal: null,
 					toggleLoading: null
@@ -22,7 +23,7 @@
 			});
 
 			it('should error if the params does not pass uiModalParams validation', function(){
-				F2.config({ui:{modal: function() { }}});
+				F2.config(testHelpers.containerToken, {ui:{modal: function() { }}});
 				F2.UI.modal({buttons: [{label: ""}]});
 				expect(console.error).toHaveBeenCalled();
 			});
@@ -32,7 +33,7 @@
 					title: "I'm flying!",
 					content: "<p>Wheeeee</p>"
 				};
-				F2.config({ui:{modal: function(params) { window.test.ui.modal = params; }}});
+				F2.config(testHelpers.containerToken, {ui:{modal: function(params) { window.test.ui.modal = params; }}});
 				F2.UI.modal(params);
 				expect(window.test.ui.modal).toBe(params);
 			});
@@ -47,14 +48,14 @@
 			});
 
 			it('should error if the root is not a native DOM node', function(){
-				F2.config({ui:{toggleLoading: function() { }}});
+				F2.config(testHelpers.containerToken, {ui:{toggleLoading: function() { }}});
 				F2.UI.toggleLoading("");
 				expect(console.error).toHaveBeenCalled();
 			});
 
 			it('should delegate the app root to the container "toggleLoading" handler', function() {
 				var fakeRoot = document.createElement('div');
-				F2.config({ui:{toggleLoading: function(root) { window.test.ui.toggleLoading = root; }}});
+				F2.config(testHelpers.containerToken, {ui:{toggleLoading: function(root) { window.test.ui.toggleLoading = root; }}});
 				F2.UI.toggleLoading(fakeRoot);
 
 				expect(window.test.ui.toggleLoading).toBe(fakeRoot);
