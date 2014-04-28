@@ -1,16 +1,18 @@
-# An open web framework for the financial services industry.
+# F2 - Version 2 work-in-progress branch
 
 <img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=125" align="right">
 
-F2 is an open and free web _integration framework_ designed to help the financial services community develop custom web and mobile applications. These solutions can combine the best tools and content from multiple parties into one, privately-labeled, seamlessly integrated front-end.
+For information on Version 2 development, [browse to the wiki](https://github.com/OpenF2/F2/wiki/Roadmap#f2-v2-discussion).
 
-F2 is currently maintained by [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information, follow [@OpenF2](http://twitter.com/OpenF2) on Twitter and subscribe to the [F2 blog](http://blog.openf2.org).
+While there's a [long list of contributors](https://github.com/OpenF2/F2/graphs/contributors), the core maintainers of F2 are at [Markit On Demand](http://www.markitondemand.com). Visit [OpenF2.org](http://www.openf2.org) for more information, follow [@OpenF2](http://twitter.com/OpenF2) on Twitter and subscribe to the [F2 blog](http://blog.openf2.org).
 
-## Get Started
+## Get Started Contributing
 
 Be sure you have cloned this repository and have [Node.js](http://nodejs.org/) installed, then run the following command from the project root directory:
 
 `$> npm install`
+
+This command will install the [Grunt CLI](http://gruntjs.com/getting-started#installing-the-cli) and, using [bower](http://bower.io/), all packages needed to work on F2. Depending on your configuration, you may need to be an admin to install some of these Node packages. Additionally, some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch. If the installation fails due to permissions, use `sudo`.
 
 ## Copyright and License
 
