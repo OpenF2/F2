@@ -818,5 +818,170 @@ describe('F2.registerApps - rendering', function() {
 
 			expect(bustedCache).toBe(false);
 		});
+	});	
+});
+
+
+describe('F2.loadPlaceholders - auto', function() {
+
+	// add the f2-autoload element to the test fixture for use in each
+	// test
+	beforeEach(function() {
+		$('#test-fixture').append('<div id="f2-autoload"></div>');
+	});
+
+	// force F2 to be reloaded
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	it('should automatically auto-init F2 when f2-autoload element is on the page', function() {
+		// need to wait for dom ready before F2.init() will be called
+		waitsFor(
+			function() {
+				return F2.isInit();
+			},
+			'F2.init() never called',
+			3000
+		);
+		runs(function() {
+			expect(F2.isInit()).toBe(true);
+		});
+	});
+
+	it('should automatically find and register apps', function() {
+		// add the placeholder
+		$('#test-fixture').append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#test-fixture [data-f2-appid]').children().length;
+				return children;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(1);
+		});
+	});
+
+	it('should automatically find and register multiple apps of the same appId', function() {
+		// add the placeholder
+		$('#test-fixture')
+			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>')
+			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#test-fixture [data-f2-appid]').children().length;
+				return children == 2;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(2);
+		});
+	});
+});
+
+describe('F2.loadPlaceholders - manual', function() {
+	// force F2 to be reloaded
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	it('should require the presence of data-f2-manifesturl', function() {
+		// add the invalid placeholder
+		$('#test-fixture').append('<div data-f2-appid="' + TEST_APP_ID + '"></div>');
+
+		// even though the manifesturl is missing, the message is generic because a null AppConfig was generated
+		expect(function() {
+			F2.init();
+			F2.loadPlaceholders();
+		}).toLog('"appId" missing from app object');
+	});
+
+	it('should find and register apps', function() {
+		// add the placeholder
+		$('#test-fixture').append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+
+		F2.init();
+		F2.loadPlaceholders();
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#test-fixture [data-f2-appid]').children().length;
+				return children;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(1);
+		});
+	});
+
+	it('should find and register multiple apps of the same appId', function() {
+		// add the placeholder
+		$('#test-fixture')
+			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>')
+			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+
+		F2.init();
+		F2.loadPlaceholders();
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#test-fixture [data-f2-appid]').children().length;
+				return children == 2;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(2);
+		});
+	});
+
+	it('should throw an exception when an invalid parentNode is passed', function() {
+		expect(function() {
+			F2.init();
+			F2.loadPlaceholders('foo');
+		}).toThrow('"parentNode" must be null or a DOM node');
+	});
+
+	it('should find and register apps within a given scope', function() {
+		// add the placeholder
+		$('#test-fixture').append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+
+		F2.init();
+		F2.loadPlaceholders(document.getElementById('test-fixture'));
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#test-fixture [data-f2-appid]').children().length;
+				return children;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(1);
+		});
 	});
 });
