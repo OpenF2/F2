@@ -14,6 +14,10 @@ First, a couple of ground rules.
 	* Include the F2 version number.
 3. [Fork the F2 repository](https://github.com/OpenF2/F2/fork).
 
+## New to GitHub? 
+
+GitHub has terrific [Guides](http://guides.github.com/) to help developers through various aspects of contributing to open source projects.
+
 ## Making Changes
 
 ### Understanding the "wip" branch

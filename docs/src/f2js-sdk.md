@@ -6,6 +6,14 @@ Developers who adhere to the F2 standard will make it possible for multiple apps
 
 * * * *
 
+## Version 2
+
+<div class="alert alert-block alert-info">
+    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
+</div>
+
+* * * *
+
 ## F2.js
 
 F2 is an open framework and to get Container and App Developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
