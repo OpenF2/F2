@@ -17040,7 +17040,6 @@ F2.extend('', (function() {
 	jQuery(function() {
 		// if an f2-autoload element is found, auto-init F2 and load any placeholders
 		if (jQuery('#f2-autoload').length) {
-			F2.log('F2-autoload commencing...');
 			F2.init();
 			F2.loadPlaceholders(document);
 		}
@@ -17053,7 +17052,7 @@ F2.extend('', (function() {
 		define(function() {
 			return F2;
 		});
-		
+
 	}
 
 })(typeof exports !== 'undefined' ? exports : window);
