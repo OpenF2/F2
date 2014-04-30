@@ -507,6 +507,11 @@ if (typeof JSON !== 'object') {
  * 
  * http://www.twitter.com/hij1nx
  * 
+ * Version: 2013-09-17
+ * GitHub SHA: 3caacce662998d7903d368b0c0f847f259cae0f7
+ * https://github.com/hij1nx/EventEmitter2
+ * Diff this version to master: https://github.com/hij1nx/EventEmitter2/compare/3caacce662998d7903d368b0c0f847f259cae0f7...master
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
  * documentation files (the 'Software'), to deal in the Software without restriction, including without limitation 
  * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
@@ -520,7 +525,7 @@ if (typeof JSON !== 'object') {
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * 
  */
-!function(exports, undefined) {
+ ;!function(exports, undefined) {
 
   var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
     return Object.prototype.toString.call(obj) === "[object Array]";
@@ -528,21 +533,31 @@ if (typeof JSON !== 'object') {
   var defaultMaxListeners = 10;
 
   function init() {
-    this._events = new Object;
+    this._events = {};
+    if (this._conf) {
+      configure.call(this, this._conf);
+    }
   }
 
   function configure(conf) {
     if (conf) {
+
+      this._conf = conf;
+
       conf.delimiter && (this.delimiter = conf.delimiter);
+      conf.maxListeners && (this._events.maxListeners = conf.maxListeners);
       conf.wildcard && (this.wildcard = conf.wildcard);
+      conf.newListener && (this.newListener = conf.newListener);
+
       if (this.wildcard) {
-        this.listenerTree = new Object;
+        this.listenerTree = {};
       }
     }
   }
 
   function EventEmitter(conf) {
-    this._events = new Object;
+    this._events = {};
+    this.newListener = false;
     configure.call(this, conf);
   }
 
@@ -621,7 +636,7 @@ if (typeof JSON !== 'object') {
       //
       searchListenerTree(handlers, type, xTree, i+1);
     }
-    
+
     xxTree = tree['**'];
     if(xxTree) {
       if(i < typeLength) {
@@ -629,7 +644,7 @@ if (typeof JSON !== 'object') {
           // If we have a listener on a '**', it will catch all, so add its handler.
           searchListenerTree(handlers, type, xxTree, typeLength);
         }
-        
+
         // Build arrays of matching next branches and others.
         for(branch in xxTree) {
           if(branch !== '_listeners' && xxTree.hasOwnProperty(branch)) {
@@ -660,7 +675,7 @@ if (typeof JSON !== 'object') {
   function growListenerTree(type, listener) {
 
     type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
-    
+
     //
     // Looks for two consecutive '**', if so, don't add the event at all.
     //
@@ -676,7 +691,7 @@ if (typeof JSON !== 'object') {
     while (name) {
 
       if (!tree[name]) {
-        tree[name] = new Object;
+        tree[name] = {};
       }
 
       tree = tree[name];
@@ -696,7 +711,7 @@ if (typeof JSON !== 'object') {
           if (!tree._listeners.warned) {
 
             var m = defaultMaxListeners;
-            
+
             if (typeof this._events.maxListeners !== 'undefined') {
               m = this._events.maxListeners;
             }
@@ -717,7 +732,7 @@ if (typeof JSON !== 'object') {
       name = type.shift();
     }
     return true;
-  };
+  }
 
   // By default EventEmitters will print a warning if more than
   // 10 listeners are added to it. This is a useful default which
@@ -731,6 +746,8 @@ if (typeof JSON !== 'object') {
   EventEmitter.prototype.setMaxListeners = function(n) {
     this._events || init.call(this);
     this._events.maxListeners = n;
+    if (!this._conf) this._conf = {};
+    this._conf.maxListeners = n;
   };
 
   EventEmitter.prototype.event = '';
@@ -752,7 +769,7 @@ if (typeof JSON !== 'object') {
         self.off(event, listener);
       }
       fn.apply(this, arguments);
-    };
+    }
 
     listener._origin = fn;
 
@@ -762,11 +779,12 @@ if (typeof JSON !== 'object') {
   };
 
   EventEmitter.prototype.emit = function() {
+
     this._events || init.call(this);
 
     var type = arguments[0];
 
-    if (type === 'newListener') {
+    if (type === 'newListener' && !this.newListener) {
       if (!this._events.newListener) { return false; }
     }
 
@@ -783,9 +801,9 @@ if (typeof JSON !== 'object') {
 
     // If there is no 'error' event listener then throw.
     if (type === 'error') {
-      
-      if (!this._all && 
-        !this._events.error && 
+
+      if (!this._all &&
+        !this._events.error &&
         !(this.wildcard && this.listenerTree.error)) {
 
         if (arguments[1] instanceof Error) {
@@ -849,7 +867,7 @@ if (typeof JSON !== 'object') {
   };
 
   EventEmitter.prototype.on = function(type, listener) {
-    
+
     if (typeof type === 'function') {
       this.onAny(type);
       return this;
@@ -885,7 +903,7 @@ if (typeof JSON !== 'object') {
       if (!this._events[type].warned) {
 
         var m = defaultMaxListeners;
-        
+
         if (typeof this._events.maxListeners !== 'undefined') {
           m = this._events.maxListeners;
         }
@@ -956,11 +974,11 @@ if (typeof JSON !== 'object') {
         }
 
         if (position < 0) {
-          return this;
+          continue;
         }
 
         if(this.wildcard) {
-          leaf._listeners.splice(position, 1)
+          leaf._listeners.splice(position, 1);
         }
         else {
           this._events[type].splice(position, 1);
@@ -974,6 +992,7 @@ if (typeof JSON !== 'object') {
             delete this._events[type];
           }
         }
+        return this;
       }
       else if (handlers === listener ||
         (handlers.listener && handlers.listener === listener) ||
@@ -1058,7 +1077,7 @@ if (typeof JSON !== 'object') {
 
   };
 
-  // if (typeof define === 'function' && define.amd) {
+// if (typeof define === 'function' && define.amd) {
   //   define('EventEmitter2', [], function() {
   //     return EventEmitter;
   //   });
@@ -1067,6 +1086,7 @@ if (typeof JSON !== 'object') {
   // }
 
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
+
 
 /*!
  * Øyvind Sean Kinsey and others require the following notice to accompany easyXDM:
@@ -3576,8 +3596,8 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.3.3 04-07-2014
- * Copyright (c) 2013 Markit On Demand, Inc. http://www.openf2.org
+ * F2 v1.4.0 01-23-2014
+ * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
