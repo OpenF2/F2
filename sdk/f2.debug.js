@@ -13638,7 +13638,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 04-30-2014
+ * F2 v1.4.0 05-06-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -16975,18 +16975,42 @@ F2.extend('', (function() {
 		 */
 		loadPlaceholders: function(parentNode) {
 
-			var elements, appConfigs = [];
+			var elements = [],
+				appConfigs = [],
+				add = function(e) {
+					if (!e) { return; }
+					elements.push(e);
+				},
+				addAll = function(els) {
+					if (!els) { return; }
+					for (var i = 0, len = els.length; i < len; i++) {
+						add(els[i]);
+					}
+				};
 
 			if (!!parentNode && !F2.isNativeDOMNode(parentNode)) {
 				throw ('"parentNode" must be null or a DOM node');
 			}
 
-			elements = $('[data-f2-appid]', parentNode),
+			// if the passed in element has a data-f2-appid attribute add
+			// it to the list of elements but to not search within that
+			// element for other placeholders
+			if (parentNode && parentNode.hasAttribute('data-f2-appid')) {
+				add(parentNode);
+			} else {
 
-			jQuery.each(elements, function(i, e) {
-				var appConfig = _getAppConfigFromElement(e);
+				// find placeholders within the parentNode only if 
+				// querySelectorAll exists
+				parentNode = parentNode || document;
+				if (parentNode.querySelectorAll) {
+					addAll(parentNode.querySelectorAll('[data-f2-appid]'));
+				}
+			}
+
+			for (var i = 0, len = elements.length; i < len; i++) {
+				var appConfig = _getAppConfigFromElement(elements[i]);
 				appConfigs.push(appConfig);
-			});
+			}
 
 			if (appConfigs.length) {
 				F2.registerApps(appConfigs);
@@ -17368,10 +17392,33 @@ F2.extend('', (function() {
 })());
 
 	jQuery(function() {
-		// if an f2-autoload element is found, auto-init F2 and load any placeholders
-		if (jQuery('#f2-autoload').length) {
+		var autoloadEls = [],
+			add = function(e) {
+				if (!e) { return; }
+				autoloadEls.push(e);
+			},
+			addAll = function(els) {
+				if (!els) { return; }
+				for (var i = 0, len = els.length; i < len; i++) {
+					add(els[i]);
+				}
+			};
+
+		// support id-based autoload
+		add(document.getElementById('f2-autoload'));
+
+		// support class/attribute based autoload
+		if (document.querySelectorAll) {
+			addAll(document.querySelectorAll('[data-f2-autoload]'));
+			addAll(document.querySelectorAll('.f2-autoload'));
+		}
+
+		// if elements were found, auto-init F2 and load any placeholders
+		if (autoloadEls.length) {
 			F2.init();
-			F2.loadPlaceholders(document);
+			for (var i = 0, len = autoloadEls.length; i < len; i++) {
+				F2.loadPlaceholders(autoloadEls[i]);
+			}
 		}
 	});
 

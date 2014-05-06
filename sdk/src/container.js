@@ -717,18 +717,42 @@ F2.extend('', (function() {
 		 */
 		loadPlaceholders: function(parentNode) {
 
-			var elements, appConfigs = [];
+			var elements = [],
+				appConfigs = [],
+				add = function(e) {
+					if (!e) { return; }
+					elements.push(e);
+				},
+				addAll = function(els) {
+					if (!els) { return; }
+					for (var i = 0, len = els.length; i < len; i++) {
+						add(els[i]);
+					}
+				};
 
 			if (!!parentNode && !F2.isNativeDOMNode(parentNode)) {
 				throw ('"parentNode" must be null or a DOM node');
 			}
 
-			elements = $('[data-f2-appid]', parentNode),
+			// if the passed in element has a data-f2-appid attribute add
+			// it to the list of elements but to not search within that
+			// element for other placeholders
+			if (parentNode && parentNode.hasAttribute('data-f2-appid')) {
+				add(parentNode);
+			} else {
 
-			jQuery.each(elements, function(i, e) {
-				var appConfig = _getAppConfigFromElement(e);
+				// find placeholders within the parentNode only if 
+				// querySelectorAll exists
+				parentNode = parentNode || document;
+				if (parentNode.querySelectorAll) {
+					addAll(parentNode.querySelectorAll('[data-f2-appid]'));
+				}
+			}
+
+			for (var i = 0, len = elements.length; i < len; i++) {
+				var appConfig = _getAppConfigFromElement(elements[i]);
 				appConfigs.push(appConfig);
-			});
+			}
 
 			if (appConfigs.length) {
 				F2.registerApps(appConfigs);
