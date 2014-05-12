@@ -128,6 +128,8 @@ F2.extend('', (function() {
 			if (appId && manifestUrl) {
 				appConfig = {
 					appId: appId,
+					enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
+					isSecure: node.hasAttribute('data-f2-issecure'),
 					manifestUrl: manifestUrl,
 					root: node
 				};
