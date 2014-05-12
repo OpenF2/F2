@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.4.0 05-06-2014
+ * F2 v1.4.0 05-12-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -2753,6 +2753,8 @@ F2.extend('', (function() {
 			if (appId && manifestUrl) {
 				appConfig = {
 					appId: appId,
+					enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
+					isSecure: node.hasAttribute('data-f2-issecure'),
 					manifestUrl: manifestUrl,
 					root: node
 				};
