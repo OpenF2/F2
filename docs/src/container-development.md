@@ -294,7 +294,7 @@ The following example demonstrates using [HeadJS](http://headjs.com/site/api/v1.
 
 ```javascript
 F2.init({
-    loadStyles: function(scripts,callback){
+    loadScripts: function(scripts,callback){
         head.load(scripts, function(){
             callback();
         });
