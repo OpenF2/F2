@@ -31,7 +31,7 @@ $(function() {
 		var gridWidth = appConfig.minGridSize || 3;
 
 		appConfig.root = $([
-			'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '" data-grid-width="' + gridWidth + '">',
+			'<section class="span' + gridWidth + '" data-grid-width="' + gridWidth + '">',
 				'<header class="clearfix">',
 					'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
 					'<div class="btn-group pull-right">',
@@ -71,8 +71,9 @@ $(function() {
 		if (row === undefined) {
 			row = $('<div class="row"></div>').appendTo('#mainContent');
 		}
+
 		// append app to app root and also to row
-		$(appConfig.root).append(app).appendTo(row);
+		$(appConfig.root).addClass(F2.Constants.Css.APP).append(app).appendTo(row);
 	};
 
 	var appRenderCompleteFunc = function(appConfig) {

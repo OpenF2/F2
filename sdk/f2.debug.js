@@ -13638,7 +13638,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 04-30-2014
+ * F2 v1.4.0 05-12-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -16289,7 +16289,7 @@ F2.extend('', (function() {
 			return;
 		}
 		else {
-			// apply APP class and Instance ID
+			// apply APP class
 			jQuery(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
 		}
@@ -16305,7 +16305,7 @@ F2.extend('', (function() {
 	 */
 	var _appRender = function(appConfig, html) {
 
-		// apply APP_CONTAINER class
+		// apply APP_CONTAINER class and AppID
 		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
@@ -16313,7 +16313,6 @@ F2.extend('', (function() {
 			html = _config.appRender(appConfig, html);
 		}
 
-		// apply APP class and instanceId
 		return _outerHtml(html);
 	};
 
@@ -16371,6 +16370,67 @@ F2.extend('', (function() {
 	};
 
 	/**
+	 * Generate an AppConfig from the element's attributes
+	 * @method _getAppConfigFromElement
+	 * @private
+	 * @param {Element} node The DOM node from which to generate the F2.AppConfig object
+	 * @return {F2.AppConfig} The new F2.AppConfig object
+	 */
+	var _getAppConfigFromElement = function(node) {
+		var appConfig;
+
+		if (node) {
+			var appId = node.getAttribute('data-f2-appid');
+			var manifestUrl = node.getAttribute('data-f2-manifesturl');
+
+			if (appId && manifestUrl) {
+				appConfig = {
+					appId: appId,
+					enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
+					isSecure: node.hasAttribute('data-f2-issecure'),
+					manifestUrl: manifestUrl,
+					root: node
+				};
+
+				// See if the user passed in a block of serialized json
+				var contextJson = node.getAttribute('data-f2-context');
+
+				if (contextJson) {
+					try {
+						appConfig.context = F2.parse(contextJson);
+					}
+					catch (e) {
+						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
+					}
+				}
+			}
+		}
+
+		return appConfig;
+	};
+
+	/**
+	 * Returns true if the DOM node has children that are not text nodes
+	 * @method _hasNonTextChildNodes
+	 * @param {Element} node The DOM node
+	 * @return {bool} True if there are non-text children
+	 */
+	var _hasNonTextChildNodes = function(node) {
+		var hasNodes = false;
+
+		if (node.hasChildNodes()) {
+			for (var i = 0, len = node.childNodes.length; i < len; i++) {
+				if (node.childNodes[i].nodeType === 1) {
+					hasNodes = true;
+					break;
+				}
+			}
+		}
+
+		return hasNodes;
+	};
+
+	/**
 	 * Adds properties to the ContainerConfig object to take advantage of defaults
 	 * @method _hydrateContainerConfig
 	 * @private
@@ -16425,6 +16485,22 @@ F2.extend('', (function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
+	};
+
+	/**
+	 * Checks if an element is a placeholder element
+	 * @method _isPlaceholderElement
+	 * @private 
+	 * @param {Element} node The DOM element to check
+	 * @return {bool} True if the element is a placeholder
+	 */
+	var _isPlaceholderElement = function(node) {
+		return (
+			F2.isNativeDOMNode(node) &&
+			!_hasNonTextChildNodes(node) &&
+			!!node.getAttribute('data-f2-appid') &&
+			!!node.getAttribute('data-f2-manifesturl')
+		);
 	};
 
 	/**
@@ -16657,7 +16733,12 @@ F2.extend('', (function() {
 		// Fn for loading manifest app html
 		var _loadHtml = function(apps) {
 			jQuery.each(apps, function(i, a) {
-				if (!_bUsesAppHandlers) {
+				if (_isPlaceholderElement(appConfigs[i].root)) {
+					jQuery(appConfigs[i].root)
+						.addClass(F2.Constants.Css.APP)
+						.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId));
+				}
+				else if (!_bUsesAppHandlers) {
 					// load html and save the root node
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
@@ -16666,11 +16747,11 @@ F2.extend('', (function() {
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
-						_outerHtml(a.html)
+						_outerHtml(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId))
 					);
 
-					var appId = appConfigs[i].appId;
-					var root = appConfigs[i].root;
+					var appId = appConfigs[i].appId,
+						root = appConfigs[i].root;
 
 					if (!root) {
 						throw ('Root for ' + appId + ' must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.');
@@ -16689,8 +16770,6 @@ F2.extend('', (function() {
 					if (!F2.isNativeDOMNode(root)) {
 						throw ('App root for ' + appId + ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
 					}
-
-					$(root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appId);
 				}
 
 				// init events
@@ -16733,7 +16812,12 @@ F2.extend('', (function() {
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if (!_bUsesAppHandlers) {
+			if (_isPlaceholderElement(appConfig.root)) {
+				jQuery(appConfig.root)
+					.addClass(F2.Constants.Css.APP)
+					.append(jQuery('<div></div>').addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+			}
+			else if (!_bUsesAppHandlers) {
 				// create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			}
@@ -16744,7 +16828,7 @@ F2.extend('', (function() {
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfig, // the app config
-					appManifest.html
+					_outerHtml(jQuery(appManifest.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId))
 				);
 
 				if ($root.parents('body:first').length === 0) {
@@ -16764,8 +16848,6 @@ F2.extend('', (function() {
 				if (!F2.isNativeDOMNode(appConfig.root)) {
 					throw ('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
-
-				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
 			}
 
 			// instantiate F2.UI
@@ -16886,6 +16968,56 @@ F2.extend('', (function() {
 		 * @return {bool} True if the container has been init
 		 */
 		isInit: _isInit,
+		/**
+		 * Automatically load apps that are already defined in the DOM. Elements will 
+		 * be rendered into the location of the placeholder DOM element. Any AppHandlers
+		 * that are defined will be bypassed.
+		 * @method loadPlaceholders
+		 * @param {Element} parentNode The element to search for placeholder apps
+		 */
+		loadPlaceholders: function(parentNode) {
+
+			var elements = [],
+				appConfigs = [],
+				add = function(e) {
+					if (!e) { return; }
+					elements.push(e);
+				},
+				addAll = function(els) {
+					if (!els) { return; }
+					for (var i = 0, len = els.length; i < len; i++) {
+						add(els[i]);
+					}
+				};
+
+			if (!!parentNode && !F2.isNativeDOMNode(parentNode)) {
+				throw ('"parentNode" must be null or a DOM node');
+			}
+
+			// if the passed in element has a data-f2-appid attribute add
+			// it to the list of elements but to not search within that
+			// element for other placeholders
+			if (parentNode && parentNode.hasAttribute('data-f2-appid')) {
+				add(parentNode);
+			} else {
+
+				// find placeholders within the parentNode only if 
+				// querySelectorAll exists
+				parentNode = parentNode || document;
+				if (parentNode.querySelectorAll) {
+					addAll(parentNode.querySelectorAll('[data-f2-appid]'));
+				}
+			}
+
+			for (var i = 0, len = elements.length; i < len; i++) {
+				var appConfig = _getAppConfigFromElement(elements[i]);
+				appConfigs.push(appConfig);
+			}
+
+			if (appConfigs.length) {
+				F2.registerApps(appConfigs);
+			}
+		},
 		/**
 		 * Begins the loading process for all apps and/or initialization process for pre-loaded apps.
 		 * The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
@@ -17044,7 +17176,7 @@ F2.extend('', (function() {
 
 				// If the root property is defined then this app is considered to be preloaded and we will
 				// run it through that logic.
-				if (a.root) {
+				if (a.root && !_isPlaceholderElement(a.root)) {
 					if ((!a.root && typeof(a.root) != 'string') && !F2.isNativeDOMNode(a.root)) {
 						F2.log('AppConfig invalid for pre-load, not a valid string and not dom node');
 						F2.log('AppConfig instance:', a);
@@ -17056,7 +17188,7 @@ F2.extend('', (function() {
 						F2.log('Number of dom node instances:', jQuery(a.root).length);
 						throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
 					}
-
+					
 					// instantiate F2.App
 					_createAppInstance(a);
 
@@ -17068,22 +17200,24 @@ F2.extend('', (function() {
 					return; // equivalent to continue in .each
 				}
 
-				if (!_bUsesAppHandlers) {
-					// fire beforeAppRender
-					a.root = _beforeAppRender(a);
-				}
-				else {
-					F2.AppHandlers.__trigger(
-						_sAppHandlerToken,
-						F2.Constants.AppHandlers.APP_CREATE_ROOT,
-						a // the app config
-					);
+				if (!_isPlaceholderElement(a.root)) {
+					if (!_bUsesAppHandlers) {
+						// fire beforeAppRender
+						a.root = _beforeAppRender(a);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_CREATE_ROOT,
+							a // the app config
+						);
 
-					F2.AppHandlers.__trigger(
-						_sAppHandlerToken,
-						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-						a // the app config
-					);
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+							a // the app config
+						);
+					}
 				}
 
 				// if we have the manifest, go ahead and load the app
@@ -17259,7 +17393,37 @@ F2.extend('', (function() {
 	};
 })());
 
-	
+	jQuery(function() {
+		var autoloadEls = [],
+			add = function(e) {
+				if (!e) { return; }
+				autoloadEls.push(e);
+			},
+			addAll = function(els) {
+				if (!els) { return; }
+				for (var i = 0, len = els.length; i < len; i++) {
+					add(els[i]);
+				}
+			};
+
+		// support id-based autoload
+		add(document.getElementById('f2-autoload'));
+
+		// support class/attribute based autoload
+		if (document.querySelectorAll) {
+			addAll(document.querySelectorAll('[data-f2-autoload]'));
+			addAll(document.querySelectorAll('.f2-autoload'));
+		}
+
+		// if elements were found, auto-init F2 and load any placeholders
+		if (autoloadEls.length) {
+			F2.init();
+			for (var i = 0, len = autoloadEls.length; i < len; i++) {
+				F2.loadPlaceholders(autoloadEls[i]);
+			}
+		}
+	});
+
 	exports.F2 = F2;
 
 	if (typeof define !== 'undefined' && define.amd) {
@@ -17267,7 +17431,7 @@ F2.extend('', (function() {
 		define(function() {
 			return F2;
 		});
-		
+
 	}
 
 })(typeof exports !== 'undefined' ? exports : window);

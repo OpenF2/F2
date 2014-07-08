@@ -478,7 +478,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'uglify:sourcemap', 'sourcemap', 'copy:f2ToRoot']);
+	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
