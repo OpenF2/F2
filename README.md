@@ -1,6 +1,6 @@
 # An open web framework for the financial services industry.
 
-<img src="https://secure.gravatar.com/avatar/4a9321787652abeea63089c8fdf0face?s=125" align="right">
+<img src="http://www.gravatar.com/avatar/81a91ece480ee15ae86a26a7a818b620.png?s=128" align="right">
 
 F2 is an open and free web integration framework designed to help the financial services community develop custom web and mobile applications. These solutions can combine the best tools and content from multiple parties into one, privately-labeled, seamlessly integrated front-end.
 
