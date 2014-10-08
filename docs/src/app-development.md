@@ -557,7 +557,7 @@ It is a common web development practice to use [CSS resets](http://meyerweb.com/
 
 #### About Bootstrap 3
 
-<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. 
+<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[officially-supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. [Read the blog post](http://blog.openf2.org/2014/09/supporting-bootstrap-3.html) for more information on using Bootstrap 3 today.
 
 ### Keeping JavaScript Clean
 
