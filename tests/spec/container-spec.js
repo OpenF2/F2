@@ -452,9 +452,31 @@ describe('F2.registerApps - xhr overrides', function() {
 		runs(function() {
 			F2.init({
 				xhr: function(url, apps, success, error, complete) {
+					$.ajax({
+			            url: url,
+			            type: 'POST',
+			            data: {
+			                params: F2.stringify(apps[0], F2.appConfigReplacer)
+			            },
+			            jsonp: false, // do not put 'callback=' in the query string
+			            jsonpCallback: F2.Constants.JSONP_CALLBACK + apps[0].appId, // Unique function name
+			            dataType: 'json',
+			            success: function(appManifest) {
+			                // custom success logic
+			                success(appManifest); // fire success callback
+			            },
+			            error: function() {
+			                // custom error logic
+			                error(); // fire error callback
+			            },
+			            complete: function() {
+			                // custom complete logic
+			                complete(); // fire complete callback
+			            }
+			        });
 					isFired = true;
 				}
-			})
+			});
 			F2.registerApps(appConfig);
 		});
 		waitsFor(function() {
@@ -650,7 +672,7 @@ describe('F2.registerApps - xhr overrides', function() {
 			});
 			F2.registerApps({
 				appId: 'com_test_app',
-				manifestUrl: 'http://openf2.herokuapp.com/httpPostTest'
+				manifestUrl: 'http://www.openf2.org/httpPostTest'
 			});
 		});
 

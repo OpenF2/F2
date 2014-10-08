@@ -251,11 +251,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 				crosshairs: true,
 				formatter: function () {
 					if ( this.series.name == 'Close price' ) {
-						return '<span style="color: #777777; font-size: 10px;">' 
-							+ Highcharts.dateFormat('%b %e %Y', this.x) 
-							+ '</span><br /><span style="color: ' + this.series.color + ';">' 
-							+ this.series.name + ': ' + Highcharts.numberFormat(this.y, 2) 
-							+ '</span>';
+						return '<div style="color: #777777; font-size: 12px;">' + Highcharts.dateFormat('%b %e %Y', this.x) + ': $' + Highcharts.numberFormat(this.y, 2) + '</div>';
 					}
 					else return false;
 				},
