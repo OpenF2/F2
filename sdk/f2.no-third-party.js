@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.4.0 05-12-2014
+ * F2 v1.4.0 10-09-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -2230,6 +2230,29 @@ F2.extend('UI', (function(){
 			}
 		};
 
+		//http://getbootstrap.com/javascript/#modals
+		var _modalHtml = function(type,message,showCancel){
+			return [
+				'<div class="modal">',
+					'<div class="modal-dialog">',
+						'<div class="modal-content">',
+							'<div class="modal-header">',
+								'<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>',
+								'<h4 class="modal-title">',type,'</h4>',
+							'</div>',
+							'<div class="modal-body"><p>',
+								message,
+								'</p></div>',
+							'<div class="modal-footer">',
+								((showCancel) ? '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' : ''),
+								'<button type="button" class="btn btn-primary btn-ok">OK</button>',
+							'</div>',
+						'</div>',
+					'</div>',
+				'</div>'
+				].join('');
+		};
+
 		return {
 			/**
 			 * Removes a overlay from an Element on the page
@@ -2248,40 +2271,11 @@ F2.extend('UI', (function(){
 			Modals: (function(){
 
 				var _renderAlert = function(message) {
-					return [
-						'<div class="modal">',
-							'<header class="modal-header">',
-								'<h3>Alert!</h3>',
-							'</header>',
-							'<div class="modal-body">',
-								'<p>',
-									message,
-								'</p>',
-							'</div>',
-							'<div class="modal-footer">',
-								'<button class="btn btn-primary btn-ok">OK</button>',
-							'</div>',
-						'</div>'
-					].join('');
+					return _modalHtml('Alert',message);
 				};
 
 				var _renderConfirm = function(message) {
-					return [
-						'<div class="modal">',
-							'<header class="modal-header">',
-								'<h3>Confirm</h3>',
-							'</header>',
-							'<div class="modal-body">',
-								'<p>',
-									message,
-								'</p>',
-							'</div>',
-							'<div class="modal-footer">',
-								'<button type="button" class="btn btn-primary btn-ok">OK</button>',
-								'<button type="button" class="btn btn-cancel">Cancel</button">',
-							'</div>',
-						'</div>'
-					].join('');
+					return _modalHtml('Confirm',message,true);
 				};
 
 				return {
@@ -2310,7 +2304,7 @@ F2.extend('UI', (function(){
 						} else {
 							// display the alert
 							jQuery(_renderAlert(message))
-								.on('show', function() {
+								.on('show.bs.modal', function() {
 									var modal = this;
 									jQuery(modal).find('.btn-primary').on('click', function() {
 										jQuery(modal).modal('hide').remove();
@@ -2347,9 +2341,9 @@ F2.extend('UI', (function(){
 						} else {
 							// display the alert
 							jQuery(_renderConfirm(message))
-								.on('show', function() {
+								.on('show.bs.modal', function() {
 									var modal = this;
-
+									
 									jQuery(modal).find('.btn-ok').on('click', function() {
 										jQuery(modal).modal('hide').remove();
 										(okCallback || jQuery.noop)();
