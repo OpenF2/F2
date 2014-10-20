@@ -841,4 +841,50 @@ describe('F2.registerApps - rendering', function() {
 			expect(bustedCache).toBe(false);
 		});
 	});
+
+	it('should not inject an app\'s dependencies (scripts nor styles) more than one time', function() {
+		var appsRendered = 0;
+		var loadedJS = loadedCSS = 0;
+		F2.init();
+		//notify when apps have been rendered
+		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; })
+		//load same app twice
+		F2.registerApps([
+			{
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
+			},
+			{
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
+			}
+		]);
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return appsRendered === 2;
+		}, 'test apps were never loaded', 15000);
+
+		runs(function() {
+			
+			//ensure this script only exists one time			
+			$('script').each(function(idx, item) {
+				var src = $(item).attr('src');
+				if (/com_openf2_examples_nodejs_helloworld\/appclass.js/.test(src)){
+					loadedJS++;
+				}
+			});
+
+			//ensure this stylesheet only exists one time
+			$('link').each(function(idx, item) {
+				var src = $(item).attr('href');
+				if (/com_openf2_examples_nodejs_helloworld\/app.css/.test(src)){
+					loadedCSS++;
+				}
+			});
+
+			expect(loadedJS).toBe(1);
+			expect(loadedCSS).toBe(1);
+		});
+	});
 });
