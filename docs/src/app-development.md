@@ -263,7 +263,7 @@ In the case when multiple stylesheetes are needed, simply add to the array as sh
 
 [Read more about CSS and namespacing](#namespacing) inside your app.
 
-<span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded synchronously by F2.js, so be sure to order your scripts properly. 
+<span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded _synchronously_ by F2.js, so be sure to order your scripts properly. 
 
 ### Scripts
 
