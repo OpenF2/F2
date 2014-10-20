@@ -31,7 +31,7 @@ $(function() {
 		var gridWidth = appConfig.minGridSize || 3;
 
 		appConfig.root = $([
-			'<section class="span' + gridWidth + '" data-grid-width="' + gridWidth + '">',
+			'<section class="col-md-' + gridWidth + '" data-grid-width="' + gridWidth + '">',
 				'<header class="clearfix">',
 					'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
 					'<div class="btn-group pull-right">',
