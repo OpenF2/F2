@@ -430,6 +430,26 @@ An example array of `AppConfig` objects for a collection of apps:
 ];
 ```
 
+### Page Load Lifecycle 
+
+When the Container (or, more simply, the web page) loads F2 apps via `F2.registerApps`, a series of `F2.AppHandler` events are fired. Their order of execution is detailed [in the SDK docs](./sdk/classes/F2.AppHandlers.html). An important part of this order of execution&mdash;inside step #4 under 'App Rendering'&mdash;is how each app's dependencies are loaded and added to the page. As detailed in [the `AppManifest` docs](app-development.html#app-manifest), the `scripts` and `styles` arrays can include any dependencies which add style or functionality to an app.
+
+During the F2 app load lifecycle, the following events happen in order:
+
+1. `F2.registerApps` called, each `AppConfig` iterated over
+2. Every `AppConfig` receives an `instanceId` property (with a value of a UUID)
+3. Every `AppConfig` is validated (`appId` and `manifestUrl` properties must exist)
+4. If the `AppConfig` contains a `root` property, F2 switches to [preloading mode](#registering-pre-loaded-apps)
+5. If the `AppConfig` contains the `enableBatchRequests:true` property, F2 switches to [batching mode](#batch-requesting-apps)
+6. Finally, the [internal `_loadApps` function](https://github.com/OpenF2/F2/blob/master/sdk/src/container.js#L211) is called which:
+    a) Iterates over each URL in the `styles` array, creates a new `<link rel="stylesheet">` tag and inserts it into the `<head>`.
+    b) Iterates over each app in the `apps` array, stores off any `data` to pass to the `appclass` later, and inserts any HTML into the app's root.
+    c) Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<body>`.
+    d) Iterates over each string in the `inlineScripts` array, and evaluates the script (`eval(str)`).
+    e) When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
+
+<span class="label label-important">Important</span> As of F2 version 1.3.4, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
+
 ### Requesting Apps On-Demand
 
 Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. For the purposes of this example, we will use an example news app from [OpenF2.org](http://www.openf2.org/Examples). 
@@ -471,7 +491,7 @@ Open your browser developer tools to see the single HTTP request to `http://www.
     The <code>params</code> querystring value for both batch-requested and non-batch-requested apps is a <a href="#container-to-app-context-server">serialized collection of AppConfigs</a>. In a scenario when many apps are batch-requested it would be possible to quickly reach the maximum HTTP GET character limit. In <a href="http://www.boutell.com/newfaq/misc/urllength.html">IE that limit is 2048 characters</a>, it is longer in more modern browsers. To work around this issue, F2 recommends either configuring <a href="#override-the-appmanifest-request">HTTP POST</a> if the container and apps are on the same domain or by <a href="http://enable-cors.org/">implementing CORS</a>.
 </div>
 
-<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) at the top of App Integration.
+<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) at the top of [App Integration](#app-integration).
 
 ### Registering Pre-Loaded Apps
 
