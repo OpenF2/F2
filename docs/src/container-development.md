@@ -449,7 +449,7 @@ During the F2 app load life cycle, the following events happen in order:
     d) Iterates over each string in the `inlineScripts` array, and evaluates the script (`eval(str)`)&mdash;only when all of the scripts in the previous step have been loaded.
     e) When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
 
-<span class="label label-important">Important</span> As of F2 version 1.3.4, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
+<span class="label label-important">Important</span> As of F2 version 1.4.0, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
 
 ### Requesting Apps On-Demand
 
