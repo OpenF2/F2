@@ -430,11 +430,11 @@ An example array of `AppConfig` objects for a collection of apps:
 ];
 ```
 
-### Page Load Lifecycle 
+### Page Load Life Cycle 
 
 When the Container (or, more simply, the web page) loads F2 apps via `F2.registerApps`, a series of `F2.AppHandler` events are fired. Their order of execution is detailed [in the SDK docs](./sdk/classes/F2.AppHandlers.html). An important part of this order of execution&mdash;inside step #4 under 'App Rendering'&mdash;is how each app's dependencies are loaded and added to the page. As detailed in [the `AppManifest` docs](app-development.html#app-manifest), the `scripts` and `styles` arrays can include any dependencies which add style or functionality to an app.
 
-During the F2 app load lifecycle, the following events happen in order:
+During the F2 app load life cycle, the following events happen in order:
 
 1. `F2.registerApps` called, each `AppConfig` iterated over
 2. Every `AppConfig` receives an `instanceId` property (with a value of a UUID)
@@ -444,8 +444,8 @@ During the F2 app load lifecycle, the following events happen in order:
 6. Finally, the [internal `_loadApps` function](https://github.com/OpenF2/F2/blob/master/sdk/src/container.js#L211) is called which:
     a) Iterates over each URL in the `styles` array, creates a new `<link rel="stylesheet">` tag and inserts it into the `<head>`.
     b) Iterates over each app in the `apps` array, stores off any `data` to pass to the `appclass` later, and inserts any HTML into the app's root.
-    c) Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<body>`.
-    d) Iterates over each string in the `inlineScripts` array, and evaluates the script (`eval(str)`).
+    c) Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<body>`. The scripts are _requested and added in serial_ to ensure they execute in order.
+    d) Iterates over each string in the `inlineScripts` array, and evaluates the script (`eval(str)`)&mdash;only when all of the scripts in the previous step have been loaded.
     e) When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
 
 <span class="label label-important">Important</span> As of F2 version 1.3.4, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
@@ -769,7 +769,7 @@ Here is a slightly more complicated example of the `appRender` event coupled wit
 
 #### More AppHandlers
 
-There are numerous examples shown on the Properties tab of [`F2.Constants.AppHandlers`](./sdk/classes/F2.Constants.AppHandlers.html). These demonstrate more advanced use of `F2.AppHandlers` and aim to provide Container Developers demonstrable low-level control over the life-cycle of app rendering.
+There are numerous examples shown on the Properties tab of [`F2.Constants.AppHandlers`](./sdk/classes/F2.Constants.AppHandlers.html). These demonstrate more advanced use of `F2.AppHandlers` and aim to provide Container Developers demonstrable low-level control over the [life cycle of app rendering](#page-load-life-cycle).
 
 * * * *
 

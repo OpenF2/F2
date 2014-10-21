@@ -441,7 +441,7 @@ While it isn't required, it's expected all F2 apps will ship with javascript. Th
 
 For more information on `F2.Apps`, [browse over to the F2.js SDK docs](./sdk/classes/F2.App.html).
 
-To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during `F2.registerApps()` (and the internal `_loadApps()` method). If the class has an `init()` function, it will be called automatically during execution of F2's `registerApps()` method. Go to Container Development for [more information the page load lifecycle](container-development.html#page-load-lifecycle).
+To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during `F2.registerApps()` (and the internal `_loadApps()` method). If the class has an `init()` function, it will be called automatically during execution of F2's `registerApps()` method. Go to Container Development for [more information the page load life cycle](container-development.html#page-load-life-cycle).
 
 We recommend&mdash;and have samples below for&mdash;two different patterns for writing your `appclass.js` code: prototypal inheritence or the module pattern.
 
