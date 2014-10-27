@@ -12,6 +12,7 @@ F2.extend('', (function() {
 	var _loadedScripts = {};
 	var _loadedStyles = {};
 	var _loadingScripts = {};
+	var _loadedScriptElements = [];
 
 	/**
 	 * Appends the app's html to the DOM
@@ -284,6 +285,8 @@ F2.extend('', (function() {
 
 			var scriptCount = scripts.length;
 			var scriptsLoaded = 0;
+			var supportsAsync = 'async' in document.createElement('script'); //http://caniuse.com/#feat=script-async
+			var head = document.head || document.getElementsByTagName('head')[0];
 
 			// Check for IE10+ so that we don't rely on onreadystatechange
 			var readyStates = ('addEventListener' in window) ? {} : {
@@ -322,6 +325,12 @@ F2.extend('', (function() {
 			var _checkComplete = function() {
 				// Are we done loading all scripts for this app?
 				if (++scriptsLoaded === scriptCount) {
+					//For IE8 & 9: insert scripts in order here, they're already downloaded
+					if (!supportsAsync){
+						for (var i = 0; i < _loadedScriptElements.length; i++) {
+							head.insertBefore(_loadedScriptElements[i], head.lastChild);
+						}
+					}
 					cb();
 				}
 			};
@@ -349,8 +358,7 @@ F2.extend('', (function() {
 
 			// Load scripts and eval inlines once complete
 			jQuery.each(scripts, function(i, e) {
-				var doc = document,
-					script = doc.createElement('script'),
+				var script = document.createElement('script'),
 					resourceUrl = e,
 					resourceKey = resourceUrl.toLowerCase();
 
@@ -379,9 +387,15 @@ F2.extend('', (function() {
 				// Scripts needed to be loaded in order they're defined in the AppManifest
 				script.async = false;
 				// Add other attrs
-				script.src = resourceUrl;
+				script.src = resourceUrl; //IE starts downloading <script> when "src" is set
 				script.type = 'text/javascript';
 				script.charset = 'utf-8';
+
+				//save <script> el for IE8 & 9 use later
+				if (!supportsAsync){
+					_loadedScriptElements.push(script);
+				}
+
 				script.onerror = function(e) {
 					_error(e);
 					_emptyWaitlist(resourceKey, e);
@@ -394,17 +408,22 @@ F2.extend('', (function() {
 					if (e.type == 'load' || readyStates[script.readyState]) {
 						// Done, cleanup
 						script.onload = script.onreadystatechange = script.onerror = null;
-
+						//loaded
+						_loadedScripts[resourceKey] = true;
+						//increment and check if scripts are done
+						_checkComplete();
+						//checkComplete and empty wait list
+						_emptyWaitlist(resourceKey);
 						// Dereference script
 						script = null;
-
-						_loadedScripts[resourceKey] = true;
-						_checkComplete();
-						_emptyWaitlist(resourceKey);
 					}
 				};
 
-				doc.body.appendChild(script);
+				//Insert <script> tags here, except IE8 & 9 where it's done in _checkComplete
+				if (supportsAsync){ 
+					document.body.appendChild(script);
+				}
+
 			});
 		};
 
