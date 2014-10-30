@@ -286,7 +286,7 @@ F2.extend('', (function() {
 			var scriptCount = scripts.length;
 			var scriptsLoaded = 0;
 			var supportsAsync = 'async' in document.createElement('script'); //http://caniuse.com/#feat=script-async
-			var head = document.head || document.getElementsByTagName('head')[0];
+			// var head = document.head || document.getElementsByTagName('head')[0];
 
 			// Check for IE10+ so that we don't rely on onreadystatechange
 			var readyStates = ('addEventListener' in window) ? {} : {
@@ -328,7 +328,8 @@ F2.extend('', (function() {
 					//For IE8 & 9: insert scripts in order here, they're already downloaded
 					if (!supportsAsync){
 						for (var i = 0; i < _loadedScriptElements.length; i++) {
-							head.insertBefore(_loadedScriptElements[i], head.lastChild);
+							// head.insertBefore(_loadedScriptElements[i], head.lastChild);
+							document.body.appendChild(_loadedScriptElements[i]);
 						}
 					}
 					cb();
@@ -422,6 +423,8 @@ F2.extend('', (function() {
 				//Insert <script> tags here, except IE8 & 9 where it's done in _checkComplete
 				if (supportsAsync){ 
 					document.body.appendChild(script);
+				} else {
+					_checkComplete();
 				}
 
 			});
