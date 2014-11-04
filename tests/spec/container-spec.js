@@ -791,20 +791,24 @@ describe('F2.registerApps - rendering', function() {
 			debugMode: true
 		});
 		F2.registerApps([{
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
+			appId:'com_openf2_tests_helloworld', 
+			manifestUrl:'/'
 		}], [{
-			'scripts': ['js/cacheBusterAdded.js'],
+			'scripts': ['js/test.js'],
 			'apps': [{
 				'html': '<div class="test-app-2">Testing</div>'
 			}]
 		}]);
+
+		// wait for registerApps to complete loading
+		waits(2000);
+		
 		runs(function() {
 
 			$('script').each(function(idx, item) {
 				var src = $(item).attr('src');
 				//find script, test for cachebuster string
-				if (/cacheBusterAdded.js\?cachebuster/.test(src)) {
+				if (/test.js\?cachebuster/.test(src)) {
 					bustedCache = true;
 					return false; //break from $.each
 				}
@@ -818,14 +822,16 @@ describe('F2.registerApps - rendering', function() {
 		var bustedCache = false;
 		F2.init();
 		F2.registerApps([{
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
+			appId:'com_openf2_tests_helloworld', 
+			manifestUrl:'/'
 		}], [{
-			'scripts': ['js/cacheBusterNotAdded.js'],
+			'scripts': ['js/test.js'],
 			'apps': [{
 				'html': '<div class="test-app-2">Testing</div>'
 			}]
 		}]);
+
+		waits(2000);
 
 		runs(function() {
 
@@ -847,7 +853,7 @@ describe('F2.registerApps - rendering', function() {
 		var loadedJS = loadedCSS = 0;
 		F2.init();
 		//notify when apps have been rendered
-		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; })
+		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; });
 		//load same app twice
 		F2.registerApps([
 			{
@@ -885,6 +891,36 @@ describe('F2.registerApps - rendering', function() {
 
 			expect(loadedJS).toBe(1);
 			expect(loadedCSS).toBe(1);
+		});
+	});
+
+	it('should load and execute scripts in order', function() {
+		var scriptsLoaded = false;
+		F2.init();
+		//load 1 app with 2 script files, the 2nd one defines F2.HightChartsIsDefined global.
+		F2.registerApps([{
+				appId: 'com_openf2_tests_helloworld',
+				manifestUrl: '/'
+		}], [{
+			'scripts': ['http://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.3/highcharts.js','js/test.js'],
+			'apps': [{
+				'html': '<div class="test-app-1">Testing</div>'
+			}]
+		}]);
+
+		//notify when dependencies have been loaded
+		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+			scriptsLoaded = true;
+			console.log('APP_SCRIPTS_LOADED',data);
+		});
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return scriptsLoaded && F2.HightChartsIsDefined;
+		}, 'test apps to load', 10000);
+
+		runs(function() {
+			expect(F2.HightChartsIsDefined).toBeTruthy();
 		});
 	});
 });

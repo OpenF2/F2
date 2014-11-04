@@ -12,6 +12,7 @@ F2.Apps["com_openf2_tests_helloworld"] = (function() {
 		F2.destroyAppMethodCalled = false;
 		F2.testAppInstanceID = this.appConfig.instanceId;
 		F2.testAppInitialized = true;
+		F2.HightChartsIsDefined = window.Highcharts;
 	};
 
 	App_Class.prototype.destroy = function () {

@@ -12,7 +12,6 @@ F2.extend('', (function() {
 	var _loadedScripts = {};
 	var _loadedStyles = {};
 	var _loadingScripts = {};
-	var _loadedScriptElements = [];
 
 	/**
 	 * Appends the app's html to the DOM
@@ -272,7 +271,8 @@ F2.extend('', (function() {
 			cb();
 		};
 
-		// Fn for loading manifest Scripts
+		// For loading AppManifest.scripts
+		// Parts derived from curljs, headjs, requirejs, dojo
 		var _loadScripts = function(scripts, cb) {
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
@@ -283,16 +283,17 @@ F2.extend('', (function() {
 				return cb();
 			}
 
+			var doc = window.document;
 			var scriptCount = scripts.length;
 			var scriptsLoaded = 0;
-			var supportsAsync = 'async' in document.createElement('script'); //http://caniuse.com/#feat=script-async
-			// var head = document.head || document.getElementsByTagName('head')[0];
-
-			// Check for IE10+ so that we don't rely on onreadystatechange
-			var readyStates = ('addEventListener' in window) ? {} : {
-				'loaded': true,
-				'complete': true
-			};
+			//http://caniuse.com/#feat=script-async
+			// var supportsAsync = 'async' in doc.createElement('script') || 'MozAppearance' in doc.documentElement.style || window.opera;
+			var head = doc && (doc['head'] || doc.getElementsByTagName('head')[0]);
+			// to keep IE from crying, we need to put scripts before any
+			// <base> elements, but after any <meta>. this should do it:
+			var insertBeforeEl = head && head.getElementsByTagName('base')[0] || null;
+			// Check for IE10+ so that we don't rely on onreadystatechange, readyStates for IE6-9
+			var readyStates = 'addEventListener' in window ? {} : { 'loaded': true, 'complete': true };
 
 			// Log and emit event for the failed (400,500) scripts
 			var _error = function(e) {
@@ -325,13 +326,9 @@ F2.extend('', (function() {
 			var _checkComplete = function() {
 				// Are we done loading all scripts for this app?
 				if (++scriptsLoaded === scriptCount) {
-					//For IE8 & 9: insert scripts in order here, they're already downloaded
-					if (!supportsAsync){
-						for (var i = 0; i < _loadedScriptElements.length; i++) {
-							// head.insertBefore(_loadedScriptElements[i], head.lastChild);
-							document.body.appendChild(_loadedScriptElements[i]);
-						}
-					}
+					// emit event
+					F2.Events.emit('APP_SCRIPTS_LOADED', { appId:appConfigs[0].appId, scripts:scripts });
+					// success
 					cb();
 				}
 			};
@@ -359,7 +356,7 @@ F2.extend('', (function() {
 
 			// Load scripts and eval inlines once complete
 			jQuery.each(scripts, function(i, e) {
-				var script = document.createElement('script'),
+				var script = doc.createElement('script'),
 					resourceUrl = e,
 					resourceKey = resourceUrl.toLowerCase();
 
@@ -385,17 +382,11 @@ F2.extend('', (function() {
 					resourceUrl += '?cachebuster=' + new Date().getTime();
 				}
 
-				// Scripts needed to be loaded in order they're defined in the AppManifest
+				// Scripts are loaded asynchronously and executed in order
+				// in supported browsers: http://caniuse.com/#feat=script-async
 				script.async = false;
-				// Add other attrs
-				script.src = resourceUrl; //IE starts downloading <script> when "src" is set
 				script.type = 'text/javascript';
 				script.charset = 'utf-8';
-
-				//save <script> el for IE8 & 9 use later
-				if (!supportsAsync){
-					_loadedScriptElements.push(script);
-				}
 
 				script.onerror = function(e) {
 					_error(e);
@@ -406,27 +397,29 @@ F2.extend('', (function() {
 				script.onload = script.onreadystatechange = function(e) {
 					e = e || window.event; // For older IE
 
+					// detect when it's done loading
+					// ev.type == 'load' is for all browsers except IE6-9
+					// IE6-9 need to use onreadystatechange and look for
+					// el.readyState in {loaded, complete} (yes, we need both)
 					if (e.type == 'load' || readyStates[script.readyState]) {
 						// Done, cleanup
-						script.onload = script.onreadystatechange = script.onerror = null;
-						//loaded
+						script.onload = script.onreadystatechange = script.onerror = '';
+						// loaded
 						_loadedScripts[resourceKey] = true;
-						//increment and check if scripts are done
+						// increment and check if scripts are done
 						_checkComplete();
-						//checkComplete and empty wait list
+						// empty wait list
 						_emptyWaitlist(resourceKey);
 						// Dereference script
 						script = null;
 					}
 				};
 
-				//Insert <script> tags here, except IE8 & 9 where it's done in _checkComplete
-				if (supportsAsync){ 
-					document.body.appendChild(script);
-				} else {
-					_checkComplete();
-				}
+				//set the src, start loading
+				script.src = resourceUrl;
 
+				//<head> really is the best
+				head.insertBefore(script, insertBeforeEl);
 			});
 		};
 
