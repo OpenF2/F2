@@ -306,7 +306,7 @@ F2.extend('', (function() {
 					// Send error to console
 					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-					// Emit event
+					// Emit events
 					F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
 
 					if (!_bUsesAppHandlers) {
@@ -326,8 +326,6 @@ F2.extend('', (function() {
 			var _checkComplete = function() {
 				// Are we done loading all scripts for this app?
 				if (++scriptsLoaded === scriptCount) {
-					// emit event
-					F2.Events.emit('APP_SCRIPTS_LOADED', { appId:appConfigs[0].appId, scripts:scripts });
 					// success
 					cb();
 				}
@@ -435,7 +433,10 @@ F2.extend('', (function() {
 					}
 					catch (exception) {
 						F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
-
+						
+						// Emit events
+						F2.Events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
+						
 						if (!_bUsesAppHandlers) {
 							_appScriptLoadFailed(appConfigs[0], exception);
 						}
@@ -524,6 +525,8 @@ F2.extend('', (function() {
 			_loadHtml(apps);
 			// Add the script content to the page
 			_loadScripts(scripts, function() {
+				// emit event we're done with scripts
+				if (appConfigs[0]){ F2.Events.emit('APP_SCRIPTS_LOADED', { appId:appConfigs[0].appId, scripts:scripts }); }
 				// Load any inline scripts
 				_loadInlineScripts(inlines, function() {
 					// Create the apps

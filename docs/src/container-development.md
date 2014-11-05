@@ -353,6 +353,28 @@ F2.init({
 
 <span class="label label-info">Note</span> This Container Config option was added not because it is expected Container Developers will need or use it but rather to prevent unnecessary scripting in the [script override config option](#override-the-request-for-app-dependencies).
 
+#### Handling Script Errors
+
+In the event any scripts defined in an `AppManifest` fail to load&mdash;such as HTTP 404 or simply timeout after the [configurable](./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout) 7 seconds&mdash;F2 Events are triggered. The two events are: `RESOURCE_FAILED_TO_LOAD` and the `APP_SCRIPT_LOAD_FAILED` [AppHandler](./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED). Both events are passed the `appId` and `src` of the failed script. 
+
+```javascript
+F2.Events.on('RESOURCE_FAILED_TO_LOAD', function(data){
+    F2.log('Script failed to load: ' data.src); 
+    //Ouputs 'Script failed to load: http://cdn.com/script.js'
+});
+```
+
+#### When Are Scripts Loaded? 
+
+When all of the scripts defined in an `AppManifest` have been loaded, the `APP_SCRIPTS_LOADED` event is triggered. This event receives the `appId` and array of `scripts` just loaded. _This event is fired for every App registered._
+
+```javascript
+F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+    F2.log('All scripts for ' +data.appId+ ' have been loaded.');
+    //Ouputs 'All scripts for com_test_app have been loaded.'
+});
+```
+
 #### Supported Views
 
 F2 Container Developers should define which [app views](app-development.html#f2.ui.views) their container supports. This is set in the `supportedViews` property of the `ContainerConfig` using [`F2.Constants.Views`](./sdk/classes/F2.Constants.Views.html).
