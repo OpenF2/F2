@@ -840,5 +840,566 @@ describe('F2.registerApps - rendering', function() {
 
 			expect(bustedCache).toBe(false);
 		});
+	});	
+});
+
+
+describe('F2.loadPlaceholders - auto', function() {
+
+	describe('single app by id', function() {
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically auto-init F2 when f2-autoload id is on the page', function() {
+			// need to wait for dom ready before F2.init() will be called
+			waitsFor(
+				function() {
+					return F2.isInit();
+				},
+				'F2.init() never called',
+				3000
+			);
+			runs(function() {
+				expect(F2.isInit()).toBe(true);
+			});
+		});
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by id, with children', function() {
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '">',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+
+		it('should ignore apps within apps', function() {
+
+			var proceed = false;
+			var timeout;
+
+			waitsFor(
+				function() {
+					// wait an arbitrary 5 seconds for the apps to load
+					timeout = timeout || setTimeout(function() { proceed = true; }, 5000);
+					return proceed;
+				},
+				'placeholder app to load',
+				10000
+			);
+
+			runs(function() {
+				expect($('#f2-autoload').children().length).toEqual(1);
+				expect($('#f2-autoload [data-f2-appid]').length).toEqual(0);
+			});
+		});
+	});
+
+	describe('single app by attribute', function() {
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div data-f2-autoload data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically auto-init F2 when data-f2-autoload attribute is on the page', function() {
+			// need to wait for dom ready before F2.init() will be called
+			waitsFor(
+				function() {
+					return F2.isInit();
+				},
+				'F2.init() never called',
+				3000
+			);
+			runs(function() {
+				expect(F2.isInit()).toBe(true);
+			});
+		});
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by class', function() {
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div class="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically auto-init F2 when f2-autoload class is on the page', function() {
+			// need to wait for dom ready before F2.init() will be called
+			waitsFor(
+				function() {
+					return F2.isInit();
+				},
+				'F2.init() never called',
+				3000
+			);
+			runs(function() {
+				expect(F2.isInit()).toBe(true);
+			});
+		});
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by id, nested', function() {
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by attribute, nested', function() {
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-single" data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-single [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by class, nested', function() {
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-single" class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-single [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('many apps by id', function() {
+
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register multiple apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many apps by attribute', function() {
+
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-many" data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register multiple apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-many [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many apps by class', function() {
+
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-many" class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register multiple apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-many [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many placeholders by attribute', function() {
+
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>',
+				'<div data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>',
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps within multiple placeholders', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many placeholders by class', function() {
+
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>',
+				'<div class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>',
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps within multiple placeholders', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+});
+
+describe('F2.loadPlaceholders - manual', function() {
+
+	// add the f2-autoload element to the test fixture for use in each
+	// test
+	beforeEach(function() {
+		$('#test-fixture').append('<div id="f2-autoload"></div>');
+	});
+
+	// force F2 to be reloaded
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	it('should require the presence of data-f2-manifesturl', function() {
+		// add the invalid placeholder
+		$('#f2-autoload').append('<div data-f2-appid="' + TEST_APP_ID + '"></div>');
+
+		// even though the manifesturl is missing, the message is generic because a null AppConfig was generated
+		expect(function() {
+			F2.init();
+			F2.loadPlaceholders();
+		}).toLog('"appId" missing from app object');
+	});
+
+	it('should find and register apps', function() {
+		// add the placeholder
+		$('#f2-autoload').append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+
+		F2.init();
+		F2.loadPlaceholders();
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#f2-autoload [data-f2-appid]').children().length;
+				return children;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(1);
+		});
+	});
+
+	it('should find and register multiple apps', function() {
+		// add the placeholder
+		$('#f2-autoload')
+			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>')
+			.append('<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>');
+
+		F2.init();
+		F2.loadPlaceholders();
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#f2-autoload [data-f2-appid]').children().length;
+				return children == 2;
+			},
+			'app never loaded',
+			5000
+		);
+
+		runs(function() {
+			expect(children).toEqual(2);
+		});
+	});
+
+	it('should throw an exception when an invalid parentNode is passed', function() {
+		expect(function() {
+			F2.init();
+			F2.loadPlaceholders('foo');
+		}).toThrow('"parentNode" must be null or a DOM node');
+	});
+
+	it('should find and register apps within a given scope', function() {
+		// add the placeholder
+		$('#f2-autoload').append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+
+		F2.init();
+		F2.loadPlaceholders(document.getElementById('test-fixture'));
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#f2-autoload [data-f2-appid]').children().length;
+				return children;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(1);
+		});
 	});
 });

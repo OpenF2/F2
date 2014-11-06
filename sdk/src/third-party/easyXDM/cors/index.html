@@ -82,6 +82,12 @@
                         timeout: 10 * 1000
                     }, true);
                     
+                    // set the CORS request header
+                    // only if there is no XHR2 features
+                    if (!window.XMLHttpRequest || !('withCredentials' in (new XMLHttpRequest))) {
+                        config.headers.Origin = remote.origin;
+                    }
+                    
                     var isPOST = config.method == "POST";
                     
                     // convert the data into a format we can send to the server 
@@ -95,7 +101,10 @@
                     
                     // create the XMLHttpRequest object
                     var req = getXhr();
-                    req.open(config.method, config.url + (isPOST ? "" : "?" + data), true);
+                    var url = !isPOST && data
+                        ? config.url + (~config.url.indexOf('?') ? '&' : '?') + data
+                        : config.url;
+                    req.open(config.method, url, true);
                     
                     // apply the request headers
                     for (var prop in config.headers) {
@@ -107,7 +116,10 @@
                     // set a timeout
                     var timeout;
                     timeout = setTimeout(function(){
+                        // reset the handler
+                        req.onreadystatechange = Function.prototype;
                         req.abort();
+                        req = null;
                         error({
                             message: "timeout after " + config.timeout + " second",
                             status: 0,

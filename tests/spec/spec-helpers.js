@@ -40,7 +40,7 @@ itConditionally = function(condition, desc, func) {
  * Clean out the test fixture before each spec
  */
 beforeEach(function() {
-	document.getElementById('test-fixture').innerHTML = '';
+	$('#test-fixture').empty();
 });
 
 /**

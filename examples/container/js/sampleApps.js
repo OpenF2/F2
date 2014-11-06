@@ -21,14 +21,14 @@
 			"manifestUrl": "../apps/JavaScript/Quote/manifest.js",
 			"name": "Quote",
 			"views": ["home", "settings", "about"],
-			"minGridSize": 3
+			"minGridSize": 4
 		},
 		{
 			"appId": "com_openf2_examples_javascript_watchlist",
 			"manifestUrl": "../apps/JavaScript/Watchlist/manifest.js",
 			"name": "Watchlist",
 			"views": ["home", "settings"],
-			"minGridSize": 3
+			"minGridSize": 4
 		},
 		{
 			"appId": "com_openf2_examples_javascript_cds",
@@ -46,7 +46,7 @@
 		{
 			"appId": "com_openf2_examples_javascript_helloworld",
 			"manifestUrl": "../apps/JavaScript/HelloWorld/manifest.js",
-			"name": "Hello World (JavaScript)"
+			"name": "Hello World (JS)"
 		}
 	],
 
