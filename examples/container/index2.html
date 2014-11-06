@@ -18,7 +18,6 @@
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
     <link href="./css/container.css" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -30,7 +29,7 @@
 
   <body>
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-default" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -48,54 +47,51 @@
             <li><a href="../../docs/sdk/">SDK</a></li>
             <li class="divider-vertical"></li>
             <li><a href="http://www.openf2.org/" target="_blank">OpenF2.org</a></li>
-            <li><a href="https://github.com/OpenF2/F2" target="_blank">View Project on GitHub</a></li>
+            <li><a href="https://github.com/OpenF2/F2" target="_blank">GitHub</a></li>
           </ul>
+          <form class="navbar-form navbar-right">
+            <button id="btnSelectApps" type="button" class="btn btn-primary">Select Apps</button>
+          </form>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
     <div id="mainContent" class="indexPage container"></div>
 
-    <div id="languageSelect" class="modal hide">
-      <div class="modal-header">
-        <h3>Please select example apps</h3>
-      </div>
-      <div class="modal-body">
-        <span class="help-block">
-          There are a variety of Apps written in several programming languages.
-          Please select the language(s) that can run on your computer to continue.
-          You can select other Apps to load later by clicking the 'Select Apps'
-          button in the top nav bar.
-        </span>
-        <div class="span2" data-language="js">
-          <h4>JavaScript</h4>
+    <div id="languageSelect" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Select example apps</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <p class="col-md-12">
+                There are a variety of Apps written in several programming languages.
+                Select the language(s) that can run on your local server to continue.
+                You can select other Apps to load later by clicking the 'Select Apps'
+                button in the top nav bar.
+              </p>
+              <form>
+                <div class="col-md-4" data-language="js">
+                  <h4>JavaScript</h4>
+                </div>
+                <div class="col-md-4" data-language="php">
+                  <h4>PHP</h4>
+                </div>
+                <div class="col-md-4" data-language="csharp">
+                  <h4>C#</h4>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary disabled" type="button">Save</button>
+          </div>
         </div>
-        <div class="span2" data-language="php">
-          <h4>PHP</h4>
-        </div>
-        <div class="span2" data-language="csharp">
-          <h4>C#</h4>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary disabled" type="button">Save</button>
       </div>
     </div>
-
-    <div id="notice" class="modal hide">
-      <div class="modal-header">
-        <h3>F2 Example Container</h3>
-      </div>
-      <div class="modal-body">
-        <p>
-          Since the example container is a website, this page requires a web server <a href="http://docs.openf2.org/container-development.html#configuration">configured locally</a>. Once you have that setup, point your browser at <code>http://localhost/F2/examples/container/</code>.
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" type="button">OK, close this window</button>
-      </div>
-    </div>
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -108,19 +104,6 @@
     <script src="../../sdk/f2.debug.js" type="text/javascript"></script>
 
     <!-- Include container-specific logic, notably F2.init() -->
-    <script type="text/javascript">
-      $(function(){
-        //can't run this container from a file:// protocol
-        if (location.protocol === "file:"){
-          var $m = $("#notice").modal();
-          // bind save button
-          $m.on('click', 'button.btn', function() {
-            $m.modal('hide');
-            window.close();
-          });
-        }
-      });
-    </script>
     <script src="./js/storage.js"></script>
     <script src="./js/container.js"></script>
     <script src="./js/examples.js"></script>
