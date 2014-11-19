@@ -11,7 +11,7 @@ body {
 	border-radius: 3px;
 }
 
-.f2-app header {
+.f2-app-wrapper > header {
 	padding: 10px;
 	background-color: #f8f8f8
 }
@@ -25,7 +25,6 @@ body {
 	color: #444;
 	font-size: 18px;
 	line-height: normal;
-	/*text-transform: uppercase;*/
 }
 
 .f2-app header .btn-group{
@@ -36,4 +35,8 @@ body {
 	margin-bottom: 0;
 	min-height: 100px;
 	padding: 10px;
+}
+
+.f2-app .f2-app-view h3 {
+	margin-top: 0;
 }

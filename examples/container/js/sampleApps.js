@@ -62,7 +62,7 @@
 		{
 			"appId": "com_openf2_examples_php_news",
 			"manifestUrl": "../apps/PHP/News/news.php",
-			"name": "Stocks News",
+			"name": "Stock News",
 			"views": ["home", "settings"],
 			"minGridSize": 6
 		},

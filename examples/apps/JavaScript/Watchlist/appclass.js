@@ -41,7 +41,7 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 							"<td><strong>{price}</strong></td>",
 							"<td><small>{change} ({changePct})</small></td>",
 							"<td><small>{volume}</small></td>",
-							"<td><a href='#' title='Remove from watchlist' data-remove='{symbol}'><i class='icon-remove'></i></a></td>",
+							"<td><a href='#' title='Remove from watchlist' data-remove='{symbol}'><i class='glyphicon glyphicon-remove'></i></a></td>",
 						"</tr>",
 						"<tr class='hide' data-row-detail='{symbol}'>",
 							"<td colspan='5'>",

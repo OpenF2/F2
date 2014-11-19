@@ -49,7 +49,7 @@ $(function() {
 			'<section class="col-md-' + gridWidth + '" data-grid-width="' + gridWidth + '">',
 				'<div class="f2-app-wrapper">',
 					'<header class="clearfix">',
-						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
+						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name, '</h2>',
 						cogMenu,
 					'</header>',
 				'</div>',

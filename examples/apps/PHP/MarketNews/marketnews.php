@@ -66,7 +66,7 @@
 
 		$html = array(
 			'<div class="f2-app-view" data-f2-view="home">',
-				'<ul class="unstyled">'
+				'<ul class="list-unstyled">'
 		);
 
 		for ($i = 0; $i < $MAX_ARTICLES; $i++) {

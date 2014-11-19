@@ -76,7 +76,7 @@
 						$doc->channel->title,
 					'</h1>',
 				'</header>',*/
-				'<ul class="unstyled">'
+				'<ul class="list-unstyled">'
 		);
 
 		for ($i = 0; $i < $MAX_ARTICLES; $i++) {
