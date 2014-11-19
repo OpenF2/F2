@@ -66,7 +66,7 @@
 
 		$html = array(
 			'<div class="f2-app-view" data-f2-view="home">',
-				'<ul class="unstyled">'
+				'<ul class="list-unstyled">'
 		);
 
 		for ($i = 0; $i < $MAX_ARTICLES; $i++) {
@@ -129,23 +129,23 @@ HTML;
 
 		foreach ($PROVIDERS as $key => $value) {
 			$providerHtml[] = join('', array(
-				'<label class="radio">',
+				'<div class="radio"><label>',
 					'<input type="radio" name="provider" value="', $key, '" ', ($key == $provider ? 'checked' : '') ,'> ',
 					$value['display'],
-				'</label>'
+				'</label></div>'
 			));
 		}
 
 		$html = array(
 			'<form class="f2-app-view hide" data-f2-view="settings">',
-				'<label class="checkbox" name="autoRefresh">',
+				'<div class="checkbox" name="autoRefresh"><label>',
 					'<input type="checkbox" name="autoRefresh"> 30-Second Auto-Refresh',
-				'</label>',
+				'</label></div>',
 				'<span class="help-block">News Provider:</span>',
 				join('', $providerHtml),
 				'<div class="form-actions">',
 					'<button type="button" class="btn btn-primary save">Save</button> ',
-					'<button type="button" class="btn cancel">Cancel</button>',
+					'<button type="button" class="btn btn-default cancel">Cancel</button>',
 				'</div>',
 			'</form>'
 		);

@@ -16,7 +16,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 		var defaults = {
 			backgroundColor: '#fff',
-			lineColor: '#6A8F8E',
+			lineColor: '#428bca',
 			lineWidth: 1.5,
 			gridColor: '#DDDDDD',
 			gridAltColor: '#F7F7F7',
@@ -126,7 +126,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		hcChartObj.setTitle({ text:'' });
 
 		this.ui.hideMask(this.$root);
-		this.ui.setTitle("ONE-YEAR PRICE MOVEMENT FOR " + this.symbol);
+		this.ui.setTitle("One-Year Price Movement " + this.symbol);
 		
 		// No options setting is available for this, so force the price line to be rounded 
 		$('.highcharts-series path:first', this.root).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
@@ -251,11 +251,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 				crosshairs: true,
 				formatter: function () {
 					if ( this.series.name == 'Close price' ) {
-						return '<span style="color: #777777; font-size: 10px;">' 
-							+ Highcharts.dateFormat('%b %e %Y', this.x) 
-							+ '</span><br /><span style="color: ' + this.series.color + ';">' 
-							+ this.series.name + ': ' + Highcharts.numberFormat(this.y, 2) 
-							+ '</span>';
+						return '<div style="color: #777777; font-size: 12px;">' + Highcharts.dateFormat('%b %e %Y', this.x) + ': $' + Highcharts.numberFormat(this.y, 2) + '</div>';
 					}
 					else return false;
 				},

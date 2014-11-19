@@ -119,7 +119,7 @@ Support across all desktop browsers and mobile devices is sometimes limited so F
 
 As either an App or a Container Developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the [F2.js JavaScript SDK](f2js-sdk.html) provides a consistent interface and easy-to-use API so you don't have to think about it.
 
-<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. 
+<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[officially-supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. [Read the blog post](http://blog.openf2.org/2014/09/supporting-bootstrap-3.html) for more information on using Bootstrap 3 today.
 
 ### Apps
 
