@@ -237,6 +237,13 @@ F2.extend('', (function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
+
+		//listen for container-broadcasted locale changes
+		F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+			if (data.locale && typeof data.locale == 'string'){
+				F2.ContainerConfig.locale = data.locale;
+			}
+		});
 	};
 
 	/**
