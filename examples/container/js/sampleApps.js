@@ -21,7 +21,8 @@
 			"manifestUrl": "../apps/JavaScript/Quote/manifest.js",
 			"name": "Quote",
 			"views": ["home", "settings", "about"],
-			"minGridSize": 4
+			"minGridSize": 4,
+			"localeSupport": ["en-us","en-gb"]
 		},
 		{
 			"appId": "com_openf2_examples_javascript_watchlist",

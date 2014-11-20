@@ -117,6 +117,7 @@ $(function() {
 	 */
 	F2.init({
 		debugMode: true,
+		locale: "de-de",
 		UI:{
 			Mask:{
 				loadingIcon:'./img/ajax-loader.gif'
