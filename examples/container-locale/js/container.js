@@ -21,6 +21,22 @@ for (var i in logFns) {
 
 $(function() {
 	
+	//locale switcher
+	$('#locale-switcher').on('click','a',function(e){
+		var locale = $(this).data('locale');
+		
+		//emit standard event with new locale
+		F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,{
+			locale: locale
+		});
+
+		F2.log('Container locale changed to ' + F2.getContainerLocale());
+
+		//set active state on selected locale
+		$(this).parent().siblings().removeClass('active');
+		$(this).parent().addClass('active');
+	});
+
 	var containerAppHandlerToken = F2.AppHandlers.getToken();
 
 	var appCreateRootFunc = function(appConfig) {
@@ -117,6 +133,7 @@ $(function() {
 	 */
 	F2.init({
 		debugMode: true,
+		locale: "en-gb",
 		UI:{
 			Mask:{
 				loadingIcon:'./img/ajax-loader.gif'
@@ -150,6 +167,11 @@ $(function() {
 					'</div>'];
 		$('#mainContent').prepend(error.join(''));
 	});
+
+	//set active state on selected locale in menubar
+	if (F2.getContainerLocale()){
+		$('a[data-locale='+F2.getContainerLocale()+']','#locale-switcher').parent().addClass('active');
+	}
 
 	/**
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 

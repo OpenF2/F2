@@ -21,7 +21,8 @@
 			"manifestUrl": "../apps/JavaScript/Quote/manifest.js",
 			"name": "Quote",
 			"views": ["home", "settings", "about"],
-			"minGridSize": 4
+			"minGridSize": 4,
+			"localeSupport": ["en-us","en-gb"]
 		},
 		{
 			"appId": "com_openf2_examples_javascript_watchlist",
@@ -47,6 +48,13 @@
 			"appId": "com_openf2_examples_javascript_helloworld",
 			"manifestUrl": "../apps/JavaScript/HelloWorld/manifest.js",
 			"name": "Hello World (JS)"
+		},
+		{
+			"appId": "com_openf2_examples_javascript_helloworldlocale",
+			"manifestUrl": "../apps/JavaScript/HelloWorldLocale/manifest.js",
+			"name": "Hello World Locale (JS)",
+			"minGridSize": 5,
+			"localeSupport": ["en-us","en-gb"]
 		}
 	],
 

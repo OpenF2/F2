@@ -1,0 +1,38 @@
+.f2-app {
+	margin-bottom:20px;
+}
+
+.f2-app-wrapper {
+	border: 1px solid #e7e7e7;
+	border-radius: 3px;
+}
+
+.f2-app-wrapper > header {
+	padding: 10px;
+	background-color: #f8f8f8
+}
+
+.f2-app header .glyphicon {
+	opacity: 0.7;
+}
+
+.f2-app header h2 {
+	margin: 0;
+	color: #444;
+	font-size: 18px;
+	line-height: normal;
+}
+
+.f2-app header .btn-group{
+	padding: 5px;
+}
+
+.f2-app .f2-app-container {
+	margin-bottom: 0;
+	min-height: 100px;
+	padding: 10px;
+}
+
+.f2-app .f2-app-view h3 {
+	margin-top: 0;
+}
