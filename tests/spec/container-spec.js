@@ -1365,7 +1365,7 @@ describe('F2.loadPlaceholders - manual', function() {
 				return children == 2;
 			},
 			'app never loaded',
-			5000
+			10000
 		);
 
 		runs(function() {

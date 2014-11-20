@@ -6,6 +6,7 @@ var app = express();
  * will output an AppManifest with an AppClass that will log some data.
  * See container-spec.js and search for httpPostTest
  */
+app.get('/', function(req,res){ res.redirect('/tests'); });
 app.use('/httpPostTest', function(req, res) {
 	res.setHeader('Content-Type', 'application/json');
 	res.end('F2_jsonpCallback_com_test_app(' + JSON.stringify({
