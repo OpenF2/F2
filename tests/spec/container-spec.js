@@ -350,6 +350,235 @@ describe('F2.isInit', function() {
 	});
 });
 
+describe('F2.init - internationalization', function() {
+
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	var appConfig = {
+		appId: TEST_APP_ID,
+		manifestUrl: TEST_MANIFEST_URL,
+		localeSupport: ['en-us','de-de']
+	};
+
+	var appManifest = {
+		scripts: [],
+		styles: [],
+		inlineScripts: [],
+		apps: [{
+			html: '<div class="test-app-2">Testing</div>'
+		}]
+	};
+
+	it('should not fail F2.init when locale is undefined', function() {
+		F2.init();
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(F2.isInit()).toBeTruthy();
+		});
+	});
+
+	it('F2.getContainerLocale() should return null when locale is undefined', function() {
+		F2.init();
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(F2.getContainerLocale()).toBe(null);
+		});
+	});
+
+	it('F2.getContainerLocale() should return current locale', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(F2.getContainerLocale()).toBe('en-us');
+		});
+	});
+
+	it('F2.getContainerLocale() should be a string', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(typeof F2.getContainerLocale() == 'string').toBeTruthy();
+		});
+	});
+
+	it('F2.getContainerLocale() should be a valid IETF tag', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			//see http://www.w3.org/TR/xmlschema11-2/#language
+			expect( /[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*/.test( F2.getContainerLocale() ) ).toBeTruthy();
+		});
+	});
+
+	it('should not modify original appConfig', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(appConfig.containerLocale).toBeFalsy();
+			expect(appConfig.locale).toBeFalsy();
+		});
+	});
+
+	it('app should receive locale as "containerLocale" in appConfig', function() {
+		F2.testLocaleFromAppConfig = false;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return F2.testLocaleFromAppConfig;
+			},
+			'containerLocale not defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleFromAppConfig == F2.getContainerLocale()).toBeTruthy();
+		});
+	});
+
+	it('app should not receive locale as "containerLocale" in appConfig when locale is not defined', function() {
+		F2.init();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return !F2.testLocaleFromAppConfig;
+			},
+			'containerLocale is defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleFromAppConfig).toBeFalsy();
+		});
+	});
+
+	it('should update containerLocale when CONTAINER_LOCALE_CHANGE is fired', function() {
+		var _locale;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			//listen for changes
+			F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+				_locale = data.locale;
+			});
+			//nothing should be changed
+			expect(F2.getContainerLocale() == 'en-us').toBeTruthy();
+			//now change locale
+			F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,{
+				locale: 'de-de'
+			});
+			//now locale should be changed
+			expect(F2.getContainerLocale() == 'de-de').toBeTruthy();
+		});
+	});
+
+	it('should update containerLocale when CONTAINER_LOCALE_CHANGE is fired after being undefined', function() {
+		var _locale;
+		F2.init();
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			//listen for changes
+			F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+				_locale = data.locale;
+			});
+			//locale was not defined, should be null
+			expect(F2.getContainerLocale()).toBe(null);
+			//now change locale
+			F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,{
+				locale: 'de-de'
+			});
+			//now locale should be changed
+			expect(F2.getContainerLocale() == 'de-de').toBeTruthy();
+		});
+	});
+
+	it('AppManifest should support localeSupport property', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(appConfig.localeSupport).toBeTruthy();
+		});
+	});
+
+	it('AppManifest\'s localeSupport property should be an array', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(typeof appConfig.localeSupport == 'object').toBeTruthy();
+		});
+	});
+
+	it('AppManifest\'s localeSupport property should have 2 items', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(appConfig.localeSupport.length == 2).toBeTruthy();
+		});
+	});
+
+	it('app should receive localeSupport in appConfig', function() {
+		F2.testLocaleSupportFromAppConfig = false;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/',localeSupport:['en-us','de-de']}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return F2.testLocaleSupportFromAppConfig;
+			},
+			'localeSupport not defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleSupportFromAppConfig).toBeTruthy();
+		});
+	});
+
+	it('app should receive localeSupport in appConfig and have 2 items', function() {
+		F2.testLocaleSupportFromAppConfig = false;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/',localeSupport:['en-us','de-de']}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return F2.testLocaleSupportFromAppConfig;
+			},
+			'localeSupport not defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleSupportFromAppConfig.length == 2).toBeTruthy();
+		});
+	});
+
+});
+
 describe('F2.registerApps - basic', function() {
 
 	var async = new AsyncSpec(this);
