@@ -687,6 +687,19 @@ F2.extend('', (function() {
 			});
 		},
 		/**
+		 * Gets the current locale defined by the container
+		 * @method getContainerLocale
+		 * @returns {String} IETF-defined standard language tag
+		 */
+		getContainerLocale: function() {
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.getContainerLocale()');
+				return;
+			}
+
+			return F2.ContainerConfig.locale;
+		},
+		/**
 		 * Initializes the container. This method must be called before performing
 		 * any other actions in the container.
 		 * @method init
