@@ -39,10 +39,17 @@
             <li class="dropdown active">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Container <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li class="active"><a href="./index.html">Default</a></li>
+                <li><a href="../container/index.html">Default</a></li>
                 <li><a href="../container-amd/index.html">AMD</a></li>
-                <li><a href="../container-locale/index.html">Locale</a></li>
+                <li class="active"><a href="./index.html">Locale</a></li>
                 <li><a href="../container-autoload/index.html">Autoload</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Locale <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu" id="locale-switcher">
+                <li><a href="#" data-locale="en-us">en-us</a></li>
+                <li><a href="#" data-locale="en-gb">en-gb</a></li>
               </ul>
             </li>
             <li><a href="http://docs.openf2.org" target="_blank">Docs</a></li>
@@ -59,6 +66,16 @@
             <button id="btnSelectApps" type="button" class="btn btn-primary">Select Apps</button>
           </form>
         </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="alert alert-info" role="alert">
+            <p class="lead">To demonstrate internationalization and locale support, select "JavaScript: Hello World Locale" from the app selector.</p>
+          </div>
+        </div>
       </div>
     </div>
 
