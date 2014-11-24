@@ -108,6 +108,11 @@ F2.extend('', (function() {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
+		//pass container-defined locale to each app
+		if (F2.ContainerConfig.locale){
+			appConfig.containerLocale = F2.ContainerConfig.locale;
+		}
+
 		return appConfig;
 	};
 
@@ -179,12 +184,17 @@ F2.extend('', (function() {
 	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
 	 */
 	var _hydrateContainerConfig = function(containerConfig) {
+
 		if (!containerConfig.scriptErrorTimeout) {
 			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
 		}
 
 		if (containerConfig.debugMode !== true) {
 			containerConfig.debugMode = F2.ContainerConfig.debugMode;
+		}
+
+		if (containerConfig.locale && typeof containerConfig.locale == 'string'){
+			F2.ContainerConfig.locale = containerConfig.locale;
 		}
 	};
 
@@ -226,6 +236,13 @@ F2.extend('', (function() {
 		jQuery(window).on('resize', function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
+		});
+
+		//listen for container-broadcasted locale changes
+		F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+			if (data.locale && typeof data.locale == 'string'){
+				F2.ContainerConfig.locale = data.locale;
+			}
 		});
 	};
 
@@ -675,6 +692,19 @@ F2.extend('', (function() {
 					appId: app.config.appId
 				};
 			});
+		},
+		/**
+		 * Gets the current locale defined by the container
+		 * @method getContainerLocale
+		 * @returns {String} IETF-defined standard language tag
+		 */
+		getContainerLocale: function() {
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.getContainerLocale()');
+				return;
+			}
+
+			return F2.ContainerConfig.locale;
 		},
 		/**
 		 * Initializes the container. This method must be called before performing

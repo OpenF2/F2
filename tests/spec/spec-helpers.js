@@ -1,7 +1,8 @@
-var TEST_MANIFEST_URL = 'http://www.openf2.org/helloworldapp',
+var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
 	TEST_APP_ID = 'com_openf2_examples_javascript_helloworld',
-	TEST_MANIFEST_URL2 = 'http://www.openf2.org/Examples/Apps',
-	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews'
+	TEST_MANIFEST_URL2 = 'http://localhost:8080/F2/apps/test/market-news',
+	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews',
+	TEST_MANIFEST_URL_HTTP_POST = 'http://localhost:8080/F2/apps/test/http-post'
 ;
 
 /**
@@ -9,6 +10,7 @@ var TEST_MANIFEST_URL = 'http://www.openf2.org/helloworldapp',
  */
 AsyncSpec.prototype.beforeEachReloadF2 = function(callback) {
 	this.beforeEach(function(done) {
+		window.F2 = null;
 		$.ajax({
 			url: '../sdk/f2.min.js',
 			dataType: 'script',

@@ -5,13 +5,15 @@ F2.Apps["com_openf2_tests_helloworld"] = (function() {
 	var App_Class = function (appConfig, appContent, root) {
 		this.appConfig = appConfig;
 		this.appContent = appContent;
-		this.ui = appConfig.ui;		
+		this.ui = appConfig.ui;	
 	};
 
 	App_Class.prototype.init = function () {		
 		F2.destroyAppMethodCalled = false;
 		F2.testAppInstanceID = this.appConfig.instanceId;
 		F2.testAppInitialized = true;
+		F2.testLocaleFromAppConfig = this.appConfig.containerLocale;
+		F2.testLocaleSupportFromAppConfig = this.appConfig.localeSupport;
 	};
 
 	App_Class.prototype.destroy = function () {
