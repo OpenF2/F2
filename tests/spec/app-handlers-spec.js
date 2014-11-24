@@ -1935,7 +1935,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 	it('should call app instance .destroy() method if destory method exists.', function(){
 		F2.inlineScriptsEvaluated = false;
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
 
 		waitsFor(
 			function()
