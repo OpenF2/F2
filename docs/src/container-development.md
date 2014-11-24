@@ -154,7 +154,7 @@ To initialize a container with a `ContainerConfig`, use:
 F2.init({
     UI: {},
     xhr: function(){},
-    supportedViews: []  
+    supportedViews: []
 });
 ```
 
@@ -177,6 +177,24 @@ F2.init({
 The `appRender()`, `beforeAppRender()`, and `afterAppRender()` methods were deprecated in F2 version 1.2 in favor of [`F2.AppHandlers`](#apphandlers-for-app-layout). Upgrading to F2 1.2 will not break existing containers using any of these methods as they are still present in the SDK.
 
 For more information, see [AppHandlers for App Layout](#apphandlers-for-app-layout).
+
+#### Internationalization 
+
+As part of the `ContainerConfig` the region and language of the application can be configured. This "locale" information is shared with all Apps as part of `F2.registerApps` (the `AppManifest` request) using [IETF-defined standard language tags](http://en.wikipedia.org/wiki/IETF_language_tag).
+
+```javascript
+F2.init({
+    locale: 'en-us'
+});
+```
+
+##### How Do Apps Receive Locale? 
+
+There is a new property sent to the `AppManifest` during `F2.registerApps` called `containerLocale`.
+
+##### Which Apps Support a Locale?
+
+The F2 `AppConfig` has a `localeSupport` property so each App can define the regions and languages it supports. Container code could be written to inspect the `localeSupport` property of all apps before registering them.
 
 #### Setting Up a Loading GIF
 
