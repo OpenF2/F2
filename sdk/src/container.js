@@ -1025,6 +1025,7 @@ F2.extend('', (function() {
 							},
 							errorFunc = function() {
 								jQuery.each(req.apps, function(idx, item) {
+									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.removeApp(item.instanceId);
 								});
