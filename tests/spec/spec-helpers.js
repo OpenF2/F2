@@ -11,6 +11,7 @@ var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
 AsyncSpec.prototype.beforeEachReloadF2 = function(callback) {
 	this.beforeEach(function(done) {
 		window.F2 = null;
+		window.F2 = window.F2 || { Apps:{} };
 		$.ajax({
 			url: '../sdk/f2.min.js',
 			dataType: 'script',
