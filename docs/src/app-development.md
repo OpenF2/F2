@@ -503,6 +503,74 @@ Of course, you don't have to use either one of these patterns in your `appclass.
 
 If you don't want to think about any of this and would rather just start coding, [download the F2 examples](http://docs.openf2.org/F2-examples.zip).
 
+#### Internationalization 
+
+Internationalization, or "[i18n](http://en.wikipedia.org/wiki/Internationalization_and_localization)", can be [configured in a Container](container-development.html#internationalization). This "locale" information is shared with all Apps using [IETF-defined standard language tags](http://en.wikipedia.org/wiki/IETF_language_tag) such as "en-us" or "de-de" for English United States or German Germany, respectively.
+
+<span class="label label-important">Important</span> Containers providing a `locale` config is only a means of communicating localization information in the container. F2 does not perform translations, number formatting or other localization modifications to Containers or Apps.
+
+##### Changing the Locale
+
+Container Providers can change the current locale using [F2.Events](./sdk/classes/F2.Events.html). There is an event constant available for changing the locale called `CONTAINER_LOCALE_CHANGE`. 
+
+App Providers can listen for locale changes.
+
+```javascript
+var currentLocale = F2.getContainerLocale(); //en-us
+
+//listen for Container-broadcasted F2 event with new locale
+F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+	//get newly-updated locale
+	currentLocale = F2.getContainerLocale(); //en-gb
+});
+```
+
+##### How Do Apps Understand Locale? 
+
+There is a parameter sent to each `AppManifest` request during `F2.registerApps` called `containerLocale`. Apps can also call `F2.getContainerLocale()` to access the current locale of the container.
+
+Here is an example of the two ways of getting the container locale inside an AppClass.
+
+```javascript
+F2.Apps["com_companyname_appname"] = (function() {
+    var App_Class = function(appConfig, appContent, root) {
+        // "containerLocale" is added to the AppConfig 
+        // during F2.registerApps
+        console.log(appConfig.containerLocale);//en-us
+    }
+ 
+    App_Class.prototype.init = function() {
+        // get locale using helper function
+        // if locale changes, this function will
+        // always return the current locale
+        console.log(F2.getContainerLocale());//en-us
+    }
+
+    return App_Class;
+})();
+```
+
+<span class="label label-info">Note</span> For more detail on the `containerLocale` property, browse to the SDK for [F2.AppConfig](./sdk/classes/F2.AppConfig.html#properties-containerLocale).
+
+##### How to Indicate Locale Support
+
+The F2 `AppConfig` has a `localeSupport` property (type Array) so each App can define the region and language combinations it supports. Container code could be written to inspect the `localeSupport` property of any apps before registering them.
+
+Sample `AppConfig` showing the `localeSupport` property:
+
+```javascript
+{
+    "appId": "com_companyName_appName",
+    "manifestUrl": "http://www.domain.com/manifest.js"
+    "name": "App Name",
+    "views": ["home", "settings", "about"],
+    "minGridSize": 4,
+    "localeSupport": ["en-us","en-gb"] //array of IETF-defined tags
+},
+```
+
+<span class="label label-info">Note</span> For more detail on the `localeSupport` property, browse to the SDK for [F2.AppConfig](./sdk/classes/F2.AppConfig.html#properties-localeSupport).
+
 * * * *
 
 ## Namespacing
