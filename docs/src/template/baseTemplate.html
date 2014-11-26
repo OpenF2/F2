@@ -2,32 +2,32 @@
 <html$if(lang)$ lang="$lang$"$endif$>
 <head>
   <title>$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$</title>
-  <meta charset="utf-8">
 $for(author-meta)$
   <meta name="author" content="$author-meta$">
 $endfor$
-  <meta name="dcterms.date" content="{{_releaseDateFormatted}}">
-  <meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
-  <meta name="keywords" content="F2, Open F2, openf2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container">
-  <meta name="robots" content="all, index, follow" />
-  <meta name="distribution" content="global" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  <meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <link rel="home" href="http://www.openf2.org/" />
 $for(header-includes)$
   $header-includes$
 $endfor$
 </head>
-<body data-spy="scroll" data-target="#toc" data-offset="100">
+<body data-spy="scroll" data-target="#toc" data-offset="0">
 $for(include-before)$
 $include-before$
 $endfor$
-$if(title)$
-<header>
-<h1 class="title">$title$</h1>
-</header>
-$endif$
-$body$
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <ul class="nav nav-stacked">
+          <li><a href="">$title$</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-9" id="docs">
+        <h1 class="page-header">$title$</h1>
+        $body$
+      </div>
+    </div>
+  </section>
+</div>
 $for(include-after)$
 $include-after$
 $endfor$

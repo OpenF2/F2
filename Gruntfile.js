@@ -296,6 +296,27 @@ module.exports = function(grunt) {
 				src: 'sdk/f2.min.js',
 				prefix: 'sdk/'
 			}
+		},
+		http: {
+			getDocsLayout: {
+				options: {
+					url: 'http://localhost:8201/api/layout/docs',
+					// url: 'http://staging.openf2.org/api/layout/docs',
+					json: true,
+					strictSSL: false,
+					callback: function(err, res, response){
+						var log = grunt.log.write('Retrieved doc layout...')
+						grunt.config.set('docs-layout',response);
+						log.ok();
+						log = grunt.log.write('Saving templates as HTML...');
+						//save as HTML for markitdown/pandoc step
+						grunt.file.write('./docs/src/template/2/head.html', response.head);
+						grunt.file.write('./docs/src/template/2/nav.html', response.nav);
+						grunt.file.write('./docs/src/template/2/footer.html', response.footer);
+						log.ok();
+					}
+				}
+			}
 		}
 	});
 
@@ -309,6 +330,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-express');
+	grunt.loadNpmTasks('grunt-http');
 
 	// Register tasks
 	grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {
@@ -324,6 +346,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('markitdown', 'Compiles the spec documentation with Markitdown', function() {
 		var done = this.async(),
 			log = grunt.log.write('Generating spec documentation...');
+
 		grunt.util.spawn(
 			{
 				cmd: 'markitdown',
@@ -331,9 +354,9 @@ module.exports = function(grunt) {
 					'./',
 					'--output-path', '../',
 					'--docTemplate', './template/baseTemplate.html',
-					'--header', './template/header.html',
-					'--footer', './template/footer.html',
-					'--head', './template/style.html',
+					'--header', './template/2/nav.html',
+					'--footer', './template/2/footer.html',
+					'--head', './template/2/head.html',
 					'--title', 'F2'
 				],
 				opts: {
@@ -475,7 +498,8 @@ module.exports = function(grunt) {
 	});
 
 
-	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
+	grunt.registerTask('docs', ['http', 'less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
+	grunt.registerTask('docs2', ['copy:docs', 'markitdown', 'clean:docs']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
