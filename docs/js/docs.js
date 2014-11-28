@@ -2,18 +2,8 @@ define(['jquery','F2','reqPath','staticPrefix','highlightjs'],function($,F2,reqP
 
 	/**
 	 * This code is only for the F2 documentation site. Don't use it anywhere else, you really shouldn't.
-	 * (c) F2 / Markit On Demand 2012
+	 * (c) Markit On Demand 2014
 	 */
-	if (!String.prototype.supplant) {
-	    String.prototype.supplant = function (o) {
-	        return this.replace(/{([^{}]*)}/g,
-	            function (a, b) {
-	                var r = o[b];
-	                return typeof r === 'string' || typeof r === 'number' ? r : a;
-	            }
-	        );
-	    };
-	}
 
 	//F2 docs
 	var F2Docs = function(){ }
@@ -26,139 +16,19 @@ define(['jquery','F2','reqPath','staticPrefix','highlightjs'],function($,F2,reqP
 	 */
 	F2Docs.fn.initialize = function() {
 
-		// this.insite();
-		this.bindEvents();
 		this.buildLeftRailToc();
-		this.buildBookmarks();
-		this.formatSourceCodeElements();
-
-		//on page-load, animate page into place (after css transition is done on header)
-		if (location.hash != '') {
-			setTimeout($.proxy(function(){
-				this._animateAnchor(null,false,location.hash);
-			},this),600);
-		}
-
-		/* removed b/c this removes 'active' class on top-level "Docs" nav <li>. weird.
-		$('body').scrollspy();*/
-
+		// this.buildBookmarks();
+		
 		//affix left nav
 		$('#toc > ul.nav').affix({
 			offset: {
     			top: 214
     		}
 		});
-	}
 
-	/**
-	 * Events
-	 */
-	F2Docs.fn.bindEvents = function(){
-		// this._setupBodyContentAnchorClick();
-	}
-
-	/** 
-	 * Highlight Basics or Development nav item, based on filename
-	 */
-	F2Docs.fn.navbarDocsHelper = function(){
-		var $toc 	= $('ul','div.navbar-docs')
-			$collapsedNavToc = $('ul.navinset','div.navbar-inner'),
-			file 	= location.pathname.split('/').pop(),
-			urlMap 	= {
-				"basics": 		"index.html",
-				"development": 	"app-development.html",
-				"developmentC": "container-development.html",
-				"developmentE": "extending-f2.html",
-				"developmentF":	"f2js-sdk.html"
-			};
-
-		//remove all 
-		$toc.find("a").removeClass("active");
-
-		//add active class to blue,green or orange subnav item
-		if (file == urlMap.basics || !file){
-			_setActive(0,$toc);
-			_setActive(0,$collapsedNavToc);
-			this.currentPage = "basics";
-		} else if (
-				file == urlMap.development || 
-				file == urlMap.developmentC || 
-				file == urlMap.developmentE ||
-				file == urlMap.developmentF
-			){
-			_setActive(1,$toc);
-			_setActive(1,$collapsedNavToc);
-			this.currentPage = "development";
-		}
-
-		function _setActive(eq,$ul){
-			$ul.find("li").eq(eq).find("a").addClass("active");
-		}
-	}
-
-	/**
-	 * Mapping 
-	 * Don't reorder these without consequences in this._getCurrentDevSubSection()
-	 * Adding to them is fine.
-	 */
-	F2Docs.fn.devSubSections = {
-		"App Development": 		"app-development.html",
-		"Container Development":"container-development.html",
-		"Extending F2": 		"extending-f2.html",
-		"F2.js SDK": 			"f2js-sdk.html"
-	};
-
-	/**
-	 * Lookup in devSubSections for right URL
-	 */
-	F2Docs.fn._getCurrentDevSubSection = function(){
-		var file = location.pathname.split('/').pop(),
-			currSection,
-			counter = 0;
-
-		$.each(this.devSubSections,$.proxy(function(idx,item){
-			if (item == file) {
-				currSection = counter;
-			}
-			counter++;
-		},this));
-
-		return currSection;
-	}
-
-	/**
-	 * Lookup in devSubSections NAME for insite
-	 */
-	F2Docs.fn._getCurrentDevSectionName = function(){
-		var file = location.pathname.split('/').pop(),
-			currSection,
-			counter = 0;
-
-		$.each(this.devSubSections,$.proxy(function(idx,item){
-			if (item == file) {
-				currSection = idx;
-			}
-			counter++;
-		},this));
-
-		return currSection;
-	}
-
-	F2Docs.fn.getName = function(){
-		return this._getCurrentDevSectionName() || document.title.replace('F2 - ','');
-	}
-
-	/**
-	 * When on Development, we need some special nav.
-	 */
-	F2Docs.fn._buildDevSubSectionsHtml = function(){
-		var html = [];
-
-		$.each(this.devSubSections,function(idx,item){
-			html.push("<li><a href='{url}' data-parent='true'>{label}</a></li>".supplant({url:item, label: idx}));
-		});
-
-		return html.join('');
+		//add source & feedback links
+		$('#feedbackLink').attr('href', $('#feedbackLink').attr('href') + '+' + location.pathname.split('/').pop() );
+  		$('#viewSourceLink').attr('href', $('#viewSourceLink').attr('href') + location.pathname.split('/').pop().replace('.html','.md') );
 	}
 
 	/**
@@ -203,22 +73,22 @@ define(['jquery','F2','reqPath','staticPrefix','highlightjs'],function($,F2,reqP
 				sectionId = $item.prop("id"),
 				isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "",
 				$li,
-				$level3Sections = $item.children('section.level3');
+				// $level3Sections = $item.children('section.level3');
 
 			//nav (level2)
-			$li = $("<li{isActive}><a href='#{id}' data-id='{id}'>{label}</a></li>".supplant({id: sectionId, label: sectionTitle, isActive: isActive}));
+			$li = $("<li"+isActive+"><a href='#"+sectionId+"'>"+sectionTitle+"</a></li>");
 
-			//sub nav (level3)
-			if ($level3Sections.length){
-				var $childUl = $('<ul class="nav nav-stacked" style="display:none;"/>');
-				$level3Sections.each(function(jdx,ele){
-					var $ele = $(ele);
-					sectionId = $ele.prop("id");
-					sectionTitle = $ele.children().first().text();
-					$childUl.append( $("<li><a href='#{id}' data-id='{id}'>{label}</a></li>".supplant({id: sectionId, label: sectionTitle})) );
-				});
-				$li.append($childUl);
-			}
+			// //sub nav (level3)
+			// if ($level3Sections.length){
+			// 	var $childUl = $('<ul class="nav nav-stacked" style="display:none;"/>');
+			// 	$level3Sections.each(function(jdx,ele){
+			// 		var $ele = $(ele);
+			// 		sectionId = $ele.prop("id");
+			// 		sectionTitle = $ele.children().first().text();
+			// 		$childUl.append( $("<li><a href='#"+sectionId+"'>{label}</a></li>") );
+			// 	});
+			// 	$li.append($childUl);
+			// }
 
 			$listContainer.append($li);
 		},this));
@@ -227,105 +97,9 @@ define(['jquery','F2','reqPath','staticPrefix','highlightjs'],function($,F2,reqP
 		$('#toc').html($listContainer);
 
 		//add click event
-		$("a",$listContainer).on("click",$.proxy(function(e){
-			this._animateAnchor(e,true);
-			$(e.currentTarget).next('ul').slideToggle();
-		},this));
-	}
-
-	F2Docs.fn._setupBodyContentAnchorClick = function(){
-		$('a[href^="#"]','#docs').on('click',$.proxy(function(e){
-			this._animateAnchor(e,false);
-		},this));
-	}
-
-	F2Docs.fn._animateAnchor = function(e, isTableOfContentsLink, destinationId){
-		var $this = (destinationId) ? '' : $(e.currentTarget),
-			destinationId = destinationId || $this.attr("href").replace(".","\\\\."),
-			$destination = $(destinationId),
-			offset;
-
-		//don't stop top-level (non-anchor) links from going to their location
-		if (destinationId == '' && destinationId.indexOf("#") > -1){
-			e.preventDefault();
-		}
-
-		if (isTableOfContentsLink){
-			$("li.active", "#toc ul").removeClass("active");
-			$this.parent().addClass("active");
-		}
-
-		//if we have a location.hash change, animate scrollTop to it.
-		if (destinationId.indexOf("#") > -1){
-			offset = $destination.offset() || {};
-			if ($(destinationId).hasClass('level4') && $(window).width() > 978){
-				offset.top -= 100;
-			}
-			$('html,body').animate({ scrollTop: offset.top },function(){
-				location.hash = destinationId;
-			});
-			return false
-		}
-	};
-
-	/**
-	 * Takes <pre><code>something();</code></pre> and converts to <pre>something();</pre>
-	 * Removes unneeded CSS classnames, adds correct ones for prettify.js
-	 * Calls prettyPrint()
-	 * Changes out mailto links that pandoc turns into <code> elements.
-	 */
-	F2Docs.fn.formatSourceCodeElements = function(){
-		// $("pre")
-		// 	.removeClass("sourceCode")
-		// 	.addClass("prettyprint linenums")
-		// 	.find("code").replaceWith(function() {
-		// 		return $(this).contents();
-		// 	})
-		// 	.end()
-		// 	.filter(".javascript")
-		// 	.removeClass("javascript")
-		// 	.addClass("lang-js")
-		// 	.end()
-		// 	.filter(".html")
-		// 	.removeClass("html")
-		// 	.addClass("lang-html")
-		// ;
-		// window.prettyPrint && prettyPrint();
-
-		$('pre code','#docs').each(function(i, el) {
-            try {
-                hljs.highlightBlock(el);
-            }catch(e){}
-        });
-
-		//fix mailto links from pandoc so they don't have <code> around them.
-		//pandoc supports a param to disable this, need to fix that in the build
-		$('a[href^="mailto"]','#docs').each(function(idx,item){
-			$(item)
-				.html($(this).text())
-				.prev('script').remove()
-				.end()
-				.next('noscript').remove()
-			;
-		});
-	}
-
-	F2Docs.fn.insite = function(){
-		if (!(/docs.openf2.org/i).test(window.location.hostname)) { return; }
-		window._waq = window._waq || []; 
-		(function() {
-			var domain = 'insite.wallst.com'; 
-			_waq.push(['_setup', {reportingid: '544506', domain: domain}]); 
-			var wa = document.createElement('script'); 
-			wa.type = 'text/javascript'; 
-			wa.async = true; 
-			wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; 
-			var s = document.getElementsByTagName('script')[0]; 
-			s.parentNode.insertBefore(wa, s);
-		})();
-		//F2.log(this.getName())
-		_waq.push(['_trackPageView', {category: 'Docs', name: this.getName() }]);
-		_waq.push(['_trackLinks']);
+		// $("a",$listContainer).on("click",$.proxy(function(e){
+		// 	$(e.currentTarget).next('ul').slideToggle();
+		// },this));
 	}
 
 	return new F2Docs();

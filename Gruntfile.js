@@ -300,8 +300,8 @@ module.exports = function(grunt) {
 		http: {
 			getDocsLayout: {
 				options: {
-					url: 'http://localhost:8201/api/layout/docs',
-					// url: 'http://staging.openf2.org/api/layout/docs',
+					// url: 'http://localhost:8201/api/layout/docs',
+					url: 'http://staging.openf2.org/api/layout/docs',
 					json: true,
 					strictSSL: false,
 					callback: function(err, res, response){
