@@ -4,6 +4,7 @@ node_js:
 notifications:
   email:
     - dev@openf2.org
+  slack: openf2:A3LmWCHuXdw8SYyWfAGyaWbK
 before_script:
   - npm install grunt-cli
 script:
