@@ -8,7 +8,7 @@
   "homepage": "https://github.com/OpenF2/F2",
   "author": "Markit On Demand, Inc",
   "scripts": {
-    "preinstall": "npm install grunt-cli markitdown -g"
+    "preinstall": "npm install grunt-cli -g"
   },
   "repository": {
     "type": "git",
@@ -41,7 +41,12 @@
     "pandoc": "0.2.0",
     "semver": "~1.1.4",
     "yuidocjs": "~0.3.44",
-    "grunt-http": "^1.5.0"
+    "grunt-http": "^1.5.0",
+    "highlight.js": "^8.4.0",
+    "jade": "^1.8.1",
+    "marked": "^0.3.2",
+    "path": "^0.4.9",
+    "underscore": "^1.7.0"
   },
   "engines": {
     "node": ">=0.10"

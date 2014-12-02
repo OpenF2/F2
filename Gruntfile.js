@@ -1,9 +1,11 @@
 module.exports = function(grunt) {
 
-	var handlebars = require('handlebars'),
+	var exec = require('child_process').exec,
+		handlebars = require('handlebars'),
 		moment = require('moment'),
 		pkg = grunt.file.readJSON('package.json'),
-		semver = require('semver');
+		semver = require('semver'),
+		path = require('path');
 
 	// TODO: Remove Handlebars dependency and use the built-in grunt templating
 	// Handlebars helpers
@@ -310,9 +312,9 @@ module.exports = function(grunt) {
 						log.ok();
 						log = grunt.log.write('Saving templates as HTML...');
 						//save as HTML for markitdown/pandoc step
-						grunt.file.write('./docs/src/template/2/head.html', response.head);
-						grunt.file.write('./docs/src/template/2/nav.html', response.nav);
-						grunt.file.write('./docs/src/template/2/footer.html', response.footer);
+						grunt.file.write('./docs/src/template/head.html', response.head);
+						grunt.file.write('./docs/src/template/nav.html', response.nav);
+						grunt.file.write('./docs/src/template/footer.html', response.footer);
 						log.ok();
 					}
 				}
@@ -372,6 +374,24 @@ module.exports = function(grunt) {
 				}
 			}
 		);
+	});
+
+	grunt.registerTask('generate-docs', 'Generate docs', function() {
+		var done = this.async(),
+		log = grunt.log.write('Generating documentation...');
+
+		exec('node ' + path.join(__dirname, 'docs/bin/gen-docs'), function(err, stdout, stderr) {
+		  if (err) {
+		    grunt.log.error(err.message);
+		    grunt.fail.fatal('Documentation generation aborted.');
+		    return;
+		  }
+
+		  grunt.log.write(stdout);
+
+		  log.ok();
+		  done();
+		});
 	});
 
 	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {

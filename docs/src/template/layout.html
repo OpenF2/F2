@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{title}}</title>
+{{template.head}}
+<style>
+  .pageContent {
+    margin-top: 20px;
+  }
+  .breadcrumb {
+    font-size: 15px;
+  }
+  .breadcrumb a {
+    color: #3183bd;
+  }
+  .breadcrumb .dropdown-menu {
+    font-size: 15px;
+  }
+</style>
+</head>
+<body data-spy="scroll" data-target="#toc" data-offset="0">
+{{template.nav}}
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="http://staging.openf2.org">Home</a></li>
+          <li><a href="http://staging.openf2.org/developers">Developers</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v{{version}}</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
+              <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
+              <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extend F2</a></li>
+              <li><a href="./sdk">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+{{title_for_url}}" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/blob/master/docs/src/{{filename}}" id="viewSourceLink" target="_blank">View Source</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">{{title}}</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <ul class="nav nav-stacked">
+            <li><a href="{{filename_html}}">{{title}}</a></li>
+          </ul>
+
+          <ul class="nav nav-stacked" style="margin-top:20px;">
+            <li><a href="">Sections</a></li>
+            <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
+            <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
+            <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
+            <li><a href="">F2.js</a></li>
+            <li><a href="">F2.js Reference</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9" id="docs">
+        <h1 class="page-header">{{title}}</h1>
+        {{content}}
+      </div>
+    </div>
+  </section>
+</div>
+{{template.footer}}
+</body>
+</html>

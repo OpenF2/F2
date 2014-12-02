@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2</title>
-	<meta name="dcterms.date" content="7 April 2014">
+	<meta name="dcterms.date" content="24 November 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.4.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.4.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.4.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -432,6 +432,52 @@ loading</p>
 					
 					<tr class=" private">
 						<td class="name">
+							<a href="#methods-_getAppConfigFromElement">
+								_getAppConfigFromElement
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												node
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Generate an AppConfig from the element&#39;s attributes</p>
+</td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-_hasNonTextChildNodes">
+								_hasNonTextChildNodes
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												node
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Returns true if the DOM node has children that are not text nodes</p>
+</td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
 							<a href="#methods-_hydrateContainerConfig">
 								_hydrateContainerConfig
 								<span class="paren">(</span>
@@ -489,6 +535,29 @@ loading</p>
 							</a>
 						</td>
 						<td><p>Has the container been init?</p>
+</td>
+					</tr>
+					
+					<tr class=" private">
+						<td class="name">
+							<a href="#methods-_isPlaceholderElement">
+								_isPlaceholderElement
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												node
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Checks if an element is a placeholder element</p>
 </td>
 					</tr>
 					
@@ -627,6 +696,19 @@ reference errors when serializing objects</p>
 						</td>
 						<td><p>Creates a namespace on F2 and copies the contents of an object into
 that namespace optionally overwriting existing properties.</p>
+</td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-getContainerLocale">
+								getContainerLocale
+								<span class="paren">(</span>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Gets the current locale defined by the container</p>
 </td>
 					</tr>
 					
@@ -794,6 +876,31 @@ any other actions in the container.</p>
 							</a>
 						</td>
 						<td><p>Loads the app&#39;s html/css/javascript</p>
+</td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#methods-loadPlaceholders">
+								loadPlaceholders
+								<span class="paren">(</span>
+								
+									<ul class="params commas">
+										
+										<li>
+											
+												parentNode
+											
+										</li>
+										
+									</ul>
+								
+								<span class="paren">)</span>
+							</a>
+						</td>
+						<td><p>Automatically load apps that are already defined in the DOM. Elements will 
+be rendered into the location of the placeholder DOM element. Any AppHandlers
+that are defined will be bypassed.</p>
 </td>
 					</tr>
 					
@@ -1479,7 +1586,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l62"><code>sdk&#x2F;src&#x2F;container.js:62</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l61"><code>sdk&#x2F;src&#x2F;container.js:61</code></a></dd>
 			
 
 			
@@ -1589,7 +1696,7 @@ loading</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l90"><code>sdk&#x2F;src&#x2F;container.js:90</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l89"><code>sdk&#x2F;src&#x2F;container.js:89</code></a></dd>
 			
 
 			
@@ -1697,7 +1804,7 @@ necessary properties</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l182"><code>sdk&#x2F;src&#x2F;container.js:182</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l275"><code>sdk&#x2F;src&#x2F;container.js:275</code></a></dd>
 			
 
 			
@@ -1732,6 +1839,218 @@ necessary properties</p>
 		</div>
 	
 
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-_getAppConfigFromElement" class="level2  private">
+	<h3>
+		_getAppConfigFromElement
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						node
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Generate an AppConfig from the element&#39;s attributes</p>
+
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_container.js.html#l119"><code>sdk&#x2F;src&#x2F;container.js:119</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">node</code>
+						<span class="label type">Element</span>
+					
+
+					
+
+					<p>
+						<p>The DOM node from which to generate the F2.AppConfig object</p>
+
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>:
+					
+					<p>The new F2.AppConfig object</p>
+
+				
+			</div>
+		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-_hasNonTextChildNodes" class="level2 ">
+	<h3>
+		_hasNonTextChildNodes
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						node
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Returns true if the DOM node has children that are not text nodes</p>
+
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_container.js.html#l159"><code>sdk&#x2F;src&#x2F;container.js:159</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">node</code>
+						<span class="label type">Element</span>
+					
+
+					
+
+					<p>
+						<p>The DOM node</p>
+
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Bool</span>:
+					
+					<p>True if there are non-text children</p>
+
+				
+			</div>
+		</div>
 	
 
 	
@@ -1790,7 +2109,7 @@ necessary properties</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l115"><code>sdk&#x2F;src&#x2F;container.js:115</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l180"><code>sdk&#x2F;src&#x2F;container.js:180</code></a></dd>
 			
 
 			
@@ -1873,7 +2192,7 @@ necessary properties</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l131"><code>sdk&#x2F;src&#x2F;container.js:131</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l201"><code>sdk&#x2F;src&#x2F;container.js:201</code></a></dd>
 			
 
 			
@@ -1932,7 +2251,7 @@ necessary properties</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l154"><code>sdk&#x2F;src&#x2F;container.js:154</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l224"><code>sdk&#x2F;src&#x2F;container.js:224</code></a></dd>
 			
 
 			
@@ -1991,7 +2310,7 @@ necessary properties</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l172"><code>sdk&#x2F;src&#x2F;container.js:172</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l265"><code>sdk&#x2F;src&#x2F;container.js:265</code></a></dd>
 			
 
 			
@@ -2012,6 +2331,113 @@ necessary properties</p>
 						<span class="label type">Bool</span>:
 					
 					<p>True if the container has been init</p>
+
+				
+			</div>
+		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-_isPlaceholderElement" class="level2  private">
+	<h3>
+		_isPlaceholderElement
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						node
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+			<span class="label private">private</span>
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Checks if an element is a placeholder element</p>
+
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_container.js.html#l249"><code>sdk&#x2F;src&#x2F;container.js:249</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">node</code>
+						<span class="label type">Element</span>
+					
+
+					
+
+					<p>
+						<p>The DOM element to check</p>
+
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">Bool</span>:
+					
+					<p>True if the element is a placeholder</p>
 
 				
 			</div>
@@ -2082,7 +2508,7 @@ necessary properties</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l76"><code>sdk&#x2F;src&#x2F;container.js:76</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l75"><code>sdk&#x2F;src&#x2F;container.js:75</code></a></dd>
 			
 
 			
@@ -2303,7 +2729,7 @@ Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_test
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l529"><code>sdk&#x2F;src&#x2F;container.js:529</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l628"><code>sdk&#x2F;src&#x2F;container.js:628</code></a></dd>
 			
 
 			
@@ -2400,7 +2826,7 @@ Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_test
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l551"><code>sdk&#x2F;src&#x2F;container.js:551</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l650"><code>sdk&#x2F;src&#x2F;container.js:650</code></a></dd>
 			
 
 			
@@ -2645,6 +3071,77 @@ add properties to the F2 namespace directly.</p>
 	
 </section>
 		
+		<section id="methods-getContainerLocale" class="level2 ">
+	<h3>
+		getContainerLocale
+		<span class="paren">(</span>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Gets the current locale defined by the container</p>
+
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_container.js.html#l696"><code>sdk&#x2F;src&#x2F;container.js:696</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+		<div class="returns">
+			<h4>Returns:</h4>
+
+			<div class="returns-description">
+				
+					
+						<span class="label type">String</span>:
+					
+					<p>IETF-defined standard language tag</p>
+
+				
+			</div>
+		</div>
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
 		<section id="methods-getContainerState" class="level2 ">
 	<h3>
 		getContainerState
@@ -2680,7 +3177,7 @@ add properties to the F2 namespace directly.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l580"><code>sdk&#x2F;src&#x2F;container.js:580</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l679"><code>sdk&#x2F;src&#x2F;container.js:679</code></a></dd>
 			
 
 			
@@ -2960,7 +3457,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l597"><code>sdk&#x2F;src&#x2F;container.js:597</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l709"><code>sdk&#x2F;src&#x2F;container.js:709</code></a></dd>
 			
 
 			
@@ -3041,7 +3538,7 @@ any other actions in the container.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l625"><code>sdk&#x2F;src&#x2F;container.js:625</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l737"><code>sdk&#x2F;src&#x2F;container.js:737</code></a></dd>
 			
 
 			
@@ -3340,7 +3837,7 @@ Derived from: <a href="https://github.com/jquery/jquery/blob/master/src/ajax.js"
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l211"><code>sdk&#x2F;src&#x2F;container.js:211</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l304"><code>sdk&#x2F;src&#x2F;container.js:304</code></a></dd>
 			
 
 			
@@ -3383,6 +3880,99 @@ Derived from: <a href="https://github.com/jquery/jquery/blob/master/src/ajax.js"
 
 					<p>
 						<p>The AppManifest object</p>
+
+					</p>
+
+					
+				</li>
+				
+			</ul>
+		</div>
+	
+
+	
+
+	
+
+	
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+	
+</section>
+		
+		<section id="methods-loadPlaceholders" class="level2 ">
+	<h3>
+		loadPlaceholders
+		<span class="paren">(</span>
+		
+			<ul class="params commas">
+				
+				<li>
+					
+						parentNode
+					
+				</li>
+				
+			</ul>
+		
+		<span class="paren">)</span>
+
+		
+
+		
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>Automatically load apps that are already defined in the DOM. Elements will 
+be rendered into the location of the placeholder DOM element. Any AppHandlers
+that are defined will be bypassed.</p>
+
+	</p>	
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_container.js.html#l743"><code>sdk&#x2F;src&#x2F;container.js:743</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<div class="params">
+			<h4>Parameters:</h4>
+
+			<ul class="params-list">
+				
+				<li class="param">
+					
+						<code class="param-name">parentNode</code>
+						<span class="label type">Element</span>
+					
+
+					
+
+					<p>
+						<p>The element to search for placeholder apps</p>
 
 					</p>
 
@@ -3457,7 +4047,7 @@ Derived from: <a href="https://github.com/jquery/jquery/blob/master/src/ajax.js"
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l466"><code>sdk&#x2F;src&#x2F;container.js:466</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l562"><code>sdk&#x2F;src&#x2F;container.js:562</code></a></dd>
 			
 
 			
@@ -3810,7 +4400,7 @@ assets will be used instead of making a request.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l631"><code>sdk&#x2F;src&#x2F;container.js:631</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l793"><code>sdk&#x2F;src&#x2F;container.js:793</code></a></dd>
 			
 
 			
@@ -3998,7 +4588,7 @@ F2.registerApps(arConfigs, arManifests);</code></pre>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l952"><code>sdk&#x2F;src&#x2F;container.js:952</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l1117"><code>sdk&#x2F;src&#x2F;container.js:1117</code></a></dd>
 			
 
 			
@@ -4065,7 +4655,7 @@ F2.registerApps(arConfigs, arManifests);</code></pre>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_container.js.html#l967"><code>sdk&#x2F;src&#x2F;container.js:967</code></a></dd>
+				<dd><a href="../files/sdk_src_container.js.html#l1132"><code>sdk&#x2F;src&#x2F;container.js:1132</code></a></dd>
 			
 
 			
@@ -4458,7 +5048,7 @@ automatically by F2.</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.3"></script>
+<script src="../../js/f2.js?1.4.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>

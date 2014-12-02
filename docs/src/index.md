@@ -1,5 +1,4 @@
-% About F2
-% Mark Healey; Brian Baker; Kate Dinar
+# About F2
 
 <p class="lead">F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end. </p>
 
