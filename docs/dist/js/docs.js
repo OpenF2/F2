@@ -21,7 +21,10 @@ F2Docs.prototype.initialize = function() {
 	//affix left nav
 	$('div.navs','#toc').affix({
 		offset: {
-			top: 214
+			top: 214,
+			bottom: function () {
+				return (this.bottom = $('footer').outerHeight(true) + 20)
+			}
 		}
 	});
 }
@@ -57,7 +60,7 @@ F2Docs.prototype.generateToc = function(){
 			var $childUl = $('<ul class="nav nav-stacked" style="display:none;"/>');
 			$level3Sections.each(function(jdx,ele){
 				var $ele = $(ele);
-				sectionId = $ele.find("a").prop("id");
+				sectionId = $ele.prop("id");
 				sectionTitle = $ele.text();
 				isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "";
 				$childUl.append( $("<li><a href='#"+sectionId+"'"+isActive+">"+sectionTitle+"</a></li>") );
@@ -74,7 +77,20 @@ F2Docs.prototype.generateToc = function(){
 		$(e.currentTarget).parents('ul.nav-stacked').find('a.nav-toggle').next('ul').slideUp();
 		//open current
 		$(e.currentTarget).next('ul').slideToggle();
+
+		//refresh
+		$('[data-spy="scroll"]').each(function () {
+			var $spy = $(this).scrollspy('refresh');
+		});
 	},this));
+
+	//watch to activate "active" nav item
+	$('li','#toc').on('activate.bs.scrollspy', function(){
+		var $li = $(this);
+		if ($li.hasClass('active') && $li.find('a.nav-toggle').length){
+			$li.find('a.nav-toggle').click();
+		}
+	});
 
 	window.setTimeout(function(){
 		// var $activeEl = $('ul.nav-stacked','#toc').find('a.active');
