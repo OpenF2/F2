@@ -331,6 +331,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-http');
 
@@ -345,37 +346,6 @@ module.exports = function(grunt) {
 		grunt.file.write(dest, rawMap);
 	});
 
-	grunt.registerTask('markitdown', 'Compiles the spec documentation with Markitdown', function() {
-		var done = this.async(),
-			log = grunt.log.write('Generating spec documentation...');
-
-		grunt.util.spawn(
-			{
-				cmd: 'markitdown',
-				args: [
-					'./',
-					'--output-path', '../',
-					'--docTemplate', './template/baseTemplate.html',
-					'--header', './template/2/nav.html',
-					'--footer', './template/2/footer.html',
-					'--head', './template/2/head.html',
-					'--title', 'F2'
-				],
-				opts: {
-					cwd: './docs/src-temp'
-				}
-			},
-			function(error, result, code) {
-				if (error) {
-					grunt.fail.fatal(error);
-				} else {
-					log.ok();
-					done();
-				}
-			}
-		);
-	});
-
 	grunt.registerTask('generate-docs', 'Generate docs', function() {
 		var done = this.async(),
 		log = grunt.log.write('Generating documentation...');
@@ -386,65 +356,10 @@ module.exports = function(grunt) {
 		    grunt.fail.fatal('Documentation generation aborted.');
 		    return;
 		  }
-
-		  grunt.log.write(stdout);
-
+		  // grunt.log.write(stdout);
 		  log.ok();
 		  done();
 		});
-	});
-
-	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
-		var done = this.async(),
-			log = grunt.log.write('Creating NuSpec file...'),
-			nuspec = grunt.file.read('./sdk/f2.nuspec.tmpl');
-
-		nuspec = grunt.template.process(nuspec, { data: pkg });
-		grunt.file.write('./sdk/f2.nuspec', nuspec);
-		log.ok();
-
-		log = grunt.log.write('Creating NuGet package...');
-		grunt.util.spawn(
-			{
-				cmd: 'nuget',
-				args: ['pack', 'f2.nuspec'],
-				opts: {
-					cwd: './sdk'
-				}
-			},
-			function(error, result, code){
-				if (error){
-					grunt.fail.fatal(error);
-				} else {
-					grunt.file.delete('./sdk/f2.nuspec');
-					log.ok();
-					done();
-				}
-			}
-		);
-	});
-
-	grunt.registerTask('release', 'Prepares the code for release (merge into master)', function(releaseType) {
-		if (!/^major|minor|patch$/i.test(releaseType) && !semver.valid(releaseType)) {
-			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
-			return;
-		}
-
-		pkg.version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
-		pkg._releaseDate = new Date().toJSON();
-		pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
-
-		grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
-		grunt.config.set('pkg', pkg);
-
-		grunt.task.run('version');
-	});
-
-	grunt.registerTask('version', 'Displays version information for F2', function() {
-		grunt.log.writeln(grunt.template.process(
-			'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>',
-			{ data: pkg }
-		));
 	});
 
 	grunt.registerTask('yuidoc', 'Builds the reference documentation with YUIDoc', function() {
@@ -517,9 +432,61 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
+		var done = this.async(),
+			log = grunt.log.write('Creating NuSpec file...'),
+			nuspec = grunt.file.read('./sdk/f2.nuspec.tmpl');
+
+		nuspec = grunt.template.process(nuspec, { data: pkg });
+		grunt.file.write('./sdk/f2.nuspec', nuspec);
+		log.ok();
+
+		log = grunt.log.write('Creating NuGet package...');
+		grunt.util.spawn(
+			{
+				cmd: 'nuget',
+				args: ['pack', 'f2.nuspec'],
+				opts: {
+					cwd: './sdk'
+				}
+			},
+			function(error, result, code){
+				if (error){
+					grunt.fail.fatal(error);
+				} else {
+					grunt.file.delete('./sdk/f2.nuspec');
+					log.ok();
+					done();
+				}
+			}
+		);
+	});
+
+	grunt.registerTask('release', 'Prepares the code for release (merge into master)', function(releaseType) {
+		if (!/^major|minor|patch$/i.test(releaseType) && !semver.valid(releaseType)) {
+			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
+			return;
+		}
+
+		pkg.version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
+		pkg._releaseDate = new Date().toJSON();
+		pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
+
+		grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
+		grunt.config.set('pkg', pkg);
+
+		grunt.task.run('version');
+	});
+
+	grunt.registerTask('version', 'Displays version information for F2', function() {
+		grunt.log.writeln(grunt.template.process(
+			'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>',
+			{ data: pkg }
+		));
+	});
 
 	grunt.registerTask('docs', ['http', 'less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
-	grunt.registerTask('docs2', ['copy:docs', 'markitdown', 'clean:docs']);
+	grunt.registerTask('docs2', ['http','generate-docs']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);

@@ -6,16 +6,17 @@
 //F2 docs
 var F2Docs = function(){ }
 
-//shortcut
-F2Docs.fn = F2Docs.prototype;
-
 /**
  * Init
  */
-F2Docs.fn.initialize = function() {
+F2Docs.prototype.initialize = function() {
 
-	this.buildLeftRailToc();
-	// this.buildBookmarks();
+	this.generateToc();
+
+	//scroll spy
+	$('body').scrollspy({
+		target: '.navs'
+	});
 	
 	//affix left nav
 	$('div.navs','#toc').affix({
@@ -26,9 +27,9 @@ F2Docs.fn.initialize = function() {
 }
 
 /**
- * Build left rail TOC
+ * Build table of contents navigation
  */
-F2Docs.fn.buildLeftRailToc = function(){
+F2Docs.prototype.generateToc = function(){
 
 	var $docsContainer 	= $('#docs'),
 		file 			= location.pathname.split('/').pop(),
@@ -43,13 +44,13 @@ F2Docs.fn.buildLeftRailToc = function(){
 
 		var $item = $(item),
 			sectionTitle = $item.text(),
-			sectionId = $item.find("a").prop("id"),
+			sectionId = $item.prop("id"),
 			isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "",
 			$li,
 			$level3Sections = $item.nextUntil('h2','h3');//find all <h3> els until next section (<h2>)
 
 		//nav (level2)
-		$li = $("<li><a href='#"+sectionId+"'"+isActive+">"+sectionTitle+"</a></li>");
+		$li = $("<li><a class='nav-toggle' href='#"+sectionId+"'"+isActive+">"+sectionTitle+"</a></li>");
 
 		// //sub nav (level3)
 		if ($level3Sections.length){
@@ -68,7 +69,10 @@ F2Docs.fn.buildLeftRailToc = function(){
 	},this));
 
 	//add click event
-	$("a",$listContainer).on("click",$.proxy(function(e){
+	$("a.nav-toggle",$listContainer).on("click",$.proxy(function(e){
+		//close all others
+		$(e.currentTarget).parents('ul.nav-stacked').find('a.nav-toggle').next('ul').slideUp();
+		//open current
 		$(e.currentTarget).next('ul').slideToggle();
 	},this));
 
