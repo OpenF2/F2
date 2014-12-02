@@ -87,12 +87,18 @@ srcFiles.forEach(function(filename) {
   //"content" is HTML (converted from markdown & variables compiled)
   _locals.content = (handlebars.compile(html))(_locals);
 
+  //compile template partials
+  for (var t in _locals.template){
+    _locals.template[t] = (handlebars.compile(_locals.template[t]))(_locals);
+  }
+
   //so we can highlight the 'active' section in the UI
   _locals.activeNav = {
     container: title == 'Container Development',
     app: title == 'App Development',
     extend: title == 'Extending F2',
-    f2js: title == 'F2.js SDK'
+    f2js: title == 'F2.js SDK',
+    about: title == 'About F2'
   }
 
   //now compile entire template
