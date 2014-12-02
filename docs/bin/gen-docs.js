@@ -16,8 +16,7 @@ var srcDir = path.resolve(__dirname, '../src/'),
   templateFile = path.resolve(__dirname, '../src/template/layout.html'),
   template = fs.readFileSync(templateFile, 'utf8'),
   renderer = new marked.Renderer(),
-  locals = {},
-  headings = [];
+  locals = {};
 
 //setup partials
 locals.template = {
@@ -28,7 +27,7 @@ locals.template = {
 
 //loop over *.md files in source directory for conversion
 srcFiles.forEach(function(filename) {
-  var src, html, title, content, dist, index = [], _locals = {};
+  var src, html, title, content, dist, index = [], _locals = {}, headings = [];
 
   //https://github.com/chjj/marked#overriding-renderer-methods
   renderer.heading = function(text, level) {
