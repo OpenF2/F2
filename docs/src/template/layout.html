@@ -19,6 +19,11 @@
   .breadcrumb .dropdown-menu {
     font-size: 15px;
   }
+  .back-to-top {
+    padding-left: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 </style>
 </head>
 <body>
@@ -51,17 +56,19 @@
     <div class="row">
       <div class="col-sm-3 sidebar-nav" id="toc">
         <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="{{filename_html}}">{{title}}</a></li>
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
           <ul class="nav nav-stacked">
-            <li><a href="{{filename_html}}">{{title}}</a></li>
-          </ul>
-
-          <ul class="nav nav-stacked" style="margin-top:20px;">
-            <li><a href="">Sections</a></li>
+            <li><a href="#">Sections</a></li>
             <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
             <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
             <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
-            <li><a href="">F2.js</a></li>
-            <li><a href="">F2.js Reference</a></li>
+            <li{{#if activeNav.f2js}} class="active"{{/if}}><a href="f2js-sdk.html">F2.js</a></li>
+            <li><a href="./sdk">F2.js Reference</a></li>
           </ul>
         </div>
       </div>

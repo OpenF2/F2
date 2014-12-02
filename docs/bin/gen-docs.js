@@ -16,7 +16,8 @@ var srcDir = path.resolve(__dirname, '../src/'),
   templateFile = path.resolve(__dirname, '../src/template/layout.html'),
   template = fs.readFileSync(templateFile, 'utf8'),
   renderer = new marked.Renderer(),
-  locals = {};
+  locals = {},
+  headings = [];
 
 //setup partials
 locals.template = {
@@ -31,8 +32,15 @@ srcFiles.forEach(function(filename) {
 
   //https://github.com/chjj/marked#overriding-renderer-methods
   renderer.heading = function(text, level) {
-    var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-'),
-      html = (level > 1) ?
+    var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+    var html;
+
+    //de-dupe headings so we end up with unique <hx> IDs in the HTML
+    if (_.contains(headings,escapedText)){
+      escapedText += '-' + _.indexOf(headings, escapedText);
+    }
+
+    html = (level > 1) ?
         '<h' + level + ' class="link-header" id="' + escapedText + '">' + 
           '<a class="anchor" href="#' + escapedText + '">' +
             '<span class="fa fa-link"></span>' +
@@ -41,12 +49,13 @@ srcFiles.forEach(function(filename) {
         '</h' + level + '>'
         : '';
 
-      if (level > 1 && level < 4) {
-        index.push({ label: text, href: escapedText, level: 'h' + level });
-      }
-      else if (level === 1) {
-        title = text;
-      }
+    if (level > 1 && level < 4) {
+      index.push({ label: text, href: escapedText, level: 'h' + level });
+    } else if (level === 1) {
+      title = text;
+    }
+
+    headings.push(escapedText);
 
     return html;
   };
@@ -82,7 +91,8 @@ srcFiles.forEach(function(filename) {
   _locals.activeNav = {
     container: title == 'Container Development',
     app: title == 'App Development',
-    extend: title == 'Extending F2'
+    extend: title == 'Extending F2',
+    f2js: title == 'F2.js SDK'
   }
 
   //now compile entire template

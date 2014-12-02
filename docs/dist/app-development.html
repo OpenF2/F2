@@ -44,6 +44,11 @@
   .breadcrumb .dropdown-menu {
     font-size: 15px;
   }
+  .back-to-top {
+    padding-left: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 </style>
 </head>
 <body>
@@ -96,17 +101,19 @@
     <div class="row">
       <div class="col-sm-3 sidebar-nav" id="toc">
         <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="app-development.html">App Development</a></li>
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
           <ul class="nav nav-stacked">
-            <li><a href="app-development.html">App Development</a></li>
-          </ul>
-
-          <ul class="nav nav-stacked" style="margin-top:20px;">
-            <li><a href="">Sections</a></li>
+            <li><a href="#">Sections</a></li>
             <li><a href="container-development.html">Container Development</a></li>
             <li class="active"><a href="app-development.html">App Development</a></li>
             <li><a href="extending-f2.html">Extending F2</a></li>
-            <li><a href="">F2.js</a></li>
-            <li><a href="">F2.js Reference</a></li>
+            <li><a href="f2js-sdk.html">F2.js</a></li>
+            <li><a href="./sdk">F2.js Reference</a></li>
           </ul>
         </div>
       </div>
@@ -370,9 +377,9 @@ F2_jsonpCallback_com_companyname_appname({
 <p>The <code>.span4</code> and <code>.span8</code> provide two columns in the <a href="http://twitter.github.io/bootstrap/scaffolding.html#gridSystem">12-column grid</a>.</p>
 <p><span class="label">Note</span> Read more about <a href="index.html#container">Creating a Common Look and Feel with F2</a>.</p>
 <h3 class="link-header" id="scripts-amp-styles"><a class="anchor" href="#scripts-amp-styles"><span class="fa fa-link"></span></a>Scripts &amp; Styles</h3><p>Once your app is on the container, chances are you’ll want it to actually do something. As an app developer, it is entirely up to you to write your own stylesheets and javascript code to add form and function to your app. F2’s standardized App Manifest provides hooks for your CSS and scripts to get onto the container&mdash;just use the <code>scripts</code> and <code>styles</code> arrays detailed above in the <a href="#app-manifest">App Manifest</a>.</p>
-<h3 class="link-header" id="styles"><a class="anchor" href="#styles"><span class="fa fa-link"></span></a>Styles</h3><p>Including your own CSS in the <code>styles</code> array of the App Manifest opens the door to the potential of unexpected display issues. Therefore, as an app developer, you are required to properly namespace your CSS selectors and declarations. For the details on writing correctly namespaced code, <a href="#namespacing">read the namespacing docs</a>.</p>
+<h3 class="link-header" id="styles-18"><a class="anchor" href="#styles-18"><span class="fa fa-link"></span></a>Styles</h3><p>Including your own CSS in the <code>styles</code> array of the App Manifest opens the door to the potential of unexpected display issues. Therefore, as an app developer, you are required to properly namespace your CSS selectors and declarations. For the details on writing correctly namespaced code, <a href="#namespacing">read the namespacing docs</a>.</p>
 <p>It is recommended you include your app styles in a file named <code>app.css</code>.</p>
-<h3 class="link-header" id="scripts"><a class="anchor" href="#scripts"><span class="fa fa-link"></span></a>Scripts</h3><h4 class="link-header" id="app-class"><a class="anchor" href="#app-class"><span class="fa fa-link"></span></a>App Class</h4><p>While it isn’t required, it’s expected all F2 apps will ship with javascript. This code should be included in an <code>appclass.js</code> file as shown in <a href="#setting-up-your-project">Setting Up Your Project</a>. The <code>F2.Apps</code> property is a namespace for app developers to place the javascript class that is used to initialize their app. The javascript classes should be namepaced with the <code>F2.App.AppID</code>. It is recommended that the code be placed in a closure to help keep the global namespace clean.</p>
+<h3 class="link-header" id="scripts-19"><a class="anchor" href="#scripts-19"><span class="fa fa-link"></span></a>Scripts</h3><h4 class="link-header" id="app-class"><a class="anchor" href="#app-class"><span class="fa fa-link"></span></a>App Class</h4><p>While it isn’t required, it’s expected all F2 apps will ship with javascript. This code should be included in an <code>appclass.js</code> file as shown in <a href="#setting-up-your-project">Setting Up Your Project</a>. The <code>F2.Apps</code> property is a namespace for app developers to place the javascript class that is used to initialize their app. The javascript classes should be namepaced with the <code>F2.App.AppID</code>. It is recommended that the code be placed in a closure to help keep the global namespace clean.</p>
 <p>For more information on <code>F2.Apps</code>, <a href="./sdk/classes/F2.App.html">browse over to the F2.js SDK docs</a>.</p>
 <p>To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during <code>F2.registerApps()</code> (and the internal <code>_loadApps()</code> method). If the class has an <code>init()</code> function, it will be called automatically during execution of F2’s <code>registerApps()</code> method.</p>
 <p>We recommend&mdash;and have samples below for&mdash;two different patterns for writing your <code>appclass.js</code> code: prototypal inheritence or the module pattern.</p>

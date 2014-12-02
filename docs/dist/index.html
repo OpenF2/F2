@@ -44,6 +44,11 @@
   .breadcrumb .dropdown-menu {
     font-size: 15px;
   }
+  .back-to-top {
+    padding-left: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 </style>
 </head>
 <body>
@@ -96,17 +101,19 @@
     <div class="row">
       <div class="col-sm-3 sidebar-nav" id="toc">
         <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="index.html">About F2</a></li>
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
           <ul class="nav nav-stacked">
-            <li><a href="index.html">About F2</a></li>
-          </ul>
-
-          <ul class="nav nav-stacked" style="margin-top:20px;">
-            <li><a href="">Sections</a></li>
+            <li><a href="#">Sections</a></li>
             <li><a href="container-development.html">Container Development</a></li>
             <li><a href="app-development.html">App Development</a></li>
             <li><a href="extending-f2.html">Extending F2</a></li>
-            <li><a href="">F2.js</a></li>
-            <li><a href="">F2.js Reference</a></li>
+            <li><a href="f2js-sdk.html">F2.js</a></li>
+            <li><a href="./sdk">F2.js Reference</a></li>
           </ul>
         </div>
       </div>
@@ -124,7 +131,7 @@
 <li>A multi-vendor environment that enables each vendor to use a shared authentication scheme and to communicate context to each other so that they can act together as one.</li>
 </ul>
 <hr>
-<h2 class="link-header" id="version-2"><a class="anchor" href="#version-2"><span class="fa fa-link"></span></a>Version 2</h2><div class="alert alert-block alert-info">
+<h2 class="link-header" id="version-2-1"><a class="anchor" href="#version-2-1"><span class="fa fa-link"></span></a>Version 2</h2><div class="alert alert-block alert-info">
     The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the <a href="https://github.com/OpenF2/F2/wiki/F2-Version-2">revisions draft</a>, <a href="https://github.com/OpenF2/F2/tree/v2-restructured">the F2.js code</a> and <a href="https://github.com/OpenF2/F2/issues?labels=v2&amp;page=1&amp;state=open">v2 Issues</a>.
 </div>
 
@@ -178,7 +185,7 @@
 <hr>
 <h2 class="link-header" id="framework"><a class="anchor" href="#framework"><span class="fa fa-link"></span></a>Framework</h2><p>The F2 open framework enables a division of labor among multiple parties who contribute to an integrated experience. By separating responsibilities into those of container and apps, F2 makes it possible for project owners to pick who they want to partner with, if anyone, for the development and hosting of their container and the apps they wish to include.</p>
 <p>Following are definitions for the main F2 Framework components: the apps, the container, and the store.</p>
-<h3 class="link-header" id="choices"><a class="anchor" href="#choices"><span class="fa fa-link"></span></a>Choices</h3><p>In order to ensure that applications built using F2 are successful, they must be accessible. With this in mind, the front-end technology choice is HTML5. Using the <a href="http://www.alistapart.com/articles/understandingprogressiveenhancement/">progressive enhancement methodology</a>, F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 apps built following the <a href="http://www.lukew.com/presos/preso.asp?26">mobile first</a> design approach and with <a href="http://www.abookapart.com/products/responsive-web-design">responsive</a> <a href="http://twitter.github.io/bootstrap/scaffolding.html#responsive">CSS</a>, allow users to access the apps on their desktop, tablet or smartphone and App Developers only need to build a single app.</p>
+<h3 class="link-header" id="choices-9"><a class="anchor" href="#choices-9"><span class="fa fa-link"></span></a>Choices</h3><p>In order to ensure that applications built using F2 are successful, they must be accessible. With this in mind, the front-end technology choice is HTML5. Using the <a href="http://www.alistapart.com/articles/understandingprogressiveenhancement/">progressive enhancement methodology</a>, F2 incorporates a rock-solid foundation. The F2 open standard provides guidelines for developers to add feature enhancements targeting specific environments or visitors. For example, F2 apps built following the <a href="http://www.lukew.com/presos/preso.asp?26">mobile first</a> design approach and with <a href="http://www.abookapart.com/products/responsive-web-design">responsive</a> <a href="http://twitter.github.io/bootstrap/scaffolding.html#responsive">CSS</a>, allow users to access the apps on their desktop, tablet or smartphone and App Developers only need to build a single app.</p>
 <p>Support across all desktop browsers and mobile devices is sometimes limited so F2 includes some third-party web development libraries to bridge those gaps. Why reinvent the wheel, right?</p>
 <ul>
 <li>F2 uses and recommends <a href="http://twitter.github.io/bootstrap/">Bootstrap</a> for a consistent HTML &amp; CSS structure for app development regardless of App Developer.</li>
@@ -187,7 +194,7 @@
 </ul>
 <p>As either an App or a Container Developer, it’s helpful to know these third-party libraries are included in F2. But it’s more important to know the <a href="f2js-sdk.html">F2.js JavaScript SDK</a> provides a consistent interface and easy-to-use API so you don’t have to think about it.</p>
 <p><span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to <a href="http://getbootstrap.com/">Bootstrap 3</a>, the latest <strong><a href="http://getbootstrap.com/2.3.2/">officially-supported Bootstrap version is 2.3.2</a></strong>. <a href="http://blog.openf2.org/2014/09/supporting-bootstrap-3.html">Read the blog post</a> for more information on using Bootstrap 3 today.</p>
-<h3 class="link-header" id="apps"><a class="anchor" href="#apps"><span class="fa fa-link"></span></a>Apps</h3><p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used.</p>
+<h3 class="link-header" id="apps-14"><a class="anchor" href="#apps-14"><span class="fa fa-link"></span></a>Apps</h3><p>F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used.</p>
 <p>F2 apps are small web pages, consisting of HTML, CSS, JavaScript and entitled data. Consumers of apps may access, purchase or entitle them from the store, and the apps are displayed through the container. An F2 App Developer is the person or company that designs, develops, and hosts the app.</p>
 <p><img src="./img/bankeo/bankeo_apps.png" alt="" title="F2 Apps"></p>
 <p>F2 apps are either:</p>
@@ -200,7 +207,7 @@
 
 <p>The F2 specification furnishes App Developers with JavaScript code (<a href="f2js-sdk.html">the F2.js SDK</a>) which allows apps to run on the container and provides APIs for communication between the container and nearby apps.</p>
 <h4 class="link-header" id="methodology"><a class="anchor" href="#methodology"><span class="fa fa-link"></span></a>Methodology</h4><p>The F2 design and development philosophy adheres to the Responsive Web Design Methodology to ensure app flexibility across mobile and desktop workspaces. Simply put, apps will only need to be programmed once, regardless of where they will be used.</p>
-<h4 class="link-header" id="context"><a class="anchor" href="#context"><span class="fa fa-link"></span></a>Context</h4><p>Apps are capable of sharing “context” with the container and other nearby apps. All apps have context which means the app “knows” who is using it and the content it contains. It is aware of an individual’s data entitlements and user information that the container is requested to share (name, email, company, etc).  </p>
+<h4 class="link-header" id="context-42"><a class="anchor" href="#context-42"><span class="fa fa-link"></span></a>Context</h4><p>Apps are capable of sharing “context” with the container and other nearby apps. All apps have context which means the app “knows” who is using it and the content it contains. It is aware of an individual’s data entitlements and user information that the container is requested to share (name, email, company, etc).  </p>
 <p><img src="./img/bankeo/bankeo_context1.png" alt="" title="F2 Context"></p>
 <p>This means if a user wants to create a ticker-focused container so they can keep a close eye on shares of Proctor &amp; Gamble, the container can send “symbol context” to any listening apps that are smart enough to refresh when ticker symbol PG is entered in the container’s search box.</p>
 <p>While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps.</p>
@@ -236,7 +243,7 @@
 <li>App management</li>
 </ul>
 <hr>
-<h2 class="link-header" id="get-started"><a class="anchor" href="#get-started"><span class="fa fa-link"></span></a>Get Started</h2><p>F2 enables all of us to build exactly the financial solutions that our customers want.  Using the F2 Framework, you can efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel apps and deploy them in as many app ecosystems as you want.</p>
+<h2 class="link-header" id="get-started-2"><a class="anchor" href="#get-started-2"><span class="fa fa-link"></span></a>Get Started</h2><p>F2 enables all of us to build exactly the financial solutions that our customers want.  Using the F2 Framework, you can efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel apps and deploy them in as many app ecosystems as you want.</p>
 <p>Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations, to function together creating a seamless and integrated experience.</p>
 <p>F2 is an open framework meaning anyone can build individual components or the entire product. To get Container and App Developers started, there is a JavaScript SDK&mdash;called <a href="f2js-sdk.html">F2.js</a>&mdash;in addition to example apps as part of an open-source project maintained on <a href="https://github.com/OpenF2/F2/">GitHub</a>.</p>
 <p>If you are interested in building apps, get started by <a href="app-development.html">browsing through this technical documentation</a> or follow the project on GitHub. If you are interested in building containers, <a href="container-development.html">browse to the container documentation</a>.</p>
