@@ -24,7 +24,7 @@ F2Docs.prototype.initialize = function() {
 		offset: {
 			top: 214,
 			bottom: function () {
-				return (this.bottom = $('footer').outerHeight(true) + 20)
+				return (this.bottom = $('footer').outerHeight(true) + 80)
 			}
 		}
 	});
@@ -86,9 +86,9 @@ F2Docs.prototype.generateToc = function(){
 			$toggle = $li.find('a.nav-toggle');
 		if ($li.hasClass('active') && $toggle.length){
 			//close others
-			$li.parents('ul.nav-stacked').find('li').not($li).find('a.nav-toggle').next('ul').slideUp();
+			$li.parents('ul.nav-stacked').find('li').not($li).find('a.nav-toggle').next('ul').hide();
 			//open current
-			$toggle.next('ul').slideDown();
+			$toggle.next('ul').show();
 		}
 	});
 	

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{title}}</title>
 {{template.head}}
 <style>
   body {
@@ -64,11 +63,12 @@
           <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
           <ul class="nav nav-stacked">
             <li><a href="#">Sections</a></li>
+            <li><a href="./sdk">API Reference</a></li>
             <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
             <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
             <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
             <li{{#if activeNav.f2js}} class="active"{{/if}}><a href="f2js-sdk.html">F2.js</a></li>
-            <li><a href="./sdk">F2.js Reference</a></li>
+            <li{{#if activeNav.about}} class="active"{{/if}}><a href="about-f2.html">About F2</a></li>
           </ul>
         </div>
       </div>
