@@ -1,6 +1,4 @@
-<div class="page-header">
-    <h1>{{name}} <small>Class</small></h1>
-</div>
+<h1 class="page-header">{{name}} <small>Class</small></h1>
 
 <div class="classDescription">
     {{{classDescription}}}
@@ -78,7 +76,7 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <table class="table table-bordered table-striped table-members">
+                    <table class="table table-bordered table-striped table-members index-list methods{{#if extends}} extends{{/if}}">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -87,7 +85,7 @@
                         </thead>
                         <tbody>
                             {{#methods}}
-                            <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <tr class="index-item method{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_{{name}}" data-tablink="{{name}}">
                                         {{name}}
@@ -107,33 +105,28 @@
                                         {{/if}}
                                         <span class="paren">)</span>
                                     </a>
+                                    {{#if static}}
+                                        <span class="label label-default static">static</span>
+                                    {{/if}}
+                                    {{#if deprecated}}
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    {{/if}}
+                                    {{#if access}}
+                                        <span class="label label-info {{access}}">{{access}}</span>
+                                    {{/if}}
                                 </td>
                                 <td>{{{description}}}</td>
                             </tr>
                             {{/methods}}
                         </tbody>
                     </table>
-                    <ul class="index-list methods{{#if extends}} extends{{/if}}">
-                        {{#methods}}
-                            <li class="index-item method{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_{{name}}" data-tablink="{{name}}">{{name}}</a>
-
-                                {{#if static}}
-                                    <span class="flag static">static</span>
-                                {{/if}}
-                                {{#if deprecated}}
-                                    <span class="flag deprecated">deprecated</span>
-                                {{/if}}
-                            </li>
-                        {{/methods}}
-                    </ul>
                 </div>
             {{/if}}
 
             {{#if properties}}
                 <div class="index-section properties">
                     <h3>Properties</h3>
-                    <table class="table table-bordered table-striped table-members">
+                    <table class="table table-bordered table-striped table-members index-list properties{{#if extends}} extends{{/if}}">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -142,36 +135,28 @@
                         </thead>
                         <tbody>
                             {{#properties}}
-                            <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <tr class="index-item property{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
                                 <td class="name">
                                     <a href="#" data-tabid="#properties" data-anchor="#property_{{name}}" data-tablink="{{name}}">{{name}}</a>
+                                    {{#if static}}
+                                        <span class="label label-default static">static</span>
+                                    {{/if}}
+                                    {{#if deprecated}}
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    {{/if}}
                                 </td>
                                 <td>{{{description}}}</td>
                             </tr>
                             {{/properties}}
                         </tbody>
                     </table>
-                    <ul class="index-list properties{{#if extends}} extends{{/if}}">
-                        {{#properties}}
-                            <li class="index-item property{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-                                <a href="#" data-tabid="#properties" data-anchor="#property_{{name}}" data-tablink="{{name}}">{{name}}</a>
-
-                                {{#if static}}
-                                    <span class="flag static">static</span>
-                                {{/if}}
-                                {{#if deprecated}}
-                                    <span class="flag deprecated">deprecated</span>
-                                {{/if}}
-                            </li>
-                        {{/properties}}
-                    </ul>
                 </div>
             {{/if}}
 
             {{#if attrs}}
                 <div class="index-section attrs">
                     <h3>Attributes</h3>
-                    <table class="table table-bordered table-striped table-members">
+                    <table class="table table-bordered table-striped table-members index-list attrs{{#if extends}} extends{{/if}}">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -180,7 +165,7 @@
                         </thead>
                         <tbody>
                             {{#attrs}}
-                            <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <tr class="index-item attr{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
                                 <td class="name">
                                     <a href="#" data-tabid="#attrs" data-anchor="#attr_{{name}}" data-tablink="{{name}}">{{name}}</a>
                                 </td>
@@ -189,20 +174,13 @@
                             {{/attrs}}
                         </tbody>
                     </table>
-                    <ul class="index-list attrs{{#if extends}} extends{{/if}}">
-                        {{#attrs}}
-                            <li class="index-item attr{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-                                <a href="#" data-tabid="#attrs" data-anchor="#attr_{{name}}" data-tablink="{{name}}">{{name}}</a>
-                            </li>
-                        {{/attrs}}
-                    </ul>
                 </div>
             {{/if}}
 
             {{#if events}}
                 <div class="index-section events">
                     <h3>Events</h3>
-                    <table class="table table-bordered table-striped table-members">
+                    <table class="table table-bordered table-striped table-members index-list events{{#if extends}} extends{{/if}}">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -211,29 +189,21 @@
                         </thead>
                         <tbody>
                             {{#events}}
-                            <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <tr class="index-item event{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
                                 <td class="name">
                                     <a href="#" data-tabid="#events" data-anchor="#event_{{name}}" data-tablink="{{name}}">{{name}}</a>
+                                    {{#if static}}
+                                        <span class="label label-default static">static</span>
+                                    {{/if}}
+                                    {{#if deprecated}}
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    {{/if}}
                                 </td>
                                 <td>{{{description}}}</td>
                             </tr>
                             {{/events}}
                         </tbody>
                     </table>
-                    <ul class="index-list events{{#if extends}} extends{{/if}}">
-                        {{#events}}
-                            <li class="index-item event{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-                                <a href="#" data-tabid="#events" data-anchor="#event_{{name}}" data-tablink="{{name}}">{{name}}</a>
-
-                                {{#if static}}
-                                    <span class="flag static">static</span>
-                                {{/if}}
-                                {{#if deprecated}}
-                                    <span class="flag deprecated">deprecated</span>
-                                {{/if}}
-                            </li>
-                        {{/events}}
-                    </ul>
                 </div>
             {{/if}}
         </div>

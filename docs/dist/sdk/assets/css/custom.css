@@ -1,4 +1,9 @@
 /** generic */
+.label {
+    font-weight: 400;
+    font-family: 'titilliumregular';
+    display: inline !important;
+}
 
 ul.inline {
     display: inline;

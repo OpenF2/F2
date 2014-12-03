@@ -18,27 +18,27 @@
         <span class="paren">)</span>
 
         {{#if deprecated}}
-            <span class="label deprecated"{{#if deprecationMessage}} title="{{deprecationMessage}}"{{/if}}>deprecated</span>
+            <span class="label label-warning deprecated"{{#if deprecationMessage}} title="{{deprecationMessage}}"{{/if}}>deprecated</span>
         {{/if}}
 
         {{#if access}}
-            <span class="label {{access}}">{{access}}</span>
+            <span class="label label-info {{access}}">{{access}}</span>
         {{/if}}
 
         {{#if final}}
-            <span class="label final">final</span>
+            <span class="label label-default final">final</span>
         {{/if}}
 
         {{#if static}}
-            <span class="label static">static</span>
+            <span class="label label-default static">static</span>
         {{/if}}
 
         {{#if chainable}}
-            <span class="label chainable">chainable</span>
+            <span class="label label-default chainable">chainable</span>
         {{/if}}
 
         {{#if async}}
-            <span class="label async">async</span>
+            <span class="label label-default async">async</span>
         {{/if}}
     </h3>
 
@@ -72,7 +72,7 @@
 
 
         {{#if deprecationMessage}}
-            <p>Deprecated: {{deprecationMessage}}</p>
+            <p><span class="label label-warning">Deprecated</span>: {{deprecationMessage}}</p>
         {{/if}}
 
         {{#if since}}
@@ -162,12 +162,12 @@
             <div class="returns-description">
                 {{#if description}}
                     {{#if type}}
-                        <span class="type">{{#crossLink type}}{{/crossLink}}</span>:
+                        <span class="label label-default type">{{#crossLink type}}{{/crossLink}}</span>:
                     {{/if}}
                     {{{description}}}
                 {{else}}
                     {{#if type}}
-                        <span class="type">{{#crossLink type}}{{/crossLink}}</span>:
+                        <span class="label label-default type">{{#crossLink type}}{{/crossLink}}</span>:
                     {{/if}}
                 {{/if}}
             </div>

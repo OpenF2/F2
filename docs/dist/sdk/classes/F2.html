@@ -43,6 +43,9 @@
   .breadcrumb .dropdown-menu {
     font-size: 15px;
   }
+  #docs-main .page-header {
+  	margin-top: 0;
+  }
   .back-to-top {
     padding-left: 16px;
     margin-top: 10px;
@@ -99,11 +102,8 @@
       <div class="col-sm-3 sidebar-nav" id="toc">
         <div class="navs">
           <div class="spy-container">
-          	<div id="api-tabview-filter">
-      				<input type="search" placeholder="Type to filter APIs">
-      			</div>
             <ul class="nav nav-stacked sidebar-toc">
-              <li><a href="">API Reference</a></li>
+              <li><a href="../">API Reference</a></li>
               
     <li><a href="../classes/F2.html">F2</a></li>
 
@@ -158,42 +158,40 @@
         </div>
       </div>
       <div class="col-sm-9" id="docs">
-      	    <form id="options-form" class="form-inline pull-right">
-        Show:
-        <label for="api-show-inherited" class="checkbox">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected" class="checkbox">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private" class="checkbox">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated" class="checkbox">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </form>
-
-
-      	<form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
-		    <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/F2", "classes/F2.App", "classes/F2.AppConfig", "classes/F2.AppHandlers", "classes/F2.AppManifest", "classes/F2.AppManifest.AppContent", "classes/F2.Constants", "classes/F2.Constants.AppHandlers", "classes/F2.Constants.Css", "classes/F2.Constants.Events", "classes/F2.Constants.Sockets", "classes/F2.Constants.Views", "classes/F2.ContainerConfig", "classes/F2.ContainerConfig.UI", "classes/F2.ContainerConfig.UI.Mask", "classes/F2.Events", "classes/F2.Rpc", "classes/F2.UI", "classes/F2.UI.Modals", "classes/F2.UI.Views", "modules/f2"]'>
-		</form>
       	<div class="apidocs">
 	      	<div id="docs-main">
 	        	<div class="content">
-	                <div class="page-header">
-    <h1>F2 <small>Class</small></h1>
-</div>
+	        		<form id="options-form" class="form-inline pull-right">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+    </div>
+</form>
+	                <h1 class="page-header">F2 <small>Class</small></h1>
 
 <div class="classDescription">
     <p>Root namespace of the F2 SDK</p>
+
 </div>
 
 <div class="well well-sm">
@@ -234,7 +232,7 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <table class="table table-bordered table-striped table-members">
+                    <table class="table table-bordered table-striped table-members index-list methods">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -243,7 +241,7 @@
                         </thead>
                         <tbody>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__absolutizeURI" data-tablink="_absolutizeURI">
                                         _absolutizeURI
@@ -267,11 +265,17 @@
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Abosolutizes a relative URL</p></td>
+                                <td><p>Abosolutizes a relative URL</p>
+</td>
                             </tr>
                             
-                            <tr class=" private deprecated">
+                            <tr class="index-item method private deprecated">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__afterAppRender" data-tablink="_afterAppRender">
                                         _afterAppRender
@@ -295,11 +299,19 @@
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Appends the app's html to the DOM</p></td>
+                                <td><p>Appends the app&#39;s html to the DOM</p>
+</td>
                             </tr>
                             
-                            <tr class=" private deprecated">
+                            <tr class="index-item method private deprecated">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__appRender" data-tablink="_appRender">
                                         _appRender
@@ -323,11 +335,19 @@
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Renders the html for an app.</p></td>
+                                <td><p>Renders the html for an app.</p>
+</td>
                             </tr>
                             
-                            <tr class=" private deprecated">
+                            <tr class="index-item method private deprecated">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__beforeAppRender" data-tablink="_beforeAppRender">
                                         _beforeAppRender
@@ -345,12 +365,20 @@
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
                                 <td><p>Rendering hook to allow containers to render some html prior to an app
-loading</p></td>
+loading</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__createAppConfig" data-tablink="_createAppConfig">
                                         _createAppConfig
@@ -368,11 +396,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Adds properties to the AppConfig object</p></td>
+                                <td><p>Adds properties to the AppConfig object</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__createAppInstance" data-tablink="_createAppInstance">
                                         _createAppInstance
@@ -390,11 +424,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Instantiates each app from it's appConfig and stores that in a local private collection</p></td>
+                                <td><p>Instantiates each app from it&#39;s appConfig and stores that in a local private collection</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__getAppConfigFromElement" data-tablink="_getAppConfigFromElement">
                                         _getAppConfigFromElement
@@ -412,11 +452,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Generate an AppConfig from the element's attributes</p></td>
+                                <td><p>Generate an AppConfig from the element&#39;s attributes</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__hasNonTextChildNodes" data-tablink="_hasNonTextChildNodes">
                                         _hasNonTextChildNodes
@@ -434,11 +480,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Returns true if the DOM node has children that are not text nodes</p></td>
+                                <td><p>Returns true if the DOM node has children that are not text nodes</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__hydrateContainerConfig" data-tablink="_hydrateContainerConfig">
                                         _hydrateContainerConfig
@@ -456,11 +508,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Adds properties to the ContainerConfig object to take advantage of defaults</p></td>
+                                <td><p>Adds properties to the ContainerConfig object to take advantage of defaults</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__initAppEvents" data-tablink="_initAppEvents">
                                         _initAppEvents
@@ -468,11 +526,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Attach app events</p></td>
+                                <td><p>Attach app events</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__initContainerEvents" data-tablink="_initContainerEvents">
                                         _initContainerEvents
@@ -480,11 +544,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Attach container Events</p></td>
+                                <td><p>Attach container Events</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__isInit" data-tablink="_isInit">
                                         _isInit
@@ -492,11 +562,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Has the container been init?</p></td>
+                                <td><p>Has the container been init?</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__isPlaceholderElement" data-tablink="_isPlaceholderElement">
                                         _isPlaceholderElement
@@ -514,11 +590,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Checks if an element is a placeholder element</p></td>
+                                <td><p>Checks if an element is a placeholder element</p>
+</td>
                             </tr>
                             
-                            <tr class=" private deprecated">
+                            <tr class="index-item method private deprecated">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__onScriptLoadFailure" data-tablink="_onScriptLoadFailure">
                                         _onScriptLoadFailure
@@ -542,11 +624,19 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Handler to inform the container that a script failed to load</p></td>
+                                <td><p>Handler to inform the container that a script failed to load</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__parseURI" data-tablink="_parseURI">
                                         _parseURI
@@ -564,11 +654,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Parses URI</p></td>
+                                <td><p>Parses URI</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__validateApp" data-tablink="_validateApp">
                                         _validateApp
@@ -586,11 +682,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Checks if the app is valid</p></td>
+                                <td><p>Checks if the app is valid</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method__validateContainerConfig" data-tablink="_validateContainerConfig">
                                         _validateContainerConfig
@@ -598,11 +700,17 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Checks if the ContainerConfig is valid</p></td>
+                                <td><p>Checks if the ContainerConfig is valid</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_appConfigReplacer" data-tablink="appConfigReplacer">
                                         appConfigReplacer
@@ -610,12 +718,16 @@ loading</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
                                 <td><p>A function to pass into F2.stringify which will prevent circular
-reference errors when serializing objects</p></td>
+reference errors when serializing objects</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_extend" data-tablink="extend">
                                         extend
@@ -645,12 +757,16 @@ reference errors when serializing objects</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
                                 <td><p>Creates a namespace on F2 and copies the contents of an object into
-that namespace optionally overwriting existing properties.</p></td>
+that namespace optionally overwriting existing properties.</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_getContainerLocale" data-tablink="getContainerLocale">
                                         getContainerLocale
@@ -658,11 +774,15 @@ that namespace optionally overwriting existing properties.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Gets the current locale defined by the container</p></td>
+                                <td><p>Gets the current locale defined by the container</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_getContainerState" data-tablink="getContainerState">
                                         getContainerState
@@ -670,11 +790,15 @@ that namespace optionally overwriting existing properties.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Gets the current list of apps in the container</p></td>
+                                <td><p>Gets the current list of apps in the container</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_guid" data-tablink="guid">
                                         guid
@@ -682,11 +806,15 @@ that namespace optionally overwriting existing properties.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Generates a somewhat random id</p></td>
+                                <td><p>Generates a somewhat random id</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_inArray" data-tablink="inArray">
                                         inArray
@@ -710,11 +838,15 @@ that namespace optionally overwriting existing properties.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Search for a value within an array.</p></td>
+                                <td><p>Search for a value within an array.</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_init" data-tablink="init">
                                         init
@@ -732,12 +864,16 @@ that namespace optionally overwriting existing properties.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
                                 <td><p>Initializes the container. This method must be called before performing
-any other actions in the container.</p></td>
+any other actions in the container.</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_isInit" data-tablink="isInit">
                                         isInit
@@ -745,11 +881,15 @@ any other actions in the container.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Has the container been init?</p></td>
+                                <td><p>Has the container been init?</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_isLocalRequest" data-tablink="isLocalRequest">
                                         isLocalRequest
@@ -767,11 +907,15 @@ any other actions in the container.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Tests a URL to see if it's on the same domain (local) or not</p></td>
+                                <td><p>Tests a URL to see if it&#39;s on the same domain (local) or not</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_isNativeDOMNode" data-tablink="isNativeDOMNode">
                                         isNativeDOMNode
@@ -789,11 +933,15 @@ any other actions in the container.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Utility method to determine whether or not the argument passed in is or is not a native dom node.</p></td>
+                                <td><p>Utility method to determine whether or not the argument passed in is or is not a native dom node.</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_loadApp" data-tablink="loadApp">
                                         loadApp
@@ -817,11 +965,17 @@ any other actions in the container.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Loads the app's html/css/javascript</p></td>
+                                <td><p>Loads the app&#39;s html/css/javascript</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_loadPlaceholders" data-tablink="loadPlaceholders">
                                         loadPlaceholders
@@ -839,13 +993,17 @@ any other actions in the container.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
                                 <td><p>Automatically load apps that are already defined in the DOM. Elements will 
 be rendered into the location of the placeholder DOM element. Any AppHandlers
-that are defined will be bypassed.</p></td>
+that are defined will be bypassed.</p>
+</td>
                             </tr>
                             
-                            <tr class=" private">
+                            <tr class="index-item method private">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_loadSecureApp" data-tablink="loadSecureApp">
                                         loadSecureApp
@@ -869,11 +1027,17 @@ that are defined will be bypassed.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
                                 </td>
-                                <td><p>Loads the app's html/css/javascript into an iframe</p></td>
+                                <td><p>Loads the app&#39;s html/css/javascript into an iframe</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_log" data-tablink="log">
                                         log
@@ -897,11 +1061,15 @@ that are defined will be bypassed.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>A utility logging function to write messages or objects to the browser console. This is a proxy for the <a href="https://developers.google.com/chrome-developer-tools/docs/console"><code>console</code> API</a>.</p></td>
+                                <td><p>A utility logging function to write messages or objects to the browser console. This is a proxy for the <a href="https://developers.google.com/chrome-developer-tools/docs/console"><code>console</code> API</a>.</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_parse" data-tablink="parse">
                                         parse
@@ -919,11 +1087,15 @@ that are defined will be bypassed.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Wrapper to convert a JSON string to an object</p></td>
+                                <td><p>Wrapper to convert a JSON string to an object</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_registerApps" data-tablink="registerApps">
                                         registerApps
@@ -947,17 +1119,21 @@ that are defined will be bypassed.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
                                 <td><p>Begins the loading process for all apps and/or initialization process for pre-loaded apps.
 The app will be passed the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
-contain the app's unique instanceId within the container. If the
+contain the app&#39;s unique instanceId within the container. If the
 <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.root property is populated the app is considered
 to be a pre-loaded app and will be handled accordingly. Optionally, the
 <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
-assets will be used instead of making a request.</p></td>
+assets will be used instead of making a request.</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_removeAllApps" data-tablink="removeAllApps">
                                         removeAllApps
@@ -965,11 +1141,15 @@ assets will be used instead of making a request.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Removes all apps from the container</p></td>
+                                <td><p>Removes all apps from the container</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_removeApp" data-tablink="removeApp">
                                         removeApp
@@ -987,11 +1167,15 @@ assets will be used instead of making a request.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Removes an app from the container</p></td>
+                                <td><p>Removes an app from the container</p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_stringify" data-tablink="stringify">
                                         stringify
@@ -1021,15 +1205,18 @@ assets will be used instead of making a request.</p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
                                 <td><p>Wrapper to convert an object to JSON</p>
-
 <p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
 recommended to pass F2.appConfigReplacer as the replacer function in
-order to prevent circular serialization errors.</strong></p></td>
+order to prevent circular serialization errors.</strong></p>
+</td>
                             </tr>
                             
-                            <tr class="">
+                            <tr class="index-item method">
                                 <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_version" data-tablink="version">
                                         version
@@ -1037,289 +1224,23 @@ order to prevent circular serialization errors.</strong></p></td>
                                         
                                         <span class="paren">)</span>
                                     </a>
+                                    
+                                    
+                                    
                                 </td>
-                                <td><p>Function to get the F2 version number</p></td>
+                                <td><p>Function to get the F2 version number</p>
+</td>
                             </tr>
                             
                         </tbody>
                     </table>
-                    <ul class="index-list methods">
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__absolutizeURI" data-tablink="_absolutizeURI">_absolutizeURI</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private deprecated">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__afterAppRender" data-tablink="_afterAppRender">_afterAppRender</a>
-
-                                
-                                
-                                    <span class="flag deprecated">deprecated</span>
-                                
-                            </li>
-                        
-                            <li class="index-item method private deprecated">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__appRender" data-tablink="_appRender">_appRender</a>
-
-                                
-                                
-                                    <span class="flag deprecated">deprecated</span>
-                                
-                            </li>
-                        
-                            <li class="index-item method private deprecated">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__beforeAppRender" data-tablink="_beforeAppRender">_beforeAppRender</a>
-
-                                
-                                
-                                    <span class="flag deprecated">deprecated</span>
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__createAppConfig" data-tablink="_createAppConfig">_createAppConfig</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__createAppInstance" data-tablink="_createAppInstance">_createAppInstance</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__getAppConfigFromElement" data-tablink="_getAppConfigFromElement">_getAppConfigFromElement</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__hasNonTextChildNodes" data-tablink="_hasNonTextChildNodes">_hasNonTextChildNodes</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__hydrateContainerConfig" data-tablink="_hydrateContainerConfig">_hydrateContainerConfig</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__initAppEvents" data-tablink="_initAppEvents">_initAppEvents</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__initContainerEvents" data-tablink="_initContainerEvents">_initContainerEvents</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__isInit" data-tablink="_isInit">_isInit</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__isPlaceholderElement" data-tablink="_isPlaceholderElement">_isPlaceholderElement</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private deprecated">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__onScriptLoadFailure" data-tablink="_onScriptLoadFailure">_onScriptLoadFailure</a>
-
-                                
-                                
-                                    <span class="flag deprecated">deprecated</span>
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__parseURI" data-tablink="_parseURI">_parseURI</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__validateApp" data-tablink="_validateApp">_validateApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method__validateContainerConfig" data-tablink="_validateContainerConfig">_validateContainerConfig</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_appConfigReplacer" data-tablink="appConfigReplacer">appConfigReplacer</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_extend" data-tablink="extend">extend</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_getContainerLocale" data-tablink="getContainerLocale">getContainerLocale</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_getContainerState" data-tablink="getContainerState">getContainerState</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_guid" data-tablink="guid">guid</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_inArray" data-tablink="inArray">inArray</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_init" data-tablink="init">init</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_isInit" data-tablink="isInit">isInit</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_isLocalRequest" data-tablink="isLocalRequest">isLocalRequest</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_isNativeDOMNode" data-tablink="isNativeDOMNode">isNativeDOMNode</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_loadApp" data-tablink="loadApp">loadApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_loadPlaceholders" data-tablink="loadPlaceholders">loadPlaceholders</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_loadSecureApp" data-tablink="loadSecureApp">loadSecureApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_log" data-tablink="log">log</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_parse" data-tablink="parse">parse</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_registerApps" data-tablink="registerApps">registerApps</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_removeAllApps" data-tablink="removeAllApps">removeAllApps</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_removeApp" data-tablink="removeApp">removeApp</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_stringify" data-tablink="stringify">stringify</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#" data-tabid="#methods" data-anchor="#method_version" data-tablink="version">version</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
                 </div>
             
 
             
                 <div class="index-section properties">
                     <h3>Properties</h3>
-                    <table class="table table-bordered table-striped table-members">
+                    <table class="table table-bordered table-striped table-members index-list properties">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -1328,32 +1249,24 @@ order to prevent circular serialization errors.</strong></p></td>
                         </thead>
                         <tbody>
                             
-                            <tr class="">
+                            <tr class="index-item property">
                                 <td class="name">
                                     <a href="#" data-tabid="#properties" data-anchor="#property_Apps" data-tablink="Apps">Apps</a>
+                                    
+                                    
                                 </td>
                                 <td><p>The apps namespace is a place for app developers to put the javascript
 class that is used to initialize their app. The javascript classes should
 be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
 It is recommended that the code be placed in a closure to help keep the
 global namespace clean.</p>
-
-<p>If the class has an 'init' function, that function will be called 
-automatically by F2.</p></td>
+<p>If the class has an &#39;init&#39; function, that function will be called 
+automatically by F2.</p>
+</td>
                             </tr>
                             
                         </tbody>
                     </table>
-                    <ul class="index-list properties">
-                        
-                            <li class="index-item property">
-                                <a href="#" data-tabid="#properties" data-anchor="#property_Apps" data-tablink="Apps">Apps</a>
-
-                                
-                                
-                            </li>
-                        
-                    </ul>
                 </div>
             
 
@@ -1393,7 +1306,7 @@ automatically by F2.</p></td>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -1428,6 +1341,7 @@ automatically by F2.</p></td>
 
     <div class="description">
         <p>Abosolutizes a relative URL</p>
+
     </div>
 
     
@@ -1477,11 +1391,12 @@ automatically by F2.</p></td>
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="label label-default type">String</span>:
                     
-                    URL
-Source: https://gist.github.com/Yaffle/1088850
-Tests: http://skew.org/uri/uri_tests.html
+                    <p>URL
+Source: <a href="https://gist.github.com/Yaffle/1088850">https://gist.github.com/Yaffle/1088850</a>
+Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_tests.html</a></p>
+
                 
             </div>
         </div>
@@ -1516,11 +1431,11 @@ Tests: http://skew.org/uri/uri_tests.html
         <span class="paren">)</span>
 
         
-            <span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+            <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -1549,14 +1464,15 @@ Tests: http://skew.org/uri/uri_tests.html
 
 
         
-            <p>Deprecated: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
+            <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
         
 
         
     </div>
 
     <div class="description">
-        <p>Appends the app's html to the DOM</p>
+        <p>Appends the app&#39;s html to the DOM</p>
+
     </div>
 
     
@@ -1575,6 +1491,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -1590,6 +1507,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
                     <div class="param-description">
                         <p>The string of html</p>
+
                     </div>
 
                     
@@ -1606,9 +1524,10 @@ Tests: http://skew.org/uri/uri_tests.html
             <div class="returns-description">
                 
                     
-                        <span class="type">Element</span>:
+                        <span class="label label-default type">Element</span>:
                     
-                    The DOM Element that contains the app
+                    <p>The DOM Element that contains the app</p>
+
                 
             </div>
         </div>
@@ -1643,11 +1562,11 @@ Tests: http://skew.org/uri/uri_tests.html
         <span class="paren">)</span>
 
         
-            <span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+            <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -1676,7 +1595,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
 
         
-            <p>Deprecated: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
+            <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
         
 
         
@@ -1684,6 +1603,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
     <div class="description">
         <p>Renders the html for an app.</p>
+
     </div>
 
     
@@ -1702,6 +1622,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -1717,6 +1638,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
                     <div class="param-description">
                         <p>The string of html</p>
+
                     </div>
 
                     
@@ -1751,11 +1673,11 @@ Tests: http://skew.org/uri/uri_tests.html
         <span class="paren">)</span>
 
         
-            <span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+            <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -1784,7 +1706,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
 
         
-            <p>Deprecated: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
+            <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
         
 
         
@@ -1793,6 +1715,7 @@ Tests: http://skew.org/uri/uri_tests.html
     <div class="description">
         <p>Rendering hook to allow containers to render some html prior to an app
 loading</p>
+
     </div>
 
     
@@ -1811,6 +1734,7 @@ loading</p>
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -1827,9 +1751,10 @@ loading</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Element</span>:
+                        <span class="label label-default type">Element</span>:
                     
-                    The DOM Element surrounding the app
+                    <p>The DOM Element surrounding the app</p>
+
                 
             </div>
         </div>
@@ -1860,7 +1785,7 @@ loading</p>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -1895,6 +1820,7 @@ loading</p>
 
     <div class="description">
         <p>Adds properties to the AppConfig object</p>
+
     </div>
 
     
@@ -1913,6 +1839,7 @@ loading</p>
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -1929,10 +1856,11 @@ loading</p>
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>:
+                        <span class="label label-default type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>:
                     
-                    The new F2.AppConfig object, prepopulated with
-necessary properties
+                    <p>The new F2.AppConfig object, prepopulated with
+necessary properties</p>
+
                 
             </div>
         </div>
@@ -1963,7 +1891,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -1997,7 +1925,8 @@ necessary properties
     </div>
 
     <div class="description">
-        <p>Instantiates each app from it's appConfig and stores that in a local private collection</p>
+        <p>Instantiates each app from it&#39;s appConfig and stores that in a local private collection</p>
+
     </div>
 
     
@@ -2016,6 +1945,7 @@ necessary properties
 
                     <div class="param-description">
                         <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
+
                     </div>
 
                     
@@ -2052,7 +1982,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2086,7 +2016,8 @@ necessary properties
     </div>
 
     <div class="description">
-        <p>Generate an AppConfig from the element's attributes</p>
+        <p>Generate an AppConfig from the element&#39;s attributes</p>
+
     </div>
 
     
@@ -2105,6 +2036,7 @@ necessary properties
 
                     <div class="param-description">
                         <p>The DOM node from which to generate the F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -2121,9 +2053,10 @@ necessary properties
             <div class="returns-description">
                 
                     
-                        <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>:
+                        <span class="label label-default type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>:
                     
-                    The new F2.AppConfig object
+                    <p>The new F2.AppConfig object</p>
+
                 
             </div>
         </div>
@@ -2154,7 +2087,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2189,6 +2122,7 @@ necessary properties
 
     <div class="description">
         <p>Returns true if the DOM node has children that are not text nodes</p>
+
     </div>
 
     
@@ -2207,6 +2141,7 @@ necessary properties
 
                     <div class="param-description">
                         <p>The DOM node</p>
+
                     </div>
 
                     
@@ -2223,9 +2158,10 @@ necessary properties
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    True if there are non-text children
+                    <p>True if there are non-text children</p>
+
                 
             </div>
         </div>
@@ -2256,7 +2192,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2291,6 +2227,7 @@ necessary properties
 
     <div class="description">
         <p>Adds properties to the ContainerConfig object to take advantage of defaults</p>
+
     </div>
 
     
@@ -2309,6 +2246,7 @@ necessary properties
 
                     <div class="param-description">
                         <p>The F2.ContainerConfig object</p>
+
                     </div>
 
                     
@@ -2335,7 +2273,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2370,6 +2308,7 @@ necessary properties
 
     <div class="description">
         <p>Attach app events</p>
+
     </div>
 
     
@@ -2391,7 +2330,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2426,6 +2365,7 @@ necessary properties
 
     <div class="description">
         <p>Attach container Events</p>
+
     </div>
 
     
@@ -2447,7 +2387,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2482,6 +2422,7 @@ necessary properties
 
     <div class="description">
         <p>Has the container been init?</p>
+
     </div>
 
     
@@ -2493,9 +2434,10 @@ necessary properties
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    True if the container has been init
+                    <p>True if the container has been init</p>
+
                 
             </div>
         </div>
@@ -2526,7 +2468,7 @@ necessary properties
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2561,6 +2503,7 @@ necessary properties
 
     <div class="description">
         <p>Checks if an element is a placeholder element</p>
+
     </div>
 
     
@@ -2579,6 +2522,7 @@ necessary properties
 
                     <div class="param-description">
                         <p>The DOM element to check</p>
+
                     </div>
 
                     
@@ -2595,9 +2539,10 @@ necessary properties
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    True if the element is a placeholder
+                    <p>True if the element is a placeholder</p>
+
                 
             </div>
         </div>
@@ -2632,11 +2577,11 @@ necessary properties
         <span class="paren">)</span>
 
         
-            <span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+            <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2665,7 +2610,7 @@ necessary properties
 
 
         
-            <p>Deprecated: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
+            <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
         
 
         
@@ -2673,6 +2618,7 @@ necessary properties
 
     <div class="description">
         <p>Handler to inform the container that a script failed to load</p>
+
     </div>
 
     
@@ -2691,6 +2637,7 @@ necessary properties
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -2707,6 +2654,7 @@ necessary properties
                     <div class="param-description">
                         <p>The path of the script that failed to load or the exception info
 for the inline script that failed to execute</p>
+
                     </div>
 
                     
@@ -2743,7 +2691,7 @@ for the inline script that failed to execute</p>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2778,6 +2726,7 @@ for the inline script that failed to execute</p>
 
     <div class="description">
         <p>Parses URI</p>
+
     </div>
 
     
@@ -2812,11 +2761,12 @@ for the inline script that failed to execute</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Parsed URL</span>:
+                        <span class="label label-default type">Parsed URL</span>:
                     
-                    string
-Source: https://gist.github.com/Yaffle/1088850
-Tests: http://skew.org/uri/uri_tests.html
+                    <p>string
+Source: <a href="https://gist.github.com/Yaffle/1088850">https://gist.github.com/Yaffle/1088850</a>
+Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_tests.html</a></p>
+
                 
             </div>
         </div>
@@ -2847,7 +2797,7 @@ Tests: http://skew.org/uri/uri_tests.html
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2882,6 +2832,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
     <div class="description">
         <p>Checks if the app is valid</p>
+
     </div>
 
     
@@ -2900,6 +2851,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -2916,9 +2868,10 @@ Tests: http://skew.org/uri/uri_tests.html
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    True if the app is valid
+                    <p>True if the app is valid</p>
+
                 
             </div>
         </div>
@@ -2939,7 +2892,7 @@ Tests: http://skew.org/uri/uri_tests.html
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -2974,6 +2927,7 @@ Tests: http://skew.org/uri/uri_tests.html
 
     <div class="description">
         <p>Checks if the ContainerConfig is valid</p>
+
     </div>
 
     
@@ -2985,9 +2939,10 @@ Tests: http://skew.org/uri/uri_tests.html
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    True if the config is valid
+                    <p>True if the config is valid</p>
+
                 
             </div>
         </div>
@@ -3042,6 +2997,7 @@ Tests: http://skew.org/uri/uri_tests.html
     <div class="description">
         <p>A function to pass into F2.stringify which will prevent circular
 reference errors when serializing objects</p>
+
     </div>
 
     
@@ -3119,6 +3075,7 @@ reference errors when serializing objects</p>
     <div class="description">
         <p>Creates a namespace on F2 and copies the contents of an object into
 that namespace optionally overwriting existing properties.</p>
+
     </div>
 
     
@@ -3138,6 +3095,7 @@ that namespace optionally overwriting existing properties.</p>
                     <div class="param-description">
                         <p>The namespace to create. Pass a falsy value to 
 add properties to the F2 namespace directly.</p>
+
                     </div>
 
                     
@@ -3153,6 +3111,7 @@ add properties to the F2 namespace directly.</p>
 
                     <div class="param-description">
                         <p>The object to copy into the namespace.</p>
+
                     </div>
 
                     
@@ -3168,6 +3127,7 @@ add properties to the F2 namespace directly.</p>
 
                     <div class="param-description">
                         <p>True if object properties should be overwritten</p>
+
                     </div>
 
                     
@@ -3184,9 +3144,10 @@ add properties to the F2 namespace directly.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="label label-default type">Object</span>:
                     
-                    The created object
+                    <p>The created object</p>
+
                 
             </div>
         </div>
@@ -3240,6 +3201,7 @@ add properties to the F2 namespace directly.</p>
 
     <div class="description">
         <p>Gets the current locale defined by the container</p>
+
     </div>
 
     
@@ -3251,9 +3213,10 @@ add properties to the F2 namespace directly.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="label label-default type">String</span>:
                     
-                    IETF-defined standard language tag
+                    <p>IETF-defined standard language tag</p>
+
                 
             </div>
         </div>
@@ -3307,6 +3270,7 @@ add properties to the F2 namespace directly.</p>
 
     <div class="description">
         <p>Gets the current list of apps in the container</p>
+
     </div>
 
     
@@ -3318,9 +3282,10 @@ add properties to the F2 namespace directly.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Array</span>:
+                        <span class="label label-default type">Array</span>:
                     
-                    An array of objects containing the appId
+                    <p>An array of objects containing the appId</p>
+
                 
             </div>
         </div>
@@ -3374,6 +3339,7 @@ add properties to the F2 namespace directly.</p>
 
     <div class="description">
         <p>Generates a somewhat random id</p>
+
     </div>
 
     
@@ -3385,9 +3351,10 @@ add properties to the F2 namespace directly.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="label label-default type">String</span>:
                     
-                    A random id
+                    <p>A random id</p>
+
                 
             </div>
         </div>
@@ -3457,6 +3424,7 @@ add properties to the F2 namespace directly.</p>
 
     <div class="description">
         <p>Search for a value within an array.</p>
+
     </div>
 
     
@@ -3475,6 +3443,7 @@ add properties to the F2 namespace directly.</p>
 
                     <div class="param-description">
                         <p>The value to search for</p>
+
                     </div>
 
                     
@@ -3490,6 +3459,7 @@ add properties to the F2 namespace directly.</p>
 
                     <div class="param-description">
                         <p>The array to search</p>
+
                     </div>
 
                     
@@ -3506,9 +3476,10 @@ add properties to the F2 namespace directly.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    True if the item is in the array
+                    <p>True if the item is in the array</p>
+
                 
             </div>
         </div>
@@ -3573,6 +3544,7 @@ add properties to the F2 namespace directly.</p>
     <div class="description">
         <p>Initializes the container. This method must be called before performing
 any other actions in the container.</p>
+
     </div>
 
     
@@ -3591,6 +3563,7 @@ any other actions in the container.</p>
 
                     <div class="param-description">
                         <p>The configuration object</p>
+
                     </div>
 
                     
@@ -3650,6 +3623,7 @@ any other actions in the container.</p>
 
     <div class="description">
         <p>Has the container been init?</p>
+
     </div>
 
     
@@ -3661,9 +3635,10 @@ any other actions in the container.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    True if the container has been init
+                    <p>True if the container has been init</p>
+
                 
             </div>
         </div>
@@ -3726,7 +3701,8 @@ any other actions in the container.</p>
     </div>
 
     <div class="description">
-        <p>Tests a URL to see if it's on the same domain (local) or not</p>
+        <p>Tests a URL to see if it&#39;s on the same domain (local) or not</p>
+
     </div>
 
     
@@ -3761,10 +3737,11 @@ any other actions in the container.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    Whether the URL is local or not
-Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
+                    <p>Whether the URL is local or not
+Derived from: <a href="https://github.com/jquery/jquery/blob/master/src/ajax.js">https://github.com/jquery/jquery/blob/master/src/ajax.js</a></p>
+
                 
             </div>
         </div>
@@ -3828,6 +3805,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 
     <div class="description">
         <p>Utility method to determine whether or not the argument passed in is or is not a native dom node.</p>
+
     </div>
 
     
@@ -3846,6 +3824,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 
                     <div class="param-description">
                         <p>The object you want to check as native dom node.</p>
+
                     </div>
 
                     
@@ -3862,9 +3841,10 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
             <div class="returns-description">
                 
                     
-                        <span class="type">Bool</span>:
+                        <span class="label label-default type">Bool</span>:
                     
-                    Returns true if the object passed is a native dom node.
+                    <p>Returns true if the object passed is a native dom node.</p>
+
                 
             </div>
         </div>
@@ -3901,7 +3881,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -3935,7 +3915,8 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
     </div>
 
     <div class="description">
-        <p>Loads the app's html/css/javascript</p>
+        <p>Loads the app&#39;s html/css/javascript</p>
+
     </div>
 
     
@@ -3955,6 +3936,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
                     <div class="param-description">
                         <p>An array of
 <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> objects</p>
+
                     </div>
 
                     
@@ -3971,6 +3953,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
 
                     <div class="param-description">
                         <p>The AppManifest object</p>
+
                     </div>
 
                     
@@ -4042,6 +4025,7 @@ Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
         <p>Automatically load apps that are already defined in the DOM. Elements will 
 be rendered into the location of the placeholder DOM element. Any AppHandlers
 that are defined will be bypassed.</p>
+
     </div>
 
     
@@ -4060,6 +4044,7 @@ that are defined will be bypassed.</p>
 
                     <div class="param-description">
                         <p>The element to search for placeholder apps</p>
+
                     </div>
 
                     
@@ -4102,7 +4087,7 @@ that are defined will be bypassed.</p>
         
 
         
-            <span class="label private">private</span>
+            <span class="label label-info private">private</span>
         
 
         
@@ -4136,7 +4121,8 @@ that are defined will be bypassed.</p>
     </div>
 
     <div class="description">
-        <p>Loads the app's html/css/javascript into an iframe</p>
+        <p>Loads the app&#39;s html/css/javascript into an iframe</p>
+
     </div>
 
     
@@ -4155,6 +4141,7 @@ that are defined will be bypassed.</p>
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -4169,8 +4156,9 @@ that are defined will be bypassed.</p>
                     
 
                     <div class="param-description">
-                        <p>The app's html/css/js to be loaded into the
+                        <p>The app&#39;s html/css/js to be loaded into the
 page.</p>
+
                     </div>
 
                     
@@ -4246,6 +4234,7 @@ page.</p>
 
     <div class="description">
         <p>A utility logging function to write messages or objects to the browser console. This is a proxy for the <a href="https://developers.google.com/chrome-developer-tools/docs/console"><code>console</code> API</a>.</p>
+
     </div>
 
     
@@ -4264,6 +4253,7 @@ page.</p>
 
                     <div class="param-description">
                         <p>An object to be logged <em>or</em> a <code>console</code> API method name, such as <code>warn</code> or <code>error</code>. All of the console method names are <a href="https://developers.google.com/chrome-developer-tools/docs/console-api">detailed in the Chrome docs</a>.</p>
+
                     </div>
 
                     
@@ -4282,6 +4272,7 @@ page.</p>
 
                     <div class="param-description">
                         <p>An object to be logged</p>
+
                     </div>
 
                     
@@ -4299,14 +4290,13 @@ page.</p>
 
             <div class="example-content">
                 <pre class="code prettyprint"><code>        //Pass any object (string, int, array, object, bool) to .log()
-        F2.log('foo');
+        F2.log(&#39;foo&#39;);
         F2.log(myArray);
         //Use a console method name as the first argument. 
-        F2.log('error', err);
-        F2.log('info', 'The session ID is ' + sessionId);
-</code></pre>
-
+        F2.log(&#39;error&#39;, err);
+        F2.log(&#39;info&#39;, &#39;The session ID is &#39; + sessionId);</code></pre>
 <p>Some code derived from <a href="https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js">HTML5 Boilerplate console plugin</a></p>
+
             </div>
         </div>
     
@@ -4367,6 +4357,7 @@ page.</p>
 
     <div class="description">
         <p>Wrapper to convert a JSON string to an object</p>
+
     </div>
 
     
@@ -4385,6 +4376,7 @@ page.</p>
 
                     <div class="param-description">
                         <p>The JSON string to convert</p>
+
                     </div>
 
                     
@@ -4401,9 +4393,10 @@ page.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">Object</span>:
+                        <span class="label label-default type">Object</span>:
                     
-                    The parsed object
+                    <p>The parsed object</p>
+
                 
             </div>
         </div>
@@ -4474,11 +4467,12 @@ page.</p>
     <div class="description">
         <p>Begins the loading process for all apps and/or initialization process for pre-loaded apps.
 The app will be passed the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object which will
-contain the app's unique instanceId within the container. If the
+contain the app&#39;s unique instanceId within the container. If the
 <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.root property is populated the app is considered
 to be a pre-loaded app and will be handled accordingly. Optionally, the
 <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a> can be passed in and those
 assets will be used instead of making a request.</p>
+
     </div>
 
     
@@ -4498,6 +4492,7 @@ assets will be used instead of making a request.</p>
                     <div class="param-description">
                         <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
+
                     </div>
 
                     
@@ -4519,6 +4514,7 @@ objects. This array must be the same length as the apps array that is
 objects. This array must be the same length as the apps array that is
 passed in. This can be useful if apps are loaded on the server-side and
 passed down to the client.</p>
+
                     </div>
 
                     
@@ -4536,88 +4532,85 @@ passed down to the client.</p>
 
             <div class="example-content">
                 <p>Traditional App requests.</p>
-
 <pre class="code prettyprint"><code>// Traditional f2 app configs
 var arConfigs = [
     {
-        appId: 'com_externaldomain_example_app',
+        appId: &#39;com_externaldomain_example_app&#39;,
         context: {},
-        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+        manifestUrl: &#39;http://www.externaldomain.com/F2/AppManifest&#39;
     },
     {
-        appId: 'com_externaldomain_example_app',
+        appId: &#39;com_externaldomain_example_app&#39;,
         context: {},
-        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+        manifestUrl: &#39;http://www.externaldomain.com/F2/AppManifest&#39;
     },
     {
-        appId: 'com_externaldomain_example_app2',
+        appId: &#39;com_externaldomain_example_app2&#39;,
         context: {},
-        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+        manifestUrl: &#39;http://www.externaldomain.com/F2/AppManifest&#39;
     }
 ];
 
 F2.init();
-F2.registerApps(arConfigs);
-</code></pre><p>Pre-loaded and tradition apps mixed.</p>
-
+F2.registerApps(arConfigs);</code></pre>
+<p>Pre-loaded and tradition apps mixed.</p>
 <pre class="code prettyprint"><code>// Pre-loaded apps and traditional f2 app configs
 // you can preload the same app multiple times as long as you have a unique root for each
 var arConfigs = [
     {
-        appId: 'com_mydomain_example_app',
+        appId: &#39;com_mydomain_example_app&#39;,
         context: {},
-        root: 'div#example-app-1',
-        manifestUrl: ''
+        root: &#39;div#example-app-1&#39;,
+        manifestUrl: &#39;&#39;
     },
     {
-        appId: 'com_mydomain_example_app',
+        appId: &#39;com_mydomain_example_app&#39;,
         context: {},
-        root: 'div#example-app-2',
-        manifestUrl: ''
+        root: &#39;div#example-app-2&#39;,
+        manifestUrl: &#39;&#39;
     },
     {
-        appId: 'com_externaldomain_example_app',
+        appId: &#39;com_externaldomain_example_app&#39;,
         context: {},
-        manifestUrl: 'http://www.externaldomain.com/F2/AppManifest'
+        manifestUrl: &#39;http://www.externaldomain.com/F2/AppManifest&#39;
     }
 ];
 
 F2.init();
-F2.registerApps(arConfigs);
-</code></pre><p>Apps with predefined manifests.</p>
-
+F2.registerApps(arConfigs);</code></pre>
+<p>Apps with predefined manifests.</p>
 <pre class="code prettyprint"><code>// Traditional f2 app configs
 var arConfigs = [
-    {appId: 'com_externaldomain_example_app', context: {}},
-    {appId: 'com_externaldomain_example_app', context: {}},
-    {appId: 'com_externaldomain_example_app2', context: {}}
+    {appId: &#39;com_externaldomain_example_app&#39;, context: {}},
+    {appId: &#39;com_externaldomain_example_app&#39;, context: {}},
+    {appId: &#39;com_externaldomain_example_app2&#39;, context: {}}
 ];
 
 // Pre requested manifest responses
 var arManifests = [
     {
-        apps: ['&lt;div&gt;Example App!&lt;/div&gt;'],
+        apps: [&#39;&lt;div&gt;Example App!&lt;/div&gt;&#39;],
         inlineScripts: [],
-        scripts: ['http://www.domain.com/js/AppClass.js'],
-        styles: ['http://www.domain.com/css/AppStyles.css']
+        scripts: [&#39;http://www.domain.com/js/AppClass.js&#39;],
+        styles: [&#39;http://www.domain.com/css/AppStyles.css&#39;]
     },
     {
-        apps: ['&lt;div&gt;Example App!&lt;/div&gt;'],
+        apps: [&#39;&lt;div&gt;Example App!&lt;/div&gt;&#39;],
         inlineScripts: [],
-        scripts: ['http://www.domain.com/js/AppClass.js'],
-        styles: ['http://www.domain.com/css/AppStyles.css']
+        scripts: [&#39;http://www.domain.com/js/AppClass.js&#39;],
+        styles: [&#39;http://www.domain.com/css/AppStyles.css&#39;]
     },
     {
-        apps: ['&lt;div&gt;Example App 2!&lt;/div&gt;'],
+        apps: [&#39;&lt;div&gt;Example App 2!&lt;/div&gt;&#39;],
         inlineScripts: [],
-        scripts: ['http://www.domain.com/js/App2Class.js'],
-        styles: ['http://www.domain.com/css/App2Styles.css']
+        scripts: [&#39;http://www.domain.com/js/App2Class.js&#39;],
+        styles: [&#39;http://www.domain.com/css/App2Styles.css&#39;]
     }
 ];
 
 F2.init();
-F2.registerApps(arConfigs, arManifests);
-</code></pre>
+F2.registerApps(arConfigs, arManifests);</code></pre>
+
             </div>
         </div>
     
@@ -4668,6 +4661,7 @@ F2.registerApps(arConfigs, arManifests);
 
     <div class="description">
         <p>Removes all apps from the container</p>
+
     </div>
 
     
@@ -4732,6 +4726,7 @@ F2.registerApps(arConfigs, arManifests);
 
     <div class="description">
         <p>Removes an app from the container</p>
+
     </div>
 
     
@@ -4749,7 +4744,8 @@ F2.registerApps(arConfigs, arManifests);
                     
 
                     <div class="param-description">
-                        <p>The app's instanceId</p>
+                        <p>The app&#39;s instanceId</p>
+
                     </div>
 
                     
@@ -4831,10 +4827,10 @@ F2.registerApps(arConfigs, arManifests);
 
     <div class="description">
         <p>Wrapper to convert an object to JSON</p>
-
 <p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
 recommended to pass F2.appConfigReplacer as the replacer function in
 order to prevent circular serialization errors.</strong></p>
+
     </div>
 
     
@@ -4853,6 +4849,7 @@ order to prevent circular serialization errors.</strong></p>
 
                     <div class="param-description">
                         <p>The object to convert</p>
+
                     </div>
 
                     
@@ -4870,6 +4867,7 @@ order to prevent circular serialization errors.</strong></p>
                         <p>An optional parameter that determines
 how object values are stringified for objects. It can be a function or an 
 array of strings.</p>
+
                     </div>
 
                     
@@ -4887,8 +4885,9 @@ array of strings.</p>
                         <p>An optional parameter that specifies the
 indentation of nested structures. If it is omitted, the text will be
 packed without extra whitespace. If it is a number, it will specify the
-number of spaces to indent at each level. If it is a string (such as '\t'
-or '&nbsp;'), it contains the characters used to indent at each level.</p>
+number of spaces to indent at each level. If it is a string (such as &#39;\t&#39;
+or &#39;&nbsp;&#39;), it contains the characters used to indent at each level.</p>
+
                     </div>
 
                     
@@ -4905,9 +4904,10 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="label label-default type">String</span>:
                     
-                    The JSON string
+                    <p>The JSON string</p>
+
                 
             </div>
         </div>
@@ -4961,6 +4961,7 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
 
     <div class="description">
         <p>Function to get the F2 version number</p>
+
     </div>
 
     
@@ -4972,9 +4973,10 @@ or '&nbsp;'), it contains the characters used to indent at each level.</p>
             <div class="returns-description">
                 
                     
-                        <span class="type">String</span>:
+                        <span class="label label-default type">String</span>:
                     
-                    F2 version number
+                    <p>F2 version number</p>
+
                 
             </div>
         </div>
@@ -5034,9 +5036,9 @@ class that is used to initialize their app. The javascript classes should
 be namepaced with the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>.appId. 
 It is recommended that the code be placed in a closure to help keep the
 global namespace clean.</p>
-
-<p>If the class has an 'init' function, that function will be called 
+<p>If the class has an &#39;init&#39; function, that function will be called 
 automatically by F2.</p>
+
     </div>
 
     
@@ -5058,15 +5060,15 @@ automatically by F2.</p>
     }
 
     return App_Class;
-})();
-</code></pre><pre class="code prettyprint"><code>F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
+})();</code></pre>
+<pre class="code prettyprint"><code>F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
    return {
        init:function() {
            // perform init actions
        }
    };
-};
-</code></pre>
+};</code></pre>
+
             </div>
         </div>
     
@@ -5151,7 +5153,7 @@ automatically by F2.</p>
 	var current = location.pathname.split('/').pop();
 	$('a','.sidebar-toc').each(function(i,el){
 		var $el = $(el);
-		if ($el.attr('href').indexOf(current) > -1){
+		if (current.length && $el.attr('href').indexOf(current) > -1){
 			$el.parent().addClass('active');
 		}
 	});

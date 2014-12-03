@@ -43,6 +43,9 @@
   .breadcrumb .dropdown-menu {
     font-size: 15px;
   }
+  #docs-main .page-header {
+  	margin-top: 0;
+  }
   .back-to-top {
     padding-left: 16px;
     margin-top: 10px;
@@ -99,9 +102,6 @@
       <div class="col-sm-3 sidebar-nav" id="toc">
         <div class="navs">
           <div class="spy-container">
-          	<div id="api-tabview-filter">
-      				<input type="search" placeholder="Type to filter APIs">
-      			</div>
             <ul class="nav nav-stacked sidebar-toc">
               <li><a href="{{projectRoot}}">API Reference</a></li>
               {{>sidebar}}
@@ -120,13 +120,10 @@
         </div>
       </div>
       <div class="col-sm-9" id="docs">
-      	{{>options}}
-      	<form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
-		    <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='[{{#search classes allModules}}{{/search}}]'>
-		</form>
       	<div class="apidocs">
 	      	<div id="docs-main">
 	        	<div class="content">
+	        		{{>options}}
 	                {{>layout_content}}
 	            </div>
 	        </div>
@@ -194,7 +191,7 @@
 	var current = location.pathname.split('/').pop();
 	$('a','.sidebar-toc').each(function(i,el){
 		var $el = $(el);
-		if ($el.attr('href').indexOf(current) > -1){
+		if (current.length && $el.attr('href').indexOf(current) > -1){
 			$el.parent().addClass('active');
 		}
 	});

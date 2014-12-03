@@ -43,6 +43,9 @@
   .breadcrumb .dropdown-menu {
     font-size: 15px;
   }
+  #docs-main .page-header {
+  	margin-top: 0;
+  }
   .back-to-top {
     padding-left: 16px;
     margin-top: 10px;
@@ -99,11 +102,8 @@
       <div class="col-sm-3 sidebar-nav" id="toc">
         <div class="navs">
           <div class="spy-container">
-          	<div id="api-tabview-filter">
-      				<input type="search" placeholder="Type to filter APIs">
-      			</div>
             <ul class="nav nav-stacked sidebar-toc">
-              <li><a href="">API Reference</a></li>
+              <li><a href="../">API Reference</a></li>
               
     <li><a href="../classes/F2.html">F2</a></li>
 
@@ -158,39 +158,36 @@
         </div>
       </div>
       <div class="col-sm-9" id="docs">
-      	    <form id="options-form" class="form-inline pull-right">
-        Show:
-        <label for="api-show-inherited" class="checkbox">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected" class="checkbox">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private" class="checkbox">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated" class="checkbox">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </form>
-
-
-      	<form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
-		    <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/F2", "classes/F2.App", "classes/F2.AppConfig", "classes/F2.AppHandlers", "classes/F2.AppManifest", "classes/F2.AppManifest.AppContent", "classes/F2.Constants", "classes/F2.Constants.AppHandlers", "classes/F2.Constants.Css", "classes/F2.Constants.Events", "classes/F2.Constants.Sockets", "classes/F2.Constants.Views", "classes/F2.ContainerConfig", "classes/F2.ContainerConfig.UI", "classes/F2.ContainerConfig.UI.Mask", "classes/F2.Events", "classes/F2.Rpc", "classes/F2.UI", "classes/F2.UI.Modals", "classes/F2.UI.Views", "modules/f2"]'>
-		</form>
       	<div class="apidocs">
 	      	<div id="docs-main">
 	        	<div class="content">
-	                <div class="page-header">
-    <h1>sdk/src/container.js <small>File</small></h1>
-</div>
+	        		<form id="options-form" class="form-inline pull-right">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+    </div>
+</form>
+	                <h1 class="page-header">sdk/src/container.js <small>File</small></h1>
 
 <div class="file">
     <pre class="prettyprint linenums"><code>
@@ -1432,7 +1429,7 @@ F2.extend(&#x27;&#x27;, (function() {
 	var current = location.pathname.split('/').pop();
 	$('a','.sidebar-toc').each(function(i,el){
 		var $el = $(el);
-		if ($el.attr('href').indexOf(current) > -1){
+		if (current.length && $el.attr('href').indexOf(current) > -1){
 			$el.parent().addClass('active');
 		}
 	});

@@ -55,9 +55,9 @@ $(function() {
     function setOptionDisplayState(box) {
         var cssName = $.trim(box.parent('label').text()).toLowerCase();
         if(box.is(':checked')){
-            $('div.'+cssName).css('display', 'block');
-            $('li.'+cssName).css('display', 'block');
-            $('span.'+cssName).css('display', 'inline');
+            $('.'+cssName).css('display', 'block');
+            $('.'+cssName).css('display', 'block');
+            $('tr.'+cssName).css('display', 'table-row');
         }else{
             $('.'+cssName).css('display', 'none');
         }

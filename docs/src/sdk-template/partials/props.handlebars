@@ -5,19 +5,19 @@
         <span class="label type">{{#crossLink type}}{{/crossLink}}</span>
 
         {{#if deprecated}}
-            <span class="label deprecated"{{#if deprecationMessage}} title="{{deprecationMessage}}"{{/if}}>deprecated</span>
+            <span class="label label-warning deprecated"{{#if deprecationMessage}} title="{{deprecationMessage}}"{{/if}}>deprecated</span>
         {{/if}}
 
         {{#if access}}
-            <span class="label {{access}}">{{access}}</span>
+            <span class="label label-info {{access}}">{{access}}</span>
         {{/if}}
 
         {{#if final}}
-            <span class="label final">final</span>
+            <span class="label label-default final">final</span>
         {{/if}}
 
         {{#if static}}
-            <span class="label static">static</span>
+            <span class="label label-default static">static</span>
         {{/if}}
     </h3>
 
@@ -50,11 +50,11 @@
         </p>
 
         {{#if deprecationMessage}}
-            <p>Deprecated: {{deprecationMessage}}</p>
+            <p><span class="label label-warning">Deprecated</span>: {{deprecationMessage}}</p>
         {{/if}}
 
         {{#if since}}
-            <p>Available since {{since}}</p>
+            <p>Available since <span class="label label-success">{{since}}</span></p>
         {{/if}}
     </div>
 
@@ -63,7 +63,7 @@
     </div>
 
     {{#if default}}
-        <p><strong>Default:</strong> <code>{{default}}</code></p>
+        <p><span class="label label-default">Default:</span> <code>{{default}}</code></p>
     {{/if}}
 
     {{#example}}
