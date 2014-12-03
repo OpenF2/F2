@@ -81,13 +81,12 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v{{projectVersion}}</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
-              <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
-              <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extend F2</a></li>
-              <li class="active"><a href="./sdk">F2.js API Reference</a></li>
+              <li><a href="../{{projectRoot}}container-development.html">Container Development</a></li>
+              <li><a href="../{{projectRoot}}app-development.html">App Development</a></li>
+              <li><a href="../{{projectRoot}}extending-f2.html">Extend F2</a></li>
+              <li class="active"><a href="{{projectRoot}}">F2.js API Reference</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+{{htmlTitle}}" id="feedbackLink" target="_blank">Submit Feedback</a></li>
-              <li><a href="https://github.com/OpenF2/F2/blob/master/docs/src/{{filename}}" id="viewSourceLink" target="_blank">View Source</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
             </ul>
@@ -101,8 +100,8 @@
         <div class="navs">
           <div class="spy-container">
           	<div id="api-tabview-filter">
-				<input type="search" placeholder="Type to filter APIs">
-			</div>
+      				<input type="search" placeholder="Type to filter APIs">
+      			</div>
             <ul class="nav nav-stacked sidebar-toc">
               <li><a href="">API Reference</a></li>
               {{>sidebar}}
@@ -111,12 +110,12 @@
           <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
           <ul class="nav nav-stacked">
             <li><a href="#">Sections</a></li>
-            <li class="active"><a href="./sdk">API Reference</a></li>
-            <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
-            <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
-            <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
-            <li{{#if activeNav.f2js}} class="active"{{/if}}><a href="f2js-sdk.html">F2.js</a></li>
-            <li{{#if activeNav.about}} class="active"{{/if}}><a href="about-f2.html">About F2</a></li>
+            <li class="active"><a href="{{projectRoot}}">API Reference</a></li>
+            <li><a href="../{{projectRoot}}container-development.html">Container Development</a></li>
+            <li><a href="../{{projectRoot}}app-development.html">App Development</a></li>
+            <li><a href="../{{projectRoot}}extending-f2.html">Extending F2</a></li>
+            <li><a href="../{{projectRoot}}f2js-sdk.html">F2.js</a></li>
+            <li><a href="../{{projectRoot}}about-f2.html">About F2</a></li>
           </ul>
         </div>
       </div>
@@ -185,10 +184,11 @@
 <!-- <script src="js/docs.js" type="text/javascript"></script> 
 <script type="text/javascript">new F2Docs().initialize();</script>-->
 <script>
+  hljs.configure({languages:['javascript'],tabReplace:'  '});
 	$('pre code','#docs-main').each(function(i, el) {
-		try {
-			hljs.highlightBlock(el,'javascript');
-	}catch(e){}
+    try {
+      hljs.highlightBlock(el);
+    } catch(e){}
 	});
 	//docs
 	var current = location.pathname.split('/').pop();
