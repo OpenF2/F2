@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>F2 - F2.ContainerConfig - Open Financial Framework</title>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
+<meta name="viewport" content="width=device-width initial-scale=1.0"/>
+<link rel="stylesheet" href="//staging.openf2.org/2.1.1/css/site.css"/>
+<link rel="stylesheet" href="../assets/css/custom.css">
+<link rel="shortcut icon" href="//staging.openf2.org/2.1.1/img/favicon.ico" type="image/x-icon"/>
+<meta name="apple-mobile-web-app-title" content="F2"/>
+<link rel="apple-touch-icon" href="//staging.openf2.org/2.1.1/img/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-152x152.png"/>
+<meta name="msapplication-square70x70logo" content="//staging.openf2.org/2.1.1/img/smalltile.png"/>
+<meta name="msapplication-square150x150logo" content="//staging.openf2.org/2.1.1/img/mediumtile.png"/>
+<meta name="msapplication-wide310x150logo" content="//staging.openf2.org/2.1.1/img/widetile.png"/>
+<meta name="msapplication-square310x310logo" content="//staging.openf2.org/2.1.1/img/largetile.png"/><!--[if lt IE 9]>
+<script src="//staging.openf2.org/2.1.1/js/thirdparty/polyfills/es5.js"></script><![endif]-->
+<!--[if lt IE 9]>
+<script src="//staging.openf2.org/2.1.1/js/thirdparty/respond.min.js"></script><![endif]-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+  body {
+    position: relative;/*for scrollspy*/
+  }
+  .pageContent {
+    margin-top: 20px;
+  }
+  .breadcrumb {
+    font-size: 15px;
+  }
+  .breadcrumb a {
+    color: #3183bd;
+  }
+  .breadcrumb .dropdown-menu {
+    font-size: 15px;
+  }
+  .back-to-top {
+    padding-left: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body class="yui3-skin-sam">
+<div role="navigation" class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#f2navbarcollapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" title="Home" class="navbar-brand">F2</a>
+    </div>
+    <div id="f2navbarcollapse" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="//staging.openf2.org/">About</a>
+        </li>
+        <li><a href="//staging.openf2.org/examples">Examples</a>
+        </li>
+        <li><a href="//staging.openf2.org/developers" class="active">Developers</a>
+        </li>
+        <li><a href="//blog.openf2.org">Blog</a>
+        </li>
+        <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="http://staging.openf2.org">Home</a></li>
+          <li><a href="http://staging.openf2.org/developers">Developers</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.0</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="container-development.html">Container Development</a></li>
+              <li><a href="app-development.html">App Development</a></li>
+              <li><a href="extending-f2.html">Extend F2</a></li>
+              <li class="active"><a href="./sdk">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+F2 - F2.ContainerConfig" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/blob/master/docs/src/" id="viewSourceLink" target="_blank">View Source</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">F2 - F2.ContainerConfig</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <div class="spy-container">
+          	<div id="api-tabview-filter">
+				<input type="search" placeholder="Type to filter APIs">
+			</div>
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="">API Reference</a></li>
+                  <li><a href="../classes/F2.html">F2</a></li>
+                  <li><a href="../classes/F2.App.html">F2.App</a></li>
+                  <li><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
+                  <li><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+                  <li><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
+                  <li><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+                  <li><a href="../classes/F2.Constants.html">F2.Constants</a></li>
+                  <li><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
+                  <li><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+                  <li><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+                  <li><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+                  <li><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+                  <li><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+                  <li><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+                  <li><a href="../classes/F2.Events.html">F2.Events</a></li>
+                  <li><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
+                  <li><a href="../classes/F2.UI.html">F2.UI</a></li>
+                  <li><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+                  <li><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
+          <ul class="nav nav-stacked">
+            <li><a href="#">Sections</a></li>
+            <li class="active"><a href="./sdk">API Reference</a></li>
+            <li><a href="container-development.html">Container Development</a></li>
+            <li><a href="app-development.html">App Development</a></li>
+            <li><a href="extending-f2.html">Extending F2</a></li>
+            <li><a href="f2js-sdk.html">F2.js</a></li>
+            <li><a href="about-f2.html">About F2</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9" id="docs">
+      	    <form id="options-form" class="form-inline pull-right">
+      	        Show:
+      	        <label for="api-show-inherited" class="checkbox">
+      	            <input type="checkbox" id="api-show-inherited" checked>
+      	            Inherited
+      	        </label>
+      	
+      	        <label for="api-show-protected" class="checkbox">
+      	            <input type="checkbox" id="api-show-protected">
+      	            Protected
+      	        </label>
+      	
+      	        <label for="api-show-private" class="checkbox">
+      	            <input type="checkbox" id="api-show-private">
+      	            Private
+      	        </label>
+      	        <label for="api-show-deprecated" class="checkbox">
+      	            <input type="checkbox" id="api-show-deprecated">
+      	            Deprecated
+      	        </label>
+      	
+      	    </form>
+      	
+      	<form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+		    <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/F2", "classes/F2.App", "classes/F2.AppConfig", "classes/F2.AppHandlers", "classes/F2.AppManifest", "classes/F2.AppManifest.AppContent", "classes/F2.Constants", "classes/F2.Constants.AppHandlers", "classes/F2.Constants.Css", "classes/F2.Constants.Events", "classes/F2.Constants.Sockets", "classes/F2.Constants.Views", "classes/F2.ContainerConfig", "classes/F2.ContainerConfig.UI", "classes/F2.ContainerConfig.UI.Mask", "classes/F2.Events", "classes/F2.Rpc", "classes/F2.UI", "classes/F2.UI.Modals", "classes/F2.UI.Views", "modules/f2"]'>
+		</form>
+      	<div class="apidocs">
+	      	<div id="docs-main">
+	        	<div class="content">
+	                <div class="page-header">
+	                    <h1>F2.ContainerConfig <small>Class</small></h1>
+	                </div>
+	                
+	                <div class="classDescription">
+	                    <p>An object containing configuration information for the
+	                <a href="../../container-development.html">container</a></p>
+	                
+	                </div>
+	                
+	                <div class="well well-sm">
+	                
+	                
+	                        <div class="foundat">
+	                            Defined in: <a href="../files/sdk_src_classes.js.html#l245"><code>sdk&#x2F;src&#x2F;classes.js:245</code></a>
+	                        </div>
+	                
+	                </div>
+	                
+	                
+	                
+	                <div>
+	                    <ul class="nav nav-tabs">
+	                        <li class="active"><a data-toggle="tab" href="#index">Summary</a></li>
+	                
+	                            <li><a data-toggle="tab" href="#methods">Methods</a></li>
+	                            <li><a data-toggle="tab" href="#properties">Properties</a></li>
+	                    </ul>
+	                
+	                    <div class="tab-content">
+	                        <div id="index" class="tab-pane active">
+	                                <div class="index-section methods">
+	                                    <h3>Methods</h3>
+	                
+	                                    <table class="table table-bordered table-striped table-members">
+	                                        <thead>
+	                                            <tr>
+	                                                <th>Name</th>
+	                                                <th>Description</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                            <tr class=" deprecated">
+	                                                <td class="name">
+	                                                    <a href="#methods-afterAppRender">
+	                                                        afterAppRender
+	                                                        <span class="paren">(</span>
+	                                                            <ul class="params commas">
+	                                                                <li>
+	                                                                        appConfig
+	                                                                </li>
+	                                                                <li>
+	                                                                        html
+	                                                                </li>
+	                                                            </ul>
+	                                                        <span class="paren">)</span>
+	                                                    </a>
+	                                                </td>
+	                                                <td><p>Allows the <a href="../../container-development.html">container</a> to override how
+	                an app&#39;s html is inserted into the page. The function should accept an
+	                <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
+	                html</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class=" deprecated">
+	                                                <td class="name">
+	                                                    <a href="#methods-appRender">
+	                                                        appRender
+	                                                        <span class="paren">(</span>
+	                                                            <ul class="params commas">
+	                                                                <li>
+	                                                                        appConfig
+	                                                                </li>
+	                                                                <li>
+	                                                                        html
+	                                                                </li>
+	                                                            </ul>
+	                                                        <span class="paren">)</span>
+	                                                    </a>
+	                                                </td>
+	                                                <td><p>Allows the <a href="../../container-development.html">container</a> to wrap an app
+	                in extra html. The function should accept an
+	                <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
+	                html. The extra html can provide links to edit app settings and remove an
+	                app from the container. See
+	                <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
+	                should be applied to elements.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class=" deprecated">
+	                                                <td class="name">
+	                                                    <a href="#methods-beforeAppRender">
+	                                                        beforeAppRender
+	                                                        <span class="paren">(</span>
+	                                                            <ul class="params commas">
+	                                                                <li>
+	                                                                        appConfig
+	                                                                </li>
+	                                                            </ul>
+	                                                        <span class="paren">)</span>
+	                                                    </a>
+	                                                </td>
+	                                                <td><p>Allows the container to render html for an app before the AppManifest for
+	                an app has loaded. This can be useful if the design calls for loading
+	                icons to appear for each app before each app is loaded and rendered to
+	                the page.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#methods-xhr">
+	                                                        xhr
+	                                                        <span class="paren">(</span>
+	                                                            <ul class="params commas">
+	                                                                <li>
+	                                                                        url
+	                                                                </li>
+	                                                                <li>
+	                                                                        appConfigs
+	                                                                </li>
+	                                                                <li>
+	                                                                        success
+	                                                                </li>
+	                                                                <li>
+	                                                                        error
+	                                                                </li>
+	                                                                <li>
+	                                                                        complete
+	                                                                </li>
+	                                                            </ul>
+	                                                        <span class="paren">)</span>
+	                                                    </a>
+	                                                </td>
+	                                                <td><p>Allows the container to fully override how the AppManifest request is
+	                made inside of F2.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#methods-xhr_dataType">
+	                                                        xhr.dataType
+	                                                        <span class="paren">(</span>
+	                                                            <ul class="params commas">
+	                                                                <li>
+	                                                                        url
+	                                                                </li>
+	                                                                <li>
+	                                                                        appConfigs
+	                                                                </li>
+	                                                            </ul>
+	                                                        <span class="paren">)</span>
+	                                                    </a>
+	                                                </td>
+	                                                <td><p>Allows the container to override the request data type (JSON or JSONP)
+	                that is used for the request</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#methods-xhr_type">
+	                                                        xhr.type
+	                                                        <span class="paren">(</span>
+	                                                            <ul class="params commas">
+	                                                                <li>
+	                                                                        url
+	                                                                </li>
+	                                                                <li>
+	                                                                        appConfigs
+	                                                                </li>
+	                                                            </ul>
+	                                                        <span class="paren">)</span>
+	                                                    </a>
+	                                                </td>
+	                                                <td><p>Allows the container to override the request method that is used (just
+	                like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#methods-xhr_url">
+	                                                        xhr.url
+	                                                        <span class="paren">(</span>
+	                                                            <ul class="params commas">
+	                                                                <li>
+	                                                                        url
+	                                                                </li>
+	                                                                <li>
+	                                                                        appConfigs
+	                                                                </li>
+	                                                            </ul>
+	                                                        <span class="paren">)</span>
+	                                                    </a>
+	                                                </td>
+	                                                <td><p>Allows the container to override the url that is used to request an
+	                app&#39;s F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></p>
+	                </td>
+	                                            </tr>
+	                                        </tbody>
+	                                    </table>
+	                                    <ul class="index-list methods">
+	                                            <li class="index-item method deprecated">
+	                                                <a href="#" data-tabid="#methods" data-anchor="#method_afterAppRender" data-tablink="afterAppRender">afterAppRender</a>
+	                
+	                                                    <span class="flag deprecated">deprecated</span>
+	                                            </li>
+	                                            <li class="index-item method deprecated">
+	                                                <a href="#" data-tabid="#methods" data-anchor="#method_appRender" data-tablink="appRender">appRender</a>
+	                
+	                                                    <span class="flag deprecated">deprecated</span>
+	                                            </li>
+	                                            <li class="index-item method deprecated">
+	                                                <a href="#" data-tabid="#methods" data-anchor="#method_beforeAppRender" data-tablink="beforeAppRender">beforeAppRender</a>
+	                
+	                                                    <span class="flag deprecated">deprecated</span>
+	                                            </li>
+	                                            <li class="index-item method">
+	                                                <a href="#" data-tabid="#methods" data-anchor="#method_xhr" data-tablink="xhr">xhr</a>
+	                
+	                                            </li>
+	                                            <li class="index-item method">
+	                                                <a href="#" data-tabid="#methods" data-anchor="#method_xhr.dataType" data-tablink="xhr.dataType">xhr.dataType</a>
+	                
+	                                            </li>
+	                                            <li class="index-item method">
+	                                                <a href="#" data-tabid="#methods" data-anchor="#method_xhr.type" data-tablink="xhr.type">xhr.type</a>
+	                
+	                                            </li>
+	                                            <li class="index-item method">
+	                                                <a href="#" data-tabid="#methods" data-anchor="#method_xhr.url" data-tablink="xhr.url">xhr.url</a>
+	                
+	                                            </li>
+	                                    </ul>
+	                                </div>
+	                
+	                                <div class="index-section properties">
+	                                    <h3>Properties</h3>
+	                                    <table class="table table-bordered table-striped table-members">
+	                                        <thead>
+	                                            <tr>
+	                                                <th>Name</th>
+	                                                <th>Description</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-debugMode">debugMode</a>
+	                                                </td>
+	                                                <td><p>True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-isSecureAppPage">isSecureAppPage</a>
+	                                                </td>
+	                                                <td><p>Tells the container that it is currently running within
+	                a secure app page</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-loadScripts">loadScripts</a>
+	                                                </td>
+	                                                <td><p>Allows the container to override the script loader which requests
+	                dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-loadStyles">loadStyles</a>
+	                                                </td>
+	                                                <td><p>Allows the container to override the stylesheet loader which requests
+	                dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-locale">locale</a>
+	                                                </td>
+	                                                <td><p>The default language and region specification for this container 
+	                represented as an IETF-defined standard language tag,
+	                e.g. <code>"en-us"</code> or <code>"de-de"</code>. This value is passed to each app
+	                registered as <code>containerLocale</code>.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-scriptErrorTimeout">scriptErrorTimeout</a>
+	                                                </td>
+	                                                <td><p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn&#39;t fire.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-secureAppPagePath">secureAppPagePath</a>
+	                                                </td>
+	                                                <td><p>Allows the container to specify which page is used when
+	                loading a secure app. The page must reside on a different domain than the
+	                container</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-supportedViews">supportedViews</a>
+	                                                </td>
+	                                                <td><p>Specifies what views a container will provide buttons
+	                or links to. Generally, the views will be switched via buttons or links
+	                in the app&#39;s header.</p>
+	                </td>
+	                                            </tr>
+	                                            <tr class="">
+	                                                <td class="name">
+	                                                    <a href="#properties-xhr">xhr</a>
+	                                                </td>
+	                                                <td><p>Allows the container to override individual parts of the AppManifest
+	                request.  See properties and methods with the <code>xhr.</code> prefix.</p>
+	                </td>
+	                                            </tr>
+	                                        </tbody>
+	                                    </table>
+	                                    <ul class="index-list properties">
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_debugMode" data-tablink="debugMode">debugMode</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_isSecureAppPage" data-tablink="isSecureAppPage">isSecureAppPage</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_loadScripts" data-tablink="loadScripts">loadScripts</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_loadStyles" data-tablink="loadStyles">loadStyles</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_locale" data-tablink="locale">locale</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_scriptErrorTimeout" data-tablink="scriptErrorTimeout">scriptErrorTimeout</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_secureAppPagePath" data-tablink="secureAppPagePath">secureAppPagePath</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_supportedViews" data-tablink="supportedViews">supportedViews</a>
+	                
+	                                            </li>
+	                                            <li class="index-item property">
+	                                                <a href="#" data-tabid="#properties" data-anchor="#property_xhr" data-tablink="xhr">xhr</a>
+	                
+	                                            </li>
+	                                    </ul>
+	                                </div>
+	                
+	                
+	                        </div>
+	                
+	                            <div id="methods" class="tab-pane">
+	                                <h2 class="off-left">Methods</h2>
+	                
+	                                    <div id="method_afterAppRender" class="method item deprecated">
+	                                        <h3>
+	                                            afterAppRender
+	                                            <span class="paren">(</span>
+	                                                <ul class="params commas">
+	                                                    <li>
+	                                                            appConfig
+	                                                    </li>
+	                                                    <li>
+	                                                            html
+	                                                    </li>
+	                                                </ul>
+	                                            <span class="paren">)</span>
+	                                    
+	                                                <span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l251"><code>sdk&#x2F;src&#x2F;classes.js:251</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                                <p>Deprecated: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the <a href="../../container-development.html">container</a> to override how
+	                                    an app&#39;s html is inserted into the page. The function should accept an
+	                                    <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
+	                                    html</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <div class="params">
+	                                                <h4>Parameters:</h4>
+	                                    
+	                                                <ul class="params-list">
+	                                                    <li class="param">
+	                                                            <code class="param-name">appConfig</code>
+	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The F2.AppConfig object</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">html</code>
+	                                                            <span class="type">String</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The string of html representing the app</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                    
+	                                            <div class="returns">
+	                                                <h4>Returns:</h4>
+	                                    
+	                                                <div class="returns-description">
+	                                                            <span class="type">Element</span>:
+	                                                        <p>The DOM Element surrounding the app</p>
+	                                    
+	                                                </div>
+	                                            </div>
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="method_appRender" class="method item deprecated">
+	                                        <h3>
+	                                            appRender
+	                                            <span class="paren">(</span>
+	                                                <ul class="params commas">
+	                                                    <li>
+	                                                            appConfig
+	                                                    </li>
+	                                                    <li>
+	                                                            html
+	                                                    </li>
+	                                                </ul>
+	                                            <span class="paren">)</span>
+	                                    
+	                                                <span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l263"><code>sdk&#x2F;src&#x2F;classes.js:263</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                                <p>Deprecated: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the <a href="../../container-development.html">container</a> to wrap an app
+	                                    in extra html. The function should accept an
+	                                    <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
+	                                    html. The extra html can provide links to edit app settings and remove an
+	                                    app from the container. See
+	                                    <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
+	                                    should be applied to elements.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <div class="params">
+	                                                <h4>Parameters:</h4>
+	                                    
+	                                                <ul class="params-list">
+	                                                    <li class="param">
+	                                                            <code class="param-name">appConfig</code>
+	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The F2.AppConfig object</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">html</code>
+	                                                            <span class="type">String</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The string of html representing the app</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                    
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="method_beforeAppRender" class="method item deprecated">
+	                                        <h3>
+	                                            beforeAppRender
+	                                            <span class="paren">(</span>
+	                                                <ul class="params commas">
+	                                                    <li>
+	                                                            appConfig
+	                                                    </li>
+	                                                </ul>
+	                                            <span class="paren">)</span>
+	                                    
+	                                                <span class="label deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l277"><code>sdk&#x2F;src&#x2F;classes.js:277</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                                <p>Deprecated: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to render html for an app before the AppManifest for
+	                                    an app has loaded. This can be useful if the design calls for loading
+	                                    icons to appear for each app before each app is loaded and rendered to
+	                                    the page.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <div class="params">
+	                                                <h4>Parameters:</h4>
+	                                    
+	                                                <ul class="params-list">
+	                                                    <li class="param">
+	                                                            <code class="param-name">appConfig</code>
+	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The F2.AppConfig object</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                    
+	                                            <div class="returns">
+	                                                <h4>Returns:</h4>
+	                                    
+	                                                <div class="returns-description">
+	                                                            <span class="type">Element</span>:
+	                                                        <p>The DOM Element surrounding the app</p>
+	                                    
+	                                                </div>
+	                                            </div>
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="method_xhr" class="method item">
+	                                        <h3>
+	                                            xhr
+	                                            <span class="paren">(</span>
+	                                                <ul class="params commas">
+	                                                    <li>
+	                                                            url
+	                                                    </li>
+	                                                    <li>
+	                                                            appConfigs
+	                                                    </li>
+	                                                    <li>
+	                                                            success
+	                                                    </li>
+	                                                    <li>
+	                                                            error
+	                                                    </li>
+	                                                    <li>
+	                                                            complete
+	                                                    </li>
+	                                                </ul>
+	                                            <span class="paren">)</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l389"><code>sdk&#x2F;src&#x2F;classes.js:389</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to fully override how the AppManifest request is
+	                                    made inside of F2.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <div class="params">
+	                                                <h4>Parameters:</h4>
+	                                    
+	                                                <ul class="params-list">
+	                                                    <li class="param">
+	                                                            <code class="param-name">url</code>
+	                                                            <span class="type">String</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The manifest url</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">appConfigs</code>
+	                                                            <span class="type">Array</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
+	                                    objects</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">success</code>
+	                                                            <span class="type">Function</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The function to be called if the request
+	                                    succeeds</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">error</code>
+	                                                            <span class="type">Function</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The function to be called if the request fails</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">complete</code>
+	                                                            <span class="type">Function</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The function to be called when the request
+	                                    finishes (after success and error callbacks have been executed)</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                    
+	                                            <div class="returns">
+	                                                <h4>Returns:</h4>
+	                                    
+	                                                <div class="returns-description">
+	                                                            <span class="type">XMLHttpRequest</span>:
+	                                                        <p>The XMLHttpRequest object (or an object that has
+	                                    an <code>abort</code> function (such as the jqXHR object in jQuery) to abort the
+	                                    request)</p>
+	                                    
+	                                                </div>
+	                                            </div>
+	                                    
+	                                            <div class="example">
+	                                                <h4>Example:</h4>
+	                                    
+	                                                <div class="example-content">
+	                                                    <pre class="code prettyprint"><code>F2.init({
+	                                        xhr: function(url, appConfigs, success, error, complete) {
+	                                            $.ajax({
+	                                                url: url,
+	                                                type: &#39;POST&#39;,
+	                                                data: {
+	                                                    params: F2.stringify(appConfigs, F2.appConfigReplacer)
+	                                                },
+	                                                jsonp: false, // do not put &#39;callback=&#39; in the query string
+	                                                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+	                                                dataType: &#39;json&#39;,
+	                                                success: function(appManifest) {
+	                                                    // custom success logic
+	                                                    success(appManifest); // fire success callback
+	                                                },
+	                                                error: function() {
+	                                                    // custom error logic
+	                                                    error(); // fire error callback
+	                                                },
+	                                                complete: function() {
+	                                                    // custom complete logic
+	                                                    complete(); // fire complete callback
+	                                                }
+	                                            });
+	                                        }
+	                                    });
+	                                    </code></pre>
+	                                                </div>
+	                                            </div>
+	                                        <hr>
+	                                    </div>
+	                                    <div id="method_xhr.dataType" class="method item">
+	                                        <h3>
+	                                            xhr.dataType
+	                                            <span class="paren">(</span>
+	                                                <ul class="params commas">
+	                                                    <li>
+	                                                            url
+	                                                    </li>
+	                                                    <li>
+	                                                            appConfigs
+	                                                    </li>
+	                                                </ul>
+	                                            <span class="paren">)</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l453"><code>sdk&#x2F;src&#x2F;classes.js:453</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to override the request data type (JSON or JSONP)
+	                                    that is used for the request</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <div class="params">
+	                                                <h4>Parameters:</h4>
+	                                    
+	                                                <ul class="params-list">
+	                                                    <li class="param">
+	                                                            <code class="param-name">url</code>
+	                                                            <span class="type">String</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The manifest url</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">appConfigs</code>
+	                                                            <span class="type">Array</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
+	                                    objects</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                    
+	                                            <div class="returns">
+	                                                <h4>Returns:</h4>
+	                                    
+	                                                <div class="returns-description">
+	                                                            <span class="type">String</span>:
+	                                                        <p>The request data type that should be used</p>
+	                                    
+	                                                </div>
+	                                            </div>
+	                                    
+	                                            <div class="example">
+	                                                <h4>Example:</h4>
+	                                    
+	                                                <div class="example-content">
+	                                                    <pre class="code prettyprint"><code>F2.init({
+	                                        xhr: {
+	                                            dataType: function(url) {
+	                                                return F2.isLocalRequest(url) ? &#39;json&#39; : &#39;jsonp&#39;;
+	                                            },
+	                                            type: function(url) {
+	                                                return F2.isLocalRequest(url) ? &#39;POST&#39; : &#39;GET&#39;;
+	                                            }
+	                                        }
+	                                    });
+	                                    </code></pre>
+	                                                </div>
+	                                            </div>
+	                                        <hr>
+	                                    </div>
+	                                    <div id="method_xhr.type" class="method item">
+	                                        <h3>
+	                                            xhr.type
+	                                            <span class="paren">(</span>
+	                                                <ul class="params commas">
+	                                                    <li>
+	                                                            url
+	                                                    </li>
+	                                                    <li>
+	                                                            appConfigs
+	                                                    </li>
+	                                                </ul>
+	                                            <span class="paren">)</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l475"><code>sdk&#x2F;src&#x2F;classes.js:475</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to override the request method that is used (just
+	                                    like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <div class="params">
+	                                                <h4>Parameters:</h4>
+	                                    
+	                                                <ul class="params-list">
+	                                                    <li class="param">
+	                                                            <code class="param-name">url</code>
+	                                                            <span class="type">String</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The manifest url</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">appConfigs</code>
+	                                                            <span class="type">Array</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
+	                                    objects</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                    
+	                                            <div class="returns">
+	                                                <h4>Returns:</h4>
+	                                    
+	                                                <div class="returns-description">
+	                                                            <span class="type">String</span>:
+	                                                        <p>The request method that should be used</p>
+	                                    
+	                                                </div>
+	                                            </div>
+	                                    
+	                                            <div class="example">
+	                                                <h4>Example:</h4>
+	                                    
+	                                                <div class="example-content">
+	                                                    <pre class="code prettyprint"><code>F2.init({
+	                                        xhr: {
+	                                            dataType: function(url) {
+	                                                return F2.isLocalRequest(url) ? &#39;json&#39; : &#39;jsonp&#39;;
+	                                            },
+	                                            type: function(url) {
+	                                                return F2.isLocalRequest(url) ? &#39;POST&#39; : &#39;GET&#39;;
+	                                            }
+	                                        }
+	                                    });
+	                                    </code></pre>
+	                                                </div>
+	                                            </div>
+	                                        <hr>
+	                                    </div>
+	                                    <div id="method_xhr.url" class="method item">
+	                                        <h3>
+	                                            xhr.url
+	                                            <span class="paren">(</span>
+	                                                <ul class="params commas">
+	                                                    <li>
+	                                                            url
+	                                                    </li>
+	                                                    <li>
+	                                                            appConfigs
+	                                                    </li>
+	                                                </ul>
+	                                            <span class="paren">)</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l497"><code>sdk&#x2F;src&#x2F;classes.js:497</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to override the url that is used to request an
+	                                    app&#39;s F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <div class="params">
+	                                                <h4>Parameters:</h4>
+	                                    
+	                                                <ul class="params-list">
+	                                                    <li class="param">
+	                                                            <code class="param-name">url</code>
+	                                                            <span class="type">String</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>The manifest url</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                    <li class="param">
+	                                                            <code class="param-name">appConfigs</code>
+	                                                            <span class="type">Array</span>
+	                                    
+	                                    
+	                                                        <div class="param-description">
+	                                                            <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
+	                                    objects</p>
+	                                    
+	                                                        </div>
+	                                    
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                    
+	                                            <div class="returns">
+	                                                <h4>Returns:</h4>
+	                                    
+	                                                <div class="returns-description">
+	                                                            <span class="type">String</span>:
+	                                                        <p>The url that should be used for the request</p>
+	                                    
+	                                                </div>
+	                                            </div>
+	                                    
+	                                            <div class="example">
+	                                                <h4>Example:</h4>
+	                                    
+	                                                <div class="example-content">
+	                                                    <pre class="code prettyprint"><code>F2.init({
+	                                        xhr: {
+	                                            url: function(url, appConfigs) {
+	                                                return &#39;http://example.com/proxy.php?url=&#39; + encocdeURIComponent(url);
+	                                            }
+	                                        }
+	                                    });
+	                                    </code></pre>
+	                                                </div>
+	                                            </div>
+	                                        <hr>
+	                                    </div>
+	                            </div>
+	                
+	                            <div id="properties" class="tab-pane">
+	                                <h2 class="off-left">Properties</h2>
+	                
+	                                    <div id="property_debugMode" class="property item">
+	                                        <h3>
+	                                            debugMode
+	                                    
+	                                            <span class="label type">Bool</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l288"><code>sdk&#x2F;src&#x2F;classes.js:288</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <p><strong>Default:</strong> <code>false</code></p>
+	                                    
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_isSecureAppPage" class="property item">
+	                                        <h3>
+	                                            isSecureAppPage
+	                                    
+	                                            <span class="label type">Bool</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l314"><code>sdk&#x2F;src&#x2F;classes.js:314</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Tells the container that it is currently running within
+	                                    a secure app page</p>
+	                                    
+	                                        </div>
+	                                    
+	                                    
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_loadScripts" class="property item">
+	                                        <h3>
+	                                            loadScripts
+	                                    
+	                                            <span class="label type">Function</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l517"><code>sdk&#x2F;src&#x2F;classes.js:517</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to override the script loader which requests
+	                                    dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                    
+	                                            <div class="example">
+	                                                <h4>Example:</h4>
+	                                    
+	                                                <div class="example-content">
+	                                                    <pre class="code prettyprint"><code>F2.init({
+	                                            loadScripts: function(scripts,inlines,callback){
+	                                                //load scripts using $.load() for each script or require(scripts)
+	                                                callback();
+	                                            }
+	                                    });
+	                                    </code></pre>
+	                                                </div>
+	                                            </div>
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_loadStyles" class="property item">
+	                                        <h3>
+	                                            loadStyles
+	                                    
+	                                            <span class="label type">Function</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l532"><code>sdk&#x2F;src&#x2F;classes.js:532</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to override the stylesheet loader which requests
+	                                    dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                    
+	                                            <div class="example">
+	                                                <h4>Example:</h4>
+	                                    
+	                                                <div class="example-content">
+	                                                    <pre class="code prettyprint"><code>F2.init({
+	                                            loadStyles: function(styles,callback){
+	                                                //load styles using $.load() for each stylesheet or another method
+	                                                callback();
+	                                            }
+	                                    });
+	                                    </code></pre>
+	                                                </div>
+	                                            </div>
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_locale" class="property item">
+	                                        <h3>
+	                                            locale
+	                                    
+	                                            <span class="label type">String</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l295"><code>sdk&#x2F;src&#x2F;classes.js:295</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                                <p>Available since 1.4.0</p>
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>The default language and region specification for this container 
+	                                    represented as an IETF-defined standard language tag,
+	                                    e.g. <code>"en-us"</code> or <code>"de-de"</code>. This value is passed to each app
+	                                    registered as <code>containerLocale</code>.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <p><strong>Default:</strong> <code>null</code></p>
+	                                    
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_scriptErrorTimeout" class="property item">
+	                                        <h3>
+	                                            scriptErrorTimeout
+	                                    
+	                                            <span class="label type">Milliseconds</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l307"><code>sdk&#x2F;src&#x2F;classes.js:307</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn&#39;t fire.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                            <p><strong>Default:</strong> <code>7000 (7 seconds)</code></p>
+	                                    
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_secureAppPagePath" class="property item">
+	                                        <h3>
+	                                            secureAppPagePath
+	                                    
+	                                            <span class="label type">String</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l321"><code>sdk&#x2F;src&#x2F;classes.js:321</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to specify which page is used when
+	                                    loading a secure app. The page must reside on a different domain than the
+	                                    container</p>
+	                                    
+	                                        </div>
+	                                    
+	                                    
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_supportedViews" class="property item">
+	                                        <h3>
+	                                            supportedViews
+	                                    
+	                                            <span class="label type">Array</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l330"><code>sdk&#x2F;src&#x2F;classes.js:330</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Specifies what views a container will provide buttons
+	                                    or links to. Generally, the views will be switched via buttons or links
+	                                    in the app&#39;s header.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                    
+	                                    
+	                                        <hr>
+	                                    </div>
+	                                    <div id="property_xhr" class="property item">
+	                                        <h3>
+	                                            xhr
+	                                    
+	                                            <span class="label type">Object</span>
+	                                    
+	                                    
+	                                    
+	                                    
+	                                        </h3>
+	                                    
+	                                        <div class="meta">
+	                                                    <p>
+	                                                    Defined in
+	                                            <a href="../files/sdk_src_classes.js.html#l437"><code>sdk&#x2F;src&#x2F;classes.js:437</code></a>
+	                                            </p>
+	                                    
+	                                    
+	                                        </div>
+	                                    
+	                                        <div class="description">
+	                                            <p>Allows the container to override individual parts of the AppManifest
+	                                    request.  See properties and methods with the <code>xhr.</code> prefix.</p>
+	                                    
+	                                        </div>
+	                                    
+	                                    
+	                                            <div class="example">
+	                                                <h4>Example:</h4>
+	                                    
+	                                                <div class="example-content">
+	                                                    <pre class="code prettyprint"><code>F2.init({
+	                                        xhr: {
+	                                            url: function(url, appConfigs) {
+	                                                return &#39;http://example.com/proxy.php?url=&#39; + encocdeURIComponent(url);
+	                                            }
+	                                        }
+	                                    });
+	                                    </code></pre>
+	                                                </div>
+	                                            </div>
+	                                    
+	                                        <hr>
+	                                    </div>
+	                            </div>
+	                
+	                
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-lg-6">
+        <h1 class="hidden-sm hidden-md hidden-lg">F2</h1>
+        <p class="hidden-sm hidden-md hidden-lg">An open & free framework created for building financial applications.</p>
+        <div class="deepFooter hidden-xs hidden-sm">
+          <p>Enabling smarter financial applications</p>
+          <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+        </div>
+        <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
+          <li><a href="http://docs.openf2.org">Docs</a></li>
+          <li><a href="//staging.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
+          <li><a href="http://blog.openf2.org">Blog</a></li>
+          <li><a href="//staging.openf2.org/developers">Developers</a></li>
+          <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+          <li><a href="https://twitter.com/OpenF2">@OpenF2</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
+        <ul class="footer-nav iconlist list-inline">
+          <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
+            <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
+                <h5>View on GitHub</h5>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span></span>
+                </p></a></div>
+          </li>
+          <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
+          <li><a href="//staging.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
+          <li><a href="https://twitter.com/OpenF2" title="@OpenF2" class="hexagon"><i class="fa fa-twitter fa-2x"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row deepFooter">
+      <div class="col-xs-12 hidden-md hidden-lg">
+        <p>Enabling smarter financial applications</p>
+        <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<!-- <script src="js/docs.js" type="text/javascript"></script> 
+<script type="text/javascript">new F2Docs().initialize();</script>-->
+<script>
+	$('pre code','#docs-main').each(function(i, el) {
+		try {
+			hljs.highlightBlock(el,'javascript');
+	}catch(e){}
+	});
+	//docs
+	var current = location.pathname.split('/').pop();
+	$('a','.sidebar-toc').each(function(i,el){
+		var $el = $(el);
+		if ($el.attr('href').indexOf(current) > -1){
+			$el.parent().addClass('active');
+		}
+	});
+</script>
+</body>
+</html>

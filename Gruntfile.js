@@ -362,20 +362,20 @@ module.exports = function(grunt) {
 		});
 	});
 
-	grunt.registerTask('yuidoc', 'Builds the reference documentation with YUIDoc', function() {
+	grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', function() {
 
 		var builder,
 			docOptions = {
 				quiet: true,
 				norecurse: true,
 				paths: ['./sdk/src'],
-				outdir: './docs/sdk/',
-				themedir: './docs/src/sdk-template'
+				outdir: './docs/dist/sdk/',
+				themedir: './docs/src/sdk-template',
+				helpers: ['./docs/src/sdk-template/helpers/helpers.js']
 			},
 			done = this.async(),
 			json,
-			log = grunt.log.write('Generating reference documentation...'),
-			readmeMd = grunt.file.read('README.md'),
+			log = grunt.log.write('Generating reference docs...'),
 			Y = require('yuidocjs');
 
 		json = (new Y.YUIDoc(docOptions)).run();
@@ -419,11 +419,6 @@ module.exports = function(grunt) {
 		Y.Handlebars.registerHelper('memberNameAsId', function() {
 			return String(this.name).replace('.', '_');
 		});
-
-		// insert readme markdown
-		/*Y.Handlebars.registerHelper('readme', function() {
-			return builder.markdown(readmeMd, true);
-		});*/
 
 		builder = new Y.DocBuilder(docOptions, json);
 		builder.compile(function() {

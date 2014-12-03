@@ -1,5 +1,8 @@
-<h1>{{name}} Module</h1>
-<div class="box clearfix meta">
+<div class="page-header">
+    <h1>{{name}} <small>Module</small></h1>
+</div>
+
+<div class="clearfix well well-small">
     {{#extra}}
         {{#selleck}}
             <a class="button link-docs" href="/yui/docs/{{name}}">User Guide &amp; Examples</a>
@@ -29,7 +32,7 @@
 </div>
 
 {{#if deprecated}}
-    <div class="box deprecated">
+    <div class="well well-small">
         <p>
         {{#if deprecationMessage}}
             <strong>Deprecated:</strong> {{deprecationMessage}}
@@ -40,7 +43,7 @@
     </div>
 {{/if}}
 
-<div class="box intro">
+<div class="moduledesc well well-small">
     {{{moduleDescription}}}
 </div>
 
