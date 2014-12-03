@@ -2,8 +2,6 @@ language: node_js
 node_js:
   - "0.10"
 notifications:
-  email:
-    - dev@openf2.org
   slack: openf2:A3LmWCHuXdw8SYyWfAGyaWbK
 before_script:
   - npm install grunt-cli
