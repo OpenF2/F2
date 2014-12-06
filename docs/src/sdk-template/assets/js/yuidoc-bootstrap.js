@@ -2,14 +2,15 @@
 $(function() {
     'use strict';
 
+    //trim <code> whitespace
     $('li','ul.params').each(function(){
         $(this).text( $.trim( $(this).text() ) );
     });
 
     //options radios
     function setUpOptionsCheckboxes() {
-        if(localStorage.getItem('options')){
-            var optionsArr = JSON.parse(localStorage.options),
+        if(localStorage.getItem('f2docsoptions')){
+            var optionsArr = JSON.parse(localStorage.f2docsoptions),
                 optionsForm = $('#options-form');
 
             for(var i=0;i<optionsArr.length;i++){
@@ -17,39 +18,11 @@ $(function() {
                 box.prop('checked', optionsArr[i]);
                 setOptionDisplayState(box);
             }
+        } else {
+            $('#options-form input:checkbox').each(function(){
+                setOptionDisplayState($(this));
+            });
         }
-    }
-
-    function setUpWidgets() {
-        var sideSource = [], navbarSource = [], sidebarSearch, navbarSearch;
-
-        $('#sidebar .tab-pane.active li a').each(function(index, elem) {
-            sideSource.push($(elem).text());
-        });
-        sidebarSearch = $('#sidebar input[type="search"]');
-        // sidebarSearch.typeahead({
-        //     source: sideSource,
-        //     updater : function(item) {
-        //         $('#sidebar .tab-pane.active a:contains(' + item + ')')[0].click();
-        //         return item;
-        //     }
-        // });
-
-        $('#sidebar .tab-pane li a').each(function(index, elem) {
-            var $el = $(elem),
-                type = $el.parents('.tab-pane').is('#classes') ? 'classes/' : 'modules/';
-            navbarSource.push(type + $el.text());
-        });
-        navbarSearch = $('.navbar input');
-        // navbarSearch.typeahead({
-        //     source : navbarSource,
-        //     updater : function(item) {
-        //         var type = item.split('/')[0], name = item.split('/')[1],
-        //             $parent = $('#sidebar .tab-pane#' + type);
-        //         $parent.find('a:contains(' + name + ')')[0].click();
-        //         return item;
-        //     }
-        // });
     }
 
     function setOptionDisplayState(box) {
@@ -130,7 +103,6 @@ $(function() {
 
     //
     // Bind change events for options form checkboxes
-    //
     $('#options-form input:checkbox').on('change', function(){
         setOptionDisplayState($(this));
 
@@ -139,21 +111,17 @@ $(function() {
         $('#options-form input:checkbox').each(function(i,el) {
             optionsArr.push($(el).is(':checked'));
         });
-        localStorage.options = JSON.stringify(optionsArr);
+        localStorage.f2docsoptions = JSON.stringify(optionsArr);
     });   
 
     function setUpHashChange() {
         $(window).on('hashchange', moveToWindowHash);
     }
 
-
     // ************************************************************************* //
     //  Immediate function calls
     // ************************************************************************* //
-
-
     setUpOptionsCheckboxes();
-    setUpWidgets();
     setUpHashChange();
     if (window.location.hash) {
         moveToWindowHash();
