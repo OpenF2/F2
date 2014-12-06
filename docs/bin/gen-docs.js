@@ -93,6 +93,7 @@ srcFiles.forEach(function(filename) {
 
   //so we can highlight the 'active' section in the UI
   _locals.activeNav = {
+    getstarted: title == 'Get Started with F2',
     container: title == 'Container Development',
     app: title == 'App Development',
     extend: title == 'Extending F2',

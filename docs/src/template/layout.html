@@ -37,6 +37,7 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v{{version}}</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
+              <li{{#if activeNav.getstarted}} class="active"{{/if}}><a href="index.html">Get Started</a></li>
               <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
               <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
               <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extend F2</a></li>
@@ -64,6 +65,7 @@
           <ul class="nav nav-stacked">
             <li><a href="#">Sections</a></li>
             <li><a href="./sdk">API Reference</a></li>
+            <li{{#if activeNav.getstarted}} class="active"{{/if}}><a href="index.html">Get Started</a></li>
             <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
             <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
             <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
