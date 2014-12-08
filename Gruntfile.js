@@ -19,7 +19,6 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: pkg,
 		clean: {
-			docs: ['docs/src-temp'],
 			'github-pages': {
 				options: { force: true },
 				src: ['../gh-pages/src']
@@ -30,28 +29,6 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
-			docs: {
-				files: [
-					{
-						expand: true,
-						cwd: 'docs/src/',
-						src: ['**'],
-						dest: 'docs/src-temp/',
-						filter: function(src) {
-							if ( !(/twbootstrap/).test(src) ){//don't touch submodule
-								return (/(.html|.md)$/i).test(src);
-							}
-						}
-					}
-				],
-				options: {
-					processContent: function(content, srcpath) {
-						// TODO: Remove Handlebars dependency and use the built-in grunt
-						// templating compile and run the Handlebars template
-						return (handlebars.compile(content))(pkg);
-					}
-				}
-			},
 			'f2ToRoot': {
 				files: [
 					{
@@ -241,18 +218,6 @@ module.exports = function(grunt) {
 				'sdk/src/container.js'
 			]
 		},
-		less: {
-			dist: {
-				options: {
-					compress: true
-				},
-				files: {
-					'./docs/css/F2.css': './docs/src/template/less/bootstrap.less',
-					'./docs/css/F2.Docs.css': './docs/src/template/less/bootstrap-docs.less',
-					'./docs/css/F2.Sdk.css': './docs/src/template/less/bootstrap-sdk.less'
-				}
-			}
-		},
 		uglify: {
 			options: {
 				preserveComments: 'some',
@@ -299,11 +264,25 @@ module.exports = function(grunt) {
 				prefix: 'sdk/'
 			}
 		},
+		watch: {
+			docs: {
+				files: [
+					'docs/src/template/*.html',
+					'docs/src/sdk-template/*.*',
+					'docs/src/*.md'
+				],
+				tasks: ['generate-docs','yuidoc'],
+				// tasks: ['docs'],
+				options: {
+					spawn: false,
+				}
+			}
+		},
 		http: {
 			getDocsLayout: {
 				options: {
 					// url: 'http://localhost:8201/api/layout/docs',
-					url: 'http://staging.openf2.org/api/layout/docs',
+					url: 'http://www.openf2.org/api/layout/docs',
 					json: true,
 					strictSSL: false,
 					callback: function(err, res, response){
@@ -329,7 +308,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-express');
@@ -348,12 +326,12 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('generate-docs', 'Generate docs', function() {
 		var done = this.async(),
-		log = grunt.log.write('Generating documentation...');
+		log = grunt.log.write('Generating docs...');
 
 		exec('node ' + path.join(__dirname, 'docs/bin/gen-docs'), function(err, stdout, stderr) {
 		  if (err) {
 		    grunt.log.error(err.message);
-		    grunt.fail.fatal('Documentation generation aborted.');
+		    grunt.fail.fatal('Docs generation aborted.');
 		    return;
 		  }
 		  // grunt.log.write(stdout);
@@ -480,8 +458,7 @@ module.exports = function(grunt) {
 		));
 	});
 
-	grunt.registerTask('docs', ['http', 'less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
-	grunt.registerTask('docs2', ['http','generate-docs']);
+	grunt.registerTask('docs', ['http','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
