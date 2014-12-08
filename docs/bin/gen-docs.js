@@ -52,6 +52,7 @@ srcFiles.forEach(function(filename) {
       index.push({ label: text, href: escapedText, level: 'h' + level });
     } else if (level === 1) {
       title = text;
+      _locals.title_css = escapedText;
     }
 
     headings.push(escapedText);
@@ -93,7 +94,7 @@ srcFiles.forEach(function(filename) {
 
   //so we can highlight the 'active' section in the UI
   _locals.activeNav = {
-    getstarted: title == 'Get Started with F2',
+    getstarted: title == 'Getting Started with F2',
     container: title == 'Container Development',
     app: title == 'App Development',
     extend: title == 'Extending F2',
