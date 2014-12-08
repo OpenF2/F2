@@ -36,6 +36,9 @@ F2Docs.prototype.initialize = function() {
 			$activeNav.removeClass('active');
 		}
 	});
+
+	//add version to header
+
 }
 
 /**
@@ -60,6 +63,11 @@ F2Docs.prototype.generateToc = function(){
 			isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "",
 			$li,
 			$level3Sections = $item.nextUntil('h2','h3');//find all <h3> els until next section (<h2>)
+
+		//only headings with ID attrs should get corresponding left nav
+		if ($item.prop('id').length < 1){
+			return true;
+		}
 
 		//nav (level2)
 		$li = $("<li><a class='nav-toggle' href='#"+sectionId+"'"+isActive+">"+sectionTitle+"</a></li>");
