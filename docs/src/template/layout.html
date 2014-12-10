@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-{{template.head}}
+  <title>{{title}} - F2: Open Financial Framework</title>
+{{templates.head}}
 <style>
   body { position: relative;/*for scrollspy*/ }
-  .pageContent { margin-top: 20px; }
+  .pageContent { margin-top: 20px; } 
 </style>
 </head>
 <body>
-{{template.nav}}
+{{templates.nav}}
 <div class="docs">
   <section class="container pageContent">
     <div class="row">
       <div class="col-sm-12">
         <ol class="breadcrumb">
-          <li class="hidden-xs"><a href="http://staging.openf2.org">Home</a></li>
-          <li><a href="http://staging.openf2.org/developers">Developers</a></li>
+          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
+          <li><a href="http://www.openf2.org/developers">Developers</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v{{version}}</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -63,7 +64,7 @@
     </div>
   </section>
 </div>
-{{template.footer}}
+{{templates.footer}}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="js/docs.js" type="text/javascript"></script>
