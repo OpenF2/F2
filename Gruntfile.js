@@ -265,23 +265,16 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			docs: {
-				files: [
-					'docs/src/template/*.html',
-					'docs/src/sdk-template/*.*',
-					'docs/src/*.md'
-				],
-				tasks: ['generate-docs','yuidoc'],
-				// tasks: ['docs'],
-				options: {
-					spawn: false,
-				}
+			files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
+			// tasks: ['generate-docs','yuidoc'],
+			tasks: ['docs'],
+			options: {
+				spawn: false,
 			}
 		},
 		http: {
 			getDocsLayout: {
 				options: {
-					// url: 'http://localhost:8201/api/layout/docs',
 					url: 'http://www.openf2.org/api/layout/docs',
 					json: true,
 					strictSSL: false,
@@ -290,7 +283,7 @@ module.exports = function(grunt) {
 						grunt.config.set('docs-layout',response);
 						log.ok();
 						log = grunt.log.write('Saving templates as HTML...');
-						//save as HTML for markitdown/pandoc step
+						//save as HTML for gen-docs step
 						grunt.file.write('./docs/src/template/head.html', response.head);
 						grunt.file.write('./docs/src/template/nav.html', response.nav);
 						grunt.file.write('./docs/src/template/footer.html', response.footer);
@@ -300,18 +293,6 @@ module.exports = function(grunt) {
 			}
 		}
 	});
-
-	// Load plugins
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-jasmine');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-express');
-	grunt.loadNpmTasks('grunt-http');
 
 	// Register tasks
 	grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {
@@ -334,7 +315,7 @@ module.exports = function(grunt) {
 		    grunt.fail.fatal('Docs generation aborted.');
 		    return;
 		  }
-		  // grunt.log.write(stdout);
+		  grunt.log.write(stdout);
 		  log.ok();
 		  done();
 		});
@@ -365,37 +346,16 @@ module.exports = function(grunt) {
 		};
 		docOptions = Y.Project.mix(json, docOptions);
 
-		// hasClassMembers
 		// ensures that the class has members and isn't just an empty namespace
+		// used in sidebar.handlebars
 		Y.Handlebars.registerHelper('hasClassMembers', function() {
-
 			for (var i = 0, len = json.classitems.length; i < len; i++) {
 				//console.log(json.classitems[i].class, this.name);
 				if (json.classitems[i].class === this.name) {
 					return '';
 				}
 			}
-
-			return 'hide';
-		});
-
-		// title tag
-		Y.Handlebars.registerHelper('htmlTitle',function () {
-			var name  = this.displayName || this.name,
-					title = name;
-
-			if (title) {
-				title = 'F2 - ' + title;
-			} else {
-				title = 'F2 - The Open Financial Framework';
-			}
-
-			return title;
-		});
-
-		// handle any member names that have periods in them
-		Y.Handlebars.registerHelper('memberNameAsId', function() {
-			return String(this.name).replace('.', '_');
+			return 'hidden';
 		});
 
 		builder = new Y.DocBuilder(docOptions, json);
@@ -458,13 +418,23 @@ module.exports = function(grunt) {
 		));
 	});
 
+	// Load plugins
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-compress');
+	grunt.loadNpmTasks('grunt-contrib-jasmine');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-express');
+	grunt.loadNpmTasks('grunt-http');
+
 	grunt.registerTask('docs', ['http','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
-	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',
 		'concat:no-bootstrap',
@@ -475,8 +445,8 @@ module.exports = function(grunt) {
 		'uglify:package-no-easyXDM',
 		'uglify:package-basic'
 	]);
+	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
+	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
-
-	// the default task
 	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
 };
