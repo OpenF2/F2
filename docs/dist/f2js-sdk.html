@@ -1,68 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>F2.js SDK - F2: Open Financial Framework</title>
 
-<title>About F2 - Open Financial Framework</title>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
 <meta name="viewport" content="width=device-width initial-scale=1.0"/>
-<link rel="stylesheet" href="//macmhealey.wsod.local:8201/css/site.css"/>
-<link rel="shortcut icon" href="//staging.openf2.org/2.1.1/img/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" href="//www.openf2.org/2.2.0/css/site.css"/>
+<link rel="shortcut icon" href="//www.openf2.org/2.2.0/img/favicon.ico" type="image/x-icon"/>
 <meta name="apple-mobile-web-app-title" content="F2"/>
-<link rel="apple-touch-icon" href="//staging.openf2.org/2.1.1/img/apple-touch-icon.png"/>
-<link rel="apple-touch-icon" sizes="57x57" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-57x57.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-72x72.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-114x114.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-144x144.png"/>
-<link rel="apple-touch-icon" sizes="57x57" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-60x60.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-120x120.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-76x76.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="//staging.openf2.org/2.1.1/img/apple-touch-icon-152x152.png"/>
-<meta name="msapplication-square70x70logo" content="//staging.openf2.org/2.1.1/img/smalltile.png"/>
-<meta name="msapplication-square150x150logo" content="//staging.openf2.org/2.1.1/img/mediumtile.png"/>
-<meta name="msapplication-wide310x150logo" content="//staging.openf2.org/2.1.1/img/widetile.png"/>
-<meta name="msapplication-square310x310logo" content="//staging.openf2.org/2.1.1/img/largetile.png"/><!--[if lt IE 9]>
-<script src="//staging.openf2.org/2.1.1/js/thirdparty/polyfills/es5.js"></script><![endif]-->
+<link rel="apple-touch-icon" href="//www.openf2.org/2.2.0/img/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/2.2.0/img/apple-touch-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/2.2.0/img/apple-touch-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/2.2.0/img/apple-touch-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/2.2.0/img/apple-touch-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/2.2.0/img/apple-touch-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/2.2.0/img/apple-touch-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/2.2.0/img/apple-touch-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/2.2.0/img/apple-touch-icon-152x152.png"/>
+<meta name="msapplication-square70x70logo" content="//www.openf2.org/2.2.0/img/smalltile.png"/>
+<meta name="msapplication-square150x150logo" content="//www.openf2.org/2.2.0/img/mediumtile.png"/>
+<meta name="msapplication-wide310x150logo" content="//www.openf2.org/2.2.0/img/widetile.png"/>
+<meta name="msapplication-square310x310logo" content="//www.openf2.org/2.2.0/img/largetile.png"/><!--[if lt IE 9]>
+<script src="//www.openf2.org/2.2.0/js/thirdparty/polyfills/es5.js"></script><![endif]-->
 <!--[if lt IE 9]>
-<script src="//staging.openf2.org/2.1.1/js/thirdparty/respond.min.js"></script><![endif]-->
+<script src="//www.openf2.org/2.2.0/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
-  .pageContent {
-    margin-top: 20px;
-  }
-  .breadcrumb {
-    font-size: 15px;
-  }
-  .breadcrumb a {
-    color: #3183bd;
-  }
-  .breadcrumb .dropdown-menu {
-    font-size: 15px;
-  }
-  .back-to-top {
-    padding-left: 16px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-  .getting-started-with-f2 {
-    min-height: 1500px;
-  }
-
-  .getting-started-with-f2 .media-left {
-    width: 64px;
-    height: 64px;
-    font-size: 35px;
-  }
-  .getting-started-with-f2 .media-left .fa {
-    padding-left: 10px;
-  }
-  #docs p:last-child {
-    margin-bottom: 100px;
-  }
+  body { position: relative;/*for scrollspy*/ }
+  .pageContent { margin-top: 20px; } 
 </style>
 </head>
 <body>
@@ -74,11 +55,11 @@
     </div>
     <div id="f2navbarcollapse" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="//staging.openf2.org/">About</a>
+        <li><a href="//www.openf2.org/">About</a>
         </li>
-        <li><a href="//staging.openf2.org/examples">Examples</a>
+        <li><a href="//www.openf2.org/examples">Examples</a>
         </li>
-        <li><a href="//staging.openf2.org/developers" class="active">Developers</a>
+        <li><a href="//www.openf2.org/developers" class="active">Developers</a>
         </li>
         <li><a href="//blog.openf2.org">Blog</a>
         </li>
@@ -92,8 +73,8 @@
     <div class="row">
       <div class="col-sm-12">
         <ol class="breadcrumb">
-          <li class="hidden-xs"><a href="http://staging.openf2.org">Home</a></li>
-          <li><a href="http://staging.openf2.org/developers">Developers</a></li>
+          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
+          <li><a href="http://www.openf2.org/developers">Developers</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.0</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -196,7 +177,7 @@
 <p>A download (<a href="https://github.com/OpenF2/F2/zipball/master">zip</a>) of the current version (1.4.0) of F2 is always available along with <a href="https://github.com/OpenF2/F2/releases">tags of previous releases</a>.</p>
 <h3 class="link-header" id="deprecated-features"><a class="anchor" href="#deprecated-features"><span class="fa fa-link"></span></a>Deprecated Features</h3><p>There is a page on the wiki <a href="https://github.com/OpenF2/F2/wiki/F2.js-Deprecated">tracking deprecated features in F2</a>. Starting with version 1.2, three <code>ContainerConfig</code> properties have been retired. As F2 features and/or F2.js APIs are deprecated, we will attempt to give reasonable advance notice via any or all of the F2 <a href="https://github.com/OpenF2/F2/blob/master/CONTRIBUTING.md#keep-in-touch">communication channels</a>. In addition, we will strive to ensure that backward compatibility will be maintained for at least one major version of F2. For example, if <code>Feature X</code> is deprecated in version <code>1.3</code>, we will attempt to maintain backward compatibility until the next major release (version <code>2.0</code>). F2 documentation will be updated accordingly to reflect any changes, and the conversation behind deprecated features will be publicly <a href="https://github.com/OpenF2/F2/issues">available on GitHub</a>.</p>
 <h3 class="link-header" id="third-party-libraries"><a class="anchor" href="#third-party-libraries"><span class="fa fa-link"></span></a>Third Party Libraries</h3><p>F2 uses third party libraries inside F2.js (see <a href="http://docs.openf2.org/#choices">Framework: Choices</a>). These open-source libraries are all on their own release schedules. We cannot guarantee that we will always stay abreast and in tune with such latest releases, but in an effort to improve the F2 framework, we will attempt to update F2.js so that it uses the latest, most stable and most secure version of the third party software. These updates to F2 will be made through the normal release process on GitHub and comments will be open.</p>
-<h2 class="link-header" id="issues-enhancements-bugs"><a class="anchor" href="#issues-enhancements-bugs"><span class="fa fa-link"></span></a>Issues, Enhancements, Bugs</h2><p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a> (or send an email to <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x4f;&#112;&#101;&#110;&#x46;&#x32;&#x40;&#103;&#x6f;&#x6f;&#103;&#x6c;&#101;&#x67;&#x72;&#x6f;&#x75;&#112;&#x73;&#46;&#x63;&#111;&#109;">&#x4f;&#112;&#101;&#110;&#x46;&#x32;&#x40;&#103;&#x6f;&#x6f;&#103;&#x6c;&#101;&#x67;&#x72;&#x6f;&#x75;&#112;&#x73;&#46;&#x63;&#111;&#109;</a>) or start a discussion using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>. </p>
+<h2 class="link-header" id="issues-enhancements-bugs"><a class="anchor" href="#issues-enhancements-bugs"><span class="fa fa-link"></span></a>Issues, Enhancements, Bugs</h2><p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a> (or send an email to <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#79;&#112;&#x65;&#110;&#70;&#x32;&#x40;&#103;&#111;&#x6f;&#103;&#108;&#x65;&#103;&#114;&#x6f;&#117;&#112;&#x73;&#x2e;&#x63;&#111;&#109;">&#79;&#112;&#x65;&#110;&#70;&#x32;&#x40;&#103;&#111;&#x6f;&#103;&#108;&#x65;&#103;&#114;&#x6f;&#117;&#112;&#x73;&#x2e;&#x63;&#111;&#109;</a>) or start a discussion using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>. </p>
 <p>To track bugs, enhancements or other issues, F2 is using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>.</p>
 <hr>
 <h2 class="link-header" id="license"><a class="anchor" href="#license"><span class="fa fa-link"></span></a>License</h2><p>F2 is licensed under the Apache License version 2.0. Details are available in the <a href="https://github.com/OpenF2/F2#copyright-and-license">project readme</a>.</p>
@@ -218,9 +199,9 @@
         </div>
         <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
           <li><a href="http://docs.openf2.org">Docs</a></li>
-          <li><a href="//staging.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
+          <li><a href="//www.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
           <li><a href="http://blog.openf2.org">Blog</a></li>
-          <li><a href="//staging.openf2.org/developers">Developers</a></li>
+          <li><a href="//www.openf2.org/developers">Developers</a></li>
           <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
           <li><a href="https://twitter.com/OpenF2">@OpenF2</a></li>
         </ul>
@@ -230,11 +211,11 @@
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>4 December 2014</span>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>10 December 2014</span>
                 </p></a></div>
           </li>
           <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
-          <li><a href="//staging.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
+          <li><a href="//www.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
           <li><a href="https://twitter.com/OpenF2" title="@OpenF2" class="hexagon"><i class="fa fa-twitter fa-2x"></i></a></li>
         </ul>
       </div>
