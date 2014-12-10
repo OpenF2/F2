@@ -19,7 +19,7 @@ var srcDir = path.resolve(__dirname, '../src/'),
   locals = {};
 
 //setup partials
-locals.template = {
+locals.templates = {
   head: fs.readFileSync(path.resolve(__dirname, '../src/template/head.html'), 'utf8'),
   nav: fs.readFileSync(path.resolve(__dirname, '../src/template/nav.html'), 'utf8'),
   footer: fs.readFileSync(path.resolve(__dirname, '../src/template/footer.html'), 'utf8')
@@ -27,8 +27,19 @@ locals.template = {
 
 //loop over *.md files in source directory for conversion
 srcFiles.forEach(function(filename) {
-  var src, html, title, content, dist, index = [], _locals = {}, headings = [];
+  var src, html, title, content, dist, _locals, headings = [];
 
+  _locals = _.extend({},locals,pkg);
+
+  //F2 docs are written only in markdown
+  if (!filename.match(/\.md$/)) {
+    return;
+  }
+
+  _locals.filename = filename;
+  _locals.filename_html = filename.replace(/\.md$/, '.html');
+
+  //override Marked heading renderer
   //https://github.com/chjj/marked#overriding-renderer-methods
   renderer.heading = function(text, level) {
     var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
@@ -48,61 +59,48 @@ srcFiles.forEach(function(filename) {
         '</h' + level + '>'
         : '';
 
-    if (level > 1 && level < 4) {
-      index.push({ label: text, href: escapedText, level: 'h' + level });
-    } else if (level === 1) {
-      title = text;
+    //page <title> and some other UI  helper versions
+    if (level === 1) {
+      _locals.title = text;
+      _locals.title_for_url = encodeURIComponent(_locals.title);
       _locals.title_css = escapedText;
     }
 
+    //keep track for de-duping header IDs
     headings.push(escapedText);
 
     return html;
   };
 
-  //F2 docs are written only in markdown
-  if (!filename.match(/\.md$/)) {
-    return;
-  }
-
-  //make all locals siblings
-  _locals = _.extend(_locals,pkg,locals);
-
   //get source
   src = fs.readFileSync(path.join(srcDir, filename), 'utf8');
+
   //convert markdown to html and highlight source code
   html = marked(src, { renderer: renderer, smartypants: true, highlight: function (code, lang) {
     return highlight.highlight(lang, code).value;
   }});
 
-  //set locals
-  if (title) {
-    _locals.title = title;
-    _locals.title_for_url = encodeURIComponent(title);
-  }
-
-  _locals.filename = filename;
-  _locals.filename_html = filename.replace(/\.md$/, '.html');
-
   //"content" is HTML (converted from markdown & variables compiled)
   _locals.content = (handlebars.compile(html))(_locals);
 
   //compile template partials
-  for (var t in _locals.template){
-    _locals.template[t] = (handlebars.compile(_locals.template[t]))(_locals);
+  //this happens once for all the source files 
+  //(after the 1st file, all the {{handlebars}} templates are replaced)
+  for (var t in _locals.templates){
+    _locals.templates[t] = (handlebars.compile( _locals.templates[t]) )(_locals);
   }
 
   //so we can highlight the 'active' section in the UI
   _locals.activeNav = {
-    getstarted: title == 'Getting Started with F2',
-    container: title == 'Container Development',
-    app: title == 'App Development',
-    extend: title == 'Extending F2',
-    f2js: title == 'F2.js SDK',
-    about: title == 'About F2'
+    getstarted: _locals.title == 'Getting Started with F2',
+    container: _locals.title == 'Container Development',
+    app: _locals.title == 'App Development',
+    extend: _locals.title == 'Extending F2',
+    f2js: _locals.title == 'F2.js SDK',
+    about: _locals.title == 'About F2'
   }
 
-  //now compile entire template
+  //now compile the templateFile to add _locals.templates and _locals.content
   dist = (handlebars.compile(template, {noEscape:true}))(_locals);
 
   //save to /dist
