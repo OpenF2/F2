@@ -1,42 +1,42 @@
-	jQuery(function() {
-		var autoloadEls = [],
-			add = function(e) {
-				if (!e) { return; }
-				autoloadEls.push(e);
-			},
-			addAll = function(els) {
-				if (!els) { return; }
-				for (var i = 0, len = els.length; i < len; i++) {
-					add(els[i]);
-				}
-			};
+    jQuery(function() {
+        var autoloadEls = [],
+            add = function(e) {
+                if (!e) { return; }
+                autoloadEls.push(e);
+            },
+            addAll = function(els) {
+                if (!els) { return; }
+                for (var i = 0, len = els.length; i < len; i++) {
+                    add(els[i]);
+                }
+            };
 
-		// support id-based autoload
-		add(document.getElementById('f2-autoload'));
+        // support id-based autoload
+        add(document.getElementById('f2-autoload'));
 
-		// support class/attribute based autoload
-		if (document.querySelectorAll) {
-			addAll(document.querySelectorAll('[data-f2-autoload]'));
-			addAll(document.querySelectorAll('.f2-autoload'));
-		}
+        // support class/attribute based autoload
+        if (document.querySelectorAll) {
+            addAll(document.querySelectorAll('[data-f2-autoload]'));
+            addAll(document.querySelectorAll('.f2-autoload'));
+        }
 
-		// if elements were found, auto-init F2 and load any placeholders
-		if (autoloadEls.length) {
-			F2.init();
-			for (var i = 0, len = autoloadEls.length; i < len; i++) {
-				F2.loadPlaceholders(autoloadEls[i]);
-			}
-		}
-	});
+        // if elements were found, auto-init F2 and load any placeholders
+        if (autoloadEls.length) {
+            F2.init();
+            for (var i = 0, len = autoloadEls.length; i < len; i++) {
+                F2.loadPlaceholders(autoloadEls[i]);
+            }
+        }
+    });
 
-	exports.F2 = F2;
+    exports.F2 = F2;
 
-	if (typeof define !== 'undefined' && define.amd) {
+    if (typeof define !== 'undefined' && define.amd) {
 
-		define(function() {
-			return F2;
-		});
+        define(function() {
+            return F2;
+        });
 
-	}
+    }
 
 })(typeof exports !== 'undefined' ? exports : window);

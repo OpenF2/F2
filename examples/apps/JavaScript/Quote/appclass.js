@@ -202,7 +202,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 					options.magnitudeType = options.magnitudeType || 'shortcap';
 					options.suffix = _magnitudes[options.magnitudeType][c];
 				}
-					
+
 				val = raw.toFixed(options.precision);
 				val = options.prefix + val + options.suffix;
 
@@ -256,7 +256,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 
 					$(this).closest('tr').addClass('hide');
 				}
-			});			
+			});
 
 			// bind save settings
 			$root.on("click", "button.save", _saveSettings);

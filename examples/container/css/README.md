@@ -4,7 +4,7 @@ F2 Containers can (and should) namespace their CSS so that the Container and App
 
 ```css
 .f2-example-container {
-	@import "bootstrap/bootstrap.less";
-	@import "your-custom-css.less";
+    @import "bootstrap/bootstrap.less";
+    @import "your-custom-css.less";
 }
 ```

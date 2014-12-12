@@ -1,10 +1,10 @@
-YUI().use('node', function(Y) {
+YUI().use('node', function (Y) {
     var code = Y.all('.prettyprint.linenums');
     if (code.size()) {
-        code.each(function(c) {
+        code.each(function (c) {
             var lis = c.all('ol li'),
                 l = 1;
-            lis.each(function(n) {
+            lis.each(function (n) {
                 n.prepend('<a name="LINENUM_' + l + '"></a>');
                 l++;
             });
