@@ -1,228 +1,228 @@
 <h1>{{name}}</h1>
 
 <p>
-	{{{classDescription}}}
+    {{{classDescription}}}
 </p>
 
 <div class="well well-small">
-	<dl class="dl-horizontal">
-		{{#if uses}}
-			<dt>Uses</dt>
-			<dd>
-				<ul class="inline commas">
-					{{#uses}}
-					<li><a href="{{.}}.html">{{.}}</a></li>
-					{{/uses}}
-				</ul>
-			</dd>
-		{{/if}}
+    <dl class="dl-horizontal">
+        {{#if uses}}
+            <dt>Uses</dt>
+            <dd>
+                <ul class="inline commas">
+                    {{#uses}}
+                        <li><a href="{{.}}.html">{{.}}</a></li>
+                    {{/uses}}
+                </ul>
+            </dd>
+        {{/if}}
 
-		{{#if extends}}
-			<dt>Extends</dt>
-			<dd>{{#crossLink extends}}{{/crossLink}}</dd>
-		{{/if}}
+        {{#if extends}}
+            <dt>Extends</dt>
+            <dd>{{#crossLink extends}}{{/crossLink}}</dd>
+        {{/if}}
 
-		{{#if foundAt}}
-			<dt>Defined in</dt>
-			<dd><a href="{{foundAt}}">`{{{file}}}:{{{line}}}`</a></dd>
-		{{/if}}
+        {{#if foundAt}}
+            <dt>Defined in</dt>
+            <dd><a href="{{foundAt}}">`{{{file}}}:{{{line}}}`</a></dd>
+        {{/if}}
 
-		{{#if since}}
-			<dt>Available since</dt>
-			<dd>{{since}}</dd>
-		{{/if}}
-	</dl>
+        {{#if since}}
+            <dt>Available since</dt>
+            <dd>{{since}}</dd>
+        {{/if}}
+    </dl>
 </div>
 
 {{#if deprecated}}
-<p>
-	<span class="label deprecated">Deprecated</span>
-	{{#if deprecationMessage}}
-		{{deprecationMessage}}
-	{{else}}
-		This class is deprecated.
-	{{/if}}
-</p>
+    <p>
+        <span class="label deprecated">Deprecated</span>
+        {{#if deprecationMessage}}
+            {{deprecationMessage}}
+        {{else}}
+            This class is deprecated.
+        {{/if}}
+    </p>
 {{/if}}
 
 <ul id="classTabs" class="nav nav-tabs">
-	<li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
-	{{#if methods}}
-		<li><a href="#methods" data-toggle="tab">Methods</a></li>
-	{{/if}}
-	{{#if properties}}
-		<li><a href="#properties" data-toggle="tab">Properties</a></li>
-	{{/if}}
-	{{#if attrs}}
-		<li><a href="#attrs" data-toggle="tab">Attributes</a></li>
-	{{/if}}
-	{{#if events}}
-		<li><a href="#events" data-toggle="tab">Events</a></li>
-	{{/if}}
+    <li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
+    {{#if methods}}
+        <li><a href="#methods" data-toggle="tab">Methods</a></li>
+    {{/if}}
+    {{#if properties}}
+        <li><a href="#properties" data-toggle="tab">Properties</a></li>
+    {{/if}}
+    {{#if attrs}}
+        <li><a href="#attrs" data-toggle="tab">Attributes</a></li>
+    {{/if}}
+    {{#if events}}
+        <li><a href="#events" data-toggle="tab">Events</a></li>
+    {{/if}}
 </ul>
 
 <div class="tab-content">
-	<!-- SUMMARY TAB -->
-	<div id="summary" class="tab-pane active">
-		{{#is_constructor}}
-			<h3>Constructor</h3>
-			{{>method}}
-		{{/is_constructor}}
+    <!-- SUMMARY TAB -->
+    <div id="summary" class="tab-pane active">
+        {{#is_constructor}}
+            <h3>Constructor</h3>
+            {{>method}}
+        {{/is_constructor}}
 
-		{{#if methods}}
-		<div class="index-section methods">
-			<h3>Methods</h3>
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{#methods}}
-					<tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-						<td class="name">
-							<a href="#methods-{{memberNameAsId}}">
-								{{name}}
-								<span class="paren">(</span>
-								{{#if params}}
-									<ul class="params commas">
-										{{#params}}
-										<li>
-											{{#if optional}}
-												[{{name}}{{#if optdefault}}={{optdefault}}{{/if}}]
-											{{else}}
-												{{name}}
-											{{/if}}
-										</li>
-										{{/params}}
-									</ul>
-								{{/if}}
-								<span class="paren">)</span>
-							</a>
-						</td>
-						<td>{{{description}}}</td>
-					</tr>
-					{{/methods}}
-				</tbody>
-			</table>
-		</div>
-		{{/if}}
+        {{#if methods}}
+            <div class="index-section methods">
+                <h3>Methods</h3>
+                <table class="table table-bordered table-striped table-members">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#methods}}
+                        <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <td class="name">
+                                <a href="#methods-{{memberNameAsId}}">
+                                    {{name}}
+                                    <span class="paren">(</span>
+                                    {{#if params}}
+                                        <ul class="params commas">
+                                            {{#params}}
+                                                <li>
+                                                    {{#if optional}}
+                                                        [{{name}}{{#if optdefault}}={{optdefault}}{{/if}}]
+                                                    {{else}}
+                                                        {{name}}
+                                                    {{/if}}
+                                                </li>
+                                            {{/params}}
+                                        </ul>
+                                    {{/if}}
+                                    <span class="paren">)</span>
+                                </a>
+                            </td>
+                            <td>{{{description}}}</td>
+                        </tr>
+                    {{/methods}}
+                    </tbody>
+                </table>
+            </div>
+        {{/if}}
 
-		{{#if properties}}
-		<div class="index-section properties">
-			<h3>Properties</h3>
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{#properties}}
-					<tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-						<td class="name">
-							<a href="#properties-{{memberNameAsId}}">{{name}}</a>
-						</td>
-						<td>{{{description}}}</td>
-					</tr>
-					{{/properties}}
-				</tbody>
-			</table>
-		</div>
-		{{/if}}
+        {{#if properties}}
+            <div class="index-section properties">
+                <h3>Properties</h3>
+                <table class="table table-bordered table-striped table-members">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#properties}}
+                        <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <td class="name">
+                                <a href="#properties-{{memberNameAsId}}">{{name}}</a>
+                            </td>
+                            <td>{{{description}}}</td>
+                        </tr>
+                    {{/properties}}
+                    </tbody>
+                </table>
+            </div>
+        {{/if}}
 
-		{{#if attrs}}
-		<div class="index-section attrs">
-			<h3>Attributes</h3>
+        {{#if attrs}}
+            <div class="index-section attrs">
+                <h3>Attributes</h3>
 
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{#attrs}}
-					<tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-						<td class="name">
-							<a href="#attrs-{{memberNameAsId}}">{{name}}</a>
-						</td>
-						<td>{{{description}}}</td>
-					</tr>
-					{{/attrs}}
-				</tbody>
-			</table>
-		</div>
-		{{/if}}
+                <table class="table table-bordered table-striped table-members">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#attrs}}
+                        <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <td class="name">
+                                <a href="#attrs-{{memberNameAsId}}">{{name}}</a>
+                            </td>
+                            <td>{{{description}}}</td>
+                        </tr>
+                    {{/attrs}}
+                    </tbody>
+                </table>
+            </div>
+        {{/if}}
 
-		{{#if events}}
-		<div class="index-section events">
-			<h3>Events</h3>
+        {{#if events}}
+            <div class="index-section events">
+                <h3>Events</h3>
 
-			<table class="table table-bordered table-striped table-members">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{#events}}
-					<tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
-						<td class="name">
-							<a href="#events-{{memberNameAsId}}">{{name}}</a>
-						</td>
-						<td>{{{description}}}</td>
-					</tr>
-					{{/events}}
-				</tbody>
-			</table>
-		</div>
-		{{/if}}
-	</div>
-	<!-- SUMMARY TAB -->
+                <table class="table table-bordered table-striped table-members">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#events}}
+                        <tr class="{{#if access}} {{access}}{{/if}}{{#if deprecated}} deprecated{{/if}}{{#if overwritten_from}} inherited{{/if}}{{#if extended_from}} inherited{{/if}}">
+                            <td class="name">
+                                <a href="#events-{{memberNameAsId}}">{{name}}</a>
+                            </td>
+                            <td>{{{description}}}</td>
+                        </tr>
+                    {{/events}}
+                    </tbody>
+                </table>
+            </div>
+        {{/if}}
+    </div>
+    <!-- SUMMARY TAB -->
 
-	<!-- METHODS TAB -->
-	{{#if methods}}
-	<div id="methods" class="tab-pane">
-		{{#methods}}
-		{{>method}}
-		{{/methods}}
-	</div>
-	{{/if}}
-	<!-- METHODS TAB -->
+    <!-- METHODS TAB -->
+    {{#if methods}}
+        <div id="methods" class="tab-pane">
+            {{#methods}}
+                {{>method}}
+            {{/methods}}
+        </div>
+    {{/if}}
+    <!-- METHODS TAB -->
 
-	<!-- PROPERTIES TAB -->
-	{{#if properties}}
-	<div id="properties" class="tab-pane">
-		{{#properties}}
-		{{>props}}
-		{{/properties}}
-	</div>
-	{{/if}}
-	<!-- PROPERTIES TAB -->
+    <!-- PROPERTIES TAB -->
+    {{#if properties}}
+        <div id="properties" class="tab-pane">
+            {{#properties}}
+                {{>props}}
+            {{/properties}}
+        </div>
+    {{/if}}
+    <!-- PROPERTIES TAB -->
 
-	<!-- ATTRIBUTES TAB -->
-	{{#if attrs}}
-	<div id="attrs" class="tab-pane">
-		{{#attrs}}
-		{{>attrs}}
-		{{/attrs}}
-	</div>
-	{{/if}}
-	<!-- ATTRIBUTES TAB -->
+    <!-- ATTRIBUTES TAB -->
+    {{#if attrs}}
+        <div id="attrs" class="tab-pane">
+            {{#attrs}}
+                {{>attrs}}
+            {{/attrs}}
+        </div>
+    {{/if}}
+    <!-- ATTRIBUTES TAB -->
 
-	<!-- EVENTS TAB -->
-	{{#if events}}
-	<div id="events" class="tab-pane">
-		{{#events}}
-		{{>events}}
-		{{/events}}
-	</div>
-	{{/if}}
-	<!-- EVENTS TAB -->
+    <!-- EVENTS TAB -->
+    {{#if events}}
+        <div id="events" class="tab-pane">
+            {{#events}}
+                {{>events}}
+            {{/events}}
+        </div>
+    {{/if}}
+    <!-- EVENTS TAB -->
 </div>

@@ -31,11 +31,11 @@
 {{#if deprecated}}
     <div class="box deprecated">
         <p>
-        {{#if deprecationMessage}}
-            <strong>Deprecated:</strong> {{deprecationMessage}}
-        {{else}}
-            This module is deprecated.
-        {{/if}}
+            {{#if deprecationMessage}}
+                <strong>Deprecated:</strong> {{deprecationMessage}}
+            {{else}}
+                This module is deprecated.
+            {{/if}}
         </p>
     </div>
 {{/if}}
@@ -47,6 +47,7 @@
 {{#example}}
     <div class="example">
         <h4>Example:</h4>
+
         <div class="example-content">
             {{{.}}}
         </div>
@@ -59,13 +60,13 @@
             <p>This module provides the following classes:</p>
 
             <ul class="module-classes">
-            {{#moduleClasses}}
-                <li class="module-class">
-                    <a href="{{../projectRoot}}classes/{{name}}.html">
-                        {{displayName}}
-                    </a>
-                </li>
-            {{/moduleClasses}}
+                {{#moduleClasses}}
+                    <li class="module-class">
+                        <a href="{{../projectRoot}}classes/{{name}}.html">
+                            {{displayName}}
+                        </a>
+                    </li>
+                {{/moduleClasses}}
             </ul>
         {{/if}}
     </div>
@@ -75,17 +76,17 @@
             <p>This module is a rollup of the following modules:</p>
 
             <ul class="module-submodules">
-            {{#subModules}}
-                <li class="module-submodule">
-                    <a href="{{../projectRoot}}modules/{{name}}.html">
-                        {{displayName}}
-                    </a>
+                {{#subModules}}
+                    <li class="module-submodule">
+                        <a href="{{../projectRoot}}modules/{{name}}.html">
+                            {{displayName}}
+                        </a>
 
-                    <div class="module-submodule-description">
-                        {{{description}}}
-                    </div>
-                </li>
-            {{/subModules}}
+                        <div class="module-submodule-description">
+                            {{{description}}}
+                        </div>
+                    </li>
+                {{/subModules}}
             </ul>
         {{/if}}
     </div>

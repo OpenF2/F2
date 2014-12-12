@@ -1,7 +1,7 @@
-var myBookmark = (function(){
+var myBookmark = (function () {
     var s1, s2, isLoaded = false, xhr, head = document.getElementsByTagName('head')[0];
     var scripts = document.getElementsByTagName("script");
-    var REMOTE = (function(){
+    var REMOTE = (function () {
         var remote = location.href;
         switch (location.host) {
             case "provider.easyxdm.net":
@@ -15,27 +15,27 @@ var myBookmark = (function(){
         }
         return remote.substring(0, remote.lastIndexOf("/"));
     }());
-    
-    function run(){
+
+    function run() {
         if (typeof xhr === "undefined") {
             return;
         }
         xhr.post("example/glossary.php", {
             param1: "a",
             param2: "b"
-        }, function(json){
+        }, function (json) {
             alert(json.glossary.title);
         });
     }
-    
-    function scriptOnLoad(){
+
+    function scriptOnLoad() {
         if (isLoaded || typeof easyXDM === "undefined" || typeof JSON === "undefined") {
             return;
         }
         isLoaded = true;
         xhr = new easyXDM.Rpc({
             remote: REMOTE + "/../xhr.html",
-            onReady: function(){
+            onReady: function () {
                 run();
             }
         }, {
@@ -43,24 +43,25 @@ var myBookmark = (function(){
                 post: {}
             }
         });
-        
+
     }
+
     s1 = document.createElement("script");
     s1.type = "text/javascript";
     s1.src = REMOTE + "/../easyXDM.debug.js";
-    s1.onreadystatechange = function(){
+    s1.onreadystatechange = function () {
         if (this.readyState === "complete" || this.readyState === "loaded") {
             scriptOnLoad();
         }
     };
     s1.onload = scriptOnLoad;
     head.appendChild(s1);
-    
+
     if (typeof JSON === "undefined" || !JSON) {
         s2 = document.createElement("script");
         s2.type = "text/javascript";
         s2.src = REMOTE + "/../json2.js";
-        s2.onreadystatechange = function(){
+        s2.onreadystatechange = function () {
             if (this.readyState === "complete" || this.readyState === "loaded") {
                 scriptOnLoad();
             }
