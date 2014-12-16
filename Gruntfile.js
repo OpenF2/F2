@@ -296,10 +296,15 @@ module.exports = function(grunt) {
 				src: 'sdk/f2.min.js',
 				prefix: 'sdk/'
 			}
+		},
+		watch: {
+			files: ['./sdk/src/**/*.js', '!./sdk/src/third-party/**/*.js'],
+			tasks: ['js']
 		}
 	});
 
 	// Load plugins
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
