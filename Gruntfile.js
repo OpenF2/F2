@@ -265,11 +265,20 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
-			// tasks: ['generate-docs','yuidoc'],
-			tasks: ['docs'],
-			options: {
-				spawn: false,
+			docs: {
+				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
+				// tasks: ['generate-docs','yuidoc'],
+				tasks: ['docs'],
+				options: {
+					spawn: false,
+				}
+			},
+			scripts: {
+				files: ['./sdk/src/**/*.js', '!./sdk/src/third-party/**/*.js'],
+				tasks: ['js'],
+				options: {
+					spawn: false,
+				}
 			}
 		},
 		http: {
