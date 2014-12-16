@@ -91,6 +91,7 @@ F2.extend('', {
 		 * @property containerLocale
 		 * @type string
 		 * @default null
+		 * @since 1.4.0
 		 */
 		containerLocale: null,
 		/**
@@ -101,6 +102,7 @@ F2.extend('', {
 		 * @property localeSupport
 		 * @type array
 		 * @default []
+		 * @since 1.4.0
 		 */
 		localeSupport: [],
 		/**
@@ -299,6 +301,7 @@ F2.extend('', {
 		 * @property locale
 		 * @type string
 		 * @default null
+		 * @since 1.4.0
 		 */
 		locale: null,
 		/**

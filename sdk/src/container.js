@@ -159,6 +159,7 @@ F2.extend('', (function() {
 	/**
 	 * Returns true if the DOM node has children that are not text nodes
 	 * @method _hasNonTextChildNodes
+	 * @private
 	 * @param {Element} node The DOM node
 	 * @return {bool} True if there are non-text children
 	 */

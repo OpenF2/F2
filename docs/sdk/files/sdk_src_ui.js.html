@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - sdk/src/ui.js</title>
-	<meta name="dcterms.date" content="7 April 2014">
+	<meta name="dcterms.date" content="24 November 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.4.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.4.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.4.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -257,6 +257,29 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			}
 		};
 
+		//http://getbootstrap.com/javascript/#modals
+		var _modalHtml = function(type,message,showCancel){
+			return [
+				&#x27;&lt;div class=&quot;modal&quot;&gt;&#x27;,
+					&#x27;&lt;div class=&quot;modal-dialog&quot;&gt;&#x27;,
+						&#x27;&lt;div class=&quot;modal-content&quot;&gt;&#x27;,
+							&#x27;&lt;div class=&quot;modal-header&quot;&gt;&#x27;,
+								&#x27;&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/span&gt;&lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;&lt;/button&gt;&#x27;,
+								&#x27;&lt;h4 class=&quot;modal-title&quot;&gt;&#x27;,type,&#x27;&lt;/h4&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
+							&#x27;&lt;div class=&quot;modal-body&quot;&gt;&lt;p&gt;&#x27;,
+								message,
+								&#x27;&lt;/p&gt;&lt;/div&gt;&#x27;,
+							&#x27;&lt;div class=&quot;modal-footer&quot;&gt;&#x27;,
+								((showCancel) ? &#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-dismiss=&quot;modal&quot;&gt;Close&lt;/button&gt;&#x27; : &#x27;&#x27;),
+								&#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-primary btn-ok&quot;&gt;OK&lt;/button&gt;&#x27;,
+							&#x27;&lt;/div&gt;&#x27;,
+						&#x27;&lt;/div&gt;&#x27;,
+					&#x27;&lt;/div&gt;&#x27;,
+				&#x27;&lt;/div&gt;&#x27;
+				].join(&#x27;&#x27;);
+		};
+
 		return {
 			/**
 			 * Removes a overlay from an Element on the page
@@ -275,40 +298,11 @@ F2.extend(&#x27;UI&#x27;, (function(){
 			Modals: (function(){
 
 				var _renderAlert = function(message) {
-					return [
-						&#x27;&lt;div class=&quot;modal&quot;&gt;&#x27;,
-							&#x27;&lt;header class=&quot;modal-header&quot;&gt;&#x27;,
-								&#x27;&lt;h3&gt;Alert!&lt;/h3&gt;&#x27;,
-							&#x27;&lt;/header&gt;&#x27;,
-							&#x27;&lt;div class=&quot;modal-body&quot;&gt;&#x27;,
-								&#x27;&lt;p&gt;&#x27;,
-									message,
-								&#x27;&lt;/p&gt;&#x27;,
-							&#x27;&lt;/div&gt;&#x27;,
-							&#x27;&lt;div class=&quot;modal-footer&quot;&gt;&#x27;,
-								&#x27;&lt;button class=&quot;btn btn-primary btn-ok&quot;&gt;OK&lt;/button&gt;&#x27;,
-							&#x27;&lt;/div&gt;&#x27;,
-						&#x27;&lt;/div&gt;&#x27;
-					].join(&#x27;&#x27;);
+					return _modalHtml(&#x27;Alert&#x27;,message);
 				};
 
 				var _renderConfirm = function(message) {
-					return [
-						&#x27;&lt;div class=&quot;modal&quot;&gt;&#x27;,
-							&#x27;&lt;header class=&quot;modal-header&quot;&gt;&#x27;,
-								&#x27;&lt;h3&gt;Confirm&lt;/h3&gt;&#x27;,
-							&#x27;&lt;/header&gt;&#x27;,
-							&#x27;&lt;div class=&quot;modal-body&quot;&gt;&#x27;,
-								&#x27;&lt;p&gt;&#x27;,
-									message,
-								&#x27;&lt;/p&gt;&#x27;,
-							&#x27;&lt;/div&gt;&#x27;,
-							&#x27;&lt;div class=&quot;modal-footer&quot;&gt;&#x27;,
-								&#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-primary btn-ok&quot;&gt;OK&lt;/button&gt;&#x27;,
-								&#x27;&lt;button type=&quot;button&quot; class=&quot;btn btn-cancel&quot;&gt;Cancel&lt;/button&quot;&gt;&#x27;,
-							&#x27;&lt;/div&gt;&#x27;,
-						&#x27;&lt;/div&gt;&#x27;
-					].join(&#x27;&#x27;);
+					return _modalHtml(&#x27;Confirm&#x27;,message,true);
 				};
 
 				return {
@@ -337,7 +331,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 						} else {
 							// display the alert
 							jQuery(_renderAlert(message))
-								.on(&#x27;show&#x27;, function() {
+								.on(&#x27;show.bs.modal&#x27;, function() {
 									var modal = this;
 									jQuery(modal).find(&#x27;.btn-primary&#x27;).on(&#x27;click&#x27;, function() {
 										jQuery(modal).modal(&#x27;hide&#x27;).remove();
@@ -374,9 +368,9 @@ F2.extend(&#x27;UI&#x27;, (function(){
 						} else {
 							// display the alert
 							jQuery(_renderConfirm(message))
-								.on(&#x27;show&#x27;, function() {
+								.on(&#x27;show.bs.modal&#x27;, function() {
 									var modal = this;
-
+									
 									jQuery(modal).find(&#x27;.btn-ok&#x27;).on(&#x27;click&#x27;, function() {
 										jQuery(modal).modal(&#x27;hide&#x27;).remove();
 										(okCallback || jQuery.noop)();
@@ -669,7 +663,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.3"></script>
+<script src="../../js/f2.js?1.4.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2.AppConfig</title>
-	<meta name="dcterms.date" content="7 April 2014">
+	<meta name="dcterms.date" content="24 November 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.4.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.4.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.4.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -284,6 +284,17 @@
 					
 					<tr class="">
 						<td class="name">
+							<a href="#properties-containerLocale">containerLocale</a>
+						</td>
+						<td><p>The language and region specification for this container 
+represented as an IETF-defined standard language tag,
+e.g. <code>"en-us"</code> or <code>"de-de"</code>. This is passed during the 
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process.</p>
+</td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
 							<a href="#properties-context">context</a>
 						</td>
 						<td><p>An object that represents the context of an app</p>
@@ -329,6 +340,16 @@ will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.
 sets isSecure = true. It will also be true if the
 <a href="../../container-development.html">container</a> has made the decision to
 run apps in iframes.</p>
+</td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
+							<a href="#properties-localeSupport">localeSupport</a>
+						</td>
+						<td><p>The languages and regions supported by this app represented
+as an array of IETF-defined standard language tags,
+e.g. <code>[&quot;en-us&quot;,&quot;de-de&quot;]</code>.</p>
 </td>
 					</tr>
 					
@@ -473,6 +494,61 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 		</dl>
 	</div>
 
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-containerLocale" class="level2 ">
+	<h3>
+		containerLocale
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>The language and region specification for this container 
+represented as an IETF-defined standard language tag,
+e.g. <code>"en-us"</code> or <code>"de-de"</code>. This is passed during the 
+F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process.</p>
+
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_classes.js.html#l85"><code>sdk&#x2F;src&#x2F;classes.js:85</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<p><strong>Default:</strong> null</p>
 	
 
 	
@@ -748,6 +824,60 @@ run apps in iframes.</p>
 	</div>
 </section>
 		
+		<section id="properties-localeSupport" class="level2 ">
+	<h3>
+		localeSupport
+
+		<span class="label type">Array</span>
+
+		
+
+		
+
+		
+
+		
+	</h3>
+
+	<p>
+		<p>The languages and regions supported by this app represented
+as an array of IETF-defined standard language tags,
+e.g. <code>[&quot;en-us&quot;,&quot;de-de&quot;]</code>.</p>
+
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_classes.js.html#l96"><code>sdk&#x2F;src&#x2F;classes.js:96</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+		<p><strong>Default:</strong> []</p>
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
 		<section id="properties-manifestUrl" class="level2 ">
 	<h3>
 		manifestUrl
@@ -779,7 +909,7 @@ object.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l85"><code>sdk&#x2F;src&#x2F;classes.js:85</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l106"><code>sdk&#x2F;src&#x2F;classes.js:106</code></a></dd>
 			
 
 			
@@ -832,7 +962,7 @@ requirements are not met.</strong></p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l93"><code>sdk&#x2F;src&#x2F;classes.js:93</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l114"><code>sdk&#x2F;src&#x2F;classes.js:114</code></a></dd>
 			
 
 			
@@ -885,7 +1015,7 @@ set by apps that require a certain number of columns in their layout.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l102"><code>sdk&#x2F;src&#x2F;classes.js:102</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l123"><code>sdk&#x2F;src&#x2F;classes.js:123</code></a></dd>
 			
 
 			
@@ -940,7 +1070,7 @@ are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l112"><code>sdk&#x2F;src&#x2F;classes.js:112</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l133"><code>sdk&#x2F;src&#x2F;classes.js:133</code></a></dd>
 			
 
 			
@@ -992,7 +1122,7 @@ are not met.</p>
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l122"><code>sdk&#x2F;src&#x2F;classes.js:122</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l143"><code>sdk&#x2F;src&#x2F;classes.js:143</code></a></dd>
 			
 
 			
@@ -1044,7 +1174,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l129"><code>sdk&#x2F;src&#x2F;classes.js:129</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l150"><code>sdk&#x2F;src&#x2F;classes.js:150</code></a></dd>
 			
 
 			
@@ -1096,7 +1226,7 @@ F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerAp
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l138"><code>sdk&#x2F;src&#x2F;classes.js:138</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l159"><code>sdk&#x2F;src&#x2F;classes.js:159</code></a></dd>
 			
 
 			
@@ -1150,7 +1280,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 			
 			
 				<dt>Defined in</dt>
-				<dd><a href="../files/sdk_src_classes.js.html#l147"><code>sdk&#x2F;src&#x2F;classes.js:147</code></a></dd>
+				<dd><a href="../files/sdk_src_classes.js.html#l168"><code>sdk&#x2F;src&#x2F;classes.js:168</code></a></dd>
 			
 
 			
@@ -1198,7 +1328,7 @@ F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.3"></script>
+<script src="../../js/f2.js?1.4.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>

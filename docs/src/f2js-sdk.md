@@ -1,4 +1,4 @@
-% F2.js SDK
+# F2.js SDK
 
 <p class="lead">F2 enables you to efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel apps and deploy them in as many app ecosystems as you want.</p>
 
