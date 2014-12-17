@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.4.0 10-09-2014
+ * F2 v1.4.0 12-17-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -1083,6 +1083,29 @@ F2.extend('', {
 		 */
 		isSecure: false,
 		/**
+		 * The language and region specification for this container 
+		 * represented as an IETF-defined standard language tag,
+		 * e.g. `"en-us"` or `"de-de"`. This is passed during the 
+		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process.
+		 *
+		 * @property containerLocale
+		 * @type string
+		 * @default null
+		 * @since 1.4.0
+		 */
+		containerLocale: null,
+		/**
+		 * The languages and regions supported by this app represented
+		 * as an array of IETF-defined standard language tags,
+		 * e.g. `["en-us","de-de"]`. 
+		 *
+		 * @property localeSupport
+		 * @type array
+		 * @default []
+		 * @since 1.4.0
+		 */
+		localeSupport: [],
+		/**
 		 * The url to retrieve the {{#crossLink "F2.AppManifest"}}{{/crossLink}}
 		 * object.
 		 * @property manifestUrl
@@ -1269,6 +1292,18 @@ F2.extend('', {
 		 * @default false
 		 */
 		debugMode: false,
+		/**
+		 * The default language and region specification for this container 
+		 * represented as an IETF-defined standard language tag,
+		 * e.g. `"en-us"` or `"de-de"`. This value is passed to each app
+		 * registered as `containerLocale`.
+		 *
+		 * @property locale
+		 * @type string
+		 * @default null
+		 * @since 1.4.0
+		 */
+		locale: null,
 		/**
 		 * Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.
 		 * @property scriptErrorTimeout
@@ -1665,7 +1700,21 @@ F2.extend('Constants', {
 			 * @static
 			 * @final
 			 */
-			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + 'widthChange'
+			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + 'widthChange',
+			/**
+			 * The CONTAINER\_LOCALE\_CHANGE event will be fired by the container when
+			 * the locale of the container has changed. This event should only be fired by the
+			 * container or container provider.
+			 * Returns an object with the updated locale (IETF-defined standard language tag):
+			 *
+			 *     { locale: 'en-us' }
+			 *
+			 * @property CONTAINER_LOCALE_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_LOCALE_CHANGE: _CONTAINER_EVENT_PREFIX + 'localeChange'
 		};
 	})(),
 
@@ -2628,6 +2677,9 @@ F2.extend('', (function() {
 	var _config = false;
 	var _bUsesAppHandlers = false;
 	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
+	var _loadedScripts = {};
+	var _loadedStyles = {};
+	var _loadingScripts = {};
 
 	/**
 	 * Appends the app's html to the DOM
@@ -2727,6 +2779,11 @@ F2.extend('', (function() {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
+		//pass container-defined locale to each app
+		if (F2.ContainerConfig.locale){
+			appConfig.containerLocale = F2.ContainerConfig.locale;
+		}
+
 		return appConfig;
 	};
 
@@ -2773,6 +2830,7 @@ F2.extend('', (function() {
 	/**
 	 * Returns true if the DOM node has children that are not text nodes
 	 * @method _hasNonTextChildNodes
+	 * @private
 	 * @param {Element} node The DOM node
 	 * @return {bool} True if there are non-text children
 	 */
@@ -2798,12 +2856,17 @@ F2.extend('', (function() {
 	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
 	 */
 	var _hydrateContainerConfig = function(containerConfig) {
+
 		if (!containerConfig.scriptErrorTimeout) {
 			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
 		}
 
 		if (containerConfig.debugMode !== true) {
 			containerConfig.debugMode = F2.ContainerConfig.debugMode;
+		}
+
+		if (containerConfig.locale && typeof containerConfig.locale == 'string'){
+			F2.ContainerConfig.locale = containerConfig.locale;
 		}
 	};
 
@@ -2845,6 +2908,13 @@ F2.extend('', (function() {
 		jQuery(window).on('resize', function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
+		});
+
+		//listen for container-broadcasted locale changes
+		F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+			if (data.locale && typeof data.locale == 'string'){
+				F2.ContainerConfig.locale = data.locale;
+			}
 		});
 	};
 
@@ -2930,120 +3000,187 @@ F2.extend('', (function() {
 		var _loadStyles = function(styles, cb) {
 			// Attempt to use the user provided method
 			if (_config.loadStyles) {
-				_config.loadStyles(styles, cb);
+				return _config.loadStyles(styles, cb);
 			}
-			else {
-				// load styles, see #101
-				var stylesFragment = null,
-					useCreateStyleSheet = !! document.createStyleSheet;
 
-				jQuery.each(styles, function(i, e) {
-					if (useCreateStyleSheet) {
-						document.createStyleSheet(e);
-					}
-					else {
-						stylesFragment = stylesFragment || [];
-						stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
-					}
-				});
+			// load styles, see #101
+			var stylesFragment = null,
+				useCreateStyleSheet = !! document.createStyleSheet;
 
-				if (stylesFragment) {
-					jQuery('head').append(stylesFragment.join(''));
+			jQuery.each(styles, function(i, e) {
+				var resourceUrl = e,
+					resourceKey = e.toLowerCase();
+
+				if (_loadedStyles[resourceKey]) {
+					return;
 				}
 
-				cb();
+				if (useCreateStyleSheet) {
+					document.createStyleSheet(resourceUrl);
+				}
+				else {
+					stylesFragment = stylesFragment || [];
+					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + resourceUrl + '"/>');
+				}
+
+				_loadedStyles[resourceKey] = true;
+			});
+
+			if (stylesFragment) {
+				jQuery('head').append(stylesFragment.join(''));
 			}
+
+			cb();
 		};
 
-		// Fn for loading manifest Scripts
+		// For loading AppManifest.scripts
+		// Parts derived from curljs, headjs, requirejs, dojo
 		var _loadScripts = function(scripts, cb) {
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
-				_config.loadScripts(scripts, cb);
+				return _config.loadScripts(scripts, cb);
 			}
-			else {
-				if (scripts.length) {
-					var scriptCount = scripts.length;
-					var scriptsLoaded = 0;
 
-					// Check for IE10+ so that we don't rely on onreadystatechange
-					var readyStates = ('addEventListener' in window) ? {} : {
-						'loaded': true,
-						'complete': true
+			if (!scripts.length) {
+				return cb();
+			}
+
+			var doc = window.document;
+			var scriptCount = scripts.length;
+			var scriptsLoaded = 0;
+			//http://caniuse.com/#feat=script-async
+			// var supportsAsync = 'async' in doc.createElement('script') || 'MozAppearance' in doc.documentElement.style || window.opera;
+			var head = doc && (doc['head'] || doc.getElementsByTagName('head')[0]);
+			// to keep IE from crying, we need to put scripts before any
+			// <base> elements, but after any <meta>. this should do it:
+			var insertBeforeEl = head && head.getElementsByTagName('base')[0] || null;
+			// Check for IE10+ so that we don't rely on onreadystatechange, readyStates for IE6-9
+			var readyStates = 'addEventListener' in window ? {} : { 'loaded': true, 'complete': true };
+
+			// Log and emit event for the failed (400,500) scripts
+			var _error = function(e) {
+				setTimeout(function() {
+					var evtData = {
+						src: e.target.src,
+						appId: appConfigs[0].appId
 					};
 
-					// Log and emit event for the failed (400,500) scripts
-					var _error = function(e) {
-						setTimeout(function() {
-							var evtData = {
-								src: e.target.src,
-								appId: appConfigs[0].appId
-							};
+					// Send error to console
+					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-							// Send error to console
-							F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
+					// Emit events
+					F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
 
-							// Emit event
-							F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
+					if (!_bUsesAppHandlers) {
+						_appScriptLoadFailed(appConfigs[0], evtData.src);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							evtData.src
+						);
+					}
+				}, _config.scriptErrorTimeout); // Defaults to 7000
+			};
 
-							if (!_bUsesAppHandlers) {
-								_appScriptLoadFailed(appConfigs[0], evtData.src);
-							}
-							else {
-								F2.AppHandlers.__trigger(
-									_sAppHandlerToken,
-									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-									appConfigs[0],
-									evtData.src
-								);
-							}
-						}, _config.scriptErrorTimeout); // Defaults to 7000
-					};
-
-					// Load scripts and eval inlines once complete
-					jQuery.each(scripts, function(i, e) {
-						var doc = document,
-							script = doc.createElement('script'),
-							resourceUrl = e;
-
-						// If in debugMode, add cache buster to each script URL
-						if (_config.debugMode) {
-							resourceUrl += '?cachebuster=' + new Date().getTime();
-						}
-
-						// Scripts needed to be loaded in order they're defined in the AppManifest
-						script.async = false;
-						// Add other attrs
-						script.src = resourceUrl;
-						script.type = 'text/javascript';
-						script.charset = 'utf-8';
-						script.onerror = _error;
-
-						// Use a closure for the load event so that we can dereference the original script
-						script.onload = script.onreadystatechange = function(e) {
-							e = e || window.event; // For older IE
-
-							if (e.type == 'load' || readyStates[script.readyState]) {
-								// Done, cleanup
-								script.onload = script.onreadystatechange = script.onerror = null;
-
-								// Dereference script
-								script = null;
-
-								// Are we done loading all scripts for this app?
-								if (++scriptsLoaded === scriptCount) {
-									cb();
-								}
-							}
-						};
-
-						doc.body.appendChild(script);
-					});
-				}
-				else {
+			var _checkComplete = function() {
+				// Are we done loading all scripts for this app?
+				if (++scriptsLoaded === scriptCount) {
+					// success
 					cb();
 				}
-			}
+			};
+
+			var _emptyWaitlist = function(resourceKey, errorEvt) {
+				var waiting,
+					waitlist = _loadingScripts[resourceKey];
+
+				if (!waitlist) {
+					return;
+				}
+
+				for (var i=0; i<waitlist.length; i++) {
+					waiting = waitlist	[i];
+
+					if (errorEvt) {
+						waiting.error(errorEvt);
+					} else {
+						waiting.success();
+					}
+				}
+
+				_loadingScripts[resourceKey] = null;
+			};
+
+			// Load scripts and eval inlines once complete
+			jQuery.each(scripts, function(i, e) {
+				var script = doc.createElement('script'),
+					resourceUrl = e,
+					resourceKey = resourceUrl.toLowerCase();
+
+				// already finished loading, trigger callback
+				if (_loadedScripts[resourceKey]) {
+					return _checkComplete();
+				}
+
+				// this script is actively loading, add this app to the wait list
+				if (_loadingScripts[resourceKey]) {
+					_loadingScripts[resourceKey].push({
+						success: _checkComplete,
+						error: _error
+					});
+					return;
+				}
+
+				// create the waitlist
+				_loadingScripts[resourceKey] = [];
+
+				// If in debugMode, add cache buster to each script URL
+				if (_config.debugMode) {
+					resourceUrl += '?cachebuster=' + new Date().getTime();
+				}
+
+				// Scripts are loaded asynchronously and executed in order
+				// in supported browsers: http://caniuse.com/#feat=script-async
+				script.async = false;
+				script.type = 'text/javascript';
+				script.charset = 'utf-8';
+
+				script.onerror = function(e) {
+					_error(e);
+					_emptyWaitlist(resourceKey, e);
+				};
+
+				// Use a closure for the load event so that we can dereference the original script
+				script.onload = script.onreadystatechange = function(e) {
+					e = e || window.event; // For older IE
+
+					// detect when it's done loading
+					// ev.type == 'load' is for all browsers except IE6-9
+					// IE6-9 need to use onreadystatechange and look for
+					// el.readyState in {loaded, complete} (yes, we need both)
+					if (e.type == 'load' || readyStates[script.readyState]) {
+						// Done, cleanup
+						script.onload = script.onreadystatechange = script.onerror = '';
+						// loaded
+						_loadedScripts[resourceKey] = true;
+						// increment and check if scripts are done
+						_checkComplete();
+						// empty wait list
+						_emptyWaitlist(resourceKey);
+						// Dereference script
+						script = null;
+					}
+				};
+
+				//set the src, start loading
+				script.src = resourceUrl;
+
+				//<head> really is the best
+				head.insertBefore(script, insertBeforeEl);
+			});
 		};
 
 		var _loadInlineScripts = function(inlines, cb) {
@@ -3058,7 +3195,10 @@ F2.extend('', (function() {
 					}
 					catch (exception) {
 						F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
-
+						
+						// Emit events
+						F2.Events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
+						
 						if (!_bUsesAppHandlers) {
 							_appScriptLoadFailed(appConfigs[0], exception);
 						}
@@ -3150,6 +3290,8 @@ F2.extend('', (function() {
 			_loadHtml(apps);
 			// Add the script content to the page
 			_loadScripts(scripts, function() {
+				// emit event we're done with scripts
+				if (appConfigs[0]){ F2.Events.emit('APP_SCRIPTS_LOADED', { appId:appConfigs[0].appId, scripts:scripts }); }
 				// Load any inline scripts
 				_loadInlineScripts(inlines, function() {
 					// Create the apps
@@ -3294,6 +3436,19 @@ F2.extend('', (function() {
 					appId: app.config.appId
 				};
 			});
+		},
+		/**
+		 * Gets the current locale defined by the container
+		 * @method getContainerLocale
+		 * @returns {String} IETF-defined standard language tag
+		 */
+		getContainerLocale: function() {
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.getContainerLocale()');
+				return;
+			}
+
+			return F2.ContainerConfig.locale;
 		},
 		/**
 		 * Initializes the container. This method must be called before performing
@@ -3644,6 +3799,7 @@ F2.extend('', (function() {
 							},
 							errorFunc = function() {
 								jQuery.each(req.apps, function(idx, item) {
+									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.removeApp(item.instanceId);
 								});
