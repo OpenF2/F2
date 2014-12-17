@@ -20,7 +20,8 @@ _Interested in developing F2 containers? [Browse to Container Development](conta
 ## Version 2
 
 <div class="alert alert-block alert-info">
-    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
+    <p>The F2 team is planning version 2.0 of the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the revised F2.js work-in-progress code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/labels/v2).</p>
+    <p><a href="https://github.com/OpenF2/F2/wiki/F2-Version-2" class="btn btn-primary">Get Involved</a></p>
 </div>
 
 ## Get Started
@@ -263,7 +264,7 @@ In the case when multiple stylesheetes are needed, simply add to the array as sh
 
 [Read more about CSS and namespacing](#namespacing) inside your app.
 
-<span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded synchronously by F2.js, so be sure to order your scripts properly. 
+<span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded _synchronously_ by F2.js, so be sure to order your scripts properly. 
 
 ### Scripts
 
@@ -441,7 +442,7 @@ While it isn't required, it's expected all F2 apps will ship with javascript. Th
 
 For more information on `F2.Apps`, [browse over to the F2.js SDK docs](./sdk/classes/F2.App.html).
 
-To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during `F2.registerApps()` (and the internal `_loadApps()` method). If the class has an `init()` function, it will be called automatically during execution of F2's `registerApps()` method.
+To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during `F2.registerApps()` (and the internal `_loadApps()` method). If the class has an `init()` function, it will be called automatically during execution of F2's `registerApps()` method. Go to Container Development for [more information the page load life cycle](container-development.html#page-load-life-cycle).
 
 We recommend&mdash;and have samples below for&mdash;two different patterns for writing your `appclass.js` code: prototypal inheritence or the module pattern.
 
@@ -570,6 +571,28 @@ Sample `AppConfig` showing the `localeSupport` property:
 ```
 
 <span class="label label-info">Note</span> For more detail on the `localeSupport` property, browse to the SDK for [F2.AppConfig](./sdk/classes/F2.AppConfig.html#properties-localeSupport).
+
+#### Handling Script Errors
+
+In the event any scripts defined in an `AppManifest` fail to load&mdash;such as HTTP 404 or simply timeout after the [configurable](./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout) 7 seconds&mdash;F2 Events are triggered. The two events are: `RESOURCE_FAILED_TO_LOAD` and the `APP_SCRIPT_LOAD_FAILED` [AppHandler](./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED). Both events are passed the `appId` and `src` of the failed script. 
+
+```javascript
+F2.Events.on('RESOURCE_FAILED_TO_LOAD', function(data){
+    F2.log('Script failed to load: ' data.src); 
+    //Ouputs 'Script failed to load: http://cdn.com/script.js'
+});
+```
+
+#### When Are Scripts Loaded? 
+
+When all of the scripts defined in an `AppManifest` have been loaded, the `APP_SCRIPTS_LOADED` event is triggered. This event receives the `appId` and array of `scripts` just loaded. _This event is fired for every App registered._
+
+```javascript
+F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+    F2.log('All scripts for ' +data.appId+ ' have been loaded.');
+    //Ouputs 'All scripts for com_test_app have been loaded.'
+});
+```
 
 * * * *
 

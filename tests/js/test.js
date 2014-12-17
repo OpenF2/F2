@@ -14,6 +14,7 @@ F2.Apps["com_openf2_tests_helloworld"] = (function() {
 		F2.testAppInitialized = true;
 		F2.testLocaleFromAppConfig = this.appConfig.containerLocale;
 		F2.testLocaleSupportFromAppConfig = this.appConfig.localeSupport;
+		F2.HightChartsIsDefined = window.Highcharts;
 	};
 
 	App_Class.prototype.destroy = function () {

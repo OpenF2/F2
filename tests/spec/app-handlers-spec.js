@@ -1433,7 +1433,7 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 	);
 
 	it(
-		'allows manipulation of appConfig.root through out appRender methods.',
+		'allows manipulation of appConfig.root throughout appRender methods.',
 		function() {
 			var bDone = false;
 			var arOrder = [];
@@ -1932,17 +1932,18 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 		}
 	);
 
-	it('should call app instance .destroy() method if destory method exists.', function(){
+	it('should call app instance .destroy() method if destroy method exists', function(){
 		F2.inlineScriptsEvaluated = false;
+		F2.testAppInitialized = false;
+		F2.destroyAppMethodCalled = false;
+		
 		F2.init();
 		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
-
 		waitsFor(
-			function()
-			{
+			function(){
 				return F2.testAppInitialized;
 			},
-			'Inline scripts were never evaluated',
+			'AppClass init() to be called',
 			3000
 		);
 
@@ -1950,12 +1951,11 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 			F2.removeApp(F2.testAppInstanceID);
 
 			waitsFor(
-				function()
-				{
+				function(){
 					return F2.destroyAppMethodCalled;
 				},
 				'destroy() method was never evaluated',
-				3000
+				1000
 			);
 
 			runs(function() {
