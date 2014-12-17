@@ -106,65 +106,65 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
-					'sdk/src/template/header.js.tmpl',
+					'sdk/lib/template/header.js.tmpl',
 					'sdk/vendor/jquery.js',
 					'sdk/vendor/jquery.noconflict.js',
 					'sdk/vendor/bootstrap-modal.js',
 					'sdk/vendor/eventemitter2.js',
 					'sdk/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
+					'sdk/lib/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.debug.js'
 			},
 			'no-third-party': {
 				src: [
-					'sdk/src/template/header.js.tmpl',
+					'sdk/lib/template/header.js.tmpl',
 					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
+					'sdk/lib/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.no-third-party.js'
 			},
 			'no-jquery-or-bootstrap': {
 				src: [
-					'sdk/src/template/header.js.tmpl',
+					'sdk/lib/template/header.js.tmpl',
 					'sdk/vendor/eventemitter2.js',
 					'sdk/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
+					'sdk/lib/template/footer.js.tmpl'
 				],
 				dest: 'sdk/packages/f2.no-jquery-or-bootstrap.js'
 			},
 			'no-bootstrap': {
 				src: [
-					'sdk/src/template/header.js.tmpl',
+					'sdk/lib/template/header.js.tmpl',
 					'sdk/vendor/jquery.js',
 					'sdk/vendor/jquery.noconflict.js',
 					'sdk/vendor/eventemitter2.js',
 					'sdk/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
+					'sdk/lib/template/footer.js.tmpl'
 				],
 				dest: 'sdk/packages/f2.no-bootstrap.js'
 			},
 			'no-easyXDM': {
 				src: [
-					'sdk/src/template/header.js.tmpl',
+					'sdk/lib/template/header.js.tmpl',
 					'sdk/vendor/jquery.js',
 					'sdk/vendor/bootstrap-modal.js',
 					'sdk/vendor/jquery.noconflict.js',
 					'sdk/vendor/eventemitter2.js',
 					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
+					'sdk/lib/template/footer.js.tmpl'
 				],
 				dest: 'sdk/packages/f2.no-easyXDM.js'
 			},
 			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
 				src: [
-					'sdk/src/template/header.js.tmpl',
+					'sdk/lib/template/header.js.tmpl',
 					'sdk/vendor/eventemitter2.js',
 					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
+					'sdk/lib/template/footer.js.tmpl'
 				],
 				dest: 'sdk/packages/f2.basic.js'
 			},
@@ -202,14 +202,14 @@ module.exports = function(grunt) {
 				jshintrc: '.jshintrc'
 			},
 			files: [
-				'sdk/src/F2.js',
-				'sdk/src/app_handlers.js',
-				'sdk/src/classes.js',
-				'sdk/src/constants.js',
-				'sdk/src/events.js',
-				'sdk/src/rpc.js',
-				'sdk/src/ui.js',
-				'sdk/src/container.js'
+				'sdk/lib/F2.js',
+				'sdk/lib/app_handlers.js',
+				'sdk/lib/classes.js',
+				'sdk/lib/constants.js',
+				'sdk/lib/events.js',
+				'sdk/lib/rpc.js',
+				'sdk/lib/ui.js',
+				'sdk/lib/container.js'
 			]
 		},
 		uglify: {
@@ -268,7 +268,7 @@ module.exports = function(grunt) {
 				}
 			},
 			scripts: {
-				files: ['./sdk/src/**/*.js'],
+				files: ['./sdk/lib/**/*.js'],
 				tasks: ['js'],
 				options: {
 					spawn: false,
@@ -330,7 +330,7 @@ module.exports = function(grunt) {
 			docOptions = {
 				quiet: true,
 				norecurse: true,
-				paths: ['./sdk/src'],
+				paths: ['./sdk/lib'],
 				outdir: './docs/dist/sdk/',
 				themedir: './docs/src/sdk-template',
 				helpers: ['./docs/src/sdk-template/helpers/helpers.js']
