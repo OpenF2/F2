@@ -1890,7 +1890,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 13,
+            "line": 16,
             "description": "Appends the app's html to the DOM",
             "itemtype": "method",
             "name": "_afterAppRender",
@@ -1919,7 +1919,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 40,
+            "line": 43,
             "description": "Renders the html for an app.",
             "itemtype": "method",
             "name": "_appRender",
@@ -1944,7 +1944,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 61,
+            "line": 64,
             "description": "Rendering hook to allow containers to render some html prior to an app\nloading",
             "itemtype": "method",
             "name": "_beforeAppRender",
@@ -1968,7 +1968,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 75,
+            "line": 78,
             "description": "Handler to inform the container that a script failed to load",
             "itemtype": "method",
             "name": "_onScriptLoadFailure",
@@ -1992,7 +1992,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 89,
+            "line": 92,
             "description": "Adds properties to the AppConfig object",
             "itemtype": "method",
             "name": "_createAppConfig",
@@ -2014,7 +2014,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 119,
+            "line": 122,
             "description": "Generate an AppConfig from the element's attributes",
             "itemtype": "method",
             "name": "_getAppConfigFromElement",
@@ -2036,7 +2036,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 159,
+            "line": 162,
             "description": "Returns true if the DOM node has children that are not text nodes",
             "itemtype": "method",
             "name": "_hasNonTextChildNodes",
@@ -2058,7 +2058,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 181,
+            "line": 184,
             "description": "Adds properties to the ContainerConfig object to take advantage of defaults",
             "itemtype": "method",
             "name": "_hydrateContainerConfig",
@@ -2076,7 +2076,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 202,
+            "line": 205,
             "description": "Attach app events",
             "itemtype": "method",
             "name": "_initAppEvents",
@@ -2087,7 +2087,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 225,
+            "line": 228,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -2098,7 +2098,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 250,
+            "line": 253,
             "description": "Checks if an element is a placeholder element",
             "itemtype": "method",
             "name": "_isPlaceholderElement",
@@ -2120,7 +2120,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 266,
+            "line": 269,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -2135,7 +2135,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 276,
+            "line": 279,
             "description": "Instantiates each app from it's appConfig and stores that in a local private collection",
             "itemtype": "method",
             "name": "_createAppInstance",
@@ -2153,7 +2153,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 305,
+            "line": 308,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -2177,7 +2177,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 563,
+            "line": 638,
             "description": "Loads the app's html/css/javascript into an iframe",
             "itemtype": "method",
             "name": "loadSecureApp",
@@ -2200,7 +2200,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 629,
+            "line": 704,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -2222,7 +2222,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 651,
+            "line": 726,
             "description": "Checks if the ContainerConfig is valid",
             "itemtype": "method",
             "name": "_validateContainerConfig",
@@ -2237,7 +2237,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 680,
+            "line": 755,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -2250,7 +2250,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 697,
+            "line": 772,
             "description": "Gets the current locale defined by the container",
             "itemtype": "method",
             "name": "getContainerLocale",
@@ -2263,7 +2263,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 710,
+            "line": 785,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -2279,7 +2279,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 738,
+            "line": 813,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -2292,7 +2292,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 744,
+            "line": 819,
             "description": "Automatically load apps that are already defined in the DOM. Elements will \nbe rendered into the location of the placeholder DOM element. Any AppHandlers\nthat are defined will be bypassed.",
             "itemtype": "method",
             "name": "loadPlaceholders",
@@ -2308,7 +2308,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 794,
+            "line": 869,
             "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -2335,7 +2335,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 1118,
+            "line": 1193,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -2344,7 +2344,7 @@
         },
         {
             "file": "sdk/src/container.js",
-            "line": 1133,
+            "line": 1208,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2982,19 +2982,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:629"
+            "line": " sdk/src/container.js:704"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:651"
+            "line": " sdk/src/container.js:726"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:680"
+            "line": " sdk/src/container.js:755"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk/src/container.js:697"
+            "line": " sdk/src/container.js:772"
         },
         {
             "message": "replacing incorrect tag: params with param",

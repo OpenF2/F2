@@ -131,7 +131,8 @@
 <p><em>Interested in developing F2 containers? <a href="container-development.html">Browse to Container Development</a>.</em></p>
 <hr>
 <h2 class="link-header" id="version-2"><a class="anchor" href="#version-2"><span class="fa fa-link"></span></a>Version 2</h2><div class="alert alert-block alert-info">
-    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the <a href="https://github.com/OpenF2/F2/wiki/F2-Version-2">revisions draft</a>, <a href="https://github.com/OpenF2/F2/tree/v2-restructured">the F2.js code</a> and <a href="https://github.com/OpenF2/F2/issues?labels=v2&amp;page=1&amp;state=open">v2 Issues</a>.
+    <p>The F2 team is planning version 2.0 of the F2 framework. Visit the project on GitHub to review the <a href="https://github.com/OpenF2/F2/wiki/F2-Version-2">revisions draft</a>, <a href="https://github.com/OpenF2/F2/tree/v2-restructured">the revised F2.js work-in-progress code</a> and <a href="https://github.com/OpenF2/F2/labels/v2">v2 Issues</a>.</p>
+    <p><a href="https://github.com/OpenF2/F2/wiki/F2-Version-2" class="btn btn-primary">Get Involved</a></p>
 </div>
 
 <h2 class="link-header" id="get-started"><a class="anchor" href="#get-started"><span class="fa fa-link"></span></a>Get Started</h2><p>To help you get started building an F2 app, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.</p>
@@ -273,7 +274,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span><span cl
 ]
 </code></pre>
 <p><a href="#namespacing">Read more about CSS and namespacing</a> inside your app.</p>
-<p><span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded synchronously by F2.js, so be sure to order your scripts properly. </p>
+<p><span class="label label-info">Note</span> URLs referenced in the Scripts and Styles arrays are loaded <em>synchronously</em> by F2.js, so be sure to order your scripts properly. </p>
 <h3 class="link-header" id="scripts"><a class="anchor" href="#scripts"><span class="fa fa-link"></span></a>Scripts</h3><p>The <code>scripts</code> property is an array of URLs. The <code>scripts</code> array refers to any JavaScript files needed by the app so that it will function correctly on the container. The externally-referenced JS files should be fully-qualified.</p>
 <p>Example:</p>
 <pre><code class="lang-javascript"><span class="hljs-string">"scripts"</span>: [
@@ -379,7 +380,7 @@ F2_jsonpCallback_com_companyname_appname({
 <p>It is recommended you include your app styles in a file named <code>app.css</code>.</p>
 <h3 class="link-header" id="scripts-19"><a class="anchor" href="#scripts-19"><span class="fa fa-link"></span></a>Scripts</h3><h4 class="link-header" id="app-class"><a class="anchor" href="#app-class"><span class="fa fa-link"></span></a>App Class</h4><p>While it isn’t required, it’s expected all F2 apps will ship with javascript. This code should be included in an <code>appclass.js</code> file as shown in <a href="#setting-up-your-project">Setting Up Your Project</a>. The <code>F2.Apps</code> property is a namespace for app developers to place the javascript class that is used to initialize their app. The javascript classes should be namepaced with the <code>F2.App.AppID</code>. It is recommended that the code be placed in a closure to help keep the global namespace clean.</p>
 <p>For more information on <code>F2.Apps</code>, <a href="./sdk/classes/F2.App.html">browse over to the F2.js SDK docs</a>.</p>
-<p>To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during <code>F2.registerApps()</code> (and the internal <code>_loadApps()</code> method). If the class has an <code>init()</code> function, it will be called automatically during execution of F2’s <code>registerApps()</code> method.</p>
+<p>To make it even easier to build F2 apps and for faster app loading by the container, the F2.js SDK provides automatic JavaScript method execution at appropriate times during <code>F2.registerApps()</code> (and the internal <code>_loadApps()</code> method). If the class has an <code>init()</code> function, it will be called automatically during execution of F2’s <code>registerApps()</code> method. Go to Container Development for <a href="container-development.html#page-load-life-cycle">more information the page load life cycle</a>.</p>
 <p>We recommend&mdash;and have samples below for&mdash;two different patterns for writing your <code>appclass.js</code> code: prototypal inheritence or the module pattern.</p>
 <h4 class="link-header" id="arguments"><a class="anchor" href="#arguments"><span class="fa fa-link"></span></a>Arguments</h4><p>When F2’s <code>registerApps()</code> method is called by the container, F2 passes three arguments to your App Class: <code>appConfig</code>, <code>appContent</code> and <code>root</code>. The SDK documentation details the contents of each arg and these should be familiar because <a href="./sdk/classes/F2.App.html">appConfig</a> contains your app’s meta, <a href="./sdk/classes/F2.AppManifest.AppContent.html">appContent</a> contains your <code>html</code>, <code>data</code> and <code>status</code> properties, and <a href="./sdk/classes/F2.AppConfig.html#properties-root">root</a> is the outermost DOM element in which your app exists on the container. The <code>root</code> argument provides your App Class code your app’s parent (root) element for faster DOM traversal.</p>
 <p>Example:</p>
@@ -463,6 +464,18 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 },
 </code></pre>
 <p><span class="label label-info">Note</span> For more detail on the <code>localeSupport</code> property, browse to the SDK for <a href="./sdk/classes/F2.AppConfig.html#properties-localeSupport">F2.AppConfig</a>.</p>
+<h4 class="link-header" id="handling-script-errors"><a class="anchor" href="#handling-script-errors"><span class="fa fa-link"></span></a>Handling Script Errors</h4><p>In the event any scripts defined in an <code>AppManifest</code> fail to load&mdash;such as HTTP 404 or simply timeout after the <a href="./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout">configurable</a> 7 seconds&mdash;F2 Events are triggered. The two events are: <code>RESOURCE_FAILED_TO_LOAD</code> and the <code>APP_SCRIPT_LOAD_FAILED</code> <a href="./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED">AppHandler</a>. Both events are passed the <code>appId</code> and <code>src</code> of the failed script. </p>
+<pre><code class="lang-javascript">F2.Events.on(<span class="hljs-string">'RESOURCE_FAILED_TO_LOAD'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span></span>{
+    F2.log(<span class="hljs-string">'Script failed to load: '</span> data.src); 
+    <span class="hljs-comment">//Ouputs 'Script failed to load: http://cdn.com/script.js'</span>
+});
+</code></pre>
+<h4 class="link-header" id="when-are-scripts-loaded-"><a class="anchor" href="#when-are-scripts-loaded-"><span class="fa fa-link"></span></a>When Are Scripts Loaded?</h4><p>When all of the scripts defined in an <code>AppManifest</code> have been loaded, the <code>APP_SCRIPTS_LOADED</code> event is triggered. This event receives the <code>appId</code> and array of <code>scripts</code> just loaded. <em>This event is fired for every App registered.</em></p>
+<pre><code class="lang-javascript">F2.Events.on(<span class="hljs-string">'APP_SCRIPTS_LOADED'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span></span>{
+    F2.log(<span class="hljs-string">'All scripts for '</span> +data.appId+ <span class="hljs-string">' have been loaded.'</span>);
+    <span class="hljs-comment">//Ouputs 'All scripts for com_test_app have been loaded.'</span>
+});
+</code></pre>
 <hr>
 <h2 class="link-header" id="namespacing"><a class="anchor" href="#namespacing"><span class="fa fa-link"></span></a>Namespacing</h2><p>F2 is a <em>web</em> integration framework which means apps are inherently insecure&mdash;at least those <em>non-secure</em> apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.</p>
 <p><span class="label">Note</span> Continue reading for <a href="#secure-apps">more specifics about secure apps</a>.</p>
@@ -854,7 +867,7 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>10 December 2014</span>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>17 December 2014</span>
                 </p></a></div>
           </li>
           <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
