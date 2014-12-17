@@ -1,0 +1,22 @@
+{
+  "name": "yuidoc-bootstrap-theme",
+  "version": "1.0.4",
+  "description": "A revamped yuidoc theme with bootstrap",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kevinlacotaco/yuidoc-bootstrap-theme.git"
+  },
+  "keywords": [
+    "yuidoc",
+    "bootstrap"
+  ],
+  "author": "Kevin Lakotko",
+  "contributors": [
+    "Anthony Barone <tonybaroneee@gmail.com> (http://anthonyb.me)"
+  ],
+  "bugs": {
+    "url": "https://github.com/kevinlacotaco/yuidoc-bootstrap-theme/issues"
+  },
+  "homepage": "https://github.com/kevinlacotaco/yuidoc-bootstrap-theme",
+  "license": "MIT"
+}

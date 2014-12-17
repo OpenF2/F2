@@ -1,4 +1,4 @@
-% Extending F2
+# Extending F2
 
 <p class="lead">At its core, F2 is an open framework. To create a truly open and flexible foundation with F2.js, F2 can be extended with custom plugins. Extending F2 with plugins provides direct access to F2.js SDK methods and can save your teams a lot of time.</p>
 

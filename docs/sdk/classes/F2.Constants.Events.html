@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>F2 - F2.Constants.Events</title>
-	<meta name="dcterms.date" content="7 April 2014">
+	<meta name="dcterms.date" content="24 November 2014">
 	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
 	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
 	<meta name="robots" content="all, index, follow" />
@@ -16,7 +16,7 @@
 	<script src="../../js/respond.min.js"></script>
 	
 	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
+	<link href="../../css/F2.Sdk.css?1.4.0" rel="stylesheet">
 
 	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
@@ -73,8 +73,8 @@
 							<li class="divider-vertical"></li>
 							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
             				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
+							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.4.0</span></a></li>
+							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.4.0)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -298,6 +298,18 @@ Returns an object with the gridSize and width in pixels:</p>
 					
 					<tr class="">
 						<td class="name">
+							<a href="#properties-CONTAINER_LOCALE_CHANGE">CONTAINER_LOCALE_CHANGE</a>
+						</td>
+						<td><p>The CONTAINER_LOCALE_CHANGE event will be fired by the container when
+the locale of the container has changed. This event should only be fired by the
+container or container provider.
+Returns an object with the updated locale (IETF-defined standard language tag):</p>
+<pre><code>{ locale: &#39;en-us&#39; }</code></pre>
+</td>
+					</tr>
+					
+					<tr class="">
+						<td class="name">
 							<a href="#properties-CONTAINER_SYMBOL_CHANGE">CONTAINER_SYMBOL_CHANGE</a>
 						</td>
 						<td><p>The CONTAINER_SYMBOL_CHANGE event is fired when the symbol is changed
@@ -432,6 +444,64 @@ Returns an object with the gridSize and width in pixels:</p>
 			
 				<dt>Defined in</dt>
 				<dd><a href="../files/sdk_src_constants.js.html#l119"><code>sdk&#x2F;src&#x2F;constants.js:119</code></a></dd>
+			
+
+			
+
+			
+		</dl>
+	</div>
+
+	
+
+	
+
+	
+
+	<div class="backToTop">
+		<a href="javascript:;">Back to top</a>
+	</div>
+</section>
+		
+		<section id="properties-CONTAINER_LOCALE_CHANGE" class="level2 ">
+	<h3>
+		CONTAINER_LOCALE_CHANGE
+
+		<span class="label type">String</span>
+
+		
+
+		
+
+		
+			<span class="label final">final</span>
+		
+
+		
+			<span class="label static">static</span>
+		
+	</h3>
+
+	<p>
+		<p>The CONTAINER_LOCALE_CHANGE event will be fired by the container when
+the locale of the container has changed. This event should only be fired by the
+container or container provider.
+Returns an object with the updated locale (IETF-defined standard language tag):</p>
+<pre class="code prettyprint"><code>{ locale: &#39;en-us&#39; }</code></pre>
+
+	</p>
+
+	<div class="well well-small">
+		<dl class="dl-horizontal">
+			
+				
+					
+				
+			
+			
+			
+				<dt>Defined in</dt>
+				<dd><a href="../files/sdk_src_constants.js.html#l156"><code>sdk&#x2F;src&#x2F;constants.js:156</code></a></dd>
 			
 
 			
@@ -592,7 +662,7 @@ the width of the container has changed.</p>
 <script src="../../js/bootstrap.min.2.3.0.js"></script>
 <script src="../../js/prettify.js"></script>
 <script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.3"></script>
+<script src="../../js/f2.js?1.4.0"></script>
 <script type="text/javascript">
 	window.prettyPrint && prettyPrint();
 </script>
