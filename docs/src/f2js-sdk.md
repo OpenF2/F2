@@ -38,19 +38,19 @@ The latest version of F2.js is **{{version}}**.
 Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. In circumstances where not all F2 features are required, Container Providers can use smaller, faster, lighter-weight versions of F2.js. Choose one below:
 
 * **Basic**: 
-	* Includes: json2, EventEmitter, and F2
+	* Includes: EventEmitter, and F2
     * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)
     * Production: [F2.basic.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.min.js) (7.6kb)
 * **No easyXDM**:
-	* Includes: json2, EventEmitter, jQuery, Bootstrap Modal, and F2
+	* Includes: EventEmitter, jQuery, Bootstrap Modal, and F2
     * Development: [f2.no-easyXDM.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.js)
     * Production: [f2.no-easyXDM.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.min.js) (30.4kb)	    	    
 * **No Bootstrap**: 
-	* Includes: json2, EventEmitter, jQuery, and F2
+	* Includes: EventEmitter, jQuery, and F2
     * Development: [F2.no-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.js)
     * Production: [F2.no-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.min.js) (33.6kb)
 * **No jQuery, Bootstrap**:
-    * Includes: json2, EventEmitter, easyXDM, and F2
+    * Includes: EventEmitter, easyXDM, and F2
     * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
     * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
 
