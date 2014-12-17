@@ -1,9 +1,7 @@
 var TEST_MANIFEST_URL = 'http://www.openf2.org/helloworldapp',
 	TEST_APP_ID = 'com_openf2_examples_javascript_helloworld',
 	TEST_MANIFEST_URL2 = 'http://www.openf2.org/Examples/Apps',
-	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews',
-	TEST_MANIFEST_URL3 = 'http://www.openf2.org/Examples/Apps',
-	TEST_APP_ID3 = 'com_openf2_examples_nodejs_helloworld'
+	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews'
 ;
 
 /**

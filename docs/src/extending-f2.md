@@ -7,8 +7,7 @@
 ## Version 2
 
 <div class="alert alert-block alert-info">
-    <p>The F2 team is planning version 2.0 of the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the revised F2.js work-in-progress code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/labels/v2).</p>
-    <p><a href="https://github.com/OpenF2/F2/wiki/F2-Version-2" class="btn btn-primary">Get Involved</a></p>
+    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
 </div>
 
 * * * *
