@@ -1076,7 +1076,83 @@ describe('F2.registerApps - rendering', function() {
 
 			expect(bustedCache).toBe(false);
 		});
-	});	
+	});
+
+	it('should not inject an app\'s dependencies (scripts nor styles) more than one time', function() {
+		var appsRendered = 0;
+		var loadedJS = loadedCSS = 0;
+		F2.init();
+		//notify when apps have been rendered
+		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; });
+		//load same app twice
+		F2.registerApps([
+			{
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
+			},
+			{
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
+			}
+		]);
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return appsRendered === 2;
+		}, 'test apps were never loaded', 15000);
+
+		runs(function() {
+			
+			//ensure this script only exists one time			
+			$('script').each(function(idx, item) {
+				var src = $(item).attr('src');
+				if (/com_openf2_examples_nodejs_helloworld\/appclass.js/.test(src)){
+					loadedJS++;
+				}
+			});
+
+			//ensure this stylesheet only exists one time
+			$('link').each(function(idx, item) {
+				var src = $(item).attr('href');
+				if (/com_openf2_examples_nodejs_helloworld\/app.css/.test(src)){
+					loadedCSS++;
+				}
+			});
+
+			expect(loadedJS).toBe(1);
+			expect(loadedCSS).toBe(1);
+		});
+	});
+
+	it('should load and execute scripts in order', function() {
+		var scriptsLoaded = false;
+		F2.init();
+		//load 1 app with 2 script files, the 2nd one defines F2.HightChartsIsDefined global.
+		F2.registerApps([{
+				appId: 'com_openf2_tests_helloworld',
+				manifestUrl: '/'
+		}], [{
+			'scripts': ['http://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.3/highcharts.js','js/test.js'],
+			'apps': [{
+				'html': '<div class="test-app-1">Testing</div>'
+			}]
+		}]);
+
+		//notify when dependencies have been loaded
+		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+			scriptsLoaded = true;
+			console.log('APP_SCRIPTS_LOADED',data);
+		});
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return scriptsLoaded && F2.HightChartsIsDefined;
+		}, 'test apps to load', 10000);
+
+		runs(function() {
+			expect(F2.HightChartsIsDefined).toBeTruthy();
+		});
+	});
 });
 
 
@@ -1638,82 +1714,6 @@ describe('F2.loadPlaceholders - manual', function() {
 
 		runs(function() {
 			expect(children).toEqual(1);
-		});
-	});
-
-	it('should not inject an app\'s dependencies (scripts nor styles) more than one time', function() {
-		var appsRendered = 0;
-		var loadedJS = loadedCSS = 0;
-		F2.init();
-		//notify when apps have been rendered
-		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; });
-		//load same app twice
-		F2.registerApps([
-			{
-				appId: TEST_APP_ID3,
-				manifestUrl: TEST_MANIFEST_URL3
-			},
-			{
-				appId: TEST_APP_ID3,
-				manifestUrl: TEST_MANIFEST_URL3
-			}
-		]);
-
-		// wait for registerApps to complete and load both apps
-		waitsFor(function() {
-			return appsRendered === 2;
-		}, 'test apps were never loaded', 15000);
-
-		runs(function() {
-			
-			//ensure this script only exists one time			
-			$('script').each(function(idx, item) {
-				var src = $(item).attr('src');
-				if (/com_openf2_examples_nodejs_helloworld\/appclass.js/.test(src)){
-					loadedJS++;
-				}
-			});
-
-			//ensure this stylesheet only exists one time
-			$('link').each(function(idx, item) {
-				var src = $(item).attr('href');
-				if (/com_openf2_examples_nodejs_helloworld\/app.css/.test(src)){
-					loadedCSS++;
-				}
-			});
-
-			expect(loadedJS).toBe(1);
-			expect(loadedCSS).toBe(1);
-		});
-	});
-
-	it('should load and execute scripts in order', function() {
-		var scriptsLoaded = false;
-		F2.init();
-		//load 1 app with 2 script files, the 2nd one defines F2.HightChartsIsDefined global.
-		F2.registerApps([{
-				appId: 'com_openf2_tests_helloworld',
-				manifestUrl: '/'
-		}], [{
-			'scripts': ['http://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.3/highcharts.js','js/test.js'],
-			'apps': [{
-				'html': '<div class="test-app-1">Testing</div>'
-			}]
-		}]);
-
-		//notify when dependencies have been loaded
-		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
-			scriptsLoaded = true;
-			console.log('APP_SCRIPTS_LOADED',data);
-		});
-
-		// wait for registerApps to complete and load both apps
-		waitsFor(function() {
-			return scriptsLoaded && F2.HightChartsIsDefined;
-		}, 'test apps to load', 10000);
-
-		runs(function() {
-			expect(F2.HightChartsIsDefined).toBeTruthy();
 		});
 	});
 });
