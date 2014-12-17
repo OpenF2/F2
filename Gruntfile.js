@@ -92,8 +92,7 @@ module.exports = function(grunt) {
 					},
 					{
 						expand: true,
-						cwd: 'sdk/',
-						src: ['src/third-party/require.min.js'],
+						src: ['tests/require.min.js'],
 						dest: 'sdk/'
 					}
 				]
@@ -108,11 +107,11 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/bootstrap-modal.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
+					'sdk/vendor/jquery.js',
+					'sdk/vendor/jquery.noconflict.js',
+					'sdk/vendor/bootstrap-modal.js',
+					'sdk/vendor/eventemitter2.js',
+					'sdk/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -129,8 +128,8 @@ module.exports = function(grunt) {
 			'no-jquery-or-bootstrap': {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
+					'sdk/vendor/eventemitter2.js',
+					'sdk/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -139,10 +138,10 @@ module.exports = function(grunt) {
 			'no-bootstrap': {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
+					'sdk/vendor/jquery.js',
+					'sdk/vendor/jquery.noconflict.js',
+					'sdk/vendor/eventemitter2.js',
+					'sdk/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -151,10 +150,10 @@ module.exports = function(grunt) {
 			'no-easyXDM': {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/bootstrap-modal.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/eventemitter2.js',
+					'sdk/vendor/jquery.js',
+					'sdk/vendor/bootstrap-modal.js',
+					'sdk/vendor/jquery.noconflict.js',
+					'sdk/vendor/eventemitter2.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -163,7 +162,7 @@ module.exports = function(grunt) {
 			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/eventemitter2.js',
+					'sdk/vendor/eventemitter2.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -269,7 +268,7 @@ module.exports = function(grunt) {
 				}
 			},
 			scripts: {
-				files: ['./sdk/src/**/*.js', '!./sdk/src/third-party/**/*.js'],
+				files: ['./sdk/src/**/*.js'],
 				tasks: ['js'],
 				options: {
 					spawn: false,
