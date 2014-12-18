@@ -267,7 +267,6 @@ module.exports = function(grunt) {
 		watch: {
 			docs: {
 				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
-				// tasks: ['generate-docs','yuidoc'],
 				tasks: ['docs'],
 				options: {
 					spawn: false,

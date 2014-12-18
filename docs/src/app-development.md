@@ -17,13 +17,6 @@ _Interested in developing F2 containers? [Browse to Container Development](conta
 
 * * * *
 
-## Version 2
-
-<div class="alert alert-block alert-info">
-    <p>The F2 team is planning version 2.0 of the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the revised F2.js work-in-progress code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/labels/v2).</p>
-    <p><a href="https://github.com/OpenF2/F2/wiki/F2-Version-2" class="btn btn-primary">Get Involved</a></p>
-</div>
-
 ## Get Started
 
 To help you get started building an F2 app, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.
@@ -34,7 +27,7 @@ To help you get started building an F2 app, review the documentation and example
 
 To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://twitter.github.io/bootstrap/index.html), and ensure you're [properly configured](#configuration) for continuing with the documentation.
 
-<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-small">Download F2.js</a> <a href="http://twitter.github.io/bootstrap/getting-started.html#download-bootstrap" class="btn btn-small">Download Bootstrap</a></p>
+<p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
 
 Setup a basic container HTML template (or add F2.js to an existing website):
 
@@ -50,7 +43,7 @@ Setup a basic container HTML template (or add F2.js to an existing website):
 </html>
 ```
 
-<span class="label label-info">Note</span> In [developing a more advanced container](container-development.html), the HTML document's `body` element would contain additional markup and allow for [specific positioning or placement of apps](container-development.html#apphandlers-for-app-layout). Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](#container-design).
+<span class="label label-info">Note</span> In [developing a more advanced container](container-development.html), the HTML document's `body` element would contain additional markup and allow for [specific positioning or placement of apps](container-development.html#apphandlers-for-app-layout). Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](container-development.html#container-design).
 
 ### Basic AppConfig
 
@@ -96,7 +89,7 @@ To get started working with or developing containers, browse to the [documentati
 
 **Ready to start coding?** 
 
-<p><a href="#developing-f2-apps" class="btn btn-primary btn-small">Developing F2 Apps</a> <a href="./sdk/" class="btn btn-small">F2.js SDK Reference</a></p>
+<p><a href="#developing-f2-apps" class="btn btn-primary btn-small">Developing F2 Apps</a> <a href="./sdk/" class="btn btn-default btn-small">F2.js SDK Reference</a></p>
 
 * * * *
 
@@ -147,7 +140,7 @@ Once you have your AppID, start by setting up your project. You will need at lea
 
 ![](./img/project_folder.png "Setup your project")
 
-<span class="label">Helper</span> [Download the F2 examples](http://docs.openf2.org/F2-examples.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
+<span class="label label-default">Helper</span> [Download the F2 examples](http://docs.openf2.org/F2-examples.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
 
 ### App Manifest
 
@@ -303,7 +296,7 @@ Example:
 ]
 ```
 
-<div class="well well-small">
+<div class="well well-sm">
 <h4>About Inline Scripts</h4>
 <p>While the use of `inlineScripts` is supported by F2's App Manifest, it is not recommended for use. There are many reasons for this, the main one is to avoid cluttering the global namespace. Developers should make every attempt to put their JavaScript code inside their [App Class](#scripts).</p>
 </div>
@@ -422,7 +415,7 @@ An example two-column layout using Bootstrap-specifed markup:
 
 The `.span4` and `.span8` provide two columns in the [12-column grid](http://twitter.github.io/bootstrap/scaffolding.html#gridSystem).
 
-<span class="label">Note</span> Read more about [Creating a Common Look and Feel with F2](index.html#container).
+<span class="label label-default">Note</span> Read more about [Creating a Common Look and Feel with F2](index.html#container).
 
 ### Scripts & Styles
 
@@ -497,20 +490,44 @@ F2.Apps["com_companyname_appname"] = function(appConfig, appContent, root) {
 
 Of course, you don't have to use either one of these patterns in your `appclass.js` file. What you _do_ have to use is a `function`. That is to say the value assigned to `F2.Apps["com_companyname_appname"]` by your App Class code _must be a function_. Within F2's `registerApps()` method, the `new` operator is used which produces an object and new instance of your app.
 
-<div class="alert">
+<div class="alert alert-warning">
 	<h5>Important!</h5>
 	<p>In the absence of a function in your `appclass.js`, F2 will be unable to load your app on a container.</p>
 </div>
 
 If you don't want to think about any of this and would rather just start coding, [download the F2 examples](http://docs.openf2.org/F2-examples.zip).
 
-#### Internationalization 
+#### Handling Script Errors
+
+In the event any scripts defined in an `AppManifest` fail to load&mdash;such as HTTP 404 or simply timeout after the [configurable](./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout) 7 seconds&mdash;F2 Events are triggered. The two events are: `RESOURCE_FAILED_TO_LOAD` and the `APP_SCRIPT_LOAD_FAILED` [AppHandler](./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED). Both events are passed the `appId` and `src` of the failed script. 
+
+```javascript
+F2.Events.on('RESOURCE_FAILED_TO_LOAD', function(data){
+    F2.log('Script failed to load: ' data.src); 
+    //Ouputs 'Script failed to load: http://cdn.com/script.js'
+});
+```
+
+#### When Are Scripts Loaded? 
+
+When all of the scripts defined in an `AppManifest` have been loaded, the `APP_SCRIPTS_LOADED` event is triggered. This event receives the `appId` and array of `scripts` just loaded. _This event is fired for every App registered._
+
+```javascript
+F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+    F2.log('All scripts for ' +data.appId+ ' have been loaded.');
+    //Ouputs 'All scripts for com_test_app have been loaded.'
+});
+```
+
+* * * *
+
+### Internationalization 
 
 Internationalization, or "[i18n](http://en.wikipedia.org/wiki/Internationalization_and_localization)", can be [configured in a Container](container-development.html#internationalization). This "locale" information is shared with all Apps using [IETF-defined standard language tags](http://en.wikipedia.org/wiki/IETF_language_tag) such as "en-us" or "de-de" for English United States or German Germany, respectively.
 
-<span class="label label-important">Important</span> Containers providing a `locale` config is only a means of communicating localization information in the container. F2 does not perform translations, number formatting or other localization modifications to Containers or Apps.
+<span class="label label-danger">Important</span> Containers providing a `locale` config is only a means of communicating localization information in the container. F2 does not perform translations, number formatting or other localization modifications to Containers or Apps.
 
-##### Changing the Locale
+#### Changing the Locale
 
 Container Providers can change the current locale using [F2.Events](./sdk/classes/F2.Events.html). There is an event constant available for changing the locale called `CONTAINER_LOCALE_CHANGE`. 
 
@@ -526,7 +543,7 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
 });
 ```
 
-##### How Do Apps Understand Locale? 
+#### How Do Apps Understand Locale? 
 
 There is a parameter sent to each `AppManifest` request during `F2.registerApps` called `containerLocale`. Apps can also call `F2.getContainerLocale()` to access the current locale of the container.
 
@@ -553,7 +570,7 @@ F2.Apps["com_companyname_appname"] = (function() {
 
 <span class="label label-info">Note</span> For more detail on the `containerLocale` property, browse to the SDK for [F2.AppConfig](./sdk/classes/F2.AppConfig.html#properties-containerLocale).
 
-##### How to Indicate Locale Support
+#### How to Indicate Locale Support
 
 The F2 `AppConfig` has a `localeSupport` property (type Array) so each App can define the region and language combinations it supports. Container code could be written to inspect the `localeSupport` property of any apps before registering them.
 
@@ -572,35 +589,13 @@ Sample `AppConfig` showing the `localeSupport` property:
 
 <span class="label label-info">Note</span> For more detail on the `localeSupport` property, browse to the SDK for [F2.AppConfig](./sdk/classes/F2.AppConfig.html#properties-localeSupport).
 
-#### Handling Script Errors
-
-In the event any scripts defined in an `AppManifest` fail to load&mdash;such as HTTP 404 or simply timeout after the [configurable](./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout) 7 seconds&mdash;F2 Events are triggered. The two events are: `RESOURCE_FAILED_TO_LOAD` and the `APP_SCRIPT_LOAD_FAILED` [AppHandler](./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED). Both events are passed the `appId` and `src` of the failed script. 
-
-```javascript
-F2.Events.on('RESOURCE_FAILED_TO_LOAD', function(data){
-    F2.log('Script failed to load: ' data.src); 
-    //Ouputs 'Script failed to load: http://cdn.com/script.js'
-});
-```
-
-#### When Are Scripts Loaded? 
-
-When all of the scripts defined in an `AppManifest` have been loaded, the `APP_SCRIPTS_LOADED` event is triggered. This event receives the `appId` and array of `scripts` just loaded. _This event is fired for every App registered._
-
-```javascript
-F2.Events.on('APP_SCRIPTS_LOADED', function(data){
-    F2.log('All scripts for ' +data.appId+ ' have been loaded.');
-    //Ouputs 'All scripts for com_test_app have been loaded.'
-});
-```
-
 * * * *
 
 ## Namespacing
 
 F2 is a _web_ integration framework which means apps are inherently insecure&mdash;at least those _non-secure_ apps. Following this spec, App Developers must avoid CSS collisions and JavaScript namespace issues to provide users with the best possible experience.
 
-<span class="label">Note</span> Continue reading for [more specifics about secure apps](#secure-apps).
+<span class="label label-default">Note</span> Continue reading for [more specifics about secure apps](#secure-apps).
 
 ### Namespacing CSS
 
@@ -640,15 +635,11 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 }
 ```
 
-<span class="label">Note</span> App Developers should familiarize themselves with [CSS namespacing rules for Container Developers](container-development.html#namespacing). They are largely the same with a couple notable additions.
+<span class="label label-default">Note</span> App Developers should familiarize themselves with [CSS namespacing rules for Container Developers](container-development.html#namespacing). They are largely the same with a couple notable additions.
 
 #### About CSS Resets
 
 It is a common web development practice to use [CSS resets](http://meyerweb.com/eric/tools/css/reset/), and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including [Normalize.css](http://necolas.github.com/normalize.css/) which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.
-
-#### About Bootstrap 3
-
-<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[officially-supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. [Read the blog post](http://blog.openf2.org/2014/09/supporting-bootstrap-3.html) for more information on using Bootstrap 3 today.
 
 ### Keeping JavaScript Clean
 
@@ -715,7 +706,7 @@ F2.Events.on(
 
 The `F2.Events.on()` method accepts the event name and listener function as arguments. [Read the SDK](./sdk/classes/F2.Events.html) for more information.
 
-<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
+<span class="label label-default">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
 
 ### Container-to-App Context (Server)
 
@@ -751,9 +742,9 @@ http://www.acme.com/apps/news-manifest.js?params=%7B%22appId%22%3A%22com_acmecor
 
 This demonstrates complete flexibility of passing arbitrary context values from the container to any F2 app.
 
-<span class="label label-important">Important</span> To receive context from a container during app initialization, F2 App Developers are required to build object deserialization for the `params` value into their app code.
+<span class="label label-danger">Important</span> To receive context from a container during app initialization, F2 App Developers are required to build object deserialization for the `params` value into their app code.
 
-<span class="label">Note</span> It is possible to override the `AppManifest` request and, among other things, change the default HTTP method from `GET` to `POST`. This is useful in a scenario when the serialized `AppConfig` exceeds the maximum URL length or when `AppConfig.context` contains secure information necessitating a `POST`. [Read more about overriding the AppManifest request](container-development.html#override-the-appmanifest-request).
+<span class="label label-default">Note</span> It is possible to override the `AppManifest` request and, among other things, change the default HTTP method from `GET` to `POST`. This is useful in a scenario when the serialized `AppConfig` exceeds the maximum URL length or when `AppConfig.context` contains secure information necessitating a `POST`. [Read more about overriding the AppManifest request](container-development.html#override-the-appmanifest-request).
 
 ### App-to-Container Context
 
@@ -780,7 +771,7 @@ F2.Events.on(
 );
 ```
 
-<span class="label">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
+<span class="label label-default">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
 
 ### App-to-App Context
 
@@ -975,13 +966,11 @@ Assuming the example above is used, the `this.ui` property holds the instance of
 
 ```javascript
 //appclass.js snippet
-...
-	//user deletes row
-	$(".row").remove();
+//user deletes row
+$(".row").remove();
 
-	//call updateHeight method
-	this.ui.updateHeight();
-...
+//call updateHeight method
+this.ui.updateHeight();
 ```
 
 #### Showing or Hiding Loading Spinners
@@ -992,19 +981,17 @@ To show a loading spinner when making an ajax request within an app:
 
 ```javascript
 //appclass.js snippet
-...
-	//show loading
-	this.ui.showMask(this.root,true);
+//show loading
+this.ui.showMask(this.root,true);
 
-	//app makes data request
-	$.ajax({
-		url: "../data.json"
-	}).done(function(jqxhr){
-		F2.log(jqxhr);
-		//hide loading
-		this.ui.hideMask(this.root);
-	});
-...
+//app makes data request
+$.ajax({
+	url: "../data.json"
+}).done(function(jqxhr){
+	F2.log(jqxhr);
+	//hide loading
+	this.ui.hideMask(this.root);
+});
 ```
 
 The `showMask()` method takes two arguments: a DOM element where to show the mask and a boolean indicating whether or not to show a spinning graphic.
@@ -1013,10 +1000,8 @@ If you do not want to show a spinning graphic, simply pass `false` to the `showM
 
 ```javascript
 //appclass.js snippet
-...
-	//show mask, no spinner
-	this.ui.showMask(this.root,false);
-...
+//show mask, no spinner
+this.ui.showMask(this.root,false);
 ```
 
 For full details, read about [F2.UI in the SDK](./sdk/classes/F2.UI.html). 
@@ -1027,9 +1012,7 @@ To update the title of an app in the app's chrome ([as defined by the container 
 
 ```javascript
 //appclass.js snippet
-...
-	this.ui.setTitle("Chart for MSFT");
-...
+this.ui.setTitle("Chart for MSFT");
 ```
 
 ### F2.UI.Modals
@@ -1042,37 +1025,31 @@ Usage is simple:
 
 ```javascript
 //appclass.js snippet
-...
-	this.ui.Modals.alert("A message to display in a modal.");
-...
+this.ui.Modals.alert("A message to display in a modal.");
 ```
 
 You can optionally provide a callback to be fired when the user closes the modal.
 
 ```javascript
 //appclass.js snippet
-...
-	this.ui.Modals.alert("A message to display in a modal.", function(){
-		F2.log("Modal closed!");
-	});
-...
+this.ui.Modals.alert("A message to display in a modal.", function(){
+	F2.log("Modal closed!");
+});
 ```
 
 Additionally, there is a `confirm` modal.
 
 ```javascript
 //appclass.js snippet
-...
-	this.ui.Modals.confirm(
-		"A message to display in a confirmation modal.", 
-		function(){
-			F2.log("OK clicked");
-		},
-		function(){
-			F2.log("Cancel clicked");
-		}
-	);
-...
+this.ui.Modals.confirm(
+	"A message to display in a confirmation modal.", 
+	function(){
+		F2.log("OK clicked");
+	},
+	function(){
+		F2.log("Cancel clicked");
+	}
+);
 ```
 
 ### F2.UI.Views
@@ -1081,7 +1058,7 @@ Adding and managing views within an F2 app is considered an **advanced topic**. 
 
 F2 apps can have one or more views. Every app will have at least one "home" view, while others will include views for settings, help or about. Inside the F2.js SDK, we've [included support for views](./sdk/classes/F2.App.html#property_views) and the list can be extended by the container provider. 
 
-<span class="label">Note</span> If the container doesn't support all the views you need inside your app, you will need to coordinate those additions with the container provider.
+<span class="label label-default">Note</span> If the container doesn't support all the views you need inside your app, you will need to coordinate those additions with the container provider.
 
 #### Setting Up Views
 
@@ -1127,7 +1104,7 @@ For example, an app has two views: "home" and "about". On the "home" View, a but
 ```html
 <div class="f2-app-view" data-f2-view="home">
 	<!--use 'data-f2-view' to switch to the "about" View-->
-	<button class="btn f2-app-view-trigger" data-f2-view="about">Show About View</button>
+	<button class="btn btn-default f2-app-view-trigger" data-f2-view="about">Show About View</button>
 </div>
 ```
 
@@ -1136,7 +1113,7 @@ To get back to the "home" View from the "about" View:
 ```html
 <div class="f2-app-view" data-f2-view="about">
 	...
-	<button class="btn f2-app-view-trigger" data-f2-view="home">&laquo; Back Home</button>
+	<button class="btn btn-default f2-app-view-trigger" data-f2-view="home">&laquo; Back Home</button>
 	...
 </div>
 ```
@@ -1169,7 +1146,7 @@ Single sign-on (SSO) is a shared responsibility between the Container and App De
 
 Once a user is authenticated on the container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).*
 
-<span class="label">Note</span> The Container Developer is free to utilize any app authentication method they deem fit. Container Developers and app developers will need to work together to finalize the authentication details.
+<span class="label label-default">Note</span> The Container Developer is free to utilize any app authentication method they deem fit. Container Developers and app developers will need to work together to finalize the authentication details.
 
 ### Using Encrypted URLs
 
