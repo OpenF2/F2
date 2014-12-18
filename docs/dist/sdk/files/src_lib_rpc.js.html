@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>sdk/src/events.js - Open Financial Framework</title>
+<title>src/lib/rpc.js - Open Financial Framework</title>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
@@ -82,12 +82,12 @@
               <li><a href="../../extending-f2.html">Extend F2</a></li>
               <li class="active"><a href="../">F2.js API Reference</a></li>
               <li class="divider"></li>
-              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+sdk/src/events.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+src/lib/rpc.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
             </ul>
           </li>
-          <li class="active">sdk/src/events.js</li>
+          <li class="active">src/lib/rpc.js</li>
         </ol>
       </div>
     </div>
@@ -182,90 +182,332 @@
         </label>
     </div>
 </form>
-	                <h1 class="page-header">sdk/src/events.js <small>File</small></h1>
+	                <h1 class="page-header">src/lib/rpc.js <small>File</small></h1>
 
 <div class="file">
     <pre class="prettyprint linenums"><code>
 /**
- * Handles [Context](../../app-development.html#context) passing from
- * containers to apps and apps to apps.
- * @class F2.Events
+ * Handles socket communication between the container and secure apps
+ * @class F2.Rpc
  */
-F2.extend(&#x27;Events&#x27;, (function() {
-	// init EventEmitter
-	var _events = new EventEmitter2({
-		wildcard:true
-	});
+F2.extend(&#x27;Rpc&#x27;, (function(){
+	var _callbacks = {};
+	var _secureAppPagePath = &#x27;&#x27;;
+	var _apps = {};
+	var _rEvents = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.EVENT);
+	var _rRpc = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC);
+	var _rRpcCallback = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC_CALLBACK);
+	var _rSocketLoad = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.LOAD);
+	var _rUiCall = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.UI_RPC);
 
-	// unlimited listeners, set to &gt; 0 for debugging
-	_events.setMaxListeners(0);
+	/**
+	 * Creates a socket connection from the app to the container using 
+	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
+	 * @method _createAppToContainerSocket
+	 * @private
+	 */
+	var _createAppToContainerSocket = function() {
+
+		var appConfig; // socket closure
+		var isLoaded = false;
+		// its possible for messages to be received before the socket load event has
+		// happened.  We&#x27;ll save off these messages and replay them once the socket
+		// is ready
+		var messagePlayback = [];
+
+		var socket = new easyXDM.Socket({
+			onMessage: function(message, origin){
+
+				// handle Socket Load
+				if (!isLoaded &amp;&amp; _rSocketLoad.test(message)) {
+					message = message.replace(_rSocketLoad, &#x27;&#x27;);
+					var appParts = F2.parse(message);
+
+					// make sure we have the AppConfig and AppManifest
+					if (appParts.length == 2) {
+						appConfig = appParts[0];
+
+						// save socket
+						_apps[appConfig.instanceId] = {
+							config:appConfig,
+							socket:socket
+						};	
+
+						// register app
+						F2.registerApps([appConfig], [appParts[1]]);
+
+						// socket message playback
+						jQuery.each(messagePlayback, function(i, e) {
+							_onMessage(appConfig, message, origin);
+						});
+						
+						isLoaded = true;
+					}
+				} else if (isLoaded) {
+					// pass everyting else to _onMessage
+					_onMessage(appConfig, message, origin);
+				} else {
+					//F2.log(&#x27;socket not ready, queuing message&#x27;, message);
+					messagePlayback.push(message);
+				}
+			}
+		});
+	};
+
+	/**
+	 * Creates a socket connection from the container to the app using 
+	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
+	 * @method _createContainerToAppSocket
+	 * @private
+	 * @param {appConfig} appConfig The F2.AppConfig object
+	 * @param {F2.AppManifest} appManifest The F2.AppManifest object
+	 */
+	var _createContainerToAppSocket = function(appConfig, appManifest) {
+
+		var container = jQuery(appConfig.root);
+
+		if (!container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)) {
+			container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
+		}
+
+		if (!container.length) {
+			F2.log(&#x27;Unable to locate app in order to establish secure connection.&#x27;);
+			return;
+		}
+
+		var iframeProps = {
+			scrolling:&#x27;no&#x27;,
+			style:{
+				width:&#x27;100%&#x27;
+			}
+		};
+
+		if (appConfig.height) {
+			iframeProps.style.height = appConfig.height + &#x27;px&#x27;;
+		}
+
+		var socket = new easyXDM.Socket({
+			remote: _secureAppPagePath,
+			container: container.get(0),
+			props:iframeProps,
+			onMessage: function(message, origin) {
+				// pass everything to _onMessage
+				_onMessage(appConfig, message, origin);
+			},
+			onReady: function() {
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
+			}
+		});
+
+		return socket;
+	};
+
+	/**
+	 * @method _createRpcCallback
+	 * @private
+	 * @param {string} instanceId The app&#x27;s Instance ID
+	 * @param {function} callbackId The callback ID
+	 * @return {function} A function to make the RPC call
+	 */
+	var _createRpcCallback = function(instanceId, callbackId) {
+		return function() {
+			F2.Rpc.call(
+				instanceId,
+				F2.Constants.Sockets.RPC_CALLBACK,
+				callbackId,
+				[].slice.call(arguments).slice(2)
+			);
+		};
+	};
+
+	/**
+	 * Handles messages that come across the sockets
+	 * @method _onMessage
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param {string} message The socket message
+	 * @param {string} origin The originator
+	 */
+	var _onMessage = function(appConfig, message, origin) {
+
+		var obj, func;
+
+		function parseFunction(parent, functionName) {
+			var path = String(functionName).split(&#x27;.&#x27;);
+			for (var i = 0; i &lt; path.length; i++) {
+				if (parent[path[i]] === undefined) {
+					parent = undefined;
+					break;
+				}
+				parent = parent[path[i]];
+			}
+			return parent;
+		}
+
+		function parseMessage(regEx, message, instanceId) {
+			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
+
+			// if obj.callbacks
+			//   for each callback
+			//     for each params
+			//       if callback matches param
+			//        replace param with _createRpcCallback(app.instanceId, callback)
+			if (o.params &amp;&amp; o.params.length &amp;&amp; o.callbacks &amp;&amp; o.callbacks.length) {
+				jQuery.each(o.callbacks, function(i, c) {
+					jQuery.each(o.params, function(i, p) {
+						if (c == p) {
+							o.params[i] = _createRpcCallback(instanceId, c);
+						}
+					});
+				});
+			}
+
+			return o;
+		}
+
+		// handle UI Call
+		if (_rUiCall.test(message)) {
+			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
+			func = parseFunction(appConfig.ui, obj.functionName);
+			// if we found the function, call it
+			if (func !== undefined) {
+				func.apply(appConfig.ui, obj.params);
+			} else {
+				F2.log(&#x27;Unable to locate UI RPC function: &#x27; + obj.functionName);
+			}
+
+		// handle RPC
+		} else if (_rRpc.test(message)) {
+			obj = parseMessage(_rRpc, message, appConfig.instanceId);
+			func = parseFunction(window, obj.functionName);
+			if (func !== undefined) {
+				func.apply(func, obj.params);
+			} else {
+				F2.log(&#x27;Unable to locate RPC function: &#x27; + obj.functionName);
+			}
+
+		// handle RPC Callback
+		} else if (_rRpcCallback.test(message)) {
+			obj = parseMessage(_rRpcCallback, message, appConfig.instanceId);
+			if (_callbacks[obj.functionName] !== undefined) {
+				_callbacks[obj.functionName].apply(_callbacks[obj.functionName], obj.params);
+				delete _callbacks[obj.functionName];
+			}
+
+		// handle Events
+		} else if (_rEvents.test(message)) {
+			obj = parseMessage(_rEvents, message, appConfig.instanceId);
+			F2.Events._socketEmit.apply(F2.Events, obj);
+		}
+	};
+
+	/**
+	 * Registers a callback function
+	 * @method _registerCallback
+	 * @private
+	 * @param {function} callback The callback function
+	 * @return {string} The callback ID
+	 */
+	var _registerCallback = function(callback) {
+		var callbackId = F2.guid();
+		_callbacks[callbackId] = callback;
+		return callbackId;
+	};
 
 	return {
 		/**
-		 * Same as F2.Events.emit except that it will not send the event
-		 * to all sockets.
-		 * @method _socketEmit
-		 * @private
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
+		 * Broadcast an RPC function to all sockets
+		 * @method broadcast
+		 * @param {string} messageType The message type
+		 * @param {Array} params The parameters to broadcast
 		 */
-		_socketEmit: function() {
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		broadcast: function(messageType, params) {
+			// check valid messageType
+			var message = messageType + F2.stringify(params);
+			jQuery.each(_apps, function(i, a) {
+				a.socket.postMessage(message);
+			});
 		},
 		/**
-		 * Execute each of the listeners that may be listening for the specified
-		 * event name in order with the list of arguments.
-		 * @method emit
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
+		 * Calls a remote function
+		 * @method call
+		 * @param {string} instanceId The app&#x27;s Instance ID
+		 * @param {string} messageType The message type
+		 * @param {string} functionName The name of the remote function
+		 * @param {Array} params An array of parameters to pass to the remote
+		 * function. Any functions found within the params will be treated as a
+		 * callback function.
 		 */
-		emit: function() {
-			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		call: function(instanceId, messageType, functionName, params) {
+			// loop through params and find functions and convert them to callbacks
+			var callbacks = [];
+			jQuery.each(params, function(i, e) {
+				if (typeof e === &#x27;function&#x27;) {
+					var cid = _registerCallback(e);
+					params[i] = cid;
+					callbacks.push(cid);
+				}
+			});
+			// check valid messageType
+			_apps[instanceId].socket.postMessage(
+				messageType + F2.stringify({
+					functionName:functionName,
+					params:params,
+					callbacks:callbacks
+				})
+			);
 		},
+
 		/**
-		 * Adds a listener that will execute n times for the event before being 
-		 * removed. The listener is invoked only the first time the event is 
-		 * fired, after which it is removed.
-		 * @method many
-		 * @param {string} event The event name
-		 * @param {int} timesToListen The number of times to execute the event
-		 * before being removed
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
+		 * Init function which tells F2.Rpc whether it is running at the container-
+		 * level or the app-level. This method is generally called by
+		 * F2.{{#crossLink &quot;F2/init&quot;}}{{/crossLink}}
+		 * @method init
+		 * @param {string} [secureAppPagePath] The
+		 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}}.secureAppPagePath
+		 * property
 		 */
-		many: function(event, timesToListen, listener) {
-			return _events.many(event, timesToListen, listener);
+		init: function(secureAppPagePath) {
+			_secureAppPagePath = secureAppPagePath;
+			if (!_secureAppPagePath) {
+				_createAppToContainerSocket();
+			}
 		},
+
 		/**
-		 * Remove a listener for the specified event.
-		 * @method off
-		 * @param {string} event The event name
-		 * @param {function} listener The function that will be removed
+		 * Determines whether the Instance ID is considered to be &#x27;remote&#x27;. This is
+		 * determined by checking if 1) the app has an open socket and 2) whether
+		 * F2.Rpc is running inside of an iframe
+		 * @method isRemote
+		 * @param {string} instanceId The Instance ID
+		 * @return {bool} True if there is an open socket
 		 */
-		off: function(event, listener) {
-			return _events.off(event, listener);
+		isRemote: function(instanceId) {
+			return (
+				// we have an app
+				_apps[instanceId] !== undefined &amp;&amp;
+				// the app is secure
+				_apps[instanceId].config.isSecure &amp;&amp;
+				// we can&#x27;t access the iframe
+				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length === 0
+			);
 		},
+
 		/**
-		 * Adds a listener for the specified event
-		 * @method on
-		 * @param {string} event The event name
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
+		 * Creates a container-to-app or app-to-container socket for communication
+		 * @method register
+		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
+		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
 		 */
-		on: function(event, listener){
-			return _events.on(event, listener);
-		},
-		/**
-		 * Adds a one time listener for the event. The listener is invoked only
-		 * the first time the event is fired, after which it is removed.
-		 * @method once
-		 * @param {string} event The event name
-		 * @param {function} listener The function to be fired when the event is
-		 * emitted
-		 */
-		once: function(event, listener) {
-			return _events.once(event, listener);
+		register: function(appConfig, appManifest) {
+			if (!!appConfig &amp;&amp; !!appManifest) {
+				_apps[appConfig.instanceId] = {
+					config:appConfig,
+					socket:_createContainerToAppSocket(appConfig, appManifest)
+				};
+			} else {
+				F2.log(&#x27;Unable to register socket connection. Please check container configuration.&#x27;);
+			}
 		}
 	};
 })());

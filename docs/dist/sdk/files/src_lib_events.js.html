@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>sdk/src/constants.js - Open Financial Framework</title>
+<title>src/lib/events.js - Open Financial Framework</title>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
@@ -82,12 +82,12 @@
               <li><a href="../../extending-f2.html">Extend F2</a></li>
               <li class="active"><a href="../">F2.js API Reference</a></li>
               <li class="divider"></li>
-              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+sdk/src/constants.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+src/lib/events.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
             </ul>
           </li>
-          <li class="active">sdk/src/constants.js</li>
+          <li class="active">src/lib/events.js</li>
         </ol>
       </div>
     </div>
@@ -182,302 +182,93 @@
         </label>
     </div>
 </form>
-	                <h1 class="page-header">sdk/src/constants.js <small>File</small></h1>
+	                <h1 class="page-header">src/lib/events.js <small>File</small></h1>
 
 <div class="file">
     <pre class="prettyprint linenums"><code>
 /**
- * Constants used throughout the Open Financial Framework
- * @class F2.Constants
- * @static
+ * Handles [Context](../../app-development.html#context) passing from
+ * containers to apps and apps to apps.
+ * @class F2.Events
  */
-F2.extend(&#x27;Constants&#x27;, {
-	/**
-	 * CSS class constants
-	 * @class F2.Constants.Css
-	 */
-	Css: (function() {
+F2.extend(&#x27;Events&#x27;, (function() {
+	// init EventEmitter
+	var _events = new EventEmitter2({
+		wildcard:true
+	});
 
-		/** @private */
-		var _PREFIX = &#x27;f2-&#x27;;
+	// unlimited listeners, set to &gt; 0 for debugging
+	_events.setMaxListeners(0);
 
-		return {
-			/**
-			 * The APP class should be applied to the DOM Element that surrounds the
-			 * entire app, including any extra html that surrounds the APP\_CONTAINER
-			 * that is inserted by the container. See the 
-			 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}} object.
-			 * @property APP
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP: _PREFIX + &#x27;app&#x27;,
-			/**
-			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
-			 * of the app.
-			 * @property APP_CONTAINER
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_CONTAINER: _PREFIX + &#x27;app-container&#x27;,
-			/**
-			 * The APP\_TITLE class should be applied to the DOM Element that contains
-			 * the title for an app.  If this class is not present, then
-			 * F2.UI.{{#crossLink &quot;F2.UI/setTitle&quot;}}{{/crossLink}} will not function.
-			 * @property APP_TITLE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_TITLE: _PREFIX + &#x27;app-title&#x27;,
-			/**
-			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an app. The DOM Element should also have a
-			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}}.DATA_ATTRIBUTE
-			 * attribute that specifies which
-			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}} it is. 
-			 * @property APP_VIEW
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_VIEW: _PREFIX + &#x27;app-view&#x27;,
-			/**
-			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
-			 * trigger an
-			 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{/crossLink}}.APP\_VIEW\_CHANGE
-			 * event. The DOM Element should also have a
-			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}}.DATA_ATTRIBUTE
-			 * attribute that specifies which
-			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}} it will trigger.
-			 * @property APP_VIEW_TRIGGER
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_VIEW_TRIGGER: _PREFIX + &#x27;app-view-trigger&#x27;,
-			/**
-			 * The MASK class is applied to the overlay element that is created
-			 * when the F2.UI.{{#crossLink &quot;F2.UI/showMask&quot;}}{{/crossLink}} method is
-			 * fired.
-			 * @property MASK
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			MASK: _PREFIX + &#x27;mask&#x27;,
-			/**
-			 * The MASK_CONTAINER class is applied to the Element that is passed into
-			 * the F2.UI.{{#crossLink &quot;F2.UI/showMask&quot;}}{{/crossLink}} method.
-			 * @property MASK_CONTAINER
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			MASK_CONTAINER: _PREFIX + &#x27;mask-container&#x27;
-		};
-	})(),
-	
-	/**
-	 * Events constants
-	 * @class F2.Constants.Events
-	 */
-	Events: (function() {
-		/** @private */
-		var _APP_EVENT_PREFIX = &#x27;App.&#x27;;
-		/** @private */
-		var _CONTAINER_EVENT_PREFIX = &#x27;Container.&#x27;;
-
-		return {
-			/**
-			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
-			 * app. It is up to the app developer to fire this event.
-			 * Returns an object with the symbol and company name:
-			 *
-			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
-			 *
-			 * @property APP_SYMBOL_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_SYMBOL_CHANGE: _APP_EVENT_PREFIX + &#x27;symbolChange&#x27;,
-			/**
-			 * The APP\_WIDTH\_CHANGE event will be fired by the container when the
-			 * width of an app is changed. The app&#x27;s instanceId should be concatenated
-			 * to this constant.
-			 * Returns an object with the gridSize and width in pixels:
-			 *
-			 *     { gridSize:8, width:620 }
-			 *
-			 * @property APP_WIDTH_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_WIDTH_CHANGE: _APP_EVENT_PREFIX + &#x27;widthChange.&#x27;,
-			/**
-			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
-			 * at the container level. This event should only be fired by the
-			 * container or container provider.
-			 * Returns an object with the symbol and company name:
-			 *
-			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
-			 *
-			 * @property CONTAINER_SYMBOL_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			CONTAINER_SYMBOL_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;symbolChange&#x27;,
-			/**
-			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the container when
-			 * the width of the container has changed.
-			 * @property CONTAINER_WIDTH_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;widthChange&#x27;,
-			/**
-			 * The CONTAINER\_LOCALE\_CHANGE event will be fired by the container when
-			 * the locale of the container has changed. This event should only be fired by the
-			 * container or container provider.
-			 * Returns an object with the updated locale (IETF-defined standard language tag):
-			 *
-			 *     { locale: &#x27;en-us&#x27; }
-			 *
-			 * @property CONTAINER_LOCALE_CHANGE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			CONTAINER_LOCALE_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;localeChange&#x27;
-		};
-	})(),
-
-	JSONP_CALLBACK: &#x27;F2_jsonpCallback_&#x27;,
-
-	/**
-	 * Constants for use with cross-domain sockets
-	 * @class F2.Constants.Sockets
-	 * @protected
-	 */
-	Sockets: {
+	return {
 		/**
-		 * The EVENT message is sent whenever
-		 * F2.Events.{{#crossLink &quot;F2.Events/emit&quot;}}{{/crossLink}} is fired
-		 * @property EVENT
-		 * @type string
-		 * @static
-		 * @final
+		 * Same as F2.Events.emit except that it will not send the event
+		 * to all sockets.
+		 * @method _socketEmit
+		 * @private
+		 * @param {string} event The event name
+		 * @param {object} [arg]* The arguments to be passed
 		 */
-		EVENT: &#x27;__event__&#x27;,
+		_socketEmit: function() {
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		},
 		/**
-		 * The LOAD message is sent when an iframe socket initially loads.
-		 * Returns a JSON string that represents:
-		 *
-		 *     [ App, AppManifest]
-		 * 
-		 * @property LOAD
-		 * @type string
-		 * @static
-		 * @final
+		 * Execute each of the listeners that may be listening for the specified
+		 * event name in order with the list of arguments.
+		 * @method emit
+		 * @param {string} event The event name
+		 * @param {object} [arg]* The arguments to be passed
 		 */
-		LOAD: &#x27;__socketLoad__&#x27;,
+		emit: function() {
+			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
+			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		},
 		/**
-		 * The RPC message is sent when a method is passed up from within a secure
-		 * app page.
-		 * @property RPC
-		 * @type string
-		 * @static
-		 * @final
+		 * Adds a listener that will execute n times for the event before being 
+		 * removed. The listener is invoked only the first time the event is 
+		 * fired, after which it is removed.
+		 * @method many
+		 * @param {string} event The event name
+		 * @param {int} timesToListen The number of times to execute the event
+		 * before being removed
+		 * @param {function} listener The function to be fired when the event is
+		 * emitted
 		 */
-		RPC: &#x27;__rpc__&#x27;,
+		many: function(event, timesToListen, listener) {
+			return _events.many(event, timesToListen, listener);
+		},
 		/**
-		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
-		 * fired.
-		 * @property RPC_CALLBACK
-		 * @type string
-		 * @static
-		 * @final
+		 * Remove a listener for the specified event.
+		 * @method off
+		 * @param {string} event The event name
+		 * @param {function} listener The function that will be removed
 		 */
-		RPC_CALLBACK: &#x27;__rpcCallback__&#x27;,
+		off: function(event, listener) {
+			return _events.off(event, listener);
+		},
 		/**
-		 * The UI\_RPC message is sent when a UI method called.
-		 * @property UI_RPC
-		 * @type string
-		 * @static
-		 * @final
+		 * Adds a listener for the specified event
+		 * @method on
+		 * @param {string} event The event name
+		 * @param {function} listener The function to be fired when the event is
+		 * emitted
 		 */
-		UI_RPC: &#x27;__uiRpc__&#x27;
-	},
-
-	/**
-	 * The available view types to apps. The view should be specified by applying
-	 * the {{#crossLink &quot;F2.Constants.Css&quot;}}{{/crossLink}}.APP\_VIEW class to the
-	 * containing DOM Element. A DATA\_ATTRIBUTE attribute should be added to the
-	 * Element as well which defines what view type is represented.
-	 * The &#x60;hide&#x60; class can be applied to views that should be hidden by default.
-	 * @class F2.Constants.Views
-	 */
-	Views: {
+		on: function(event, listener){
+			return _events.on(event, listener);
+		},
 		/**
-		 * The DATA_ATTRIBUTE should be placed on the DOM Element that contains the
-		 * view.
-		 * @property DATA_ATTRIBUTE
-		 * @type string
-		 * @static
-		 * @final
+		 * Adds a one time listener for the event. The listener is invoked only
+		 * the first time the event is fired, after which it is removed.
+		 * @method once
+		 * @param {string} event The event name
+		 * @param {function} listener The function to be fired when the event is
+		 * emitted
 		 */
-		DATA_ATTRIBUTE: &#x27;data-f2-view&#x27;,
-		/**
-		 * The ABOUT view gives details about the app.
-		 * @property ABOUT
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		ABOUT: &#x27;about&#x27;,
-		/**
-		 * The HELP view provides users with help information for using an app.
-		 * @property HELP
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		HELP: &#x27;help&#x27;,
-		/**
-		 * The HOME view is the main view for an app. This view should always
-		 * be provided by an app.
-		 * @property HOME
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		HOME: &#x27;home&#x27;,
-		/**
-		 * The REMOVE view is a special view that handles the removal of an app
-		 * from the container.
-		 * @property REMOVE
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		REMOVE: &#x27;remove&#x27;,
-		/**
-		 * The SETTINGS view provides users the ability to modify advanced settings
-		 * for an app.
-		 * @property SETTINGS
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		SETTINGS: &#x27;settings&#x27;
-	}
-});
+		once: function(event, listener) {
+			return _events.once(event, listener);
+		}
+	};
+})());
     </code></pre>
 </div>
 

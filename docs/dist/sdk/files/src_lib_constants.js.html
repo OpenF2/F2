@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>sdk/src/rpc.js - Open Financial Framework</title>
+<title>src/lib/constants.js - Open Financial Framework</title>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
@@ -82,12 +82,12 @@
               <li><a href="../../extending-f2.html">Extend F2</a></li>
               <li class="active"><a href="../">F2.js API Reference</a></li>
               <li class="divider"></li>
-              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+sdk/src/rpc.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+src/lib/constants.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
             </ul>
           </li>
-          <li class="active">sdk/src/rpc.js</li>
+          <li class="active">src/lib/constants.js</li>
         </ol>
       </div>
     </div>
@@ -182,335 +182,302 @@
         </label>
     </div>
 </form>
-	                <h1 class="page-header">sdk/src/rpc.js <small>File</small></h1>
+	                <h1 class="page-header">src/lib/constants.js <small>File</small></h1>
 
 <div class="file">
     <pre class="prettyprint linenums"><code>
 /**
- * Handles socket communication between the container and secure apps
- * @class F2.Rpc
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants
+ * @static
  */
-F2.extend(&#x27;Rpc&#x27;, (function(){
-	var _callbacks = {};
-	var _secureAppPagePath = &#x27;&#x27;;
-	var _apps = {};
-	var _rEvents = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.EVENT);
-	var _rRpc = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC);
-	var _rRpcCallback = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC_CALLBACK);
-	var _rSocketLoad = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.LOAD);
-	var _rUiCall = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.UI_RPC);
-
+F2.extend(&#x27;Constants&#x27;, {
 	/**
-	 * Creates a socket connection from the app to the container using 
-	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
-	 * @method _createAppToContainerSocket
-	 * @private
+	 * CSS class constants
+	 * @class F2.Constants.Css
 	 */
-	var _createAppToContainerSocket = function() {
+	Css: (function() {
 
-		var appConfig; // socket closure
-		var isLoaded = false;
-		// its possible for messages to be received before the socket load event has
-		// happened.  We&#x27;ll save off these messages and replay them once the socket
-		// is ready
-		var messagePlayback = [];
+		/** @private */
+		var _PREFIX = &#x27;f2-&#x27;;
 
-		var socket = new easyXDM.Socket({
-			onMessage: function(message, origin){
-
-				// handle Socket Load
-				if (!isLoaded &amp;&amp; _rSocketLoad.test(message)) {
-					message = message.replace(_rSocketLoad, &#x27;&#x27;);
-					var appParts = F2.parse(message);
-
-					// make sure we have the AppConfig and AppManifest
-					if (appParts.length == 2) {
-						appConfig = appParts[0];
-
-						// save socket
-						_apps[appConfig.instanceId] = {
-							config:appConfig,
-							socket:socket
-						};	
-
-						// register app
-						F2.registerApps([appConfig], [appParts[1]]);
-
-						// socket message playback
-						jQuery.each(messagePlayback, function(i, e) {
-							_onMessage(appConfig, message, origin);
-						});
-						
-						isLoaded = true;
-					}
-				} else if (isLoaded) {
-					// pass everyting else to _onMessage
-					_onMessage(appConfig, message, origin);
-				} else {
-					//F2.log(&#x27;socket not ready, queuing message&#x27;, message);
-					messagePlayback.push(message);
-				}
-			}
-		});
-	};
-
-	/**
-	 * Creates a socket connection from the container to the app using 
-	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
-	 * @method _createContainerToAppSocket
-	 * @private
-	 * @param {appConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The F2.AppManifest object
-	 */
-	var _createContainerToAppSocket = function(appConfig, appManifest) {
-
-		var container = jQuery(appConfig.root);
-
-		if (!container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)) {
-			container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
-		}
-
-		if (!container.length) {
-			F2.log(&#x27;Unable to locate app in order to establish secure connection.&#x27;);
-			return;
-		}
-
-		var iframeProps = {
-			scrolling:&#x27;no&#x27;,
-			style:{
-				width:&#x27;100%&#x27;
-			}
+		return {
+			/**
+			 * The APP class should be applied to the DOM Element that surrounds the
+			 * entire app, including any extra html that surrounds the APP\_CONTAINER
+			 * that is inserted by the container. See the 
+			 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}} object.
+			 * @property APP
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP: _PREFIX + &#x27;app&#x27;,
+			/**
+			 * The APP\_CONTAINER class should be applied to the outermost DOM Element
+			 * of the app.
+			 * @property APP_CONTAINER
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_CONTAINER: _PREFIX + &#x27;app-container&#x27;,
+			/**
+			 * The APP\_TITLE class should be applied to the DOM Element that contains
+			 * the title for an app.  If this class is not present, then
+			 * F2.UI.{{#crossLink &quot;F2.UI/setTitle&quot;}}{{/crossLink}} will not function.
+			 * @property APP_TITLE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_TITLE: _PREFIX + &#x27;app-title&#x27;,
+			/**
+			 * The APP\_VIEW class should be applied to the DOM Element that contains
+			 * a view for an app. The DOM Element should also have a
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}} it is. 
+			 * @property APP_VIEW
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_VIEW: _PREFIX + &#x27;app-view&#x27;,
+			/**
+			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
+			 * trigger an
+			 * {{#crossLink &quot;F2.Constants.Events&quot;}}{{/crossLink}}.APP\_VIEW\_CHANGE
+			 * event. The DOM Element should also have a
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}}.DATA_ATTRIBUTE
+			 * attribute that specifies which
+			 * {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}} it will trigger.
+			 * @property APP_VIEW_TRIGGER
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_VIEW_TRIGGER: _PREFIX + &#x27;app-view-trigger&#x27;,
+			/**
+			 * The MASK class is applied to the overlay element that is created
+			 * when the F2.UI.{{#crossLink &quot;F2.UI/showMask&quot;}}{{/crossLink}} method is
+			 * fired.
+			 * @property MASK
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			MASK: _PREFIX + &#x27;mask&#x27;,
+			/**
+			 * The MASK_CONTAINER class is applied to the Element that is passed into
+			 * the F2.UI.{{#crossLink &quot;F2.UI/showMask&quot;}}{{/crossLink}} method.
+			 * @property MASK_CONTAINER
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			MASK_CONTAINER: _PREFIX + &#x27;mask-container&#x27;
 		};
-
-		if (appConfig.height) {
-			iframeProps.style.height = appConfig.height + &#x27;px&#x27;;
-		}
-
-		var socket = new easyXDM.Socket({
-			remote: _secureAppPagePath,
-			container: container.get(0),
-			props:iframeProps,
-			onMessage: function(message, origin) {
-				// pass everything to _onMessage
-				_onMessage(appConfig, message, origin);
-			},
-			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
-			}
-		});
-
-		return socket;
-	};
-
+	})(),
+	
 	/**
-	 * @method _createRpcCallback
-	 * @private
-	 * @param {string} instanceId The app&#x27;s Instance ID
-	 * @param {function} callbackId The callback ID
-	 * @return {function} A function to make the RPC call
+	 * Events constants
+	 * @class F2.Constants.Events
 	 */
-	var _createRpcCallback = function(instanceId, callbackId) {
-		return function() {
-			F2.Rpc.call(
-				instanceId,
-				F2.Constants.Sockets.RPC_CALLBACK,
-				callbackId,
-				[].slice.call(arguments).slice(2)
-			);
+	Events: (function() {
+		/** @private */
+		var _APP_EVENT_PREFIX = &#x27;App.&#x27;;
+		/** @private */
+		var _CONTAINER_EVENT_PREFIX = &#x27;Container.&#x27;;
+
+		return {
+			/**
+			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
+			 * app. It is up to the app developer to fire this event.
+			 * Returns an object with the symbol and company name:
+			 *
+			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
+			 *
+			 * @property APP_SYMBOL_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_SYMBOL_CHANGE: _APP_EVENT_PREFIX + &#x27;symbolChange&#x27;,
+			/**
+			 * The APP\_WIDTH\_CHANGE event will be fired by the container when the
+			 * width of an app is changed. The app&#x27;s instanceId should be concatenated
+			 * to this constant.
+			 * Returns an object with the gridSize and width in pixels:
+			 *
+			 *     { gridSize:8, width:620 }
+			 *
+			 * @property APP_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_WIDTH_CHANGE: _APP_EVENT_PREFIX + &#x27;widthChange.&#x27;,
+			/**
+			 * The CONTAINER\_SYMBOL\_CHANGE event is fired when the symbol is changed
+			 * at the container level. This event should only be fired by the
+			 * container or container provider.
+			 * Returns an object with the symbol and company name:
+			 *
+			 *     { symbol: &#x27;MSFT&#x27;, name: &#x27;Microsoft Corp (NASDAQ)&#x27; }
+			 *
+			 * @property CONTAINER_SYMBOL_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_SYMBOL_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;symbolChange&#x27;,
+			/**
+			 * The CONTAINER\_WIDTH\_CHANGE event will be fired by the container when
+			 * the width of the container has changed.
+			 * @property CONTAINER_WIDTH_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;widthChange&#x27;,
+			/**
+			 * The CONTAINER\_LOCALE\_CHANGE event will be fired by the container when
+			 * the locale of the container has changed. This event should only be fired by the
+			 * container or container provider.
+			 * Returns an object with the updated locale (IETF-defined standard language tag):
+			 *
+			 *     { locale: &#x27;en-us&#x27; }
+			 *
+			 * @property CONTAINER_LOCALE_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_LOCALE_CHANGE: _CONTAINER_EVENT_PREFIX + &#x27;localeChange&#x27;
 		};
-	};
+	})(),
+
+	JSONP_CALLBACK: &#x27;F2_jsonpCallback_&#x27;,
 
 	/**
-	 * Handles messages that come across the sockets
-	 * @method _onMessage
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {string} message The socket message
-	 * @param {string} origin The originator
+	 * Constants for use with cross-domain sockets
+	 * @class F2.Constants.Sockets
+	 * @protected
 	 */
-	var _onMessage = function(appConfig, message, origin) {
-
-		var obj, func;
-
-		function parseFunction(parent, functionName) {
-			var path = String(functionName).split(&#x27;.&#x27;);
-			for (var i = 0; i &lt; path.length; i++) {
-				if (parent[path[i]] === undefined) {
-					parent = undefined;
-					break;
-				}
-				parent = parent[path[i]];
-			}
-			return parent;
-		}
-
-		function parseMessage(regEx, message, instanceId) {
-			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
-
-			// if obj.callbacks
-			//   for each callback
-			//     for each params
-			//       if callback matches param
-			//        replace param with _createRpcCallback(app.instanceId, callback)
-			if (o.params &amp;&amp; o.params.length &amp;&amp; o.callbacks &amp;&amp; o.callbacks.length) {
-				jQuery.each(o.callbacks, function(i, c) {
-					jQuery.each(o.params, function(i, p) {
-						if (c == p) {
-							o.params[i] = _createRpcCallback(instanceId, c);
-						}
-					});
-				});
-			}
-
-			return o;
-		}
-
-		// handle UI Call
-		if (_rUiCall.test(message)) {
-			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			func = parseFunction(appConfig.ui, obj.functionName);
-			// if we found the function, call it
-			if (func !== undefined) {
-				func.apply(appConfig.ui, obj.params);
-			} else {
-				F2.log(&#x27;Unable to locate UI RPC function: &#x27; + obj.functionName);
-			}
-
-		// handle RPC
-		} else if (_rRpc.test(message)) {
-			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			func = parseFunction(window, obj.functionName);
-			if (func !== undefined) {
-				func.apply(func, obj.params);
-			} else {
-				F2.log(&#x27;Unable to locate RPC function: &#x27; + obj.functionName);
-			}
-
-		// handle RPC Callback
-		} else if (_rRpcCallback.test(message)) {
-			obj = parseMessage(_rRpcCallback, message, appConfig.instanceId);
-			if (_callbacks[obj.functionName] !== undefined) {
-				_callbacks[obj.functionName].apply(_callbacks[obj.functionName], obj.params);
-				delete _callbacks[obj.functionName];
-			}
-
-		// handle Events
-		} else if (_rEvents.test(message)) {
-			obj = parseMessage(_rEvents, message, appConfig.instanceId);
-			F2.Events._socketEmit.apply(F2.Events, obj);
-		}
-	};
+	Sockets: {
+		/**
+		 * The EVENT message is sent whenever
+		 * F2.Events.{{#crossLink &quot;F2.Events/emit&quot;}}{{/crossLink}} is fired
+		 * @property EVENT
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		EVENT: &#x27;__event__&#x27;,
+		/**
+		 * The LOAD message is sent when an iframe socket initially loads.
+		 * Returns a JSON string that represents:
+		 *
+		 *     [ App, AppManifest]
+		 * 
+		 * @property LOAD
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		LOAD: &#x27;__socketLoad__&#x27;,
+		/**
+		 * The RPC message is sent when a method is passed up from within a secure
+		 * app page.
+		 * @property RPC
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		RPC: &#x27;__rpc__&#x27;,
+		/**
+		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
+		 * fired.
+		 * @property RPC_CALLBACK
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		RPC_CALLBACK: &#x27;__rpcCallback__&#x27;,
+		/**
+		 * The UI\_RPC message is sent when a UI method called.
+		 * @property UI_RPC
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		UI_RPC: &#x27;__uiRpc__&#x27;
+	},
 
 	/**
-	 * Registers a callback function
-	 * @method _registerCallback
-	 * @private
-	 * @param {function} callback The callback function
-	 * @return {string} The callback ID
+	 * The available view types to apps. The view should be specified by applying
+	 * the {{#crossLink &quot;F2.Constants.Css&quot;}}{{/crossLink}}.APP\_VIEW class to the
+	 * containing DOM Element. A DATA\_ATTRIBUTE attribute should be added to the
+	 * Element as well which defines what view type is represented.
+	 * The &#x60;hide&#x60; class can be applied to views that should be hidden by default.
+	 * @class F2.Constants.Views
 	 */
-	var _registerCallback = function(callback) {
-		var callbackId = F2.guid();
-		_callbacks[callbackId] = callback;
-		return callbackId;
-	};
-
-	return {
+	Views: {
 		/**
-		 * Broadcast an RPC function to all sockets
-		 * @method broadcast
-		 * @param {string} messageType The message type
-		 * @param {Array} params The parameters to broadcast
+		 * The DATA_ATTRIBUTE should be placed on the DOM Element that contains the
+		 * view.
+		 * @property DATA_ATTRIBUTE
+		 * @type string
+		 * @static
+		 * @final
 		 */
-		broadcast: function(messageType, params) {
-			// check valid messageType
-			var message = messageType + F2.stringify(params);
-			jQuery.each(_apps, function(i, a) {
-				a.socket.postMessage(message);
-			});
-		},
+		DATA_ATTRIBUTE: &#x27;data-f2-view&#x27;,
 		/**
-		 * Calls a remote function
-		 * @method call
-		 * @param {string} instanceId The app&#x27;s Instance ID
-		 * @param {string} messageType The message type
-		 * @param {string} functionName The name of the remote function
-		 * @param {Array} params An array of parameters to pass to the remote
-		 * function. Any functions found within the params will be treated as a
-		 * callback function.
+		 * The ABOUT view gives details about the app.
+		 * @property ABOUT
+		 * @type string
+		 * @static
+		 * @final
 		 */
-		call: function(instanceId, messageType, functionName, params) {
-			// loop through params and find functions and convert them to callbacks
-			var callbacks = [];
-			jQuery.each(params, function(i, e) {
-				if (typeof e === &#x27;function&#x27;) {
-					var cid = _registerCallback(e);
-					params[i] = cid;
-					callbacks.push(cid);
-				}
-			});
-			// check valid messageType
-			_apps[instanceId].socket.postMessage(
-				messageType + F2.stringify({
-					functionName:functionName,
-					params:params,
-					callbacks:callbacks
-				})
-			);
-		},
-
+		ABOUT: &#x27;about&#x27;,
 		/**
-		 * Init function which tells F2.Rpc whether it is running at the container-
-		 * level or the app-level. This method is generally called by
-		 * F2.{{#crossLink &quot;F2/init&quot;}}{{/crossLink}}
-		 * @method init
-		 * @param {string} [secureAppPagePath] The
-		 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}}.secureAppPagePath
-		 * property
+		 * The HELP view provides users with help information for using an app.
+		 * @property HELP
+		 * @type string
+		 * @static
+		 * @final
 		 */
-		init: function(secureAppPagePath) {
-			_secureAppPagePath = secureAppPagePath;
-			if (!_secureAppPagePath) {
-				_createAppToContainerSocket();
-			}
-		},
-
+		HELP: &#x27;help&#x27;,
 		/**
-		 * Determines whether the Instance ID is considered to be &#x27;remote&#x27;. This is
-		 * determined by checking if 1) the app has an open socket and 2) whether
-		 * F2.Rpc is running inside of an iframe
-		 * @method isRemote
-		 * @param {string} instanceId The Instance ID
-		 * @return {bool} True if there is an open socket
+		 * The HOME view is the main view for an app. This view should always
+		 * be provided by an app.
+		 * @property HOME
+		 * @type string
+		 * @static
+		 * @final
 		 */
-		isRemote: function(instanceId) {
-			return (
-				// we have an app
-				_apps[instanceId] !== undefined &amp;&amp;
-				// the app is secure
-				_apps[instanceId].config.isSecure &amp;&amp;
-				// we can&#x27;t access the iframe
-				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length === 0
-			);
-		},
-
+		HOME: &#x27;home&#x27;,
 		/**
-		 * Creates a container-to-app or app-to-container socket for communication
-		 * @method register
-		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
-		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
+		 * The REMOVE view is a special view that handles the removal of an app
+		 * from the container.
+		 * @property REMOVE
+		 * @type string
+		 * @static
+		 * @final
 		 */
-		register: function(appConfig, appManifest) {
-			if (!!appConfig &amp;&amp; !!appManifest) {
-				_apps[appConfig.instanceId] = {
-					config:appConfig,
-					socket:_createContainerToAppSocket(appConfig, appManifest)
-				};
-			} else {
-				F2.log(&#x27;Unable to register socket connection. Please check container configuration.&#x27;);
-			}
-		}
-	};
-})());
+		REMOVE: &#x27;remove&#x27;,
+		/**
+		 * The SETTINGS view provides users the ability to modify advanced settings
+		 * for an app.
+		 * @property SETTINGS
+		 * @type string
+		 * @static
+		 * @final
+		 */
+		SETTINGS: &#x27;settings&#x27;
+	}
+});
     </code></pre>
 </div>
 
