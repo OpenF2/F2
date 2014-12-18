@@ -1159,15 +1159,16 @@ describe('F2.registerApps - rendering', function() {
 describe('F2.loadPlaceholders - auto', function() {
 
 	describe('single app by id', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append(
 				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
 			);
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically auto-init F2 when f2-autoload id is on the page', function() {
 			// need to wait for dom ready before F2.init() will be called
@@ -1203,10 +1204,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('single app by id, with children', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append(
 				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '">',
@@ -1214,6 +1212,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>'
 			);
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register apps', function() {
 
@@ -1256,15 +1258,16 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('single app by attribute', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append(
 				'<div data-f2-autoload data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
 			);
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically auto-init F2 when data-f2-autoload attribute is on the page', function() {
 			// need to wait for dom ready before F2.init() will be called
@@ -1300,15 +1303,16 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('single app by class', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append(
 				'<div class="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
 			);
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically auto-init F2 when f2-autoload class is on the page', function() {
 			// need to wait for dom ready before F2.init() will be called
@@ -1344,10 +1348,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('single app by id, nested', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div id="f2-autoload">',
@@ -1355,6 +1356,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>'
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register apps', function() {
 
@@ -1376,10 +1381,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('single app by attribute, nested', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div id="f2-autoload-single" data-f2-autoload>',
@@ -1387,6 +1389,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>'
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register apps', function() {
 
@@ -1408,10 +1414,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('single app by class, nested', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div id="f2-autoload-single" class="f2-autoload">',
@@ -1419,6 +1422,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>'
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register apps', function() {
 
@@ -1440,10 +1447,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('many apps by id', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div id="f2-autoload">',
@@ -1452,6 +1456,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>'
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register multiple apps', function() {
 
@@ -1473,10 +1481,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('many apps by attribute', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div id="f2-autoload-many" data-f2-autoload>',
@@ -1485,6 +1490,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>'
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register multiple apps', function() {
 
@@ -1506,10 +1515,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('many apps by class', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div id="f2-autoload-many" class="f2-autoload">',
@@ -1518,6 +1524,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>'
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register multiple apps', function() {
 
@@ -1539,10 +1549,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('many placeholders by attribute', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div data-f2-autoload>',
@@ -1553,6 +1560,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>',
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register apps within multiple placeholders', function() {
 
@@ -1574,10 +1585,7 @@ describe('F2.loadPlaceholders - auto', function() {
 	});
 
 	describe('many placeholders by class', function() {
-		// force F2 to be reloaded
-		var async = new AsyncSpec(this);
-		async.beforeEachReloadF2();
-
+		// append test to DOM before reloading F2
 		beforeEach(function() {
 			$('#test-fixture').append([
 				'<div class="f2-autoload">',
@@ -1588,6 +1596,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				'</div>',
 			].join(''));
 		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
 
 		it('should automatically find and register apps within multiple placeholders', function() {
 
@@ -1610,15 +1622,15 @@ describe('F2.loadPlaceholders - auto', function() {
 });
 
 describe('F2.loadPlaceholders - manual', function() {
-	// force F2 to be reloaded
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2();
-
 	// add the f2-autoload element to the test fixture for use in each
 	// test
 	beforeEach(function() {
 		$('#test-fixture').append('<div id="f2-autoload"></div>');
 	});
+
+	// force F2 to be reloaded
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
 
 	it('should require the presence of data-f2-manifesturl', function() {
 		// add the invalid placeholder
