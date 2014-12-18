@@ -29,19 +29,6 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
-			'f2ToRoot': {
-				files: [
-					{
-						expand: true,
-						cwd: 'src/',
-						src: 'f2.min.js',
-						dest: './',
-						rename: function(dest,src){
-							return './<%= pkg.name %>.latest.js';
-						}
-					}
-				]
-			},
 			'github-pages': {
 				files: [
 					{
@@ -52,9 +39,9 @@ module.exports = function(grunt) {
 					},
 					{
 						expand: true,
-						cwd: './',
+						cwd: 'dist/',
 						src: ['f2.latest.js'],
-						rename: function(dest,src){
+						rename: function(dest, src){
 							return '../gh-pages/js/f2.min.js';//See #35
 						}
 					}
@@ -86,14 +73,14 @@ module.exports = function(grunt) {
 					},
 					{
 						expand: true,
-						cwd: 'src/',
+						cwd: 'dist/',
 						src: ['f2.debug.js'],
-						dest: 'src/'
+						dest: 'dist/'
 					},
 					{
 						expand: true,
 						src: ['tests/require.min.js'],
-						dest: 'src/'
+						dest: 'dist/'
 					}
 				]
 			}
@@ -115,7 +102,7 @@ module.exports = function(grunt) {
 					'<%= jshint.files %>',
 					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'src/f2.debug.js'
+				dest: 'dist/f2.debug.js'
 			},
 			'no-third-party': {
 				src: [
@@ -123,7 +110,7 @@ module.exports = function(grunt) {
 					'<%= jshint.files %>',
 					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'src/f2.no-third-party.js'
+				dest: 'dist/f2.no-third-party.js'
 			},
 			'no-jquery-or-bootstrap': {
 				src: [
@@ -133,7 +120,7 @@ module.exports = function(grunt) {
 					'<%= jshint.files %>',
 					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'src/packages/f2.no-jquery-or-bootstrap.js'
+				dest: 'dist/packages/f2.no-jquery-or-bootstrap.js'
 			},
 			'no-bootstrap': {
 				src: [
@@ -145,7 +132,7 @@ module.exports = function(grunt) {
 					'<%= jshint.files %>',
 					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'src/packages/f2.no-bootstrap.js'
+				dest: 'dist/packages/f2.no-bootstrap.js'
 			},
 			'no-easyXDM': {
 				src: [
@@ -157,7 +144,7 @@ module.exports = function(grunt) {
 					'<%= jshint.files %>',
 					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'src/packages/f2.no-easyXDM.js'
+				dest: 'dist/packages/f2.no-easyXDM.js'
 			},
 			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
 				src: [
@@ -166,7 +153,7 @@ module.exports = function(grunt) {
 					'<%= jshint.files %>',
 					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'src/packages/f2.basic.js'
+				dest: 'dist/packages/f2.basic.js'
 			},
 		},
 		/**
@@ -218,7 +205,7 @@ module.exports = function(grunt) {
 				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("mm-dd-yyyy") %> - See below for copyright and license */\n'
 			},
 			dist: {
-				files: {'src/f2.min.js' : ['src/f2.debug.js']},
+				files: {'dist/f2.min.js': ['dist/f2.debug.js']},
 				options: {
 					report: 'gzip'
 				}
@@ -227,41 +214,40 @@ module.exports = function(grunt) {
 				files: '<%= uglify.dist.files %>',
 				options: {
 					sourceMap: function(fileName) {
-						return fileName.replace(/\.js$/, '.map');
+						return fileName.replace(/\.js$/, '.js.map');
 					},
 					sourceMapPrefix: 1,
 					sourceMappingURL: function(path) {
-						return path.replace(grunt.config('sourcemap.options.prefix'), '').replace(/\.js$/, '.map');
+						return path.replace(grunt.config('sourcemap.options.prefix'), '').replace(/\.js$/, '.js.map');
 					}
 				}
 			},
 			'package-no-jquery-or-bootstrap': {
-				files: { 'src/packages/f2.no-jquery-or-bootstrap.min.js' : ['src/packages/f2.no-jquery-or-bootstrap.js'] },
+				files: { 'dist/packages/f2.no-jquery-or-bootstrap.min.js' : ['dist/packages/f2.no-jquery-or-bootstrap.js'] },
 				options: { report: 'gzip' }
 			},
 			'package-no-bootstrap': {
-				files: { 'src/packages/f2.no-bootstrap.min.js' : ['src/packages/f2.no-bootstrap.js'] },
+				files: { 'dist/packages/f2.no-bootstrap.min.js' : ['dist/packages/f2.no-bootstrap.js'] },
 				options: { report: 'gzip' }
 			},
 			'package-no-easyXDM': {
-				files: { 'src/packages/f2.no-easyXDM.min.js' : ['src/packages/f2.no-easyXDM.js'] },
+				files: { 'dist/packages/f2.no-easyXDM.min.js' : ['dist/packages/f2.no-easyXDM.js'] },
 				options: { report: 'gzip' }
 			},
 			'package-basic': {
-				files: { 'src/packages/f2.basic.min.js' : ['src/packages/f2.basic.js'] },
+				files: { 'dist/packages/f2.basic.min.js' : ['dist/packages/f2.basic.js'] },
 				options: { report: 'gzip' }
 			}
 		},
 		sourcemap: {
 			options: {
-				src: 'src/f2.min.js',
-				prefix: 'src/'
+				src: 'dist/f2.min.js',
+				prefix: './dist/'
 			}
 		},
 		watch: {
 			docs: {
-				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
-				// tasks: ['generate-docs','yuidoc'],
+				files: ['docs/src/**/*.*', 'package.json', 'docs/bin/gen-docs.js'],
 				tasks: ['docs'],
 				options: {
 					spawn: false,
@@ -299,10 +285,10 @@ module.exports = function(grunt) {
 
 	// Register tasks
 	grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {
-		var uglifyOptions = grunt.config('uglify.sourcemap.options'),
-			options = grunt.config('sourcemap.options'),
-			dest = uglifyOptions.sourceMap(options.src),
-			rawMap = grunt.file.read(dest);
+		var uglifyOptions = grunt.config('uglify.sourcemap.options');
+		var options = grunt.config('sourcemap.options');
+		var dest = uglifyOptions.sourceMap(options.src);
+		var rawMap = grunt.file.read(dest);
 
 		rawMap = rawMap.replace(options.prefix, '');
 		grunt.file.write(dest, rawMap);
@@ -371,10 +357,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
 		var done = this.async(),
 			log = grunt.log.write('Creating NuSpec file...'),
-			nuspec = grunt.file.read('./src/f2.nuspec.tmpl');
+			nuspec = grunt.file.read('./dist/f2.nuspec.tmpl');
 
 		nuspec = grunt.template.process(nuspec, { data: pkg });
-		grunt.file.write('./src/f2.nuspec', nuspec);
+		grunt.file.write('./dist/f2.nuspec', nuspec);
 		log.ok();
 
 		log = grunt.log.write('Creating NuGet package...');
@@ -383,14 +369,14 @@ module.exports = function(grunt) {
 				cmd: 'nuget',
 				args: ['pack', 'f2.nuspec'],
 				opts: {
-					cwd: './src'
+					cwd: './dist'
 				}
 			},
 			function(error, result, code){
 				if (error){
 					grunt.fail.fatal(error);
 				} else {
-					grunt.file.delete('./src/f2.nuspec');
+					grunt.file.delete('./dist/f2.nuspec');
 					log.ok();
 					done();
 				}
@@ -436,7 +422,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['http','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
+	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',

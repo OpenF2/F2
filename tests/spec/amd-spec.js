@@ -4,7 +4,7 @@ describe('AMD', function() {
 
 		var isLoaded = false;
 
-		require(["../src/f2.min.js"], function (nonGlobalF2) {
+		require(["../dist/f2.min.js"], function (nonGlobalF2) {
 			isLoaded = typeof nonGlobalF2 !== "undefined";
 		});
 

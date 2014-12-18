@@ -1,4 +1,4 @@
-require(['../src/f2.min.js'], function () {				
+require(['../dist/f2.min.js'], function () {
 	F2.Apps[TEST_APP_ID] = (function() {
 
 		var App_Class = function (appConfig, appContent, root) {
