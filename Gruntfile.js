@@ -108,7 +108,6 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json2.js',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/jquery.noconflict.js',
 					'sdk/src/third-party/bootstrap-modal.js',
@@ -130,7 +129,6 @@ module.exports = function(grunt) {
 			'no-jquery-or-bootstrap': {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json2.js',
 					'sdk/src/third-party/eventemitter2.js',
 					'sdk/src/third-party/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
@@ -141,7 +139,6 @@ module.exports = function(grunt) {
 			'no-bootstrap': {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json2.js',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/jquery.noconflict.js',
 					'sdk/src/third-party/eventemitter2.js',
@@ -154,7 +151,6 @@ module.exports = function(grunt) {
 			'no-easyXDM': {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json2.js',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/bootstrap-modal.js',
 					'sdk/src/third-party/jquery.noconflict.js',
@@ -167,7 +163,6 @@ module.exports = function(grunt) {
 			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json2.js',
 					'sdk/src/third-party/eventemitter2.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
