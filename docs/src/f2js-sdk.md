@@ -76,7 +76,7 @@ For more information on SemVer, please visit [SemVer.org](http://semver.org/).
 
 ## Upgrading
 
-It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. The details from each release of F2, minor and major, are tracked in the [changelog](https://github.com/OpenF2/F2/wiki/Changelog). As of version 1.2, no breaking changes have been introduced and therefore upgrading should be as simple as [downloading the latest copy of F2.js](https://raw.github.com/OpenF2/F2/master/sdk/f2.min.js) and updating your website.
+It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. The details from each release of F2, minor and major, are tracked in the [changelog](https://github.com/OpenF2/F2/wiki/Changelog). As of version 1.2, no breaking changes have been introduced and therefore upgrading should be as simple as [downloading the latest copy of F2.js](https://raw.github.com/OpenF2/F2/master/src/f2.min.js) and updating your website.
 
 Developers can quick-link to the latest copy of F2.js:
 

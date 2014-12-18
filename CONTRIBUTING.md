@@ -43,7 +43,7 @@ Once you've forked the F2 repository:
 ### Committing Changes
 
 * You should only commit files you have changed. **Do not commit compiled or generated F2 files, except:**
-    * If you've modified any file in the `/sdk/src/` directory, you must commit `/sdk/f2.min.js` for the [Travis unit tests](https://travis-ci.org/OpenF2/F2).
+    * If you've modified any file in the `/src/lib/` directory, you must commit `/dist/f2.min.js` for the [Travis unit tests](https://travis-ci.org/OpenF2/F2).
 * Push committed changes to your branch.
 * [Submit a pull request](https://help.github.com/articles/using-pull-requests) for `F2\next.version-wip` **not `F2\master`**.
 * Add a message or additional detail for your changes in the pull request.

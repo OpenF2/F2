@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: 'sdk/',
+						cwd: 'src/',
 						src: 'f2.min.js',
 						dest: './',
 						rename: function(dest,src){
@@ -86,14 +86,14 @@ module.exports = function(grunt) {
 					},
 					{
 						expand: true,
-						cwd: 'sdk/',
+						cwd: 'src/',
 						src: ['f2.debug.js'],
-						dest: 'sdk/'
+						dest: 'src/'
 					},
 					{
 						expand: true,
 						src: ['tests/require.min.js'],
-						dest: 'sdk/'
+						dest: 'src/'
 					}
 				]
 			}
@@ -106,67 +106,67 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
-					'sdk/lib/template/header.js.tmpl',
-					'sdk/vendor/jquery.js',
-					'sdk/vendor/jquery.noconflict.js',
-					'sdk/vendor/bootstrap-modal.js',
-					'sdk/vendor/eventemitter2.js',
-					'sdk/vendor/easyXDM/easyXDM.js',
+					'src/lib/template/header.js.tmpl',
+					'src/vendor/jquery.js',
+					'src/vendor/jquery.noconflict.js',
+					'src/vendor/bootstrap-modal.js',
+					'src/vendor/eventemitter2.js',
+					'src/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
-					'sdk/lib/template/footer.js.tmpl'
+					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'sdk/f2.debug.js'
+				dest: 'src/f2.debug.js'
 			},
 			'no-third-party': {
 				src: [
-					'sdk/lib/template/header.js.tmpl',
+					'src/lib/template/header.js.tmpl',
 					'<%= jshint.files %>',
-					'sdk/lib/template/footer.js.tmpl'
+					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'sdk/f2.no-third-party.js'
+				dest: 'src/f2.no-third-party.js'
 			},
 			'no-jquery-or-bootstrap': {
 				src: [
-					'sdk/lib/template/header.js.tmpl',
-					'sdk/vendor/eventemitter2.js',
-					'sdk/vendor/easyXDM/easyXDM.js',
+					'src/lib/template/header.js.tmpl',
+					'src/vendor/eventemitter2.js',
+					'src/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
-					'sdk/lib/template/footer.js.tmpl'
+					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'sdk/packages/f2.no-jquery-or-bootstrap.js'
+				dest: 'src/packages/f2.no-jquery-or-bootstrap.js'
 			},
 			'no-bootstrap': {
 				src: [
-					'sdk/lib/template/header.js.tmpl',
-					'sdk/vendor/jquery.js',
-					'sdk/vendor/jquery.noconflict.js',
-					'sdk/vendor/eventemitter2.js',
-					'sdk/vendor/easyXDM/easyXDM.js',
+					'src/lib/template/header.js.tmpl',
+					'src/vendor/jquery.js',
+					'src/vendor/jquery.noconflict.js',
+					'src/vendor/eventemitter2.js',
+					'src/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
-					'sdk/lib/template/footer.js.tmpl'
+					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'sdk/packages/f2.no-bootstrap.js'
+				dest: 'src/packages/f2.no-bootstrap.js'
 			},
 			'no-easyXDM': {
 				src: [
-					'sdk/lib/template/header.js.tmpl',
-					'sdk/vendor/jquery.js',
-					'sdk/vendor/bootstrap-modal.js',
-					'sdk/vendor/jquery.noconflict.js',
-					'sdk/vendor/eventemitter2.js',
+					'src/lib/template/header.js.tmpl',
+					'src/vendor/jquery.js',
+					'src/vendor/bootstrap-modal.js',
+					'src/vendor/jquery.noconflict.js',
+					'src/vendor/eventemitter2.js',
 					'<%= jshint.files %>',
-					'sdk/lib/template/footer.js.tmpl'
+					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'sdk/packages/f2.no-easyXDM.js'
+				dest: 'src/packages/f2.no-easyXDM.js'
 			},
 			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
 				src: [
-					'sdk/lib/template/header.js.tmpl',
-					'sdk/vendor/eventemitter2.js',
+					'src/lib/template/header.js.tmpl',
+					'src/vendor/eventemitter2.js',
 					'<%= jshint.files %>',
-					'sdk/lib/template/footer.js.tmpl'
+					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'sdk/packages/f2.basic.js'
+				dest: 'src/packages/f2.basic.js'
 			},
 		},
 		/**
@@ -202,14 +202,14 @@ module.exports = function(grunt) {
 				jshintrc: '.jshintrc'
 			},
 			files: [
-				'sdk/lib/F2.js',
-				'sdk/lib/app_handlers.js',
-				'sdk/lib/classes.js',
-				'sdk/lib/constants.js',
-				'sdk/lib/events.js',
-				'sdk/lib/rpc.js',
-				'sdk/lib/ui.js',
-				'sdk/lib/container.js'
+				'src/lib/F2.js',
+				'src/lib/app_handlers.js',
+				'src/lib/classes.js',
+				'src/lib/constants.js',
+				'src/lib/events.js',
+				'src/lib/rpc.js',
+				'src/lib/ui.js',
+				'src/lib/container.js'
 			]
 		},
 		uglify: {
@@ -218,7 +218,7 @@ module.exports = function(grunt) {
 				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("mm-dd-yyyy") %> - See below for copyright and license */\n'
 			},
 			dist: {
-				files: {'sdk/f2.min.js' : ['sdk/f2.debug.js']},
+				files: {'src/f2.min.js' : ['src/f2.debug.js']},
 				options: {
 					report: 'gzip'
 				}
@@ -236,26 +236,26 @@ module.exports = function(grunt) {
 				}
 			},
 			'package-no-jquery-or-bootstrap': {
-				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
+				files: { 'src/packages/f2.no-jquery-or-bootstrap.min.js' : ['src/packages/f2.no-jquery-or-bootstrap.js'] },
 				options: { report: 'gzip' }
 			},
 			'package-no-bootstrap': {
-				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
+				files: { 'src/packages/f2.no-bootstrap.min.js' : ['src/packages/f2.no-bootstrap.js'] },
 				options: { report: 'gzip' }
 			},
 			'package-no-easyXDM': {
-				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] },
+				files: { 'src/packages/f2.no-easyXDM.min.js' : ['src/packages/f2.no-easyXDM.js'] },
 				options: { report: 'gzip' }
 			},
 			'package-basic': {
-				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] },
+				files: { 'src/packages/f2.basic.min.js' : ['src/packages/f2.basic.js'] },
 				options: { report: 'gzip' }
 			}
 		},
 		sourcemap: {
 			options: {
-				src: 'sdk/f2.min.js',
-				prefix: 'sdk/'
+				src: 'src/f2.min.js',
+				prefix: 'src/'
 			}
 		},
 		watch: {
@@ -268,7 +268,7 @@ module.exports = function(grunt) {
 				}
 			},
 			scripts: {
-				files: ['./sdk/lib/**/*.js'],
+				files: ['./src/lib/**/*.js'],
 				tasks: ['js'],
 				options: {
 					spawn: false,
@@ -330,7 +330,7 @@ module.exports = function(grunt) {
 			docOptions = {
 				quiet: true,
 				norecurse: true,
-				paths: ['./sdk/lib'],
+				paths: ['./src/lib'],
 				outdir: './docs/dist/sdk/',
 				themedir: './docs/src/sdk-template',
 				helpers: ['./docs/src/sdk-template/helpers/helpers.js']
@@ -371,10 +371,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
 		var done = this.async(),
 			log = grunt.log.write('Creating NuSpec file...'),
-			nuspec = grunt.file.read('./sdk/f2.nuspec.tmpl');
+			nuspec = grunt.file.read('./src/f2.nuspec.tmpl');
 
 		nuspec = grunt.template.process(nuspec, { data: pkg });
-		grunt.file.write('./sdk/f2.nuspec', nuspec);
+		grunt.file.write('./src/f2.nuspec', nuspec);
 		log.ok();
 
 		log = grunt.log.write('Creating NuGet package...');
@@ -383,14 +383,14 @@ module.exports = function(grunt) {
 				cmd: 'nuget',
 				args: ['pack', 'f2.nuspec'],
 				opts: {
-					cwd: './sdk'
+					cwd: './src'
 				}
 			},
 			function(error, result, code){
 				if (error){
 					grunt.fail.fatal(error);
 				} else {
-					grunt.file.delete('./sdk/f2.nuspec');
+					grunt.file.delete('./src/f2.nuspec');
 					log.ok();
 					done();
 				}
@@ -436,7 +436,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['http','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot','test']);
+	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',
