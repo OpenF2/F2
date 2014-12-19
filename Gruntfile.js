@@ -96,7 +96,6 @@ module.exports = function(grunt) {
 					'src/lib/template/header.js.tmpl',
 					'src/vendor/jquery.js',
 					'src/vendor/jquery.noconflict.js',
-					'src/vendor/bootstrap-modal.js',
 					'src/vendor/eventemitter2.js',
 					'src/vendor/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
@@ -112,7 +111,7 @@ module.exports = function(grunt) {
 				],
 				dest: 'dist/f2.no-third-party.js'
 			},
-			'no-jquery-or-bootstrap': {
+			'no-jquery': {
 				src: [
 					'src/lib/template/header.js.tmpl',
 					'src/vendor/eventemitter2.js',
@@ -120,25 +119,12 @@ module.exports = function(grunt) {
 					'<%= jshint.files %>',
 					'src/lib/template/footer.js.tmpl'
 				],
-				dest: 'dist/packages/f2.no-jquery-or-bootstrap.js'
-			},
-			'no-bootstrap': {
-				src: [
-					'src/lib/template/header.js.tmpl',
-					'src/vendor/jquery.js',
-					'src/vendor/jquery.noconflict.js',
-					'src/vendor/eventemitter2.js',
-					'src/vendor/easyXDM/easyXDM.js',
-					'<%= jshint.files %>',
-					'src/lib/template/footer.js.tmpl'
-				],
-				dest: 'dist/packages/f2.no-bootstrap.js'
+				dest: 'dist/packages/f2.no-jquery.js'
 			},
 			'no-easyXDM': {
 				src: [
 					'src/lib/template/header.js.tmpl',
 					'src/vendor/jquery.js',
-					'src/vendor/bootstrap-modal.js',
 					'src/vendor/jquery.noconflict.js',
 					'src/vendor/eventemitter2.js',
 					'<%= jshint.files %>',
@@ -146,7 +132,7 @@ module.exports = function(grunt) {
 				],
 				dest: 'dist/packages/f2.no-easyXDM.js'
 			},
-			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
+			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery on page before F2.
 				src: [
 					'src/lib/template/header.js.tmpl',
 					'src/vendor/eventemitter2.js',
@@ -222,12 +208,8 @@ module.exports = function(grunt) {
 					}
 				}
 			},
-			'package-no-jquery-or-bootstrap': {
-				files: { 'dist/packages/f2.no-jquery-or-bootstrap.min.js' : ['dist/packages/f2.no-jquery-or-bootstrap.js'] },
-				options: { report: 'gzip' }
-			},
-			'package-no-bootstrap': {
-				files: { 'dist/packages/f2.no-bootstrap.min.js' : ['dist/packages/f2.no-bootstrap.js'] },
+			'package-no-jquery': {
+				files: { 'dist/packages/f2.no-jquery.min.js' : ['dist/packages/f2.no-jquery.js'] },
 				options: { report: 'gzip' }
 			},
 			'package-no-easyXDM': {
@@ -422,15 +404,13 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['http','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap']);
+	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('packages', [
-		'concat:no-jquery-or-bootstrap',
-		'concat:no-bootstrap',
+		'concat:no-jquery',
 		'concat:no-easyXDM',
 		'concat:basic',
-		'uglify:package-no-jquery-or-bootstrap',
-		'uglify:package-no-bootstrap',
+		'uglify:package-no-jquery',
 		'uglify:package-no-easyXDM',
 		'uglify:package-basic'
 	]);
