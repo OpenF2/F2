@@ -57,17 +57,7 @@ F2.extend('UI', (function(){
 					 * closes the dialog
 					 * @for F2.UI.Modals
 					 */
-					alert: function(message, callback) {
-						if (!F2.isInit()) {
-							F2.log('F2.init() must be called before F2.UI.Modals.alert()');
-							return;
-						}
-
-						callback = callback || function() {};
-
-						alert(message);
-						callback();
-					},
+					alert: UI_Class.alert,
 					/**
 					 * Display a confirm message on the page
 					 * @method confirm
@@ -78,21 +68,7 @@ F2.extend('UI', (function(){
 					 * the Cancel button is pressed
 					 * @for F2.UI.Modals
 					 */
-					confirm: function(message, okCallback, cancelCallback) {
-						if (!F2.isInit()) {
-							F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
-							return;
-						}
-
-						okCallback = okCallback || function() {};
-						cancelCallback = cancelCallback || function() {};
-
-						if (confirm(message)) {
-							okCallback();
-						} else {
-							cancelCallback();
-						}
-					}
+					confirm: UI_Class.confirm
 				};
 			})(),
 			/**
@@ -351,5 +327,42 @@ F2.extend('UI', (function(){
 		}
 	};
 
+	/**
+	 * Display an alert message on the page
+	 * @method alert
+	 * @param {string} message The message to be displayed
+	 * @param {function} [callback] The callback to be fired when the user
+	 * closes the dialog
+	 * @for F2.UI.Modals
+	 */
+	UI_Class.alert = function(message, callback) {
+		callback = callback || function() {};
+
+		alert(message);
+		callback();
+	};
+
+	/**
+	 * Display a confirm message on the page
+	 * @method confirm
+	 * @param {string} message The message to be displayed
+	 * @param {function} okCallback The function that will be called when the OK
+	 * button is pressed
+	 * @param {function} cancelCallback The function that will be called when
+	 * the Cancel button is pressed
+	 * @for F2.UI.Modals
+	 */
+	UI_Class.confirm = function(message, okCallback, cancelCallback) {
+		okCallback = okCallback || function() {};
+		cancelCallback = cancelCallback || function() {};
+
+		if (confirm(message)) {
+			okCallback();
+		} else {
+			cancelCallback();
+		}
+	};
+
 	return UI_Class;
-})());
+
+}()));
