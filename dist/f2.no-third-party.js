@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.4.0 12-17-2014
+ * F2 v1.4.0 12-20-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -2279,28 +2279,6 @@ F2.extend('UI', (function(){
 			}
 		};
 
-		//http://getbootstrap.com/javascript/#modals
-		var _modalHtml = function(type,message,showCancel){
-			return [
-				'<div class="modal">',
-					'<div class="modal-dialog">',
-						'<div class="modal-content">',
-							'<div class="modal-header">',
-								'<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>',
-								'<h4 class="modal-title">',type,'</h4>',
-							'</div>',
-							'<div class="modal-body"><p>',
-								message,
-								'</p></div>',
-							'<div class="modal-footer">',
-								((showCancel) ? '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' : ''),
-								'<button type="button" class="btn btn-primary btn-ok">OK</button>',
-							'</div>',
-						'</div>',
-					'</div>',
-				'</div>'
-				].join('');
-		};
 
 		return {
 			/**
@@ -2317,16 +2295,7 @@ F2.extend('UI', (function(){
 			 * @class F2.UI.Modals
 			 * @for F2.UI
 			 */
-			Modals: (function(){
-
-				var _renderAlert = function(message) {
-					return _modalHtml('Alert',message);
-				};
-
-				var _renderConfirm = function(message) {
-					return _modalHtml('Confirm',message,true);
-				};
-
+			Modals: (function() {
 				return {
 					/**
 					 * Display an alert message on the page
@@ -2336,33 +2305,7 @@ F2.extend('UI', (function(){
 					 * closes the dialog
 					 * @for F2.UI.Modals
 					 */
-					alert: function(message, callback) {
-
-						if (!F2.isInit()) {
-							F2.log('F2.init() must be called before F2.UI.Modals.alert()');
-							return;
-						}
-
-						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
-							F2.Rpc.call(
-								_appConfig.instanceId,
-								F2.Constants.Sockets.UI_RPC,
-								'Modals.alert',
-								[].slice.call(arguments)
-							);
-						} else {
-							// display the alert
-							jQuery(_renderAlert(message))
-								.on('show.bs.modal', function() {
-									var modal = this;
-									jQuery(modal).find('.btn-primary').on('click', function() {
-										jQuery(modal).modal('hide').remove();
-										(callback || jQuery.noop)();
-									});
-								})
-								.modal({backdrop:true});
-						}
-					},
+					alert: UI_Class.alert,
 					/**
 					 * Display a confirm message on the page
 					 * @method confirm
@@ -2373,39 +2316,7 @@ F2.extend('UI', (function(){
 					 * the Cancel button is pressed
 					 * @for F2.UI.Modals
 					 */
-					confirm: function(message, okCallback, cancelCallback) {
-
-						if (!F2.isInit()) {
-							F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
-							return;
-						}
-
-						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
-							F2.Rpc.call(
-								_appConfig.instanceId,
-								F2.Constants.Sockets.UI_RPC,
-								'Modals.confirm',
-								[].slice.call(arguments)
-							);
-						} else {
-							// display the alert
-							jQuery(_renderConfirm(message))
-								.on('show.bs.modal', function() {
-									var modal = this;
-									
-									jQuery(modal).find('.btn-ok').on('click', function() {
-										jQuery(modal).modal('hide').remove();
-										(okCallback || jQuery.noop)();
-									});
-
-									jQuery(modal).find('.btn-cancel').on('click', function() {
-										jQuery(modal).modal('hide').remove();
-										(cancelCallback || jQuery.noop)();
-									});
-								})
-								.modal({backdrop:true});
-						}
-					}
+					confirm: UI_Class.confirm
 				};
 			})(),
 			/**
@@ -2664,8 +2575,46 @@ F2.extend('UI', (function(){
 		}
 	};
 
+	/**
+	 * Display an alert message on the page
+	 * @method alert
+	 * @param {string} message The message to be displayed
+	 * @param {function} [callback] The callback to be fired when the user
+	 * closes the dialog
+	 * @for F2.UI.Modals
+	 */
+	UI_Class.alert = function(message, callback) {
+		callback = callback || function() {};
+
+		alert(message);
+		callback();
+	};
+
+	/**
+	 * Display a confirm message on the page
+	 * @method confirm
+	 * @param {string} message The message to be displayed
+	 * @param {function} okCallback The function that will be called when the OK
+	 * button is pressed
+	 * @param {function} cancelCallback The function that will be called when
+	 * the Cancel button is pressed
+	 * @for F2.UI.Modals
+	 */
+	UI_Class.confirm = function(message, okCallback, cancelCallback) {
+		okCallback = okCallback || function() {};
+		cancelCallback = cancelCallback || function() {};
+
+		if (confirm(message)) {
+			okCallback();
+		} else {
+			cancelCallback();
+		}
+	};
+
 	return UI_Class;
-})());
+
+}()));
+
 /**
  * Root namespace of the F2 SDK
  * @module f2
