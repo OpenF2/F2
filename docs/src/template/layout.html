@@ -21,9 +21,27 @@
   }
   .docs #docs p:last-child { margin-bottom: 0; }
 
+  .sidebar-nav .affix {
+    position: static;
+    width: 100%;
+  }
+
   @media (min-width: 768px){
     .sidebar-nav .affix {
+      position: fixed;
+      width: 158px;
+    }
+  }
+
+  @media (min-width: 992px){
+    .sidebar-nav .affix {
       width: 213px;
+    }
+  }
+
+  @media (min-width: 1200px){
+    .sidebar-nav .affix {
+      width: 263px;
     }
   }
 </style>
