@@ -159,6 +159,39 @@ describe('F2.registerApps - pre-load', function() {
 			expect(F2.PreloadRetrievedEmitCounter).toBe(2);
 		});
 	});
+
+	it('should pass appConfig, appContent, root as arguments to the AppClass', function() {
+
+		var scriptsLoaded = false;
+		F2.PreloadArguments;
+
+		var $appOnPage = $("body").find("div.com_openf2_tests_helloworld");
+		var appConfig = [{
+			appId:'com_openf2_tests_helloworld',
+			manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',
+			root: $appOnPage.get(0)
+		}];
+
+		// init is called above
+		F2.registerApps(appConfig,[{"scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		//notify when dependencies have been loaded
+		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+			scriptsLoaded = true;
+		});
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return scriptsLoaded && F2.PreloadArguments;
+		}, 'test app to load', 10000);
+
+		runs(function() {
+			expect(F2.PreloadArguments).toBe(3);
+		});
+	});
+
+
+	
 });
 
 describe('F2.init', function() {
@@ -1141,7 +1174,6 @@ describe('F2.registerApps - rendering', function() {
 		//notify when dependencies have been loaded
 		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
 			scriptsLoaded = true;
-			console.log('APP_SCRIPTS_LOADED',data);
 		});
 
 		// wait for registerApps to complete and load both apps
