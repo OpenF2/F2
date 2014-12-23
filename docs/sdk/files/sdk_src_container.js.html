@@ -370,7 +370,7 @@ F2.extend(&#x27;&#x27;, (function() {
 
 				if (contextJson) {
 					try {
-						appConfig.context = F2.parse(contextJson);
+						appConfig.context = JSON.parse(contextJson);
 					}
 					catch (e) {
 						console.warn(&#x27;F2: &quot;data-f2-context&quot; of node is not valid JSON&#x27;, &#x27;&quot;&#x27; + e + &#x27;&quot;&#x27;);

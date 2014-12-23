@@ -259,7 +259,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				// handle Socket Load
 				if (!isLoaded &amp;&amp; _rSocketLoad.test(message)) {
 					message = message.replace(_rSocketLoad, &#x27;&#x27;);
-					var appParts = F2.parse(message);
+					var appParts = JSON.parse(message);
 
 					// make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
@@ -383,7 +383,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		}
 
 		function parseMessage(regEx, message, instanceId) {
-			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
+			var o = JSON.parse(message.replace(regEx, &#x27;&#x27;));
 
 			// if obj.callbacks
 			//   for each callback

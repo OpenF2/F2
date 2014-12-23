@@ -329,15 +329,6 @@ F2 = (function() {
 			_log.apply(this, (args || arguments));			
 		},
 		/**
-		 * Wrapper to convert a JSON string to an object
-		 * @method parse
-		 * @param {string} str The JSON string to convert
-		 * @return {object} The parsed object
-		 */
-		parse: function(str) {
-			return JSON.parse(str);
-		},
-		/**
 		 * Wrapper to convert an object to JSON
 		 *
 		 * **Note: When using F2.stringify on an F2.AppConfig object, it is

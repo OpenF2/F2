@@ -147,7 +147,7 @@ F2.extend('', (function() {
 
 				if (contextJson) {
 					try {
-						appConfig.context = F2.parse(contextJson);
+						appConfig.context = JSON.parse(contextJson);
 					}
 					catch (e) {
 						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
