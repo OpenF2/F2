@@ -246,7 +246,7 @@ F2.extend('UI', (function(){
 									'Views.change',
 									[].slice.call(arguments)
 								);
-							} else if (F2.inArray(input, _appConfig.views)) {
+							} else if (_appConfig.views.indexOf(input) !== input) {
 								jQuery('.' + F2.Constants.Css.APP_VIEW, $root)
 									.addClass('hide')
 									.filter('[data-f2-view="' + input + '"]', $root)

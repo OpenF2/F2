@@ -107,7 +107,7 @@ F2.extend('', (function() {
 
 		// default the views if not provided
 		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
+		if (appConfig.views.indexOf(F2.Constants.Views.HOME) === -1) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 

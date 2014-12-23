@@ -169,12 +169,7 @@ F2.extend('', {
 		ui: undefined,
 		/**
 		 * The views that this app supports. Available views
-		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
-		 * presence of a view can be checked via
-		 * F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
-		 * 
-		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-		 *
+		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.
 		 * @property views
 		 * @type Array
 		 */
