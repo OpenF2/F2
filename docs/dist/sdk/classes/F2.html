@@ -717,7 +717,7 @@ loading</p>
                                     
                                     
                                 </td>
-                                <td><p>A function to pass into F2.stringify which will prevent circular
+                                <td><p>A function to pass into JSON.stringify which will prevent circular
 reference errors when serializing objects</p>
 </td>
                             </tr>
@@ -1066,32 +1066,6 @@ that are defined will be bypassed.</p>
                             
                             <tr class="index-item method">
                                 <td class="name">
-                                    <a href="#" data-tabid="#methods" data-anchor="#method_parse" data-tablink="parse">
-                                        parse
-                                        <span class="paren">(</span>
-                                        
-                                            <ul class="params commas">
-                                                
-                                                <li>
-                                                    
-                                                        str
-                                                    
-                                                </li>
-                                                
-                                            </ul>
-                                        
-                                        <span class="paren">)</span>
-                                    </a>
-                                    
-                                    
-                                    
-                                </td>
-                                <td><p>Wrapper to convert a JSON string to an object</p>
-</td>
-                            </tr>
-                            
-                            <tr class="index-item method">
-                                <td class="name">
                                     <a href="#" data-tabid="#methods" data-anchor="#method_registerApps" data-tablink="registerApps">
                                         registerApps
                                         <span class="paren">(</span>
@@ -1167,47 +1141,6 @@ assets will be used instead of making a request.</p>
                                     
                                 </td>
                                 <td><p>Removes an app from the container</p>
-</td>
-                            </tr>
-                            
-                            <tr class="index-item method">
-                                <td class="name">
-                                    <a href="#" data-tabid="#methods" data-anchor="#method_stringify" data-tablink="stringify">
-                                        stringify
-                                        <span class="paren">(</span>
-                                        
-                                            <ul class="params commas">
-                                                
-                                                <li>
-                                                    
-                                                        value
-                                                    
-                                                </li>
-                                                
-                                                <li>
-                                                    
-                                                        replacer
-                                                    
-                                                </li>
-                                                
-                                                <li>
-                                                    
-                                                        space
-                                                    
-                                                </li>
-                                                
-                                            </ul>
-                                        
-                                        <span class="paren">)</span>
-                                    </a>
-                                    
-                                    
-                                    
-                                </td>
-                                <td><p>Wrapper to convert an object to JSON</p>
-<p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
-recommended to pass F2.appConfigReplacer as the replacer function in
-order to prevent circular serialization errors.</strong></p>
 </td>
                             </tr>
                             
@@ -2990,7 +2923,7 @@ Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_test
     </div>
 
     <div class="description">
-        <p>A function to pass into F2.stringify which will prevent circular
+        <p>A function to pass into JSON.stringify which will prevent circular
 reference errors when serializing objects</p>
 
     </div>
@@ -4299,109 +4232,6 @@ page.</p>
 </div>
 
                 
-                    <div id="method_parse" class="method item">
-    <h3>
-        parse
-        <span class="paren">(</span>
-        
-            <ul class="params commas">
-                
-                <li>
-                    
-                        str
-                    
-                </li>
-                
-            </ul>
-        
-        <span class="paren">)</span>
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-    </h3>
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_lib_F2.js.html#l331"><code>src&#x2F;lib&#x2F;F2.js:331</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Wrapper to convert a JSON string to an object</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">str</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The JSON string to convert</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="label label-default type">Object</span>:
-                    
-                    <p>The parsed object</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-    <hr>
-</div>
-
-                
                     <div id="method_registerApps" class="method item">
     <h3>
         registerApps
@@ -4757,162 +4587,6 @@ F2.registerApps(arConfigs, arManifests);</code></pre>
 </div>
 
                 
-                    <div id="method_stringify" class="method item">
-    <h3>
-        stringify
-        <span class="paren">(</span>
-        
-            <ul class="params commas">
-                
-                <li>
-                    
-                        value
-                    
-                </li>
-                
-                <li>
-                    
-                        replacer
-                    
-                </li>
-                
-                <li>
-                    
-                        space
-                    
-                </li>
-                
-            </ul>
-        
-        <span class="paren">)</span>
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-    </h3>
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_lib_F2.js.html#l340"><code>src&#x2F;lib&#x2F;F2.js:340</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Wrapper to convert an object to JSON</p>
-<p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
-recommended to pass F2.appConfigReplacer as the replacer function in
-order to prevent circular serialization errors.</strong></p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">value</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The object to convert</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">replacer</code>
-                        <span class="type">Function | Array</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>An optional parameter that determines
-how object values are stringified for objects. It can be a function or an 
-array of strings.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">space</code>
-                        <span class="type">Int | String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>An optional parameter that specifies the
-indentation of nested structures. If it is omitted, the text will be
-packed without extra whitespace. If it is a number, it will specify the
-number of spaces to indent at each level. If it is a string (such as &#39;\t&#39;
-or &#39;&nbsp;&#39;), it contains the characters used to indent at each level.</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="label label-default type">String</span>:
-                    
-                    <p>The JSON string</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-    <hr>
-</div>
-
-                
                     <div id="method_version" class="method item">
     <h3>
         version
@@ -4944,7 +4618,7 @@ or &#39;&nbsp;&#39;), it contains the characters used to indent at each level.</
             
         
         
-        <a href="../files/src_lib_F2.js.html#l361"><code>src&#x2F;lib&#x2F;F2.js:361</code></a>
+        <a href="../files/src_lib_F2.js.html#l331"><code>src&#x2F;lib&#x2F;F2.js:331</code></a>
         
         </p>
 

@@ -13773,7 +13773,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 12-17-2014
+ * F2 v1.4.0 12-22-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13874,7 +13874,7 @@ F2 = (function() {
 
 	return {
 		/**
-		 * A function to pass into F2.stringify which will prevent circular
+		 * A function to pass into JSON.stringify which will prevent circular
 		 * reference errors when serializing objects
 		 * @method appConfigReplacer
 		 */
@@ -14101,36 +14101,6 @@ F2 = (function() {
 			}
 
 			_log.apply(this, (args || arguments));			
-		},
-		/**
-		 * Wrapper to convert a JSON string to an object
-		 * @method parse
-		 * @param {string} str The JSON string to convert
-		 * @return {object} The parsed object
-		 */
-		parse: function(str) {
-			return JSON.parse(str);
-		},
-		/**
-		 * Wrapper to convert an object to JSON
-		 *
-		 * **Note: When using F2.stringify on an F2.AppConfig object, it is
-		 * recommended to pass F2.appConfigReplacer as the replacer function in
-		 * order to prevent circular serialization errors.**
-		 * @method stringify
-		 * @param {object} value The object to convert
-		 * @param {function|Array} replacer An optional parameter that determines
-		 * how object values are stringified for objects. It can be a function or an 
-		 * array of strings.
-		 * @param {int|string} space An optional parameter that specifies the
-		 * indentation of nested structures. If it is omitted, the text will be
-		 * packed without extra whitespace. If it is a number, it will specify the
-		 * number of spaces to indent at each level. If it is a string (such as '\t'
-		 * or '&nbsp;'), it contains the characters used to indent at each level.
-		 * @return {string} The JSON string
-		 */
-		stringify: function(value, replacer, space) {
-			return JSON.stringify(value, replacer, space);
 		},
 		/** 
 		 * Function to get the F2 version number
@@ -14937,12 +14907,7 @@ F2.extend('', {
 		ui: undefined,
 		/**
 		 * The views that this app supports. Available views
-		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
-		 * presence of a view can be checked via
-		 * F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
-		 * 
-		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-		 *
+		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.
 		 * @property views
 		 * @type Array
 		 */
@@ -15178,7 +15143,7 @@ F2.extend('', {
 		 *                 url: url,
 		 *                 type: 'POST',
 		 *                 data: {
-		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
+		 *                     params: JSON.stringify(appConfigs, F2.appConfigReplacer)
 		 *                 },
 		 *                 jsonp: false, // do not put 'callback=' in the query string
 		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
@@ -15314,6 +15279,7 @@ F2.extend('', {
 		loadStyles: function(styles,callback){}
 	}
 });
+
 /**
  * Constants used throughout the Open Financial Framework
  * @class F2.Constants
@@ -15724,7 +15690,7 @@ F2.extend('Rpc', (function(){
 				// handle Socket Load
 				if (!isLoaded && _rSocketLoad.test(message)) {
 					message = message.replace(_rSocketLoad, '');
-					var appParts = F2.parse(message);
+					var appParts = JSON.parse(message);
 
 					// make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
@@ -15798,7 +15764,7 @@ F2.extend('Rpc', (function(){
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
+				socket.postMessage(F2.Constants.Sockets.LOAD + JSON.stringify([appConfig, appManifest], F2.appConfigReplacer));
 			}
 		});
 
@@ -15848,7 +15814,7 @@ F2.extend('Rpc', (function(){
 		}
 
 		function parseMessage(regEx, message, instanceId) {
-			var o = F2.parse(message.replace(regEx, ''));
+			var o = JSON.parse(message.replace(regEx, ''));
 
 			// if obj.callbacks
 			//   for each callback
@@ -15926,7 +15892,7 @@ F2.extend('Rpc', (function(){
 		 */
 		broadcast: function(messageType, params) {
 			// check valid messageType
-			var message = messageType + F2.stringify(params);
+			var message = messageType + JSON.stringify(params);
 			jQuery.each(_apps, function(i, a) {
 				a.socket.postMessage(message);
 			});
@@ -15953,7 +15919,7 @@ F2.extend('Rpc', (function(){
 			});
 			// check valid messageType
 			_apps[instanceId].socket.postMessage(
-				messageType + F2.stringify({
+				messageType + JSON.stringify({
 					functionName:functionName,
 					params:params,
 					callbacks:callbacks
@@ -16014,6 +15980,7 @@ F2.extend('Rpc', (function(){
 		}
 	};
 })());
+
 F2.extend('UI', (function(){
 
 	var _containerConfig;
@@ -16262,7 +16229,7 @@ F2.extend('UI', (function(){
 									'Views.change',
 									[].slice.call(arguments)
 								);
-							} else if (F2.inArray(input, _appConfig.views)) {
+							} else if (_appConfig.views.indexOf(input) !== input) {
 								jQuery('.' + F2.Constants.Css.APP_VIEW, $root)
 									.addClass('hide')
 									.filter('[data-f2-view="' + input + '"]', $root)
@@ -16327,7 +16294,7 @@ F2.extend('UI', (function(){
 				[
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
+					// will be JSON.stringify() errors
 					jQuery(selector).selector
 				]
 			);
@@ -16382,7 +16349,7 @@ F2.extend('UI', (function(){
 				[
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
+					// will be JSON.stringify() errors
 					jQuery(selector).selector,
 					showLoading
 				]
@@ -16434,6 +16401,7 @@ F2.extend('UI', (function(){
 
 	return UI_Class;
 })());
+
 /**
  * Root namespace of the F2 SDK
  * @module f2
@@ -16543,7 +16511,7 @@ F2.extend('', (function() {
 
 		// default the views if not provided
 		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
+		if (appConfig.views.indexOf(F2.Constants.Views.HOME) === -1) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
@@ -16583,7 +16551,7 @@ F2.extend('', (function() {
 
 				if (contextJson) {
 					try {
-						appConfig.context = F2.parse(contextJson);
+						appConfig.context = JSON.parse(contextJson);
 					}
 					catch (e) {
 						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
@@ -17604,7 +17572,7 @@ F2.extend('', (function() {
 									url: url,
 									type: type,
 									data: {
-										params: F2.stringify(req.apps, F2.appConfigReplacer)
+										params: JSON.stringify(req.apps, F2.appConfigReplacer)
 									},
 									jsonp: false, // do not put 'callback=' in the query string
 									jsonpCallback: jsonpCallback, // Unique function name

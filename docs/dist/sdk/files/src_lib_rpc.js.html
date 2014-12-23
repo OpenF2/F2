@@ -221,7 +221,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				// handle Socket Load
 				if (!isLoaded &amp;&amp; _rSocketLoad.test(message)) {
 					message = message.replace(_rSocketLoad, &#x27;&#x27;);
-					var appParts = F2.parse(message);
+					var appParts = JSON.parse(message);
 
 					// make sure we have the AppConfig and AppManifest
 					if (appParts.length == 2) {
@@ -295,7 +295,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
+				socket.postMessage(F2.Constants.Sockets.LOAD + JSON.stringify([appConfig, appManifest], F2.appConfigReplacer));
 			}
 		});
 
@@ -345,7 +345,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		}
 
 		function parseMessage(regEx, message, instanceId) {
-			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
+			var o = JSON.parse(message.replace(regEx, &#x27;&#x27;));
 
 			// if obj.callbacks
 			//   for each callback
@@ -423,7 +423,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		 */
 		broadcast: function(messageType, params) {
 			// check valid messageType
-			var message = messageType + F2.stringify(params);
+			var message = messageType + JSON.stringify(params);
 			jQuery.each(_apps, function(i, a) {
 				a.socket.postMessage(message);
 			});
@@ -450,7 +450,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 			});
 			// check valid messageType
 			_apps[instanceId].socket.postMessage(
-				messageType + F2.stringify({
+				messageType + JSON.stringify({
 					functionName:functionName,
 					params:params,
 					callbacks:callbacks
@@ -511,6 +511,7 @@ F2.extend(&#x27;Rpc&#x27;, (function(){
 		}
 	};
 })());
+
     </code></pre>
 </div>
 

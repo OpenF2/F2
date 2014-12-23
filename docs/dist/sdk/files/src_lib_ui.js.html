@@ -434,7 +434,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 									&#x27;Views.change&#x27;,
 									[].slice.call(arguments)
 								);
-							} else if (F2.inArray(input, _appConfig.views)) {
+							} else if (_appConfig.views.indexOf(input) !== input) {
 								jQuery(&#x27;.&#x27; + F2.Constants.Css.APP_VIEW, $root)
 									.addClass(&#x27;hide&#x27;)
 									.filter(&#x27;[data-f2-view=&quot;&#x27; + input + &#x27;&quot;]&#x27;, $root)
@@ -499,7 +499,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				[
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
+					// will be JSON.stringify() errors
 					jQuery(selector).selector
 				]
 			);
@@ -554,7 +554,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 				[
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
+					// will be JSON.stringify() errors
 					jQuery(selector).selector,
 					showLoading
 				]
@@ -606,6 +606,7 @@ F2.extend(&#x27;UI&#x27;, (function(){
 
 	return UI_Class;
 })());
+
     </code></pre>
 </div>
 
