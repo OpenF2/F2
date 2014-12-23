@@ -633,7 +633,7 @@ F2.extend(&#x27;&#x27;, {
 		 *                 url: url,
 		 *                 type: &#x27;POST&#x27;,
 		 *                 data: {
-		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
+		 *                     params: JSON.stringify(appConfigs, F2.appConfigReplacer)
 		 *                 },
 		 *                 jsonp: false, // do not put &#x27;callback=&#x27; in the query string
 		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name

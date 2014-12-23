@@ -311,7 +311,7 @@ F2.extend('UI', (function(){
 				[
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
+					// will be JSON.stringify() errors
 					jQuery(selector).selector
 				]
 			);
@@ -366,7 +366,7 @@ F2.extend('UI', (function(){
 				[
 					instanceId,
 					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
+					// will be JSON.stringify() errors
 					jQuery(selector).selector,
 					showLoading
 				]

@@ -685,7 +685,7 @@ describe('F2.registerApps - xhr overrides', function() {
 			            url: url,
 			            type: 'POST',
 			            data: {
-			                params: F2.stringify(apps[0], F2.appConfigReplacer)
+			                params: JSON.stringify(apps[0], F2.appConfigReplacer)
 			            },
 			            jsonp: false, // do not put 'callback=' in the query string
 			            jsonpCallback: F2.Constants.JSONP_CALLBACK + apps[0].appId, // Unique function name

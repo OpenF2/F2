@@ -38,11 +38,3 @@ describe('F2.inArray', function() {
 	});
 
 });
-
-describe('F2.stringify', function() {
-
-	it('should convert an object to a json string', function() {
-		expect(F2.stringify({ foo: 'bar' })).toMatch('{"foo":"bar"}');
-	});
-
-});

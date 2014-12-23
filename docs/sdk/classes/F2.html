@@ -658,7 +658,7 @@ loading</p>
 								<span class="paren">)</span>
 							</a>
 						</td>
-						<td><p>A function to pass into F2.stringify which will prevent circular
+						<td><p>A function to pass into JSON.stringify which will prevent circular
 reference errors when serializing objects</p>
 </td>
 					</tr>
@@ -1088,7 +1088,7 @@ assets will be used instead of making a request.</p>
 							</a>
 						</td>
 						<td><p>Wrapper to convert an object to JSON</p>
-<p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
+<p><strong>Note: When using JSON.stringify on an F2.AppConfig object, it is
 recommended to pass F2.appConfigReplacer as the replacer function in
 order to prevent circular serialization errors.</strong></p>
 </td>
@@ -2883,7 +2883,7 @@ Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_test
 	</h3>
 
 	<p>
-		<p>A function to pass into F2.stringify which will prevent circular
+		<p>A function to pass into JSON.stringify which will prevent circular
 reference errors when serializing objects</p>
 
 	</p>	
@@ -4745,7 +4745,7 @@ F2.registerApps(arConfigs, arManifests);</code></pre>
 
 	<p>
 		<p>Wrapper to convert an object to JSON</p>
-<p><strong>Note: When using F2.stringify on an F2.AppConfig object, it is
+<p><strong>Note: When using JSON.stringify on an F2.AppConfig object, it is
 recommended to pass F2.appConfigReplacer as the replacer function in
 order to prevent circular serialization errors.</strong></p>
 
