@@ -273,60 +273,34 @@ F2 = (function() {
 			return (bIsNode || bIsElement);
 		},
 		/**
-		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console). 
+		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
 		 * @method log
 		 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 		 * @param {object} [obj2]* An object to be logged
 		 * @example
-			//Pass any object (string, int, array, object, bool) to .log()
-			F2.log('foo');
-			F2.log(myArray);
-			//Use a console method name as the first argument. 
-			F2.log('error', err);
-			F2.log('info', 'The session ID is ' + sessionId);
-		 * Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
+		 *   Pass any value (string, int, array, object, bool).
+		 *     F2.log('foo');
+		 *     F2.log([1, 2, 3]);
+		 * @example
+		 *   Use a console method name as the first argument.
+		 *     F2.log('error', err);
+		 *     F2.log('info', 'The session ID is ' + sessionId);
 		 */
 		log: function() {
-			var _log;
-			var _logMethod = 'log';
-			var method;
-			var noop = function () { };
-			var methods = [
-				'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-				'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-				'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-				'timeStamp', 'trace', 'warn'
-			];
-			var length = methods.length;
-			var console = (window.console = window.console || {});
-			var args;
-
-			while (length--) {
-				method = methods[length];
-
-				// Only stub undefined methods.
-				if (!console[method]) {
-					console[method] = noop;
-				}
-
-				//if first arg is a console function, use it. 
-				//defaults to console.log()
-				if (arguments && arguments.length > 1 && arguments[0] == method){
-					_logMethod = method;
-					//remove console func from args
-					args = Array.prototype.slice.call(arguments, 1);
-				}
+			if (!window.console) {
+				return;
 			}
 
-			if (Function.prototype.bind) {
-				_log = Function.prototype.bind.call(console[_logMethod], console);
-			} else {
-				_log = function() { 
-					Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
-				};
+			var method = 'log';
+			var args = Array.prototype.slice.apply(arguments);
+
+			if (args.length > 1 && args[0] in window.console) {
+				method = args.shift();
 			}
 
-			_log.apply(this, (args || arguments));			
+			if (window.console[method]) {
+				window.console[method].apply(window.console, args);
+			}
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object
