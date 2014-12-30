@@ -1,2355 +1,992 @@
 describe('F2.AppHandlers', function() {
 
-	var containerAppHandlerToken = null;
+	var containerToken;
 
 	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	async.beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerToken = F2.AppHandlers.getToken();
+		}
 
-	var appConfig = function()
-	{
+		// Set a low timeout for testing
+		F2.ContainerConfig.scriptErrorTimeout = 100;
+	});
+
+	function appConfig() {
 		return {
 			appId: TEST_APP_ID,
 			manifestUrl: TEST_MANIFEST_URL
 		};
 	};
 
-	var appManifest = function()
-	{
+	function appManifest() {
 		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
+			apps: [{
+				html: '<div class="test-app">Testing</div>'
+			}],
+			inlineScripts: [],
+			scripts: [],
+			styles: []
 		}
 	};
 
-	it(
-
-		'should fire beforeAppRender, appRender, or afterAppRender if they are defined in container config and not APP_RENDER_* AppHandler methods.',
-		function() {
-			var isBeforeAppRenderFired = false;
-
-			F2.init({
-				beforeAppRender: function()
-				{
-					isBeforeAppRenderFired = true;
-				}
-			});
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					throw("I should not fire!");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					throw("I should not fire!");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					throw("I should not fire!");
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return isBeforeAppRenderFired;
-				},
-				'beforeAppRender was never fired',
-				3000
-			);
-
-			runs(function() { expect(isBeforeAppRenderFired).toBeTruthy(); });
-		}
-	);
-
-	it(
-		'should fire app handlers if beforeAppRender, appRender, and afterAppRender are NOT defined in container config',
-		function() {
-			var isAppRenderBeforeFired = false;
-
+	it('should not be required to load apps', function() {
+		expect(function() {
 			F2.init();
-
-			F2.AppHandlers.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					setTimeout(function(){ isAppRenderBeforeFired = true}, 100);
-				}
-			).on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					setTimeout(function(){ isAppRenderBeforeFired = true}, 100);
-				}
-			);
-
 			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return isAppRenderBeforeFired;
-				},
-				'F2.AppHandlers.on("appRenderBefore") was never fired',
-				3000
-			);
-
-			runs(function() { expect(isAppRenderBeforeFired).toBeTruthy(); });
-		}
-	);
-
-	it(
-		'should not allow F2.AppHandlers.on() handler registration without valid token',
-		function() {
-			expect(function(){
-				F2.init();
-
-				F2.AppHandlers.on(
-					"",
-					F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-					function(appConfig) {}
-				);
-
-				F2.registerApps(appConfig(), appManifest());
-			}).toThrow();
-		}
-	);
-
-	it(
-		'should not allow F2.AppHandlers.off() handler registration without valid token',
-		function() {
-			expect(function(){
-				F2.init();
-
-				F2.AppHandlers.off(
-					"",
-					F2.Constants.AppHandlers.APP_RENDER_BEFORE
-				);
-
-				F2.registerApps(appConfig(), appManifest());
-			}).toThrow();
-		}
-	);
-
-	it(
-		'F2.AppHandlers.getToken() method should be destroyed after first call.',
-		function() {
-			// F2.AppHandlers.getToken is called above in the async.beforeEachReloadF2
-			expect(F2.AppHandlers.getToken).toBeFalsy();
-		}
-	);
-
-	it(
-		'F2.AppHandlers.__f2GetToken() method should be destroyed after first call.',
-		function() {
-			// F2.AppHandlers.__f2GetToken is called internally and should no longer exist
-			expect(F2.AppHandlers.__f2GetToken).toBeFalsy();
-		}
-	);
-
-	it(
-		'container should not be allowed to trigger F2.AppHandlers.on() events.',
-		function() {
-			expect(function(){
-				F2.init();
-
-				F2.AppHandlers.__trigger(
-					containerAppHandlerToken,
-					F2.Constants.AppHandlers.APP_RENDER_BEFORE
-				);
-			}).toThrow();
-		}
-	);
-
-	it(
-		'F2.AppHandlers should not be required to load apps.',
-		function() {
-			expect(function(){
-				F2.init();
-				F2.registerApps(appConfig(), appManifest());
-			}).not.toThrow();
-		}
-	);
-
-	it(
-		'render methods should fire sequentially appCreateRoot, appRenderBefore, appRender, and then appRenderAfter.',
-		function() {
-			var bDone = false;
-			var sOrder = null;
-			var arOrder = [];
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<div></div>").get(0);
-					arOrder.push(F2.Constants.AppHandlers.APP_CREATE_ROOT);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					arOrder.push(F2.Constants.AppHandlers.APP_RENDER_BEFORE);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					$("body").append($(appConfig.root));
-					arOrder.push(F2.Constants.AppHandlers.APP_RENDER);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					arOrder.push(F2.Constants.AppHandlers.APP_RENDER_AFTER);
-					sOrder = arOrder.join(",");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers were never fired',
-				3000
-			);
-
-			runs(function() { expect(sOrder).toBe("appCreateRoot,appRenderBefore,appRender,appRenderAfter"); });
-		}
-	);
-
-});
-
-describe('F2.AppHandlers - rendering - appCreateRoot', function() {
-
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	it(
-		'should create appRoot using the apps html if appCreateRoot event is not bound and render appRoot to the page automatically.',
-		function() {
-			var bDone = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-			var bHasTestAppClass = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bHasTestAppClass = $root.hasClass("test-app");
-					bAppHtmlInRoot = ($root.text() == "Testing");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasTestAppClass).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'should pass appConfig as only argument to appCreateRoot.',
-		function() {
-			var bDone = false;
-			var bHasAppConfig = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<h1></h1>").get(0);
-					bHasAppConfig = (arguments.length == 1 && appConfig && appConfig.appId && appConfig.manifestUrl) ? true : false;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasAppConfig).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'respects appCreateRoot setting appConfig.root and appends app html by default.',
-		function() {
-			var bDone = false;
-			var bRootIsH1 = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<h1></h1>").get(0);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsH1 = $root.is("h1");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() { expect(bRootIsH1).toBe(true); expect(bRootOnPage).toBe(true); expect(bAppHtmlInRoot).toBe(true); });
-		}
-	);
-
-	it(
-		'fires appCreateRoot functions sequentially.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					arOrder.push("3");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(arOrder.join(",")).toBe("1,2,3");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'allows manipulation of appConfig.root through out appCreateRoot methods.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-			var bHasBlueClass = false;
-			var bHasRedClass = false;
-			var bHasTestAttr = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					$(appConfig.root).addClass("blue");
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					$(appConfig.root).addClass("red").attr("data-test", "test");
-					arOrder.push("3");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bHasBlueClass = $root.hasClass("blue");
-					bHasRedClass = $root.hasClass("red");
-					bHasTestAttr = !!$root.attr("data-test");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasBlueClass).toBe(true);
-				expect(bHasRedClass).toBe(true);
-				expect(bHasTestAttr).toBe(true);
-				expect(arOrder.join(",")).toBe("1,2,3");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'allows resetting of appConfig.root.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<specialapp></specialapp>").get(0);
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("specialapp");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(arOrder.join(",")).toBe("1,2");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-});
-
-describe('F2.AppHandlers - rendering - appRenderBefore', function() {
-
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	it(
-		'should pass appConfig as only argument to appRenderBefore.',
-		function() {
-			var bDone = false;
-			var bHasAppConfig = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					bHasAppConfig = (arguments.length == 1 && appConfig && appConfig.appId && appConfig.manifestUrl) ? true : false;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasAppConfig).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'should create appRoot using the apps html if appCreateRoot event is not bound and render appRoot to the page automatically.',
-		function() {
-			var bDone = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-			var bHasTestAppClass = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bHasTestAppClass = $root.hasClass("test-app");
-					bAppHtmlInRoot = ($root.text() == "Testing");
-					bDone = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bHasTestAppClass = $root.hasClass("test-app");
-					bAppHtmlInRoot = ($root.text() == "Testing");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasTestAppClass).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-
-
-	it(
-		'respects appRenderBefore setting appConfig.root and appends app html by default.',
-		function() {
-			var bDone = false;
-			var bRootIsH1 = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					appConfig.root = $("<h1></h1>").get(0);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsH1 = $root.is("h1");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bRootIsH1).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'fires appRenderBefore functions sequentially.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					arOrder.push("3");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(arOrder.join(",")).toBe("1,2,3");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'allows manipulation of appConfig.root through out appRenderBefore methods.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-			var bHasBlueClass = false;
-			var bHasRedClass = false;
-			var bHasTestAttr = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					$(appConfig.root).addClass("blue");
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					$(appConfig.root).addClass("red").attr("data-test", "test");
-					arOrder.push("3");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bHasBlueClass = $root.hasClass("blue");
-					bHasRedClass = $root.hasClass("red");
-					bHasTestAttr = !!$root.attr("data-test");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasBlueClass).toBe(true);
-				expect(bHasRedClass).toBe(true);
-				expect(bHasTestAttr).toBe(true);
-				expect(arOrder.join(",")).toBe("1,2,3");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'allows resetting of appConfig.root.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-				function(appConfig)
-				{
-					appConfig.root = $("<specialapp></specialapp>").get(0);
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("specialapp");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(arOrder.join(",")).toBe("1,2");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-});
-
-describe('F2.AppHandlers - rendering - appRender', function() {
-
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	it(
-		'should pass appConfig and html as only arguments to appRender.',
-		function() {
-			var bDone = false;
-			var bHasAppConfig = false;
-			var bHasHtml = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<div></div>").get(0);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig, html)
-				{
-					bHasAppConfig = (arguments.length == 2 && appConfig && appConfig.appId && appConfig.manifestUrl) ? true : false;
-					bHasHtml = (arguments.length == 2 && html && typeof(html) === "string") ? true : false;
-					var $root = $(appConfig.root);
-					$root.append(html);
-					$("body").append($root);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasAppConfig).toBe(true);
-				expect(bHasHtml).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'should automatically create appRoot from app html and add app to the page if no appRender method is bound.',
-		function() {
-			var bDone = false;
-			var bRootOnPage = false;
-			var bAppIsRoot = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppIsRoot = $root.hasClass("test-app");
-					bAppHtmlInRoot = ($root.text() == "Testing");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bAppIsRoot).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'respects appRender appending html and putting it on the page manually.',
-		function() {
-			var bDone = false;
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bRootInParent = false;
-			var bAppHtmlInRoot = false;
-
-			$("div.app-area").remove();
-			$("<div class='app-area'></div>").appendTo("body");
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig, html)
-				{
-					var $root = $(appConfig.root);
-					$root.append(html);
-
-					$("body div.app-area:first").append($root);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bRootInParent = $root.parent().is("div.app-area");
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bRootInParent).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'allows dom node to be only argument to appRender. Which renders the app to the dom node.',
-		function() {
-			var bDone = false;
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bRootInParent = false;
-			var bAppHtmlInRoot = false;
-
-			// append a placeholder for the app
-			$("<div class='app-area'></div>").appendTo("body");
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				$("div.app-area:last").get(0)
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bRootInParent = $root.parent().is("div.app-area");
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-					$("div.app-area").remove();
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bRootInParent).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'should allow dom node to be only argument to appRender. Which renders the app to the dom node without needing to specifiy appCreateRoot handler.',
-		function() {
-			var bDone = false;
-			var bRootOnPage = false;
-			var bRootInParent = false;
-			var bRootIsAppHtml = false;
-
-			// append a placeholder for the app
-			$("<div class='app-area'></div>").appendTo("body");
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				$("div.app-area:last").get(0)
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bRootInParent = $root.parent().is("div.app-area");
-					bRootIsAppHtml = $root.hasClass("test-app");
-					bDone = true;
-					$("div.app-area").remove();
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bRootOnPage).toBe(true);
-				expect(bRootInParent).toBe(true);
-				expect(bRootIsAppHtml).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'fires appRender functions sequentially.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bRootInParent = false;
-			var bAppHtmlInRoot = false;
-
-			// append a placeholder for the app
-			$("<div class='app-area'></div>").appendTo("body");
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				$("div.app-area").get(0)
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					arOrder.push("3");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bRootInParent = $root.parent().is("div.app-area");
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bDone = true;
-					$("div.app-area").remove();
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(arOrder.join(",")).toBe("1,2,3");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bRootInParent).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'allows manipulation of appConfig.root throughout appRender methods.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootIsApp = false;
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-			var bHasBlueClass = false;
-			var bHasRedClass = false;
-			var bHasTestAttr = false;
-			var bRootInParent = false;
-
-			$("<div class='app-area'></div>").appendTo("body");
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_CREATE_ROOT,
-				function(appConfig)
-				{
-					appConfig.root = $("<app></app>").get(0);
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					$(appConfig.root).addClass("blue");
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				$("div.app-area").get(0)
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER,
-				function(appConfig)
-				{
-					$(appConfig.root).addClass("red").attr("data-test", "test");
-					arOrder.push("3");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootIsApp = $root.is("app");
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.find("div.test-app").length > 0);
-					bHasBlueClass = $root.hasClass("blue");
-					bRootInParent = $root.parent().is("div.app-area");
-					bHasRedClass = $root.hasClass("red");
-					bHasTestAttr = !!$root.attr("data-test");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasBlueClass).toBe(true);
-				expect(bHasRedClass).toBe(true);
-				expect(bHasTestAttr).toBe(true);
-				expect(arOrder.join(",")).toBe("1,2,3");
-				expect(bRootIsApp).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-				expect(bRootInParent).toBe(true);
-			});
-		}
-	);
-
-});
-
-describe('F2.AppHandlers - rendering - appRenderAfter', function() {
-
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	it(
-		'should pass appConfig as only argument to appRenderAfter.',
-		function() {
-			var bDone = false;
-			var bHasAppConfig = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					bHasAppConfig = (arguments.length == 1 && appConfig && appConfig.appId && appConfig.manifestUrl) ? true : false;
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bHasAppConfig).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'should fire appRenderAfter only after app is in dom.',
-		function() {
-			var bDone = false;
-			var bRootOnPage = false;
-			var bAppIsRoot = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					var $root = $(appConfig.root);
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppIsRoot = $root.hasClass("test-app");
-					bAppHtmlInRoot = ($root.text() == "Testing");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bAppIsRoot).toBe(true);
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'fires appRenderAfter functions sequentially.',
-		function() {
-			var bDone = false;
-			var arOrder = [];
-			var bRootOnPage = false;
-			var bAppHtmlInRoot = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					arOrder.push("1");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					arOrder.push("2");
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					arOrder.push("3");
-					var $root = $(appConfig.root);
-					bRootOnPage = ($root.parents("body:first").length > 0);
-					bAppHtmlInRoot = ($root.text() == "Testing");
-					bDone = true;
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bDone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(arOrder.join(",")).toBe("1,2,3");
-				expect(bRootOnPage).toBe(true);
-				expect(bAppHtmlInRoot).toBe(true);
-			});
-		}
-	);
-
-});
-
-describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	it(
-		'should remove on() appDestroyBefore handlers regardless of namespace if no namespace passed to off() event.',
-		function() {
-			var bAppStillAround = false;
-			var bAppGone = false;
-			var $root = null;
-			var bAppDestroyOnMethodCalled = false;
-			var bAppDestroyWithNamespaceOnMethodCalled = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
-				function()
-				{
-					bAppDestroyOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_DESTROY_BEFORE + ".specialNamespace",
-				function()
-				{
-					bAppDestroyWithNamespaceOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					$root = $(appConfig.root);
-					setTimeout(function() { bAppGone = true; }, 700);
-					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_BEFORE);
-					F2.removeApp(appConfig.instanceId);
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bAppGone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect($root.parent().length == 0).toBe(true);
-				expect(bAppDestroyOnMethodCalled).toBe(false);
-				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
-			});
-		}
-	);
-
-	it(
-		'should only remove on() from appDestroyBefore handlers if namespace matches what was passed to off() event.',
-		function() {
-			var bAppStillAround = false;
-			var bAppGone = false;
-			var $root = null;
-			var bAppDestroyOnMethodCalled = false;
-			var bAppDestroyWithNamespaceOnMethodCalled = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
-				function()
-				{
-					bAppDestroyOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_DESTROY_BEFORE + ".specialNamespace",
-				function()
-				{
-					bAppDestroyWithNamespaceOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					$root = $(appConfig.root);
-					setTimeout(function() { bAppGone = true; }, 700);
-					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_BEFORE + ".specialNamespace");
-					F2.removeApp(appConfig.instanceId);
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bAppGone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect($root.parent().length == 0).toBe(true);
-				expect(bAppDestroyOnMethodCalled).toBe(true);
-				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
-			});
-		}
-	);
-});
-
-describe('F2.AppHandlers - rendering - appDestroy', function() {
-
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	it(
-		'should remove app from page if no appHandlers are declared.',
-		function() {
-			var bAppStillAround = false;
-			var bAppGone = false;
-			var $root = null;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig) {
-					$root = $(appConfig.root);
-					// setup a boolean to make sure the app is on the page
-					bAppStillAround = true;
-					// delay execution of removing the app
-					setTimeout(function() {
-						F2.removeApp(appConfig.instanceId);
-					}, 0);
-					// delay execution to test that the app is now gone
-					setTimeout(function() { bAppGone = true; }, 600);
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function() {
-					return bAppStillAround;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect($root.parent().length).toEqual(1);
-			});
-
-			waitsFor(
-				function()
-				{
-					return bAppGone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect($root.parent().length).toEqual(0);
-			});
-		}
-	);
-
-	it('should call app instance .destroy() method if destroy method exists', function(){
-		F2.inlineScriptsEvaluated = false;
-		F2.testAppInitialized = false;
-		F2.destroyAppMethodCalled = false;
-		
-		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
-		waitsFor(
-			function(){
-				return F2.testAppInitialized;
-			},
-			'AppClass init() to be called',
-			3000
+		}).not.toThrow();
+	});
+
+	it('should use AppHandlers if container config handlers are defined', function() {
+		var afterFired = false;
+		var beforeFired = false;
+		var renderFired = false;
+
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			function(appConfig) {
+				throw new Error("I should not fire!");
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER,
+			function(appConfig) {
+				throw new Error("I should not fire!");
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			function(appConfig) {
+				throw new Error("I should not fire!");
+			}
 		);
 
+		F2.init({
+			afterAppRender: function() {
+				afterFired = true;
+			},
+			appRender: function() {
+				renderFired = true;
+			},
+			beforeAppRender: function() {
+				beforeFired = true;
+			}
+		});
+		F2.registerApps(appConfig(), appManifest());
+
+		waitsFor(function() {
+			return afterFired;
+		}, 1000);
+
 		runs(function() {
-			F2.removeApp(F2.testAppInstanceID);
-
-			waitsFor(
-				function(){
-					return F2.destroyAppMethodCalled;
-				},
-				'destroy() method was never evaluated',
-				1000
-			);
-
-			runs(function() {
-				expect(F2.destroyAppMethodCalled).toBe(true);
-			});
+			expect(afterFired).toBe(true);
+			expect(beforeFired).toBe(true);
+			expect(renderFired).toBe(true);
 		});
 	});
 
-	it(
-		'should remove on() appDestroy handlers regardless of namespace if no namespace passed to off() event.',
-		function() {
-			var bAppStillAround = false;
-			var bAppGone = false;
-			var $root = null;
-			var bAppDestroyOnMethodCalled = false;
-			var bAppDestroyWithNamespaceOnMethodCalled = false;
+	it('should fire if container config handlers are not defined', function() {
+		var afterFired = false;
+		var beforeFired = false;
+		var renderFired = false;
 
-			F2.init();
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			function(appConfig) {
+				beforeFired = true;
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER,
+			function(appConfig) {
+				appConfig.root = document.body;
+				renderFired = true;
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			function(appConfig) {
+				afterFired = true;
+			}
+		);
 
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
+		F2.init();
+		F2.registerApps(appConfig(), appManifest());
+
+		waitsFor(function() {
+			return afterFired;
+		}, 1000);
+
+		runs(function() {
+			expect(afterFired).toBe(true);
+			expect(beforeFired).toBe(true);
+			expect(renderFired).toBe(true);
+		});
+	});
+
+	it('should fire in order', function() {
+		var afterFired = false;
+		var order = [];
+
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_CREATE_ROOT,
+			function(appConfig) {
+				appConfig.root = document.body;
+				order.push(F2.Constants.AppHandlers.APP_CREATE_ROOT);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			function(appConfig) {
+				order.push(F2.Constants.AppHandlers.APP_RENDER_BEFORE);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER,
+			function(appConfig) {
+				order.push(F2.Constants.AppHandlers.APP_RENDER);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			function(appConfig) {
+				order.push(F2.Constants.AppHandlers.APP_RENDER_AFTER);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+			function(appConfig) {
+				order.push(F2.Constants.AppHandlers.APP_DESTROY_BEFORE);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_DESTROY,
+			function(appConfig) {
+				order.push(F2.Constants.AppHandlers.APP_DESTROY);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+			function(appConfig) {
+				order.push(F2.Constants.AppHandlers.APP_DESTROY_AFTER);
+				afterFired = true;
+			}
+		);
+
+		F2.init();
+		F2.registerApps(appConfig(), appManifest());
+
+		setTimeout(function() {
+			F2.removeAllApps();
+		}, 0);
+
+		waitsFor(function() {
+			return afterFired;
+		}, 1000);
+
+		runs(function() {
+			expect(order).toEqual([
+				F2.Constants.AppHandlers.APP_CREATE_ROOT,
+				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+				F2.Constants.AppHandlers.APP_RENDER,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
 				F2.Constants.AppHandlers.APP_DESTROY,
-				function(appConfig)
-				{
-					bAppDestroyOnMethodCalled = true;
+				F2.Constants.AppHandlers.APP_DESTROY_AFTER
+			]);
+		});
+	});
+
+	it('should allow multiple callbacks per handler and fire them in FIFO order', function() {
+		var done = false;
+		var order = [];
+
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			function(appConfig) {
+				order.push(1);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			function(appConfig) {
+				order.push(2);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			function(appConfig) {
+				done = true;
+			}
+		);
+
+		F2.init();
+		F2.registerApps(appConfig(), appManifest());
+
+		waitsFor(function() {
+			return done;
+		}, 1000);
+
+		runs(function() {
+			expect(order).toEqual([1, 2]);
+		});
+	});
+
+	it('should automatically render app root using the apps html', function() {
+		var done = false;
+		var rootOnPage = false;
+		var appHtmlInRoot = false;
+		var hasTestAppClass = false;
+
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			function(appConfig) {
+				var $root = $(appConfig.root);
+				rootOnPage = $root.parents('body:first').length > 0;
+				hasTestAppClass = $root.hasClass('test-app');
+				appHtmlInRoot = $root.text() === 'Testing';
+				done = true;
+			}
+		);
+
+		F2.init();
+		F2.registerApps(appConfig(), appManifest());
+
+		waitsFor(function() {
+			return done;
+		}, 1000);
+
+		runs(function() {
+			expect(hasTestAppClass).toBe(true);
+			expect(rootOnPage).toBe(true);
+			expect(appHtmlInRoot).toBe(true);
+		});
+	});
+
+	it('should only append app html if root exists', function() {
+		var done = false;
+		var nodeIsCorrect = false;
+		var htmlWasAppended = false;
+
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+			function(appConfig) {
+				appConfig.root = $('<app />').get(0);
+			}
+		);
+		F2.AppHandlers.on(
+			containerToken,
+			F2.Constants.AppHandlers.APP_RENDER_AFTER,
+			function(appConfig) {
+				var $root = $(appConfig.root);
+				nodeIsCorrect = $root.is('app');
+				htmlWasAppended = $root.text() === 'Testing';
+				done = true;
+			}
+		);
+
+		F2.init();
+		F2.registerApps(appConfig(), appManifest());
+
+		waitsFor(function() {
+			return done;
+		}, 1000);
+
+		runs(function() {
+			expect(nodeIsCorrect).toBe(true);
+			expect(htmlWasAppended).toBe(true);
+		});
+	});
+
+	describe('on', function() {
+
+		it('should throw without valid token', function() {
+			expect(function() {
+				F2.AppHandlers.on(
+					'',
+					F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+					function(appConfig) {}
+				);
+			}).toThrow();
+		});
+
+		it('should throw without a recognized handler name', function() {
+			expect(function() {
+				F2.AppHandlers.on(
+					containerToken,
+					'asdf',
+					function(appConfig) {}
+				);
+			}).toThrow();
+		});
+
+		it('should allow a handler name to have a trailing namespace', function() {
+			expect(function() {
+				F2.AppHandlers.on(
+					containerToken,
+					F2.Constants.AppHandlers.APP_RENDER_BEFORE + '.testing',
+					function(appConfig) {}
+				);
+			}).not.toThrow();
+		});
+	
+	});
+
+	describe('off', function() {
+
+		it('should throw without valid token', function() {
+			expect(function() {
+				F2.AppHandlers.off(
+					'',
+					F2.Constants.AppHandlers.APP_RENDER_BEFORE
+				);
+			}).toThrow();
+		});
+
+		it('should throw without a recognized handler name', function() {
+			expect(function() {
+				F2.AppHandlers.off(
+					containerToken,
+					'asdf',
+					function(appConfig) {}
+				);
+			}).toThrow();
+		});
+
+		it('should remove all type handlers if no namespace is specified', function() {
+			var root;
+			var handler1Called = false;
+			var handler2Called = false;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+				function() {
+					handler1Called = true;
 				}
-			)
-			.on(
-				containerAppHandlerToken,
-				"appDestroy.specialNamespace",
-				function(appConfig)
-				{
-					bAppDestroyWithNamespaceOnMethodCalled = true;
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE + ".specialNamespace",
+				function() {
+					handler2Called = true;
 				}
-			)
-			.on(
-				containerAppHandlerToken,
+			);
+			F2.AppHandlers.on(
+				containerToken,
 				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					$root = $(appConfig.root);
-					setTimeout(function() { bAppGone = true; }, 600);
-					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY);
+				function(appConfig) {
+					root = appConfig.root;
+					F2.AppHandlers.off(containerToken, F2.Constants.AppHandlers.APP_DESTROY_BEFORE);
 					F2.removeApp(appConfig.instanceId);
 				}
 			);
 
+			F2.init();
 			F2.registerApps(appConfig(), appManifest());
 
-			waitsFor(
-				function()
-				{
-					return bAppGone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
+			waitsFor( function() {
+				return $(root).parents('body:first').length === 0;
+			}, 1000);
 
 			runs(function() {
-				expect($root.parent().length == 0).toBe(true);
-				expect(bAppDestroyOnMethodCalled).toBe(false);
-				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
+				expect(handler1Called).toBe(false);
+				expect(handler2Called).toBe(false);
 			});
-		}
-	);
+		});
 
-	it(
-		'should only remove on() from appDestroy handlers if namespace matches what was passed to off() event.',
-		function() {
-			var bAppStillAround = false;
-			var bAppGone = false;
-			var $root = null;
-			var bAppDestroyOnMethodCalled = false;
-			var bAppDestroyWithNamespaceOnMethodCalled = false;
+		it('should remove only type handlers of a given namespace if specified', function() {
+			var root;
+			var handler1Called = false;
+			var handler2Called = false;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+				function() {
+					handler1Called = true;
+				}
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE + '.specialNamespace',
+				function() {
+					handler2Called = true;
+				}
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig) {
+					root = appConfig.root;
+					F2.AppHandlers.off(containerToken, F2.Constants.AppHandlers.APP_DESTROY_BEFORE + '.specialNamespace');
+					F2.removeApp(appConfig.instanceId);
+				}
+			);
 
 			F2.init();
+			F2.registerApps(appConfig(), appManifest());
 
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
+			waitsFor(function() {
+				// Wait for app to be removed
+				return $(root).parents('body:first').length === 0;
+			}, 1000);
+
+			runs(function() {
+				expect(handler1Called).toBe(true);
+				expect(handler2Called).toBe(false);
+			});
+		});
+
+	});
+
+	describe('getToken', function() {
+
+		it('should be destroyed after first call', function() {
+			// F2.AppHandlers.getToken is called above in the async.beforeEachReloadF2
+			expect(F2.AppHandlers.getToken).toBeFalsy();
+		});
+
+	});
+
+	describe('__f2GetToken', function() {
+
+		it('should be destroyed after first call', function() {
+			// F2.AppHandlers.__f2GetToken is called internally and should no longer exist
+			expect(F2.AppHandlers.__f2GetToken).toBeFalsy();
+		});
+
+	});
+
+	describe('__trigger', function() {
+
+		it('should not accept container token', function() {
+			expect(function() {
+				F2.AppHandlers.__trigger(containerToken, F2.Constants.AppHandlers.APP_RENDER_BEFORE);
+			}).toThrow();
+		});
+
+	});
+
+	describe('APP_CREATE_ROOT', function() {
+
+		it('should pass appConfig to callback', function() {
+			var done = false;
+			var passedConfig = false;
+			var config = appConfig();
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_CREATE_ROOT,
+				function(appConfig) {
+					passedConfig = appConfig;
+					done = true;
+				}
+			);
+
+			F2.init();
+			F2.registerApps(config, appManifest());
+
+			waitsFor(function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(passedConfig.appId).toEqual(config.appId);
+				expect(passedConfig.manifestUrl).toEqual(config.manifestUrl);
+			});
+		});
+
+		it('should allow appConfig root to be redefined between callbacks', function() {
+			var done = false;
+			var rootIsCorrect = false;
+			var htmlWasAppended = false;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_CREATE_ROOT,
+				function(appConfig) {
+					appConfig.root = $('<div></div>').get(0);
+				}
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_CREATE_ROOT,
+				function(appConfig) {
+					appConfig.root = $('<app />').get(0);
+				}
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig) {
+					var $root = $(appConfig.root);
+					rootIsCorrect = $root.is('app');
+					htmlWasAppended = $root.text() === 'Testing';
+					done = true;
+				}
+			);
+
+			F2.init();
+			F2.registerApps(appConfig(), appManifest());
+
+			waitsFor( function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(rootIsCorrect).toBe(true);
+				expect(htmlWasAppended).toBe(true);
+			});
+		});
+
+	});
+
+	describe('APP_RENDER_BEFORE', function() {
+
+		it('should pass appConfig to callback', function() {
+			var done = false;
+			var passedConfig = false;
+			var config = appConfig();
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+				function(appConfig) {
+					passedConfig = appConfig;
+					done = true;
+				}
+			);
+
+			F2.init();
+			F2.registerApps(config, appManifest());
+
+			waitsFor(function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(passedConfig.appId).toEqual(config.appId);
+				expect(passedConfig.manifestUrl).toEqual(config.manifestUrl);
+			});
+		});
+	
+	});
+
+	describe('APP_RENDER', function() {
+
+		var $testContainer = $('<div id="test-container" />');
+
+		beforeEach(function() {
+			$(document.body).append($testContainer);
+		});
+
+		afterEach(function() {
+			$testContainer.remove();
+		});
+
+		it('should pass appConfig and app html to callback', function() {
+			var done = false;
+			var passedConfig;
+			var passedHtml;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER,
+				function(appConfig, appHtml) {
+					appConfig.root = document.body;
+
+					passedConfig = appConfig;
+					passedHtml = appHtml;
+					done = true;
+				}
+			);
+
+			var config = appConfig();
+			var manifest = appManifest();
+			F2.init();
+			F2.registerApps(config, manifest);
+
+			waitsFor(function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(passedConfig.appId).toEqual(config.appId);
+				expect(passedConfig.manifestUrl).toEqual(config.manifestUrl);
+				expect(passedHtml.indexOf('Testing') !== -1).toBe(true);
+			});
+		});
+
+		it('should not automatically append root to DOM if added manually in callback', function() {
+			var done = false;
+			var rootParentId = false;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER,
+				function(appConfig) {
+					appConfig.root = $('<app />').get(0);
+					$testContainer.append(appConfig.root);
+				}
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig) {
+					rootParentId = $(appConfig.root).parent().attr('id');
+					done = true;
+				}
+			);
+
+			F2.init();
+			F2.registerApps(appConfig(), appManifest());
+
+			waitsFor(function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(rootParentId).toEqual($testContainer.attr('id'));
+			});
+		});
+
+		it('should allow root container to be specified instead of callback', function() {
+			var done = false;
+			var rootParentId;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_CREATE_ROOT,
+				function(appConfig) {
+					appConfig.root = $('<app></app>').get(0);
+				}
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER,
+				$testContainer.get(0)
+			);
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig) {
+					rootParentId = $(appConfig.root).parent().attr('id');
+					done = true;
+				}
+			);
+
+			F2.init();
+			F2.registerApps(appConfig(), appManifest());
+
+			waitsFor(function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(rootParentId).toEqual($testContainer.attr('id'));
+			});
+		});
+
+		it('throws if callback is specified, but appConfig.root is not set', function() {
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER,
+				function() {}
+			);
+
+			expect(function() {
+				F2.init();
+				F2.registerApps(appConfig(), appManifest());
+			}).toThrow();
+		});
+
+	});
+
+	describe('APP_RENDER_AFTER', function() {
+
+		it('should pass appConfig and app html to callback', function() {
+			var done = false;
+			var passedConfig;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig) {
+					appConfig.root = document.body;
+					passedConfig = appConfig;
+					done = true;
+				}
+			);
+
+			var config = appConfig();
+			F2.init();
+			F2.registerApps(config, appManifest());
+
+			waitsFor(function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(passedConfig.appId).toEqual(config.appId);
+				expect(passedConfig.manifestUrl).toEqual(config.manifestUrl);
+			});
+		});
+
+		it('should fire after app is in DOM', function() {
+			var done = false;
+			var rootOnPage = false;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_RENDER_AFTER,
+				function(appConfig) {
+					rootOnPage = $(appConfig.root).parents('body:first').length > 0;
+					done = true;
+				}
+			);
+
+			F2.init();
+			F2.registerApps(appConfig(), appManifest());
+
+			waitsFor(function() {
+				return done;
+			}, 1000);
+
+			runs(function() {
+				expect(rootOnPage).toBe(true);
+			});
+		});
+
+	});
+
+	describe('APP_DESTROY_BEFORE', function() {
+
+		it('should run before app\'s "destroy" method is called', function() {
+			var appDestroyCalled = false;
+			var destroyHandlerCalled = false;
+
+			F2.Apps['test-app'] = (function() {
+				var AppClass = function() {};
+
+				AppClass.prototype = {
+					destroy: function() {
+						appDestroyCalled = true;
+					}
+				};
+
+				return AppClass;
+			})();
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_DESTROY_BEFORE,
+				function() {
+					destroyHandlerCalled = true;
+					expect(appDestroyCalled).toBe(false);
+				}
+			);
+
+			F2.init();
+			F2.registerApps({
+				appId: 'test-app',
+				root: $('<app />').appendTo(document.body).get(0)
+			});
+
+			// TODO: remove need for setTimeout
+			setTimeout(function() {
+				F2.removeAllApps();
+			}, 0);
+
+			waitsFor(function() {
+				return destroyHandlerCalled;
+			}, 1000);
+		});
+
+	});
+
+	describe('APP_DESTROY', function() {
+		
+		it('should prevent app\'s "destroy" method from being called automatically', function() {
+			var appDestroyCalled = false;
+			var destroyHandlerCalled = false;
+
+			F2.Apps['test-app'] = (function() {
+				var AppClass = function() {};
+
+				AppClass.prototype = {
+					destroy: function() {
+						appDestroyCalled = true;
+					}
+				};
+
+				return AppClass;
+			})();
+
+			F2.AppHandlers.on(
+				containerToken,
 				F2.Constants.AppHandlers.APP_DESTROY,
-				function(appInstance)
-				{
-					// call the apps destroy method, if it has one
-					if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == "function")
-					{
-						appInstance.app.destroy();
-					}
-					// warn the container developer/app developer that even though they have a destroy method it hasn't been
-					else if(appInstance && appInstance.app && appInstance.app.destroy)
-					{
-						F2.log(app.config.appId + " has a destroy property, but destroy is not of type function and as such will not be executed.");
-					}
-
-					// fade out and remove the root
-					jQuery(appInstance.config.root).fadeOut(250, function() {
-						jQuery(this).remove();
-					});
-
-					bAppDestroyOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				"appDestroy.specialNamespace",
-				function(appConfig)
-				{
-					bAppDestroyWithNamespaceOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					$root = $(appConfig.root);
-					setTimeout(function() { bAppGone = true; }, 400);
-					F2.AppHandlers.off(containerAppHandlerToken, "appDestroy.specialNamespace");
-					F2.removeApp(appConfig.instanceId);
-				}
+				function() {}
 			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bAppGone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect($root.parent().length == 0).toBe(true);
-				expect(bAppDestroyOnMethodCalled).toBe(true);
-				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
-			});
-		}
-	);
-});
-
-describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:[],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	it(
-		'should remove on() appDestroyAfter handlers regardless of namespace if no namespace passed to off() event.',
-		function() {
-			var bAppStillAround = false;
-			var bAppGone = false;
-			var $root = null;
-			var bAppDestroyOnMethodCalled = false;
-			var bAppDestroyWithNamespaceOnMethodCalled = false;
-
-			F2.init();
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
+			F2.AppHandlers.on(
+				containerToken,
 				F2.Constants.AppHandlers.APP_DESTROY_AFTER,
-				function()
-				{
-					bAppDestroyOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_DESTROY_AFTER + ".specialNamespace",
-				function()
-				{
-					bAppDestroyWithNamespaceOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					$root = $(appConfig.root);
-					setTimeout(function() { bAppGone = true; }, 700);
-					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_AFTER);
-					F2.removeApp(appConfig.instanceId);
+				function() {
+					destroyHandlerCalled = true;
 				}
 			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bAppGone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect($root.parent().length == 0).toBe(true);
-				expect(bAppDestroyOnMethodCalled).toBe(false);
-				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
-			});
-		}
-	);
-
-	it(
-		'should only remove on() from appDestroyAfter handlers if namespace matches what was passed to off() event.',
-		function() {
-			var bAppStillAround = false;
-			var bAppGone = false;
-			var $root = null;
-			var bAppDestroyOnMethodCalled = false;
-			var bAppDestroyWithNamespaceOnMethodCalled = false;
 
 			F2.init();
+			F2.registerApps({
+				appId: 'test-app',
+				root: $('<app />').appendTo(document.body).get(0)
+			});
 
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
+			// I don't know why this needs to be in a setTimeout
+			// TODO: remove need for setTimeout
+			setTimeout(function() {
+				F2.removeAllApps();
+			}, 0);
+
+			waitsFor(function() {
+				return destroyHandlerCalled;
+			}, 3000);
+
+			runs(function() {
+				expect(appDestroyCalled).toBe(false);
+			});
+		});
+
+	});
+
+	describe('APP_DESTROY_AFTER', function() {
+
+		it('should run after app\'s "destroy" method is called', function() {
+			var appDestroyCalled = false;
+			var destroyHandlerCalled = false;
+
+			F2.Apps['test-app'] = (function() {
+				var AppClass = function() {};
+
+				AppClass.prototype = {
+					destroy: function() {
+						appDestroyCalled = true;
+					}
+				};
+
+				return AppClass;
+			})();
+
+			F2.AppHandlers.on(
+				containerToken,
 				F2.Constants.AppHandlers.APP_DESTROY_AFTER,
-				function()
-				{
-					bAppDestroyOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_DESTROY_AFTER + ".specialNamespace",
-				function()
-				{
-					bAppDestroyWithNamespaceOnMethodCalled = true;
-				}
-			)
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_RENDER_AFTER,
-				function(appConfig)
-				{
-					$root = $(appConfig.root);
-					setTimeout(function() { bAppGone = true; }, 700);
-					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY_AFTER + ".specialNamespace");
-					F2.removeApp(appConfig.instanceId);
+				function() {
+					destroyHandlerCalled = true;
+					expect(appDestroyCalled).toBe(true);
 				}
 			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bAppGone;
-				},
-				'AppHandlers.On( appRenderAfter ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect($root.parent().length == 0).toBe(true);
-				expect(bAppDestroyOnMethodCalled).toBe(true);
-				expect(bAppDestroyWithNamespaceOnMethodCalled).toBe(false);
-			});
-		}
-	);
-
-});
-
-describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
-
-	var containerAppHandlerToken = null;
-
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
-
-	var appConfig = function()
-	{
-		return {
-			appId: TEST_APP_ID,
-			manifestUrl: TEST_MANIFEST_URL
-		};
-	};
-
-	var appManifest = function()
-	{
-		return {
-			scripts:['http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/doesNotExist.js'],
-			styles:[],
-			inlineScripts:[],
-			apps:[
-				{
-					html: '<div class="test-app">Testing</div>'
-				}
-			]
-		};
-	};
-
-	var invalidInlineAppManifest = appManifest();
-	invalidInlineAppManifest.scripts = [];
-	invalidInlineAppManifest.inlineScripts = ['1alert("a");'];
-
-	it(
-		'handler should receive appScriptLoadFailed event due to invalid appjs path',
-		function() {
-			var bScriptLoadFailedReceived = false;
-
-			// Reduce timeout so this unit test doesn't take 7 seconds
-			F2.init({scriptErrorTimeout: 100});
-
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
-				F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-				function(appConfig, scriptInfo)
-				{
-					bScriptLoadFailedReceived = true;
-					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED);
-					F2.removeApp(appConfig.instanceId);
-				}
-			);
-
-			F2.registerApps(appConfig(), appManifest());
-
-			waitsFor(
-				function()
-				{
-					return bScriptLoadFailedReceived;
-				},
-				'AppHandlers.On( appScriptLoadFailed ) was never fired',
-				3000
-			);
-
-			runs(function() {
-				expect(bScriptLoadFailedReceived).toBe(true);
-			});
-		}
-	);
-
-	it(
-		'handler should receive appScriptLoadFailed event due to invalid inline script',
-		function() {
-			var bScriptLoadFailedReceived = false;
 
 			F2.init();
+			F2.registerApps({
+				appId: 'test-app',
+				root: $('<app />').appendTo(document.body).get(0)
+			});
 
-			F2.AppHandlers
-			.on(
-				containerAppHandlerToken,
+			// TODO: remove need for setTimeout
+			setTimeout(function() {
+				F2.removeAllApps();
+			}, 0);
+
+			waitsFor(function() {
+				return destroyHandlerCalled;
+			}, 1000);
+		});
+
+	});
+
+	describe('APP_SCRIPT_LOAD_FAILED',function() {
+
+		function appManifest() {
+			return {
+				scripts: [],
+				styles: [],
+				inlineScripts: [],
+				apps: [{
+					html: '<div class="test-app">Testing</div>'
+				}]
+			};
+		};
+
+		it('should fire with invalid script path', function() {
+			var errorHandlerFired = false;
+
+			F2.AppHandlers.on(
+				containerToken,
 				F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-				function(appConfig, scriptInfo)
-				{
-					bScriptLoadFailedReceived = true;
-					F2.AppHandlers.off(containerAppHandlerToken, F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED);
-					F2.removeApp(appConfig.instanceId);
+				function(appConfig, scriptInfo) {
+					errorHandlerFired = true;
 				}
 			);
 
-			F2.registerApps(appConfig(), invalidInlineAppManifest);
+			var manifest = appManifest();
+			manifest.scripts.push('http://localhost:8080/doesNotExist.js');
 
-			waitsFor(
-				function()
-				{
-					return bScriptLoadFailedReceived;
-				},
-				'AppHandlers.On( appScriptLoadFailed ) was never fired',
-				3000
-			);
+			F2.init();
+			F2.registerApps(appConfig(), manifest);
+
+			waitsFor(function() {
+				return errorHandlerFired;
+			}, 1000);
 
 			runs(function() {
-				expect(bScriptLoadFailedReceived).toBe(true);
+				expect(errorHandlerFired).toBe(true);
 			});
-		}
-	);
+		});
+
+		it('should fire with invalid inline scripts', function() {
+			var errorHandlerFired = false;
+
+			F2.AppHandlers.on(
+				containerToken,
+				F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+				function(appConfig, scriptInfo) {
+					errorHandlerFired = true;
+				}
+			);
+
+			var manifest = appManifest();
+			manifest.inlineScripts.push('asdf()');
+
+			F2.init();
+			F2.registerApps(appConfig(), manifest);
+
+			waitsFor(function() {
+				return errorHandlerFired;
+			}, 1000);
+
+			runs(function() {
+				expect(errorHandlerFired).toBe(true);
+			});
+		});
+
+	});
+
 });
