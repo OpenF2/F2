@@ -25,7 +25,7 @@ To help you get started building an F2 app, review the documentation and example
 
 ### Basic Container
 
-To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://twitter.github.io/bootstrap/index.html), and ensure you're [properly configured](#configuration) for continuing with the documentation.
+To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://getbootstrap.com/), and ensure you're [properly configured](#configuration) for continuing with the documentation.
 
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
 
@@ -400,20 +400,20 @@ Step 3. App Manifest file.
 
 #### Automatic Consistency
 
-F2 uses and recommends [Bootstrap](http://twitter.github.io/bootstrap/) for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they _know_ will style F2 apps without engaging with the app developer to ensure compatability.
+F2 uses and recommends [Bootstrap](http://getbootstrap.com) for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they _know_ will style F2 apps without engaging with the app developer to ensure compatibility.
 
-This also means App Developers must adhere to [Bootstrap's scaffolding guidelines](http://twitter.github.io/bootstrap/scaffolding.html) as defined on their website. 
+This also means App Developers must adhere to [Bootstrap's grid system](http://getbootstrap.com/css/#grid) as defined on their website. 
 
 An example two-column layout using Bootstrap-specifed markup:
 
 ```html
 <div class="row">
-  <div class="span4">...</div>
-  <div class="span8">...</div>
+  <div class="col-md-4">...</div>
+  <div class="col-md-8">...</div>
 </div>
 ```
 
-The `.span4` and `.span8` provide two columns in the [12-column grid](http://twitter.github.io/bootstrap/scaffolding.html#gridSystem).
+The `.col-md-4` and `.col-md-8` provide two columns in the [12-column grid](http://getbootstrap.com/css/#grid).
 
 <span class="label label-default">Note</span> Read more about [Creating a Common Look and Feel with F2](index.html#container).
 
@@ -1017,7 +1017,7 @@ this.ui.setTitle("Chart for MSFT");
 
 ### F2.UI.Modals
 
-F2.js provides two methods in `F2.UI` for modal dialogs. F2 uses and recommends [Bootstrap](http://twitter.github.io/bootstrap/) for many reasons, and taking advantage of [Bootstrap's modals](http://twitter.github.io/bootstrap/javascript.html#modals) was an easy choice. 
+F2.js provides two methods in `F2.UI` for modal dialogs. F2 uses and recommends [Bootstrap](http://getbootstrap.com) for many reasons, and taking advantage of [Bootstrap's modals](http://getbootstrap.com/javascript/#modals) was an easy choice. 
 
 For full details on F2.UI.Modals and the two types of modals (`alert` and `confirm`), [read the SDK docs](./sdk/classes/F2.UI.Modals.html). 
 

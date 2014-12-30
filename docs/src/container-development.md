@@ -14,7 +14,7 @@ To help you get started building an F2 container, review the documentation and e
 
 ### Basic Container
 
-To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://twitter.github.io/bootstrap/index.html), and ensure you're [properly configured](#configuration) for continuing with the documentation.
+To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://getbootstrap.com), and ensure you're [properly configured](#configuration) for continuing with the documentation.
 
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
 
@@ -593,7 +593,7 @@ For the following example, let's assume you have a web page composed on the serv
 
 #### 1. Setup Container
 
-To use pre-loaded apps, a web page with a placeholder element for the apps is required. This simple (and empty) web page features a `div#news_app.span12` which serves as that placeholder or "root" element.
+To use pre-loaded apps, a web page with a placeholder element for the apps is required. This simple (and empty) web page features a `div#news_app.col-md-12` which serves as that placeholder or "root" element.
 
 ```html
 <!DOCTYPE html>
@@ -604,7 +604,7 @@ To use pre-loaded apps, a web page with a placeholder element for the apps is re
     <body>
         <div class="container">
             <div class="row">
-                <div class="span12" id="news_app">
+                <div class="col-md-12" id="news_app">
                     <!--app goes here-->
                 </div>
             </div>
@@ -642,7 +642,7 @@ Next, make a server-side request to the news app's `AppManifest`&mdash;the URL i
 
 #### 3. Add App to Container
 
-You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .span12` following [Bootstrap's scaffolding](http://twitter.github.io/bootstrap/scaffolding.html) guidelines. The `styles` were appended to the `head` and the `scripts` were appended to the `body` (in this case just one URL for each).
+You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .col-md-12` following [Bootstrap's scaffolding](http://getbootstrap.com/css/#grid) guidelines. The `styles` were appended to the `head` and the `scripts` were appended to the `body` (in this case just one URL for each).
 
 ```html
 <!DOCTYPE html>
@@ -654,7 +654,7 @@ You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. 
     <body>
         <div class="container">
             <div class="row">
-                <div class="span12" id="news_app">
+                <div class="col-md-12" id="news_app">
                     <div data-module-name="MarketNewsApp" id="news_app">...</div>
                 </div>
             </div>
@@ -1192,7 +1192,7 @@ Since it will be loaded in an iframe and like its parent, the secure child conta
 F2.init({
     appRender:function(appConfig, html) {
         return [
-            '<div class="span4">',
+            '<div class="col-md-4">',
                 html,
             '</div>'
         ].join('');
