@@ -266,7 +266,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			docs: {
-				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
+				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js','!docs/src/template/head.html','!docs/src/template/nav.html','!docs/src/template/footer.html'],
 				tasks: ['docs'],
 				options: {
 					spawn: false,
