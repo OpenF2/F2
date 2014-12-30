@@ -24,9 +24,9 @@ $(function() {
 	var containerAppHandlerToken = F2.AppHandlers.getToken();
 
 	var appCreateRootFunc = function(appConfig) {
-		var hasSettings = appConfig.views.indexOf(F2.Constants.Views.SETTINGS) !== -1;
-		var hasHelp = appConfig.views.indexOf(F2.Constants.Views.HELP) !== -1;
-		var hasAbout = appConfig.views.indexOf(F2.Constants.Views.ABOUT) !== -1;
+		var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, appConfig.views);
+		var hasHelp = F2.inArray(F2.Constants.Views.HELP, appConfig.views);
+		var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, appConfig.views);
 		var showDivider = hasSettings || hasHelp || hasAbout;
 		var gridWidth = appConfig.minGridSize || 3;
 

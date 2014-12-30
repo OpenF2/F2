@@ -26,3 +26,15 @@ describe('F2.guid', function() {
 	});
 
 });
+
+describe('F2.inArray', function() {
+
+	it('returns true if an item is in the array', function() {
+		expect(F2.inArray(1, [3, 2, 1])).toBeTruthy();
+	});
+
+	it('returns false if an item is not in the array', function() {
+		expect(F2.inArray(1, [7, 8, 9])).toBeFalsy();
+	});
+
+});

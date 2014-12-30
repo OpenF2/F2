@@ -46,7 +46,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 	};
 
 	var _watchListHasSymbol = function(){
-		return _getWatchListSymbols().indexOf(appConfig.context.symbol) !== -1;
+		return F2.inArray(appConfig.context.symbol, _getWatchListSymbols());
 	};
 
 	var _getWatchListSymbols = function(){
