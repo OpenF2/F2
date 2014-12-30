@@ -6,7 +6,7 @@
 <style>
   body { position: relative;/*for scrollspy*/ }
   .pageContent { margin-top: 20px; } 
-  #docs h4, 
+  #docs h4:not(.media-heading), 
   #docs h5, 
   #docs h6 {
     margin-top: 30px;
@@ -24,6 +24,7 @@
   .sidebar-nav .affix {
     position: static;
     width: 100%;
+    top: 5px;
   }
 
   @media (min-width: 768px){
@@ -43,6 +44,9 @@
     .sidebar-nav .affix {
       width: 263px;
     }
+  }
+  footer {
+    margin-top: 50px;
   }
 </style>
 </head>
@@ -85,13 +89,13 @@
           <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
           <ul class="nav nav-stacked">
             <li><a href="#">Sections</a></li>
-            <li><a href="./sdk">API Reference</a></li>
             <li{{#if activeNav.getstarted}} class="active"{{/if}}><a href="index.html">Getting Started</a></li>
             <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
             <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
             <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
-            <li{{#if activeNav.f2js}} class="active"{{/if}}><a href="f2js-sdk.html">F2.js</a></li>
-            <li{{#if activeNav.about}} class="active"{{/if}}><a href="about-f2.html">About F2</a></li>
+            <li class="hidden{{#if activeNav.f2js}} active{{/if}}"><a href="f2js-sdk.html">F2.js</a></li>
+            <li class="hidden{{#if activeNav.about}} active{{/if}}"><a href="about-f2.html">About F2</a></li>
+            <li><a href="./sdk">API Reference</a></li>
           </ul>
         </div>
       </div>
