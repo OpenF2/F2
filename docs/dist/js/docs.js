@@ -22,12 +22,15 @@ F2Docs.prototype.initialize = function() {
 	//affix left nav
 	$('div.navs','#toc').affix({
 		offset: {
-			top: 214,
+			top: 189,
 			bottom: function () {
 				return (this.bottom = $('footer').outerHeight(true) + 80)
 			}
 		}
 	});
+
+	//ensure rwd images 
+	$('img','#docs').addClass('img-responsive');
 
 	//remove active state when going back to the top
 	$(window).on('scroll',function(e){

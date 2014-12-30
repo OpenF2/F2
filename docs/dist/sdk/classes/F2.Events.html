@@ -43,6 +43,9 @@
   #docs div.media:last-child {
     margin-bottom: 100px;
   }
+  .sidebar-toc {
+    overflow: hidden;
+  }
 </style>
 </head>
 <body class="yui3-skin-sam">
@@ -187,7 +190,6 @@
 <div class="classDescription">
     <p>Handles <a href="../../app-development.html#context">Context</a> passing from
 containers to apps and apps to apps.</p>
-
 </div>
 
 <div class="well well-sm">
@@ -266,8 +268,7 @@ containers to apps and apps to apps.</p>
                                     
                                 </td>
                                 <td><p>Same as F2.Events.emit except that it will not send the event
-to all sockets.</p>
-</td>
+to all sockets.</p></td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -299,8 +300,7 @@ to all sockets.</p>
                                     
                                 </td>
                                 <td><p>Execute each of the listeners that may be listening for the specified
-event name in order with the list of arguments.</p>
-</td>
+event name in order with the list of arguments.</p></td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -339,8 +339,7 @@ event name in order with the list of arguments.</p>
                                 </td>
                                 <td><p>Adds a listener that will execute n times for the event before being 
 removed. The listener is invoked only the first time the event is 
-fired, after which it is removed.</p>
-</td>
+fired, after which it is removed.</p></td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -371,8 +370,7 @@ fired, after which it is removed.</p>
                                     
                                     
                                 </td>
-                                <td><p>Remove a listener for the specified event.</p>
-</td>
+                                <td><p>Remove a listener for the specified event.</p></td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -403,8 +401,7 @@ fired, after which it is removed.</p>
                                     
                                     
                                 </td>
-                                <td><p>Adds a listener for the specified event</p>
-</td>
+                                <td><p>Adds a listener for the specified event</p></td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -436,8 +433,7 @@ fired, after which it is removed.</p>
                                     
                                 </td>
                                 <td><p>Adds a one time listener for the event. The listener is invoked only
-the first time the event is fired, after which it is removed.</p>
-</td>
+the first time the event is fired, after which it is removed.</p></td>
                             </tr>
                             
                         </tbody>
@@ -519,7 +515,6 @@ the first time the event is fired, after which it is removed.</p>
     <div class="description">
         <p>Same as F2.Events.emit except that it will not send the event
 to all sockets.</p>
-
     </div>
 
     
@@ -538,7 +533,6 @@ to all sockets.</p>
 
                     <div class="param-description">
                         <p>The event name</p>
-
                     </div>
 
                     
@@ -557,7 +551,6 @@ to all sockets.</p>
 
                     <div class="param-description">
                         <p>The arguments to be passed</p>
-
                     </div>
 
                     
@@ -634,7 +627,6 @@ to all sockets.</p>
     <div class="description">
         <p>Execute each of the listeners that may be listening for the specified
 event name in order with the list of arguments.</p>
-
     </div>
 
     
@@ -653,7 +645,6 @@ event name in order with the list of arguments.</p>
 
                     <div class="param-description">
                         <p>The event name</p>
-
                     </div>
 
                     
@@ -672,7 +663,6 @@ event name in order with the list of arguments.</p>
 
                     <div class="param-description">
                         <p>The arguments to be passed</p>
-
                     </div>
 
                     
@@ -756,7 +746,6 @@ event name in order with the list of arguments.</p>
         <p>Adds a listener that will execute n times for the event before being 
 removed. The listener is invoked only the first time the event is 
 fired, after which it is removed.</p>
-
     </div>
 
     
@@ -775,7 +764,6 @@ fired, after which it is removed.</p>
 
                     <div class="param-description">
                         <p>The event name</p>
-
                     </div>
 
                     
@@ -792,7 +780,6 @@ fired, after which it is removed.</p>
                     <div class="param-description">
                         <p>The number of times to execute the event
 before being removed</p>
-
                     </div>
 
                     
@@ -809,7 +796,6 @@ before being removed</p>
                     <div class="param-description">
                         <p>The function to be fired when the event is
 emitted</p>
-
                     </div>
 
                     
@@ -885,7 +871,6 @@ emitted</p>
 
     <div class="description">
         <p>Remove a listener for the specified event.</p>
-
     </div>
 
     
@@ -904,7 +889,6 @@ emitted</p>
 
                     <div class="param-description">
                         <p>The event name</p>
-
                     </div>
 
                     
@@ -920,7 +904,6 @@ emitted</p>
 
                     <div class="param-description">
                         <p>The function that will be removed</p>
-
                     </div>
 
                     
@@ -996,7 +979,6 @@ emitted</p>
 
     <div class="description">
         <p>Adds a listener for the specified event</p>
-
     </div>
 
     
@@ -1015,7 +997,6 @@ emitted</p>
 
                     <div class="param-description">
                         <p>The event name</p>
-
                     </div>
 
                     
@@ -1032,7 +1013,6 @@ emitted</p>
                     <div class="param-description">
                         <p>The function to be fired when the event is
 emitted</p>
-
                     </div>
 
                     
@@ -1109,7 +1089,6 @@ emitted</p>
     <div class="description">
         <p>Adds a one time listener for the event. The listener is invoked only
 the first time the event is fired, after which it is removed.</p>
-
     </div>
 
     
@@ -1128,7 +1107,6 @@ the first time the event is fired, after which it is removed.</p>
 
                     <div class="param-description">
                         <p>The event name</p>
-
                     </div>
 
                     
@@ -1145,7 +1123,6 @@ the first time the event is fired, after which it is removed.</p>
                     <div class="param-description">
                         <p>The function to be fired when the event is
 emitted</p>
-
                     </div>
 
                     

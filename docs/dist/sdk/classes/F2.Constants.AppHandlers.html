@@ -43,6 +43,9 @@
   #docs div.media:last-child {
     margin-bottom: 100px;
   }
+  .sidebar-toc {
+    overflow: hidden;
+  }
 </style>
 </head>
 <body class="yui3-skin-sam">
@@ -186,7 +189,6 @@
 
 <div class="classDescription">
     <p>A convenient collection of all available appHandler events.</p>
-
 </div>
 
 <div class="well well-sm">
@@ -245,8 +247,7 @@
                                 </td>
                                 <td><p>Equivalent to <code>appCreateRoot</code>. Identifies the create root method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
-</td>
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -259,8 +260,7 @@ following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink
                                 </td>
                                 <td><p>Equivalent to <code>appDestroy</code>. Identifies the app destroy method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( appInstance )</p>
-</td>
+following argument(s): ( appInstance )</p></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -273,8 +273,7 @@ following argument(s): ( appInstance )</p>
                                 </td>
                                 <td><p>Equivalent to <code>appDestroyAfter</code>. Identifies the after app destroy method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( appInstance )</p>
-</td>
+following argument(s): ( appInstance )</p></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -287,8 +286,7 @@ following argument(s): ( appInstance )</p>
                                 </td>
                                 <td><p>Equivalent to <code>appDestroyBefore</code>. Identifies the before app destroy method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( appInstance )</p>
-</td>
+following argument(s): ( appInstance )</p></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -301,8 +299,7 @@ following argument(s): ( appInstance )</p>
                                 </td>
                                 <td><p>Equivalent to <code>appRender</code>. Identifies the app render method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, <a href="../../app-development.html#app-design">appHtml</a> )</p>
-</td>
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, <a href="../../app-development.html#app-design">appHtml</a> )</p></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -315,8 +312,7 @@ following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink
                                 </td>
                                 <td><p>Equivalent to <code>appRenderAfter</code>. Identifies the after app render method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
-</td>
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -329,8 +325,7 @@ following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink
                                 </td>
                                 <td><p>Equivalent to <code>appRenderBefore</code>. Identifies the before app render method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
-</td>
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -343,8 +338,7 @@ following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink
                                 </td>
                                 <td><p>Equivalent to <code>appScriptLoadFailed</code>. Identifies the app script load failed method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
-following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, scriptInfo )</p>
-</td>
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, scriptInfo )</p></td>
                             </tr>
                             
                         </tbody>
@@ -407,7 +401,6 @@ following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink
         <p>Equivalent to <code>appCreateRoot</code>. Identifies the create root method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
-
     </div>
 
     
@@ -423,12 +416,12 @@ F2.AppHandlers.on(
     F2.Constants.AppHandlers.APP_CREATE_ROOT,
     function(appConfig)
     {
-        // If you want to create a custom root. By default F2 uses the app&#39;s outermost HTML element.
-        // the app&#39;s html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
-        appConfig.root = jQuery(&#39;&lt;section&gt;&lt;/section&gt;&#39;).get(0);
+        // If you want to create a custom root. By default F2 uses the app's outermost HTML element.
+        // the app's html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
+        appConfig.root = jQuery('&lt;section&gt;&lt;/section&gt;').get(0);
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     
@@ -481,7 +474,6 @@ F2.AppHandlers.on(
         <p>Equivalent to <code>appDestroy</code>. Identifies the app destroy method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( appInstance )</p>
-
     </div>
 
     
@@ -498,13 +490,13 @@ F2.AppHandlers.on(
     function(appInstance)
     {
         // call the apps destroy method, if it has one
-        if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == &#39;function&#39;)
+        if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == 'function')
         {
             appInstance.app.destroy();
         }
         else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
         {
-            F2.log(appInstance.config.appId + &#39; has a destroy property, but destroy is not of type function and as such will not be executed.&#39;);
+            F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
         }
 
         // fade out and remove the root
@@ -512,8 +504,8 @@ F2.AppHandlers.on(
             jQuery(this).remove();
         });
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     
@@ -566,7 +558,6 @@ F2.AppHandlers.on(
         <p>Equivalent to <code>appDestroyAfter</code>. Identifies the after app destroy method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( appInstance )</p>
-
     </div>
 
     
@@ -584,8 +575,8 @@ F2.AppHandlers.on(
     {
         F2.log(appInstance);
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     
@@ -638,7 +629,6 @@ F2.AppHandlers.on(
         <p>Equivalent to <code>appDestroyBefore</code>. Identifies the before app destroy method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( appInstance )</p>
-
     </div>
 
     
@@ -656,8 +646,8 @@ F2.AppHandlers.on(
     {
         F2.log(appInstance);
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     
@@ -710,7 +700,6 @@ F2.AppHandlers.on(
         <p>Equivalent to <code>appRender</code>. Identifies the app render method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, <a href="../../app-development.html#app-design">appHtml</a> )</p>
-
     </div>
 
     
@@ -728,7 +717,7 @@ F2.AppHandlers.on(
     {
         var $root = null;
 
-        // if no app root is defined use the app&#39;s outer most node
+        // if no app root is defined use the app's outer most node
         if(!F2.isNativeDOMNode(appConfig.root))
         {
             appConfig.root = jQuery(appHtml).get(0);
@@ -742,13 +731,13 @@ F2.AppHandlers.on(
 
             // append the app html to the root
             $root.append(appHtml);
-        }            
+        }           
 
         // append the root to the body by default.
-        jQuery(&#39;body&#39;).append($root);
+        jQuery('body').append($root);
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     
@@ -801,7 +790,6 @@ F2.AppHandlers.on(
         <p>Equivalent to <code>appRenderAfter</code>. Identifies the after app render method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
-
     </div>
 
     
@@ -819,8 +807,8 @@ F2.AppHandlers.on(
     {
         F2.log(appConfig);
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     
@@ -873,7 +861,6 @@ F2.AppHandlers.on(
         <p>Equivalent to <code>appRenderBefore</code>. Identifies the before app render method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
-
     </div>
 
     
@@ -891,8 +878,8 @@ F2.AppHandlers.on(
     {
         F2.log(appConfig);
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     
@@ -945,7 +932,6 @@ F2.AppHandlers.on(
         <p>Equivalent to <code>appScriptLoadFailed</code>. Identifies the app script load failed method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a>, scriptInfo )</p>
-
     </div>
 
     
@@ -963,8 +949,8 @@ F2.AppHandlers.on(
     {
         F2.log(appConfig.appId);
     }
-);</code></pre>
-
+);
+</code></pre>
             </div>
         </div>
     

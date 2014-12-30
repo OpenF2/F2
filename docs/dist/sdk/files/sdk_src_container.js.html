@@ -43,6 +43,9 @@
   #docs div.media:last-child {
     margin-bottom: 100px;
   }
+  .sidebar-toc {
+    overflow: hidden;
+  }
 </style>
 </head>
 <body class="yui3-skin-sam">
@@ -197,6 +200,9 @@ F2.extend(&#x27;&#x27;, (function() {
 	var _config = false;
 	var _bUsesAppHandlers = false;
 	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
+	var _loadedScripts = {};
+	var _loadedStyles = {};
+	var _loadingScripts = {};
 
 	/**
 	 * Appends the app&#x27;s html to the DOM
@@ -517,120 +523,187 @@ F2.extend(&#x27;&#x27;, (function() {
 		var _loadStyles = function(styles, cb) {
 			// Attempt to use the user provided method
 			if (_config.loadStyles) {
-				_config.loadStyles(styles, cb);
+				return _config.loadStyles(styles, cb);
 			}
-			else {
-				// load styles, see #101
-				var stylesFragment = null,
-					useCreateStyleSheet = !! document.createStyleSheet;
 
-				jQuery.each(styles, function(i, e) {
-					if (useCreateStyleSheet) {
-						document.createStyleSheet(e);
-					}
-					else {
-						stylesFragment = stylesFragment || [];
-						stylesFragment.push(&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#x27; + e + &#x27;&quot;/&gt;&#x27;);
-					}
-				});
+			// load styles, see #101
+			var stylesFragment = null,
+				useCreateStyleSheet = !! document.createStyleSheet;
 
-				if (stylesFragment) {
-					jQuery(&#x27;head&#x27;).append(stylesFragment.join(&#x27;&#x27;));
+			jQuery.each(styles, function(i, e) {
+				var resourceUrl = e,
+					resourceKey = e.toLowerCase();
+
+				if (_loadedStyles[resourceKey]) {
+					return;
 				}
 
-				cb();
+				if (useCreateStyleSheet) {
+					document.createStyleSheet(resourceUrl);
+				}
+				else {
+					stylesFragment = stylesFragment || [];
+					stylesFragment.push(&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#x27; + resourceUrl + &#x27;&quot;/&gt;&#x27;);
+				}
+
+				_loadedStyles[resourceKey] = true;
+			});
+
+			if (stylesFragment) {
+				jQuery(&#x27;head&#x27;).append(stylesFragment.join(&#x27;&#x27;));
 			}
+
+			cb();
 		};
 
-		// Fn for loading manifest Scripts
+		// For loading AppManifest.scripts
+		// Parts derived from curljs, headjs, requirejs, dojo
 		var _loadScripts = function(scripts, cb) {
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
-				_config.loadScripts(scripts, cb);
+				return _config.loadScripts(scripts, cb);
 			}
-			else {
-				if (scripts.length) {
-					var scriptCount = scripts.length;
-					var scriptsLoaded = 0;
 
-					// Check for IE10+ so that we don&#x27;t rely on onreadystatechange
-					var readyStates = (&#x27;addEventListener&#x27; in window) ? {} : {
-						&#x27;loaded&#x27;: true,
-						&#x27;complete&#x27;: true
+			if (!scripts.length) {
+				return cb();
+			}
+
+			var doc = window.document;
+			var scriptCount = scripts.length;
+			var scriptsLoaded = 0;
+			//http://caniuse.com/#feat=script-async
+			// var supportsAsync = &#x27;async&#x27; in doc.createElement(&#x27;script&#x27;) || &#x27;MozAppearance&#x27; in doc.documentElement.style || window.opera;
+			var head = doc &amp;&amp; (doc[&#x27;head&#x27;] || doc.getElementsByTagName(&#x27;head&#x27;)[0]);
+			// to keep IE from crying, we need to put scripts before any
+			// &lt;base&gt; elements, but after any &lt;meta&gt;. this should do it:
+			var insertBeforeEl = head &amp;&amp; head.getElementsByTagName(&#x27;base&#x27;)[0] || null;
+			// Check for IE10+ so that we don&#x27;t rely on onreadystatechange, readyStates for IE6-9
+			var readyStates = &#x27;addEventListener&#x27; in window ? {} : { &#x27;loaded&#x27;: true, &#x27;complete&#x27;: true };
+
+			// Log and emit event for the failed (400,500) scripts
+			var _error = function(e) {
+				setTimeout(function() {
+					var evtData = {
+						src: e.target.src,
+						appId: appConfigs[0].appId
 					};
 
-					// Log and emit event for the failed (400,500) scripts
-					var _error = function(e) {
-						setTimeout(function() {
-							var evtData = {
-								src: e.target.src,
-								appId: appConfigs[0].appId
-							};
+					// Send error to console
+					F2.log(&#x27;Script defined in \&#x27;&#x27; + evtData.appId + &#x27;\&#x27; failed to load \&#x27;&#x27; + evtData.src + &#x27;\&#x27;&#x27;);
 
-							// Send error to console
-							F2.log(&#x27;Script defined in \&#x27;&#x27; + evtData.appId + &#x27;\&#x27; failed to load \&#x27;&#x27; + evtData.src + &#x27;\&#x27;&#x27;);
+					// Emit events
+					F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, evtData);
 
-							// Emit event
-							F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, evtData);
+					if (!_bUsesAppHandlers) {
+						_appScriptLoadFailed(appConfigs[0], evtData.src);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							evtData.src
+						);
+					}
+				}, _config.scriptErrorTimeout); // Defaults to 7000
+			};
 
-							if (!_bUsesAppHandlers) {
-								_appScriptLoadFailed(appConfigs[0], evtData.src);
-							}
-							else {
-								F2.AppHandlers.__trigger(
-									_sAppHandlerToken,
-									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-									appConfigs[0],
-									evtData.src
-								);
-							}
-						}, _config.scriptErrorTimeout); // Defaults to 7000
-					};
-
-					// Load scripts and eval inlines once complete
-					jQuery.each(scripts, function(i, e) {
-						var doc = document,
-							script = doc.createElement(&#x27;script&#x27;),
-							resourceUrl = e;
-
-						// If in debugMode, add cache buster to each script URL
-						if (_config.debugMode) {
-							resourceUrl += &#x27;?cachebuster=&#x27; + new Date().getTime();
-						}
-
-						// Scripts needed to be loaded in order they&#x27;re defined in the AppManifest
-						script.async = false;
-						// Add other attrs
-						script.src = resourceUrl;
-						script.type = &#x27;text/javascript&#x27;;
-						script.charset = &#x27;utf-8&#x27;;
-						script.onerror = _error;
-
-						// Use a closure for the load event so that we can dereference the original script
-						script.onload = script.onreadystatechange = function(e) {
-							e = e || window.event; // For older IE
-
-							if (e.type == &#x27;load&#x27; || readyStates[script.readyState]) {
-								// Done, cleanup
-								script.onload = script.onreadystatechange = script.onerror = null;
-
-								// Dereference script
-								script = null;
-
-								// Are we done loading all scripts for this app?
-								if (++scriptsLoaded === scriptCount) {
-									cb();
-								}
-							}
-						};
-
-						doc.body.appendChild(script);
-					});
-				}
-				else {
+			var _checkComplete = function() {
+				// Are we done loading all scripts for this app?
+				if (++scriptsLoaded === scriptCount) {
+					// success
 					cb();
 				}
-			}
+			};
+
+			var _emptyWaitlist = function(resourceKey, errorEvt) {
+				var waiting,
+					waitlist = _loadingScripts[resourceKey];
+
+				if (!waitlist) {
+					return;
+				}
+
+				for (var i=0; i&lt;waitlist.length; i++) {
+					waiting = waitlist	[i];
+
+					if (errorEvt) {
+						waiting.error(errorEvt);
+					} else {
+						waiting.success();
+					}
+				}
+
+				_loadingScripts[resourceKey] = null;
+			};
+
+			// Load scripts and eval inlines once complete
+			jQuery.each(scripts, function(i, e) {
+				var script = doc.createElement(&#x27;script&#x27;),
+					resourceUrl = e,
+					resourceKey = resourceUrl.toLowerCase();
+
+				// already finished loading, trigger callback
+				if (_loadedScripts[resourceKey]) {
+					return _checkComplete();
+				}
+
+				// this script is actively loading, add this app to the wait list
+				if (_loadingScripts[resourceKey]) {
+					_loadingScripts[resourceKey].push({
+						success: _checkComplete,
+						error: _error
+					});
+					return;
+				}
+
+				// create the waitlist
+				_loadingScripts[resourceKey] = [];
+
+				// If in debugMode, add cache buster to each script URL
+				if (_config.debugMode) {
+					resourceUrl += &#x27;?cachebuster=&#x27; + new Date().getTime();
+				}
+
+				// Scripts are loaded asynchronously and executed in order
+				// in supported browsers: http://caniuse.com/#feat=script-async
+				script.async = false;
+				script.type = &#x27;text/javascript&#x27;;
+				script.charset = &#x27;utf-8&#x27;;
+
+				script.onerror = function(e) {
+					_error(e);
+					_emptyWaitlist(resourceKey, e);
+				};
+
+				// Use a closure for the load event so that we can dereference the original script
+				script.onload = script.onreadystatechange = function(e) {
+					e = e || window.event; // For older IE
+
+					// detect when it&#x27;s done loading
+					// ev.type == &#x27;load&#x27; is for all browsers except IE6-9
+					// IE6-9 need to use onreadystatechange and look for
+					// el.readyState in {loaded, complete} (yes, we need both)
+					if (e.type == &#x27;load&#x27; || readyStates[script.readyState]) {
+						// Done, cleanup
+						script.onload = script.onreadystatechange = script.onerror = &#x27;&#x27;;
+						// loaded
+						_loadedScripts[resourceKey] = true;
+						// increment and check if scripts are done
+						_checkComplete();
+						// empty wait list
+						_emptyWaitlist(resourceKey);
+						// Dereference script
+						script = null;
+					}
+				};
+
+				//set the src, start loading
+				script.src = resourceUrl;
+
+				//&lt;head&gt; really is the best
+				head.insertBefore(script, insertBeforeEl);
+			});
 		};
 
 		var _loadInlineScripts = function(inlines, cb) {
@@ -645,7 +718,10 @@ F2.extend(&#x27;&#x27;, (function() {
 					}
 					catch (exception) {
 						F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + inlines[i]);
-
+						
+						// Emit events
+						F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, { appId:appConfigs[0].appId, src: inlines[i], err: exception });
+						
 						if (!_bUsesAppHandlers) {
 							_appScriptLoadFailed(appConfigs[0], exception);
 						}
@@ -737,6 +813,8 @@ F2.extend(&#x27;&#x27;, (function() {
 			_loadHtml(apps);
 			// Add the script content to the page
 			_loadScripts(scripts, function() {
+				// emit event we&#x27;re done with scripts
+				if (appConfigs[0]){ F2.Events.emit(&#x27;APP_SCRIPTS_LOADED&#x27;, { appId:appConfigs[0].appId, scripts:scripts }); }
 				// Load any inline scripts
 				_loadInlineScripts(inlines, function() {
 					// Create the apps

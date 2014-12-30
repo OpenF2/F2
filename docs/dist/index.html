@@ -44,6 +44,48 @@
 <style>
   body { position: relative;/*for scrollspy*/ }
   .pageContent { margin-top: 20px; } 
+  #docs h4:not(.media-heading), 
+  #docs h5, 
+  #docs h6 {
+    margin-top: 30px;
+  }
+  #docs .alert h4, 
+  #docs .alert h5, 
+  #docs .alert h6,
+  #docs .well h4, 
+  #docs .well h5, 
+  #docs .well h6 {
+    margin-top: 0;
+  }
+  .docs #docs p:last-child { margin-bottom: 0; }
+
+  .sidebar-nav .affix {
+    position: static;
+    width: 100%;
+    top: 5px;
+  }
+
+  @media (min-width: 768px){
+    .sidebar-nav .affix {
+      position: fixed;
+      width: 158px;
+    }
+  }
+
+  @media (min-width: 992px){
+    .sidebar-nav .affix {
+      width: 213px;
+    }
+  }
+
+  @media (min-width: 1200px){
+    .sidebar-nav .affix {
+      width: 263px;
+    }
+  }
+  footer {
+    margin-top: 50px;
+  }
 </style>
 </head>
 <body>
@@ -105,13 +147,13 @@
           <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
           <ul class="nav nav-stacked">
             <li><a href="#">Sections</a></li>
-            <li><a href="./sdk">API Reference</a></li>
             <li class="active"><a href="index.html">Getting Started</a></li>
             <li><a href="container-development.html">Container Development</a></li>
             <li><a href="app-development.html">App Development</a></li>
             <li><a href="extending-f2.html">Extending F2</a></li>
-            <li><a href="f2js-sdk.html">F2.js</a></li>
-            <li><a href="about-f2.html">About F2</a></li>
+            <li class="hidden"><a href="f2js-sdk.html">F2.js</a></li>
+            <li class="hidden"><a href="about-f2.html">About F2</a></li>
+            <li><a href="./sdk">API Reference</a></li>
           </ul>
         </div>
       </div>
@@ -145,7 +187,9 @@
 </div>
 
 <hr>
-<h2 class="link-header" id="latest-version"><a class="anchor" href="#latest-version"><span class="fa fa-link"></span></a>Latest Version</h2><p>The latest version of F2 is 1.4.0 released on 10 December 2014. <br>F2 v1.0 was originally open sourced in October 2012. A detailed <a href="https://github.com/OpenF2/F2/wiki/Changelog">changelog</a> and <a href="https://github.com/OpenF2/F2/wiki/Roadmap">roadmap</a> are available on GitHub.</p>
+<h2 class="link-header" id="latest-version"><a class="anchor" href="#latest-version"><span class="fa fa-link"></span></a>Latest Version</h2><p>The latest version of F2 is 1.4.0 which was released on 29 December 2014. <br>F2 v1.0 was originally open sourced in October 2012. A detailed <a href="https://github.com/OpenF2/F2/wiki/Changelog">changelog</a> and <a href="https://github.com/OpenF2/F2/wiki/Roadmap">roadmap</a> are available on GitHub.</p>
+<script src="https://gist.github.com/anonymous/3836902fbfbb14a7f186.js"></script>
+
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-info">Download version 1.4.0</a></p>
 <hr>
 <h2 class="link-header" id="examples"><a class="anchor" href="#examples"><span class="fa fa-link"></span></a>Examples</h2><p>There are a few different types of examples available below.</p>
@@ -185,7 +229,7 @@
     <a class="media-left" href="http://openf2.github.io/iOS-Container/"><i class="fa fa-apple"></i></a>
     <div class="media-body">
         <h4 class="media-heading">iOS Demo App</h4>
-        An <a href="http://openf2.github.io/iOS-Container/">iOS app</a> demonstrating F2 App integration using UIWebViews, a javascript bridge for <a href="container-development.html#context">F2 Context</a>, and a native search control.
+        An <a href="http://openf2.github.io/iOS-Container/">iOS app</a> demonstrating F2 App integration using UIWebViews, a javascript bridge for <a href="container-development.html#context">F2 Context</a>, and a native symbol search control.
     </div>
 </div>
 
@@ -268,7 +312,7 @@
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>10 December 2014</span>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>29 December 2014</span>
                 </p></a></div>
           </li>
           <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
