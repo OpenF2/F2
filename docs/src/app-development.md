@@ -1,6 +1,8 @@
 # App Development
 
-<p class="lead">Apps are the building blocks of any F2-enabled solution. F2 apps are web-based, built with HTML5, CSS3, and JavaScript, and contain entitled data. F2 enables App Developers to build once and deploy to any [container](container-development.html) with a simple and modern API. You can [read more about the framework](index.html#framework), [download the project on GitHub](https://github.com/OpenF2/F2#quick-start) or [get started](#get-started) below. The latest version of F2 is {{version}}.</p>
+<p class="lead">
+Apps are the building blocks of any F2-enabled solution. F2 apps are web-based, built with HTML5, CSS3, and JavaScript, and contain entitled data. F2 enables App Developers to build once and deploy to any [container](container-development.html) with a simple and modern API. You can [download the project on GitHub](https://github.com/OpenF2/F2#quick-start) or [get started](#get-started) below.
+</p>
 
 F2 apps are synonymous with modules, widgets and portlets. Think charts, portfolios, trade tickets, and screeners. F2 apps only need to be programmed once, no matter where they will be used. To start, F2 Apps are either:
 
@@ -11,7 +13,7 @@ F2 apps are synonymous with modules, widgets and portlets. Think charts, portfol
 	<dd>A data app is a content feed available in industry-standard formats including JSON, JSONP, RSS or app developer-designed XML.</dd>
 </dl>
 
-For the purposes of the documentation on this page, we'll focus on developing **display apps**. Browse to [The Basics: Framework](index.html#apps) for more background information about F2 apps.
+For the purposes of the documentation on this page, we'll focus on developing **display apps**. Browse to [The Basics: Framework](about-f2.html#apps) for more background information about F2 apps.
 
 _Interested in developing F2 containers? [Browse to Container Development](container-development.html)._
 
@@ -83,7 +85,7 @@ These examples are also available in a separate archive if you don't want to dow
 
 It is assumed you will be developing F2 apps locally and have a `localhost` setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
-To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, [read more about containers in the Framework](index.html#framework). 
+To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, [read more about containers in the Framework](about-f2.html#framework). 
 
 To get started working with or developing containers, browse to the [documentation for developing the container](container-development.html).
 
@@ -103,9 +105,9 @@ If App Developers embed URLs back to their own websites or to third party sites,
 
 In order to ensure that apps built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
 
-[Read more about those choices in the Framework](index.html#choices).
+[Read more about those choices in the Framework](about-f2.html#choices).
 
-Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
+Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](about-f2.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
 
 * * * *
 
@@ -415,7 +417,7 @@ An example two-column layout using Bootstrap-specifed markup:
 
 The `.col-md-4` and `.col-md-8` provide two columns in the [12-column grid](http://getbootstrap.com/css/#grid).
 
-<span class="label label-default">Note</span> Read more about [Creating a Common Look and Feel with F2](index.html#container).
+<span class="label label-default">Note</span> Read more about [Creating a Common Look and Feel with F2](about-f2.html#container).
 
 ### Scripts & Styles
 
@@ -675,7 +677,7 @@ This means if a user wants to create a ticker-focused container so they can keep
 
 While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps since the container controls the [F2.Events API](./sdk/classes/F2.Events.html).
 
-[Read more in the Framework](index.html#framework).
+[Read more in the Framework](about-f2.html#framework).
 
 Let's look at some code.
 
@@ -889,7 +891,7 @@ F2 will be providing lookup web services in future releases that provide univers
 
 F2 fully supports secure apps. A secure app is one that exists inside an `iframe` on a container _and_ is hosted on a different domain. The F2.js SDK provides developers with seamless handling of Context, UI and the other F2 APIs whether or not an app is secure. This means app developers do not have to code apps any differently if an app is secure.
 
-An app is defined as "secure" in the [AppConfig](./sdk/classes/F2.AppConfig.html#properties-isSecure). Creating the `AppConfig` is something that is done when apps are registered on the [Developer Center](index.html#developer-center).
+An app is defined as "secure" in the [AppConfig](./sdk/classes/F2.AppConfig.html#properties-isSecure). Creating the `AppConfig` is something that is done when apps are registered on the [Developer Center](about-f2.html#developer-center).
 
 Noting the `isSecure` property, the `AppConfig` looks like this:
 

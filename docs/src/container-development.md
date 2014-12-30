@@ -1,7 +1,7 @@
 # Container Development
 
 <p class="lead">
-The container is the foundation of any F2-enabled solution. By leveraging the [F2.js SDK](f2js-sdk.html), Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can [read more about the framework](index.html#framework), [download the project on GitHub](https://github.com/OpenF2/F2#quick-start) or [get started](#get-started) below. The latest version of F2 is {{version}}.
+The container is the foundation of any F2-enabled solution. By leveraging the [F2.js SDK](f2js-sdk.html), Container Providers offer a consistent and reliable mechanism for all App Developers to load their apps on that container regardless of where it is hosted, who developed it, or what back-end stack it uses. You can [read more about the framework](about-f2.html#framework), [download the project on GitHub](https://github.com/OpenF2/F2#quick-start) or [get started](#get-started) below.
 </p>
 
 * * * *
@@ -72,7 +72,7 @@ These examples are also available in a separate archive if you don't want to dow
 
 It is assumed you will be developing an F2 container locally and have a `localhost` setup. The URLs mentioned in this specification also assume you have configured your F2 container to run at `http://localhost/F2/`. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.
 
-To better understand F2 and the role of containers, you need to understand the role of apps. If you haven’t already, [read more about apps in the Framework](index.html#framework). 
+To better understand F2 and the role of containers, you need to understand the role of apps. If you haven’t already, [read more about apps in the Framework](about-f2.html#framework). 
 
 To get started working with or developing apps, browse to the [documentation for developing apps](app-development.html).
 
@@ -90,9 +90,9 @@ If App Developers embed URLs back to their own websites or to third party sites,
 
 In order to ensure that containers built using F2 are successful, they must be accessible. As such, F2 made choices for which open-source libraries and frameworks would be leveraged to reduce the level of effort across F2 adopters. 
 
-[Read more about those choices in the Framework](index.html#choices).
+[Read more about those choices in the Framework](about-f2.html#choices).
 
-Ultimately, the responsibility of app design falls on either the Container or App Developer or both. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](index.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency). In other cases, Container and App Developers may never know each other and it's important everyone strictly adheres to the guidelines set forth in this documentation.
+Ultimately, the responsibility of app design falls on either the Container or App Developer or both. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](about-f2.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency). In other cases, Container and App Developers may never know each other and it's important everyone strictly adheres to the guidelines set forth in this documentation.
 
 * * * *
 
@@ -124,7 +124,7 @@ If you built more than one container while working at Acme Corporation, you coul
 * `com_container_acmecorp_retail`
 * `com_container_acmecorp_mobilestreamer`
 
-To guarantee uniqueness, we will provide a ContainerID generation service that allows customization of your ContainerID in the [Developer Center](index.html#developer-center).
+To guarantee uniqueness, we will provide a ContainerID generation service that allows customization of your ContainerID in the [Developer Center](about-f2.html#developer-center).
 
 ### Setting Up Your Project
 
@@ -476,7 +476,7 @@ The two arguments provided to `registerApps()` are an array of `AppConfig` objec
 
 ### AppConfigs
 
-Before continuing, let's discuss the `AppConfig`. The container-provided app configurations are represented simply as an array of [AppConfig objects](./sdk/classes/F2.AppConfig.html). These could be configured statically or fetched from an F2 Registry API. `AppConfig` objects contain app meta data&mdash;including the `manifestUrl`&mdash;provided by the App Developer when an app is registered in the [Developer Center](index.html#developer-center). 
+Before continuing, let's discuss the `AppConfig`. The container-provided app configurations are represented simply as an array of [AppConfig objects](./sdk/classes/F2.AppConfig.html). These could be configured statically or fetched from an F2 Registry API. `AppConfig` objects contain app meta data&mdash;including the `manifestUrl`&mdash;provided by the App Developer when an app is registered in the [Developer Center](about-f2.html#developer-center). 
 
 An example `AppConfig` object from an _individual_ app:
 
@@ -560,7 +560,7 @@ This javascript code will insert the example news app into the container's `<bod
 
 #### Dynamic App Configuration
 
-As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](index.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2 in your code. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
+As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](about-f2.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2 in your code. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
 
 <iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
@@ -935,7 +935,7 @@ This means if a user wants to create a ticker-focused container so they can keep
 
 While apps can have context themselves, the responsibility for managing context switching or context passing falls on the container. The container assumes the role of a traffic cop—managing which data goes where. By using JavaScript events, the container can listen for events sent by apps and likewise apps can listen for events sent by the container. To provide a layer of security, this means apps cannot communicate directly with other apps on their own; apps must communicate via an F2 container to other apps since the container controls the [F2.Events API](../docs/sdk/classes/F2.Events.html).
 
-[Read more in the Framework](index.html#framework).
+[Read more in the Framework](about-f2.html#framework).
 
 ### How to use Context
 
@@ -1149,7 +1149,7 @@ Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to c
 
 Security is a fundamental requirement of any F2 container and many F2 apps. With that in mind, the integration of secure apps on a container requires more attention and effort. The process of [app integration](#app-integration) remains largely the same for integrating _secure_ apps with one significant addition: a _second_ container.
 
-To support a secured container environment, one of the [choices](index.html#choices) made when writing this specification was the inclusion of an open-source cross-domain in-browser secure messaging library. For this, F2 relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM). EasyXDM helps front-end developers safely work around the [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Same_origin_policy_for_JavaScript) using browser-supported techniques without compromising the user experience. For all browsers, the easyXDM transport stack offers bi-directionality, reliability, queueing and sender-verification.
+To support a secured container environment, one of the [choices](about-f2.html#choices) made when writing this specification was the inclusion of an open-source cross-domain in-browser secure messaging library. For this, F2 relies on [easyXDM](https://github.com/oyvindkinsey/easyXDM). EasyXDM helps front-end developers safely work around the [Same Origin Policy](https://developer.mozilla.org/en-US/docs/Same_origin_policy_for_JavaScript) using browser-supported techniques without compromising the user experience. For all browsers, the easyXDM transport stack offers bi-directionality, reliability, queueing and sender-verification.
 
 ### Container Config
 
