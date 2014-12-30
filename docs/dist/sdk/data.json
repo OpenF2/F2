@@ -632,6 +632,8 @@
             "file": "src/lib/F2.js",
             "line": 275,
             "description": "A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).",
+            "deprecated": true,
+            "deprecationMessage": "This is native in all supported browsers.",
             "itemtype": "method",
             "name": "log",
             "params": [
@@ -656,8 +658,10 @@
         },
         {
             "file": "src/lib/F2.js",
-            "line": 331,
+            "line": 332,
             "description": "Wrapper to convert a JSON string to an object",
+            "deprecated": true,
+            "deprecationMessage": "This is native in all supported browsers.",
             "itemtype": "method",
             "name": "parse",
             "params": [
@@ -676,8 +680,10 @@
         },
         {
             "file": "src/lib/F2.js",
-            "line": 340,
+            "line": 343,
             "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
+            "deprecated": true,
+            "deprecationMessage": "This is native in all supported browsers.",
             "itemtype": "method",
             "name": "stringify",
             "params": [
@@ -706,7 +712,7 @@
         },
         {
             "file": "src/lib/F2.js",
-            "line": 361,
+            "line": 365,
             "description": "Function to get the F2 version number",
             "itemtype": "method",
             "name": "version",

@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.4.0 12-17-2014
+ * F2 v1.4.0 12-30-2014
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -280,6 +280,7 @@ F2 = (function() {
 		},
 		/**
 		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console). 
+		 * @deprecated This is native in all supported browsers.
 		 * @method log
 		 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 		 * @param {object} [obj2]* An object to be logged
@@ -336,6 +337,8 @@ F2 = (function() {
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object
+		 * @deprecated This is native in all supported browsers.
+		 * @method log
 		 * @method parse
 		 * @param {string} str The JSON string to convert
 		 * @return {object} The parsed object
@@ -349,6 +352,7 @@ F2 = (function() {
 		 * **Note: When using F2.stringify on an F2.AppConfig object, it is
 		 * recommended to pass F2.appConfigReplacer as the replacer function in
 		 * order to prevent circular serialization errors.**
+		 * @deprecated This is native in all supported browsers.
 		 * @method stringify
 		 * @param {object} value The object to convert
 		 * @param {function|Array} replacer An optional parameter that determines
