@@ -35,7 +35,7 @@ F2.extend('Storage', (function() {
 			}
 
 			if (!!value) {
-				value = JSON.parse(value);
+				value = F2.parse(value);
 			}
 
 			return value;

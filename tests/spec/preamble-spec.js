@@ -39,6 +39,14 @@ describe('F2.inArray', function() {
 
 });
 
+describe('F2.parse', function() {
+
+	it('should parse a json object', function() {
+		expect(F2.parse('{"foo":"bar"}')).toEqual({ foo: 'bar' });
+	});
+
+});
+
 describe('F2.stringify', function() {
 
 	it('should convert an object to a json string', function() {
