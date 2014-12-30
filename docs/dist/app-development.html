@@ -175,7 +175,7 @@
 <h2 class="link-header" id="get-started"><a class="anchor" href="#get-started"><span class="fa fa-link"></span></a>Get Started</h2><p>To help you get started building an F2 app, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.</p>
 <p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
-<h3 class="link-header" id="basic-container"><a class="anchor" href="#basic-container"><span class="fa fa-link"></span></a>Basic Container</h3><p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://twitter.github.io/bootstrap/index.html">Bootstrap</a>, and ensure you’re <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
+<h3 class="link-header" id="basic-container"><a class="anchor" href="#basic-container"><span class="fa fa-link"></span></a>Basic Container</h3><p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://getbootstrap.com/">Bootstrap</a>, and ensure you’re <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
 
 <p>Setup a basic container HTML template (or add F2.js to an existing website):</p>
@@ -402,15 +402,15 @@ F2_jsonpCallback_com_companyname_appname({
 }
 </code></pre>
 <p><span class="label label-info">Note</span> You are not required to encode the app HTML, so follow steps 2 and 3 above omitting the encoding step.</p>
-<h4 class="link-header" id="automatic-consistency"><a class="anchor" href="#automatic-consistency"><span class="fa fa-link"></span></a>Automatic Consistency</h4><p>F2 uses and recommends <a href="http://twitter.github.io/bootstrap/">Bootstrap</a> for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they <em>know</em> will style F2 apps without engaging with the app developer to ensure compatability.</p>
-<p>This also means App Developers must adhere to <a href="http://twitter.github.io/bootstrap/scaffolding.html">Bootstrap’s scaffolding guidelines</a> as defined on their website. </p>
+<h4 class="link-header" id="automatic-consistency"><a class="anchor" href="#automatic-consistency"><span class="fa fa-link"></span></a>Automatic Consistency</h4><p>F2 uses and recommends <a href="http://getbootstrap.com">Bootstrap</a> for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they <em>know</em> will style F2 apps without engaging with the app developer to ensure compatibility.</p>
+<p>This also means App Developers must adhere to <a href="http://getbootstrap.com/css/#grid">Bootstrap’s grid system</a> as defined on their website. </p>
 <p>An example two-column layout using Bootstrap-specifed markup:</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"span4"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"span8"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-4"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-8"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 </code></pre>
-<p>The <code>.span4</code> and <code>.span8</code> provide two columns in the <a href="http://twitter.github.io/bootstrap/scaffolding.html#gridSystem">12-column grid</a>.</p>
+<p>The <code>.col-md-4</code> and <code>.col-md-8</code> provide two columns in the <a href="http://getbootstrap.com/css/#grid">12-column grid</a>.</p>
 <p><span class="label label-default">Note</span> Read more about <a href="index.html#container">Creating a Common Look and Feel with F2</a>.</p>
 <h3 class="link-header" id="scripts-amp-styles"><a class="anchor" href="#scripts-amp-styles"><span class="fa fa-link"></span></a>Scripts &amp; Styles</h3><p>Once your app is on the container, chances are you’ll want it to actually do something. As an app developer, it is entirely up to you to write your own stylesheets and javascript code to add form and function to your app. F2’s standardized App Manifest provides hooks for your CSS and scripts to get onto the container&mdash;just use the <code>scripts</code> and <code>styles</code> arrays detailed above in the <a href="#app-manifest">App Manifest</a>.</p>
 <h3 class="link-header" id="styles-17"><a class="anchor" href="#styles-17"><span class="fa fa-link"></span></a>Styles</h3><p>Including your own CSS in the <code>styles</code> array of the App Manifest opens the door to the potential of unexpected display issues. Therefore, as an app developer, you are required to properly namespace your CSS selectors and declarations. For the details on writing correctly namespaced code, <a href="#namespacing">read the namespacing docs</a>.</p>
@@ -780,7 +780,7 @@ $.ajax({
 <pre><code class="lang-javascript"><span class="hljs-comment">//appclass.js snippet</span>
 <span class="hljs-keyword">this</span>.ui.setTitle(<span class="hljs-string">"Chart for MSFT"</span>);
 </code></pre>
-<h3 class="link-header" id="f2-ui-modals"><a class="anchor" href="#f2-ui-modals"><span class="fa fa-link"></span></a>F2.UI.Modals</h3><p>F2.js provides two methods in <code>F2.UI</code> for modal dialogs. F2 uses and recommends <a href="http://twitter.github.io/bootstrap/">Bootstrap</a> for many reasons, and taking advantage of <a href="http://twitter.github.io/bootstrap/javascript.html#modals">Bootstrap’s modals</a> was an easy choice. </p>
+<h3 class="link-header" id="f2-ui-modals"><a class="anchor" href="#f2-ui-modals"><span class="fa fa-link"></span></a>F2.UI.Modals</h3><p>F2.js provides two methods in <code>F2.UI</code> for modal dialogs. F2 uses and recommends <a href="http://getbootstrap.com">Bootstrap</a> for many reasons, and taking advantage of <a href="http://getbootstrap.com/javascript/#modals">Bootstrap’s modals</a> was an easy choice. </p>
 <p>For full details on F2.UI.Modals and the two types of modals (<code>alert</code> and <code>confirm</code>), <a href="./sdk/classes/F2.UI.Modals.html">read the SDK docs</a>. </p>
 <p>Usage is simple:</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">//appclass.js snippet</span>
@@ -890,7 +890,7 @@ $.ajax({
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>29 December 2014</span>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>30 December 2014</span>
                 </p></a></div>
           </li>
           <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>

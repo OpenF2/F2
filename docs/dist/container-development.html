@@ -167,7 +167,7 @@ The container is the foundation of any F2-enabled solution. By leveraging the <a
 <h2 class="link-header" id="get-started"><a class="anchor" href="#get-started"><span class="fa fa-link"></span></a>Get Started</h2><p>To help you get started building an F2 container, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.</p>
 <p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
-<h3 class="link-header" id="basic-container"><a class="anchor" href="#basic-container"><span class="fa fa-link"></span></a>Basic Container</h3><p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://twitter.github.io/bootstrap/index.html">Bootstrap</a>, and ensure you’re <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
+<h3 class="link-header" id="basic-container"><a class="anchor" href="#basic-container"><span class="fa fa-link"></span></a>Basic Container</h3><p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://getbootstrap.com">Bootstrap</a>, and ensure you’re <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
 
 <p>Setup a basic container HTML template (or add F2.js to an existing website):</p>
@@ -520,7 +520,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <p><span class="label label-info">Note</span> For more information about the <code>AppConfig</code>, <a href="#appconfigs">read up on them</a> at the top of <a href="#app-integration">App Integration</a>.</p>
 <h3 class="link-header" id="registering-pre-loaded-apps"><a class="anchor" href="#registering-pre-loaded-apps"><span class="fa fa-link"></span></a>Registering Pre-Loaded Apps</h3><p>Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each app’s <code>AppManifest</code> and its dependencies <em>before</em> the page is rendered.</p>
 <p>For the following example, let’s assume you have a web page composed on the server and all of its HTML is delivered to the browser in one payload. This page also has at least one widget (or component) you’d like to register with F2.js. </p>
-<h4 class="link-header" id="1-setup-container"><a class="anchor" href="#1-setup-container"><span class="fa fa-link"></span></a>1. Setup Container</h4><p>To use pre-loaded apps, a web page with a placeholder element for the apps is required. This simple (and empty) web page features a <code>div#news_app.span12</code> which serves as that placeholder or “root” element.</p>
+<h4 class="link-header" id="1-setup-container"><a class="anchor" href="#1-setup-container"><span class="fa fa-link"></span></a>1. Setup Container</h4><p>To use pre-loaded apps, a web page with a placeholder element for the apps is required. This simple (and empty) web page features a <code>div#news_app.col-md-12</code> which serves as that placeholder or “root” element.</p>
 <pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
@@ -529,7 +529,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
     <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"container"</span>&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"span12"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-12"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>
                     <span class="hljs-comment">&lt;!--app goes here--&gt;</span>
                 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
             <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
@@ -558,7 +558,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
     Container Developers can use the <code>AppConfig</code> and pre-loaded <code>AppManifest</code> (from step 2 above) in conjunction with <code>F2.registerApps()</code> to speed up the loading of F2 containers. For more information, browse to <a href="#combining-appconfig-and-appmanifest">Combining AppConfig and AppManifest</a>.
 </div>
 
-<h4 class="link-header" id="3-add-app-to-container"><a class="anchor" href="#3-add-app-to-container"><span class="fa fa-link"></span></a>3. Add App to Container</h4><p>You’re almost there. Next, embed the news app’s <code>html</code>, <code>scripts</code> and <code>styles</code>. The F2 app is inserted into <code>.row &gt; .span12</code> following <a href="http://twitter.github.io/bootstrap/scaffolding.html">Bootstrap’s scaffolding</a> guidelines. The <code>styles</code> were appended to the <code>head</code> and the <code>scripts</code> were appended to the <code>body</code> (in this case just one URL for each).</p>
+<h4 class="link-header" id="3-add-app-to-container"><a class="anchor" href="#3-add-app-to-container"><span class="fa fa-link"></span></a>3. Add App to Container</h4><p>You’re almost there. Next, embed the news app’s <code>html</code>, <code>scripts</code> and <code>styles</code>. The F2 app is inserted into <code>.row &gt; .col-md-12</code> following <a href="http://getbootstrap.com/css/#grid">Bootstrap’s scaffolding</a> guidelines. The <code>styles</code> were appended to the <code>head</code> and the <code>scripts</code> were appended to the <code>body</code> (in this case just one URL for each).</p>
 <pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
@@ -568,7 +568,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
     <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"container"</span>&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"span12"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-12"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>
                     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-module-name</span>=<span class="hljs-value">"MarketNewsApp"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
                 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
             <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
@@ -923,7 +923,7 @@ F2.registerApps(_appConfig);
 <pre><code class="lang-javascript">F2.init({
     appRender:<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(appConfig, html)</span> </span>{
         <span class="hljs-keyword">return</span> [
-            <span class="hljs-string">'&lt;div class="span4"&gt;'</span>,
+            <span class="hljs-string">'&lt;div class="col-md-4"&gt;'</span>,
                 html,
             <span class="hljs-string">'&lt;/div&gt;'</span>
         ].join(<span class="hljs-string">''</span>);
@@ -983,7 +983,7 @@ F2.registerApps(_appConfig);
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>29 December 2014</span>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span>30 December 2014</span>
                 </p></a></div>
           </li>
           <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
