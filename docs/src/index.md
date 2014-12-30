@@ -33,7 +33,9 @@ Below you'll find links to the various sections of the F2 development standard a
 
 ## Latest Version
 
-The latest version of F2 is {{version}} released on {{_releaseDateFormatted}}. <br>F2 v1.0 was originally open sourced in October 2012. A detailed [changelog](https://github.com/OpenF2/F2/wiki/Changelog) and [roadmap](https://github.com/OpenF2/F2/wiki/Roadmap) are available on GitHub.
+The latest version of F2 is {{version}} which was released on {{_releaseDateFormatted}}. <br>F2 v1.0 was originally open sourced in October 2012. A detailed [changelog](https://github.com/OpenF2/F2/wiki/Changelog) and [roadmap](https://github.com/OpenF2/F2/wiki/Roadmap) are available on GitHub.
+
+<script src="https://gist.github.com/anonymous/3836902fbfbb14a7f186.js"></script>
 
 <a href="https://github.com/OpenF2/F2/releases" class="btn btn-info">Download version {{version}}</a>
 
@@ -79,7 +81,7 @@ There are a few different types of examples available below.
 	<a class="media-left" href="http://openf2.github.io/iOS-Container/"><i class="fa fa-apple"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">iOS Demo App</h4>
-		An [iOS app](http://openf2.github.io/iOS-Container/) demonstrating F2 App integration using UIWebViews, a javascript bridge for [F2 Context](container-development.html#context), and a native search control.
+		An [iOS app](http://openf2.github.io/iOS-Container/) demonstrating F2 App integration using UIWebViews, a javascript bridge for [F2 Context](container-development.html#context), and a native symbol search control.
 	</div>
 </div>
 

@@ -6,15 +6,6 @@ Developers who adhere to the F2 standard will make it possible for multiple apps
 
 * * * *
 
-## Version 2
-
-<div class="alert alert-block alert-info">
-    <p>The F2 team is planning version 2.0 of the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the revised F2.js work-in-progress code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/labels/v2).</p>
-    <p><a href="https://github.com/OpenF2/F2/wiki/F2-Version-2" class="btn btn-primary">Get Involved</a></p>
-</div>
-
-* * * *
-
 ## F2.js
 
 F2 is an open framework and to get Container and App Developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on [GitHub](https://github.com/OpenF2/F2/).
@@ -31,7 +22,7 @@ Anyone is free to download F2.js from the [F2 project repository on GitHub](http
 
 The latest version of F2.js is **{{version}}**.
 
-<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small" target="_blank">View on GitHub</a></p>
+<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small btn-default" target="_blank">View on GitHub</a></p>
 
 ### Packages
 
@@ -62,7 +53,7 @@ For more information on the libraries used by F2, see [Third Party Libraries](#t
 
 The latest version of F2.js will always be in the root of the project, and the version number can be found embedded in the code. The version number is also available on the command line by using:
 
-`$> grunt version`.
+`$> grunt version`
 
 In accordance with industry standards, F2 is currently maintained, in as far as reasonably possible, under the Semantic Versioning guidelines.
 

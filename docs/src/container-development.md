@@ -534,13 +534,13 @@ During the F2 app load life cycle, the following events happen in order:
 4. If the `AppConfig` contains a `root` property, F2 switches to [preloading mode](#registering-pre-loaded-apps)
 5. If the `AppConfig` contains the `enableBatchRequests:true` property, F2 switches to [batching mode](#batch-requesting-apps)
 6. Finally, the [internal `_loadApps` function](https://github.com/OpenF2/F2/blob/master/sdk/src/container.js#L211) is called which:
-    a) Iterates over each URL in the `styles` array, creates a new `<link rel="stylesheet">` tag and inserts it into the `<head>`.
-    b) Iterates over each app in the `apps` array, stores off any `data` to pass to the `appclass` later, and inserts any HTML into the app's root.
-    c) Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<body>`. The scripts are _requested and added in serial_ to ensure they execute in order.
-    d) Iterates over each string in the `inlineScripts` array, and evaluates the script (`eval(str)`)&mdash;only when all of the scripts in the previous step have been loaded.
-    e) When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
+  1. Iterates over each URL in the `styles` array, creates a new `<link rel="stylesheet">` tag and inserts it into the `<head>`.
+  2. Iterates over each app in the `apps` array, stores off any `data` to pass to the `appclass` later, and inserts any HTML into the app's root.
+  3. Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<body>`. The scripts are _requested and added in serial_ to ensure they execute in order.
+  4. Iterates over each string in the `inlineScripts` array, and evaluates the script&mdash;only when all of the scripts in the previous step have been loaded.
+  5. When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
 
-<span class="label label-danger">Important</span> As of F2 version 1.4.0, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
+<span class="label label-danger">Important</span> Since version 1.4.0, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
 
 ### Requesting Apps On-Demand
 
@@ -769,7 +769,7 @@ The addition of `F2.AppHandlers` replaces the previous `ContainerConfig` propert
 </p>
 
 <p class="alert alert-block alert-info">
-Starting with F2 version 1.2, `AppHandlers` is the preferred method for Container Developers to manage app layout.
+Since F2 version 1.2, `AppHandlers` is the preferred method for Container Developers to manage app layout.
 </p>
 
 The `AppHandlers` functionality provides an event-based system for Container Developers' web applications. The addition of a collection of constants in `F2.Constants.AppHandlers` shows the primitive set of event types (or hooks) available to developers, including hooks such as `appCreateRoot`, `appRenderAfter`, `appDestroyAfter` and more. (Review the complete `F2.Constants.AppHandlers` collection in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).)

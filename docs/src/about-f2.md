@@ -14,14 +14,6 @@ You can use the F2 framework to build:
 
 * * * *
 
-## Version 2
-
-<div class="alert alert-block alert-info">
-    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
-</div>
-
-* * * *
-
 ## Who
 
 The F2 concept was born in Boulder, Colorado at [Markit On Demand](http://www.markitondemand.com) (MOD). F2 was brought to life through conversations with industry partners who individually express common frustrations and desire a coordinated solution.
@@ -86,7 +78,7 @@ To achieve steady growth and stable release cycles, F2 will be maintained under 
 
 F2 v1.0 was released on October 15, 2012. The latest version of the F2 specification is {{version}} released on {{_releaseDateFormatted}}. To provide transparency into the future of F2, a roadmap wiki will be available on GitHub. A [changelog](https://github.com/OpenF2/F2/wiki/Docs-Changelog) that tracks version-to-version changes, upgrades and deprecated features will offer a historical look at F2's evolution. 
 
-<span class="label">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html) which is currently version {{version}}.
+<span class="label label-default">Note</span> There is a [separate changelog](https://github.com/OpenF2/F2/wiki/SDK-Changelog) for the [F2.js SDK](f2js-sdk.html) which is currently version {{version}}.
 
 ### Collaborate
 
@@ -118,7 +110,7 @@ Support across all desktop browsers and mobile devices is sometimes limited so F
 
 As either an App or a Container Developer, it's helpful to know these third-party libraries are included in F2. But it's more important to know the [F2.js JavaScript SDK](f2js-sdk.html) provides a consistent interface and easy-to-use API so you don't have to think about it.
 
-<span class="label label-important">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[officially-supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. [Read the blog post](http://blog.openf2.org/2014/09/supporting-bootstrap-3.html) for more information on using Bootstrap 3 today.
+<span class="label label-danger">Important</span> F2 continues to leverage Bootstrap as the means to achieve consistent HTML &amp; CSS structures&mdash;and therefore seamless styling&mdash;between containers and apps. F2 has not upgraded to [Bootstrap 3](http://getbootstrap.com/), the latest **[officially-supported Bootstrap version is 2.3.2](http://getbootstrap.com/2.3.2/)**. [Read the blog post](http://blog.openf2.org/2014/09/supporting-bootstrap-3.html) for more information on using Bootstrap 3 today.
 
 ### Apps
 
