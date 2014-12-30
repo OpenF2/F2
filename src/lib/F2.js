@@ -100,7 +100,7 @@ F2 = (function() {
 
 	return {
 		/**
-		 * A function to pass into JSON.stringify which will prevent circular
+		 * A function to pass into F2.stringify which will prevent circular
 		 * reference errors when serializing objects
 		 * @method appConfigReplacer
 		 */
@@ -327,6 +327,27 @@ F2 = (function() {
 			}
 
 			_log.apply(this, (args || arguments));			
+		},
+		/**
+		 * Wrapper to convert an object to JSON
+		 *
+		 * **Note: When using F2.stringify on an F2.AppConfig object, it is
+		 * recommended to pass F2.appConfigReplacer as the replacer function in
+		 * order to prevent circular serialization errors.**
+		 * @method stringify
+		 * @param {object} value The object to convert
+		 * @param {function|Array} replacer An optional parameter that determines
+		 * how object values are stringified for objects. It can be a function or an 
+		 * array of strings.
+		 * @param {int|string} space An optional parameter that specifies the
+		 * indentation of nested structures. If it is omitted, the text will be
+		 * packed without extra whitespace. If it is a number, it will specify the
+		 * number of spaces to indent at each level. If it is a string (such as '\t'
+		 * or '&nbsp;'), it contains the characters used to indent at each level.
+		 * @return {string} The JSON string
+		 */
+		stringify: function(value, replacer, space) {
+			return JSON.stringify(value, replacer, space);
 		},
 		/** 
 		 * Function to get the F2 version number

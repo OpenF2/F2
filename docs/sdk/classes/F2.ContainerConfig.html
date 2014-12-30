@@ -1191,7 +1191,7 @@ request)</p>
             url: url,
             type: &#39;POST&#39;,
             data: {
-                params: JSON.stringify(appConfigs, F2.appConfigReplacer)
+                params: F2.stringify(appConfigs, F2.appConfigReplacer)
             },
             jsonp: false, // do not put &#39;callback=&#39; in the query string
             jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name

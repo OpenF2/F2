@@ -67,7 +67,7 @@ define(
 				if (!key || !value) { return; }
 
 				key = _getKey(key);
-				value = JSON.stringify(value);
+				value = F2.stringify(value);
 
 				if (_hasLocalStorage) {
 					localStorage.setItem(key, value);

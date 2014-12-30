@@ -326,7 +326,7 @@ F2 = (function() {
 
 	return {
 		/**
-		 * A function to pass into JSON.stringify which will prevent circular
+		 * A function to pass into F2.stringify which will prevent circular
 		 * reference errors when serializing objects
 		 * @method appConfigReplacer
 		 */
@@ -566,7 +566,7 @@ F2 = (function() {
 		/**
 		 * Wrapper to convert an object to JSON
 		 *
-		 * **Note: When using JSON.stringify on an F2.AppConfig object, it is
+		 * **Note: When using F2.stringify on an F2.AppConfig object, it is
 		 * recommended to pass F2.appConfigReplacer as the replacer function in
 		 * order to prevent circular serialization errors.**
 		 * @method stringify

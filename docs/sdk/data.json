@@ -500,7 +500,7 @@
         {
             "file": "sdk/src/F2.js",
             "line": 102,
-            "description": "A function to pass into JSON.stringify which will prevent circular\nreference errors when serializing objects",
+            "description": "A function to pass into F2.stringify which will prevent circular\nreference errors when serializing objects",
             "itemtype": "method",
             "name": "appConfigReplacer",
             "class": "F2",
@@ -670,6 +670,36 @@
             "return": {
                 "description": "The parsed object",
                 "type": "Object"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/F2.js",
+            "line": 340,
+            "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
+            "itemtype": "method",
+            "name": "stringify",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The object to convert",
+                    "type": "Object"
+                },
+                {
+                    "name": "replacer",
+                    "description": "An optional parameter that determines\nhow object values are stringified for objects. It can be a function or an \narray of strings.",
+                    "type": "Function|Array"
+                },
+                {
+                    "name": "space",
+                    "description": "An optional parameter that specifies the\nindentation of nested structures. If it is omitted, the text will be\npacked without extra whitespace. If it is a number, it will specify the\nnumber of spaces to indent at each level. If it is a string (such as '\\t'\nor '&nbsp;'), it contains the characters used to indent at each level.",
+                    "type": "Int|string"
+                }
+            ],
+            "return": {
+                "description": "The JSON string",
+                "type": "String"
             },
             "class": "F2",
             "module": "f2"
@@ -1433,7 +1463,7 @@
                 "type": "XMLHttpRequest"
             },
             "example": [
-                "\n    F2.init({\n        xhr: function(url, appConfigs, success, error, complete) {\n            $.ajax({\n                url: url,\n                type: 'POST',\n                data: {\n                    params: JSON.stringify(appConfigs, F2.appConfigReplacer)\n                },\n                jsonp: false, // do not put 'callback=' in the query string\n                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name\n                dataType: 'json',\n                success: function(appManifest) {\n                    // custom success logic\n                    success(appManifest); // fire success callback\n                },\n                error: function() {\n                    // custom error logic\n                    error(); // fire error callback\n                },\n                complete: function() {\n                    // custom complete logic\n                    complete(); // fire complete callback\n                }\n            });\n        }\n    });"
+                "\n    F2.init({\n        xhr: function(url, appConfigs, success, error, complete) {\n            $.ajax({\n                url: url,\n                type: 'POST',\n                data: {\n                    params: F2.stringify(appConfigs, F2.appConfigReplacer)\n                },\n                jsonp: false, // do not put 'callback=' in the query string\n                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name\n                dataType: 'json',\n                success: function(appManifest) {\n                    // custom success logic\n                    success(appManifest); // fire success callback\n                },\n                error: function() {\n                    // custom error logic\n                    error(); // fire error callback\n                },\n                complete: function() {\n                    // custom complete logic\n                    complete(); // fire complete callback\n                }\n            });\n        }\n    });"
             ],
             "class": "F2.ContainerConfig",
             "module": "f2"

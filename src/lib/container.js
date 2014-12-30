@@ -1168,7 +1168,7 @@ F2.extend('', (function() {
 									url: url,
 									type: type,
 									data: {
-										params: JSON.stringify(req.apps, F2.appConfigReplacer)
+										params: F2.stringify(req.apps, F2.appConfigReplacer)
 									},
 									jsonp: false, // do not put 'callback=' in the query string
 									jsonpCallback: jsonpCallback, // Unique function name

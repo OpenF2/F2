@@ -107,7 +107,7 @@ F2.extend('Rpc', (function(){
 				_onMessage(appConfig, message, origin);
 			},
 			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + JSON.stringify([appConfig, appManifest], F2.appConfigReplacer));
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
 			}
 		});
 
@@ -235,7 +235,7 @@ F2.extend('Rpc', (function(){
 		 */
 		broadcast: function(messageType, params) {
 			// check valid messageType
-			var message = messageType + JSON.stringify(params);
+			var message = messageType + F2.stringify(params);
 			jQuery.each(_apps, function(i, a) {
 				a.socket.postMessage(message);
 			});
@@ -262,7 +262,7 @@ F2.extend('Rpc', (function(){
 			});
 			// check valid messageType
 			_apps[instanceId].socket.postMessage(
-				messageType + JSON.stringify({
+				messageType + F2.stringify({
 					functionName:functionName,
 					params:params,
 					callbacks:callbacks
