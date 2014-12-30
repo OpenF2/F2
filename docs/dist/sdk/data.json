@@ -236,7 +236,7 @@
             "module": "f2",
             "namespace": "",
             "file": "src/lib/classes.js",
-            "line": 178,
+            "line": 183,
             "description": "The assets needed to render an app on the page"
         },
         "F2.AppManifest.AppContent": {
@@ -250,7 +250,7 @@
             "module": "f2",
             "namespace": "",
             "file": "src/lib/classes.js",
-            "line": 213,
+            "line": 218,
             "description": "The AppContent object"
         },
         "F2.ContainerConfig": {
@@ -264,7 +264,7 @@
             "module": "f2",
             "namespace": "",
             "file": "src/lib/classes.js",
-            "line": 240,
+            "line": 245,
             "description": "An object containing configuration information for the\n[container](../../container-development.html)"
         },
         "F2.ContainerConfig.UI": {
@@ -278,7 +278,7 @@
             "module": "f2",
             "namespace": "",
             "file": "src/lib/classes.js",
-            "line": 334,
+            "line": 339,
             "description": "An object containing configuration defaults for F2.UI"
         },
         "F2.ContainerConfig.UI.Mask": {
@@ -292,7 +292,7 @@
             "module": "f2",
             "namespace": "",
             "file": "src/lib/classes.js",
-            "line": 339,
+            "line": 344,
             "description": "An object containing configuration defaults for the \nF2.UI.{{#crossLink \"F2.UI/showMask\"}}{{/crossLink}} and\nF2.UI.{{#crossLink \"F2.UI/hideMask\"}}{{/crossLink}} methods."
         },
         "F2.Constants": {
@@ -500,7 +500,7 @@
         {
             "file": "src/lib/F2.js",
             "line": 102,
-            "description": "A function to pass into JSON.stringify which will prevent circular\nreference errors when serializing objects",
+            "description": "A function to pass into F2.stringify which will prevent circular\nreference errors when serializing objects",
             "itemtype": "method",
             "name": "appConfigReplacer",
             "class": "F2",
@@ -657,6 +657,56 @@
         {
             "file": "src/lib/F2.js",
             "line": 331,
+            "description": "Wrapper to convert a JSON string to an object",
+            "itemtype": "method",
+            "name": "parse",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "The JSON string to convert",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The parsed object",
+                "type": "Object"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "src/lib/F2.js",
+            "line": 340,
+            "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
+            "itemtype": "method",
+            "name": "stringify",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The object to convert",
+                    "type": "Object"
+                },
+                {
+                    "name": "replacer",
+                    "description": "An optional parameter that determines\nhow object values are stringified for objects. It can be a function or an \narray of strings.",
+                    "type": "Function|Array"
+                },
+                {
+                    "name": "space",
+                    "description": "An optional parameter that specifies the\nindentation of nested structures. If it is omitted, the text will be\npacked without extra whitespace. If it is a number, it will specify the\nnumber of spaces to indent at each level. If it is a string (such as '\\t'\nor '&nbsp;'), it contains the characters used to indent at each level.",
+                    "type": "Int|string"
+                }
+            ],
+            "return": {
+                "description": "The JSON string",
+                "type": "String"
+            },
+            "class": "F2",
+            "module": "f2"
+        },
+        {
+            "file": "src/lib/F2.js",
+            "line": 361,
             "description": "Function to get the F2 version number",
             "itemtype": "method",
             "name": "version",
@@ -1103,7 +1153,7 @@
         {
             "file": "src/lib/classes.js",
             "line": 170,
-            "description": "The views that this app supports. Available views\nare defined in {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}.",
+            "description": "The views that this app supports. Available views\nare defined in {{#crossLink \"F2.Constants.Views\"}}{{/crossLink}}. The\npresence of a view can be checked via\nF2.{{#crossLink \"F2/inArray\"}}{{/crossLink}}:\n\n    F2.inArray(F2.Constants.Views.SETTINGS, app.views)",
             "itemtype": "property",
             "name": "views",
             "type": "Array",
@@ -1112,7 +1162,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 183,
+            "line": 188,
             "description": "The array of {{#crossLink \"F2.AppManifest.AppContent\"}}{{/crossLink}}\nobjects",
             "itemtype": "property",
             "name": "apps",
@@ -1123,7 +1173,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 191,
+            "line": 196,
             "description": "Any inline javascript tha should initially be run",
             "itemtype": "property",
             "name": "inlineScripts",
@@ -1134,7 +1184,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 198,
+            "line": 203,
             "description": "Urls to javascript files required by the app",
             "itemtype": "property",
             "name": "scripts",
@@ -1145,7 +1195,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 205,
+            "line": 210,
             "description": "Urls to CSS files required by the app",
             "itemtype": "property",
             "name": "styles",
@@ -1156,7 +1206,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 218,
+            "line": 223,
             "description": "Arbitrary data to be passed along with the app",
             "itemtype": "property",
             "name": "data",
@@ -1167,7 +1217,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 225,
+            "line": 230,
             "description": "The string of HTML representing the app",
             "itemtype": "property",
             "name": "html",
@@ -1178,7 +1228,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 232,
+            "line": 237,
             "description": "A status message",
             "itemtype": "property",
             "name": "status",
@@ -1189,7 +1239,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 246,
+            "line": 251,
             "description": "Allows the [container](../../container-development.html) to override how\nan app's html is inserted into the page. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml",
             "itemtype": "method",
             "name": "afterAppRender",
@@ -1216,7 +1266,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 258,
+            "line": 263,
             "description": "Allows the [container](../../container-development.html) to wrap an app\nin extra html. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml. The extra html can provide links to edit app settings and remove an\napp from the container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
             "itemtype": "method",
             "name": "appRender",
@@ -1239,7 +1289,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 272,
+            "line": 277,
             "description": "Allows the container to render html for an app before the AppManifest for\nan app has loaded. This can be useful if the design calls for loading\nicons to appear for each app before each app is loaded and rendered to\nthe page.",
             "itemtype": "method",
             "name": "beforeAppRender",
@@ -1261,7 +1311,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 283,
+            "line": 288,
             "description": "True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.",
             "itemtype": "property",
             "name": "debugMode",
@@ -1272,7 +1322,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 290,
+            "line": 295,
             "description": "The default language and region specification for this container \nrepresented as an IETF-defined standard language tag,\ne.g. `\"en-us\"` or `\"de-de\"`. This value is passed to each app\nregistered as `containerLocale`.",
             "itemtype": "property",
             "name": "locale",
@@ -1284,7 +1334,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 302,
+            "line": 307,
             "description": "Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.",
             "itemtype": "property",
             "name": "scriptErrorTimeout",
@@ -1295,7 +1345,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 309,
+            "line": 314,
             "description": "Tells the container that it is currently running within\na secure app page",
             "itemtype": "property",
             "name": "isSecureAppPage",
@@ -1305,7 +1355,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 316,
+            "line": 321,
             "description": "Allows the container to specify which page is used when\nloading a secure app. The page must reside on a different domain than the\ncontainer",
             "itemtype": "property",
             "name": "secureAppPagePath",
@@ -1315,7 +1365,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 325,
+            "line": 330,
             "description": "Specifies what views a container will provide buttons\nor links to. Generally, the views will be switched via buttons or links\nin the app's header.",
             "itemtype": "property",
             "name": "supportedViews",
@@ -1326,7 +1376,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 346,
+            "line": 351,
             "description": "The backround color of the overlay",
             "itemtype": "property",
             "name": "backgroundColor",
@@ -1337,7 +1387,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 353,
+            "line": 358,
             "description": "The path to the loading icon",
             "itemtype": "property",
             "name": "loadingIcon",
@@ -1347,7 +1397,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 359,
+            "line": 364,
             "description": "The opacity of the background overlay",
             "itemtype": "property",
             "name": "opacity",
@@ -1358,7 +1408,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 366,
+            "line": 371,
             "description": "Do not use inline styles for mask functinality. Instead classes will\nbe applied to the elements and it is up to the container provider to\nimplement the class definitions.",
             "itemtype": "property",
             "name": "useClasses",
@@ -1369,7 +1419,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 375,
+            "line": 380,
             "description": "The z-index to use for the overlay",
             "itemtype": "property",
             "name": "zIndex",
@@ -1380,7 +1430,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 384,
+            "line": 389,
             "description": "Allows the container to fully override how the AppManifest request is\nmade inside of F2.",
             "itemtype": "method",
             "name": "xhr",
@@ -1416,14 +1466,14 @@
                 "type": "XMLHttpRequest"
             },
             "example": [
-                "\n    F2.init({\n        xhr: function(url, appConfigs, success, error, complete) {\n            $.ajax({\n                url: url,\n                type: 'POST',\n                data: {\n                    params: JSON.stringify(appConfigs, F2.appConfigReplacer)\n                },\n                jsonp: false, // do not put 'callback=' in the query string\n                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name\n                dataType: 'json',\n                success: function(appManifest) {\n                    // custom success logic\n                    success(appManifest); // fire success callback\n                },\n                error: function() {\n                    // custom error logic\n                    error(); // fire error callback\n                },\n                complete: function() {\n                    // custom complete logic\n                    complete(); // fire complete callback\n                }\n            });\n        }\n    });"
+                "\n    F2.init({\n        xhr: function(url, appConfigs, success, error, complete) {\n            $.ajax({\n                url: url,\n                type: 'POST',\n                data: {\n                    params: F2.stringify(appConfigs, F2.appConfigReplacer)\n                },\n                jsonp: false, // do not put 'callback=' in the query string\n                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name\n                dataType: 'json',\n                success: function(appManifest) {\n                    // custom success logic\n                    success(appManifest); // fire success callback\n                },\n                error: function() {\n                    // custom error logic\n                    error(); // fire error callback\n                },\n                complete: function() {\n                    // custom complete logic\n                    complete(); // fire complete callback\n                }\n            });\n        }\n    });"
             ],
             "class": "F2.ContainerConfig",
             "module": "f2"
         },
         {
             "file": "src/lib/classes.js",
-            "line": 432,
+            "line": 437,
             "description": "Allows the container to override individual parts of the AppManifest\nrequest.  See properties and methods with the `xhr.` prefix.",
             "itemtype": "property",
             "name": "xhr",
@@ -1436,7 +1486,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 448,
+            "line": 453,
             "description": "Allows the container to override the request data type (JSON or JSONP)\nthat is used for the request",
             "itemtype": "method",
             "name": "xhr.dataType",
@@ -1464,7 +1514,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 470,
+            "line": 475,
             "description": "Allows the container to override the request method that is used (just\nlike the `type` parameter to `jQuery.ajax()`.",
             "itemtype": "method",
             "name": "xhr.type",
@@ -1492,7 +1542,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 492,
+            "line": 497,
             "description": "Allows the container to override the url that is used to request an\napp's F2.{{#crossLink \"F2.AppManifest\"}}{{/crossLink}}",
             "itemtype": "method",
             "name": "xhr.url",
@@ -1520,7 +1570,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 512,
+            "line": 517,
             "description": "Allows the container to override the script loader which requests\ndependencies defined in the {{#crossLink \"F2.AppManifest\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "loadScripts",
@@ -1533,7 +1583,7 @@
         },
         {
             "file": "src/lib/classes.js",
-            "line": 527,
+            "line": 532,
             "description": "Allows the container to override the stylesheet loader which requests\ndependencies defined in the {{#crossLink \"F2.AppManifest\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "loadStyles",

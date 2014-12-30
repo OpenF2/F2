@@ -357,7 +357,12 @@ F2.extend(&#x27;&#x27;, {
 		ui: undefined,
 		/**
 		 * The views that this app supports. Available views
-		 * are defined in {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}}.
+		 * are defined in {{#crossLink &quot;F2.Constants.Views&quot;}}{{/crossLink}}. The
+		 * presence of a view can be checked via
+		 * F2.{{#crossLink &quot;F2/inArray&quot;}}{{/crossLink}}:
+		 * 
+		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
+		 *
 		 * @property views
 		 * @type Array
 		 */
@@ -593,7 +598,7 @@ F2.extend(&#x27;&#x27;, {
 		 *                 url: url,
 		 *                 type: &#x27;POST&#x27;,
 		 *                 data: {
-		 *                     params: JSON.stringify(appConfigs, F2.appConfigReplacer)
+		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
 		 *                 },
 		 *                 jsonp: false, // do not put &#x27;callback=&#x27; in the query string
 		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
@@ -729,7 +734,6 @@ F2.extend(&#x27;&#x27;, {
 		loadStyles: function(styles,callback){}
 	}
 });
-
     </code></pre>
 </div>
 

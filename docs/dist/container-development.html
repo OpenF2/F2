@@ -288,7 +288,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
             url: url,
             type: <span class="hljs-string">'POST'</span>,
             data: {
-                params: <span class="hljs-built_in">JSON</span>.stringify(appConfigs, F2.appConfigReplacer)
+                params: F2.stringify(appConfigs, F2.appConfigReplacer)
             },
             jsonp: <span class="hljs-literal">false</span>, <span class="hljs-comment">// do not put 'callback=' in the query string</span>
             jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[<span class="hljs-number">0</span>].appId, <span class="hljs-comment">// Unique function name</span>

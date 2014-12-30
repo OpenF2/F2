@@ -295,7 +295,7 @@ F2.extend(&#x27;&#x27;, (function() {
 
 		// default the views if not provided
 		appConfig.views = appConfig.views || [];
-		if (appConfig.views.indexOf(F2.Constants.Views.HOME) === -1) {
+		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
@@ -335,7 +335,7 @@ F2.extend(&#x27;&#x27;, (function() {
 
 				if (contextJson) {
 					try {
-						appConfig.context = JSON.parse(contextJson);
+						appConfig.context = F2.parse(contextJson);
 					}
 					catch (e) {
 						console.warn(&#x27;F2: &quot;data-f2-context&quot; of node is not valid JSON&#x27;, &#x27;&quot;&#x27; + e + &#x27;&quot;&#x27;);
@@ -1356,7 +1356,7 @@ F2.extend(&#x27;&#x27;, (function() {
 									url: url,
 									type: type,
 									data: {
-										params: JSON.stringify(req.apps, F2.appConfigReplacer)
+										params: F2.stringify(req.apps, F2.appConfigReplacer)
 									},
 									jsonp: false, // do not put &#x27;callback=&#x27; in the query string
 									jsonpCallback: jsonpCallback, // Unique function name
