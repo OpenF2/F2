@@ -1,0 +1,45 @@
+{
+  "env": {
+    "browser": true,
+    "amd": true,
+    "jasmine": true
+  },
+  "globals": {
+    "console": true,
+    "F2": true,
+    // Vendor
+    "$": true,
+    "jQuery": true,
+    "EventEmitter2": true,
+    "easyXDM": true,
+    // Testing
+    "runs": true,
+    "itConditionally": true
+  },
+  "rules": {
+    "no-comma-dangle": true,
+    "no-cond-assign": true,
+    "no-console": false,
+    "quotes": [1, "single"],
+    "strict": false,
+    "no-underscore-dangle": false,
+    "valid-jsdoc": [2, {
+      "requireReturn": false
+    }],
+    // Stylistic
+    "block-scoped-var": true,
+    "no-else-return": true,
+    "no-eq-null": true,
+    "func-style": [2, "declaration"],
+    "spaced-line-comment": ["always"],
+    "space-in-parens": ["never"],
+    "space-in-brackets": ["never"],
+    "space-before-blocks": "always",
+    "space-after-keywords": "always",
+    "space-after-function-name": "never",
+    "operator-assignment": [2, "always"],
+    // TODO: reverse when issues are fixed
+    "no-use-before-define": false,
+    "no-unused-vars": false
+  }
+}
