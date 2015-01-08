@@ -5,8 +5,9 @@
 F2.extend('', {
   /**
     The App Class is an optional class that can be namespaced onto the
-    {{#crossLink "F2\Apps"}}{{/crossLink}} namespace. The [F2 Docs](../../app-development.html#app-class)
-    has more information on the usage of the App Class.
+    {{#crossLink "F2\Apps"}}{{/crossLink}} namespace. The
+    [F2 Docs](../../app-development.html#app-class) has more information on the
+    usage of the App Class.
     @class F2.App
     @constructor
     @param {F2.AppConfig} appConfig The F2.AppConfig object for the app
@@ -31,7 +32,8 @@ F2.extend('', {
   */
   AppConfig: {
     /**
-      The unique ID of the app. More information can be found [here](../../app-development.html#f2-appid).
+      The unique ID of the app. More information can be found
+      [here](../../app-development.html#f2-appid).
       @property appId
       @type string
       @required
@@ -70,8 +72,9 @@ F2.extend('', {
     /**
       True if the app will be loaded in an iframe. This property will be true
       if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object sets
-      `isSecure = true`. It will also be true if the [container](../../container-development.html)
-      has made the decision to run apps in iframes.
+      `isSecure = true`. It will also be true if the
+      [container](../../container-development.html) has made the decision to
+      run apps in iframes.
       @property isSecure
       @type bool
       @default false
@@ -116,9 +119,9 @@ F2.extend('', {
     maxWidth: 0,
     /**
       The recommended minimum grid size that this app should be run. This value
-      corresponds to the 12-grid system that is used by the [container](../../container-development.html).
-      This property should be set by apps that require a certain number of
-      columns in their layout.
+      corresponds to the 12-grid system that is used by the
+      [container](../../container-development.html). This property should be
+      set by apps that require a certain number of columns in their layout.
       @property minGridSize
       @type int
       @default 4
@@ -143,16 +146,16 @@ F2.extend('', {
     name: '',
     /**
       The root DOM element that contains the app.
-      **This property is populated during the F2.{{#crossLink "F2/registerApps"}}{{/crossLink}}
-      process.**
+      **This property is populated during the
+      F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process.**
       @property root
       @type Element
     */
     root: undefined,
     /**
       The instance of F2.UI providing easy access to F2.UI methods.
-      **This property is populated during the F2.{{#crossLink "F2/registerApps"}}{{/crossLink}}
-      process.**
+      **This property is populated during the
+      F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process.**
       @property ui
       @type F2.UI
     */
@@ -160,7 +163,8 @@ F2.extend('', {
     /**
       The views that this app supports. Available views are defined in
       {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The presence of a view
-      can be checked via F2.{{#crossLink "F2/inArray"}}{{/crossLink}}: F2.inArray(F2.Constants.Views.SETTINGS, app.views).
+      can be checked via F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
+      F2.inArray(F2.Constants.Views.SETTINGS, app.views).
       @property views
       @type Array
     */
@@ -229,7 +233,8 @@ F2.extend('', {
     status: ''
   },
   /**
-    An object containing configuration information for the [container](../../container-development.html).
+    An object containing configuration information for the
+    [container](../../container-development.html).
     @class F2.ContainerConfig
   */
   ContainerConfig: {
@@ -239,38 +244,40 @@ F2.extend('', {
       {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
       html.
       @method afterAppRender
-      @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}}
-      and will be removed in v2.0
+      @deprecated This has been replaced with
+      {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
       @param {F2.AppConfig} appConfig The F2.AppConfig object
       @param {string} html The string of html representing the app
       @return {Element} The DOM Element surrounding the app
     */
-    afterAppRender: function(appConfig, html) {},
+    afterAppRender: null,
     /**
       Allows the [container](../../container-development.html) to wrap an app
-      in extra html. The function should accept an {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-      object and also a string of html. The extra html can provide links to
-      edit app settings and remove an app from the container. See {{#crossLink "F2.Constants.Css"}}{{/crossLink}}
-      for CSS classes that should be applied to elements.
+      in extra html. The function should accept an
+      {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
+      html. The extra html can provide links to edit app settings and remove an
+      app from the container. See
+      {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
+      should be applied to elements.
       @method appRender
-      @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}}
-      and will be removed in v2.0
+      @deprecated This has been replaced with
+      {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
       @param {F2.AppConfig} appConfig The F2.AppConfig object
       @param {string} html The string of html representing the app
     */
-    appRender: function(appConfig, html) {},
+    appRender: null,
     /**
       Allows the container to render html for an app before the AppManifest for
       an app has loaded. This can be useful if the design calls for loading
       icons to appear for each app before each app is loaded and rendered to
       the page.
       @method beforeAppRender
-      @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}}
-      and will be removed in v2.0
+      @deprecated This has been replaced with
+      {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
       @param {F2.AppConfig} appConfig The F2.AppConfig object
       @return {Element} The DOM Element surrounding the app
     */
-    beforeAppRender: function(appConfig) {},
+    beforeAppRender: null,
     /**
       True to enable debug mode in F2.js. Adds additional logging, resource
       cache busting, etc.
@@ -328,8 +335,9 @@ F2.extend('', {
     */
     UI: {
       /**
-        An object containing configuration defaults for the F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}}
-        and F2.UI.{{#crossLink "F2.UI/hideMask"}}{{/crossLink}} methods.
+        An object containing configuration defaults for the
+        F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} and
+        F2.UI.{{#crossLink "F2.UI/hideMask"}}{{/crossLink}} methods.
         @class F2.ContainerConfig.UI.Mask
       */
       Mask: {
@@ -391,8 +399,8 @@ F2.extend('', {
         that is used for the request.
         @method xhr.dataType
         @param {string} url The manifest url
-        @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-        objects
+        @param {Array} appConfigs An array of
+        {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
         @return {string} The request data type that should be used
         @example
           F2.init({
@@ -406,14 +414,14 @@ F2.extend('', {
             }
           });
       */
-      dataType: function(url, appConfigs) {},
+      dataType: null,
       /**
         Allows the container to override the request method that is used (just
         like the `type` parameter to `jQuery.ajax()`.
         @method xhr.type
         @param {string} url The manifest url
-        @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-        objects
+        @param {Array} appConfigs An array of
+        {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
         @return {string} The request method that should be used
         @example
           F2.init({
@@ -427,14 +435,14 @@ F2.extend('', {
             }
           });
       */
-      type: function(url, appConfigs) {},
+      type: null,
       /**
         Allows the container to override the url that is used to request an
         app's F2.{{#crossLink "F2.AppManifest"}}{{/crossLink}}.
         @method xhr.url
         @param {string} url The manifest url
-        @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
-        objects
+        @param {Array} appConfigs An array of
+        {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
         @return {string} The url that should be used for the request
         @example
           F2.init({
@@ -445,13 +453,15 @@ F2.extend('', {
             }
           });
       */
-      url: function(url, appConfigs) {}
+      url: null
     },
     /**
       Allows the container to override the script loader which requests
       dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
-      @property loadScripts
-      @type function
+      @method loadScripts
+      @param {Array} scripts Script file urls to be loaded
+      @param {Array} inlines Inline JavaScript to be run
+      @param {Function} callback Should be called when loading is complete
       @example
         F2.init({
           loadScripts: function(scripts, inlines, callback) {
@@ -464,8 +474,9 @@ F2.extend('', {
     /**
       Allows the container to override the stylesheet loader which requests
       dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
-      @property loadStyles
-      @type function
+      @method loadStyles
+      @param {Array} styles CSS file urls to be loaded
+      @param {Function} callback Should be called when loading is complete
       @example
         F2.init({
           loadStyles: function(styles, callback) {
