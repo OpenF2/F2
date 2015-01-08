@@ -17,6 +17,7 @@
     "itConditionally": true
   },
   "rules": {
+    "no-eval": false,
     "no-comma-dangle": true,
     "no-cond-assign": true,
     "no-console": false,
@@ -39,6 +40,7 @@
     "space-after-function-name": "never",
     "operator-assignment": [2, "always"],
     // TODO: reverse when issues are fixed
+    "consistent-return": false,
     "no-use-before-define": false,
     "no-unused-vars": false
   }
