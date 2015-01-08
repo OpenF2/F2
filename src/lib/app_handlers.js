@@ -113,7 +113,7 @@ F2.extend('AppHandlers', (function() {
 
   // Token must match F2
   function _validateF2Token(token) {
-    if (token != _f2Token) {
+    if (token !== _f2Token) {
       throw new Error('Token passed is invalid. Only F2 is allowed to call F2.AppHandlers.__trigger().');
     }
   }
@@ -170,6 +170,7 @@ F2.extend('AppHandlers', (function() {
       and can only be called one time. Container Developers must store the
       return value inside of a closure.
       @method getToken
+      @returns {string} A one-time container token
     */
     getToken: function() {
       /**
@@ -188,6 +189,7 @@ F2.extend('AppHandlers', (function() {
       additional internal methods.
       @method __f2GetToken
       @private
+      @returns {string} A one-time container token
     */
     __f2GetToken: function() {
       /**
@@ -206,6 +208,7 @@ F2.extend('AppHandlers', (function() {
       @param {String} token The token received from {{#crossLink "F2.AppHandlers/\_\_f2GetToken:method"}}{{/crossLink}}.
       @param {String} eventKey The event to fire. The complete list of event
       keys is available in {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
+      @returns {object} The F2 instance for chaining purposes
     */
     __trigger: function(token, eventKey) {
       _validateF2Token(token);
@@ -257,6 +260,7 @@ F2.extend('AppHandlers', (function() {
       @param {Function} listener A function that will be triggered when a
       specific event occurs. For detailed argument definition refer to
       {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
+      @returns {object} The F2 instance for chaining purposes
       @example
         var token = F2.AppHandlers.getToken();
         F2.AppHandlers.on(
@@ -302,6 +306,7 @@ F2.extend('AppHandlers', (function() {
       which event to attach the listener to. If no namespace is provided all
       listeners for the specified event type will be removed. Complete list
       available in {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
+      @returns {object} The F2 instance for chaining purposes
       @example
         var token = F2.AppHandlers.getToken();
         F2.AppHandlers.off(token, 'appRenderBefore');
