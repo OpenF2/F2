@@ -19,6 +19,7 @@ F2.extend('Events', (function() {
       @private
       @param {string} event The event name
       @param {object} [arg]* The arguments to be passed
+      @returns {object} EventEmitter2 instance
     */
     _socketEmit: function() {
       return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
@@ -29,6 +30,7 @@ F2.extend('Events', (function() {
       @method emit
       @param {string} event The event name
       @param {object} [arg]* The arguments to be passed
+      @returns {object} EventEmitter2 instance
     */
     emit: function() {
       F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
@@ -36,48 +38,51 @@ F2.extend('Events', (function() {
     },
     /**
       Adds a listener that will execute n times for the event before being
-      removed. The listener is invoked only the first time the event is
-      fired, after which it is removed.
+      removed. The listener is invoked only the first time the event is fired,
+      after which it is removed.
       @method many
       @param {string} event The event name
       @param {int} timesToListen The number of times to execute the event
       before being removed
       @param {function} listener The function to be fired when the event is
       emitted
+      @returns {object} EventEmitter2 instance
     */
     many: function(event, timesToListen, listener) {
       return _events.many(event, timesToListen, listener);
     },
     /**
-     * Remove a listener for the specified event.
-     * @method off
-     * @param {string} event The event name
-     * @param {function} listener The function that will be removed
-     */
+      Remove a listener for the specified event.
+      @method off
+      @param {string} event The event name
+      @param {function} listener The function that will be removed
+      @returns {object} EventEmitter2 instance
+    */
     off: function(event, listener) {
       return _events.off(event, listener);
     },
     /**
-     * Adds a listener for the specified event
-     * @method on
-     * @param {string} event The event name
-     * @param {function} listener The function to be fired when the event is
-     * emitted
-     */
+      Adds a listener for the specified event
+      @method on
+      @param {string} event The event name
+      @param {function} listener The function to be fired when the event is
+      emitted
+      @returns {object} EventEmitter2 instance
+    */
     on: function(event, listener) {
       return _events.on(event, listener);
     },
     /**
-     * Adds a one time listener for the event. The listener is invoked only
-     * the first time the event is fired, after which it is removed.
-     * @method once
-     * @param {string} event The event name
-     * @param {function} listener The function to be fired when the event is
-     * emitted
-     */
+      Adds a one time listener for the event. The listener is invoked only
+      the first time the event is fired, after which it is removed.
+      @method once
+      @param {string} event The event name
+      @param {function} listener The function to be fired when the event is
+      emitted
+      @returns {object} EventEmitter2 instance
+    */
     once: function(event, listener) {
       return _events.once(event, listener);
     }
   };
 })());
-
