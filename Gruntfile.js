@@ -183,10 +183,7 @@ module.exports = function(grunt) {
       options: {
         config: '.eslintrc'
       },
-      target: [
-        './src/lib/*.js',
-        './tests/spec/*.js'
-      ]
+      target: ['./src/lib/*.js']
     },
     uglify: {
       options: {
