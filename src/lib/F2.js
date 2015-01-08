@@ -8,7 +8,7 @@ var F2 = (function() {
     Test whether a value is a native Node
     @method _isNode
     @private
-    @param {Value to test} test
+    @param {object} test Any value to test
     @returns {boolean} True if Node
   */
   function _isNode(test) {
@@ -23,7 +23,7 @@ var F2 = (function() {
     Test whether a value is a native Element
     @method _isElement
     @private
-    @param {Value to test} test
+    @param {object} test Any value to test
     @returns {boolean} True if Element
   */
   function _isElement(test) {
@@ -38,8 +38,8 @@ var F2 = (function() {
     Abosolutizes a relative URL
     @method _absolutizeURI
     @private
-    @param {e.g., location.href} base
-    @param {URL to absolutize} href
+    @param {string} base The base domain
+    @param {strong} href The relative url to make absolute
     @returns {string} URL
     Source: https://gist.github.com/Yaffle/1088850
     Tests: http://skew.org/uri/uri_tests.html
@@ -71,11 +71,11 @@ var F2 = (function() {
   }
 
   /**
-    Parses URI
-    @method _parseURI
+    Parses URI into its component parts
     @private
-    @param {The URL to parse} url
-    @returns {Parsed URL} string
+    @method _parseURI
+    @param {string} url The url to be parsed
+    @returns {object} The parts of the url
     Source: https://gist.github.com/Yaffle/1088850
     Tests: http://skew.org/uri/uri_tests.html
   */
@@ -104,9 +104,12 @@ var F2 = (function() {
       A function to pass into F2.stringify which will prevent circular
       reference errors when serializing objects
       @method appConfigReplacer
+      @param {string} key The key being examined
+      @param {*} value The value being examined
+      @returns {*} Returns the original allowed value or undefined
     */
     appConfigReplacer: function(key, value) {
-      if (key == 'root' || key == 'ui' || key == 'height') {
+      if (key === 'root' || key === 'ui' || key === 'height') {
         return undefined;
       } else {
         return value;
@@ -212,7 +215,7 @@ var F2 = (function() {
     /**
       Tests a URL to see if it's on the same domain (local) or not
       @method isLocalRequest
-      @param {URL to test} url
+      @param {string} url The url to test
       @returns {bool} Whether the URL is local or not
       Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
     */
