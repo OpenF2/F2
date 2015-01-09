@@ -93,7 +93,7 @@ module.exports = function(grunt) {
           'src/vendor/bootstrap-modal.js',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
-          '<%= eslint.files %>',
+          '<%= eslint.target %>',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/f2.debug.js'
@@ -101,7 +101,7 @@ module.exports = function(grunt) {
       'no-third-party': {
         src: [
           'src/lib/template/header.js.tmpl',
-          '<%= eslint.files %>',
+          '<%= eslint.target %>',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/f2.no-third-party.js'
@@ -111,7 +111,7 @@ module.exports = function(grunt) {
           'src/lib/template/header.js.tmpl',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
-          '<%= eslint.files %>',
+          '<%= eslint.target %>',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.no-jquery-or-bootstrap.js'
@@ -123,7 +123,7 @@ module.exports = function(grunt) {
           'src/vendor/jquery.noconflict.js',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
-          '<%= eslint.files %>',
+          '<%= eslint.target %>',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.no-bootstrap.js'
@@ -135,7 +135,7 @@ module.exports = function(grunt) {
           'src/vendor/bootstrap-modal.js',
           'src/vendor/jquery.noconflict.js',
           'src/vendor/eventemitter2.js',
-          '<%= eslint.files %>',
+          '<%= eslint.target %>',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.no-easyXDM.js'
@@ -145,7 +145,7 @@ module.exports = function(grunt) {
         src: [
           'src/lib/template/header.js.tmpl',
           'src/vendor/eventemitter2.js',
-          '<%= eslint.files %>',
+          '<%= eslint.target %>',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.basic.js'
