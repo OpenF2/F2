@@ -16,7 +16,7 @@ var F2 = (function() {
       return test instanceof Node;
     }
 
-    return typeof test === 'object' && typeof test.nodeType === 'number' && typeof test.nodeName === 'string';
+    return test && typeof test === 'object' && typeof test.nodeType === 'number' && typeof test.nodeName === 'string';
   }
 
   /**
@@ -31,7 +31,7 @@ var F2 = (function() {
       return test instanceof HTMLElement;
     }
 
-    return typeof test === 'object' && test.nodeType === 1 && typeof test.nodeName === 'string';
+    return test && typeof test === 'object' && test.nodeType === 1 && typeof test.nodeName === 'string';
   }
 
   /**
