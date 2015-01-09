@@ -253,17 +253,17 @@ var F2 = (function() {
       @returns {bool} Whether the URL is local or not
       Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
     */
-    isLocalRequest: function(url) {
+    isLocalRequest: function(url){
+      var urlPattern = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/;
       var urlLower = url.toLowerCase();
-      var relUrlPattern = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/;
-      var parts = relUrlPattern.execute(urlLower);
+      var parts = urlPattern.exec(urlLower);
       var ajaxLocation;
       var ajaxLocParts;
 
       try {
         ajaxLocation = location.href;
-      } catch ( e ) {
-        // Use the href of an anchor since IE account for document.location
+      } catch (e) {
+        // Use the href of an anchor since IE accounts for document.location
         ajaxLocation = document.createElement('a');
         ajaxLocation.href = '';
         ajaxLocation = ajaxLocation.href;
@@ -271,16 +271,16 @@ var F2 = (function() {
 
       ajaxLocation = ajaxLocation.toLowerCase();
 
-      // The url is relative, so we'll fully qualify it and re-regex
+      // The url must be relative, so fully qualify it and re-regex url
       if (!parts) {
         urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
-        parts = relUrlPattern.exec(urlLower);
+        parts = urlPattern.exec(urlLower);
       }
 
       // Segment location into parts
-      ajaxLocParts = relUrlPattern.exec(ajaxLocation) || [];
+      ajaxLocParts = urlPattern.exec(ajaxLocation) || [];
 
-      // Do hostname and protocol and port of manifest URL match location.href?
+      // Do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
       var matched = !(parts &&
         (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
         (parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
@@ -1792,30 +1792,31 @@ F2.extend('', (function() {
     @return {F2.AppConfig} The new F2.AppConfig object
   */
   function _getAppConfigFromElement(node) {
+    if (!node) {
+      return;
+    }
+
     var appConfig;
+    var appId = node.getAttribute('data-f2-appid');
+    var manifestUrl = node.getAttribute('data-f2-manifesturl');
 
-    if (node) {
-      var appId = node.getAttribute('data-f2-appid');
-      var manifestUrl = node.getAttribute('data-f2-manifesturl');
+    if (appId && manifestUrl) {
+      appConfig = {
+        appId: appId,
+        enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
+        isSecure: node.hasAttribute('data-f2-issecure'),
+        manifestUrl: manifestUrl,
+        root: node
+      };
 
-      if (appId && manifestUrl) {
-        appConfig = {
-          appId: appId,
-          enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
-          isSecure: node.hasAttribute('data-f2-issecure'),
-          manifestUrl: manifestUrl,
-          root: node
-        };
+      // See if the user passed in a block of serialized json
+      var contextJson = node.getAttribute('data-f2-context');
 
-        // See if the user passed in a block of serialized json
-        var contextJson = node.getAttribute('data-f2-context');
-
-        if (contextJson) {
-          try {
-            appConfig.context = F2.parse(contextJson);
-          } catch (e) {
-            console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
-          }
+      if (contextJson) {
+        try {
+          appConfig.context = F2.parse(contextJson);
+        } catch (e) {
+          F2.log('warn', 'F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
         }
       }
     }
@@ -2076,7 +2077,6 @@ F2.extend('', (function() {
       function _checkComplete() {
         // Are we done loading all scripts for this app?
         if (++scriptsLoaded === scriptCount) {
-          // success
           cb();
         }
       }
@@ -2403,6 +2403,28 @@ F2.extend('', (function() {
     return true;
   }
 
+  /**
+    Find app placeholders on the page
+    @method _getPlaceholders
+    @private
+    @param {Element} parentNode The element to search for placeholder apps
+    @returns {Array} The discovered placeholder elements
+  */
+  function _getPlaceholders(parentNode) {
+    var elements = [];
+
+    if (parentNode.hasAttribute('data-f2-appid')) {
+      elements.push(parentNode);
+    }
+
+    if (parentNode.querySelectorAll) {
+      var children = Array.prototype.slice.call(parentNode.querySelectorAll('[data-f2-appid]'));
+      elements = elements.concat(children);
+    }
+
+    return elements;
+  }
+
   return {
     /**
       Gets the current list of apps in the container.
@@ -2447,7 +2469,7 @@ F2.extend('', (function() {
 
       // Dictates whether we use the old logic or the new logic.
       // TODO: Remove in v2.0
-      _usesAppHandlers = (_config.beforeAppRender || _config.appRender || _config.afterAppRender || _config.appScriptLoadFailed);
+      _usesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
 
       // Only establish RPC connection if the container supports the secure app page
       if (!!_config.secureAppPagePath || _config.isSecureAppPage) {
@@ -2478,21 +2500,8 @@ F2.extend('', (function() {
         throw new Error('"parentNode" must be null or a DOM node');
       }
 
-      var elements = [];
+      var elements = _getPlaceholders(parentNode || document.body);
       var appConfigs = [];
-
-      /**
-        If the passed in element has a data-f2-appid attribute add it to the
-        list of elements but to not search within that element for other
-        placeholders
-      */
-      if (parentNode) {
-        if (parentNode.hasAttribute('data-f2-appid')) {
-          elements.push(parentNode);
-        }
-      } else if (document.querySelectorAll) {
-        elements = elements.concat(document.querySelectorAll('[data-f2-appid]'));
-      }
 
       for (var i = 0, len = elements.length; i < len; i++) {
         var appConfig = _getAppConfigFromElement(elements[i]);
