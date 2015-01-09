@@ -32,6 +32,8 @@
 		return;
 	}
 
+/* global jQuery */
+
 /**
   Open F2
   @module f2
@@ -301,11 +303,13 @@ var F2 = (function() {
     },
     /**
       A utility logging function to write messages or objects to the browser
-      console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
+      console. This is a proxy for the
+      [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
       @method log
       @param {object|string} Object/Method An object to be logged _or_ a
       `console` API method name, such as `warn` or `error`. All of the console
-      method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
+      method names are
+      [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
       @param {object} [obj2]* An object to be logged
       @example
         Pass any value (string, int, array, object, bool).
@@ -371,6 +375,8 @@ var F2 = (function() {
     }
   };
 })();
+
+/* global F2, jQuery */
 
 /**
   The new `AppHandlers` functionality provides Container Developers a higher
@@ -566,7 +572,7 @@ F2.extend('AppHandlers', (function() {
       @returns {string} A one-time container token
     */
     __f2GetToken: function() {
-      /**
+      /*
         Delete this method for security that way only the container has
         access to the token 1 time. Kind of Ethan Hunt-ish, this message will
         self-destruct immediately.
@@ -637,22 +643,14 @@ F2.extend('AppHandlers', (function() {
       @returns {object} The F2 instance for chaining purposes
       @example
         var token = F2.AppHandlers.getToken();
-        F2.AppHandlers.on(
-          token,
-          'appRenderBefore'
-          function() {
-            F2.log('before app rendered!');
-          }
-        );
+        F2.AppHandlers.on(token, 'appRenderBefore', function() {
+          F2.log('before app rendered!');
+        });
       @example
         var token = F2.AppHandlers.getToken();
-        F2.AppHandlers.on(
-          token,
-          'appRenderBefore.myNamespace',
-          function() {
-            F2.log('before app rendered!');
-          }
-        );
+        F2.AppHandlers.on(token, 'appRenderBefore.myNamespace', function() {
+          F2.log('before app rendered!');
+        });
     */
     on: function(token, eventKey, listener) {
       if (!eventKey) {
@@ -905,6 +903,8 @@ F2.extend('Constants', {
     APP_SCRIPT_LOAD_FAILED: 'appScriptLoadFailed'
   }
 });
+
+/* global F2 */
 
 /**
   Class stubs for documentation purposes
@@ -1397,6 +1397,8 @@ F2.extend('', {
   }
 });
 
+/* global F2 */
+
 /**
   Constants used throughout the Open Financial Framework.
   @class F2.Constants
@@ -1659,6 +1661,8 @@ F2.extend('Constants', {
     SETTINGS: 'settings'
   }
 });
+
+/* global F2, jQuery */
 
 /**
   Root namespace of the F2 SDK
@@ -2862,6 +2866,8 @@ F2.extend('', (function() {
   };
 })());
 
+/* global F2, EventEmitter2 */
+
 /**
   Handles [Context](../../app-development.html#context) passing from containers
   to apps and apps to apps.
@@ -2950,6 +2956,8 @@ F2.extend('Events', (function() {
     }
   };
 })());
+
+/* global F2, easyXDM, jQuery */
 
 /**
   Handles socket communication between the container and secure apps
@@ -3264,6 +3272,8 @@ F2.extend('Rpc', (function() {
     }
   };
 })());
+
+/* global F2, jQuery, EventEmitter2 */
 
 F2.extend('UI', (function() {
 
