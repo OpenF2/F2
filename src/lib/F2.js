@@ -219,17 +219,17 @@ var F2 = (function() {
       @returns {bool} Whether the URL is local or not
       Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
     */
-    isLocalRequest: function(url) {
+    isLocalRequest: function(url){
+      var urlPattern = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/;
       var urlLower = url.toLowerCase();
-      var relUrlPattern = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/;
-      var parts = relUrlPattern.execute(urlLower);
+      var parts = urlPattern.exec(urlLower);
       var ajaxLocation;
       var ajaxLocParts;
 
       try {
         ajaxLocation = location.href;
-      } catch ( e ) {
-        // Use the href of an anchor since IE account for document.location
+      } catch (e) {
+        // Use the href of an anchor since IE accounts for document.location
         ajaxLocation = document.createElement('a');
         ajaxLocation.href = '';
         ajaxLocation = ajaxLocation.href;
@@ -237,16 +237,16 @@ var F2 = (function() {
 
       ajaxLocation = ajaxLocation.toLowerCase();
 
-      // The url is relative, so we'll fully qualify it and re-regex
+      // The url must be relative, so fully qualify it and re-regex url
       if (!parts) {
         urlLower = _absolutizeURI(ajaxLocation, urlLower).toLowerCase();
-        parts = relUrlPattern.exec(urlLower);
+        parts = urlPattern.exec(urlLower);
       }
 
       // Segment location into parts
-      ajaxLocParts = relUrlPattern.exec(ajaxLocation) || [];
+      ajaxLocParts = urlPattern.exec(ajaxLocation) || [];
 
-      // Do hostname and protocol and port of manifest URL match location.href?
+      // Do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
       var matched = !(parts &&
         (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
         (parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
