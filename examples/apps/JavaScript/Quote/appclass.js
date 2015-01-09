@@ -1,271 +1,287 @@
-F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appContent, root) {
+F2.Apps['com_openf2_examples_javascript_quote'] = function(appConfig, appContent, root) {
 
-	var $root = $(root);
-	var $caption = $('caption', $root);
-	var $tbody = $('tbody', $root);
-	var $addToWatchlist = $('a[data-watchlist-add]', $root);
-	var $settings = $('form[data-f2-view="settings"]', $root);
-	var _config = {
-		refreshMode: 'page',
-		autoRefresh: false
-	};
-	var _autoRefreshInterval = false;
+  var $root = $(root);
+  var $caption = $('caption', $root);
+  var $tbody = $('tbody', $root);
+  var $addToWatchlist = $('a[data-watchlist-add]', $root);
+  var $settings = $('form[data-f2-view="settings"]', $root);
+  var _config = {
+    refreshMode: 'page',
+    autoRefresh: false
+  };
+  var _autoRefreshInterval = false;
 
-	var _getQuote = function(symbolData) {
+  function _getQuote(symbolData) {
+    appConfig.ui.showMask($root, true);
+    appConfig.context = appConfig.context || {};
 
-		appConfig.ui.showMask($root, true);
+    if (!!symbolData) {
+      appConfig.context.symbol = symbolData.symbol;
+    } else if (appConfig.context.symbol) {
+      appConfig.context.symbol = appConfig.context.symbol;
+    } else {
+      appConfig.context.symbol = 'MSFT'; //default to Microsoft
+    }
 
-		appConfig.context = appConfig.context || {};
+    $.ajax({
+      url: 'http://dev.markitondemand.com/Api/Quote/jsonp',
+      data: {
+        symbol: appConfig.context.symbol
+      },
+      dataType: 'jsonp',
+      success: _renderQuote,
+      error: function() {},
+      complete: function() {
+        appConfig.ui.hideMask($root);
+      }
+    });
 
-		if (!!symbolData){
-			appConfig.context.symbol = symbolData.symbol;
-		} else if(appConfig.context.symbol) {
-			appConfig.context.symbol = appConfig.context.symbol;
-		} else {
-			appConfig.context.symbol = 'MSFT';//default to Microsoft
-		}
+    _getWatchListSymbols()
+  }
 
-		$.ajax({
-			url: 'http://dev.markitondemand.com/Api/Quote/jsonp',
-			data: { symbol: appConfig.context.symbol },
-			dataType: 'jsonp',
-			success: _renderQuote,
-			error: function() {
+  function _hasWatchListApp() {
+    return !!$("div.com_openf2_examples_javascript_watchlist").length;
+  }
 
-			},
-			complete: function() {
-				appConfig.ui.hideMask($root);
-			}
-		});
+  function _watchListHasSymbol() {
+    return F2.inArray(appConfig.context.symbol, _getWatchListSymbols());
+  }
 
-		_getWatchListSymbols()
-	};
+  function _getWatchListSymbols() {
+    var list = [];
 
-	var _hasWatchListApp = function() {
-		return !!$("div.com_openf2_examples_javascript_watchlist").length;
-	};
+    $('div.com_openf2_examples_javascript_watchlist tr[data-row]').each(function(idx, item) {
+      list.push($(item).attr('data-row'))
+    });
 
-	var _watchListHasSymbol = function(){
-		return F2.inArray(appConfig.context.symbol, _getWatchListSymbols());
-	};
+    return list;
+  }
 
-	var _getWatchListSymbols = function(){
-		var list = [];
-		$('div.com_openf2_examples_javascript_watchlist tr[data-row]').each(function(idx,item){
-			list.push($(item).attr('data-row'))
-		});
-		return list;
-	}
+  function _initTypeahead() {
+    $('input[name=lookup]', $root).autocomplete({
+      autoFocus: true,
+      minLength: 0,
+      select: function(event, ui) {
+        //F2.Events.emit(F2.Constants.Events.APP_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
+        _getQuote({
+          symbol: ui.item.value
+        });
+      },
+      source: function(request, response) {
 
-	var _initTypeahead = function() {
+        $.ajax({
+          url: '//dev.markitondemand.com/api/Lookup/jsonp',
+          dataType: 'jsonp',
+          data: {
+            input: request.term
+          },
+          success: function(data) {
+            response($.map(data, function(item) {
+              return {
+                label: item.Symbol + ' - ' + item.Name + ' (' + item.Exchange + ')',
+                value: item.Symbol
+              }
+            }));
+          }
+        });
+      }
+    });
+  };
 
-		$('input[name=lookup]', $root)
-			.autocomplete({
-				autoFocus:true,
-				minLength: 0,
-				select: function (event, ui) {
-					//F2.Events.emit(F2.Constants.Events.APP_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
-					_getQuote({ symbol: ui.item.value });
-				},
-				source: function (request, response) {
+  function _populateSettings() {
+    $('input[name=refreshMode][value=' + _config.refreshMode + ']', $settings).prop('checked', true);
+    $('input[name=autoRefresh]', $settings).prop('checked', _config.autoRefresh);
+  }
 
-					$.ajax({
-						url: '//dev.markitondemand.com/api/Lookup/jsonp',
-						dataType: 'jsonp',
-						data: {
-							input: request.term
-						},
-						success: function (data) {
-							response($.map(data, function (item) {
-								return {
-									label: item.Symbol + ' - ' + item.Name + ' (' + item.Exchange + ')',
-									value: item.Symbol
-								}
-							}));
-						}
-					});
-			}
-		});
-	};
+  function _renderQuote(quoteData) {
+    if (quoteData && quoteData.Data && quoteData.Data.Status == 'SUCCESS') {
+      appConfig.ui.setTitle(quoteData.Data.Name);
 
-	var _populateSettings = function() {
-		$('input[name=refreshMode][value=' + _config.refreshMode + ']', $settings).prop('checked', true);
-		$('input[name=autoRefresh]', $settings).prop('checked', _config.autoRefresh);
-	};
+      $caption.promise().done(function() {
+        $(this)
+          .empty()
+          .append([
+            '<h3 class="clearfix">',
+            '<span class="last pull-left">', Format.number(quoteData.Data.LastPrice, 2), '</span>',
+            '<span class="last-change pull-right">', Format.number(quoteData.Data.Change, {
+              precision: 2,
+              withColors: true
+            }), ' ', Format.number(quoteData.Data.ChangePercent, {
+              precision: 2,
+              withColors: true,
+              prefix: '(',
+              suffix: '%)'
+            }), '</span>',
+            '</h3>'
+          ].join(''));
+      });
 
-	var _renderQuote = function(quoteData) {
+      $tbody.promise().done(function() {
+        $(this)
+          .empty()
+          .append([
+            '<tr>',
+            '<th>Range</th>',
+            '<td><strong>', Format.number(quoteData.Data.Low), ' - ', Format.number(quoteData.Data.High), '</strong></td>',
+            '</tr>',
+            '<tr>',
+            '<th>Open</th>',
+            '<td><strong>', Format.number(quoteData.Data.Open), '</strong></td>',
+            '</tr>',
+            '<tr>',
+            '<th>Volume</th>',
+            '<td><strong>', Format.number(quoteData.Data.Volume, {
+              withMagnitude: true,
+              precision: 1
+            }), '</strong></td>',
+            '</tr>',
+            '<tr>',
+            '<th>Market Cap</th>',
+            '<td><strong>', Format.number(quoteData.Data.MarketCap, {
+              withMagnitude: true,
+              precision: 1
+            }), '</strong></td>',
+            '</tr>'
+          ].join(''));
+      });
 
-		if (quoteData && quoteData.Data && quoteData.Data.Status == 'SUCCESS') {
-			appConfig.ui.setTitle(quoteData.Data.Name);
+      $('span', $addToWatchlist).text(quoteData.Data.Symbol);
+      $addToWatchlist
+        .data('watchlist-add', quoteData.Data.Symbol)
+        .closest('tr').toggleClass('hide', (!_hasWatchListApp() || _watchListHasSymbol()));
 
-			$caption.promise().done(function() {
-				$(this)
-					.empty()
-					.append([
-						'<h3 class="clearfix">',
-							'<span class="last pull-left">', Format.number(quoteData.Data.LastPrice, 2), '</span>',
-							'<span class="last-change pull-right">', Format.number(quoteData.Data.Change, {precision:2, withColors:true}), ' ', Format.number(quoteData.Data.ChangePercent, {precision:2, withColors:true, prefix:'(', suffix:'%)'}), '</span>',
-						'</h3>'
-					].join(''));
-			});
+    } else {
+      F2.log('Un problemo!');
+    }
+  };
 
-			$tbody.promise().done(function() {
-				$(this)
-					.empty()
-					.append([
-						'<tr>',
-							'<th>Range</th>',
-							'<td><strong>', Format.number(quoteData.Data.Low), ' - ', Format.number(quoteData.Data.High), '</strong></td>',
-						'</tr>',
-						'<tr>',
-							'<th>Open</th>',
-							'<td><strong>', Format.number(quoteData.Data.Open), '</strong></td>',
-						'</tr>',
-						'<tr>',
-							'<th>Volume</th>',
-							'<td><strong>', Format.number(quoteData.Data.Volume, {withMagnitude:true,precision:1}), '</strong></td>',
-						'</tr>',
-						'<tr>',
-							'<th>Market Cap</th>',
-							'<td><strong>', Format.number(quoteData.Data.MarketCap, {withMagnitude:true,precision:1}), '</strong></td>',
-						'</tr>'
-					].join(''));
-			});
+  function _saveSettings() {
+    clearInterval(_autoRefreshInterval);
 
-			$('span', $addToWatchlist).text(quoteData.Data.Symbol);
-			$addToWatchlist
-				.data('watchlist-add', quoteData.Data.Symbol)
-				.closest('tr').toggleClass('hide', (!_hasWatchListApp() || _watchListHasSymbol()));
+    _config.refreshMode = $('input[name=refreshMode]:checked', $settings).val();
+    _config.autoRefresh = $('input[name=autoRefresh]', $settings).prop('checked');
 
-		} else {
-			F2.log('Un problemo!');
-		}
-	};
+    if (_config.autoRefresh) {
+      F2.log('beginning refresh');
+      _autoRefreshInterval = setInterval(function() {
+        F2.log('refreshed');
+        _getQuote();
+      }, 30000);
+    }
 
-	var _saveSettings = function() {
+    appConfig.ui.Views.change(F2.Constants.Views.HOME);
+  }
 
-		clearInterval(_autoRefreshInterval);
+  /**
+   * @class Format
+   * @static
+   */
+  var Format = (function() {
+    var _defaultOptions = {
+      precision: 2,
+      withColors: false,
+      withMagnitude: false,
+      prefix: '',
+      suffix: ''
+    };
+    var _magnitudes = {
+      'shortcap': ['', 'K', 'M', 'B', 'T']
+    };
 
-		_config.refreshMode = $('input[name=refreshMode]:checked', $settings).val();
-		_config.autoRefresh = $('input[name=autoRefresh]', $settings).prop('checked');
+    return {
+      /**
+       * Formats a number
+       * @method number
+       * @param {number} raw The number to format
+       * @param {object|int} [options] If int, formats to X precision. If
+       * object, formats according to options passed
+       */
+      number: function(raw, options) {
+        if (!raw) {
+          return '--';
+        }
 
-		if (_config.autoRefresh) {
-			F2.log('beginning refresh');
-			_autoRefreshInterval = setInterval(function() {
-				F2.log('refreshed');
-				_getQuote();
-			}, 30000);
-		}
+        options = typeof options === 'number' ? {
+          precision: options
+        } : options;
+        options = $.extend({}, _defaultOptions, options);
 
-		appConfig.ui.Views.change(F2.Constants.Views.HOME);
-	};
+        var val;
 
-	/**
-	 * @class Format
-	 * @static
-	 */
-	var Format = (function() {
-		var _defaultOptions = {
-			precision: 2,
-			withColors: false,
-			withMagnitude: false,
-			prefix: '',
-			suffix: ''
-		};
-		var _magnitudes = {
-			'shortcap': ['', 'K', 'M', 'B', 'T']
-		};
+        if (options.withMagnitude) {
+          var c = 0;
+          raw = Math.abs(raw);
+          while (raw >= 1000 && c < 4) {
+            raw /= 1000;
+            c++;
+          }
+          options.magnitudeType = options.magnitudeType || 'shortcap';
+          options.suffix = _magnitudes[options.magnitudeType][c];
+        }
 
-		return {
-			/**
-			 * Formats a number
-			 * @method number
-			 * @param {number} raw The number to format
-			 * @param {object|int} [options] If int, formats to X precision. If
-			 * object, formats according to options passed
-			 */
-			number:function(raw, options) {
-				if (!raw) { return '--'; }
+        val = raw.toFixed(options.precision);
+        val = options.prefix + val + options.suffix;
 
-				options = typeof options === 'number' ? { precision: options } : options;
-				options = $.extend({}, _defaultOptions, options);
+        return !!options.withColors
+          ? ('<span class="' + (raw > 0 ? 'positive' : raw < 0 ? 'negative' : 'unchanged') + '">' + val + '</span>')
+          : val;
+      }
+    };
+  })();
 
-				var val;
+  return {
+    init: function() {
+      // bind container symbol change
+      F2.Events.on(
+        F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, function(symbolData) {
+          if (_config.refreshMode == 'page') {
+            _getQuote(symbolData);
+          }
+        }
+      );
 
-				if (options.withMagnitude) {
-					var c = 0;
-					raw = Math.abs(raw);
-					while (raw >= 1000 && c < 4) {
-						raw /= 1000;
-						c++;
-					}
-					options.magnitudeType = options.magnitudeType || 'shortcap';
-					options.suffix = _magnitudes[options.magnitudeType][c];
-				}
-					
-				val = raw.toFixed(options.precision);
-				val = options.prefix + val + options.suffix;
+      // bind app symbol change
+      F2.Events.on(
+        F2.Constants.Events.APP_SYMBOL_CHANGE, function(symbolData) {
+          if (_config.refreshMode == 'app') {
+            _getQuote(symbolData);
+          }
+        }
+      );
 
-				return !!options.withColors
-					? ('<span class="' + (raw > 0 ? 'positive' : raw < 0 ? 'negative' : 'unchanged') + '">' +  val + '</span>')
-					: val;
-			}
-		};
-	})();
+      // bind view change
+      appConfig.ui.Views.change(function(view) {
+        if (view === F2.Constants.Views.SETTINGS) {
+          _populateSettings();
+        }
+      });
 
-	return {
-		init: function() {
-			// bind container symbol change
-			F2.Events.on(
-				F2.Constants.Events.CONTAINER_SYMBOL_CHANGE,
-				function(symbolData) {
-					if (_config.refreshMode == 'page') {
-						_getQuote(symbolData);
-					}
-				}
-			);
+      //Talk to External Watchlist App
+      $root.on("click", "a[data-watchlist-add]", function(e) {
 
-			// bind app symbol change
-			F2.Events.on(
-				F2.Constants.Events.APP_SYMBOL_CHANGE,
-				function(symbolData) {
-					if (_config.refreshMode == 'app') {
-						_getQuote(symbolData);
-					}
-				}
-			);
+        if (!_hasWatchListApp()) {
+          appConfig.ui.Modals.alert("The Watchlist App is not on this container.");
+        } else {
 
-			// bind view change
-			appConfig.ui.Views.change(function(view) {
-				if (view === F2.Constants.Views.SETTINGS) {
-					_populateSettings();
-				}
-			});
+          F2.Events.emit(
+            "F2_Examples_Watchlist_Add",
+            {
+              symbol: $(this).data("watchlist-add")
+            }
+          );
 
-			//Talk to External Watchlist App
-			$root.on("click", "a[data-watchlist-add]", function(e){
+          $(this).closest('tr').addClass('hide');
+        }
+      });
 
-				if (!_hasWatchListApp()){
-					appConfig.ui.Modals.alert("The Watchlist App is not on this container.");
-				} else {
+      // bind save settings
+      $root.on("click", "button.save", _saveSettings);
 
-					F2.Events.emit(
-						"F2_Examples_Watchlist_Add",
-						{ symbol: $(this).data("watchlist-add") }
-					);
+      // init typeahead
+      _initTypeahead();
 
-					$(this).closest('tr').addClass('hide');
-				}
-			});			
-
-			// bind save settings
-			$root.on("click", "button.save", _saveSettings);
-
-			// init typeahead
-			_initTypeahead();
-
-			// get quote
-			_getQuote();
-		}
-	};
+      // get quote
+      _getQuote();
+    }
+  };
 };
