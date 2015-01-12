@@ -7,16 +7,18 @@
   "globals": {
     "console": true,
     "F2": true,
-    // Vendor
     "$": true,
     "jQuery": true,
     "EventEmitter2": true,
     "easyXDM": true,
-    // Testing
     "runs": true,
-    "itConditionally": true
+    "itConditionally": true,
+    // Examples
+    "F2_jsonpCallback_com_openf2_examples_javascript_cds": true
   },
   "rules": {
+    "dot-notation": false,
+    "new-cap": false,
     "no-eval": false,
     "no-comma-dangle": true,
     "no-cond-assign": true,
