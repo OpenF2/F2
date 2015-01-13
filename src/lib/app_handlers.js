@@ -1,3 +1,5 @@
+/* global F2, jQuery */
+
 /**
   The new `AppHandlers` functionality provides Container Developers a higher
   level of control over configuring app rendering and interaction.

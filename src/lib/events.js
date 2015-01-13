@@ -1,3 +1,5 @@
+/* global F2, EventEmitter2 */
+
 /**
   Handles [Context](../../app-development.html#context) passing from containers
   to apps and apps to apps.

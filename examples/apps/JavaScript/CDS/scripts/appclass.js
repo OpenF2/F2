@@ -1,4 +1,4 @@
-/* global cdsFormatter */
+/* global F2, $, cdsFormatter */
 
 F2.Apps['com_openf2_examples_javascript_cds'] = (function() {
 

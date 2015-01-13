@@ -1,3 +1,5 @@
+/* global F2, easyXDM, jQuery */
+
 /**
   Handles socket communication between the container and secure apps
   @class F2.Rpc

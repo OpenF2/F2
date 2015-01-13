@@ -1,3 +1,5 @@
+/* global F2 */
+
 /**
   Constants used throughout the Open Financial Framework.
   @class F2.Constants
