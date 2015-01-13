@@ -9,8 +9,6 @@ F2.extend('', (function() {
 	var _config = false;
 	var _bUsesAppHandlers = false;
 	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
-	var _loadedScripts = {};
-	var _loadedStyles = {};
 	var _loadingScripts = {};
 
 	/**
@@ -328,8 +326,26 @@ F2.extend('', (function() {
 			return;
 		}
 
+		var _findExistingScripts = function() {
+			return $('script[src]').map(function(i, tag) {
+				return tag.src;
+			});
+		};
+
+		var _findExistingStyles = function() {
+			return $('link[href]').map(function(i, tag) {
+				return tag.href;
+			});
+		};
+
 		// Fn for loading manifest Styles
 		var _loadStyles = function(styles, cb) {
+			// Reduce the list to scripts that haven't been loaded
+			var existingStyles = _findExistingStyles();
+			styles = jQuery.grep(styles, function(url) {
+				return url && jQuery.inArray(url, existingStyles) === -1;
+			});
+
 			// Attempt to use the user provided method
 			if (_config.loadStyles) {
 				return _config.loadStyles(styles, cb);
@@ -337,16 +353,9 @@ F2.extend('', (function() {
 
 			// load styles, see #101
 			var stylesFragment = null,
-				useCreateStyleSheet = !! document.createStyleSheet;
+				useCreateStyleSheet = !!document.createStyleSheet;
 
-			jQuery.each(styles, function(i, e) {
-				var resourceUrl = e,
-					resourceKey = e.toLowerCase();
-
-				if (_loadedStyles[resourceKey]) {
-					return;
-				}
-
+			jQuery.each(styles, function(i, resourceUrl) {
 				if (useCreateStyleSheet) {
 					document.createStyleSheet(resourceUrl);
 				}
@@ -354,8 +363,6 @@ F2.extend('', (function() {
 					stylesFragment = stylesFragment || [];
 					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + resourceUrl + '"/>');
 				}
-
-				_loadedStyles[resourceKey] = true;
 			});
 
 			if (stylesFragment) {
@@ -368,6 +375,12 @@ F2.extend('', (function() {
 		// For loading AppManifest.scripts
 		// Parts derived from curljs, headjs, requirejs, dojo
 		var _loadScripts = function(scripts, cb) {
+			// Reduce the list to scripts that haven't been loaded
+			var existingScripts = _findExistingScripts();
+			scripts = jQuery.grep(scripts, function(url) {
+				return url && jQuery.inArray(url, existingScripts) === -1;
+			});
+
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
 				return _config.loadScripts(scripts, cb);
@@ -452,11 +465,6 @@ F2.extend('', (function() {
 					resourceUrl = e,
 					resourceKey = resourceUrl.toLowerCase();
 
-				// already finished loading, trigger callback
-				if (_loadedScripts[resourceKey]) {
-					return _checkComplete();
-				}
-
 				// this script is actively loading, add this app to the wait list
 				if (_loadingScripts[resourceKey]) {
 					_loadingScripts[resourceKey].push({
@@ -496,8 +504,6 @@ F2.extend('', (function() {
 					if (e.type == 'load' || readyStates[script.readyState]) {
 						// Done, cleanup
 						script.onload = script.onreadystatechange = script.onerror = '';
-						// loaded
-						_loadedScripts[resourceKey] = true;
 						// increment and check if scripts are done
 						_checkComplete();
 						// empty wait list
