@@ -3239,11 +3239,11 @@ F2.extend('Rpc', (function() {
       @return {bool} True if there is an open socket
     */
     isRemote: function(instanceId) {
-      var appExists = _apps[instanceId] !== undefined;
-      var appIsSecure = _apps[instanceId].config.isSecure;
-      var noFrameAccess = !jQuery(_apps[instanceId].config.root).find('iframe').length;
-
-      return appExists && appIsSecure && noFrameAccess;
+      return (
+        _apps[instanceId] !== undefined &&
+        _apps[instanceId].config.isSecure &&
+        !jQuery(_apps[instanceId].config.root).find('iframe').length
+      );
     },
 
     /**
