@@ -1,5 +1,5 @@
 /*!
- * F2 v1.4.0 01-09-2015
+ * F2 v1.4.0 01-12-2015
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License");
@@ -3239,11 +3239,11 @@ F2.extend('Rpc', (function() {
       @return {bool} True if there is an open socket
     */
     isRemote: function(instanceId) {
-      var appExists = _apps[instanceId] !== undefined;
-      var appIsSecure = _apps[instanceId].config.isSecure;
-      var noFrameAccess = !jQuery(_apps[instanceId].config.root).find('iframe').length;
-
-      return appExists && appIsSecure && noFrameAccess;
+      return (
+        _apps[instanceId] !== undefined &&
+        _apps[instanceId].config.isSecure &&
+        !jQuery(_apps[instanceId].config.root).find('iframe').length
+      );
     },
 
     /**
