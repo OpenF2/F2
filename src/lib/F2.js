@@ -1,3 +1,5 @@
+/* global jQuery */
+
 /**
   Open F2
   @module f2
@@ -267,11 +269,13 @@ var F2 = (function() {
     },
     /**
       A utility logging function to write messages or objects to the browser
-      console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
+      console. This is a proxy for the
+      [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
       @method log
       @param {object|string} Object/Method An object to be logged _or_ a
       `console` API method name, such as `warn` or `error`. All of the console
-      method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
+      method names are
+      [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
       @param {object} [obj2]* An object to be logged
       @example
         Pass any value (string, int, array, object, bool).

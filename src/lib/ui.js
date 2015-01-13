@@ -1,3 +1,5 @@
+/* global F2, jQuery, EventEmitter2 */
+
 F2.extend('UI', (function() {
 
   var _containerConfig;

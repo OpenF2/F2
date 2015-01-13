@@ -1,3 +1,5 @@
+/* global F2 */
+
 /**
   Class stubs for documentation purposes
   @main F2

@@ -5,12 +5,6 @@
     "jasmine": true
   },
   "globals": {
-    "console": true,
-    "F2": true,
-    "$": true,
-    "jQuery": true,
-    "EventEmitter2": true,
-    "easyXDM": true,
     "runs": true,
     "itConditionally": true,
     // Examples

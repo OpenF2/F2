@@ -1,3 +1,5 @@
+/* global F2, jQuery */
+
 /**
   Root namespace of the F2 SDK
   @module f2
