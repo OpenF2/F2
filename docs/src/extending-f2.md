@@ -28,9 +28,9 @@ There is a [separate repository on GitHub](https://github.com/OpenF2/F2Plugins) 
 Plugins are encapsulated in JavaScript closures as demonstrated below. There are three arguments which can be passed into `F2.extend()`: `namespace`, `object`, and `overwrite`. For full details, [read the F2.js SDK documentation](../sdk/docs/classes/F2.html#method_extend). 
 
 ```javascript
-F2.extend('YourPluginName', (function(){
+F2.extend('YourPluginName', (function() {
 	return {
-		doSomething: function(){
+		doSomething: function() {
 			F2.log("Something has been done.");
 		}
 	};
