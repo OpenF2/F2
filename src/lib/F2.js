@@ -278,13 +278,13 @@ var F2 = (function() {
       [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
       @param {object} [obj2]* An object to be logged
       @example
-        // Pass any value (string, int, array, object, bool).
-        F2.log('foo');
-        F2.log([1, 2, 3]);
+        Pass any value (string, int, array, object, bool).
+          F2.log('foo');
+          F2.log([1, 2, 3]);
       @example
-        // Use a console method name as the first argument.
-        F2.log('error', err);
-        F2.log('info', 'The session ID is ' + sessionId);
+        Use a console method name as the first argument.
+          F2.log('error', err);
+          F2.log('info', 'The session ID is ' + sessionId);
     */
     log: function() {
       if (!window.console) {
