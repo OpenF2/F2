@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+
   var exec = require('child_process').exec;
   var handlebars = require('handlebars');
   var moment = require('moment');
@@ -14,7 +15,6 @@ module.exports = function(grunt) {
   });
 
   grunt.initConfig({
-    pkg: pkg,
     clean: {
       'github-pages': {
         options: {
@@ -27,31 +27,6 @@ module.exports = function(grunt) {
           force: true
         },
         src: ['./F2-examples.zip']
-      }
-    },
-    copy: {
-      'github-pages': {
-        files: [{
-          expand: true,
-          cwd: 'docs/',
-          src: ['**'],
-          dest: '../gh-pages'
-        }, {
-          expand: true,
-          cwd: 'dist/',
-          src: ['f2.latest.js'],
-          rename: function(dest, src) {
-            return '../gh-pages/js/f2.min.js'; //See #35
-          }
-        }]
-      },
-      'F2-examples': {
-        files: [{
-          expand: true,
-          cwd: './',
-          src: ['F2-examples.zip'],
-          dest: '../gh-pages'
-        }]
       }
     },
     compress: {
@@ -151,17 +126,71 @@ module.exports = function(grunt) {
         dest: 'dist/packages/f2.basic.js'
       }
     },
+    copy: {
+      'github-pages': {
+        files: [{
+          expand: true,
+          cwd: 'docs/',
+          src: ['**'],
+          dest: '../gh-pages'
+        }, {
+          expand: true,
+          cwd: 'dist/',
+          src: ['f2.latest.js'],
+          rename: function(dest, src) {
+            return '../gh-pages/js/f2.min.js'; //See #35
+          }
+        }]
+      },
+      'F2-examples': {
+        files: [{
+          expand: true,
+          cwd: './',
+          src: ['F2-examples.zip'],
+          dest: '../gh-pages'
+        }]
+      }
+    },
+    eslint: {
+      options: {
+        config: '.eslintrc'
+      },
+      target: [
+        './src/lib/*.js',
+        './examples/apps/JavaScript/CDS/**/*.js'
+      ]
+    },
     /**
-     * Need to downgrade forever-monitor to v1.1 because of:
-     * https://github.com/blai/grunt-express/issues/12
-     * cd node_modules/grunt-express; npm uninstall forever-monitor; npm install forever-monitor@1.1;
-     */
+      Need to downgrade forever-monitor to v1.1 because of:
+      https://github.com/blai/grunt-express/issues/12
+      cd node_modules/grunt-express; npm uninstall forever-monitor; npm install forever-monitor@1.1;
+    */
     express: {
       server: {
         options: {
           bases: './',
           port: 8080,
           server: (require('path')).resolve('./tests/server')
+        }
+      }
+    },
+    http: {
+      getDocsLayout: {
+        options: {
+          url: 'http://www.openf2.org/api/layout/docs',
+          json: true,
+          strictSSL: false,
+          callback: function(err, res, response) {
+            var log = grunt.log.write('Retrieved doc layout...')
+            grunt.config.set('docs-layout', response);
+            log.ok();
+            log = grunt.log.write('Saving templates as HTML...');
+            // Save as HTML for gen-docs step
+            grunt.file.write('./docs/src/template/head.html', response.head);
+            grunt.file.write('./docs/src/template/nav.html', response.nav);
+            grunt.file.write('./docs/src/template/footer.html', response.footer);
+            log.ok();
+          }
         }
       }
     },
@@ -179,14 +208,12 @@ module.exports = function(grunt) {
         }
       }
     },
-    eslint: {
+    pkg: pkg,
+    sourcemap: {
       options: {
-        config: '.eslintrc'
-      },
-      target: [
-        './src/lib/*.js',
-        './examples/apps/JavaScript/CDS/**/*.js'
-      ]
+        src: 'dist/f2.min.js',
+        prefix: './dist/'
+      }
     },
     uglify: {
       options: {
@@ -246,12 +273,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    sourcemap: {
-      options: {
-        src: 'dist/f2.min.js',
-        prefix: './dist/'
-      }
-    },
     watch: {
       docs: {
         files: ['docs/src/**/*.*', 'package.json', 'docs/bin/gen-docs.js'],
@@ -277,31 +298,51 @@ module.exports = function(grunt) {
           spawn: false
         }
       }
-    },
-    http: {
-      getDocsLayout: {
-        options: {
-          url: 'http://www.openf2.org/api/layout/docs',
-          json: true,
-          strictSSL: false,
-          callback: function(err, res, response) {
-            var log = grunt.log.write('Retrieved doc layout...')
-            grunt.config.set('docs-layout', response);
-            log.ok();
-            log = grunt.log.write('Saving templates as HTML...');
-            // Save as HTML for gen-docs step
-            grunt.file.write('./docs/src/template/head.html', response.head);
-            grunt.file.write('./docs/src/template/nav.html', response.nav);
-            grunt.file.write('./docs/src/template/footer.html', response.footer);
-            log.ok();
-          }
-        }
-      }
     }
   });
 
+  // Load plugins
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-eslint');
+  grunt.loadNpmTasks('grunt-express');
+  grunt.loadNpmTasks('grunt-http');
+
   // Register tasks
-  grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {
+  grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
+  grunt.registerTask('docs', ['http', 'generate-docs', 'yuidoc']);
+  grunt.registerTask('fix-sourcemap', 'Fixes the source map file', taskFixSourcemaps);
+  grunt.registerTask('generate-docs', 'Generate docs', taskGenerateDocs);
+  grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
+  grunt.registerTask('js', ['lint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap']);
+  grunt.registerTask('lint', ['eslint']);
+  grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', taskNuget);
+  grunt.registerTask('packages', [
+    'concat:no-jquery-or-bootstrap',
+    'concat:no-bootstrap',
+    'concat:no-easyXDM',
+    'concat:basic',
+    'uglify:package-no-jquery-or-bootstrap',
+    'uglify:package-no-bootstrap',
+    'uglify:package-no-easyXDM',
+    'uglify:package-basic'
+  ]);
+  grunt.registerTask('release', 'Prepares the code for release (merge into master)', taskRelease);
+  grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
+  grunt.registerTask('test', ['express', 'jasmine']);
+  grunt.registerTask('test-live', ['express', 'express-keepalive']);
+  grunt.registerTask('travis', ['test']);
+  grunt.registerTask('version', 'Displays version information for F2', taskVersion);
+  grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', taskYuiDoc);
+  grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
+
+  function taskFixSourcemaps() {
     var uglifyOptions = grunt.config('uglify.sourcemap.options');
     var options = grunt.config('sourcemap.options');
     var dest = uglifyOptions.sourceMap(options.src);
@@ -309,9 +350,9 @@ module.exports = function(grunt) {
 
     rawMap = rawMap.replace(options.prefix, '');
     grunt.file.write(dest, rawMap);
-  });
+  }
 
-  grunt.registerTask('generate-docs', 'Generate docs', function() {
+  function taskGenerateDocs() {
     var done = this.async();
     var log = grunt.log.write('Generating docs...');
 
@@ -325,9 +366,59 @@ module.exports = function(grunt) {
       log.ok();
       done();
     });
-  });
+  }
 
-  grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', function() {
+  function taskNuget() {
+    var done = this.async();
+    var log = grunt.log.write('Creating NuSpec file...');
+    var nuspec = grunt.file.read('./dist/f2.nuspec.tmpl');
+
+    nuspec = grunt.template.process(nuspec, { data: pkg });
+    grunt.file.write('./dist/f2.nuspec', nuspec);
+    log.ok();
+
+    log = grunt.log.write('Creating NuGet package...');
+    grunt.util.spawn({
+      cmd: 'nuget',
+      args: ['pack', 'f2.nuspec'],
+      opts: {
+        cwd: './dist'
+      }
+    }, function(error, result, code) {
+      if (error) {
+        grunt.fail.fatal(error);
+      } else {
+        grunt.file.delete('./dist/f2.nuspec');
+        log.ok();
+        done();
+      }
+    });
+  }
+
+  function taskRelease(releaseType) {
+    if (!/^major|minor|patch$/i.test(releaseType) && !semver.valid(releaseType)) {
+      grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
+      return;
+    }
+
+    pkg.version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
+    pkg._releaseDate = new Date().toJSON();
+    pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
+
+    grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
+    grunt.config.set('pkg', pkg);
+
+    grunt.task.run('version');
+  }
+
+  function taskVersion() {
+    grunt.log.writeln(grunt.template.process(
+      'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>',
+      { data: pkg }
+    ));
+  }
+
+  function taskYuiDoc() {
     var builder;
     var docOptions = {
       quiet: true,
@@ -338,11 +429,10 @@ module.exports = function(grunt) {
       helpers: ['./docs/src/sdk-template/helpers/helpers.js']
     };
     var done = this.async();
-    var json;
     var log = grunt.log.write('Generating reference docs...');
     var Y = require('yuidocjs');
 
-    json = (new Y.YUIDoc(docOptions)).run();
+    var json = (new Y.YUIDoc(docOptions)).run();
     // Massage in some meta information from F2.json
     json.project = {
       docsAssets: '../',
@@ -368,89 +458,6 @@ module.exports = function(grunt) {
       log.ok();
       done();
     });
-  });
+  }
 
-  grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
-    var done = this.async();
-    var log = grunt.log.write('Creating NuSpec file...');
-    var nuspec = grunt.file.read('./dist/f2.nuspec.tmpl');
-
-    nuspec = grunt.template.process(nuspec, { data: pkg });
-    grunt.file.write('./dist/f2.nuspec', nuspec);
-    log.ok();
-
-    log = grunt.log.write('Creating NuGet package...');
-    grunt.util.spawn({
-      cmd: 'nuget',
-      args: ['pack', 'f2.nuspec'],
-      opts: {
-        cwd: './dist'
-      }
-    }, function(error, result, code) {
-      if (error) {
-        grunt.fail.fatal(error);
-      } else {
-        grunt.file.delete('./dist/f2.nuspec');
-        log.ok();
-        done();
-      }
-    });
-  });
-
-  grunt.registerTask('release', 'Prepares the code for release (merge into master)', function(releaseType) {
-    if (!/^major|minor|patch$/i.test(releaseType) && !semver.valid(releaseType)) {
-      grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
-      return;
-    }
-
-    pkg.version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
-    pkg._releaseDate = new Date().toJSON();
-    pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
-
-    grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
-    grunt.config.set('pkg', pkg);
-
-    grunt.task.run('version');
-  });
-
-  grunt.registerTask('version', 'Displays version information for F2', function() {
-    grunt.log.writeln(grunt.template.process(
-      'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>',
-      { data: pkg }
-    ));
-  });
-
-  // Load plugins
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-compress');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-express');
-  grunt.loadNpmTasks('grunt-http');
-  grunt.loadNpmTasks('grunt-eslint');
-
-  grunt.registerTask('docs', ['http', 'generate-docs', 'yuidoc']);
-  grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
-  grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-  grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('js', ['lint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap']);
-  grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-  grunt.registerTask('packages', [
-    'concat:no-jquery-or-bootstrap',
-    'concat:no-bootstrap',
-    'concat:no-easyXDM',
-    'concat:basic',
-    'uglify:package-no-jquery-or-bootstrap',
-    'uglify:package-no-bootstrap',
-    'uglify:package-no-easyXDM',
-    'uglify:package-basic'
-  ]);
-  grunt.registerTask('test', ['express', 'jasmine']);
-  grunt.registerTask('test-live', ['express', 'express-keepalive']);
-  grunt.registerTask('travis', ['test']);
-  grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
 };
