@@ -1,114 +1,88 @@
-F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
+/* global F2, $, console, Highcharts, F2_jsonpCallback_com_openf2_examples_javascript_chart */
 
-  var app = function(appConfig, appContent, root) {
-    this.symbol = "MSFT";
+F2.Apps['com_openf2_examples_javascript_chart'] = (function() {
+
+  var MS_MONTH = 30 * 24 * 3600 * 1000;
+  var MS_YEAR = 365 * 24 * 3600 * 1000;
+
+  var CHART_API_URL = 'http://dev.markitondemand.com/Api/Timeseries/jsonp';
+
+  var CHART_DEFAULT_STYLES = {
+    backgroundColor: '#fff',
+    lineColor: '#428bca',
+    lineWidth: 1.5,
+    gridColor: '#DDDDDD',
+    gridAltColor: '#F7F7F7',
+    fontColor: '#444444',
+    fontFamily: 'Arial, sans-serif',
+    fontSize: 12,
+    lineHeight: 1.2,
+    greenBar: '#2EA94F',
+    redBar: '#DB411C'
+  };
+
+  function AppClass(appConfig, appContent, root) {
     this.appConfig = appConfig;
     this.appContent = appContent;
     this.ui = this.appConfig.ui;
     this.root = root;
     this.$root = $(root);
-    this.$app = $("#f2-1year-chart", this.$root);
-    this.config();
-  };
 
-  app.prototype.config = function() {
+    this.symbol = 'MSFT';
+    this.chartContainer = 'f2-1year-chart';
+    this.$app = $('#' + this.chartContainer, this.$root);
 
-    var defaults = {
-      backgroundColor: '#fff',
-      lineColor: '#428bca',
-      lineWidth: 1.5,
-      gridColor: '#DDDDDD',
-      gridAltColor: '#F7F7F7',
-      fontColor: '#444444',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: 12,
-      lineHeight: 1.2,
-      greenBar: '#2EA94F',
-      redBar: '#DB411C'
-    };
-    var styleImport = (this.appConfig.context && this.appConfig.context.style) ? this.appConfig.context.style : {};
+    var styleImport = appConfig.context ? appConfig.context.style : {};
+    this.chartStyles = $.extend({}, CHART_DEFAULT_STYLES, styleImport);
+  }
 
-    /** for example purposes*/
-    console.group('Chart app');
-    console.info('The chart app (com_openf2_examples_javascript_chart) has configuration options which can be overriden by using Context. Set a "style" property in the AppConfig\'s Context property. The current AppConfig is on the next line.');
-    console.info(this.appConfig);
-    console.info('The chart\'s configuration parameters (defaults) are found in the following hash');
-    console.info(defaults);
-    console.groupEnd();
-
-    this.CHT_CONTAINER = 'f2-1year-chart';
-    this.CHART_STYLES = $.extend({}, defaults, styleImport);
-  };
-
-  app.prototype.redraw = function(data) {
-    this.hc = null;
-    this.symbol = data.symbol;
-    this.getData();
-  };
-
-  app.prototype.init = function() {
-
+  AppClass.prototype.init = function() {
     this.getData();
 
-    //setup container symbol change listener to draw new chart.
+    // Setup container symbol change listener to draw new chart
     F2.Events.on(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, $.proxy(function(symbolData) {
-      this.redraw(symbolData);
+      this.symbol = symbolData.symbol;
+      this.getData();
     }, this));
   };
 
-  app.prototype.getData = function() {
-
+  AppClass.prototype.getData = function() {
     this.ui.showMask(this.$root, true);
+    this.ui.setTitle('Loading chart...');
 
     $.ajax({
-      beforeSend: function() {
-        this.ui.setTitle('Loading chart...');
-      },
       data: {
         symbol: this.symbol,
-        duration: 365 // Fixed to one year 
+        duration: 365
       },
-      url: 'http://dev.markitondemand.com/Api/Timeseries/jsonp',
+      url: CHART_API_URL,
       dataType: 'jsonp',
       context: this
-
     }).done(function(jqxhr, txtStatus) {
-      //Catch errors
       if (!jqxhr.Data || jqxhr.Message) {
-        if (typeof console == 'object') {
-          console.error('Error: ', jqxhr.Message);
-        }
+        F2.log('error', 'Error: ', jqxhr.Message);
         this._chartError(jqxhr);
         return;
       }
-      this.HandleAPIData(jqxhr);
 
+      this.handleApiData(jqxhr);
     }).fail(function(jqxhr, txtStatus) {
       F2.log('Could not generate chart.', jqxhr);
       this._chartError(jqxhr);
     });
   };
 
-  app.prototype._chartError = function(jqxhr) {
-    F2.log("Price Chart Error", jqxhr);
-    this.ui.setTitle("Chart Error");
-    this.$app.html("<p>An error occurred loading price data for " + this.symbol + ".</p>");
+  AppClass.prototype._chartError = function(jqxhr) {
+    F2.log('Price Chart Error', jqxhr);
+    this.$app.html('<p>An error occurred loading price data for ' + this.symbol + '.</p>');
+    this.ui.setTitle('Chart Error');
     this.ui.hideMask(this.$root);
     this.ui.updateHeight();
   };
 
-  // Parses API data to provide HighCharts-ready data series for close values, 
-  // additionally deriving up/down month indicators.
-  app.prototype.HandleAPIData = function(json) {
-
-    $(this.CHT_CONTAINER).empty();
-
-    // Set up vars for first data series
-    var apiDates = json.Data.SeriesDates;
-    var apiValues = json.Data.Series.close.values;
+  AppClass.prototype._closeSeriesData = function(apiDates, apiValues) {
     var closeSeriesData = [];
 
-    // Translate API JSON into a HighCharts-format data series
     for (var i = 0; i < apiDates.length; i++) {
       var dat = new Date(apiDates[i]);
       var dateIn = Date.UTC(dat.getFullYear(), dat.getMonth(), dat.getDate());
@@ -116,44 +90,60 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
       closeSeriesData.push([dateIn, val]);
     }
 
+    return closeSeriesData;
+  };
+
+  // Parses API data to provide HighCharts-ready data series for close values,
+  // additionally deriving up/down month indicators.
+  AppClass.prototype.handleApiData = function(json) {
+    $(this.chartContainer).empty();
+
+    // Set up vars for first data series
+    var apiDates = json.Data.SeriesDates;
+    var apiValues = json.Data.Series.close.values;
+    var closeSeriesData = this._closeSeriesData(apiDates, apiValues);
+
     // Instantiate a new chart with base configuration options (everything but the data)
     var hcChartObj = new Highcharts.Chart(this.getBaselineOptions());
-    hcChartObj.series[0].setData(closeSeriesData, true); // Set close-values series data
-    //hcChartObj.setTitle({ text: ('One-year price movement for ' + json.Data.Name).toUpperCase() });  // Set title
-    hcChartObj.setTitle({
-      text: ''
-    });
+    // Set close-values series data
+    hcChartObj.series[0].setData(closeSeriesData, true);
+    hcChartObj.setTitle({ text: '' });
 
     this.ui.hideMask(this.$root);
-    this.ui.setTitle("One-Year Price Movement " + this.symbol);
+    this.ui.setTitle('One-Year Price Movement ' + this.symbol);
 
-    // No options setting is available for this, so force the price line to be rounded 
+    // No options setting is available for this, so force the price line to be rounded
     $('.highcharts-series path:first', this.root).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
 
     // Set up vars for up/down month data series
     var currentMonthName, currentJSDate, currentJSUTCDate, currentVal;
     var upSeriesData = [];
     var downSeriesData = [];
-    var dataRanges = hcChartObj.yAxis[0].getExtremes(); // Will need to reset to this later
-    minVal = dataRanges.min, // Will set red/green indicators to this value
-    apiValues = json.Data.Series.close.values,
-    apiDates = json.Data.SeriesDates,
-    firstMonthName = apiDates[0].substr(4, 3), // First!
-    prevMonthName = firstMonthName,
-    prevJSDate = new Date(prevMonthName + ' 1, ' + apiDates[0].substr(-4)),
-    prevJSUTCDate = Date.UTC(prevJSDate.getFullYear(), prevJSDate.getMonth(), prevJSDate.getDate()),
-    prevVal = apiValues[0];
+    // Will need to reset to this later
+    var dataRanges = hcChartObj.yAxis[0].getExtremes();
+    // Will set red/green indicators to this value
+    var minVal = dataRanges.min;
+    var firstMonthName = apiDates[0].substr(4, 3);
+    var prevMonthName = firstMonthName;
+    var prevJSDate = new Date(prevMonthName + ' 1, ' + apiDates[0].substr(-4));
+    var prevJSUTCDate = Date.UTC(prevJSDate.getFullYear(), prevJSDate.getMonth(), prevJSDate.getDate());
+    var prevVal = apiValues[0];
 
-    // Now walk through all data points again (had to do it once before to get the ranges), 
-    // looking for month boundaries and deciding if the previous month ended up or down over 
+    // Now walk through all data points again (had to do it once before to get the ranges),
+    // looking for month boundaries and deciding if the previous month ended up or down over
     // the preceding month's close
     for (var i = 1; i < apiDates.length; i++) {
       currentMonthName = apiDates[i].substr(4, 3);
-      if (currentMonthName != prevMonthName) { // Into a new month in the data
-        currentVal = apiValues[i - 1]; // Last close in the preceding month
+
+      // Into a new month in the data
+      if (currentMonthName !== prevMonthName) {
+        // Last close in the preceding month
+        currentVal = apiValues[i - 1];
         currentJSDate = new Date(currentMonthName + ' 1, ' + apiDates[i].substr(-4));
         currentJSUTCDate = Date.UTC(currentJSDate.getFullYear(), currentJSDate.getMonth(), currentJSDate.getDate());
-        if (prevMonthName != firstMonthName) { // Skip the first month, it's incomplete
+
+        // Skip the first month, it's incomplete
+        if (prevMonthName !== firstMonthName) {
           if (currentVal >= prevVal) {
             upSeriesData.push([prevJSUTCDate, minVal], [currentJSUTCDate, minVal]);
             downSeriesData.push([currentJSUTCDate, null]);
@@ -167,10 +157,12 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
         prevJSUTCDate = currentJSUTCDate;
       }
     }
+
     // Add one last interval for the partial month-to-date
     currentVal = apiValues[i - 1]; // Last close value in the data
     currentJSDate = new Date(apiDates[i - 1]);
     currentJSUTCDate = Date.UTC(currentJSDate.getFullYear(), currentJSDate.getMonth(), currentJSDate.getDate());
+
     if (currentVal >= prevVal) {
       upSeriesData.push([prevJSUTCDate, minVal], [currentJSUTCDate, minVal]);
     } else {
@@ -187,17 +179,17 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
   };
 
   // Defines the HighCharts configuration options.
-  app.prototype.getBaselineOptions = function() {
+  AppClass.prototype.getBaselineOptions = function() {
     return {
       chart: {
         borderColor: 'rgba(255, 255, 255, 0.0)',
         borderRadius: 0,
         defaultSeriesType: 'line',
-        renderTo: this.CHT_CONTAINER,
+        renderTo: this.chartContainer,
         spacingBottom: 25,
         spacingLeft: 1,
         spacingRight: 1,
-        backgroundColor: this.CHART_STYLES.backgroundColor
+        backgroundColor: this.chartStyles.backgroundColor
       },
       credits: {
         enabled: false
@@ -208,7 +200,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
       plotOptions: {
         line: {
           animation: false,
-          lineWidth: this.CHART_STYLES.lineWidth
+          lineWidth: this.chartStyles.lineWidth
         },
         series: {
           marker: {
@@ -223,14 +215,14 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
         }
       },
       series: [{
-        color: this.CHART_STYLES.lineColor,
+        color: this.chartStyles.lineColor,
         name: 'Close price'
       }, {
-        color: this.CHART_STYLES.greenBar,
+        color: this.chartStyles.greenBar,
         lineWidth: 6,
         name: 'Up months'
       }, {
-        color: this.CHART_STYLES.redBar,
+        color: this.chartStyles.redBar,
         lineWidth: 6,
         name: 'Down months'
       }],
@@ -238,104 +230,107 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
         align: 'left',
         style: {
           color: '#666',
-          fontFamily: this.CHART_STYLES.fontFamily,
+          fontFamily: this.chartStyles.fontFamily,
           fontSize: 14,
           fontWeight: 'bold',
-          lineHeight: this.CHART_STYLES.lineHeight
+          lineHeight: this.chartStyles.lineHeight
         }
       },
       tooltip: {
         borderRadius: 1,
         crosshairs: true,
         formatter: function() {
-          if (this.series.name == 'Close price') {
+          if (this.series.name === 'Close price') {
             return '<div style="color: #777777; font-size: 12px;">' + Highcharts.dateFormat('%b %e %Y', this.x) + ': $' + Highcharts.numberFormat(this.y, 2) + '</div>';
           }
-          else return false;
+
+          return false;
         },
         style: {
-          color: this.CHART_STYLES.fontColor,
-          fontFamily: this.CHART_STYLES.fontFamily,
-          fontSize: this.CHART_STYLES.fontSize,
-          lineHeight: this.CHART_STYLES.lineHeight,
-          padding: this.CHART_STYLES.fontSize
+          color: this.chartStyles.fontColor,
+          fontFamily: this.chartStyles.fontFamily,
+          fontSize: this.chartStyles.fontSize,
+          lineHeight: this.chartStyles.lineHeight,
+          padding: this.chartStyles.fontSize
         }
       },
-      xAxis: [{ // Bottom datetime axis (short intervals)
+      xAxis: [{
+        // Bottom datetime axis (short intervals)
         dateTimeLabelFormats: {
           minute: '%l:%M%P',
           hour: '%l%P',
-          day: '%a',
           day: '%b %e',
           week: '%b %e',
           month: '%b',
           year: '%Y'
         },
         gridLineDashStyle: 'shortdot',
-        gridLineColor: this.CHART_STYLES.gridAltColor,
+        gridLineColor: this.chartStyles.gridAltColor,
         gridLineWidth: 1,
         labels: {
           align: 'left',
           style: {
-            color: this.CHART_STYLES.fontColor,
-            fontFamily: this.CHART_STYLES.fontFamily,
-            fontSize: this.CHART_STYLES.fontSize
+            color: this.chartStyles.fontColor,
+            fontFamily: this.chartStyles.fontFamily,
+            fontSize: this.chartStyles.fontSize
           },
-          x: (this.CHART_STYLES.fontSize / 2),
-          y: (this.CHART_STYLES.fontSize * this.CHART_STYLES.lineHeight * 1.5)
+          x: this.chartStyles.fontSize / 2,
+          y: this.chartStyles.fontSize * this.chartStyles.lineHeight * 1.5
         },
-        lineColor: this.CHART_STYLES.gridColor,
-        tickColor: this.CHART_STYLES.gridColor,
-        tickInterval: (30 * 24 * 3600 * 1000), // One month
-        tickLength: (this.CHART_STYLES.fontSize * this.CHART_STYLES.lineHeight * 1.5),
+        lineColor: this.chartStyles.gridColor,
+        tickColor: this.chartStyles.gridColor,
+        tickInterval: MS_MONTH,
+        tickLength: this.chartStyles.fontSize * this.chartStyles.lineHeight * 1.5,
         type: 'datetime'
-        }, { // Top datetime axis (longer intervals)
+      }, {
+        // Top datetime axis (longer intervals)
         dateTimeLabelFormats: {
-          day: '%a', // Default
+          day: '%a',
           week: '%a',
           month: '%b %Y',
           year: '%Y'
         },
         gridLineWidth: 1,
-        gridLineColor: this.CHART_STYLES.gridColor,
+        gridLineColor: this.chartStyles.gridColor,
         labels: {
           align: 'left',
           style: {
-            color: this.CHART_STYLES.fontColor,
-            fontFamily: this.CHART_STYLES.fontFamily,
-            fontSize: this.CHART_STYLES.fontSize
+            color: this.chartStyles.fontColor,
+            fontFamily: this.chartStyles.fontFamily,
+            fontSize: this.chartStyles.fontSize
           },
-          x: (this.CHART_STYLES.fontSize / 2)
+          x: this.chartStyles.fontSize / 2
         },
-        lineColor: this.CHART_STYLES.gridColor,
+        lineColor: this.chartStyles.gridColor,
         linkedTo: 0,
         opposite: true,
-        tickColor: this.CHART_STYLES.gridColor,
-        tickInterval: (365 * 24 * 3600 * 1000), // One year
-        tickLength: (this.CHART_STYLES.fontSize * this.CHART_STYLES.lineHeight),
+        tickColor: this.chartStyles.gridColor,
+        tickInterval: MS_YEAR,
+        tickLength: this.chartStyles.fontSize * this.chartStyles.lineHeight,
         type: 'datetime'
       }],
       yAxis: [{
-        gridLineColor: this.CHART_STYLES.gridColor,
+        gridLineColor: this.chartStyles.gridColor,
         labels: {
           align: 'left',
           formatter: function() {
             return Highcharts.numberFormat(this.value, 2);
           },
           style: {
-            color: this.CHART_STYLES.fontColor,
-            fontFamily: this.CHART_STYLES.fontFamily,
-            fontSize: this.CHART_STYLES.fontSize
+            color: this.chartStyles.fontColor,
+            fontFamily: this.chartStyles.fontFamily,
+            fontSize: this.chartStyles.fontSize
           },
           x: 0,
-          y: (this.CHART_STYLES.fontSize + 3)
+          y: (this.chartStyles.fontSize + 3)
         },
         maxPadding: 0,
         minPadding: 0,
         opposite: true,
         showFirstLabel: false,
-        tickColor: this.CHART_STYLES.gridColor,
-        tickLength: 100, // Cropped at left of chart
+        tickColor: this.chartStyles.gridColor,
+        // Cropped at left of chart
+        tickLength: 100,
         tickWidth: 1,
         title: {
           text: ''
@@ -344,6 +339,6 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function() {
     };
   };
 
-  return app;
+  return AppClass;
 
 })();
