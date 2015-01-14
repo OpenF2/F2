@@ -194,7 +194,7 @@ F2.extend('AppHandlers', (function() {
       @returns {string} A one-time container token
     */
     __f2GetToken: function() {
-      /**
+      /*
         Delete this method for security that way only the container has
         access to the token 1 time. Kind of Ethan Hunt-ish, this message will
         self-destruct immediately.
@@ -259,30 +259,22 @@ F2.extend('AppHandlers', (function() {
       removal purposes. At this time it does not affect when an event is fired.
       Complete list of event keys available in
       {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
-      @param {Function} listener A function that will be triggered when a
-      specific event occurs. For detailed argument definition refer to
-      {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
+      @param {Function|Element} fnOrElement A function or element that will be
+      used when a specific event occurs. For detailed argument definition refer
+      to {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
       @returns {object} The F2 instance for chaining purposes
       @example
         var token = F2.AppHandlers.getToken();
-        F2.AppHandlers.on(
-          token,
-          'appRenderBefore'
-          function() {
-            F2.log('before app rendered!');
-          }
-        );
+        F2.AppHandlers.on(token, 'appRenderBefore' function() {
+          F2.log('before app rendered!');
+        });
       @example
         var token = F2.AppHandlers.getToken();
-        F2.AppHandlers.on(
-          token,
-          'appRenderBefore.myNamespace',
-          function() {
-            F2.log('before app rendered!');
-          }
-        );
+        F2.AppHandlers.on(token, 'appRenderBefore.myNamespace', function() {
+          F2.log('before app rendered!');
+        });
     */
-    on: function(token, eventKey, listener) {
+    on: function(token, eventKey, fnOrElement) {
       if (!eventKey) {
         throw new Error('eventKey must be of type string and not null. For available appHandlers check F2.Constants.AppHandlers.');
       }
@@ -294,7 +286,7 @@ F2.extend('AppHandlers', (function() {
       }
 
       var isAppRender = (event.key === 'appRender');
-      var handler = _createHandler(token, event.namespace, listener, isAppRender);
+      var handler = _createHandler(token, event.namespace, fnOrElement, isAppRender);
       _handlerCollection[event.key].push(handler);
 
       return this;
