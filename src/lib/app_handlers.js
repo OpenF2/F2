@@ -253,14 +253,16 @@ F2.extend('AppHandlers', (function() {
 		 * removal purposes. At this time it does not affect when an event is fired.
 		 * Complete list of event keys available in
 		 * {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
-		 * @param {Function} listener A function that will be triggered when a
-		 * specific event occurs. For detailed argument definition refer to
+		 * @param {Function|Element} listener A function that will be triggered
+		 * when a specific event occurs. Optionally, a specific DOM element to
+		 * which the app will be appended can be passed. For detailed argument
+		 * definition refer to
 		 * {{#crossLink "F2.Constants.AppHandlers"}}{{/crossLink}}.
 		 * @example
 		 *   var token = F2.AppHandlers.getToken();
 		 *   F2.AppHandlers.on(
 		 *     token,
-		 *     'appRenderBefore'
+		 *     'appRenderBefore',
 		 *     function() {
 		 *       F2.log('before app rendered!');
 		 *     }
