@@ -1,4 +1,4 @@
-/* global F2, $, appFormat */
+/* global Storage, F2, $, appFormat */
 
 F2.Apps['com_openf2_examples_javascript_watchlist'] = (function() {
 
