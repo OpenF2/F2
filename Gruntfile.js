@@ -157,9 +157,7 @@ module.exports = function(grunt) {
       },
       target: [
         './src/lib/*.js',
-        './examples/apps/JavaScript/**/*.js',
-        '!./examples/apps/JavaScript/CompareTool/vendor/**/*.js',
-        '!./examples/apps/JavaScript/Watchlist/vendor/**/*.js'
+        '!./**/vendor/**/*.js'
       ]
     },
     /**
