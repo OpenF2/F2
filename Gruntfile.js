@@ -162,6 +162,7 @@ module.exports = function(grunt) {
         './examples/apps/JavaScript/CompareTool/**/*.js',
         '!./examples/apps/JavaScript/CompareTool/vendor/**/*.js',
         './examples/apps/JavaScript/HelloWorld/**/*.js',
+        './examples/apps/JavaScript/HelloWorldLocale/**/*.js',
         './examples/apps/JavaScript/Quote/**/*.js',
         './examples/apps/JavaScript/Watchlist/**/*.js',
         '!./examples/apps/JavaScript/Watchlist/vendor/**/*.js'

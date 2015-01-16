@@ -1,13 +1,30 @@
-F2.Apps["com_openf2_examples_javascript_helloworldlocale"] = (function() {
+/* global F2, $ */
 
-  var App_Class = function(appConfig, appContent, root) {
+F2.Apps['com_openf2_examples_javascript_helloworldlocale'] = (function() {
+
+  var MONTHS = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  function AppClass(appConfig, appContent, root) {
     this.appConfig = appConfig;
     this.appContent = appContent;
     this.ui = appConfig.ui;
     this.$root = $(root);
-  };
+  }
 
-  App_Class.prototype.init = function() {
+  AppClass.prototype.init = function() {
     // Set current locale
     $('#current_locale', this.$root).html(this.appConfig.containerLocale || 'Not defined in <code>F2.init()</code>');
     $('#current_locale_date', this.$root).text(this._setCurrentDate(this.appConfig.containerLocale));
@@ -17,18 +34,15 @@ F2.Apps["com_openf2_examples_javascript_helloworldlocale"] = (function() {
     F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE, $.proxy(this._handleLocaleChange, this));
   };
 
-  App_Class.prototype._handleSymbolChange = function(data) {
-    var symbolAlert = $("div.symbolAlert", this.$root);
-    symbolAlert = (symbolAlert.length)
-      ? symbolAlert
-      : this._renderSymbolAlert();
-
-    $("span:first", symbolAlert).text("The symbol has been changed to " + data.symbol);
+  AppClass.prototype._handleSymbolChange = function(data) {
+    var symbolAlert = $('div.symbolAlert', this.$root);
+    symbolAlert = (symbolAlert.length) ? symbolAlert : this._renderSymbolAlert();
+    $('span:first', symbolAlert).text('The symbol has been changed to ' + data.symbol);
 
     this.ui.updateHeight();
   };
 
-  App_Class.prototype._handleLocaleChange = function(data) {
+  AppClass.prototype._handleLocaleChange = function(data) {
     // Set current locale
     $('#current_locale', this.$root).text(data.locale);
     $('#current_locale_date', this.$root).text(this._setCurrentDate(data.locale));
@@ -36,30 +50,19 @@ F2.Apps["com_openf2_examples_javascript_helloworldlocale"] = (function() {
     this.ui.updateHeight();
   };
 
-  App_Class.prototype._setCurrentDate = function(locale) {
-    var d = new Date(), formattedDate,
-      month = [];
-    month[0] = 'January';
-    month[1] = 'February';
-    month[2] = 'March';
-    month[3] = 'April';
-    month[4] = 'May';
-    month[5] = 'June';
-    month[6] = 'July';
-    month[7] = 'August';
-    month[8] = 'September';
-    month[9] = 'October';
-    month[10] = 'November';
-    month[11] = 'December';
-
-    if ('en-gb' == locale) {
-      formattedDate = d.getDate() + ' ' + month[d.getMonth()] + ' ' + d.getFullYear();
-    } else {
-      formattedDate = month[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  AppClass.prototype._formattedDate = function(date, locale) {
+    if (locale === 'en-gb') {
+      return date.getDate() + ' ' + MONTHS[date.getMonth()] + ' ' + date.getFullYear();
     }
-    return formattedDate;
+
+    return MONTHS[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
   };
 
-  return App_Class;
+  AppClass.prototype._setCurrentDate = function(locale) {
+    var date = new Date();
+    return this._formattedDate(date, locale);
+  };
+
+  return AppClass;
 
 })();
