@@ -157,14 +157,8 @@ module.exports = function(grunt) {
       },
       target: [
         './src/lib/*.js',
-        './examples/apps/JavaScript/CDS/**/*.js',
-        './examples/apps/JavaScript/Chart/**/*.js',
-        './examples/apps/JavaScript/CompareTool/**/*.js',
+        './examples/apps/JavaScript/**/*.js',
         '!./examples/apps/JavaScript/CompareTool/vendor/**/*.js',
-        './examples/apps/JavaScript/HelloWorld/**/*.js',
-        './examples/apps/JavaScript/HelloWorldLocale/**/*.js',
-        './examples/apps/JavaScript/Quote/**/*.js',
-        './examples/apps/JavaScript/Watchlist/**/*.js',
         '!./examples/apps/JavaScript/Watchlist/vendor/**/*.js'
       ]
     },
@@ -316,7 +310,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-eslint');
