@@ -160,7 +160,8 @@ module.exports = function(grunt) {
         './examples/apps/JavaScript/CDS/**/*.js',
         './examples/apps/JavaScript/Chart/**/*.js',
         './examples/apps/JavaScript/CompareTool/**/*.js',
-        '!./examples/apps/JavaScript/CompareTool/vendor/**/*.js'
+        '!./examples/apps/JavaScript/CompareTool/vendor/**/*.js',
+        './examples/apps/JavaScript/HelloWorld/**/*.js',
       ]
     },
     /**
