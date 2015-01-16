@@ -157,7 +157,10 @@ module.exports = function(grunt) {
       },
       target: [
         './src/lib/*.js',
-        './examples/apps/JavaScript/CDS/**/*.js'
+        './examples/apps/JavaScript/CDS/**/*.js',
+        './examples/apps/JavaScript/Chart/**/*.js',
+        './examples/apps/JavaScript/CompareTool/**/*.js',
+        '!./examples/apps/JavaScript/CompareTool/vendor/**/*.js'
       ]
     },
     /**
@@ -290,6 +293,7 @@ module.exports = function(grunt) {
       },
       lint: {
         files: [
+          './.eslintrc',
           './src/lib/**/*.js',
           './examples/apps/JavaScript/**/*.js'
         ],

@@ -1,17 +1,19 @@
+/* global F2_jsonpCallback_com_openf2_examples_javascript_compareTool */
+
 F2_jsonpCallback_com_openf2_examples_javascript_compareTool({
-  "scripts":[
-    "../apps/JavaScript/CompareTool/js/angular.min.js",
-    "../apps/JavaScript/CompareTool/js/angular-resource.min.js",
-    "../apps/JavaScript/CompareTool/js/moment.min.js",
-    "../apps/JavaScript/CompareTool/js/compare.js",
-    "../apps/JavaScript/CompareTool/appclass.js"
+  'scripts': [
+    '../apps/JavaScript/CompareTool/vendor/angular.min.js',
+    '../apps/JavaScript/CompareTool/vendor/angular-resource.min.js',
+    '../apps/JavaScript/CompareTool/vendor/moment.min.js',
+    '../apps/JavaScript/CompareTool/scripts/compare.js',
+		'../apps/JavaScript/CompareTool/scripts/appclass.js'
   ],
-  "styles":[
-    "../apps/JavaScript/CompareTool/css/compare.css"
+  'styles': [
+    '../apps/JavaScript/CompareTool/styles/compare.css'
   ],
-  "apps":[
+  'apps': [
     {
-      "html": [
+      'html': [
         '<div class="compare" ng-controller="CompareCtrl">',
           '<p>',
             'Examples: ',

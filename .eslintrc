@@ -7,12 +7,14 @@
   "globals": {
     "runs": true,
     "itConditionally": true,
+    "alert": true,
     // Examples
     "F2_jsonpCallback_com_openf2_examples_javascript_cds": true
   },
   "rules": {
     "dot-notation": false,
     "new-cap": false,
+    "no-alert": false,
     "no-eval": false,
     "no-comma-dangle": true,
     "no-cond-assign": true,

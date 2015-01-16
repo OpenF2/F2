@@ -52,7 +52,7 @@
     }
 
 .compare input[type=text].loading {
-  background-image: url(../img/ajax_spinner.gif);
+  background-image: url(../images/ajax_spinner.gif);
   background-position: 107px;
   background-repeat: no-repeat;
 }
