@@ -1,15 +1,15 @@
 {
   "env": {
-    "browser": true,
     "amd": true,
+    "browser": true,
     "jasmine": true
   },
   "globals": {
-    "runs": true,
-    "itConditionally": true,
     "alert": true,
-    // Examples
-    "F2_jsonpCallback_com_openf2_examples_javascript_cds": true
+    "escape": true,
+    "itConditionally": true,
+    "runs": true,
+    "unescape": true
   },
   "rules": {
     "dot-notation": false,
@@ -19,27 +19,27 @@
     "no-comma-dangle": true,
     "no-cond-assign": true,
     "no-console": false,
+    "no-underscore-dangle": false,
     "quotes": [1, "single"],
     "strict": false,
-    "no-underscore-dangle": false,
     "valid-jsdoc": [2, {
       "requireReturn": false
     }],
     // Stylistic
     "block-scoped-var": true,
+    "func-style": [2, "declaration"],
+    "operator-assignment": [2, "always"],
     "no-else-return": true,
     "no-eq-null": true,
-    "func-style": [2, "declaration"],
     "spaced-line-comment": ["always"],
     "space-in-parens": ["never"],
     "space-in-brackets": ["never"],
     "space-before-blocks": "always",
     "space-after-keywords": "always",
     "space-after-function-name": "never",
-    "operator-assignment": [2, "always"],
     // TODO: reverse when issues are fixed
     "consistent-return": false,
-    "no-use-before-define": false,
-    "no-unused-vars": false
+    "no-unused-vars": false,
+    "no-use-before-define": false
   }
 }
