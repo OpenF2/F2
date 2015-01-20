@@ -413,8 +413,8 @@ F2.extend('', (function() {
 					// Send error to console
 					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-					// TODO: depreciate
-					F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
+					// TODO: deprecate, see #222
+					F2.Events.emit(F2.Constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
 
 					if (!_bUsesAppHandlers) {
 						_appScriptLoadFailed(appConfigs[0], evtData.src);
