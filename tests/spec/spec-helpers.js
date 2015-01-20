@@ -14,7 +14,7 @@ AsyncSpec.prototype.beforeEachReloadF2 = function(callback) {
       Apps: {}
     };
     $.ajax({
-      url: '../dist/f2.min.js',
+      url: '../dist/f2.debug.js',
       dataType: 'script',
       complete: function() {
         callback && callback();
