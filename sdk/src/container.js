@@ -413,7 +413,7 @@ F2.extend('', (function() {
 					// Send error to console
 					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-					// Emit events
+					// TODO: depreciate
 					F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
 
 					if (!_bUsesAppHandlers) {
