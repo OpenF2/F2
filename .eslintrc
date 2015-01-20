@@ -5,6 +5,7 @@
     "jasmine": true
   },
   "globals": {
+    "module": true,
     "runs": true,
     "itConditionally": true,
     // Examples
