@@ -340,7 +340,7 @@ F2.extend('', (function() {
 
 		// Fn for loading manifest Styles
 		var _loadStyles = function(styles, cb) {
-			// Reduce the list to scripts that haven't been loaded
+			// Reduce the list to styles that haven't been loaded
 			var existingStyles = _findExistingStyles();
 			styles = jQuery.grep(styles, function(url) {
 				return url && jQuery.inArray(url, existingStyles) === -1;

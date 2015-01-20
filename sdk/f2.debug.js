@@ -14269,7 +14269,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 12-30-2014
+ * F2 v1.4.0 01-19-2015
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -17272,7 +17272,7 @@ F2.extend('', (function() {
 
 		// Fn for loading manifest Styles
 		var _loadStyles = function(styles, cb) {
-			// Reduce the list to scripts that haven't been loaded
+			// Reduce the list to styles that haven't been loaded
 			var existingStyles = _findExistingStyles();
 			styles = jQuery.grep(styles, function(url) {
 				return url && jQuery.inArray(url, existingStyles) === -1;
