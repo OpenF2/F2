@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         options: {
           force: true
         },
-        src: ['./F2-examples.zip']
+        src: ['F2-examples.zip']
       }
     },
     compress: {
@@ -138,7 +138,7 @@ module.exports = function(grunt) {
           cwd: 'dist/',
           src: ['f2.latest.js'],
           rename: function(dest, src) {
-            return '../gh-pages/js/f2.min.js'; //See #35
+            return '../gh-pages/js/f2.min.js'; // See #35
           }
         }]
       },
@@ -156,7 +156,7 @@ module.exports = function(grunt) {
         config: '.eslintrc'
       },
       target: [
-        './src/lib/*.js',
+        'src/lib/*.js',
         '!./**/vendor/**/*.js'
       ]
     },
@@ -170,7 +170,7 @@ module.exports = function(grunt) {
         options: {
           bases: './',
           port: 8080,
-          server: (require('path')).resolve('./tests/server')
+          server: (require('path')).resolve('tests/server')
         }
       }
     },
@@ -186,9 +186,9 @@ module.exports = function(grunt) {
             log.ok();
             log = grunt.log.write('Saving templates as HTML...');
             // Save as HTML for gen-docs step
-            grunt.file.write('./docs/src/template/head.html', response.head);
-            grunt.file.write('./docs/src/template/nav.html', response.nav);
-            grunt.file.write('./docs/src/template/footer.html', response.footer);
+            grunt.file.write('docs/src/template/head.html', response.head);
+            grunt.file.write('docs/src/template/nav.html', response.nav);
+            grunt.file.write('docs/src/template/footer.html', response.footer);
             log.ok();
           }
         }
@@ -212,7 +212,7 @@ module.exports = function(grunt) {
     sourcemap: {
       options: {
         src: 'dist/f2.min.js',
-        prefix: './dist/'
+        prefix: 'dist/'
       }
     },
     uglify: {
@@ -282,7 +282,7 @@ module.exports = function(grunt) {
         }
       },
       scripts: {
-        files: ['./src/lib/**/*.js'],
+        files: ['src/lib/**/*.js'],
         tasks: ['js'],
         options: {
           spawn: false
@@ -290,9 +290,9 @@ module.exports = function(grunt) {
       },
       lint: {
         files: [
-          './.eslintrc',
-          './src/lib/**/*.js',
-          './examples/apps/JavaScript/**/*.js'
+          '.eslintrc',
+          'src/lib/**/*.js',
+          'examples/apps/JavaScript/**/*.js'
         ],
         tasks: ['lint'],
         options: {
@@ -371,10 +371,10 @@ module.exports = function(grunt) {
   function taskNuget() {
     var done = this.async();
     var log = grunt.log.write('Creating NuSpec file...');
-    var nuspec = grunt.file.read('./dist/f2.nuspec.tmpl');
+    var nuspec = grunt.file.read('dist/f2.nuspec.tmpl');
 
     nuspec = grunt.template.process(nuspec, { data: pkg });
-    grunt.file.write('./dist/f2.nuspec', nuspec);
+    grunt.file.write('dist/f2.nuspec', nuspec);
     log.ok();
 
     log = grunt.log.write('Creating NuGet package...');
@@ -382,13 +382,13 @@ module.exports = function(grunt) {
       cmd: 'nuget',
       args: ['pack', 'f2.nuspec'],
       opts: {
-        cwd: './dist'
+        cwd: 'dist'
       }
     }, function(error, result, code) {
       if (error) {
         grunt.fail.fatal(error);
       } else {
-        grunt.file.delete('./dist/f2.nuspec');
+        grunt.file.delete('dist/f2.nuspec');
         log.ok();
         done();
       }
@@ -405,7 +405,7 @@ module.exports = function(grunt) {
     pkg._releaseDate = new Date().toJSON();
     pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
 
-    grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
+    grunt.file.write('package.json', JSON.stringify(pkg, null, '\t'));
     grunt.config.set('pkg', pkg);
 
     grunt.task.run('version');
@@ -423,10 +423,10 @@ module.exports = function(grunt) {
     var docOptions = {
       quiet: true,
       norecurse: true,
-      paths: ['./src/lib'],
-      outdir: './docs/dist/sdk/',
-      themedir: './docs/src/sdk-template',
-      helpers: ['./docs/src/sdk-template/helpers/helpers.js']
+      paths: ['src/lib'],
+      outdir: 'docs/dist/sdk/',
+      themedir: 'docs/src/sdk-template',
+      helpers: ['docs/src/sdk-template/helpers/helpers.js']
     };
     var done = this.async();
     var log = grunt.log.write('Generating reference docs...');
