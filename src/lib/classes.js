@@ -1,10 +1,10 @@
-/* global F2 */
+var F2 = require('./F2');
 
 /**
   Class stubs for documentation purposes
   @main F2
 */
-F2.extend('', {
+module.exports = {
   /**
     The App Class is an optional class that can be namespaced onto the
     {{#crossLink "F2\Apps"}}{{/crossLink}} namespace. The
@@ -489,4 +489,4 @@ F2.extend('', {
     */
     loadStyles: function(styles, callback) {}
   }
-});
+};

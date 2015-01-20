@@ -341,3 +341,5 @@ var F2 = (function() {
     }
   };
 })();
+
+module.exports = F2;

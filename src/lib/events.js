@@ -1,11 +1,15 @@
-/* global F2, EventEmitter2 */
+/* global EventEmitter2 */
+
+var constants = require('./constants');
+var F2 = require('./F2');
+var rpc = require('./rpc');
 
 /**
   Handles [Context](../../app-development.html#context) passing from containers
   to apps and apps to apps.
   @class F2.Events
 */
-F2.extend('Events', (function() {
+module.exports = (function() {
   var _events = new EventEmitter2({
     wildcard: true
   });
@@ -35,7 +39,7 @@ F2.extend('Events', (function() {
       @returns {object} EventEmitter2 instance
     */
     emit: function() {
-      F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
+      rpc.broadcast(constants.Sockets.EVENT, [].slice.call(arguments));
       return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
     },
     /**
@@ -87,4 +91,4 @@ F2.extend('Events', (function() {
       return _events.once(event, listener);
     }
   };
-})());
+})();
