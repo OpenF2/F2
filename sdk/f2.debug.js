@@ -14269,7 +14269,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 12-30-2014
+ * F2 v1.4.0 01-19-2015
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -15916,6 +15916,15 @@ F2.extend('Constants', {
 
 		return {
 			/**
+			 * The APP_SCRIPTS_LOADED event is fired when all the scripts defined in
+			 * the AppManifest have been loaded.
+			 * @property APP_SCRIPTS_LOADED
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_SCRIPTS_LOADED: _APP_EVENT_PREFIX + 'scriptsLoaded',
+			/**
 			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
 			 * app. It is up to the app developer to fire this event.
 			 * Returns an object with the symbol and company name:
@@ -15978,7 +15987,17 @@ F2.extend('Constants', {
 			 * @static
 			 * @final
 			 */
-			CONTAINER_LOCALE_CHANGE: _CONTAINER_EVENT_PREFIX + 'localeChange'
+			CONTAINER_LOCALE_CHANGE: _CONTAINER_EVENT_PREFIX + 'localeChange',
+			/**
+			 * The RESOURCE_FAILED_TO_LOAD event will be fired by the container when
+			 * it fails to load a script or style.
+			 * @property RESOURCE_FAILED_TO_LOAD
+			 * @depreciated since 1.4
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			RESOURCE_FAILED_TO_LOAD: _CONTAINER_EVENT_PREFIX + 'resourceFailedToLoad'
 		};
 	})(),
 
@@ -16102,6 +16121,7 @@ F2.extend('Constants', {
 		SETTINGS: 'settings'
 	}
 });
+
 /**
  * Handles [Context](../../app-development.html#context) passing from
  * containers to apps and apps to apps.
@@ -17345,7 +17365,7 @@ F2.extend('', (function() {
 					// Send error to console
 					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-					// Emit events
+					// TODO: depreciate
 					F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
 
 					if (!_bUsesAppHandlers) {
