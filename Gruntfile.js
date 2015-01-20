@@ -15,6 +15,48 @@ module.exports = function(grunt) {
   });
 
   grunt.initConfig({
+    browserify: {
+      dist: {
+        dest: 'dist/f2.debug.js',
+        standalone: 'F2',
+        src: ['src/lib/index.js']
+      },
+      noVendor: {
+        dest: 'dist/packages/f2.no-third-party.js',
+        src: ['src/lib/index.js'],
+        options: {
+          exclude: ['jquery', 'eventemitter', 'bootstrap-modal', 'easyxdm']
+        }
+      },
+      noJqueryBootstrap: {
+        dest: 'dist/packages/f2.no-jquery-or-bootstrap.js',
+        src: ['src/lib/index.js'],
+        options: {
+          exclude: ['jquery', 'bootstrap-modal']
+        }
+      },
+      noBootstrap: {
+        dest: 'dist/packages/f2.no-bootstrap.js',
+        src: ['src/lib/index.js'],
+        options: {
+          exclude: ['bootstrap-modal']
+        }
+      },
+      noEasyxdm: {
+        dest: 'dist/packages/f2.no-easyXDM.js',
+        src: ['src/lib/index.js'],
+        options: {
+          exclude: ['easyxdm']
+        }
+      },
+      basic: {
+        dest: 'dist/packages/f2.basic.js',
+        src: ['src/lib/index.js'],
+        options: {
+          exclude: ['easyxdm', 'jquery', 'bootstrap-modal']
+        }
+      }
+    },
     clean: {
       'github-pages': {
         options: {
@@ -68,7 +110,7 @@ module.exports = function(grunt) {
           'src/vendor/bootstrap-modal.js',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
-          'src/lib/**/*.js',
+          'dist/f2.debug.js',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/f2.debug.js'
@@ -76,7 +118,7 @@ module.exports = function(grunt) {
       'no-third-party': {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/lib/**/*.js',
+          'dist/f2.no-third-party.js',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/f2.no-third-party.js'
@@ -86,7 +128,7 @@ module.exports = function(grunt) {
           'src/lib/template/header.js.tmpl',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
-          'src/lib/**/*.js',
+          'dist/packages/f2.no-jquery-or-bootstrap.js',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.no-jquery-or-bootstrap.js'
@@ -98,7 +140,7 @@ module.exports = function(grunt) {
           'src/vendor/jquery.noconflict.js',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
-          'src/lib/**/*.js',
+          'dist/packages/f2.no-bootstrap.js',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.no-bootstrap.js'
@@ -110,7 +152,7 @@ module.exports = function(grunt) {
           'src/vendor/bootstrap-modal.js',
           'src/vendor/jquery.noconflict.js',
           'src/vendor/eventemitter2.js',
-          'src/lib/**/*.js',
+          'dist/packages/f2.no-easyXDM.js',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.no-easyXDM.js'
@@ -120,7 +162,7 @@ module.exports = function(grunt) {
         src: [
           'src/lib/template/header.js.tmpl',
           'src/vendor/eventemitter2.js',
-          'src/lib/**/*.js',
+          'dist/packages/f2.basic.js',
           'src/lib/template/footer.js.tmpl'
         ],
         dest: 'dist/packages/f2.basic.js'
@@ -302,6 +344,7 @@ module.exports = function(grunt) {
   });
 
   // Load plugins
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -320,7 +363,7 @@ module.exports = function(grunt) {
   grunt.registerTask('fix-sourcemap', 'Fixes the source map file', taskFixSourcemaps);
   grunt.registerTask('generate-docs', 'Generate docs', taskGenerateDocs);
   grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
-  grunt.registerTask('js', ['lint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap']);
+  grunt.registerTask('js', ['lint', 'browserify', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap']);
   grunt.registerTask('lint', ['eslint']);
   grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', taskNuget);
   grunt.registerTask('packages', [
