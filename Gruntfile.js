@@ -17,8 +17,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     browserify: {
       options: {
-        alias: [
-        ]
+        alias: []
       },
       dist: {
         dest: 'dist/f2.debug.js',
