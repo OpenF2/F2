@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         src: ['src/lib/index.js']
       },
       noVendor: {
-        dest: 'dist/packages/f2.no-third-party.js',
+        dest: 'dist/f2.no-third-party.js',
         src: ['src/lib/index.js'],
         options: {
           exclude: ['jquery', 'eventemitter2', 'bootstrap-modal', 'easyxdm']
