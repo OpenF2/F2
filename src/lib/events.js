@@ -1,6 +1,5 @@
-/* global EventEmitter2 */
-
 var constants = require('./constants');
+var EventEmitter2 = require('eventemitter2').EventEmitter2;
 var F2 = require('./F2');
 var rpc = require('./rpc');
 

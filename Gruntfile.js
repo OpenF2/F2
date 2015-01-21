@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         dest: 'dist/packages/f2.no-third-party.js',
         src: ['src/lib/index.js'],
         options: {
-          exclude: ['jquery', 'eventemitter', 'bootstrap-modal', 'easyxdm']
+          exclude: ['jquery', 'eventemitter2', 'bootstrap-modal', 'easyxdm']
         }
       },
       noJqueryBootstrap: {
