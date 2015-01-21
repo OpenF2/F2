@@ -1,9 +1,10 @@
-/* global easyXDM, jQuery */
+/* global easyXDM */
 
 var constants = require('./constants');
 var container = require('./container');
 var events = require('./events');
 var F2 = require('./F2');
+var jQuery = require('jquery');
 var rpc = require('./rpc');
 
 var _callbacks = {};

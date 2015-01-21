@@ -1,10 +1,9 @@
-/* global jQuery */
-
 var appHandlers = require('./app_handlers');
 var classes = require('./classes');
 var constants = require('./constants');
 var events = require('./events');
 var F2 = require('./F2');
+var jQuery = require('jquery');
 var ui = require('./ui');
 var rpc = require('./rpc');
 

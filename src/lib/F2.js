@@ -1,4 +1,4 @@
-/* global jQuery */
+var jQuery = require('jquery');
 
 /**
   Open F2

@@ -1,8 +1,9 @@
-/* global jQuery, EventEmitter2 */
+/* global EventEmitter2 */
 
 var classes = require('./classes');
 var constants = require('./constants');
 var F2 = require('./F2');
+var jQuery = require('jquery');
 var rpc = require('./rpc');
 var ui = require('./ui');
 
