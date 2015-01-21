@@ -214,6 +214,7 @@ function _hydrateContainerConfig(containerConfig) {
   @param {F2.AppConfig} appConfig The F2.AppConfig object
 */
 function _initAppEvents(appConfig) {
+  var self = this;
   var elementFilter = '.' + constants.Css.APP_VIEW_TRIGGER + '[' + constants.Views.DATA_ATTRIBUTE + ']';
 
   jQuery(appConfig.root).on('click', elementFilter, function(e) {
@@ -223,7 +224,7 @@ function _initAppEvents(appConfig) {
 
     // Handle the special REMOVE view
     if (view === constants.Views.REMOVE) {
-      F2.removeApp(appConfig.instanceId);
+      self.removeApp(appConfig.instanceId);
     } else {
       appConfig.ui.Views.change(view);
     }
@@ -955,6 +956,7 @@ module.exports = {
       return;
     }
 
+    var self = this;
     var appStack = [];
     var batches = {};
     var callbackStack = {};
@@ -1096,7 +1098,7 @@ module.exports = {
             jQuery.each(req.apps, function(idx, item) {
               item.name = item.name || item.appId;
               F2.log('Removed failed ' + item.name + ' app', item);
-              F2.removeApp(item.instanceId);
+              self.removeApp(item.instanceId);
             });
           }
 
@@ -1172,8 +1174,10 @@ module.exports = {
       return;
     }
 
+    var self = this;
+
     jQuery.each(_apps, function(i, a) {
-      F2.removeApp(a.config.instanceId);
+      self.removeApp(a.config.instanceId);
     });
   },
   /**
