@@ -109,8 +109,6 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/jquery.js',
-          'src/vendor/jquery.noconflict.js',
           'src/vendor/bootstrap-modal.js',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
@@ -140,8 +138,6 @@ module.exports = function(grunt) {
       'no-bootstrap': {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/jquery.js',
-          'src/vendor/jquery.noconflict.js',
           'src/vendor/eventemitter2.js',
           'src/vendor/easyXDM/easyXDM.js',
           'dist/packages/f2.no-bootstrap.js',
@@ -152,9 +148,7 @@ module.exports = function(grunt) {
       'no-easyXDM': {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/jquery.js',
           'src/vendor/bootstrap-modal.js',
-          'src/vendor/jquery.noconflict.js',
           'src/vendor/eventemitter2.js',
           'dist/packages/f2.no-easyXDM.js',
           'src/lib/template/footer.js.tmpl'
