@@ -1,22 +1,24 @@
 describe('F2.registerApps - pre-load', function() {
 
   it('should throw exception if F2.init() is not called prior', function() {
-    expect(function() {
-      var appConfig = {
-        appId: TEST_APP_ID,
-        manifestUrl: TEST_MANIFEST_URL,
-        root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
-      };
+    console.log = jasmine.createSpy('log');
 
-      F2.registerApps([appConfig]);
-    }).toLog('F2.init() must be called before F2.registerApps()');
+    F2.registerApps([{
+      appId: TEST_APP_ID,
+      manifestUrl: TEST_MANIFEST_URL,
+      root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
+    }]);
+
+    expect(console.log).toHaveBeenCalledWith('F2.init() must be called before F2.registerApps()');
   });
 
   it('should throw exception if no appConfigs are passed.', function() {
-    expect(function() {
-      F2.init();
-      F2.registerApps();
-    }).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
+    console.log = jasmine.createSpy('log');
+
+    F2.init();
+    F2.registerApps();
+
+    expect(console.log).toHaveBeenCalledWith('At least one AppConfig must be passed when calling F2.registerApps()');
   });
 
   it('should allow you to pass single appConfig as object to F2.registerApps', function() {
@@ -31,21 +33,24 @@ describe('F2.registerApps - pre-load', function() {
   });
 
   it('should not require appConfig.manifestUrl when passing pre-load appConfig to F2.registerApps', function() {
-    expect(function() {
-      F2.init();
+    console.log = jasmine.createSpy('log');
 
-      F2.registerApps({
-        appId: TEST_APP_ID,
-        root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
-      });
-    }).not.toLog('"manifestUrl" missing from app object');
+    F2.init();
+    F2.registerApps({
+      appId: TEST_APP_ID,
+      root: $("body").find("div." + TEST_APP_ID + ":first").get(0)
+    });
+
+    expect(console.log).not.toHaveBeenCalledWith('"manifestUrl" missing from app object');
   });
 
   it('should throw exception if you pass an invalid appConfig to F2.registerApps', function() {
-    expect(function() {
-      F2.init();
-      F2.registerApps({});
-    }).toLog('"appId" missing from app object');
+    console.log = jasmine.createSpy('log');
+
+    F2.init();
+    F2.registerApps({});
+
+    expect(console.log).toHaveBeenCalledWith('"appId" missing from app object');
   });
 
   it('should request apps without valid root property and auto init pre-load apps with root when passing mix to F2.registerApps', function() {
@@ -605,68 +610,69 @@ describe('F2.registerApps - basic', function() {
   });
 
   it('should fail on empty parameters', function() {
-    expect(function() {
-      F2.registerApps();
-    }).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
+    console.log = jasmine.createSpy('log');
+    F2.registerApps();
+    expect(console.log).toHaveBeenCalledWith('At least one AppConfig must be passed when calling F2.registerApps()');
   });
 
   it('should fail when passed an empty array', function() {
-    expect(function() {
-      F2.registerApps([]);
-    }).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
+    console.log = jasmine.createSpy('log');
+    F2.registerApps([]);
+    expect(console.log).toHaveBeenCalledWith('At least one AppConfig must be passed when calling F2.registerApps()');
   });
 
   it('should fail when the parameters are invalid', function() {
-    expect(function() {
-      F2.registerApps(null, []);
-    }).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
+    console.log = jasmine.createSpy('log');
+    F2.registerApps(null, []);
+    expect(console.log).toHaveBeenCalledWith('At least one AppConfig must be passed when calling F2.registerApps()');
   });
 
   it('should fail when the AppConfig is invalid', function() {
-    expect(function() {
-      F2.registerApps({});
-    }).toLog('"appId" missing from app object');
+    console.log = jasmine.createSpy('log');
 
-    expect(function() {
-      F2.registerApps({
-        appId: TEST_APP_ID
-      });
-    }).toLog('"manifestUrl" missing from app object');
+    F2.registerApps({});
+    expect(console.log).toHaveBeenCalledWith('"appId" missing from app object');
+
+    F2.registerApps({ appId: TEST_APP_ID });
+    expect(console.log).toHaveBeenCalledWith('"manifestUrl" missing from app object');
   });
 
   it('should fail when the parameter lengths do not match', function() {
-    expect(function() {
-      F2.registerApps({
-        appId: TEST_APP_ID,
-        manifestUrl: TEST_MANIFEST_URL
-      }, [{}, {}]);
-    }).toLog('The length of "apps" does not equal the length of "appManifests"');
+    console.log = jasmine.createSpy('log');
+
+    F2.registerApps({
+      appId: TEST_APP_ID,
+      manifestUrl: TEST_MANIFEST_URL
+    }, [{}, {}]);
+
+    expect(console.log).toHaveBeenCalledWith('The length of "apps" does not equal the length of "appManifests"');
   });
 
   it('should not fail when a single appManifest is passed (#55)', function() {
+    var succeeded = false;
 
-    var passedMessage = false;
-    F2.log = function(message) {
-      passedMessage = true;
-    };
+    F2.AppHandlers.on(
+      F2.AppHandlers.getToken(),
+      F2.Constants.AppHandlers.APP_RENDER_AFTER, function(appConfig) {
+        succeeded = true;
+      }
+    );
 
-    runs(function() {
-      F2.registerApps({
-        appId: TEST_APP_ID,
-        manifestUrl: TEST_MANIFEST_URL
-      }, {
-          apps: [{
-            html: '<div></div>'
-          }]
-        });
+    F2.registerApps({
+      appId: TEST_APP_ID,
+      manifestUrl: TEST_MANIFEST_URL
+    }, {
+      apps: [{
+        html: '<div></div>'
+      }]
     });
 
-    // wait long enough for registerApps to have failed
-    waits(1000);
+    waitsFor(function() {
+      return succeeded;
+    }, 1000);
 
-    // F2.log should not have run
     runs(function() {
-      expect(passedMessage).toBeFalsy();
+      expect(succeeded).toBeTruthy();
     });
   });
 
@@ -861,77 +867,28 @@ describe('F2.registerApps - xhr overrides', function() {
     }).toThrow(new Error('ContainerConfig.xhr.url should return a string'));
   });
 
-  itConditionally(window.F2_NODE_TEST_SERVER, 'should use POST when the domain of the container matches that of the app (#41, #59)', function() {
+  it('should call xhr.type', function() {
+    var isFired = false;
 
-    var isPost = false,
-      hasReturned = false;
-    F2.log = function(message) {
-      hasReturned = true;
-      isPost = message;
-    };
-
-    runs(function() {
-      F2.init({
-        xhr: {
-          dataType: function(url) {
-            return F2.isLocalRequest(url) ? 'json' : 'jsonp';
-          },
-          type: function(url) {
-            return F2.isLocalRequest(url) ? 'POST' : 'GET';
-          }
+    F2.init({
+      xhr: {
+        type: function() {
+          isFired = true;
+          return 'get';
         }
-      });
-      F2.registerApps({
-        appId: 'com_test_app',
-        manifestUrl: TEST_MANIFEST_URL_HTTP_POST
-      });
+      }
     });
+    F2.registerApps(appConfig);
 
-    // wait for registerApps to complete and load the app
     waitsFor(function() {
-      return hasReturned;
-    }, 'test app was never loaded', 10000);
+      return isFired;
+    }, 'xhr.url was not fired', 10000);
 
     runs(function() {
-      expect(isPost).toBeTruthy();
+      expect(isFired).toBeTruthy();
     });
   });
 
-  itConditionally(window.F2_NODE_TEST_SERVER, 'should use GET when the domain of the container does not match that of the app (#41, #59)', function() {
-
-    var isPost = false,
-      hasReturned = false;
-    F2.log = function(message) {
-      hasReturned = true;
-      isPost = message;
-    };
-
-    runs(function() {
-      F2.init({
-        xhr: {
-          dataType: function(url) {
-            return F2.isLocalRequest(url) ? 'json' : 'jsonp';
-          },
-          type: function(url) {
-            return F2.isLocalRequest(url) ? 'POST' : 'GET';
-          }
-        }
-      });
-      F2.registerApps({
-        appId: 'com_test_app',
-        manifestUrl: 'http://www.openf2.org/httpPostTest'
-      });
-    });
-
-    // wait for registerApps to complete and load the app
-    waitsFor(function() {
-      return hasReturned;
-    }, 'test app was never loaded', 10000);
-
-    runs(function() {
-      expect(isPost).toBeFalsy();
-    });
-  });
 });
 
 describe('F2.registerApps - rendering', function() {
@@ -982,52 +939,49 @@ describe('F2.registerApps - rendering', function() {
 
 
   it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function() {
-    F2.inlineScriptsEvaluated = false;
+    window.inlineScriptsEvaluated = false;
+
     F2.init();
     F2.registerApps([{
       appId: TEST_APP_ID,
       manifestUrl: TEST_MANIFEST_URL
     }], [{
-        'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'],
-        'scripts': ['js/test.js'],
-        'apps': [{
-          'html': '<div class="test-app-2">Testing</div>'
-        }]
-      }]);
+      inlineScripts: ['(function() { window.inlineScriptsEvaluated = true; })()'],
+      scripts: ['js/test.js'],
+      apps: [{
+        html: '<div class="test-app-2">Testing</div>'
+      }]
+    }]);
 
     waitsFor(function() {
-      return F2.inlineScriptsEvaluated;
-    },
-      'Inline scripts were never evaluated',
-      10000
-    );
+      return window.inlineScriptsEvaluated;
+    }, 'Inline scripts were never evaluated', 2000);
 
     runs(function() {
-      expect(F2.inlineScriptsEvaluated).toBe(true);
+      expect(window.inlineScriptsEvaluated).toBe(true);
     });
   });
 
   it('should eval AppManifest.inlineScripts when AppManifest.scripts are not defined', function() {
-    F2.inlineScriptsEvaluated = false;
+    window.inlineScriptsEvaluated = false;
+
     F2.init();
     F2.registerApps([{
       appId: TEST_APP_ID,
       manifestUrl: TEST_MANIFEST_URL
     }], [{
-        'inlineScripts': ['(function(){F2.inlineScriptsEvaluated=true;})()'],
-        'apps': [{
-          'html': '<div class="test-app-2">Testing</div>'
-        }]
-      }]);
+      inlineScripts: ['(function() { window.inlineScriptsEvaluated = true; })()'],
+      apps: [{
+        html: '<div class="test-app-2">Testing</div>'
+      }]
+    }]);
+
     waitsFor(function() {
-      return F2.inlineScriptsEvaluated;
-    },
-      'Inline scripts were never evaluated',
-      10000
-    );
+      return window.inlineScriptsEvaluated;
+    }, 'Inline scripts were never evaluated', 2000);
 
     runs(function() {
-      expect(F2.inlineScriptsEvaluated).toBe(true);
+      expect(window.inlineScriptsEvaluated).toBe(true);
     });
   });
 
@@ -1625,14 +1579,15 @@ describe('F2.loadPlaceholders - manual', function() {
   });
 
   it('should require the presence of data-f2-manifesturl', function() {
+    console.log = jasmine.createSpy('log');
+
     // add the invalid placeholder
     $('#f2-autoload').append('<div data-f2-appid="' + TEST_APP_ID + '"></div>');
 
     // even though the manifesturl is missing, the message is generic because a null AppConfig was generated
-    expect(function() {
-      F2.init();
-      F2.loadPlaceholders();
-    }).toLog('"appId" missing from app object');
+    F2.init();
+    F2.loadPlaceholders();
+    expect(console.log).toHaveBeenCalledWith('"appId" missing from app object');
   });
 
   it('should find and register apps', function() {
