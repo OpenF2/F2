@@ -1,3 +1,6 @@
+// TODO: figure out a better way to pass jQuery to this file
+var jQuery = require('jquery');
+
 /* ========================================================================
  * Bootstrap: modal.js v3.2.0
  * http://getbootstrap.com/javascript/#modals

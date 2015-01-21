@@ -1,3 +1,4 @@
+require('../vendor/bootstrap-modal');
 var classes = require('./classes');
 var constants = require('./constants');
 var EventEmitter2 = require('eventemitter2').EventEmitter2;

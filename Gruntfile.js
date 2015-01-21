@@ -108,7 +108,6 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/bootstrap-modal.js',
           'dist/f2.debug.js',
           'src/lib/template/footer.js.tmpl'
         ],
@@ -141,7 +140,6 @@ module.exports = function(grunt) {
       'no-easyXDM': {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/bootstrap-modal.js',
           'dist/packages/f2.no-easyXDM.js',
           'src/lib/template/footer.js.tmpl'
         ],
