@@ -109,8 +109,6 @@ module.exports = function(grunt) {
         src: [
           'src/lib/template/header.js.tmpl',
           'src/vendor/bootstrap-modal.js',
-          'src/vendor/eventemitter2.js',
-          'src/vendor/easyXDM/easyXDM.js',
           'dist/f2.debug.js',
           'src/lib/template/footer.js.tmpl'
         ],
@@ -127,8 +125,6 @@ module.exports = function(grunt) {
       'no-jquery-or-bootstrap': {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/eventemitter2.js',
-          'src/vendor/easyXDM/easyXDM.js',
           'dist/packages/f2.no-jquery-or-bootstrap.js',
           'src/lib/template/footer.js.tmpl'
         ],
@@ -137,8 +133,6 @@ module.exports = function(grunt) {
       'no-bootstrap': {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/eventemitter2.js',
-          'src/vendor/easyXDM/easyXDM.js',
           'dist/packages/f2.no-bootstrap.js',
           'src/lib/template/footer.js.tmpl'
         ],
@@ -148,7 +142,6 @@ module.exports = function(grunt) {
         src: [
           'src/lib/template/header.js.tmpl',
           'src/vendor/bootstrap-modal.js',
-          'src/vendor/eventemitter2.js',
           'dist/packages/f2.no-easyXDM.js',
           'src/lib/template/footer.js.tmpl'
         ],
@@ -158,7 +151,6 @@ module.exports = function(grunt) {
       'basic': {
         src: [
           'src/lib/template/header.js.tmpl',
-          'src/vendor/eventemitter2.js',
           'dist/packages/f2.basic.js',
           'src/lib/template/footer.js.tmpl'
         ],
