@@ -33,11 +33,13 @@ Below you'll find links to the various sections of the F2 development standard a
 
 ## Latest Version
 
-The latest version of F2 is {{version}} which was released on {{_releaseDateFormatted}}. <br>F2 v1.0 was originally open sourced in October 2012. A detailed [changelog](https://github.com/OpenF2/F2/wiki/Changelog) and [roadmap](https://github.com/OpenF2/F2/wiki/Roadmap) are available on GitHub.
+**The latest version of F2 is {{version}} which was released on {{_releaseDateFormatted}}**.
+
+F2 v1.0 was originally open sourced in October 2012. A detailed [changelog](https://github.com/OpenF2/F2/wiki/Changelog) and [roadmap](https://github.com/OpenF2/F2/wiki/Roadmap) are available on GitHub.
 
 <script src="https://gist.github.com/anonymous/3836902fbfbb14a7f186.js"></script>
 
-<a href="https://github.com/OpenF2/F2/releases" class="btn btn-info">Download version {{version}}</a>
+<a href="https://github.com/OpenF2/F2/releases" class="btn btn-success">Download version {{version}}</a>
 
 * * * *
 
