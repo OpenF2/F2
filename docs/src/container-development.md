@@ -54,7 +54,7 @@ $(function(){
 
 Now with a basic container and a basic app, combine these two for a working example. Press **Result** in this jsfiddle.
 
-<iframe width="100%" height="300" src="http://jsfiddle.net/OpenF2js/RTXg3/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="300" src="http://jsfiddle.net/OpenF2js/RTXg3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 In getting to this point, you've only scratched the surface of F2 containers and apps. Continue reading and understanding the F2 spec to build exactly the financial solutions that our customers want.
 
@@ -552,7 +552,7 @@ Let's look at some container code.
 
 First, we define the `AppConfig` in a _hard-coded_ `_appConfig` variable. This example demonstrates only a single app; if there were multiple apps, `_appConfig` would be an array of objects versus an object literal. Secondly, when the document is ready, `F2.init()` is called and subsequently `F2.registerApps()` with the single argument.
 
-<iframe width="100%" height="350" src="http://jsfiddle.net/OpenF2js/eBqmn/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="350" src="http://jsfiddle.net/OpenF2js/eBqmn/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 This javascript code will insert the example news app into the container's `<body>`. Press **Result** in the jsfiddle above to try this demo. 
 
@@ -562,7 +562,7 @@ This javascript code will insert the example news app into the container's `<bod
 
 As an alternative to static app configuration shown above, the `_appConfig` variable could be assigned the result of an API call to the [F2 Registry](about-f2.html#the-store). The Registry API response is designed to match the structure of the `AppConfig` for passing the JSON straight through to F2 in your code. Whether your app configuration JSON comes from the F2 Registry or your own database is irrelevant; the process is identically the same as shown in this example.
 
-<iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="800" src="http://jsfiddle.net/OpenF2js/bKQ96/15/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 <span class="label label-info">About this jsfiddle</span> To simulate an ajax request, this example uses jsfiddle's [echo feature](http://doc.jsfiddle.net/use/echo.html). Simply replace the `getAppConfigs` function with your own ajax request and ignore the `echoData` variable.
 
@@ -574,7 +574,7 @@ Implementing F2 container code for apps to be requested in a batch is as simple 
 
 #### Example
 
-<iframe width="100%" height="450" src="http://jsfiddle.net/OpenF2js/mETUY/3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="450" src="http://jsfiddle.net/OpenF2js/mETUY/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 Open your browser developer tools to see the single HTTP request to `http://www.openf2.org/Examples/Apps`. You could modify this jsFiddle and set _one_ of the AppConfig `enableBatchRequests` to `false`. Then re-run the code to see _two_ HTTP requests sent in your developer tools. 
 
@@ -851,13 +851,13 @@ F2 will insert `html` from the `AppManifest` inside the specified DOM element. T
 
 The jsfiddle below demonstrates a Hello World example using the `appRender` event type and a DOM element as the third argument in `on`.
 
-<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/SGKa3/6/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/SGKa3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 #### Placing Apps in Separate Locations
 
 Here is a slightly more complicated example of the `appRender` event coupled with `appCreateRoot` to place two apps in two separate DOM elements.
 
-<iframe width="100%" height="750" src="http://jsfiddle.net/OpenF2js/3gZJu/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="750" src="http://jsfiddle.net/OpenF2js/3gZJu/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 #### More AppHandlers
 
