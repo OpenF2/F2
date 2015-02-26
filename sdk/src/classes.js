@@ -83,6 +83,29 @@ F2.extend('', {
 		 */
 		isSecure: false,
 		/**
+		 * The language and region specification for this container 
+		 * represented as an IETF-defined standard language tag,
+		 * e.g. `"en-us"` or `"de-de"`. This is passed during the 
+		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process.
+		 *
+		 * @property containerLocale
+		 * @type string
+		 * @default null
+		 * @since 1.4.0
+		 */
+		containerLocale: null,
+		/**
+		 * The languages and regions supported by this app represented
+		 * as an array of IETF-defined standard language tags,
+		 * e.g. `["en-us","de-de"]`. 
+		 *
+		 * @property localeSupport
+		 * @type array
+		 * @default []
+		 * @since 1.4.0
+		 */
+		localeSupport: [],
+		/**
 		 * The url to retrieve the {{#crossLink "F2.AppManifest"}}{{/crossLink}}
 		 * object.
 		 * @property manifestUrl
@@ -269,6 +292,18 @@ F2.extend('', {
 		 * @default false
 		 */
 		debugMode: false,
+		/**
+		 * The default language and region specification for this container 
+		 * represented as an IETF-defined standard language tag,
+		 * e.g. `"en-us"` or `"de-de"`. This value is passed to each app
+		 * registered as `containerLocale`.
+		 *
+		 * @property locale
+		 * @type string
+		 * @default null
+		 * @since 1.4.0
+		 */
+		locale: null,
 		/**
 		 * Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.
 		 * @property scriptErrorTimeout

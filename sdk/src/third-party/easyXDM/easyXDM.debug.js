@@ -86,16 +86,31 @@ function isArray(o){
 
 // end
 function hasFlash(){
-    try {
-        var activeX = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-        flashVersion = Array.prototype.slice.call(activeX.GetVariable("$version").match(/(\d+),(\d+),(\d+),(\d+)/), 1);
-        HAS_FLASH_THROTTLED_BUG = parseInt(flashVersion[0], 10) > 9 && parseInt(flashVersion[1], 10) > 0;
-        activeX = null;
-        return true;
-    } 
-    catch (notSupportedException) {
+    var name = "Shockwave Flash", mimeType = "application/x-shockwave-flash";
+    
+    if (!undef(navigator.plugins) && typeof navigator.plugins[name] == "object") {
+        // adapted from the swfobject code
+        var description = navigator.plugins[name].description;
+        if (description && !undef(navigator.mimeTypes) && navigator.mimeTypes[mimeType] && navigator.mimeTypes[mimeType].enabledPlugin) {
+            flashVersion = description.match(/\d+/g);
+        }
+    }
+    if (!flashVersion) {
+        var flash;
+        try {
+            flash = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+            flashVersion = Array.prototype.slice.call(flash.GetVariable("$version").match(/(\d+),(\d+),(\d+),(\d+)/), 1);
+            flash = null;
+        } 
+        catch (notSupportedException) {
+        }
+    }
+    if (!flashVersion) {
         return false;
     }
+    var major = parseInt(flashVersion[0], 10), minor = parseInt(flashVersion[1], 10);
+    HAS_FLASH_THROTTLED_BUG = major > 9 && minor > 0;
+    return true;
 }
 
 /*
@@ -175,7 +190,7 @@ if (!domIsReady) {
                 // http://javascript.nwbox.com/IEContentLoaded/
                 try {
                     document.documentElement.doScroll("left");
-                }
+                } 
                 catch (e) {
                     setTimeout(doScrollCheck, 1);
                     return;
@@ -490,10 +505,6 @@ function createFrame(config){
     frame.id = frame.name = config.props.name;
     delete config.props.name;
     
-    if (config.onLoad) {
-        on(frame, "load", config.onLoad);
-    }
-    
     if (typeof config.container == "string") {
         config.container = document.getElementById(config.container);
     }
@@ -502,16 +513,20 @@ function createFrame(config){
         // This needs to be hidden like this, simply setting display:none and the like will cause failures in some browsers.
         apply(frame.style, {
             position: "absolute",
-            top: "-2000px"
+            top: "-2000px",
+            // Avoid potential horizontal scrollbar
+            left: "0px"
         });
         config.container = document.body;
     }
     
-    // HACK for some reason, IE needs the source set
-    // after the frame has been appended into the DOM
-    // so remove the src, and set it afterwards
+    // HACK: IE cannot have the src attribute set when the frame is appended
+    //       into the container, so we set it to "javascript:false" as a
+    //       placeholder for now.  If we left the src undefined, it would
+    //       instead default to "about:blank", which causes SSL mixed-content
+    //       warnings in IE6 when on an SSL parent page.
     var src = config.props.src;
-    delete config.props.src;
+    config.props.src = "javascript:false";
     
     // transfer properties to the frame
     apply(frame, config.props);
@@ -520,8 +535,36 @@ function createFrame(config){
     frame.allowTransparency = true;
     config.container.appendChild(frame);
     
-    // HACK see above
-    frame.src = src;
+    if (config.onLoad) {
+        on(frame, "load", config.onLoad);
+    }
+    
+    // set the frame URL to the proper value (we previously set it to
+    // "javascript:false" to work around the IE issue mentioned above)
+    if(config.usePost) {
+        var form = config.container.appendChild(document.createElement('form')), input;
+        form.target = frame.name;
+        form.action = src;
+        form.method = 'POST';
+        if (typeof(config.usePost) === 'object') {
+            for (var i in config.usePost) {
+                if (config.usePost.hasOwnProperty(i)) {
+                    if (HAS_NAME_PROPERTY_BUG) {
+                        input = document.createElement('<input name="' + i + '"/>');
+                    } else {
+                        input = document.createElement("INPUT");
+                        input.name = i;
+                    }
+                    input.value = config.usePost[i];
+                    form.appendChild(input);
+                }
+            }
+        }
+        form.submit();
+        form.parentNode.removeChild(form);
+    } else {
+        frame.src = src;
+    }
     config.props.src = src;
     
     return frame;
@@ -570,9 +613,10 @@ function prepareTransportStack(config){
     }
     if (!config.isHost) {
         _trace("using parameters from query");
-        config.channel = query.xdm_c;
+        config.channel = query.xdm_c.replace(/["'<>\\]/g, "");
         config.secret = query.xdm_s;
-        config.remote = query.xdm_e;
+        config.remote = query.xdm_e.replace(/["'<>\\]/g, "");
+        ;
         protocol = query.xdm_p;
         if (config.acl && !checkAcl(config.acl, config.remote)) {
             throw new Error("Access denied for " + config.remote);
@@ -613,7 +657,6 @@ function prepareTransportStack(config){
                  * navigating from one domain to another, and where parent.frames[foo] can be used
                  * to get access to a frame from the same domain
                  */
-                config.remoteHelper = resolveUrl(config.remoteHelper);
                 protocol = "2";
             }
             else {
@@ -703,6 +746,9 @@ function prepareTransportStack(config){
             stackEls = [new easyXDM.stack.PostMessageTransport(config)];
             break;
         case "2":
+            if (config.isHost) {
+                config.remoteHelper = resolveUrl(config.remoteHelper);
+            }
             stackEls = [new easyXDM.stack.NameTransport(config), new easyXDM.stack.QueueBehavior(), new easyXDM.stack.VerifyBehavior({
                 initiate: config.isHost
             })];
@@ -784,7 +830,7 @@ function removeFromStack(element){
 /** 
  * @class easyXDM
  * A javascript library providing cross-browser, cross-domain messaging/RPC.
- * @version 2.4.15.118
+ * @version 2.4.19.3
  * @singleton
  */
 apply(easyXDM, {
@@ -792,7 +838,7 @@ apply(easyXDM, {
      * The version of the library
      * @type {string}
      */
-    version: "2.4.15.118",
+    version: "2.4.19.3",
     /**
      * This is a map containing all the query parameters passed to the document.
      * All the values has been decoded using decodeURIComponent.
@@ -964,7 +1010,7 @@ var debug = {
                  * Create log window
                  * @ignore
                  */
-                var domain = location.host, windowname = domain.replace(/\[-.:]/g, "") + "easyxdm_log", logWin;
+                var domain = location.host, windowname = domain.replace(/[\-.:]/g, "") + "easyxdm_log", logWin;
                 try {
                     logWin = window.open("", windowname, "width=800,height=200,status=0,navigation=0,scrollbars=1");
                 } 
@@ -1134,6 +1180,9 @@ easyXDM.DomHelper = {
          */
         get: function(name, del){
             this._trace("retrieving function " + name);
+            if (!_map.hasOwnProperty(name)) {
+                return;
+            }
             var fn = _map[name];
             if (!fn) {
                 this._trace(name + " not found");
@@ -1626,7 +1675,11 @@ easyXDM.stack.FlashTransport = function(config){
         }
         
         // create the object/embed
-        var flashVars = "callback=flash_loaded" + domain.replace(/[\-.]/g, "_") + "&proto=" + global.location.protocol + "&domain=" + getDomainName(global.location.href) + "&port=" + getPort(global.location.href) + "&ns=" + namespace;
+        var flashVars = "callback=flash_loaded" + encodeURIComponent(domain.replace(/[\-.]/g, "_"))
+            + "&proto=" + global.location.protocol
+            + "&domain=" + encodeURIComponent(getDomainName(global.location.href))
+            + "&port=" + encodeURIComponent(getPort(global.location.href))
+            + "&ns=" + encodeURIComponent(namespace);
         flashVars += "&log=true";
         swfContainer.innerHTML = "<object height='20' width='20' type='application/x-shockwave-flash' id='" + id + "' data='" + url + "'>" +
         "<param name='allowScriptAccess' value='always'></param>" +
@@ -2105,26 +2158,28 @@ easyXDM.stack.NameTransport = function(config){
                 config.remoteHelper = config.remote;
                 easyXDM.Fn.set(config.channel, _onMessage);
             }
+            
             // Set up the iframe that will be used for the transport
+            var onLoad = function(){
+                // Remove the handler
+                var w = callerWindow || this;
+                un(w, "load", onLoad);
+                easyXDM.Fn.set(config.channel + "_load", _onLoad);
+                (function test(){
+                    if (typeof w.contentWindow.sendMessage == "function") {
+                        _onReady();
+                    }
+                    else {
+                        setTimeout(test, 50);
+                    }
+                }());
+            };
             
             callerWindow = createFrame({
                 props: {
                     src: config.local + "#_4" + config.channel
                 },
-                onLoad: function onLoad(){
-                    // Remove the handler
-                    var w = callerWindow || this;
-                    un(w, "load", onLoad);
-                    easyXDM.Fn.set(config.channel + "_load", _onLoad);
-                    (function test(){
-                        if (typeof w.contentWindow.sendMessage == "function") {
-                            _onReady();
-                        }
-                        else {
-                            setTimeout(test, 50);
-                        }
-                    }());
-                }
+                onLoad: onLoad
             });
         },
         init: function(){
@@ -2234,10 +2289,10 @@ easyXDM.stack.HashTransport = function(config){
             useParent = config.useParent;
             _remoteOrigin = getLocation(config.remote);
             if (isHost) {
-                config.props = {
+                apply(config.props, {
                     src: config.remote,
                     name: IFRAME_PREFIX + config.channel + "_provider"
-                };
+                });
                 if (useParent) {
                     config.onLoad = function(){
                         _listenerWindow = window;

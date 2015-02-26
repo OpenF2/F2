@@ -28,7 +28,7 @@ F2.Apps["com_openf2_examples_javascript_helloworld"] = (function() {
 			}, this))
 		;
 
-		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + ' Hello World (JavaScript)');
+		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + this.appConfig.name);
 		this.ui.updateHeight();
 		
 		// bind symbol change event

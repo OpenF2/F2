@@ -16,7 +16,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 		var defaults = {
 			backgroundColor: '#fff',
-			lineColor: '#6A8F8E',
+			lineColor: '#428bca',
 			lineWidth: 1.5,
 			gridColor: '#DDDDDD',
 			gridAltColor: '#F7F7F7',
@@ -126,7 +126,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		hcChartObj.setTitle({ text:'' });
 
 		this.ui.hideMask(this.$root);
-		this.ui.setTitle("ONE-YEAR PRICE MOVEMENT FOR " + this.symbol);
+		this.ui.setTitle("One-Year Price Movement " + this.symbol);
 		
 		// No options setting is available for this, so force the price line to be rounded 
 		$('.highcharts-series path:first', this.root).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');

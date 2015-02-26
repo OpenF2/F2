@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>F2.AppHandlers - Open Financial Framework</title>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
+<meta name="viewport" content="width=device-width initial-scale=1.0"/>
+<link rel="stylesheet" href="//www.openf2.org/css/site.css"/>
+<link rel="stylesheet" href="../assets/css/custom.css">
+<link rel="stylesheet" href="../assets/css/prettify.css">
+<link rel="shortcut icon" href="//www.openf2.org/img/favicon.ico" type="image/x-icon"/>
+<meta name="apple-mobile-web-app-title" content="F2"/>
+<link rel="apple-touch-icon" href="//www.openf2.org/img/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-152x152.png"/>
+<meta name="msapplication-square70x70logo" content="//www.openf2.org/img/smalltile.png"/>
+<meta name="msapplication-square150x150logo" content="//www.openf2.org/img/mediumtile.png"/>
+<meta name="msapplication-wide310x150logo" content="//www.openf2.org/img/widetile.png"/>
+<meta name="msapplication-square310x310logo" content="//www.openf2.org/img/largetile.png"/><!--[if lt IE 9]>
+<script src="//www.openf2.org/js/thirdparty/polyfills/es5.js"></script><![endif]-->
+<!--[if lt IE 9]>
+<script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+  body {
+    position: relative;/*for scrollspy*/
+  }
+  .pageContent {
+    margin-top: 20px;
+  }
+  #docs-main .page-header {
+  	margin-top: 0;
+  }
+  .docs #docs p:last-child {
+    margin-bottom: 25px;
+  }
+  #docs div.media:last-child {
+    margin-bottom: 100px;
+  }
+  .sidebar-toc {
+    overflow: hidden;
+  }
+</style>
+</head>
+<body class="yui3-skin-sam">
+<div role="navigation" class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#f2navbarcollapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" title="Home" class="navbar-brand">F2</a>
+    </div>
+    <div id="f2navbarcollapse" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="//www.openf2.org/">About</a>
+        </li>
+        <li><a href="//www.openf2.org/examples">Examples</a>
+        </li>
+        <li><a href="//www.openf2.org/developers" class="active">Developers</a>
+        </li>
+        <li><a href="//blog.openf2.org">Blog</a>
+        </li>
+        <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
+          <li><a href="http://www.openf2.org/developers">Developers</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.0</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="../../index.html">Getting Started</a></li>
+              <li><a href="../../container-development.html">Container Development</a></li>
+              <li><a href="../../app-development.html">App Development</a></li>
+              <li><a href="../../extending-f2.html">Extend F2</a></li>
+              <li class="active"><a href="../">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+F2.AppHandlers" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">F2.AppHandlers</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="../">API Reference</a></li>
+              
+    <li class=""><a href="../classes/F2.html">F2</a></li>
+
+    <li class=""><a href="../classes/F2.App.html">F2.App</a></li>
+
+    <li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
+
+    <li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+
+    <li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
+
+    <li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+
+    <li class="hidden"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+
+    <li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+
+    <li class="hidden"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+
+    <li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+
+    <li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
+
+    <li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
+
+    <li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
+
+    <li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+
+    <li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
+
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
+          <ul class="nav nav-stacked">
+            <li><a href="#">Sections</a></li>
+            <li><a href="../../index.html">Getting Started</a></li>
+            <li><a href="../../container-development.html">Container Development</a></li>
+            <li><a href="../../app-development.html">App Development</a></li>
+            <li><a href="../../extending-f2.html">Extending F2</a></li>
+            <li class="hidden"><a href="../../f2js-sdk.html">F2.js</a></li>
+            <li class="hidden"><a href="../../about-f2.html">About F2</a></li>
+            <li class="active"><a href="../">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9" id="docs">
+      	<div class="apidocs">
+	      	<div id="docs-main">
+	        	<div class="content">
+	        		<form id="options-form" class="form-inline pull-right">
+    Show:
+    <!--<div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+    </div>-->
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+    </div>
+</form>
+	                <h1 class="page-header">F2.AppHandlers <small>Class</small></h1>
+
+<div class="classDescription">
+    <p>The new <code>AppHandlers</code> functionality provides Container Developers a higher level of control over configuring app rendering and interaction.</p>
+
+<p class="alert alert-block alert-warning">
+The addition of <code>F2.AppHandlers</code> replaces the previous <a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> properties <code>beforeAppRender</code>, <code>appRender</code>, and <code>afterAppRender</code>. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.
+</p>
+
+<p class="alert alert-block alert-info">
+Starting with F2 version 1.2, <code>AppHandlers</code> is the preferred method for Container Developers to manage app layout.
+</p>
+
+<h3>Order of Execution</h3>
+
+<p><strong>App Rendering</strong></p>
+
+<ol>
+<li><a href="../classes/F2.html#method_registerApps" class="crosslink">F2.registerApps()</a> method is called by the Container Developer and the following methods are run for <em>each</em> <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> passed.</li>
+<li><strong>'appCreateRoot'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_CREATE_ROOT</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appRenderBefore'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_BEFORE</em>) handlers are fired in the order they were attached.</li>
+<li>Each app's <code>manifestUrl</code> is requested asynchronously; on success the following methods are fired.</li>
+<li><strong>'appRender'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appRenderAfter'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_RENDER_AFTER</em>) handlers are fired in the order they were attached.</li>
+</ol>
+
+<p><strong>App Removal</strong></p>
+
+<ol>
+<li><a href="../classes/F2.html#method_removeApp" class="crosslink">F2.removeApp()</a> with a specific F2.AppConfig/instanceId or <a href="../classes/F2.html#method_removeAllApps" class="crosslink">F2.removeAllApps()</a> method is called by the Container Developer and the following methods are run.</li>
+<li><strong>'appDestroyBefore'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_BEFORE</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appDestroy'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY</em>) handlers are fired in the order they were attached.</li>
+<li><strong>'appDestroyAfter'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_DESTROY_AFTER</em>) handlers are fired in the order they were attached.</li>
+</ol>
+
+<p><strong>Error Handling</strong></p>
+
+<ol>
+<li><strong>'appScriptLoadFailed'</strong> (<em><a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.APP_SCRIPT_LOAD_FAILED</em>) handlers are fired in the order they were attached.</li>
+</ol>
+</div>
+
+<div class="well well-sm">
+    
+
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="../files/sdk_src_app_handlers.js.html#l1"><code>sdk&#x2F;src&#x2F;app_handlers.js:1</code></a>
+        </div>
+    
+
+    
+</div>
+
+
+
+
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#index">Summary</a></li>
+
+        
+            <li><a data-toggle="tab" href="#methods">Methods</a></li>
+        
+        
+        
+        
+    </ul>
+
+    <div class="tab-content">
+        <div id="index" class="tab-pane active">
+            
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <table class="table table-bordered table-striped table-members index-list methods">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr class="index-item method private">
+                                <td class="name">
+                                    <a href="#" data-tabid="#methods" data-anchor="#method___f2GetToken" data-tablink="__f2GetToken">
+                                        __f2GetToken
+                                        <span class="paren">(</span>
+                                        
+                                        <span class="paren">)</span>
+                                    </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
+                                </td>
+                                <td><p>Allows F2 to get a token internally. Token is required to call <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+and additional internal methods.</p></td>
+                            </tr>
+                            
+                            <tr class="index-item method private">
+                                <td class="name">
+                                    <a href="#" data-tabid="#methods" data-anchor="#method___trigger" data-tablink="__trigger">
+                                        __trigger
+                                        <span class="paren">(</span>
+                                        
+                                            <ul class="params commas">
+                                                
+                                                <li>
+                                                    
+                                                        token
+                                                    
+                                                </li>
+                                                
+                                                <li>
+                                                    
+                                                        eventKey
+                                                    
+                                                </li>
+                                                
+                                            </ul>
+                                        
+                                        <span class="paren">)</span>
+                                    </a>
+                                    
+                                    
+                                    
+                                        <span class="label label-info private">private</span>
+                                    
+                                </td>
+                                <td><p>Allows F2 to trigger specific events internally.</p></td>
+                            </tr>
+                            
+                            <tr class="index-item method">
+                                <td class="name">
+                                    <a href="#" data-tabid="#methods" data-anchor="#method_getToken" data-tablink="getToken">
+                                        getToken
+                                        <span class="paren">(</span>
+                                        
+                                        <span class="paren">)</span>
+                                    </a>
+                                    
+                                    
+                                    
+                                </td>
+                                <td><p>Allows Container Developer to retrieve a unique token which must be passed to
+all <code>on</code> and <code>off</code> methods. This function will self destruct and can only be called 
+one time. Container Developers must store the return value inside of a closure.</p></td>
+                            </tr>
+                            
+                            <tr class="index-item method">
+                                <td class="name">
+                                    <a href="#" data-tabid="#methods" data-anchor="#method_off" data-tablink="off">
+                                        off
+                                        <span class="paren">(</span>
+                                        
+                                            <ul class="params commas">
+                                                
+                                                <li>
+                                                    
+                                                        token
+                                                    
+                                                </li>
+                                                
+                                                <li>
+                                                    
+                                                        eventKey{.namespace}
+                                                    
+                                                </li>
+                                                
+                                            </ul>
+                                        
+                                        <span class="paren">)</span>
+                                    </a>
+                                    
+                                    
+                                    
+                                </td>
+                                <td><p>Allows Container Developer to remove listener methods for specific events</p></td>
+                            </tr>
+                            
+                            <tr class="index-item method">
+                                <td class="name">
+                                    <a href="#" data-tabid="#methods" data-anchor="#method_on" data-tablink="on">
+                                        on
+                                        <span class="paren">(</span>
+                                        
+                                            <ul class="params commas">
+                                                
+                                                <li>
+                                                    
+                                                        token
+                                                    
+                                                </li>
+                                                
+                                                <li>
+                                                    
+                                                        eventKey{.namespace}
+                                                    
+                                                </li>
+                                                
+                                                <li>
+                                                    
+                                                        element
+                                                    
+                                                </li>
+                                                
+                                            </ul>
+                                        
+                                        <span class="paren">)</span>
+                                    </a>
+                                    
+                                    
+                                    
+                                </td>
+                                <td><p>Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType <code>appRender</code>.</p></td>
+                            </tr>
+                            
+                            <tr class="index-item method">
+                                <td class="name">
+                                    <a href="#" data-tabid="#methods" data-anchor="#method_on" data-tablink="on">
+                                        on
+                                        <span class="paren">(</span>
+                                        
+                                            <ul class="params commas">
+                                                
+                                                <li>
+                                                    
+                                                        token
+                                                    
+                                                </li>
+                                                
+                                                <li>
+                                                    
+                                                        eventKey{.namespace}
+                                                    
+                                                </li>
+                                                
+                                                <li>
+                                                    
+                                                        listener
+                                                    
+                                                </li>
+                                                
+                                            </ul>
+                                        
+                                        <span class="paren">)</span>
+                                    </a>
+                                    
+                                    
+                                    
+                                </td>
+                                <td><p>Allows Container Developer to add listener method that will be triggered when a specific event occurs.</p></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+
+            
+
+            
+
+            
+        </div>
+
+        
+            <div id="methods" class="tab-pane">
+                <h2 class="off-left">Methods</h2>
+
+                
+                    <div id="method___f2GetToken" class="method item private">
+    <h3>
+        __f2GetToken
+        <span class="paren">(</span>
+        
+        <span class="paren">)</span>
+
+        
+
+        
+            <span class="label label-info private">private</span>
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_app_handlers.js.html#l205"><code>sdk&#x2F;src&#x2F;app_handlers.js:205</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows F2 to get a token internally. Token is required to call <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>.
+This function will self destruct to eliminate other sources from using the <a href="../classes/F2.AppHandlers.html#method___trigger" class="crosslink">__trigger</a>
+and additional internal methods.</p>
+    </div>
+
+    
+
+    
+
+    
+    <hr>
+</div>
+
+                
+                    <div id="method___trigger" class="method item private">
+    <h3>
+        __trigger
+        <span class="paren">(</span>
+        
+            <ul class="params commas">
+                
+                <li>
+                    
+                        token
+                    
+                </li>
+                
+                <li>
+                    
+                        eventKey
+                    
+                </li>
+                
+            </ul>
+        
+        <span class="paren">)</span>
+
+        
+
+        
+            <span class="label label-info private">private</span>
+        
+
+        
+
+        
+
+        
+            <span class="label label-default chainable">chainable</span>
+        
+
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_app_handlers.js.html#l220"><code>sdk&#x2F;src&#x2F;app_handlers.js:220</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows F2 to trigger specific events internally.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">token</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The token received from <a href="../classes/F2.AppHandlers.html#method___f2GetToken" class="crosslink">__f2GetToken</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">eventKey</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The event to fire. The complete list of event keys is available in <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+    <hr>
+</div>
+
+                
+                    <div id="method_getToken" class="method item">
+    <h3>
+        getToken
+        <span class="paren">(</span>
+        
+        <span class="paren">)</span>
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_app_handlers.js.html#l191"><code>sdk&#x2F;src&#x2F;app_handlers.js:191</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows Container Developer to retrieve a unique token which must be passed to
+all <code>on</code> and <code>off</code> methods. This function will self destruct and can only be called 
+one time. Container Developers must store the return value inside of a closure.</p>
+    </div>
+
+    
+
+    
+
+    
+    <hr>
+</div>
+
+                
+                    <div id="method_off" class="method item">
+    <h3>
+        off
+        <span class="paren">(</span>
+        
+            <ul class="params commas">
+                
+                <li>
+                    
+                        token
+                    
+                </li>
+                
+                <li>
+                    
+                        eventKey{.namespace}
+                    
+                </li>
+                
+            </ul>
+        
+        <span class="paren">)</span>
+
+        
+
+        
+
+        
+
+        
+
+        
+            <span class="label label-default chainable">chainable</span>
+        
+
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_app_handlers.js.html#l373"><code>sdk&#x2F;src&#x2F;app_handlers.js:373</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows Container Developer to remove listener methods for specific events</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">token</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">eventKey{.namespace}</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The event key used to determine which event to attach the listener to. If no namespace is provided all
+ listeners for the specified event type will be removed.
+ Complete list available in <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.off(_token,'appRenderBefore');
+</code></pre>
+            </div>
+        </div>
+    
+    <hr>
+</div>
+
+                
+                    <div id="method_on" class="method item">
+    <h3>
+        on
+        <span class="paren">(</span>
+        
+            <ul class="params commas">
+                
+                <li>
+                    
+                        token
+                    
+                </li>
+                
+                <li>
+                    
+                        eventKey{.namespace}
+                    
+                </li>
+                
+                <li>
+                    
+                        element
+                    
+                </li>
+                
+            </ul>
+        
+        <span class="paren">)</span>
+
+        
+
+        
+
+        
+
+        
+
+        
+            <span class="label label-default chainable">chainable</span>
+        
+
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_app_handlers.js.html#l288"><code>sdk&#x2F;src&#x2F;app_handlers.js:288</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType <code>appRender</code>.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">token</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">eventKey{.namespace}</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The event key used to determine which event to attach the listener to. The namespace is useful for removal 
+purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+<a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">element</code>
+                        <span class="type">HTMLElement</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Specific DOM element to which app gets appended.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    'appRender',
+    document.getElementById('my_app')
+);
+</code></pre>
+
+<p>Or:</p><pre class="code prettyprint"><code>F2.AppHandlers.on(
+    _token,
+    'appRender.myNamespace',
+    document.getElementById('my_app')
+);
+</code></pre>
+            </div>
+        </div>
+    
+    <hr>
+</div>
+
+                
+                    <div id="method_on" class="method item">
+    <h3>
+        on
+        <span class="paren">(</span>
+        
+            <ul class="params commas">
+                
+                <li>
+                    
+                        token
+                    
+                </li>
+                
+                <li>
+                    
+                        eventKey{.namespace}
+                    
+                </li>
+                
+                <li>
+                    
+                        listener
+                    
+                </li>
+                
+            </ul>
+        
+        <span class="paren">)</span>
+
+        
+
+        
+
+        
+
+        
+
+        
+            <span class="label label-default chainable">chainable</span>
+        
+
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_app_handlers.js.html#l313"><code>sdk&#x2F;src&#x2F;app_handlers.js:313</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Allows Container Developer to add listener method that will be triggered when a specific event occurs.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">token</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The token received from <a href="../classes/F2.AppHandlers.html#method_getToken" class="crosslink">getToken</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">eventKey{.namespace}</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The event key used to determine which event to attach the listener to. The namespace is useful for removal 
+purposes. At this time it does not affect when an event is fired. Complete list of event keys available in 
+<a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">listener</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A function that will be triggered when a specific event occurs. For detailed argument definition refer to <a href="../classes/F2.Constants.AppHandlers.html" class="crosslink">F2.Constants.AppHandlers</a>.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    'appRenderBefore'
+    function() { F2.log('before app rendered!'); }
+);
+</code></pre>
+
+<p>Or:</p><pre class="code prettyprint"><code>F2.AppHandlers.on(
+    _token,
+    'appRenderBefore.myNamespace',
+    function() { F2.log('before app rendered!'); }
+);
+</code></pre>
+            </div>
+        </div>
+    
+    <hr>
+</div>
+
+                
+            </div>
+        
+
+        
+
+        
+
+        
+    </div>
+</div>
+
+	            </div>
+	        </div>
+	    </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-lg-6">
+        <h1 class="hidden-sm hidden-md hidden-lg">F2</h1>
+        <p class="hidden-sm hidden-md hidden-lg">An open & free framework created for building financial applications.</p>
+        <div class="deepFooter hidden-xs hidden-sm">
+          <p>Enabling smarter financial applications</p>
+          <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+        </div>
+        <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
+          <li><a href="http://docs.openf2.org">Docs</a></li>
+          <li><a href="//www.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
+          <li><a href="http://blog.openf2.org">Blog</a></li>
+          <li><a href="//www.openf2.org/developers">Developers</a></li>
+          <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+          <li><a href="https://twitter.com/OpenF2">@OpenF2</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
+        <ul class="footer-nav iconlist list-inline">
+          <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
+            <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
+                <h5>View on GitHub</h5>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span></span>
+                </p></a></div>
+          </li>
+          <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
+          <li><a href="//www.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
+          <li><a href="https://twitter.com/OpenF2" title="@OpenF2" class="hexagon"><i class="fa fa-twitter fa-2x"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row deepFooter">
+      <div class="col-xs-12 hidden-md hidden-lg">
+        <p>Enabling smarter financial applications</p>
+        <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<!-- <script src="js/docs.js" type="text/javascript"></script> 
+<script type="text/javascript">new F2Docs().initialize();</script>-->
+<script>
+  window.prettyPrint && prettyPrint();
+
+	//docs
+	var current = location.pathname.split('/').pop();
+	$('a','ul.sidebar-toc').each(function(i,el){
+		var $el = $(el);
+		if (current.length && $el.attr('href').indexOf(current) > -1){
+			$el.parent().addClass('active');
+		}
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{title}} - F2: Open Financial Framework</title>
+{{templates.head}}
+<style>
+  body { position: relative;/*for scrollspy*/ }
+  .pageContent { margin-top: 20px; } 
+  #docs h4:not(.media-heading), 
+  #docs h5, 
+  #docs h6 {
+    margin-top: 30px;
+  }
+  #docs .alert h4, 
+  #docs .alert h5, 
+  #docs .alert h6,
+  #docs .well h4, 
+  #docs .well h5, 
+  #docs .well h6 {
+    margin-top: 0;
+  }
+  .docs #docs p:last-child { margin-bottom: 0; }
+
+  .sidebar-nav .affix {
+    position: static;
+    width: 100%;
+    top: 5px;
+  }
+
+  @media (min-width: 768px){
+    .sidebar-nav .affix {
+      position: fixed;
+      width: 158px;
+    }
+  }
+
+  @media (min-width: 992px){
+    .sidebar-nav .affix {
+      width: 213px;
+    }
+  }
+
+  @media (min-width: 1200px){
+    .sidebar-nav .affix {
+      width: 263px;
+    }
+  }
+  footer {
+    margin-top: 50px;
+  }
+</style>
+</head>
+<body>
+{{templates.nav}}
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
+          <li><a href="http://www.openf2.org/developers">Developers</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v{{version}}</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li{{#if activeNav.getstarted}} class="active"{{/if}}><a href="index.html">Getting Started</a></li>
+              <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
+              <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
+              <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
+              <li><a href="./sdk">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+{{title_for_url}}" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/blob/master/docs/src/{{filename}}" id="viewSourceLink" target="_blank">View Source</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">{{title}}</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="{{filename_html}}">{{title}}</a></li>
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
+          <ul class="nav nav-stacked">
+            <li><a href="#">Sections</a></li>
+            <li{{#if activeNav.getstarted}} class="active"{{/if}}><a href="index.html">Getting Started</a></li>
+            <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
+            <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
+            <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
+            <li class="hidden{{#if activeNav.f2js}} active{{/if}}"><a href="f2js-sdk.html">F2.js</a></li>
+            <li class="hidden{{#if activeNav.about}} active{{/if}}"><a href="about-f2.html">About F2</a></li>
+            <li><a href="./sdk">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9 {{title_css}}" id="docs">
+        <h1 class="page-header">{{title}}</h1>
+        {{content}}
+      </div>
+    </div>
+  </section>
+</div>
+{{templates.footer}}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/docs.js" type="text/javascript"></script>
+<script type="text/javascript">new F2Docs().initialize();</script>
+</body>
+</html>

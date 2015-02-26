@@ -1,9 +1,11 @@
 module.exports = function(grunt) {
 
-	var handlebars = require('handlebars'),
+	var exec = require('child_process').exec,
+		handlebars = require('handlebars'),
 		moment = require('moment'),
 		pkg = grunt.file.readJSON('package.json'),
-		semver = require('semver');
+		semver = require('semver'),
+		path = require('path');
 
 	// TODO: Remove Handlebars dependency and use the built-in grunt templating
 	// Handlebars helpers
@@ -17,7 +19,6 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: pkg,
 		clean: {
-			docs: ['docs/src-temp'],
 			'github-pages': {
 				options: { force: true },
 				src: ['../gh-pages/src']
@@ -28,28 +29,6 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
-			docs: {
-				files: [
-					{
-						expand: true,
-						cwd: 'docs/src/',
-						src: ['**'],
-						dest: 'docs/src-temp/',
-						filter: function(src) {
-							if ( !(/twbootstrap/).test(src) ){//don't touch submodule
-								return (/(.html|.md)$/i).test(src);
-							}
-						}
-					}
-				],
-				options: {
-					processContent: function(content, srcpath) {
-						// TODO: Remove Handlebars dependency and use the built-in grunt
-						// templating compile and run the Handlebars template
-						return (handlebars.compile(content))(pkg);
-					}
-				}
-			},
 			'f2ToRoot': {
 				files: [
 					{
@@ -131,8 +110,8 @@ module.exports = function(grunt) {
 					'sdk/src/template/header.js.tmpl',
 					'sdk/src/third-party/json2.js',
 					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/bootstrap-modal.js',
 					'sdk/src/third-party/jquery.noconflict.js',
+					'sdk/src/third-party/bootstrap-modal.js',
 					'sdk/src/third-party/eventemitter2.js',
 					'sdk/src/third-party/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
@@ -239,18 +218,6 @@ module.exports = function(grunt) {
 				'sdk/src/container.js'
 			]
 		},
-		less: {
-			dist: {
-				options: {
-					compress: true
-				},
-				files: {
-					'./docs/css/F2.css': './docs/src/template/less/bootstrap.less',
-					'./docs/css/F2.Docs.css': './docs/src/template/less/bootstrap-docs.less',
-					'./docs/css/F2.Sdk.css': './docs/src/template/less/bootstrap-sdk.less'
-				}
-			}
-		},
 		uglify: {
 			options: {
 				preserveComments: 'some',
@@ -296,19 +263,44 @@ module.exports = function(grunt) {
 				src: 'sdk/f2.min.js',
 				prefix: 'sdk/'
 			}
+		},
+		watch: {
+			docs: {
+				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js','!docs/src/template/head.html','!docs/src/template/nav.html','!docs/src/template/footer.html'],
+				tasks: ['docs'],
+				options: {
+					spawn: false,
+				}
+			},
+			scripts: {
+				files: ['./sdk/src/**/*.js', '!./sdk/src/third-party/**/*.js'],
+				tasks: ['js'],
+				options: {
+					spawn: false,
+				}
+			}
+		},
+		http: {
+			getDocsLayout: {
+				options: {
+					url: 'http://www.openf2.org/api/layout/docs',
+					json: true,
+					strictSSL: false,
+					callback: function(err, res, response){
+						var log = grunt.log.write('Retrieved doc layout...')
+						grunt.config.set('docs-layout',response);
+						log.ok();
+						log = grunt.log.write('Saving templates as HTML...');
+						//save as HTML for gen-docs step
+						grunt.file.write('./docs/src/template/head.html', response.head);
+						grunt.file.write('./docs/src/template/nav.html', response.nav);
+						grunt.file.write('./docs/src/template/footer.html', response.footer);
+						log.ok();
+					}
+				}
+			}
 		}
 	});
-
-	// Load plugins
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-jasmine');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-express');
 
 	// Register tasks
 	grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {
@@ -321,34 +313,64 @@ module.exports = function(grunt) {
 		grunt.file.write(dest, rawMap);
 	});
 
-	grunt.registerTask('markitdown', 'Compiles the spec documentation with Markitdown', function() {
+	grunt.registerTask('generate-docs', 'Generate docs', function() {
 		var done = this.async(),
-			log = grunt.log.write('Generating spec documentation...');
-		grunt.util.spawn(
-			{
-				cmd: 'markitdown',
-				args: [
-					'./',
-					'--output-path', '../',
-					'--docTemplate', './template/baseTemplate.html',
-					'--header', './template/header.html',
-					'--footer', './template/footer.html',
-					'--head', './template/style.html',
-					'--title', 'F2'
-				],
-				opts: {
-					cwd: './docs/src-temp'
-				}
+		log = grunt.log.write('Generating docs...');
+
+		exec('node ' + path.join(__dirname, 'docs/bin/gen-docs'), function(err, stdout, stderr) {
+		  if (err) {
+		    grunt.log.error(err.message);
+		    grunt.fail.fatal('Docs generation aborted.');
+		    return;
+		  }
+		  grunt.log.write(stdout);
+		  log.ok();
+		  done();
+		});
+	});
+
+	grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', function() {
+
+		var builder,
+			docOptions = {
+				quiet: true,
+				norecurse: true,
+				paths: ['./sdk/src'],
+				outdir: './docs/dist/sdk/',
+				themedir: './docs/src/sdk-template',
+				helpers: ['./docs/src/sdk-template/helpers/helpers.js']
 			},
-			function(error, result, code) {
-				if (error) {
-					grunt.fail.fatal(error);
-				} else {
-					log.ok();
-					done();
+			done = this.async(),
+			json,
+			log = grunt.log.write('Generating reference docs...'),
+			Y = require('yuidocjs');
+
+		json = (new Y.YUIDoc(docOptions)).run();
+		// massage in some meta information from F2.json
+		json.project = {
+			docsAssets: '../',
+			version: pkg.version,
+			releaseDateFormatted: pkg._releaseDateFormatted
+		};
+		docOptions = Y.Project.mix(json, docOptions);
+
+		// ensures that the class has members and isn't just an empty namespace
+		// used in sidebar.handlebars
+		Y.Handlebars.registerHelper('hasClassMembers', function() {
+			for (var i = 0, len = json.classitems.length; i < len; i++) {
+				//console.log(json.classitems[i].class, this.name);
+				if (json.classitems[i].class === this.name) {
+					return '';
 				}
 			}
-		);
+			return 'hidden';
+		});
+
+		builder = new Y.DocBuilder(docOptions, json);
+		builder.compile(function() {
+			log.ok();
+			done();
+		});
 	});
 
 	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
@@ -404,84 +426,23 @@ module.exports = function(grunt) {
 		));
 	});
 
-	grunt.registerTask('yuidoc', 'Builds the reference documentation with YUIDoc', function() {
+	// Load plugins
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-compress');
+	grunt.loadNpmTasks('grunt-contrib-jasmine');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-express');
+	grunt.loadNpmTasks('grunt-http');
 
-		var builder,
-			docOptions = {
-				quiet: true,
-				norecurse: true,
-				paths: ['./sdk/src'],
-				outdir: './docs/sdk/',
-				themedir: './docs/src/sdk-template'
-			},
-			done = this.async(),
-			json,
-			log = grunt.log.write('Generating reference documentation...'),
-			readmeMd = grunt.file.read('README.md'),
-			Y = require('yuidocjs');
-
-		json = (new Y.YUIDoc(docOptions)).run();
-		// massage in some meta information from F2.json
-		json.project = {
-			docsAssets: '../',
-			version: pkg.version,
-			releaseDateFormatted: pkg._releaseDateFormatted
-		};
-		docOptions = Y.Project.mix(json, docOptions);
-
-		// hasClassMembers
-		// ensures that the class has members and isn't just an empty namespace
-		Y.Handlebars.registerHelper('hasClassMembers', function() {
-
-			for (var i = 0, len = json.classitems.length; i < len; i++) {
-				//console.log(json.classitems[i].class, this.name);
-				if (json.classitems[i].class === this.name) {
-					return '';
-				}
-			}
-
-			return 'hide';
-		});
-
-		// title tag
-		Y.Handlebars.registerHelper('htmlTitle',function () {
-			var name  = this.displayName || this.name,
-					title = name;
-
-			if (title) {
-				title = 'F2 - ' + title;
-			} else {
-				title = 'F2 - The Open Financial Framework';
-			}
-
-			return title;
-		});
-
-		// handle any member names that have periods in them
-		Y.Handlebars.registerHelper('memberNameAsId', function() {
-			return String(this.name).replace('.', '_');
-		});
-
-		// insert readme markdown
-		/*Y.Handlebars.registerHelper('readme', function() {
-			return builder.markdown(readmeMd, true);
-		});*/
-
-		builder = new Y.DocBuilder(docOptions, json);
-		builder.compile(function() {
-			log.ok();
-			done();
-		});
-	});
-
-
-	grunt.registerTask('docs', ['less', 'yuidoc', 'copy:docs', 'markitdown', 'clean:docs']);
+	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['jshint', 'concat:dist', 'concat:no-third-party', 'uglify:dist', 'uglify:sourcemap', 'sourcemap', 'copy:f2ToRoot']);
+	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
-	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',
 		'concat:no-bootstrap',
@@ -492,8 +453,8 @@ module.exports = function(grunt) {
 		'uglify:package-no-easyXDM',
 		'uglify:package-basic'
 	]);
+	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
+	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
-
-	// the default task
 	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
 };

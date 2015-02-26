@@ -1,16 +1,8 @@
-% F2.js SDK
+# F2.js SDK
 
 <p class="lead">F2 enables you to efficiently create fully-integrated, multi-vendor, multi-asset class and multi-channel apps and deploy them in as many app ecosystems as you want.</p>
 
 Developers who adhere to the F2 standard will make it possible for multiple apps, developed independently by different organizations or individuals, to function together creating a seamless and integrated experience.
-
-* * * *
-
-## Version 2
-
-<div class="alert alert-block alert-info">
-    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
-</div>
 
 * * * *
 
@@ -30,7 +22,7 @@ Anyone is free to download F2.js from the [F2 project repository on GitHub](http
 
 The latest version of F2.js is **{{version}}**.
 
-<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small" target="_blank">View on GitHub</a></p>
+<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js {{version}}</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small btn-default" target="_blank">View on GitHub</a></p>
 
 ### Packages
 
@@ -41,15 +33,15 @@ Packages are variants of F2.js. They are ideally used when, for example, a conta
     * Development: [F2.basic.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.js)
     * Production: [F2.basic.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.basic.min.js) (7.6kb)
 * **No easyXDM**:
-	* Includes: json2, jQuery, Bootstrap Modal, EventEmitter, and F2
+	* Includes: json2, EventEmitter, jQuery, Bootstrap Modal, and F2
     * Development: [f2.no-easyXDM.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.js)
     * Production: [f2.no-easyXDM.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-easyXDM.min.js) (30.4kb)	    	    
 * **No Bootstrap**: 
-	* Includes: json2, jQuery, EventEmitter, and F2
+	* Includes: json2, EventEmitter, jQuery, and F2
     * Development: [F2.no-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.js)
     * Production: [F2.no-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-bootstrap.min.js) (33.6kb)
 * **No jQuery, Bootstrap**:
-    * Includes: json2, easyXDM, and F2
+    * Includes: json2, EventEmitter, easyXDM, and F2
     * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
     * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
 
@@ -61,7 +53,7 @@ For more information on the libraries used by F2, see [Third Party Libraries](#t
 
 The latest version of F2.js will always be in the root of the project, and the version number can be found embedded in the code. The version number is also available on the command line by using:
 
-`$> grunt version`.
+`$> grunt version`
 
 In accordance with industry standards, F2 is currently maintained, in as far as reasonably possible, under the Semantic Versioning guidelines.
 
