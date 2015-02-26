@@ -441,7 +441,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot','test']);
+	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',

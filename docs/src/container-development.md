@@ -536,7 +536,7 @@ During the F2 app load life cycle, the following events happen in order:
 6. Finally, the [internal `_loadApps` function](https://github.com/OpenF2/F2/blob/master/sdk/src/container.js#L211) is called which:
   1. Iterates over each URL in the `styles` array, creates a new `<link rel="stylesheet">` tag and inserts it into the `<head>`.
   2. Iterates over each app in the `apps` array, stores off any `data` to pass to the `appclass` later, and inserts any HTML into the app's root.
-  3. Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<body>`. The scripts are _requested and added in serial_ to ensure they execute in order.
+  3. Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<head>`. The scripts are _requested and added in serial_ to ensure they execute in order.
   4. Iterates over each string in the `inlineScripts` array, and evaluates the script&mdash;only when all of the scripts in the previous step have been loaded.
   5. When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
 
@@ -642,7 +642,7 @@ Next, make a server-side request to the news app's `AppManifest`&mdash;the URL i
 
 #### 3. Add App to Container
 
-You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .col-md-12` following [Bootstrap's scaffolding](http://getbootstrap.com/css/#grid) guidelines. The `styles` were appended to the `head` and the `scripts` were appended to the `body` (in this case just one URL for each).
+You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .col-md-12` following [Bootstrap's grid](http://getbootstrap.com/css/#grid) guidelines. The `styles` and `scripts` were appended to the `head` (in this case just one URL for each).
 
 ```html
 <!DOCTYPE html>
