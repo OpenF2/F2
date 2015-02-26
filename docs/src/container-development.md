@@ -422,9 +422,6 @@ F2.init({
 
 <span class="label label-info">Note</span> This Container Config option was added not because it is expected Container Developers will need or use it but rather to prevent unnecessary scripting in the [script override config option](#override-the-request-for-app-dependencies).
 
-<<<<<<< HEAD
-#### Supported Views
-=======
 ### Handling Script Errors
 
 In the event any scripts defined in an `AppManifest` fail to load&mdash;such as HTTP 404 or simply timeout after the [configurable](./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout) 7 seconds&mdash;F2 Events are triggered. The two events are: `RESOURCE_FAILED_TO_LOAD` and the `APP_SCRIPT_LOAD_FAILED` [AppHandler](./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED). Both events are passed the `appId` and `src` of the failed script. 
@@ -448,7 +445,6 @@ F2.Events.on('APP_SCRIPTS_LOADED', function(data){
 ```
 
 ### Supported Views
->>>>>>> 63cc6e616a16b383cbe07dc4564cfc4824543f8d
 
 F2 Container Developers should define which [app views](app-development.html#f2.ui.views) their container supports. This is set in the `supportedViews` property of the `ContainerConfig` using [`F2.Constants.Views`](./sdk/classes/F2.Constants.Views.html).
 
@@ -486,12 +482,12 @@ An example `AppConfig` object from an _individual_ app:
 
 ```javascript
 {
-	appId: "com_companyName_appName",
-	manifestUrl: "http://www.domain.com/manifest.js",
-	name: "App name",
-	context: {
-	    data: [1,2,3,4,5]
-	}
+    appId: "com_companyName_appName",
+    manifestUrl: "http://www.domain.com/manifest.js",
+    name: "App name",
+    context: {
+        data: [1,2,3,4,5]
+    }
 }
 ```
 
@@ -499,35 +495,33 @@ An example array of `AppConfig` objects for a collection of apps:
 
 ```javascript
 [
-	{
-	    appId: "com_companyName_appName",
-	    manifestUrl: "http://www.domain.com/manifest.js",
-	    name: "App name",
-	    context: {
-	        data: [1,2,3,4,5]
-	    }
+    {
+        appId: "com_companyName_appName",
+        manifestUrl: "http://www.domain.com/manifest.js",
+        name: "App name",
+        context: {
+            data: [1,2,3,4,5]
+        }
     },
-	{
-	    appId: "com_companyName_appName2",
-	    manifestUrl: "http://www.domain.com/manifest2.js",
-	    name: "App2 name",
-	    context: {
-	        name: 'value'
-	    }
+    {
+        appId: "com_companyName_appName2",
+        manifestUrl: "http://www.domain.com/manifest2.js",
+        name: "App2 name",
+        context: {
+            name: 'value'
+        }
     },
-	{
-	    appId: "com_companyName_appName3",
-	    manifestUrl: "http://www.domain.com/manifest3.js",
-	    name: "App3 name",
-	    context: {
-	        status: 'ok'
-	    }
+    {
+        appId: "com_companyName_appName3",
+        manifestUrl: "http://www.domain.com/manifest3.js",
+        name: "App3 name",
+        context: {
+            status: 'ok'
+        }
     },
 ];
 ```
 
-<<<<<<< HEAD
-=======
 ### Page Load Life Cycle 
 
 When the Container (or, more simply, the web page) loads F2 apps via `F2.registerApps`, a series of `F2.AppHandler` events are fired. Their order of execution is detailed [in the SDK docs](./sdk/classes/F2.AppHandlers.html). An important part of this order of execution&mdash;inside step #4 under 'App Rendering'&mdash;is how each app's dependencies are loaded and added to the page. As detailed in [the `AppManifest` docs](app-development.html#app-manifest), the `scripts` and `styles` arrays can include any dependencies which add style or functionality to an app.
@@ -542,13 +536,12 @@ During the F2 app load life cycle, the following events happen in order:
 6. Finally, the [internal `_loadApps` function](https://github.com/OpenF2/F2/blob/master/sdk/src/container.js#L211) is called which:
   1. Iterates over each URL in the `styles` array, creates a new `<link rel="stylesheet">` tag and inserts it into the `<head>`.
   2. Iterates over each app in the `apps` array, stores off any `data` to pass to the `appclass` later, and inserts any HTML into the app's root.
-  3. Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<head>`. The scripts are _requested and added in serial_ to ensure they execute in order.
+  3. Iterates over each URL in the `scripts` array, creates a new `<script>` tag and attaches it to the `<body>`. The scripts are _requested and added in serial_ to ensure they execute in order.
   4. Iterates over each string in the `inlineScripts` array, and evaluates the script&mdash;only when all of the scripts in the previous step have been loaded.
   5. When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
 
 <span class="label label-danger">Important</span> Since version 1.4.0, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
 
->>>>>>> 63cc6e616a16b383cbe07dc4564cfc4824543f8d
 ### Requesting Apps On-Demand
 
 Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. For the purposes of this example, we will use an example news app from [OpenF2.org](http://www.openf2.org/Examples). 
@@ -590,7 +583,7 @@ Open your browser developer tools to see the single HTTP request to `http://www.
     The <code>params</code> querystring value for both batch-requested and non-batch-requested apps is a <a href="#container-to-app-context-server">serialized collection of AppConfigs</a>. In a scenario when many apps are batch-requested it would be possible to quickly reach the maximum HTTP GET character limit. In <a href="http://www.boutell.com/newfaq/misc/urllength.html">IE that limit is 2048 characters</a>, it is longer in more modern browsers. To work around this issue, F2 recommends either configuring <a href="#override-the-appmanifest-request">HTTP POST</a> if the container and apps are on the same domain or by <a href="http://enable-cors.org/">implementing CORS</a>.
 </div>
 
-<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) at the top of App Integration.
+<span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) at the top of [App Integration](#app-integration).
 
 ### Registering Pre-Loaded Apps
 
@@ -649,7 +642,7 @@ Next, make a server-side request to the news app's `AppManifest`&mdash;the URL i
 
 #### 3. Add App to Container
 
-You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .col-md-12` following [Bootstrap's grid](http://getbootstrap.com/css/#grid) guidelines. The `styles` and `scripts` were appended to the `head` (in this case just one URL for each).
+You're almost there. Next, embed the news app's `html`, `scripts` and `styles`. The F2 app is inserted into `.row > .col-md-12` following [Bootstrap's scaffolding](http://getbootstrap.com/css/#grid) guidelines. The `styles` were appended to the `head` and the `scripts` were appended to the `body` (in this case just one URL for each).
 
 ```html
 <!DOCTYPE html>
@@ -868,7 +861,7 @@ Here is a slightly more complicated example of the `appRender` event coupled wit
 
 #### More AppHandlers
 
-There are numerous examples shown on the Properties tab of [`F2.Constants.AppHandlers`](./sdk/classes/F2.Constants.AppHandlers.html). These demonstrate more advanced use of `F2.AppHandlers` and aim to provide Container Developers demonstrable low-level control over the life-cycle of app rendering.
+There are numerous examples shown on the Properties tab of [`F2.Constants.AppHandlers`](./sdk/classes/F2.Constants.AppHandlers.html). These demonstrate more advanced use of `F2.AppHandlers` and aim to provide Container Developers demonstrable low-level control over the [life cycle of app rendering](#page-load-life-cycle).
 
 * * * *
 
