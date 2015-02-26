@@ -16,7 +16,7 @@ F2Docs.prototype.initialize = function() {
 	//scroll spy
 	$('body').scrollspy({
 		// offset: 100,
-		target: '.spy-container'
+		target: '#toc .spy-container'
 	});
 	
 	//affix left nav
@@ -40,8 +40,6 @@ F2Docs.prototype.initialize = function() {
 		}
 	});
 
-	//add version to header
-
 }
 
 /**
@@ -62,6 +60,8 @@ F2Docs.prototype.generateToc = function(){
 
 		var $item = $(item),
 			sectionTitle = $item.text(),
+			//trim "#" from title
+			sectionTitle = sectionTitle.replace('#',''),
 			sectionId = $item.prop("id"),
 			isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "",
 			$li,
@@ -75,13 +75,15 @@ F2Docs.prototype.generateToc = function(){
 		//nav (level2)
 		$li = $("<li><a class='nav-toggle' href='#"+sectionId+"'"+isActive+">"+sectionTitle+"</a></li>");
 
-		// //sub nav (level3)
+		//sub nav (level3)
 		if ($level3Sections.length){
 			var $childUl = $('<ul class="nav nav-stacked" style="display:none;"/>');
 			$level3Sections.each(function(jdx,ele){
 				var $ele = $(ele);
 				sectionId = $ele.prop("id");
 				sectionTitle = $ele.text();
+				//trim "#" from title
+				sectionTitle = sectionTitle.replace('#','');
 				isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "";
 				$childUl.append( $("<li><a href='#"+sectionId+"'"+isActive+">"+sectionTitle+"</a></li>") );
 			});
@@ -92,7 +94,7 @@ F2Docs.prototype.generateToc = function(){
 	},this));
 
 	//watch to activate "active" nav item
-	$('li','ul.sidebar-toc').on('activate.bs.scrollspy', function(){
+	$('li','#toc ul.sidebar-toc').on('activate.bs.scrollspy', function(){
 		var $li = $(this), 
 			$toggle = $li.find('a.nav-toggle');
 		if ($li.hasClass('active') && $toggle.length){

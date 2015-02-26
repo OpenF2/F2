@@ -50,12 +50,19 @@ srcFiles.forEach(function(filename) {
       escapedText += '-' + _.indexOf(headings, escapedText);
     }
 
+    //clean up URL slightly if hash looks like this: "#which-apps-support-a-locale-"
+    //by removing trailing hypen
+    var hasHyphenLast = escapedText.substr(escapedText.length - 1) === '-';
+    if (hasHyphenLast){
+      escapedText = escapedText.substr(0, escapedText.length-1);
+    }
+
     html = (level > 1) ?
         '<h' + level + ' class="link-header" id="' + escapedText + '">' + 
-          '<a class="anchor" href="#' + escapedText + '">' +
-            '<span class="fa fa-link"></span>' +
-          '</a>' +
           text + 
+          '<a class="anchor" href="#' + escapedText + '">' +
+            '<span>#</span>' + 
+          '</a>' +
         '</h' + level + '>'
         : '';
 
