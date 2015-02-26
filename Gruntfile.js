@@ -268,6 +268,7 @@ module.exports = function(grunt) {
 			docs: {
 				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js','!docs/src/template/head.html','!docs/src/template/nav.html','!docs/src/template/footer.html'],
 				tasks: ['docs'],
+				// tasks: ['generate-docs'],
 				options: {
 					spawn: false,
 				}
