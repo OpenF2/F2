@@ -14269,7 +14269,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 02-26-2015
+ * F2 v1.4.0 02-27-2015
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -17259,13 +17259,13 @@ F2.extend('', (function() {
 		}
 
 		var _findExistingScripts = function() {
-			return $('script[src]').map(function(i, tag) {
+			return jQuery('script[src]').map(function(i, tag) {
 				return tag.src;
 			});
 		};
 
 		var _findExistingStyles = function() {
-			return $('link[href]').map(function(i, tag) {
+			return jQuery('link[href]').map(function(i, tag) {
 				return tag.href;
 			});
 		};

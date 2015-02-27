@@ -327,13 +327,13 @@ F2.extend('', (function() {
 		}
 
 		var _findExistingScripts = function() {
-			return $('script[src]').map(function(i, tag) {
+			return jQuery('script[src]').map(function(i, tag) {
 				return tag.src;
 			});
 		};
 
 		var _findExistingStyles = function() {
-			return $('link[href]').map(function(i, tag) {
+			return jQuery('link[href]').map(function(i, tag) {
 				return tag.href;
 			});
 		};
