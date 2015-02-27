@@ -156,13 +156,15 @@ To see a more detailed example of `F2.init()`, [look at the sample container jav
 
 ### Debug Mode
 
-To enable debug mode in a container, use the following [property](./sdk/classes/F2.ContainerConfig.html) in `F2.init()`. Setting `debugMode: true` adds additional logging, resource cache busting, etc. For obvious reasons, this property should only be used in a development environment.
+To enable debug mode in a container, use the following [property](./sdk/classes/F2.ContainerConfig.html) in `F2.init()`. Setting `debugMode: true` adds additional logging, resource cache busting, etc.
 
 ```javascript
 F2.init({
    debugMode: true 
 });
 ```
+
+<span class="label label-warning">Note</span> For obvious reasons, this property should only be used in a development environment.
 
 ### AppRender, BeforeAppRender, AfterAppRender
 
@@ -541,6 +543,51 @@ During the F2 app load life cycle, the following events happen in order:
   5. When this process is complete and _all dependencies have been loaded_, a new app instance is created and [the `appclass` is initialized](app-development.html#app-class).
 
 <span class="label label-danger">Important</span> Since version 1.4.0, regardless of how many times a particular app is loaded, each of its `scripts` and `styles` dependencies is requested and inserted into the page **only once**.
+
+### Auto-Loading Apps
+
+Since version 1.4.0, App Placeholders provide a way to greatly simplify F2 App integration. This newer declarative style allows Container Developers to add F2.js and minimal HTML (with data attributes) to a web page, F2 will then automatically find and register the App associated to the HTML. 
+
+By using one of the available attributes (`f2-autoload`), F2 auto-registers this "Hello World" App and inserts it into this "placeholder" DOM element.
+
+```html
+<div id="f2-autoload" data-f2-appid="com_openf2_examples_nodejs_helloworld" data-f2-manifesturl="http://www.openf2.org/F2/apps"></div>
+```
+
+#### Supported Auto-Load Attributes
+
+The following HTML elements are automatically parsed by F2.js and will trigger auto-loading (provided requirements below are met):
+
+* CSS classname: `.f2-autoload`
+* Data attribute: `[data-f2-autoload]`
+* ID attribute: `#f2-autoload`
+
+#### Requirements
+
+Both an `appId` and `manifestUrl` are required for F2.js to successfully register an App. Use `data-f2-appid` and `data-f2-manifesturl` as shown in this example:
+
+```html
+<div id="f2-autoload" data-f2-appid="com_openf2_examples_nodejs_helloworld" data-f2-manifesturl="http://www.openf2.org/F2/apps"></div>
+```
+
+#### Other Options
+
+F2 Context can be provided for auto-loaded Apps. Use the `data-f2-context` data attribute and assign stringified JSON as the value.
+
+```html
+data-f2-context="{\"hello\":\"world\"}"
+```
+
+Implemented:
+
+```html
+<div id="f2-autoload" data-f2-appid="com_openf2_examples_nodejs_helloworld" data-f2-manifesturl="http://www.openf2.org/F2/apps" data-f2-context="{\"hello\":\"world\"}"></div>
+```
+
+[Batch requesting](#batch-requesting-apps) of Apps as well as [secure Apps](app-development.html#secure-apps) are supported in the auto-loading mode.
+
+* To enable an App as secure, use the `data-f2-issecure` data attribute.
+* To enable batch requests, use the `data-f2-enablebatchrequests` data attribute.
 
 ### Requesting Apps On-Demand
 
