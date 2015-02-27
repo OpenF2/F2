@@ -593,6 +593,10 @@ Implemented:
 * To enable an App as secure, use the `data-f2-issecure` data attribute.
 * To enable batch requests, use the `data-f2-enablebatchrequests` data attribute.
 
+<span class="label label-info">Note</span> More `AppConfig` properties could be added as data attributes for auto-loading in future versions. See [#187](https://github.com/OpenF2/F2/issues/187).
+
+<span class="label label-info">Note</span> The `ContainerConfig` cannot be customized when auto-loading apps. See [#186](https://github.com/OpenF2/F2/issues/186).
+
 ### Requesting Apps On-Demand
 
 Requesting apps on-demand when the container loads is the traditional way of integrating apps with F2. For the purposes of this example, we will use an example news app from [OpenF2.org](http://www.openf2.org/Examples). 
