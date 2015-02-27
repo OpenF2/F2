@@ -17,7 +17,7 @@ F2 is an open framework and to get Container and App Developers started, there i
 Anyone is free to download F2.js from the [F2 project repository on GitHub](https://github.com/OpenF2/F2/). Once downloaded, F2.js can be added to any web page using a script tag:
 
 ```javascript
-<script src="/path/to/your/container/f2.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/F2/{{version}}/f2.min.js"></script>
 ```
 
 The latest version of F2.js is **{{version}}**.
@@ -26,7 +26,7 @@ The latest version of F2.js is **{{version}}**.
 
 ### Packages
 
-Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or [sandboxed apps](http://docs.openf2.org/app-development.html#secure-apps) aren't needed. In circumstances where not all F2 features are required, Container Providers can use smaller, faster, lighter-weight versions of F2.js. Choose one below:
+Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or [sandboxed apps](app-development.html#secure-apps) aren't needed. In circumstances where not all F2 features are required, Container Providers can use smaller, faster, lighter-weight versions of F2.js. Choose one below:
 
 * **Basic**: 
 	* Includes: json2, EventEmitter, and F2
@@ -44,6 +44,8 @@ Packages are variants of F2.js. They are ideally used when, for example, a conta
     * Includes: json2, EventEmitter, easyXDM, and F2
     * Development: [f2.no-jquery-or-bootstrap.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.js) 
     * Production: [f2.no-jquery-or-bootstrap.min.js](https://github.com/OpenF2/F2/blob/master/sdk/packages/f2.no-jquery-or-bootstrap.min.js) (11.5kb)
+
+These are all available on [cdnjs](https://cdnjs.com/libraries/f2).
 
 For more information on the libraries used by F2, see [Third Party Libraries](#third-party-libraries) below.
 
@@ -71,9 +73,7 @@ It is our goal to make upgrading to the latest version of F2 a minor effort for 
 
 Developers can quick-link to the latest copy of F2.js:
 
-`https://raw.github.com/OpenF2/F2/master/F2.latest.js`
-
-<span class="label label-info">Note</span> GitHub is [not a CDN](http://stackoverflow.com/questions/5502540/should-github-be-used-as-a-cdn-for-javascript-libraries).
+`//cdnjs.cloudflare.com/ajax/libs/F2/{{version}}/f2.min.js`
 
 A download ([zip](https://github.com/OpenF2/F2/zipball/master)) of the current version ({{version}}) of F2 is always available along with [tags of previous releases](https://github.com/OpenF2/F2/releases).
 
