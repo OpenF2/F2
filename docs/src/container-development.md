@@ -12,7 +12,7 @@ To help you get started building an F2 container, review the documentation and e
 
 <p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
-### Basic Container
+### Basic Example
 
 To begin, you **do not** need to build (or compile) F2 [as described in the readme on GitHub](https://github.com/OpenF2/F2#build-f2). Simply download [F2.js](f2js-sdk.html) and [Bootstrap](http://getbootstrap.com), and ensure you're [properly configured](#configuration) for continuing with the documentation.
 
@@ -34,7 +34,7 @@ Setup a basic container HTML template (or add F2.js to an existing website):
 
 <span class="label label-info">Note</span> In developing a more advanced container, the HTML document's `body` element would contain additional markup and allow for [specific positioning or placement of apps](#apphandlers-for-app-layout). Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the [F2 design guidelines](#container-design).
 
-### Basic AppConfig
+#### AppConfig & Init
 
 ```javascript
 var _appConfig = {
@@ -50,7 +50,7 @@ $(function(){
 
 <span class="label label-info">Note</span> For more information about the `AppConfig`, [read up on them](#appconfigs) in App Integration.
 
-### Testing the Basics
+#### Working Example
 
 Now with a basic container and a basic app, combine these two for a working example. Press **Result** in this jsfiddle.
 
@@ -67,6 +67,10 @@ Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/mas
 These examples are also available in a separate archive if you don't want to download the entire repository. 
 
 <p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+
+### Integrating Apps
+
+Full details on [App Integration](#app-integration) approaches are below. For an even simpler App integration than this basic example above, see [auto-loading Apps](#auto-loading-apps).
 
 ### Configuration
 
