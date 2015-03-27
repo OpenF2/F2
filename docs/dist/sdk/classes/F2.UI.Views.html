@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -190,6 +201,7 @@
 
 <div class="classDescription">
     <p>Helper methods for creating and using Views</p>
+
 </div>
 
 <div class="well well-sm">
@@ -259,7 +271,8 @@
                                     
                                     
                                 </td>
-                                <td><p>Change the current view for the app or add an event listener</p></td>
+                                <td><p>Change the current view for the app or add an event listener</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -290,7 +303,8 @@
                                     
                                     
                                 </td>
-                                <td><p>Removes a view event listener</p></td>
+                                <td><p>Removes a view event listener</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -321,7 +335,8 @@
                                     
                                     
                                 </td>
-                                <td><p>Adds a view event listener</p></td>
+                                <td><p>Adds a view event listener</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -394,6 +409,7 @@
 
     <div class="description">
         <p>Change the current view for the app or add an event listener</p>
+
     </div>
 
     
@@ -415,6 +431,7 @@
                         <p>If a string is passed in, the view
 will be changed for the app. If a function is passed in, a change
 event listener will be added.</p>
+
                     </div>
 
                     
@@ -490,6 +507,7 @@ event listener will be added.</p>
 
     <div class="description">
         <p>Removes a view event listener</p>
+
     </div>
 
     
@@ -508,6 +526,7 @@ event listener will be added.</p>
 
                     <div class="param-description">
                         <p>The event name</p>
+
                     </div>
 
                     
@@ -523,6 +542,7 @@ event listener will be added.</p>
 
                     <div class="param-description">
                         <p>The function that will be removed</p>
+
                     </div>
 
                     
@@ -598,6 +618,7 @@ event listener will be added.</p>
 
     <div class="description">
         <p>Adds a view event listener</p>
+
     </div>
 
     
@@ -616,6 +637,7 @@ event listener will be added.</p>
 
                     <div class="param-description">
                         <p>The event name</p>
+
                     </div>
 
                     
@@ -632,6 +654,7 @@ event listener will be added.</p>
                     <div class="param-description">
                         <p>The function to be fired when the event is
 emitted</p>
+
                     </div>
 
                     

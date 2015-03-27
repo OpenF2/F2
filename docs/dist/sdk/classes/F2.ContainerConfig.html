@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -191,6 +202,7 @@
 <div class="classDescription">
     <p>An object containing configuration information for the
 <a href="../../container-development.html">container</a></p>
+
 </div>
 
 <div class="well well-sm">
@@ -271,9 +283,10 @@
                                     
                                 </td>
                                 <td><p>Allows the <a href="../../container-development.html">container</a> to override how
-an app's html is inserted into the page. The function should accept an
+an app&#39;s html is inserted into the page. The function should accept an
 <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
-html</p></td>
+html</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method deprecated">
@@ -312,7 +325,8 @@ in extra html. The function should accept an
 html. The extra html can provide links to edit app settings and remove an
 app from the container. See
 <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
-should be applied to elements.</p></td>
+should be applied to elements.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method deprecated">
@@ -342,7 +356,8 @@ should be applied to elements.</p></td>
                                 <td><p>Allows the container to render html for an app before the AppManifest for
 an app has loaded. This can be useful if the design calls for loading
 icons to appear for each app before each app is loaded and rendered to
-the page.</p></td>
+the page.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -392,7 +407,8 @@ the page.</p></td>
                                     
                                 </td>
                                 <td><p>Allows the container to fully override how the AppManifest request is
-made inside of F2.</p></td>
+made inside of F2.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -424,7 +440,8 @@ made inside of F2.</p></td>
                                     
                                 </td>
                                 <td><p>Allows the container to override the request data type (JSON or JSONP)
-that is used for the request</p></td>
+that is used for the request</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -456,7 +473,8 @@ that is used for the request</p></td>
                                     
                                 </td>
                                 <td><p>Allows the container to override the request method that is used (just
-like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p></td>
+like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -488,7 +506,8 @@ like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p></td>
                                     
                                 </td>
                                 <td><p>Allows the container to override the url that is used to request an
-app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></p></td>
+app&#39;s F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -514,7 +533,8 @@ app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManife
                                     
                                     
                                 </td>
-                                <td><p>True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.</p></td>
+                                <td><p>True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -524,7 +544,8 @@ app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManife
                                     
                                 </td>
                                 <td><p>Tells the container that it is currently running within
-a secure app page</p></td>
+a secure app page</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -534,7 +555,8 @@ a secure app page</p></td>
                                     
                                 </td>
                                 <td><p>Allows the container to override the script loader which requests
-dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p></td>
+dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -544,7 +566,8 @@ dependencies defined in the <a href="../classes/F2.AppManifest.html" class="cros
                                     
                                 </td>
                                 <td><p>Allows the container to override the stylesheet loader which requests
-dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p></td>
+dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -556,7 +579,8 @@ dependencies defined in the <a href="../classes/F2.AppManifest.html" class="cros
                                 <td><p>The default language and region specification for this container 
 represented as an IETF-defined standard language tag,
 e.g. <code>"en-us"</code> or <code>"de-de"</code>. This value is passed to each app
-registered as <code>containerLocale</code>.</p></td>
+registered as <code>containerLocale</code>.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -565,7 +589,8 @@ registered as <code>containerLocale</code>.</p></td>
                                     
                                     
                                 </td>
-                                <td><p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.</p></td>
+                                <td><p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn&#39;t fire.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -576,7 +601,8 @@ registered as <code>containerLocale</code>.</p></td>
                                 </td>
                                 <td><p>Allows the container to specify which page is used when
 loading a secure app. The page must reside on a different domain than the
-container</p></td>
+container</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -587,7 +613,8 @@ container</p></td>
                                 </td>
                                 <td><p>Specifies what views a container will provide buttons
 or links to. Generally, the views will be switched via buttons or links
-in the app's header.</p></td>
+in the app&#39;s header.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -597,7 +624,8 @@ in the app's header.</p></td>
                                     
                                 </td>
                                 <td><p>Allows the container to override individual parts of the AppManifest
-request.  See properties and methods with the <code>xhr.</code> prefix.</p></td>
+request.  See properties and methods with the <code>xhr.</code> prefix.</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -678,9 +706,10 @@ request.  See properties and methods with the <code>xhr.</code> prefix.</p></td>
 
     <div class="description">
         <p>Allows the <a href="../../container-development.html">container</a> to override how
-an app's html is inserted into the page. The function should accept an
+an app&#39;s html is inserted into the page. The function should accept an
 <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
 html</p>
+
     </div>
 
     
@@ -699,6 +728,7 @@ html</p>
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -714,6 +744,7 @@ html</p>
 
                     <div class="param-description">
                         <p>The string of html representing the app</p>
+
                     </div>
 
                     
@@ -732,7 +763,8 @@ html</p>
                     
                         <span class="label label-default type">Element</span>:
                     
-                    The DOM Element surrounding the app
+                    <p>The DOM Element surrounding the app</p>
+
                 
             </div>
         </div>
@@ -812,6 +844,7 @@ html. The extra html can provide links to edit app settings and remove an
 app from the container. See
 <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
 should be applied to elements.</p>
+
     </div>
 
     
@@ -830,6 +863,7 @@ should be applied to elements.</p>
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -845,6 +879,7 @@ should be applied to elements.</p>
 
                     <div class="param-description">
                         <p>The string of html representing the app</p>
+
                     </div>
 
                     
@@ -921,6 +956,7 @@ should be applied to elements.</p>
 an app has loaded. This can be useful if the design calls for loading
 icons to appear for each app before each app is loaded and rendered to
 the page.</p>
+
     </div>
 
     
@@ -939,6 +975,7 @@ the page.</p>
 
                     <div class="param-description">
                         <p>The F2.AppConfig object</p>
+
                     </div>
 
                     
@@ -957,7 +994,8 @@ the page.</p>
                     
                         <span class="label label-default type">Element</span>:
                     
-                    The DOM Element surrounding the app
+                    <p>The DOM Element surrounding the app</p>
+
                 
             </div>
         </div>
@@ -1046,6 +1084,7 @@ the page.</p>
     <div class="description">
         <p>Allows the container to fully override how the AppManifest request is
 made inside of F2.</p>
+
     </div>
 
     
@@ -1064,6 +1103,7 @@ made inside of F2.</p>
 
                     <div class="param-description">
                         <p>The manifest url</p>
+
                     </div>
 
                     
@@ -1080,6 +1120,7 @@ made inside of F2.</p>
                     <div class="param-description">
                         <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
+
                     </div>
 
                     
@@ -1096,6 +1137,7 @@ objects</p>
                     <div class="param-description">
                         <p>The function to be called if the request
 succeeds</p>
+
                     </div>
 
                     
@@ -1111,6 +1153,7 @@ succeeds</p>
 
                     <div class="param-description">
                         <p>The function to be called if the request fails</p>
+
                     </div>
 
                     
@@ -1127,6 +1170,7 @@ succeeds</p>
                     <div class="param-description">
                         <p>The function to be called when the request
 finishes (after success and error callbacks have been executed)</p>
+
                     </div>
 
                     
@@ -1145,9 +1189,10 @@ finishes (after success and error callbacks have been executed)</p>
                     
                         <span class="label label-default type">XMLHttpRequest</span>:
                     
-                    The XMLHttpRequest object (or an object that has
+                    <p>The XMLHttpRequest object (or an object that has
 an <code>abort</code> function (such as the jqXHR object in jQuery) to abort the
-request)
+request)</p>
+
                 
             </div>
         </div>
@@ -1162,13 +1207,13 @@ request)
     xhr: function(url, appConfigs, success, error, complete) {
         $.ajax({
             url: url,
-            type: 'POST',
+            type: &#39;POST&#39;,
             data: {
                 params: F2.stringify(appConfigs, F2.appConfigReplacer)
             },
-            jsonp: false, // do not put 'callback=' in the query string
+            jsonp: false, // do not put &#39;callback=&#39; in the query string
             jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
-            dataType: 'json',
+            dataType: &#39;json&#39;,
             success: function(appManifest) {
                 // custom success logic
                 success(appManifest); // fire success callback
@@ -1183,8 +1228,8 @@ request)
             }
         });
     }
-});
-</code></pre>
+});</code></pre>
+
             </div>
         </div>
     
@@ -1252,6 +1297,7 @@ request)
     <div class="description">
         <p>Allows the container to override the request data type (JSON or JSONP)
 that is used for the request</p>
+
     </div>
 
     
@@ -1270,6 +1316,7 @@ that is used for the request</p>
 
                     <div class="param-description">
                         <p>The manifest url</p>
+
                     </div>
 
                     
@@ -1286,6 +1333,7 @@ that is used for the request</p>
                     <div class="param-description">
                         <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
+
                     </div>
 
                     
@@ -1304,7 +1352,8 @@ objects</p>
                     
                         <span class="label label-default type">String</span>:
                     
-                    The request data type that should be used
+                    <p>The request data type that should be used</p>
+
                 
             </div>
         </div>
@@ -1318,14 +1367,14 @@ objects</p>
                 <pre class="code prettyprint"><code>F2.init({
     xhr: {
         dataType: function(url) {
-            return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+            return F2.isLocalRequest(url) ? &#39;json&#39; : &#39;jsonp&#39;;
         },
         type: function(url) {
-            return F2.isLocalRequest(url) ? 'POST' : 'GET';
+            return F2.isLocalRequest(url) ? &#39;POST&#39; : &#39;GET&#39;;
         }
     }
-});
-</code></pre>
+});</code></pre>
+
             </div>
         </div>
     
@@ -1393,6 +1442,7 @@ objects</p>
     <div class="description">
         <p>Allows the container to override the request method that is used (just
 like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
+
     </div>
 
     
@@ -1411,6 +1461,7 @@ like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
 
                     <div class="param-description">
                         <p>The manifest url</p>
+
                     </div>
 
                     
@@ -1427,6 +1478,7 @@ like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
                     <div class="param-description">
                         <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
+
                     </div>
 
                     
@@ -1445,7 +1497,8 @@ objects</p>
                     
                         <span class="label label-default type">String</span>:
                     
-                    The request method that should be used
+                    <p>The request method that should be used</p>
+
                 
             </div>
         </div>
@@ -1459,14 +1512,14 @@ objects</p>
                 <pre class="code prettyprint"><code>F2.init({
     xhr: {
         dataType: function(url) {
-            return F2.isLocalRequest(url) ? 'json' : 'jsonp';
+            return F2.isLocalRequest(url) ? &#39;json&#39; : &#39;jsonp&#39;;
         },
         type: function(url) {
-            return F2.isLocalRequest(url) ? 'POST' : 'GET';
+            return F2.isLocalRequest(url) ? &#39;POST&#39; : &#39;GET&#39;;
         }
     }
-});
-</code></pre>
+});</code></pre>
+
             </div>
         </div>
     
@@ -1533,7 +1586,8 @@ objects</p>
 
     <div class="description">
         <p>Allows the container to override the url that is used to request an
-app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></p>
+app&#39;s F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></p>
+
     </div>
 
     
@@ -1552,6 +1606,7 @@ app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManife
 
                     <div class="param-description">
                         <p>The manifest url</p>
+
                     </div>
 
                     
@@ -1568,6 +1623,7 @@ app's F2.<a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManife
                     <div class="param-description">
                         <p>An array of <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a>
 objects</p>
+
                     </div>
 
                     
@@ -1586,7 +1642,8 @@ objects</p>
                     
                         <span class="label label-default type">String</span>:
                     
-                    The url that should be used for the request
+                    <p>The url that should be used for the request</p>
+
                 
             </div>
         </div>
@@ -1600,11 +1657,11 @@ objects</p>
                 <pre class="code prettyprint"><code>F2.init({
     xhr: {
         url: function(url, appConfigs) {
-            return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);
+            return &#39;http://example.com/proxy.php?url=&#39; + encocdeURIComponent(url);
         }
     }
-});
-</code></pre>
+});</code></pre>
+
             </div>
         </div>
     
@@ -1657,6 +1714,7 @@ objects</p>
 
     <div class="description">
         <p>True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.</p>
+
     </div>
 
     
@@ -1708,6 +1766,7 @@ objects</p>
     <div class="description">
         <p>Tells the container that it is currently running within
 a secure app page</p>
+
     </div>
 
     
@@ -1757,6 +1816,7 @@ a secure app page</p>
     <div class="description">
         <p>Allows the container to override the script loader which requests
 dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+
     </div>
 
     
@@ -1771,8 +1831,8 @@ dependencies defined in the <a href="../classes/F2.AppManifest.html" class="cros
             //load scripts using $.load() for each script or require(scripts)
             callback();
         }
-});
-</code></pre>
+});</code></pre>
+
             </div>
         </div>
     
@@ -1820,6 +1880,7 @@ dependencies defined in the <a href="../classes/F2.AppManifest.html" class="cros
     <div class="description">
         <p>Allows the container to override the stylesheet loader which requests
 dependencies defined in the <a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a>.</p>
+
     </div>
 
     
@@ -1834,8 +1895,8 @@ dependencies defined in the <a href="../classes/F2.AppManifest.html" class="cros
             //load styles using $.load() for each stylesheet or another method
             callback();
         }
-});
-</code></pre>
+});</code></pre>
+
             </div>
         </div>
     
@@ -1887,6 +1948,7 @@ dependencies defined in the <a href="../classes/F2.AppManifest.html" class="cros
 represented as an IETF-defined standard language tag,
 e.g. <code>"en-us"</code> or <code>"de-de"</code>. This value is passed to each app
 registered as <code>containerLocale</code>.</p>
+
     </div>
 
     
@@ -1936,7 +1998,8 @@ registered as <code>containerLocale</code>.</p>
     </div>
 
     <div class="description">
-        <p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.</p>
+        <p>Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn&#39;t fire.</p>
+
     </div>
 
     
@@ -1989,6 +2052,7 @@ registered as <code>containerLocale</code>.</p>
         <p>Allows the container to specify which page is used when
 loading a secure app. The page must reside on a different domain than the
 container</p>
+
     </div>
 
     
@@ -2038,7 +2102,8 @@ container</p>
     <div class="description">
         <p>Specifies what views a container will provide buttons
 or links to. Generally, the views will be switched via buttons or links
-in the app's header.</p>
+in the app&#39;s header.</p>
+
     </div>
 
     
@@ -2088,6 +2153,7 @@ in the app's header.</p>
     <div class="description">
         <p>Allows the container to override individual parts of the AppManifest
 request.  See properties and methods with the <code>xhr.</code> prefix.</p>
+
     </div>
 
     
@@ -2100,11 +2166,11 @@ request.  See properties and methods with the <code>xhr.</code> prefix.</p>
                 <pre class="code prettyprint"><code>F2.init({
     xhr: {
         url: function(url, appConfigs) {
-            return 'http://example.com/proxy.php?url=' + encocdeURIComponent(url);
+            return &#39;http://example.com/proxy.php?url=&#39; + encocdeURIComponent(url);
         }
     }
-});
-</code></pre>
+});</code></pre>
+
             </div>
         </div>
     

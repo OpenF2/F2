@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -190,6 +201,7 @@
 
 <div class="classDescription">
     <p>Constants for use with cross-domain sockets</p>
+
 </div>
 
 <div class="well well-sm">
@@ -247,7 +259,8 @@
                                     
                                 </td>
                                 <td><p>The EVENT message is sent whenever
-F2.Events.<a href="../classes/F2.Events.html#method_emit" class="crosslink">emit</a> is fired</p></td>
+F2.Events.<a href="../classes/F2.Events.html#method_emit" class="crosslink">emit</a> is fired</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -260,9 +273,8 @@ F2.Events.<a href="../classes/F2.Events.html#method_emit" class="crosslink">emit
                                 </td>
                                 <td><p>The LOAD message is sent when an iframe socket initially loads.
 Returns a JSON string that represents:</p>
-
-<pre><code>[ App, AppManifest]
-</code></pre></td>
+<pre><code>[ App, AppManifest]</code></pre>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -274,7 +286,8 @@ Returns a JSON string that represents:</p>
                                     
                                 </td>
                                 <td><p>The RPC message is sent when a method is passed up from within a secure
-app page.</p></td>
+app page.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -286,7 +299,8 @@ app page.</p></td>
                                     
                                 </td>
                                 <td><p>The RPC_CALLBACK message is sent when a call back from an RPC method is
-fired.</p></td>
+fired.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -297,7 +311,8 @@ fired.</p></td>
                                     
                                     
                                 </td>
-                                <td><p>The UI_RPC message is sent when a UI method called.</p></td>
+                                <td><p>The UI_RPC message is sent when a UI method called.</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -359,6 +374,7 @@ fired.</p></td>
     <div class="description">
         <p>The EVENT message is sent whenever
 F2.Events.<a href="../classes/F2.Events.html#method_emit" class="crosslink">emit</a> is fired</p>
+
     </div>
 
     
@@ -412,9 +428,8 @@ F2.Events.<a href="../classes/F2.Events.html#method_emit" class="crosslink">emit
     <div class="description">
         <p>The LOAD message is sent when an iframe socket initially loads.
 Returns a JSON string that represents:</p>
+<pre class="code prettyprint"><code>[ App, AppManifest]</code></pre>
 
-<pre class="code prettyprint"><code>[ App, AppManifest]
-</code></pre>
     </div>
 
     
@@ -468,6 +483,7 @@ Returns a JSON string that represents:</p>
     <div class="description">
         <p>The RPC message is sent when a method is passed up from within a secure
 app page.</p>
+
     </div>
 
     
@@ -521,6 +537,7 @@ app page.</p>
     <div class="description">
         <p>The RPC_CALLBACK message is sent when a call back from an RPC method is
 fired.</p>
+
     </div>
 
     
@@ -573,6 +590,7 @@ fired.</p>
 
     <div class="description">
         <p>The UI_RPC message is sent when a UI method called.</p>
+
     </div>
 
     

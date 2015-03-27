@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -190,6 +201,7 @@
 
 <div class="classDescription">
     <p>The assets needed to render an app on the page</p>
+
 </div>
 
 <div class="well well-sm">
@@ -245,7 +257,8 @@
                                     
                                 </td>
                                 <td><p>The array of <a href="../classes/F2.AppManifest.AppContent.html" class="crosslink">F2.AppManifest.AppContent</a>
-objects</p></td>
+objects</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -254,7 +267,8 @@ objects</p></td>
                                     
                                     
                                 </td>
-                                <td><p>Any inline javascript tha should initially be run</p></td>
+                                <td><p>Any inline javascript tha should initially be run</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -263,7 +277,8 @@ objects</p></td>
                                     
                                     
                                 </td>
-                                <td><p>Urls to javascript files required by the app</p></td>
+                                <td><p>Urls to javascript files required by the app</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -272,7 +287,8 @@ objects</p></td>
                                     
                                     
                                 </td>
-                                <td><p>Urls to CSS files required by the app</p></td>
+                                <td><p>Urls to CSS files required by the app</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -330,6 +346,7 @@ objects</p></td>
     <div class="description">
         <p>The array of <a href="../classes/F2.AppManifest.AppContent.html" class="crosslink">F2.AppManifest.AppContent</a>
 objects</p>
+
     </div>
 
     
@@ -378,6 +395,7 @@ objects</p>
 
     <div class="description">
         <p>Any inline javascript tha should initially be run</p>
+
     </div>
 
     
@@ -426,6 +444,7 @@ objects</p>
 
     <div class="description">
         <p>Urls to javascript files required by the app</p>
+
     </div>
 
     
@@ -474,6 +493,7 @@ objects</p>
 
     <div class="description">
         <p>Urls to CSS files required by the app</p>
+
     </div>
 
     

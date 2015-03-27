@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -192,6 +203,7 @@
     <p>An object containing configuration defaults for the 
 F2.UI.<a href="../classes/F2.UI.html#method_showMask" class="crosslink">showMask</a> and
 F2.UI.<a href="../classes/F2.UI.html#method_hideMask" class="crosslink">hideMask</a> methods.</p>
+
 </div>
 
 <div class="well well-sm">
@@ -246,7 +258,8 @@ F2.UI.<a href="../classes/F2.UI.html#method_hideMask" class="crosslink">hideMask
                                     
                                     
                                 </td>
-                                <td><p>The backround color of the overlay</p></td>
+                                <td><p>The backround color of the overlay</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -255,7 +268,8 @@ F2.UI.<a href="../classes/F2.UI.html#method_hideMask" class="crosslink">hideMask
                                     
                                     
                                 </td>
-                                <td><p>The path to the loading icon</p></td>
+                                <td><p>The path to the loading icon</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -264,7 +278,8 @@ F2.UI.<a href="../classes/F2.UI.html#method_hideMask" class="crosslink">hideMask
                                     
                                     
                                 </td>
-                                <td><p>The opacity of the background overlay</p></td>
+                                <td><p>The opacity of the background overlay</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -275,7 +290,8 @@ F2.UI.<a href="../classes/F2.UI.html#method_hideMask" class="crosslink">hideMask
                                 </td>
                                 <td><p>Do not use inline styles for mask functinality. Instead classes will
 be applied to the elements and it is up to the container provider to
-implement the class definitions.</p></td>
+implement the class definitions.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -284,7 +300,8 @@ implement the class definitions.</p></td>
                                     
                                     
                                 </td>
-                                <td><p>The z-index to use for the overlay</p></td>
+                                <td><p>The z-index to use for the overlay</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -341,6 +358,7 @@ implement the class definitions.</p></td>
 
     <div class="description">
         <p>The backround color of the overlay</p>
+
     </div>
 
     
@@ -391,6 +409,7 @@ implement the class definitions.</p></td>
 
     <div class="description">
         <p>The path to the loading icon</p>
+
     </div>
 
     
@@ -439,6 +458,7 @@ implement the class definitions.</p></td>
 
     <div class="description">
         <p>The opacity of the background overlay</p>
+
     </div>
 
     
@@ -491,6 +511,7 @@ implement the class definitions.</p></td>
         <p>Do not use inline styles for mask functinality. Instead classes will
 be applied to the elements and it is up to the container provider to
 implement the class definitions.</p>
+
     </div>
 
     
@@ -541,6 +562,7 @@ implement the class definitions.</p>
 
     <div class="description">
         <p>The z-index to use for the overlay</p>
+
     </div>
 
     

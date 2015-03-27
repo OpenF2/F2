@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -190,6 +201,7 @@
 
 <div class="classDescription">
     <p>CSS class constants</p>
+
 </div>
 
 <div class="well well-sm">
@@ -249,7 +261,8 @@
                                 <td><p>The APP class should be applied to the DOM Element that surrounds the
 entire app, including any extra html that surrounds the APP_CONTAINER
 that is inserted by the container. See the 
-<a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> object.</p></td>
+<a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> object.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -261,7 +274,8 @@ that is inserted by the container. See the
                                     
                                 </td>
                                 <td><p>The APP_CONTAINER class should be applied to the outermost DOM Element
-of the app.</p></td>
+of the app.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -274,7 +288,8 @@ of the app.</p></td>
                                 </td>
                                 <td><p>The APP_TITLE class should be applied to the DOM Element that contains
 the title for an app.  If this class is not present, then
-F2.UI.<a href="../classes/F2.UI.html#method_setTitle" class="crosslink">setTitle</a> will not function.</p></td>
+F2.UI.<a href="../classes/F2.UI.html#method_setTitle" class="crosslink">setTitle</a> will not function.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -289,7 +304,8 @@ F2.UI.<a href="../classes/F2.UI.html#method_setTitle" class="crosslink">setTitle
 a view for an app. The DOM Element should also have a
 <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
 attribute that specifies which
-<a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it is.</p></td>
+<a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it is.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -306,7 +322,8 @@ trigger an
 event. The DOM Element should also have a
 <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
 attribute that specifies which
-<a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it will trigger.</p></td>
+<a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it will trigger.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -319,7 +336,8 @@ attribute that specifies which
                                 </td>
                                 <td><p>The MASK class is applied to the overlay element that is created
 when the F2.UI.<a href="../classes/F2.UI.html#method_showMask" class="crosslink">showMask</a> method is
-fired.</p></td>
+fired.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -331,7 +349,8 @@ fired.</p></td>
                                     
                                 </td>
                                 <td><p>The MASK_CONTAINER class is applied to the Element that is passed into
-the F2.UI.<a href="../classes/F2.UI.html#method_showMask" class="crosslink">showMask</a> method.</p></td>
+the F2.UI.<a href="../classes/F2.UI.html#method_showMask" class="crosslink">showMask</a> method.</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -395,6 +414,7 @@ the F2.UI.<a href="../classes/F2.UI.html#method_showMask" class="crosslink">show
 entire app, including any extra html that surrounds the APP_CONTAINER
 that is inserted by the container. See the 
 <a href="../classes/F2.ContainerConfig.html" class="crosslink">F2.ContainerConfig</a> object.</p>
+
     </div>
 
     
@@ -448,6 +468,7 @@ that is inserted by the container. See the
     <div class="description">
         <p>The APP_CONTAINER class should be applied to the outermost DOM Element
 of the app.</p>
+
     </div>
 
     
@@ -502,6 +523,7 @@ of the app.</p>
         <p>The APP_TITLE class should be applied to the DOM Element that contains
 the title for an app.  If this class is not present, then
 F2.UI.<a href="../classes/F2.UI.html#method_setTitle" class="crosslink">setTitle</a> will not function.</p>
+
     </div>
 
     
@@ -558,6 +580,7 @@ a view for an app. The DOM Element should also have a
 <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
 attribute that specifies which
 <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it is.</p>
+
     </div>
 
     
@@ -616,6 +639,7 @@ event. The DOM Element should also have a
 <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>.DATA_ATTRIBUTE
 attribute that specifies which
 <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a> it will trigger.</p>
+
     </div>
 
     
@@ -670,6 +694,7 @@ attribute that specifies which
         <p>The MASK class is applied to the overlay element that is created
 when the F2.UI.<a href="../classes/F2.UI.html#method_showMask" class="crosslink">showMask</a> method is
 fired.</p>
+
     </div>
 
     
@@ -723,6 +748,7 @@ fired.</p>
     <div class="description">
         <p>The MASK_CONTAINER class is applied to the Element that is passed into
 the F2.UI.<a href="../classes/F2.UI.html#method_showMask" class="crosslink">showMask</a> method.</p>
+
     </div>
 
     

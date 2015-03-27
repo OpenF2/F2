@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -190,6 +201,7 @@
 
 <div class="classDescription">
     <p>Helper methods for creating and using Modals</p>
+
 </div>
 
 <div class="well well-sm">
@@ -265,7 +277,8 @@
                                     
                                     
                                 </td>
-                                <td><p>Display an alert message on the page</p></td>
+                                <td><p>Display an alert message on the page</p>
+</td>
                             </tr>
                             
                             <tr class="index-item method">
@@ -302,7 +315,8 @@
                                     
                                     
                                 </td>
-                                <td><p>Display a confirm message on the page</p></td>
+                                <td><p>Display a confirm message on the page</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -381,6 +395,7 @@
 
     <div class="description">
         <p>Display an alert message on the page</p>
+
     </div>
 
     
@@ -399,6 +414,7 @@
 
                     <div class="param-description">
                         <p>The message to be displayed</p>
+
                     </div>
 
                     
@@ -416,6 +432,7 @@
                     <div class="param-description">
                         <p>The callback to be fired when the user
 closes the dialog</p>
+
                     </div>
 
                     
@@ -497,6 +514,7 @@ closes the dialog</p>
 
     <div class="description">
         <p>Display a confirm message on the page</p>
+
     </div>
 
     
@@ -515,6 +533,7 @@ closes the dialog</p>
 
                     <div class="param-description">
                         <p>The message to be displayed</p>
+
                     </div>
 
                     
@@ -531,6 +550,7 @@ closes the dialog</p>
                     <div class="param-description">
                         <p>The function that will be called when the OK
 button is pressed</p>
+
                     </div>
 
                     
@@ -547,6 +567,7 @@ button is pressed</p>
                     <div class="param-description">
                         <p>The function that will be called when
 the Cancel button is pressed</p>
+
                     </div>
 
                     

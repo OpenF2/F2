@@ -29,9 +29,6 @@
 <script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
-  body {
-    position: relative;/*for scrollspy*/
-  }
   .pageContent {
     margin-top: 20px;
   }
@@ -48,6 +45,20 @@
     overflow: hidden;
   }
 </style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
 <body class="yui3-skin-sam">
 <div role="navigation" class="navbar navbar-inverse navbar-static-top">
@@ -194,6 +205,7 @@ the <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Cs
 containing DOM Element. A DATA_ATTRIBUTE attribute should be added to the
 Element as well which defines what view type is represented.
 The <code>hide</code> class can be applied to views that should be hidden by default.</p>
+
 </div>
 
 <div class="well well-sm">
@@ -250,7 +262,8 @@ The <code>hide</code> class can be applied to views that should be hidden by def
                                     
                                     
                                 </td>
-                                <td><p>The ABOUT view gives details about the app.</p></td>
+                                <td><p>The ABOUT view gives details about the app.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -262,7 +275,8 @@ The <code>hide</code> class can be applied to views that should be hidden by def
                                     
                                 </td>
                                 <td><p>The DATA_ATTRIBUTE should be placed on the DOM Element that contains the
-view.</p></td>
+view.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -273,7 +287,8 @@ view.</p></td>
                                     
                                     
                                 </td>
-                                <td><p>The HELP view provides users with help information for using an app.</p></td>
+                                <td><p>The HELP view provides users with help information for using an app.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -285,7 +300,8 @@ view.</p></td>
                                     
                                 </td>
                                 <td><p>The HOME view is the main view for an app. This view should always
-be provided by an app.</p></td>
+be provided by an app.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -297,7 +313,8 @@ be provided by an app.</p></td>
                                     
                                 </td>
                                 <td><p>The REMOVE view is a special view that handles the removal of an app
-from the container.</p></td>
+from the container.</p>
+</td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -309,7 +326,8 @@ from the container.</p></td>
                                     
                                 </td>
                                 <td><p>The SETTINGS view provides users the ability to modify advanced settings
-for an app.</p></td>
+for an app.</p>
+</td>
                             </tr>
                             
                         </tbody>
@@ -370,6 +388,7 @@ for an app.</p></td>
 
     <div class="description">
         <p>The ABOUT view gives details about the app.</p>
+
     </div>
 
     
@@ -423,6 +442,7 @@ for an app.</p></td>
     <div class="description">
         <p>The DATA_ATTRIBUTE should be placed on the DOM Element that contains the
 view.</p>
+
     </div>
 
     
@@ -475,6 +495,7 @@ view.</p>
 
     <div class="description">
         <p>The HELP view provides users with help information for using an app.</p>
+
     </div>
 
     
@@ -528,6 +549,7 @@ view.</p>
     <div class="description">
         <p>The HOME view is the main view for an app. This view should always
 be provided by an app.</p>
+
     </div>
 
     
@@ -581,6 +603,7 @@ be provided by an app.</p>
     <div class="description">
         <p>The REMOVE view is a special view that handles the removal of an app
 from the container.</p>
+
     </div>
 
     
@@ -634,6 +657,7 @@ from the container.</p>
     <div class="description">
         <p>The SETTINGS view provides users the ability to modify advanced settings
 for an app.</p>
+
     </div>
 
     
