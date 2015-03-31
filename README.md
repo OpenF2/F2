@@ -6,7 +6,7 @@ The goal of F2 is to define a [development standard](http://docs.openf2.org) for
 
 F2 makes **integration** simple, standardized and modern. It's the next-generation of content integration created by [the team](http://www.markit.com/Product/Markit-On-Demand) who has the most experience developing integrated solutions in financial services.
 
- Visit [OpenF2.org](http://www.openf2.org) and follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
+Visit [OpenF2.org](http://www.openf2.org) and follow [@OpenF2](http://twitter.com/OpenF2) on Twitter.
 
 ## Demos
 
@@ -14,17 +14,15 @@ Visit [docs.openf2.org](http://docs.openf2.org/index.html#examples) for a list o
 
 ## Contributing
 
-
 F2 is currently maintained by [Markit On Demand](http://www.markit.com/Product/Markit-On-Demand) and governed by an [Advisory Board](http://www.openf2.org/#advisory-board) (shown below).
 
 ![image](http://www.openf2.org/img/advisory-board.png)
 
-Join our team and help contribute to F2 on GitHub. Begin by reading our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
+Join the team and help contribute to F2 on GitHub. Begin by reading our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
 
 **Thank you to the [growing list of contributors](https://github.com/OpenF2/F2/graphs/contributors)!**
 
 ## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.svg?branch=master)](https://travis-ci.org/OpenF2/F2)
-
 
 ### Get F2.js
 
