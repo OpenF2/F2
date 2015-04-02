@@ -349,7 +349,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/constants.js",
-            "line": 175,
+            "line": 194,
             "description": "Constants for use with cross-domain sockets",
             "access": "protected",
             "tagname": ""
@@ -365,7 +365,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk/src/constants.js",
-            "line": 230,
+            "line": 249,
             "description": "The available view types to apps. The view should be specified by applying\nthe {{#crossLink \"F2.Constants.Css\"}}{{/crossLink}}.APP\\_VIEW class to the\ncontaining DOM Element. A DATA\\_ATTRIBUTE attribute should be added to the\nElement as well which defines what view type is represented.\nThe `hide` class can be applied to views that should be hidden by default."
         },
         "F2.Events": {
@@ -1699,6 +1699,18 @@
         {
             "file": "sdk/src/constants.js",
             "line": 106,
+            "description": "The APP_SCRIPTS_LOADED event is fired when all the scripts defined in\nthe AppManifest have been loaded.",
+            "itemtype": "property",
+            "name": "APP_SCRIPTS_LOADED",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/constants.js",
+            "line": 115,
             "description": "The APP\\_SYMBOL\\_CHANGE event is fired when the symbol is changed in an\napp. It is up to the app developer to fire this event.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "APP_SYMBOL_CHANGE",
@@ -1710,7 +1722,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 119,
+            "line": 128,
             "description": "The APP\\_WIDTH\\_CHANGE event will be fired by the container when the\nwidth of an app is changed. The app's instanceId should be concatenated\nto this constant.\nReturns an object with the gridSize and width in pixels:\n\n    { gridSize:8, width:620 }",
             "itemtype": "property",
             "name": "APP_WIDTH_CHANGE",
@@ -1722,7 +1734,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 133,
+            "line": 142,
             "description": "The CONTAINER\\_SYMBOL\\_CHANGE event is fired when the symbol is changed\nat the container level. This event should only be fired by the\ncontainer or container provider.\nReturns an object with the symbol and company name:\n\n    { symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }",
             "itemtype": "property",
             "name": "CONTAINER_SYMBOL_CHANGE",
@@ -1734,7 +1746,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 147,
+            "line": 156,
             "description": "The CONTAINER\\_WIDTH\\_CHANGE event will be fired by the container when\nthe width of the container has changed.",
             "itemtype": "property",
             "name": "CONTAINER_WIDTH_CHANGE",
@@ -1746,7 +1758,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 156,
+            "line": 165,
             "description": "The CONTAINER\\_LOCALE\\_CHANGE event will be fired by the container when\nthe locale of the container has changed. This event should only be fired by the\ncontainer or container provider.\nReturns an object with the updated locale (IETF-defined standard language tag):\n\n    { locale: 'en-us' }",
             "itemtype": "property",
             "name": "CONTAINER_LOCALE_CHANGE",
@@ -1758,7 +1770,21 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 181,
+            "line": 179,
+            "description": "The RESOURCE_FAILED_TO_LOAD event will be fired by the container when\nit fails to load a script or style.",
+            "itemtype": "property",
+            "name": "RESOURCE_FAILED_TO_LOAD",
+            "deprecated": true,
+            "deprecationMessage": "since 1.4",
+            "type": "string",
+            "static": 1,
+            "final": 1,
+            "class": "F2.Constants.Events",
+            "module": "f2"
+        },
+        {
+            "file": "sdk/src/constants.js",
+            "line": 200,
             "description": "The EVENT message is sent whenever\nF2.Events.{{#crossLink \"F2.Events/emit\"}}{{/crossLink}} is fired",
             "itemtype": "property",
             "name": "EVENT",
@@ -1770,7 +1796,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 190,
+            "line": 209,
             "description": "The LOAD message is sent when an iframe socket initially loads.\nReturns a JSON string that represents:\n\n    [ App, AppManifest]",
             "itemtype": "property",
             "name": "LOAD",
@@ -1782,7 +1808,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 202,
+            "line": 221,
             "description": "The RPC message is sent when a method is passed up from within a secure\napp page.",
             "itemtype": "property",
             "name": "RPC",
@@ -1794,7 +1820,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 211,
+            "line": 230,
             "description": "The RPC\\_CALLBACK message is sent when a call back from an RPC method is\nfired.",
             "itemtype": "property",
             "name": "RPC_CALLBACK",
@@ -1806,7 +1832,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 220,
+            "line": 239,
             "description": "The UI\\_RPC message is sent when a UI method called.",
             "itemtype": "property",
             "name": "UI_RPC",
@@ -1818,7 +1844,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 239,
+            "line": 258,
             "description": "The DATA_ATTRIBUTE should be placed on the DOM Element that contains the\nview.",
             "itemtype": "property",
             "name": "DATA_ATTRIBUTE",
@@ -1830,7 +1856,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 248,
+            "line": 267,
             "description": "The ABOUT view gives details about the app.",
             "itemtype": "property",
             "name": "ABOUT",
@@ -1842,7 +1868,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 256,
+            "line": 275,
             "description": "The HELP view provides users with help information for using an app.",
             "itemtype": "property",
             "name": "HELP",
@@ -1854,7 +1880,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 264,
+            "line": 283,
             "description": "The HOME view is the main view for an app. This view should always\nbe provided by an app.",
             "itemtype": "property",
             "name": "HOME",
@@ -1866,7 +1892,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 273,
+            "line": 292,
             "description": "The REMOVE view is a special view that handles the removal of an app\nfrom the container.",
             "itemtype": "property",
             "name": "REMOVE",
@@ -1878,7 +1904,7 @@
         },
         {
             "file": "sdk/src/constants.js",
-            "line": 282,
+            "line": 301,
             "description": "The SETTINGS view provides users the ability to modify advanced settings\nfor an app.",
             "itemtype": "property",
             "name": "SETTINGS",
@@ -2979,6 +3005,10 @@
         {
             "message": "replacing incorrect tag: params with param",
             "line": " sdk/src/app_handlers.js:313"
+        },
+        {
+            "message": "replacing incorrect tag: depreciated with deprecated",
+            "line": " sdk/src/constants.js:179"
         },
         {
             "message": "replacing incorrect tag: returns with return",

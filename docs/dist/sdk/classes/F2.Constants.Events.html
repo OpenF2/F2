@@ -201,7 +201,6 @@
 
 <div class="classDescription">
     <p>Events constants</p>
-
 </div>
 
 <div class="well well-sm">
@@ -252,6 +251,18 @@
                             
                             <tr class="index-item property">
                                 <td class="name">
+                                    <a href="#" data-tabid="#properties" data-anchor="#property_APP_SCRIPTS_LOADED" data-tablink="APP_SCRIPTS_LOADED">APP_SCRIPTS_LOADED</a>
+                                    
+                                        <span class="label label-default static">static</span>
+                                    
+                                    
+                                </td>
+                                <td><p>The APP<em>SCRIPTS</em>LOADED event is fired when all the scripts defined in
+the AppManifest have been loaded.</p></td>
+                            </tr>
+                            
+                            <tr class="index-item property">
+                                <td class="name">
                                     <a href="#" data-tabid="#properties" data-anchor="#property_APP_SYMBOL_CHANGE" data-tablink="APP_SYMBOL_CHANGE">APP_SYMBOL_CHANGE</a>
                                     
                                         <span class="label label-default static">static</span>
@@ -261,8 +272,9 @@
                                 <td><p>The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an
 app. It is up to the app developer to fire this event.
 Returns an object with the symbol and company name:</p>
-<pre><code>{ symbol: &#39;MSFT&#39;, name: &#39;Microsoft Corp (NASDAQ)&#39; }</code></pre>
-</td>
+
+<pre><code>{ symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
+</code></pre></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -274,11 +286,12 @@ Returns an object with the symbol and company name:</p>
                                     
                                 </td>
                                 <td><p>The APP_WIDTH_CHANGE event will be fired by the container when the
-width of an app is changed. The app&#39;s instanceId should be concatenated
+width of an app is changed. The app's instanceId should be concatenated
 to this constant.
 Returns an object with the gridSize and width in pixels:</p>
-<pre><code>{ gridSize:8, width:620 }</code></pre>
-</td>
+
+<pre><code>{ gridSize:8, width:620 }
+</code></pre></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -293,8 +306,9 @@ Returns an object with the gridSize and width in pixels:</p>
 the locale of the container has changed. This event should only be fired by the
 container or container provider.
 Returns an object with the updated locale (IETF-defined standard language tag):</p>
-<pre><code>{ locale: &#39;en-us&#39; }</code></pre>
-</td>
+
+<pre><code>{ locale: 'en-us' }
+</code></pre></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -309,8 +323,9 @@ Returns an object with the updated locale (IETF-defined standard language tag):<
 at the container level. This event should only be fired by the
 container or container provider.
 Returns an object with the symbol and company name:</p>
-<pre><code>{ symbol: &#39;MSFT&#39;, name: &#39;Microsoft Corp (NASDAQ)&#39; }</code></pre>
-</td>
+
+<pre><code>{ symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
+</code></pre></td>
                             </tr>
                             
                             <tr class="index-item property">
@@ -322,8 +337,21 @@ Returns an object with the symbol and company name:</p>
                                     
                                 </td>
                                 <td><p>The CONTAINER_WIDTH_CHANGE event will be fired by the container when
-the width of the container has changed.</p>
-</td>
+the width of the container has changed.</p></td>
+                            </tr>
+                            
+                            <tr class="index-item property deprecated">
+                                <td class="name">
+                                    <a href="#" data-tabid="#properties" data-anchor="#property_RESOURCE_FAILED_TO_LOAD" data-tablink="RESOURCE_FAILED_TO_LOAD">RESOURCE_FAILED_TO_LOAD</a>
+                                    
+                                        <span class="label label-default static">static</span>
+                                    
+                                    
+                                        <span class="label label-warning deprecated">deprecated</span>
+                                    
+                                </td>
+                                <td><p>The RESOURCE<em>FAILED</em>TO_LOAD event will be fired by the container when
+it fails to load a script or style.</p></td>
                             </tr>
                             
                         </tbody>
@@ -343,9 +371,9 @@ the width of the container has changed.</p>
                 <h2 class="off-left">Properties</h2>
 
                 
-                    <div id="property_APP_SYMBOL_CHANGE" class="property item">
+                    <div id="property_APP_SCRIPTS_LOADED" class="property item">
     <h3>
-        APP_SYMBOL_CHANGE
+        APP_SCRIPTS_LOADED
 
         <span class="label type">String</span>
 
@@ -383,11 +411,65 @@ the width of the container has changed.</p>
     </div>
 
     <div class="description">
+        <p>The APP<em>SCRIPTS</em>LOADED event is fired when all the scripts defined in
+the AppManifest have been loaded.</p>
+    </div>
+
+    
+
+    
+
+    
+    <hr>
+</div>
+
+                
+                    <div id="property_APP_SYMBOL_CHANGE" class="property item">
+    <h3>
+        APP_SYMBOL_CHANGE
+
+        <span class="label type">String</span>
+
+        
+
+        
+
+        
+            <span class="label label-default final">final</span>
+        
+
+        
+            <span class="label label-default static">static</span>
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_constants.js.html#l115"><code>sdk&#x2F;src&#x2F;constants.js:115</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
         <p>The APP_SYMBOL_CHANGE event is fired when the symbol is changed in an
 app. It is up to the app developer to fire this event.
 Returns an object with the symbol and company name:</p>
-<pre class="code prettyprint"><code>{ symbol: &#39;MSFT&#39;, name: &#39;Microsoft Corp (NASDAQ)&#39; }</code></pre>
 
+<pre class="code prettyprint"><code>{ symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
+</code></pre>
     </div>
 
     
@@ -429,7 +511,7 @@ Returns an object with the symbol and company name:</p>
             
         
         
-        <a href="../files/sdk_src_constants.js.html#l119"><code>sdk&#x2F;src&#x2F;constants.js:119</code></a>
+        <a href="../files/sdk_src_constants.js.html#l128"><code>sdk&#x2F;src&#x2F;constants.js:128</code></a>
         
         </p>
 
@@ -440,11 +522,12 @@ Returns an object with the symbol and company name:</p>
 
     <div class="description">
         <p>The APP_WIDTH_CHANGE event will be fired by the container when the
-width of an app is changed. The app&#39;s instanceId should be concatenated
+width of an app is changed. The app's instanceId should be concatenated
 to this constant.
 Returns an object with the gridSize and width in pixels:</p>
-<pre class="code prettyprint"><code>{ gridSize:8, width:620 }</code></pre>
 
+<pre class="code prettyprint"><code>{ gridSize:8, width:620 }
+</code></pre>
     </div>
 
     
@@ -486,7 +569,7 @@ Returns an object with the gridSize and width in pixels:</p>
             
         
         
-        <a href="../files/sdk_src_constants.js.html#l156"><code>sdk&#x2F;src&#x2F;constants.js:156</code></a>
+        <a href="../files/sdk_src_constants.js.html#l165"><code>sdk&#x2F;src&#x2F;constants.js:165</code></a>
         
         </p>
 
@@ -500,8 +583,9 @@ Returns an object with the gridSize and width in pixels:</p>
 the locale of the container has changed. This event should only be fired by the
 container or container provider.
 Returns an object with the updated locale (IETF-defined standard language tag):</p>
-<pre class="code prettyprint"><code>{ locale: &#39;en-us&#39; }</code></pre>
 
+<pre class="code prettyprint"><code>{ locale: 'en-us' }
+</code></pre>
     </div>
 
     
@@ -543,7 +627,7 @@ Returns an object with the updated locale (IETF-defined standard language tag):<
             
         
         
-        <a href="../files/sdk_src_constants.js.html#l133"><code>sdk&#x2F;src&#x2F;constants.js:133</code></a>
+        <a href="../files/sdk_src_constants.js.html#l142"><code>sdk&#x2F;src&#x2F;constants.js:142</code></a>
         
         </p>
 
@@ -557,8 +641,9 @@ Returns an object with the updated locale (IETF-defined standard language tag):<
 at the container level. This event should only be fired by the
 container or container provider.
 Returns an object with the symbol and company name:</p>
-<pre class="code prettyprint"><code>{ symbol: &#39;MSFT&#39;, name: &#39;Microsoft Corp (NASDAQ)&#39; }</code></pre>
 
+<pre class="code prettyprint"><code>{ symbol: 'MSFT', name: 'Microsoft Corp (NASDAQ)' }
+</code></pre>
     </div>
 
     
@@ -600,7 +685,7 @@ Returns an object with the symbol and company name:</p>
             
         
         
-        <a href="../files/sdk_src_constants.js.html#l147"><code>sdk&#x2F;src&#x2F;constants.js:147</code></a>
+        <a href="../files/sdk_src_constants.js.html#l156"><code>sdk&#x2F;src&#x2F;constants.js:156</code></a>
         
         </p>
 
@@ -612,7 +697,63 @@ Returns an object with the symbol and company name:</p>
     <div class="description">
         <p>The CONTAINER_WIDTH_CHANGE event will be fired by the container when
 the width of the container has changed.</p>
+    </div>
 
+    
+
+    
+
+    
+    <hr>
+</div>
+
+                
+                    <div id="property_RESOURCE_FAILED_TO_LOAD" class="property item deprecated">
+    <h3>
+        RESOURCE_FAILED_TO_LOAD
+
+        <span class="label type">String</span>
+
+        
+            <span class="label label-warning deprecated" title="since 1.4">deprecated</span>
+        
+
+        
+
+        
+            <span class="label label-default final">final</span>
+        
+
+        
+            <span class="label label-default static">static</span>
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_constants.js.html#l179"><code>sdk&#x2F;src&#x2F;constants.js:179</code></a>
+        
+        </p>
+
+        
+            <p><span class="label label-warning">Deprecated</span>: since 1.4</p>
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The RESOURCE<em>FAILED</em>TO_LOAD event will be fired by the container when
+it fails to load a script or style.</p>
     </div>
 
     

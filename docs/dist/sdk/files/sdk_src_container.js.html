@@ -616,8 +616,8 @@ F2.extend(&#x27;&#x27;, (function() {
 					// Send error to console
 					F2.log(&#x27;Script defined in \&#x27;&#x27; + evtData.appId + &#x27;\&#x27; failed to load \&#x27;&#x27; + evtData.src + &#x27;\&#x27;&#x27;);
 
-					// Emit events
-					F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, evtData);
+					// TODO: deprecate, see #222
+					F2.Events.emit(F2.Constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
 
 					if (!_bUsesAppHandlers) {
 						_appScriptLoadFailed(appConfigs[0], evtData.src);
@@ -1450,6 +1450,7 @@ F2.extend(&#x27;&#x27;, (function() {
 		}
 	};
 })());
+
     </code></pre>
 </div>
 
