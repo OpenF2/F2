@@ -1,229 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>F2 - sdk/src/container.js</title>
-	<meta name="dcterms.date" content="7 April 2014">
-	<meta name="description" content="F2: The Open Financial Framework. An open framework created for the financial services industry.">
-	<meta name="keywords" content="F2, Open F2, Open Financial Framework, Markit, Markit On Demand, MOD, web, web framework, apps, context, container, Hub">
-	<meta name="robots" content="all, index, follow" />
-	<meta name="distribution" content="global" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-	<meta name="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<link rel="home" href="http://www.openf2.org/" />
-
-	<script src="../../js/modernizr.2.6.2.custom.min.js"></script>
-	<script src="../../js/respond.min.js"></script>
-	
-	<link href="../../css/prettify.css" rel="stylesheet">
-	<link href="../../css/F2.Sdk.css?1.3.3" rel="stylesheet">
-
-	<link rel="icon" href="../../img/favicon-32px.png" type="image/png"/>
-	<link rel="apple-touch-icon" sizes="57x57" href="../../img/touch-icon-iphone-57.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="../../img/touch-icon-ipad-72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="../../img/touch-icon-iphone-114.png" />
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../img/touch-icon-ipad-144.png" />
-	<script type="text/javascript">
-		if ((/docs.openf2.org/i).test(window.location.hostname)) {
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-35230380-1']);
-			_gaq.push(['_setDomainName', 'openf2.org']);
-			_gaq.push(['_trackPageview']);
-
-			(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-		}
-	</script>
+<title>sdk/src/container.js - Open Financial Framework</title>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
+<meta name="viewport" content="width=device-width initial-scale=1.0"/>
+<link rel="stylesheet" href="//www.openf2.org/css/site.css"/>
+<link rel="stylesheet" href="../assets/css/custom.css">
+<link rel="stylesheet" href="../assets/css/prettify.css">
+<link rel="shortcut icon" href="//www.openf2.org/img/favicon.ico" type="image/x-icon"/>
+<meta name="apple-mobile-web-app-title" content="F2"/>
+<link rel="apple-touch-icon" href="//www.openf2.org/img/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-152x152.png"/>
+<meta name="msapplication-square70x70logo" content="//www.openf2.org/img/smalltile.png"/>
+<meta name="msapplication-square150x150logo" content="//www.openf2.org/img/mediumtile.png"/>
+<meta name="msapplication-wide310x150logo" content="//www.openf2.org/img/widetile.png"/>
+<meta name="msapplication-square310x310logo" content="//www.openf2.org/img/largetile.png"/><!--[if lt IE 9]>
+<script src="//www.openf2.org/js/thirdparty/polyfills/es5.js"></script><![endif]-->
+<!--[if lt IE 9]>
+<script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+  .pageContent {
+    margin-top: 20px;
+  }
+  #docs-main .page-header {
+  	margin-top: 0;
+  }
+  .docs #docs p:last-child {
+    margin-bottom: 25px;
+  }
+  #docs div.media:last-child {
+    margin-bottom: 100px;
+  }
+  .sidebar-toc {
+    overflow: hidden;
+  }
+</style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
 </head>
-<body>
+<body class="yui3-skin-sam">
+<div role="navigation" class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#f2navbarcollapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" title="Home" class="navbar-brand">F2</a>
+    </div>
+    <div id="f2navbarcollapse" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="//www.openf2.org/">About</a>
+        </li>
+        <li><a href="//www.openf2.org/examples">Examples</a>
+        </li>
+        <li><a href="//www.openf2.org/developers" class="active">Developers</a>
+        </li>
+        <li><a href="//blog.openf2.org">Blog</a>
+        </li>
+        <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
+          <li><a href="http://www.openf2.org/developers">Developers</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.0</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="../../index.html">Getting Started</a></li>
+              <li><a href="../../container-development.html">Container Development</a></li>
+              <li><a href="../../app-development.html">App Development</a></li>
+              <li><a href="../../extending-f2.html">Extend F2</a></li>
+              <li class="active"><a href="../">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+sdk/src/container.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">sdk/src/container.js</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="../">API Reference</a></li>
+              
+    <li class=""><a href="../classes/F2.html">F2</a></li>
 
-<div id="doc">
-	<header class="openf2Header navbarmini clearfix">
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse.main-nav">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-triangleDown"></span>
-					</button>
-					<a class="brand" href="http://www.openf2.org"></a>
-					<div class="tagline-divider"></div>
-					<div class="navbar-text pull-left">The Open Financial Framework</div>
-					<div class="collapse nav-collapse main-nav">
-						<ul class="nav pull-right">
-							<li><a href="http://www.openF2.org">Home</a></li>
-							<li class="divider-vertical"></li>
-							<li class="active">
-								<a href="../../">Docs <i class="icon-triangleDown"></i></a>
-								<ul class="nav navinset">
-									<li><a href="../../">The Basics</a></li>
-									<li><a href="../../app-development.html">Development</a></li>
-									<li><a href="./classes/F2.html" class="active">Reference</a></li>
-								</ul>
-							</li>
-							<li class="divider-vertical"></li>
-							<li><a href="http://www.openf2.org/Examples">Examples</a></li>
-							<li class="divider-vertical"></li>
-            				<li><a href="https://developer.openf2.org">Developer</a></li>
-							<li class="divider-vertical"></li>
-							<li><a href="http://blog.openf2.org" target="_blank">Blog</a></li>
-            				<li class="divider-vertical"></li>
-							<li class="ghWrap"><a class="gitHubLink" href="https://github.com/OpenF2/F2/"><strong>VIEW </strong><span class="onDecoration">ON</span><strong> GITHUB</strong><span class="F2VersionIndicator">v 1.3.3</span></a></li>
-							<li class="ghWrapResp"><a href="https://github.com/OpenF2/F2/">View on GitHub (v 1.3.3)</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+    <li class=""><a href="../classes/F2.App.html">F2.App</a></li>
 
-			<div class="navbar-docs">
-				<nav class="container">
-					<div class="row">
-						<div class="span12">
-								<ul class="unstyled clearfix">
-									<li class="basics"><a href="../../">The Basics</a></li>
-									<li class="dev"><a href="../../app-development.html">Development</a></li>
-									<li class="ref"><a href=".././classes/F2.html" class="active">Reference</a></li>
-								</ul>
-						</div>
-					</div>
-				</nav>
-			</div>
+    <li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
 
-			<div class="navbar-docs-sections">
-				<div class="container">
-					<a href="javascript:;" data-toggle="collapse" data-target=".nav-collapse.toc">
-						SECTIONS
-						<span class="icon-triangleDown"></span>
-					</a>
-					<div class="collapse nav-collapse toc">
-						<ul class="nav pull-right">
-								
-		<li class=""><a href="../classes/F2.html">F2</a></li>
-	
-		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
-	
-		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
-	
-		<li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
-	
-		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
-	
-		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
-	
-		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
-	
-		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
-	
-		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
-	
-		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
-	
-		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
-	
-		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
-	
-		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
-	
-		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
-	
-		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
-	
+    <li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
 
-						</ul>
-					</div>
-				</div>
-			</div>
+    <li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
 
-		</div>
-	</header>
+    <li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
 
-	<div class="container">
-		<div class="row">
-			<div id="toc" class="span3">
-				<ul class="nav nav-list">
-						
-		<li class=""><a href="../classes/F2.html">F2</a></li>
-	
-		<li class=""><a href="../classes/F2.App.html">F2.App</a></li>
-	
-		<li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
-	
-		<li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
-	
-		<li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
-	
-		<li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
-	
-		<li class="hide"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Sockets.html">F2.Constants.Sockets</a></li>
-	
-		<li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
-	
-		<li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
-	
-		<li class="hide"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
-	
-		<li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
-	
-		<li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
-	
-		<li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
-	
-		<li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
-	
-		<li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
-	
-		<li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
-	
+    <li class="hidden"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
 
-					<li class="nav-header">View Options</li>
-					<li id="viewOptions">
-	<label class="checkbox" for="show-inherited">
-		<input type="checkbox" id="show-inherited" value="inherited">
-		Inherited
-	</label>
-	<label class="checkbox" for="show-protected">
-		<input type="checkbox" id="show-protected" value="protected">
-		Protected
-	</label>
-	<label class="checkbox" for="show-private">
-		<input type="checkbox" id="show-private" value="private">
-		Private
-	</label>
-	<label class="checkbox" for="show-deprecated">
-		<input type="checkbox" id="show-deprecated" value="deprecated">
-		Deprecated
-	</label>
-</li>
-				</ul>
-			</div>
-			<div id="main" class="span9">
-				<h1 class="file-heading">File: sdk/src/container.js</h1>
+    <li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+
+    <li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+
+    <li class="hidden"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+
+    <li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+
+    <li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
+
+    <li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
+
+    <li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
+
+    <li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+
+    <li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
+
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
+          <ul class="nav nav-stacked">
+            <li><a href="#">Sections</a></li>
+            <li><a href="../../index.html">Getting Started</a></li>
+            <li><a href="../../container-development.html">Container Development</a></li>
+            <li><a href="../../app-development.html">App Development</a></li>
+            <li><a href="../../extending-f2.html">Extending F2</a></li>
+            <li class="hidden"><a href="../../f2js-sdk.html">F2.js</a></li>
+            <li class="hidden"><a href="../../about-f2.html">About F2</a></li>
+            <li class="active"><a href="../">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9" id="docs">
+      	<div class="apidocs">
+	      	<div id="docs-main">
+	        	<div class="content">
+	        		<form id="options-form" class="form-inline pull-right">
+    Show:
+    <!--<div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+    </div>-->
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+    </div>
+</form>
+	                <h1 class="page-header">sdk/src/container.js <small>File</small></h1>
 
 <div class="file">
-    <pre class="code prettyprint linenums">
+    <pre class="prettyprint linenums"><code>
 /**
  * Root namespace of the F2 SDK
  * @module f2
@@ -235,6 +212,7 @@ F2.extend(&#x27;&#x27;, (function() {
 	var _config = false;
 	var _bUsesAppHandlers = false;
 	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
+	var _loadingScripts = {};
 
 	/**
 	 * Appends the app&#x27;s html to the DOM
@@ -257,7 +235,7 @@ F2.extend(&#x27;&#x27;, (function() {
 			return;
 		}
 		else {
-			// apply APP class and Instance ID
+			// apply APP class
 			jQuery(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
 		}
@@ -273,7 +251,7 @@ F2.extend(&#x27;&#x27;, (function() {
 	 */
 	var _appRender = function(appConfig, html) {
 
-		// apply APP_CONTAINER class
+		// apply APP_CONTAINER class and AppID
 		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId));
 
 		// optionally apply wrapper html
@@ -281,7 +259,6 @@ F2.extend(&#x27;&#x27;, (function() {
 			html = _config.appRender(appConfig, html);
 		}
 
-		// apply APP class and instanceId
 		return _outerHtml(html);
 	};
 
@@ -335,7 +312,74 @@ F2.extend(&#x27;&#x27;, (function() {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
+		//pass container-defined locale to each app
+		if (F2.ContainerConfig.locale){
+			appConfig.containerLocale = F2.ContainerConfig.locale;
+		}
+
 		return appConfig;
+	};
+
+	/**
+	 * Generate an AppConfig from the element&#x27;s attributes
+	 * @method _getAppConfigFromElement
+	 * @private
+	 * @param {Element} node The DOM node from which to generate the F2.AppConfig object
+	 * @return {F2.AppConfig} The new F2.AppConfig object
+	 */
+	var _getAppConfigFromElement = function(node) {
+		var appConfig;
+
+		if (node) {
+			var appId = node.getAttribute(&#x27;data-f2-appid&#x27;);
+			var manifestUrl = node.getAttribute(&#x27;data-f2-manifesturl&#x27;);
+
+			if (appId &amp;&amp; manifestUrl) {
+				appConfig = {
+					appId: appId,
+					enableBatchRequests: node.hasAttribute(&#x27;data-f2-enablebatchrequests&#x27;),
+					isSecure: node.hasAttribute(&#x27;data-f2-issecure&#x27;),
+					manifestUrl: manifestUrl,
+					root: node
+				};
+
+				// See if the user passed in a block of serialized json
+				var contextJson = node.getAttribute(&#x27;data-f2-context&#x27;);
+
+				if (contextJson) {
+					try {
+						appConfig.context = F2.parse(contextJson);
+					}
+					catch (e) {
+						console.warn(&#x27;F2: &quot;data-f2-context&quot; of node is not valid JSON&#x27;, &#x27;&quot;&#x27; + e + &#x27;&quot;&#x27;);
+					}
+				}
+			}
+		}
+
+		return appConfig;
+	};
+
+	/**
+	 * Returns true if the DOM node has children that are not text nodes
+	 * @method _hasNonTextChildNodes
+	 * @private
+	 * @param {Element} node The DOM node
+	 * @return {bool} True if there are non-text children
+	 */
+	var _hasNonTextChildNodes = function(node) {
+		var hasNodes = false;
+
+		if (node.hasChildNodes()) {
+			for (var i = 0, len = node.childNodes.length; i &lt; len; i++) {
+				if (node.childNodes[i].nodeType === 1) {
+					hasNodes = true;
+					break;
+				}
+			}
+		}
+
+		return hasNodes;
 	};
 
 	/**
@@ -345,12 +389,17 @@ F2.extend(&#x27;&#x27;, (function() {
 	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
 	 */
 	var _hydrateContainerConfig = function(containerConfig) {
+
 		if (!containerConfig.scriptErrorTimeout) {
 			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
 		}
 
 		if (containerConfig.debugMode !== true) {
 			containerConfig.debugMode = F2.ContainerConfig.debugMode;
+		}
+
+		if (containerConfig.locale &amp;&amp; typeof containerConfig.locale == &#x27;string&#x27;){
+			F2.ContainerConfig.locale = containerConfig.locale;
 		}
 	};
 
@@ -393,6 +442,29 @@ F2.extend(&#x27;&#x27;, (function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
+
+		//listen for container-broadcasted locale changes
+		F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+			if (data.locale &amp;&amp; typeof data.locale == &#x27;string&#x27;){
+				F2.ContainerConfig.locale = data.locale;
+			}
+		});
+	};
+
+	/**
+	 * Checks if an element is a placeholder element
+	 * @method _isPlaceholderElement
+	 * @private 
+	 * @param {Element} node The DOM element to check
+	 * @return {bool} True if the element is a placeholder
+	 */
+	var _isPlaceholderElement = function(node) {
+		return (
+			F2.isNativeDOMNode(node) &amp;&amp;
+			!_hasNonTextChildNodes(node) &amp;&amp;
+			!!node.getAttribute(&#x27;data-f2-appid&#x27;) &amp;&amp;
+			!!node.getAttribute(&#x27;data-f2-manifesturl&#x27;)
+		);
 	};
 
 	/**
@@ -457,124 +529,199 @@ F2.extend(&#x27;&#x27;, (function() {
 			return;
 		}
 
-		// Fn for loading manifest Styles
-		var _loadStyles = function(styles, cb) {
-			// Attempt to use the user provided method
-			if (_config.loadStyles) {
-				_config.loadStyles(styles, cb);
-			}
-			else {
-				// load styles, see #101
-				var stylesFragment = null,
-					useCreateStyleSheet = !! document.createStyleSheet;
-
-				jQuery.each(styles, function(i, e) {
-					if (useCreateStyleSheet) {
-						document.createStyleSheet(e);
-					}
-					else {
-						stylesFragment = stylesFragment || [];
-						stylesFragment.push(&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#x27; + e + &#x27;&quot;/&gt;&#x27;);
-					}
-				});
-
-				if (stylesFragment) {
-					jQuery(&#x27;head&#x27;).append(stylesFragment.join(&#x27;&#x27;));
-				}
-
-				cb();
-			}
+		var _findExistingScripts = function() {
+			return jQuery(&#x27;script[src]&#x27;).map(function(i, tag) {
+				return tag.src;
+			});
 		};
 
-		// Fn for loading manifest Scripts
-		var _loadScripts = function(scripts, cb) {
+		var _findExistingStyles = function() {
+			return jQuery(&#x27;link[href]&#x27;).map(function(i, tag) {
+				return tag.href;
+			});
+		};
+
+		// Fn for loading manifest Styles
+		var _loadStyles = function(styles, cb) {
+			// Reduce the list to styles that haven&#x27;t been loaded
+			var existingStyles = _findExistingStyles();
+			styles = jQuery.grep(styles, function(url) {
+				return url &amp;&amp; jQuery.inArray(url, existingStyles) === -1;
+			});
+
 			// Attempt to use the user provided method
-			if (_config.loadScripts) {
-				_config.loadScripts(scripts, cb);
+			if (_config.loadStyles) {
+				return _config.loadStyles(styles, cb);
 			}
-			else {
-				if (scripts.length) {
-					var scriptCount = scripts.length;
-					var scriptsLoaded = 0;
 
-					// Check for IE10+ so that we don&#x27;t rely on onreadystatechange
-					var readyStates = (&#x27;addEventListener&#x27; in window) ? {} : {
-						&#x27;loaded&#x27;: true,
-						&#x27;complete&#x27;: true
-					};
+			// load styles, see #101
+			var stylesFragment = null,
+				useCreateStyleSheet = !!document.createStyleSheet;
 
-					// Log and emit event for the failed (400,500) scripts
-					var _error = function(e) {
-						setTimeout(function() {
-							var evtData = {
-								src: e.target.src,
-								appId: appConfigs[0].appId
-							};
-
-							// Send error to console
-							F2.log(&#x27;Script defined in \&#x27;&#x27; + evtData.appId + &#x27;\&#x27; failed to load \&#x27;&#x27; + evtData.src + &#x27;\&#x27;&#x27;);
-
-							// Emit event
-							F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, evtData);
-
-							if (!_bUsesAppHandlers) {
-								_appScriptLoadFailed(appConfigs[0], evtData.src);
-							}
-							else {
-								F2.AppHandlers.__trigger(
-									_sAppHandlerToken,
-									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-									appConfigs[0],
-									evtData.src
-								);
-							}
-						}, _config.scriptErrorTimeout); // Defaults to 7000
-					};
-
-					// Load scripts and eval inlines once complete
-					jQuery.each(scripts, function(i, e) {
-						var doc = document,
-							script = doc.createElement(&#x27;script&#x27;),
-							resourceUrl = e;
-
-						// If in debugMode, add cache buster to each script URL
-						if (_config.debugMode) {
-							resourceUrl += &#x27;?cachebuster=&#x27; + new Date().getTime();
-						}
-
-						// Scripts needed to be loaded in order they&#x27;re defined in the AppManifest
-						script.async = false;
-						// Add other attrs
-						script.src = resourceUrl;
-						script.type = &#x27;text/javascript&#x27;;
-						script.charset = &#x27;utf-8&#x27;;
-						script.onerror = _error;
-
-						// Use a closure for the load event so that we can dereference the original script
-						script.onload = script.onreadystatechange = function(e) {
-							e = e || window.event; // For older IE
-
-							if (e.type == &#x27;load&#x27; || readyStates[script.readyState]) {
-								// Done, cleanup
-								script.onload = script.onreadystatechange = script.onerror = null;
-
-								// Dereference script
-								script = null;
-
-								// Are we done loading all scripts for this app?
-								if (++scriptsLoaded === scriptCount) {
-									cb();
-								}
-							}
-						};
-
-						doc.body.appendChild(script);
-					});
+			jQuery.each(styles, function(i, resourceUrl) {
+				if (useCreateStyleSheet) {
+					document.createStyleSheet(resourceUrl);
 				}
 				else {
+					stylesFragment = stylesFragment || [];
+					stylesFragment.push(&#x27;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#x27; + resourceUrl + &#x27;&quot;/&gt;&#x27;);
+				}
+			});
+
+			if (stylesFragment) {
+				jQuery(&#x27;head&#x27;).append(stylesFragment.join(&#x27;&#x27;));
+			}
+
+			cb();
+		};
+
+		// For loading AppManifest.scripts
+		// Parts derived from curljs, headjs, requirejs, dojo
+		var _loadScripts = function(scripts, cb) {
+			// Reduce the list to scripts that haven&#x27;t been loaded
+			var existingScripts = _findExistingScripts();
+			scripts = jQuery.grep(scripts, function(url) {
+				return url &amp;&amp; jQuery.inArray(url, existingScripts) === -1;
+			});
+
+			// Attempt to use the user provided method
+			if (_config.loadScripts) {
+				return _config.loadScripts(scripts, cb);
+			}
+
+			if (!scripts.length) {
+				return cb();
+			}
+
+			var doc = window.document;
+			var scriptCount = scripts.length;
+			var scriptsLoaded = 0;
+			//http://caniuse.com/#feat=script-async
+			// var supportsAsync = &#x27;async&#x27; in doc.createElement(&#x27;script&#x27;) || &#x27;MozAppearance&#x27; in doc.documentElement.style || window.opera;
+			var head = doc &amp;&amp; (doc[&#x27;head&#x27;] || doc.getElementsByTagName(&#x27;head&#x27;)[0]);
+			// to keep IE from crying, we need to put scripts before any
+			// &lt;base&gt; elements, but after any &lt;meta&gt;. this should do it:
+			var insertBeforeEl = head &amp;&amp; head.getElementsByTagName(&#x27;base&#x27;)[0] || null;
+			// Check for IE10+ so that we don&#x27;t rely on onreadystatechange, readyStates for IE6-9
+			var readyStates = &#x27;addEventListener&#x27; in window ? {} : { &#x27;loaded&#x27;: true, &#x27;complete&#x27;: true };
+
+			// Log and emit event for the failed (400,500) scripts
+			var _error = function(e) {
+				setTimeout(function() {
+					var evtData = {
+						src: e.target.src,
+						appId: appConfigs[0].appId
+					};
+
+					// Send error to console
+					F2.log(&#x27;Script defined in \&#x27;&#x27; + evtData.appId + &#x27;\&#x27; failed to load \&#x27;&#x27; + evtData.src + &#x27;\&#x27;&#x27;);
+
+					// TODO: deprecate, see #222
+					F2.Events.emit(F2.Constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
+
+					if (!_bUsesAppHandlers) {
+						_appScriptLoadFailed(appConfigs[0], evtData.src);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							evtData.src
+						);
+					}
+				}, _config.scriptErrorTimeout); // Defaults to 7000
+			};
+
+			var _checkComplete = function() {
+				// Are we done loading all scripts for this app?
+				if (++scriptsLoaded === scriptCount) {
+					// success
 					cb();
 				}
-			}
+			};
+
+			var _emptyWaitlist = function(resourceKey, errorEvt) {
+				var waiting,
+					waitlist = _loadingScripts[resourceKey];
+
+				if (!waitlist) {
+					return;
+				}
+
+				for (var i=0; i&lt;waitlist.length; i++) {
+					waiting = waitlist	[i];
+
+					if (errorEvt) {
+						waiting.error(errorEvt);
+					} else {
+						waiting.success();
+					}
+				}
+
+				_loadingScripts[resourceKey] = null;
+			};
+
+			// Load scripts and eval inlines once complete
+			jQuery.each(scripts, function(i, e) {
+				var script = doc.createElement(&#x27;script&#x27;),
+					resourceUrl = e,
+					resourceKey = resourceUrl.toLowerCase();
+
+				// this script is actively loading, add this app to the wait list
+				if (_loadingScripts[resourceKey]) {
+					_loadingScripts[resourceKey].push({
+						success: _checkComplete,
+						error: _error
+					});
+					return;
+				}
+
+				// create the waitlist
+				_loadingScripts[resourceKey] = [];
+
+				// If in debugMode, add cache buster to each script URL
+				if (_config.debugMode) {
+					resourceUrl += &#x27;?cachebuster=&#x27; + new Date().getTime();
+				}
+
+				// Scripts are loaded asynchronously and executed in order
+				// in supported browsers: http://caniuse.com/#feat=script-async
+				script.async = false;
+				script.type = &#x27;text/javascript&#x27;;
+				script.charset = &#x27;utf-8&#x27;;
+
+				script.onerror = function(e) {
+					_error(e);
+					_emptyWaitlist(resourceKey, e);
+				};
+
+				// Use a closure for the load event so that we can dereference the original script
+				script.onload = script.onreadystatechange = function(e) {
+					e = e || window.event; // For older IE
+
+					// detect when it&#x27;s done loading
+					// ev.type == &#x27;load&#x27; is for all browsers except IE6-9
+					// IE6-9 need to use onreadystatechange and look for
+					// el.readyState in {loaded, complete} (yes, we need both)
+					if (e.type == &#x27;load&#x27; || readyStates[script.readyState]) {
+						// Done, cleanup
+						script.onload = script.onreadystatechange = script.onerror = &#x27;&#x27;;
+						// increment and check if scripts are done
+						_checkComplete();
+						// empty wait list
+						_emptyWaitlist(resourceKey);
+						// Dereference script
+						script = null;
+					}
+				};
+
+				//set the src, start loading
+				script.src = resourceUrl;
+
+				//&lt;head&gt; really is the best
+				head.insertBefore(script, insertBeforeEl);
+			});
 		};
 
 		var _loadInlineScripts = function(inlines, cb) {
@@ -589,7 +736,10 @@ F2.extend(&#x27;&#x27;, (function() {
 					}
 					catch (exception) {
 						F2.log(&#x27;Error loading inline script: &#x27; + exception + &#x27;\n\n&#x27; + inlines[i]);
-
+						
+						// Emit events
+						F2.Events.emit(&#x27;RESOURCE_FAILED_TO_LOAD&#x27;, { appId:appConfigs[0].appId, src: inlines[i], err: exception });
+						
 						if (!_bUsesAppHandlers) {
 							_appScriptLoadFailed(appConfigs[0], exception);
 						}
@@ -625,7 +775,12 @@ F2.extend(&#x27;&#x27;, (function() {
 		// Fn for loading manifest app html
 		var _loadHtml = function(apps) {
 			jQuery.each(apps, function(i, a) {
-				if (!_bUsesAppHandlers) {
+				if (_isPlaceholderElement(appConfigs[i].root)) {
+					jQuery(appConfigs[i].root)
+						.addClass(F2.Constants.Css.APP)
+						.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfigs[i].appId));
+				}
+				else if (!_bUsesAppHandlers) {
 					// load html and save the root node
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
@@ -634,11 +789,11 @@ F2.extend(&#x27;&#x27;, (function() {
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
-						_outerHtml(a.html)
+						_outerHtml(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfigs[i].appId))
 					);
 
-					var appId = appConfigs[i].appId;
-					var root = appConfigs[i].root;
+					var appId = appConfigs[i].appId,
+						root = appConfigs[i].root;
 
 					if (!root) {
 						throw (&#x27;Root for &#x27; + appId + &#x27; must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.&#x27;);
@@ -657,8 +812,6 @@ F2.extend(&#x27;&#x27;, (function() {
 					if (!F2.isNativeDOMNode(root)) {
 						throw (&#x27;App root for &#x27; + appId + &#x27; must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.&#x27;);
 					}
-
-					$(root).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appId);
 				}
 
 				// init events
@@ -678,6 +831,8 @@ F2.extend(&#x27;&#x27;, (function() {
 			_loadHtml(apps);
 			// Add the script content to the page
 			_loadScripts(scripts, function() {
+				// emit event we&#x27;re done with scripts
+				if (appConfigs[0]){ F2.Events.emit(&#x27;APP_SCRIPTS_LOADED&#x27;, { appId:appConfigs[0].appId, scripts:scripts }); }
 				// Load any inline scripts
 				_loadInlineScripts(inlines, function() {
 					// Create the apps
@@ -701,7 +856,12 @@ F2.extend(&#x27;&#x27;, (function() {
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if (!_bUsesAppHandlers) {
+			if (_isPlaceholderElement(appConfig.root)) {
+				jQuery(appConfig.root)
+					.addClass(F2.Constants.Css.APP)
+					.append(jQuery(&#x27;&lt;div&gt;&lt;/div&gt;&#x27;).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId));
+			}
+			else if (!_bUsesAppHandlers) {
 				// create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, &#x27;&lt;div&gt;&lt;/div&gt;&#x27;));
 			}
@@ -712,7 +872,7 @@ F2.extend(&#x27;&#x27;, (function() {
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfig, // the app config
-					appManifest.html
+					_outerHtml(jQuery(appManifest.html).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId))
 				);
 
 				if ($root.parents(&#x27;body:first&#x27;).length === 0) {
@@ -732,8 +892,6 @@ F2.extend(&#x27;&#x27;, (function() {
 				if (!F2.isNativeDOMNode(appConfig.root)) {
 					throw (&#x27;App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.&#x27;);
 				}
-
-				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + &#x27; &#x27; + appConfig.appId);
 			}
 
 			// instantiate F2.UI
@@ -821,6 +979,19 @@ F2.extend(&#x27;&#x27;, (function() {
 			});
 		},
 		/**
+		 * Gets the current locale defined by the container
+		 * @method getContainerLocale
+		 * @returns {String} IETF-defined standard language tag
+		 */
+		getContainerLocale: function() {
+			if (!_isInit()) {
+				F2.log(&#x27;F2.init() must be called before F2.getContainerLocale()&#x27;);
+				return;
+			}
+
+			return F2.ContainerConfig.locale;
+		},
+		/**
 		 * Initializes the container. This method must be called before performing
 		 * any other actions in the container.
 		 * @method init
@@ -854,6 +1025,56 @@ F2.extend(&#x27;&#x27;, (function() {
 		 * @return {bool} True if the container has been init
 		 */
 		isInit: _isInit,
+		/**
+		 * Automatically load apps that are already defined in the DOM. Elements will 
+		 * be rendered into the location of the placeholder DOM element. Any AppHandlers
+		 * that are defined will be bypassed.
+		 * @method loadPlaceholders
+		 * @param {Element} parentNode The element to search for placeholder apps
+		 */
+		loadPlaceholders: function(parentNode) {
+
+			var elements = [],
+				appConfigs = [],
+				add = function(e) {
+					if (!e) { return; }
+					elements.push(e);
+				},
+				addAll = function(els) {
+					if (!els) { return; }
+					for (var i = 0, len = els.length; i &lt; len; i++) {
+						add(els[i]);
+					}
+				};
+
+			if (!!parentNode &amp;&amp; !F2.isNativeDOMNode(parentNode)) {
+				throw (&#x27;&quot;parentNode&quot; must be null or a DOM node&#x27;);
+			}
+
+			// if the passed in element has a data-f2-appid attribute add
+			// it to the list of elements but to not search within that
+			// element for other placeholders
+			if (parentNode &amp;&amp; parentNode.hasAttribute(&#x27;data-f2-appid&#x27;)) {
+				add(parentNode);
+			} else {
+
+				// find placeholders within the parentNode only if 
+				// querySelectorAll exists
+				parentNode = parentNode || document;
+				if (parentNode.querySelectorAll) {
+					addAll(parentNode.querySelectorAll(&#x27;[data-f2-appid]&#x27;));
+				}
+			}
+
+			for (var i = 0, len = elements.length; i &lt; len; i++) {
+				var appConfig = _getAppConfigFromElement(elements[i]);
+				appConfigs.push(appConfig);
+			}
+
+			if (appConfigs.length) {
+				F2.registerApps(appConfigs);
+			}
+		},
 		/**
 		 * Begins the loading process for all apps and/or initialization process for pre-loaded apps.
 		 * The app will be passed the {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} object which will
@@ -1012,7 +1233,7 @@ F2.extend(&#x27;&#x27;, (function() {
 
 				// If the root property is defined then this app is considered to be preloaded and we will
 				// run it through that logic.
-				if (a.root) {
+				if (a.root &amp;&amp; !_isPlaceholderElement(a.root)) {
 					if ((!a.root &amp;&amp; typeof(a.root) != &#x27;string&#x27;) &amp;&amp; !F2.isNativeDOMNode(a.root)) {
 						F2.log(&#x27;AppConfig invalid for pre-load, not a valid string and not dom node&#x27;);
 						F2.log(&#x27;AppConfig instance:&#x27;, a);
@@ -1024,7 +1245,7 @@ F2.extend(&#x27;&#x27;, (function() {
 						F2.log(&#x27;Number of dom node instances:&#x27;, jQuery(a.root).length);
 						throw (&#x27;Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.&#x27;);
 					}
-
+					
 					// instantiate F2.App
 					_createAppInstance(a);
 
@@ -1036,22 +1257,24 @@ F2.extend(&#x27;&#x27;, (function() {
 					return; // equivalent to continue in .each
 				}
 
-				if (!_bUsesAppHandlers) {
-					// fire beforeAppRender
-					a.root = _beforeAppRender(a);
-				}
-				else {
-					F2.AppHandlers.__trigger(
-						_sAppHandlerToken,
-						F2.Constants.AppHandlers.APP_CREATE_ROOT,
-						a // the app config
-					);
+				if (!_isPlaceholderElement(a.root)) {
+					if (!_bUsesAppHandlers) {
+						// fire beforeAppRender
+						a.root = _beforeAppRender(a);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_CREATE_ROOT,
+							a // the app config
+						);
 
-					F2.AppHandlers.__trigger(
-						_sAppHandlerToken,
-						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-						a // the app config
-					);
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+							a // the app config
+						);
+					}
 				}
 
 				// if we have the manifest, go ahead and load the app
@@ -1117,6 +1340,7 @@ F2.extend(&#x27;&#x27;, (function() {
 							},
 							errorFunc = function() {
 								jQuery.each(req.apps, function(idx, item) {
+									item.name = item.name || item.appId;
 									F2.log(&#x27;Removed failed &#x27; + item.name + &#x27; app&#x27;, item);
 									F2.removeApp(item.instanceId);
 								});
@@ -1227,45 +1451,75 @@ F2.extend(&#x27;&#x27;, (function() {
 	};
 })());
 
-    </pre>
+    </code></pre>
 </div>
 
-			</div>
-		</div>
-
-		<hr>
-
-		<footer>
-			<p class="pull-left"><small><strong>F2&nbsp;&nbsp;|&nbsp;&nbsp;The Open Financial Framework</strong><br><a href="mailto:info@openf2.org">info@openf2.org</a><br>Specification , published </small></p>
-			<p class="pull-right"><small>F2 is maintained by <a href="http://www.markitondemand.com/">Markit On Demand</a> on <a href="https://github.com/OpenF2/F2">GitHub</a>.<br>Code licensed under the <a href="https://github.com/OpenF2/F2#copyright-and-license">Apache 2.0 License</a>.<br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></small></p>
-		</footer>
-	</div>
+	            </div>
+	        </div>
+	    </div>
+      </div>
+    </div>
+  </section>
 </div>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="../../js/bootstrap.min.2.3.0.js"></script>
-<script src="../../js/prettify.js"></script>
-<script src="../assets/js/main.js"></script>
-<script src="../../js/f2.js?1.3.3"></script>
-<script type="text/javascript">
-	window.prettyPrint && prettyPrint();
-</script>
-<script type="text/javascript">
-	if ((/docs.openf2.org/i).test(window.location.hostname)){
-		window._waq = window._waq || []; 
-		(function() {
-			var domain = 'insite.wallst.com'; 
-			_waq.push(['_setup', {reportingid: '544506', domain: domain}]); 
-			var wa = document.createElement('script'); 
-			wa.type = 'text/javascript'; 
-			wa.async = true; 
-			wa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + domain + '/js/wa.js'; 
-			var s = document.getElementsByTagName('script')[0]; 
-			s.parentNode.insertBefore(wa, s);
-		})();
-		_waq.push(['_trackPageView', {category: 'SDK'}]);
-		_waq.push(['_trackLinks']);
-	}
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-lg-6">
+        <h1 class="hidden-sm hidden-md hidden-lg">F2</h1>
+        <p class="hidden-sm hidden-md hidden-lg">An open & free framework created for building financial applications.</p>
+        <div class="deepFooter hidden-xs hidden-sm">
+          <p>Enabling smarter financial applications</p>
+          <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+        </div>
+        <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
+          <li><a href="http://docs.openf2.org">Docs</a></li>
+          <li><a href="//www.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
+          <li><a href="http://blog.openf2.org">Blog</a></li>
+          <li><a href="//www.openf2.org/developers">Developers</a></li>
+          <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+          <li><a href="https://twitter.com/OpenF2">@OpenF2</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
+        <ul class="footer-nav iconlist list-inline">
+          <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
+            <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
+                <h5>View on GitHub</h5>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span></span>
+                </p></a></div>
+          </li>
+          <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
+          <li><a href="//www.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
+          <li><a href="https://twitter.com/OpenF2" title="@OpenF2" class="hexagon"><i class="fa fa-twitter fa-2x"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row deepFooter">
+      <div class="col-xs-12 hidden-md hidden-lg">
+        <p>Enabling smarter financial applications</p>
+        <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<!-- <script src="js/docs.js" type="text/javascript"></script> 
+<script type="text/javascript">new F2Docs().initialize();</script>-->
+<script>
+  window.prettyPrint && prettyPrint();
+
+	//docs
+	var current = location.pathname.split('/').pop();
+	$('a','ul.sidebar-toc').each(function(i,el){
+		var $el = $(el);
+		if (current.length && $el.attr('href').indexOf(current) > -1){
+			$el.parent().addClass('active');
+		}
+	});
 </script>
 </body>
 </html>
