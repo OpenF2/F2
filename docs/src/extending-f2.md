@@ -1,20 +1,12 @@
-% Extending F2
+# Extending F2
 
 <p class="lead">At its core, F2 is an open framework. To create a truly open and flexible foundation with F2.js, F2 can be extended with custom plugins. Extending F2 with plugins provides direct access to F2.js SDK methods and can save your teams a lot of time.</p>
 
 * * * *
 
-## Version 2
-
-<div class="alert alert-block alert-info">
-    The F2 Team is working on a major revision to the F2 framework. Visit the project on GitHub to review the [revisions draft](https://github.com/OpenF2/F2/wiki/F2-Version-2), [the F2.js code](https://github.com/OpenF2/F2/tree/v2-restructured) and [v2 Issues](https://github.com/OpenF2/F2/issues?labels=v2&page=1&state=open).
-</div>
-
-* * * *
-
 ## Plugins
 
-Now that you're comfortable with F2 and all the individual [components of the framework](index.html#framework), you are ready to extend F2 and add your own custom logic in the form of an F2 plugin. 
+Now that you're comfortable with F2 and all the individual [components of the framework](about-f2.html#framework), you are ready to extend F2 and add your own custom logic in the form of an F2 plugin. 
 
 There is a [separate repository on GitHub](https://github.com/OpenF2/F2Plugins) dedicated to F2 plugin development. If you write a plugin you'd like to contribute back to the community, commit it to [F2Plugins](https://github.com/OpenF2/F2Plugins).
 

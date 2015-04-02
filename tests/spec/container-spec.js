@@ -1,6 +1,6 @@
 describe('F2.registerApps - pre-load', function() {
 
-	it('should throw exception if F2.init() is not called prior.', function() {
+	it('should throw exception if F2.init() is not called prior', function() {
 		expect(function() {
 
 			var appConfig = {
@@ -20,7 +20,7 @@ describe('F2.registerApps - pre-load', function() {
 		}).toLog('At least one AppConfig must be passed when calling F2.registerApps()');
 	});
 
-	it('should allow you to pass single appConfig as object to F2.registerApps.', function() {
+	it('should allow you to pass single appConfig as object to F2.registerApps', function() {
 		expect(function() {
 			F2.init();
 			var appConfig = {
@@ -31,7 +31,7 @@ describe('F2.registerApps - pre-load', function() {
 		}).not.toThrow();
 	});
 
-	it('should not require appConfig.manifestUrl when passing pre-load appConfig to F2.registerApps.', function() {
+	it('should not require appConfig.manifestUrl when passing pre-load appConfig to F2.registerApps', function() {
 		expect(function() {
 			F2.init();
 			var appConfig = {
@@ -42,22 +42,22 @@ describe('F2.registerApps - pre-load', function() {
 		}).not.toLog('"manifestUrl" missing from app object');
 	});
 
-	it('should throw exception if you pass an invalid appConfig to F2.registerApps.', function() {
+	it('should throw exception if you pass an invalid appConfig to F2.registerApps', function() {
 		expect(function() {
 			F2.init();
 			F2.registerApps({});
 		}).toLog('"appId" missing from app object');
 	});
 
-	it('should request apps without valid root property and auto init pre-load apps with root when passing mix to F2.registerApps.', function() {
+	it('should request apps without valid root property and auto init pre-load apps with root when passing mix to F2.registerApps', function() {
 		var bAfterFired = false
 		F2.PreloadTestComplete = false;
 		F2.PreloadAppInitialized = false;
 		F2.PreloadRetrievedEmit = false;
 
 		var appConfigs = [{
-			appId: TEST_APP_ID2,
-			manifestUrl: TEST_MANIFEST_URL2
+			appId: TEST_APP_ID,
+			manifestUrl: TEST_MANIFEST_URL
 		}, {
 			appId: TEST_APP_ID,
 			root: $("body").find('div.' + TEST_APP_ID + ':first').get(0)
@@ -159,6 +159,39 @@ describe('F2.registerApps - pre-load', function() {
 			expect(F2.PreloadRetrievedEmitCounter).toBe(2);
 		});
 	});
+
+	it('should pass appConfig, appContent, root as arguments to the AppClass', function() {
+
+		var scriptsLoaded = false;
+		F2.PreloadArguments;
+
+		var $appOnPage = $("body").find("div.com_openf2_tests_helloworld");
+		var appConfig = [{
+			appId:'com_openf2_tests_helloworld',
+			manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',
+			root: $appOnPage.get(0)
+		}];
+
+		// init is called above
+		F2.registerApps(appConfig,[{"scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		//notify when dependencies have been loaded
+		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+			scriptsLoaded = true;
+		});
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return scriptsLoaded && F2.PreloadArguments;
+		}, 'test app to load', 10000);
+
+		runs(function() {
+			expect(F2.PreloadArguments).toBe(3);
+		});
+	});
+
+
+	
 });
 
 describe('F2.init', function() {
@@ -350,6 +383,235 @@ describe('F2.isInit', function() {
 	});
 });
 
+describe('F2.init - internationalization', function() {
+
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	var appConfig = {
+		appId: TEST_APP_ID,
+		manifestUrl: TEST_MANIFEST_URL,
+		localeSupport: ['en-us','de-de']
+	};
+
+	var appManifest = {
+		scripts: [],
+		styles: [],
+		inlineScripts: [],
+		apps: [{
+			html: '<div class="test-app-2">Testing</div>'
+		}]
+	};
+
+	it('should not fail F2.init when locale is undefined', function() {
+		F2.init();
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(F2.isInit()).toBeTruthy();
+		});
+	});
+
+	it('F2.getContainerLocale() should return null when locale is undefined', function() {
+		F2.init();
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(F2.getContainerLocale()).toBe(null);
+		});
+	});
+
+	it('F2.getContainerLocale() should return current locale', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(F2.getContainerLocale()).toBe('en-us');
+		});
+	});
+
+	it('F2.getContainerLocale() should be a string', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(typeof F2.getContainerLocale() == 'string').toBeTruthy();
+		});
+	});
+
+	it('F2.getContainerLocale() should be a valid IETF tag', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			//see http://www.w3.org/TR/xmlschema11-2/#language
+			expect( /[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*/.test( F2.getContainerLocale() ) ).toBeTruthy();
+		});
+	});
+
+	it('should not modify original appConfig', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(appConfig.containerLocale).toBeFalsy();
+			expect(appConfig.locale).toBeFalsy();
+		});
+	});
+
+	it('app should receive locale as "containerLocale" in appConfig', function() {
+		F2.testLocaleFromAppConfig = false;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return F2.testLocaleFromAppConfig;
+			},
+			'containerLocale not defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleFromAppConfig == F2.getContainerLocale()).toBeTruthy();
+		});
+	});
+
+	it('app should not receive locale as "containerLocale" in appConfig when locale is not defined', function() {
+		F2.init();
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return !F2.testLocaleFromAppConfig;
+			},
+			'containerLocale is defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleFromAppConfig).toBeFalsy();
+		});
+	});
+
+	it('should update containerLocale when CONTAINER_LOCALE_CHANGE is fired', function() {
+		var _locale;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			//listen for changes
+			F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+				_locale = data.locale;
+			});
+			//nothing should be changed
+			expect(F2.getContainerLocale() == 'en-us').toBeTruthy();
+			//now change locale
+			F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,{
+				locale: 'de-de'
+			});
+			//now locale should be changed
+			expect(F2.getContainerLocale() == 'de-de').toBeTruthy();
+		});
+	});
+
+	it('should update containerLocale when CONTAINER_LOCALE_CHANGE is fired after being undefined', function() {
+		var _locale;
+		F2.init();
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			//listen for changes
+			F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+				_locale = data.locale;
+			});
+			//locale was not defined, should be null
+			expect(F2.getContainerLocale()).toBe(null);
+			//now change locale
+			F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,{
+				locale: 'de-de'
+			});
+			//now locale should be changed
+			expect(F2.getContainerLocale() == 'de-de').toBeTruthy();
+		});
+	});
+
+	it('AppManifest should support localeSupport property', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(appConfig.localeSupport).toBeTruthy();
+		});
+	});
+
+	it('AppManifest\'s localeSupport property should be an array', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(typeof appConfig.localeSupport == 'object').toBeTruthy();
+		});
+	});
+
+	it('AppManifest\'s localeSupport property should have 2 items', function() {
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps(appConfig,appManifest);
+		runs(function() {
+			expect(appConfig.localeSupport.length == 2).toBeTruthy();
+		});
+	});
+
+	it('app should receive localeSupport in appConfig', function() {
+		F2.testLocaleSupportFromAppConfig = false;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',localeSupport:['en-us','de-de']}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return F2.testLocaleSupportFromAppConfig;
+			},
+			'localeSupport not defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleSupportFromAppConfig).toBeTruthy();
+		});
+	});
+
+	it('app should receive localeSupport in appConfig and have 2 items', function() {
+		F2.testLocaleSupportFromAppConfig = false;
+		F2.init({
+			locale: 'en-us'
+		});
+		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',localeSupport:['en-us','de-de']}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
+
+		waitsFor(
+			function(){
+				return F2.testLocaleSupportFromAppConfig;
+			},
+			'localeSupport not defined in AppClass',
+			3000
+		);
+
+		runs(function() {
+			expect(F2.testLocaleSupportFromAppConfig.length == 2).toBeTruthy();
+		});
+	});
+
+});
+
 describe('F2.registerApps - basic', function() {
 
 	var async = new AsyncSpec(this);
@@ -529,7 +791,7 @@ describe('F2.registerApps - xhr overrides', function() {
 				xhr: {
 					dataType: function() {
 						isFired = true;
-						return '';
+						return 'jsonp';
 					}
 				}
 			});
@@ -560,7 +822,7 @@ describe('F2.registerApps - xhr overrides', function() {
 			xhr: {
 				type: function() {
 					isFired = true;
-					return '';
+					return 'GET';
 				}
 			}
 		});
@@ -590,7 +852,7 @@ describe('F2.registerApps - xhr overrides', function() {
 			xhr: {
 				url: function() {
 					isFired = true;
-					return '';
+					return '/F2/apps/test/hello-world';
 				}
 			}
 		});
@@ -636,7 +898,7 @@ describe('F2.registerApps - xhr overrides', function() {
 			});
 			F2.registerApps({
 				appId: 'com_test_app',
-				manifestUrl: 'http://localhost:8080/httpPostTest'
+				manifestUrl: TEST_MANIFEST_URL_HTTP_POST
 			});
 		});
 
@@ -732,6 +994,7 @@ describe('F2.registerApps - rendering', function() {
 
 		F2.registerApps(appConfig, [appManifest]);
 	});
+
 
 	it('should eval AppManifest.inlineScripts when AppManifest.scripts are defined', function() {
 		F2.inlineScriptsEvaluated = false;
@@ -839,6 +1102,657 @@ describe('F2.registerApps - rendering', function() {
 			});
 
 			expect(bustedCache).toBe(false);
+		});
+	});
+
+	it('should not inject an app\'s dependencies (scripts nor styles) more than one time', function() {
+		var appsRendered = 0;
+		var loadedJS = loadedCSS = 0;
+		F2.init();
+		//notify when apps have been rendered
+		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; });
+		//load same app twice
+		F2.registerApps([
+			{
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
+			},
+			{
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
+			}
+		]);
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return appsRendered === 2;
+		}, 'test apps were never loaded', 15000);
+
+		runs(function() {
+			
+			//ensure this script only exists one time			
+			$('script').each(function(idx, item) {
+				var src = $(item).attr('src');
+				if (/com_openf2_examples_nodejs_helloworld\/appclass.js/.test(src)){
+					loadedJS++;
+				}
+			});
+
+			//ensure this stylesheet only exists one time
+			$('link').each(function(idx, item) {
+				var src = $(item).attr('href');
+				if (/com_openf2_examples_nodejs_helloworld\/app.css/.test(src)){
+					loadedCSS++;
+				}
+			});
+
+			expect(loadedJS).toBe(1);
+			expect(loadedCSS).toBe(1);
+		});
+	});
+
+	it('should load and execute scripts in order', function() {
+		var scriptsLoaded = false;
+		F2.init();
+		//load 1 app with 2 script files, the 2nd one defines F2.HightChartsIsDefined global.
+		F2.registerApps([{
+				appId: 'com_openf2_tests_helloworld',
+				manifestUrl: '/'
+		}], [{
+			'scripts': ['http://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.3/highcharts.js','js/test.js'],
+			'apps': [{
+				'html': '<div class="test-app-1">Testing</div>'
+			}]
+		}]);
+
+		//notify when dependencies have been loaded
+		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
+			scriptsLoaded = true;
+		});
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return scriptsLoaded && F2.HightChartsIsDefined;
+		}, 'test apps to load', 10000);
+
+		runs(function() {
+			expect(F2.HightChartsIsDefined).toBeTruthy();
+		});
+	});
+
+});
+
+
+describe('F2.loadPlaceholders - auto', function() {
+
+	describe('single app by id', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically auto-init F2 when f2-autoload id is on the page', function() {
+			// need to wait for dom ready before F2.init() will be called
+			waitsFor(
+				function() {
+					return F2.isInit();
+				},
+				'F2.init() never called',
+				3000
+			);
+			runs(function() {
+				expect(F2.isInit()).toBe(true);
+			});
+		});
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by id, with children', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '">',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+
+		it('should ignore apps within apps', function() {
+
+			var proceed = false;
+			var timeout;
+
+			waitsFor(
+				function() {
+					// wait an arbitrary 5 seconds for the apps to load
+					timeout = timeout || setTimeout(function() { proceed = true; }, 5000);
+					return proceed;
+				},
+				'placeholder app to load',
+				10000
+			);
+
+			runs(function() {
+				expect($('#f2-autoload').children().length).toEqual(1);
+				expect($('#f2-autoload [data-f2-appid]').length).toEqual(0);
+			});
+		});
+	});
+
+	describe('single app by attribute', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div data-f2-autoload data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically auto-init F2 when data-f2-autoload attribute is on the page', function() {
+			// need to wait for dom ready before F2.init() will be called
+			waitsFor(
+				function() {
+					return F2.isInit();
+				},
+				'F2.init() never called',
+				3000
+			);
+			runs(function() {
+				expect(F2.isInit()).toBe(true);
+			});
+		});
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by class', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append(
+				'<div class="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
+			);
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically auto-init F2 when f2-autoload class is on the page', function() {
+			// need to wait for dom ready before F2.init() will be called
+			waitsFor(
+				function() {
+					return F2.isInit();
+				},
+				'F2.init() never called',
+				3000
+			);
+			runs(function() {
+				expect(F2.isInit()).toBe(true);
+			});
+		});
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by id, nested', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by attribute, nested', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-single" data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-single [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('single app by class, nested', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-single" class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-single [data-f2-appid]').children().length;
+					return children;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(1);
+			});
+		});
+	});
+
+	describe('many apps by id', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register multiple apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many apps by attribute', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-many" data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register multiple apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-many [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many apps by class', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div id="f2-autoload-many" class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>'
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register multiple apps', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#f2-autoload-many [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many placeholders by attribute', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>',
+				'<div data-f2-autoload>',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>',
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps within multiple placeholders', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+
+	describe('many placeholders by class', function() {
+		// append test to DOM before reloading F2
+		beforeEach(function() {
+			$('#test-fixture').append([
+				'<div class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'</div>',
+				'<div class="f2-autoload">',
+					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+				'</div>',
+			].join(''));
+		});
+
+		// force F2 to be reloaded
+		var async = new AsyncSpec(this);
+		async.beforeEachReloadF2();
+
+		it('should automatically find and register apps within multiple placeholders', function() {
+
+			var children = 0;
+
+			waitsFor(
+				function() {
+					children = $('#test-fixture [data-f2-appid]').children().length;
+					return children == 2;
+				},
+				'placeholder app to load',
+				3000
+			);
+
+			runs(function() {
+				expect(children).toEqual(2);
+			});
+		});
+	});
+});
+
+describe('F2.loadPlaceholders - manual', function() {
+	// add the f2-autoload element to the test fixture for use in each
+	// test
+	beforeEach(function() {
+		$('#test-fixture').append('<div id="f2-autoload"></div>');
+	});
+
+	// force F2 to be reloaded
+	var async = new AsyncSpec(this);
+	async.beforeEachReloadF2();
+
+	it('should require the presence of data-f2-manifesturl', function() {
+		// add the invalid placeholder
+		$('#f2-autoload').append('<div data-f2-appid="' + TEST_APP_ID + '"></div>');
+
+		// even though the manifesturl is missing, the message is generic because a null AppConfig was generated
+		expect(function() {
+			F2.init();
+			F2.loadPlaceholders();
+		}).toLog('"appId" missing from app object');
+	});
+
+	it('should find and register apps', function() {
+
+		// add the placeholder
+		var $f2Autoload = $('<div id="f2-autoload" />');
+		$f2Autoload.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+		$('#test-fixture').append($f2Autoload);
+
+		F2.init();
+		F2.loadPlaceholders();
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#f2-autoload [data-f2-appid]').children().length;
+				return children;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(1);
+		});
+	});
+
+	it('should find and register multiple apps', function() {
+		// add the placeholder
+		var $f2Autoload = $('<div id="f2-autoload" />');
+		$f2Autoload
+			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>')
+			.append('<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>');
+		$('#test-fixture').append($f2Autoload);
+
+		F2.init();
+		F2.loadPlaceholders();
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#f2-autoload [data-f2-appid]').children().length;
+				return children == 2;
+			},
+			'app never loaded',
+			10000
+		);
+
+		runs(function() {
+			expect(children).toEqual(2);
+		});
+	});
+
+	it('should throw an exception when an invalid parentNode is passed', function() {
+		expect(function() {
+			F2.init();
+			F2.loadPlaceholders('foo');
+		}).toThrow('"parentNode" must be null or a DOM node');
+	});
+
+	it('should find and register apps within a given scope', function() {
+		// add the placeholder
+		var $f2Autoload = $('<div id="f2-autoload" />');
+		$f2Autoload
+			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
+		$('#test-fixture').append($f2Autoload);
+
+		F2.init();
+		F2.loadPlaceholders(document.getElementById('test-fixture'));
+
+		var children = 0;
+
+		waitsFor(
+			function() {
+				children = $('#f2-autoload [data-f2-appid]').children().length;
+				return children;
+			},
+			'app never loaded',
+			3000
+		);
+
+		runs(function() {
+			expect(children).toEqual(1);
 		});
 	});
 });

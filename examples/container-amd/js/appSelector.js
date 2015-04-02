@@ -64,10 +64,15 @@ define(
 				$.each(allApps, function(language, apps) {
 					$('[data-language="' + language + '"]', $modal).append(
 						$.map(apps, function(app, i) {
-							return $('<label class="checkbox"></label>').append(
-								$('<input type="checkbox" name="app" value="' + app.appId + '">').data('f2-app', app),
-								' ' + app.name + (app.isSecure ? ' (Secure)' : '')
-							);
+							var $d = $('<div class="checkbox"></div>'), 
+								$lbl = $('<label></label>'),
+								$ck = $('<input type="checkbox" name="app" value="' + app.appId + '">').data('f2-app', app),
+								name = ' ' + app.name + (app.isSecure ? ' (Secure)' : '')
+							;
+
+							$lbl.append($ck).append(name);
+
+							return $d.append($lbl);
 						})
 					);
 				})

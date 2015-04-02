@@ -152,7 +152,21 @@ F2.extend('Constants', {
 			 * @static
 			 * @final
 			 */
-			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + 'widthChange'
+			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + 'widthChange',
+			/**
+			 * The CONTAINER\_LOCALE\_CHANGE event will be fired by the container when
+			 * the locale of the container has changed. This event should only be fired by the
+			 * container or container provider.
+			 * Returns an object with the updated locale (IETF-defined standard language tag):
+			 *
+			 *     { locale: 'en-us' }
+			 *
+			 * @property CONTAINER_LOCALE_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_LOCALE_CHANGE: _CONTAINER_EVENT_PREFIX + 'localeChange'
 		};
 	})(),
 

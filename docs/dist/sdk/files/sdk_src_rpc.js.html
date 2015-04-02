@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>sdk/src/rpc.js - Open Financial Framework</title>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
+<meta name="viewport" content="width=device-width initial-scale=1.0"/>
+<link rel="stylesheet" href="//www.openf2.org/css/site.css"/>
+<link rel="stylesheet" href="../assets/css/custom.css">
+<link rel="stylesheet" href="../assets/css/prettify.css">
+<link rel="shortcut icon" href="//www.openf2.org/img/favicon.ico" type="image/x-icon"/>
+<meta name="apple-mobile-web-app-title" content="F2"/>
+<link rel="apple-touch-icon" href="//www.openf2.org/img/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-152x152.png"/>
+<meta name="msapplication-square70x70logo" content="//www.openf2.org/img/smalltile.png"/>
+<meta name="msapplication-square150x150logo" content="//www.openf2.org/img/mediumtile.png"/>
+<meta name="msapplication-wide310x150logo" content="//www.openf2.org/img/widetile.png"/>
+<meta name="msapplication-square310x310logo" content="//www.openf2.org/img/largetile.png"/><!--[if lt IE 9]>
+<script src="//www.openf2.org/js/thirdparty/polyfills/es5.js"></script><![endif]-->
+<!--[if lt IE 9]>
+<script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+  .pageContent {
+    margin-top: 20px;
+  }
+  #docs-main .page-header {
+  	margin-top: 0;
+  }
+  .docs #docs p:last-child {
+    margin-bottom: 25px;
+  }
+  #docs div.media:last-child {
+    margin-bottom: 100px;
+  }
+  .sidebar-toc {
+    overflow: hidden;
+  }
+</style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+   
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
+</head>
+<body class="yui3-skin-sam">
+<div role="navigation" class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#f2navbarcollapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" title="Home" class="navbar-brand">F2</a>
+    </div>
+    <div id="f2navbarcollapse" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="//www.openf2.org/">About</a>
+        </li>
+        <li><a href="//www.openf2.org/examples">Examples</a>
+        </li>
+        <li><a href="//www.openf2.org/developers" class="active">Developers</a>
+        </li>
+        <li><a href="//blog.openf2.org">Blog</a>
+        </li>
+        <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
+          <li><a href="http://www.openf2.org/developers">Developers</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.0</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="../../index.html">Getting Started</a></li>
+              <li><a href="../../container-development.html">Container Development</a></li>
+              <li><a href="../../app-development.html">App Development</a></li>
+              <li><a href="../../extending-f2.html">Extend F2</a></li>
+              <li class="active"><a href="../">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+sdk/src/rpc.js" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">sdk/src/rpc.js</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="../">API Reference</a></li>
+              
+    <li class=""><a href="../classes/F2.html">F2</a></li>
+
+    <li class=""><a href="../classes/F2.App.html">F2.App</a></li>
+
+    <li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
+
+    <li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+
+    <li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
+
+    <li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+
+    <li class="hidden"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+
+    <li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
+
+    <li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+
+    <li class="hidden"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
+
+    <li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
+
+    <li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
+
+    <li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
+
+    <li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
+
+    <li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
+
+    <li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
+
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
+          <ul class="nav nav-stacked">
+            <li><a href="#">Sections</a></li>
+            <li><a href="../../index.html">Getting Started</a></li>
+            <li><a href="../../container-development.html">Container Development</a></li>
+            <li><a href="../../app-development.html">App Development</a></li>
+            <li><a href="../../extending-f2.html">Extending F2</a></li>
+            <li class="hidden"><a href="../../f2js-sdk.html">F2.js</a></li>
+            <li class="hidden"><a href="../../about-f2.html">About F2</a></li>
+            <li class="active"><a href="../">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9" id="docs">
+      	<div class="apidocs">
+	      	<div id="docs-main">
+	        	<div class="content">
+	        		<form id="options-form" class="form-inline pull-right">
+    Show:
+    <!--<div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+    </div>-->
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+    </div>
+</form>
+	                <h1 class="page-header">sdk/src/rpc.js <small>File</small></h1>
+
+<div class="file">
+    <pre class="prettyprint linenums"><code>
+/**
+ * Handles socket communication between the container and secure apps
+ * @class F2.Rpc
+ */
+F2.extend(&#x27;Rpc&#x27;, (function(){
+	var _callbacks = {};
+	var _secureAppPagePath = &#x27;&#x27;;
+	var _apps = {};
+	var _rEvents = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.EVENT);
+	var _rRpc = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC);
+	var _rRpcCallback = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.RPC_CALLBACK);
+	var _rSocketLoad = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.LOAD);
+	var _rUiCall = new RegExp(&#x27;^&#x27; + F2.Constants.Sockets.UI_RPC);
+
+	/**
+	 * Creates a socket connection from the app to the container using 
+	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
+	 * @method _createAppToContainerSocket
+	 * @private
+	 */
+	var _createAppToContainerSocket = function() {
+
+		var appConfig; // socket closure
+		var isLoaded = false;
+		// its possible for messages to be received before the socket load event has
+		// happened.  We&#x27;ll save off these messages and replay them once the socket
+		// is ready
+		var messagePlayback = [];
+
+		var socket = new easyXDM.Socket({
+			onMessage: function(message, origin){
+
+				// handle Socket Load
+				if (!isLoaded &amp;&amp; _rSocketLoad.test(message)) {
+					message = message.replace(_rSocketLoad, &#x27;&#x27;);
+					var appParts = F2.parse(message);
+
+					// make sure we have the AppConfig and AppManifest
+					if (appParts.length == 2) {
+						appConfig = appParts[0];
+
+						// save socket
+						_apps[appConfig.instanceId] = {
+							config:appConfig,
+							socket:socket
+						};	
+
+						// register app
+						F2.registerApps([appConfig], [appParts[1]]);
+
+						// socket message playback
+						jQuery.each(messagePlayback, function(i, e) {
+							_onMessage(appConfig, message, origin);
+						});
+						
+						isLoaded = true;
+					}
+				} else if (isLoaded) {
+					// pass everyting else to _onMessage
+					_onMessage(appConfig, message, origin);
+				} else {
+					//F2.log(&#x27;socket not ready, queuing message&#x27;, message);
+					messagePlayback.push(message);
+				}
+			}
+		});
+	};
+
+	/**
+	 * Creates a socket connection from the container to the app using 
+	 * &lt;a href=&quot;http://easyxdm.net&quot; target=&quot;_blank&quot;&gt;easyXDM&lt;/a&gt;.
+	 * @method _createContainerToAppSocket
+	 * @private
+	 * @param {appConfig} appConfig The F2.AppConfig object
+	 * @param {F2.AppManifest} appManifest The F2.AppManifest object
+	 */
+	var _createContainerToAppSocket = function(appConfig, appManifest) {
+
+		var container = jQuery(appConfig.root);
+
+		if (!container.is(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER)) {
+			container.find(&#x27;.&#x27; + F2.Constants.Css.APP_CONTAINER);
+		}
+
+		if (!container.length) {
+			F2.log(&#x27;Unable to locate app in order to establish secure connection.&#x27;);
+			return;
+		}
+
+		var iframeProps = {
+			scrolling:&#x27;no&#x27;,
+			style:{
+				width:&#x27;100%&#x27;
+			}
+		};
+
+		if (appConfig.height) {
+			iframeProps.style.height = appConfig.height + &#x27;px&#x27;;
+		}
+
+		var socket = new easyXDM.Socket({
+			remote: _secureAppPagePath,
+			container: container.get(0),
+			props:iframeProps,
+			onMessage: function(message, origin) {
+				// pass everything to _onMessage
+				_onMessage(appConfig, message, origin);
+			},
+			onReady: function() {
+				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
+			}
+		});
+
+		return socket;
+	};
+
+	/**
+	 * @method _createRpcCallback
+	 * @private
+	 * @param {string} instanceId The app&#x27;s Instance ID
+	 * @param {function} callbackId The callback ID
+	 * @return {function} A function to make the RPC call
+	 */
+	var _createRpcCallback = function(instanceId, callbackId) {
+		return function() {
+			F2.Rpc.call(
+				instanceId,
+				F2.Constants.Sockets.RPC_CALLBACK,
+				callbackId,
+				[].slice.call(arguments).slice(2)
+			);
+		};
+	};
+
+	/**
+	 * Handles messages that come across the sockets
+	 * @method _onMessage
+	 * @private
+	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
+	 * @param {string} message The socket message
+	 * @param {string} origin The originator
+	 */
+	var _onMessage = function(appConfig, message, origin) {
+
+		var obj, func;
+
+		function parseFunction(parent, functionName) {
+			var path = String(functionName).split(&#x27;.&#x27;);
+			for (var i = 0; i &lt; path.length; i++) {
+				if (parent[path[i]] === undefined) {
+					parent = undefined;
+					break;
+				}
+				parent = parent[path[i]];
+			}
+			return parent;
+		}
+
+		function parseMessage(regEx, message, instanceId) {
+			var o = F2.parse(message.replace(regEx, &#x27;&#x27;));
+
+			// if obj.callbacks
+			//   for each callback
+			//     for each params
+			//       if callback matches param
+			//        replace param with _createRpcCallback(app.instanceId, callback)
+			if (o.params &amp;&amp; o.params.length &amp;&amp; o.callbacks &amp;&amp; o.callbacks.length) {
+				jQuery.each(o.callbacks, function(i, c) {
+					jQuery.each(o.params, function(i, p) {
+						if (c == p) {
+							o.params[i] = _createRpcCallback(instanceId, c);
+						}
+					});
+				});
+			}
+
+			return o;
+		}
+
+		// handle UI Call
+		if (_rUiCall.test(message)) {
+			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
+			func = parseFunction(appConfig.ui, obj.functionName);
+			// if we found the function, call it
+			if (func !== undefined) {
+				func.apply(appConfig.ui, obj.params);
+			} else {
+				F2.log(&#x27;Unable to locate UI RPC function: &#x27; + obj.functionName);
+			}
+
+		// handle RPC
+		} else if (_rRpc.test(message)) {
+			obj = parseMessage(_rRpc, message, appConfig.instanceId);
+			func = parseFunction(window, obj.functionName);
+			if (func !== undefined) {
+				func.apply(func, obj.params);
+			} else {
+				F2.log(&#x27;Unable to locate RPC function: &#x27; + obj.functionName);
+			}
+
+		// handle RPC Callback
+		} else if (_rRpcCallback.test(message)) {
+			obj = parseMessage(_rRpcCallback, message, appConfig.instanceId);
+			if (_callbacks[obj.functionName] !== undefined) {
+				_callbacks[obj.functionName].apply(_callbacks[obj.functionName], obj.params);
+				delete _callbacks[obj.functionName];
+			}
+
+		// handle Events
+		} else if (_rEvents.test(message)) {
+			obj = parseMessage(_rEvents, message, appConfig.instanceId);
+			F2.Events._socketEmit.apply(F2.Events, obj);
+		}
+	};
+
+	/**
+	 * Registers a callback function
+	 * @method _registerCallback
+	 * @private
+	 * @param {function} callback The callback function
+	 * @return {string} The callback ID
+	 */
+	var _registerCallback = function(callback) {
+		var callbackId = F2.guid();
+		_callbacks[callbackId] = callback;
+		return callbackId;
+	};
+
+	return {
+		/**
+		 * Broadcast an RPC function to all sockets
+		 * @method broadcast
+		 * @param {string} messageType The message type
+		 * @param {Array} params The parameters to broadcast
+		 */
+		broadcast: function(messageType, params) {
+			// check valid messageType
+			var message = messageType + F2.stringify(params);
+			jQuery.each(_apps, function(i, a) {
+				a.socket.postMessage(message);
+			});
+		},
+		/**
+		 * Calls a remote function
+		 * @method call
+		 * @param {string} instanceId The app&#x27;s Instance ID
+		 * @param {string} messageType The message type
+		 * @param {string} functionName The name of the remote function
+		 * @param {Array} params An array of parameters to pass to the remote
+		 * function. Any functions found within the params will be treated as a
+		 * callback function.
+		 */
+		call: function(instanceId, messageType, functionName, params) {
+			// loop through params and find functions and convert them to callbacks
+			var callbacks = [];
+			jQuery.each(params, function(i, e) {
+				if (typeof e === &#x27;function&#x27;) {
+					var cid = _registerCallback(e);
+					params[i] = cid;
+					callbacks.push(cid);
+				}
+			});
+			// check valid messageType
+			_apps[instanceId].socket.postMessage(
+				messageType + F2.stringify({
+					functionName:functionName,
+					params:params,
+					callbacks:callbacks
+				})
+			);
+		},
+
+		/**
+		 * Init function which tells F2.Rpc whether it is running at the container-
+		 * level or the app-level. This method is generally called by
+		 * F2.{{#crossLink &quot;F2/init&quot;}}{{/crossLink}}
+		 * @method init
+		 * @param {string} [secureAppPagePath] The
+		 * {{#crossLink &quot;F2.ContainerConfig&quot;}}{{/crossLink}}.secureAppPagePath
+		 * property
+		 */
+		init: function(secureAppPagePath) {
+			_secureAppPagePath = secureAppPagePath;
+			if (!_secureAppPagePath) {
+				_createAppToContainerSocket();
+			}
+		},
+
+		/**
+		 * Determines whether the Instance ID is considered to be &#x27;remote&#x27;. This is
+		 * determined by checking if 1) the app has an open socket and 2) whether
+		 * F2.Rpc is running inside of an iframe
+		 * @method isRemote
+		 * @param {string} instanceId The Instance ID
+		 * @return {bool} True if there is an open socket
+		 */
+		isRemote: function(instanceId) {
+			return (
+				// we have an app
+				_apps[instanceId] !== undefined &amp;&amp;
+				// the app is secure
+				_apps[instanceId].config.isSecure &amp;&amp;
+				// we can&#x27;t access the iframe
+				jQuery(_apps[instanceId].config.root).find(&#x27;iframe&#x27;).length === 0
+			);
+		},
+
+		/**
+		 * Creates a container-to-app or app-to-container socket for communication
+		 * @method register
+		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
+		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
+		 */
+		register: function(appConfig, appManifest) {
+			if (!!appConfig &amp;&amp; !!appManifest) {
+				_apps[appConfig.instanceId] = {
+					config:appConfig,
+					socket:_createContainerToAppSocket(appConfig, appManifest)
+				};
+			} else {
+				F2.log(&#x27;Unable to register socket connection. Please check container configuration.&#x27;);
+			}
+		}
+	};
+})());
+    </code></pre>
+</div>
+
+	            </div>
+	        </div>
+	    </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-lg-6">
+        <h1 class="hidden-sm hidden-md hidden-lg">F2</h1>
+        <p class="hidden-sm hidden-md hidden-lg">An open & free framework created for building financial applications.</p>
+        <div class="deepFooter hidden-xs hidden-sm">
+          <p>Enabling smarter financial applications</p>
+          <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+        </div>
+        <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
+          <li><a href="http://docs.openf2.org">Docs</a></li>
+          <li><a href="//www.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
+          <li><a href="http://blog.openf2.org">Blog</a></li>
+          <li><a href="//www.openf2.org/developers">Developers</a></li>
+          <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+          <li><a href="https://twitter.com/OpenF2">@OpenF2</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
+        <ul class="footer-nav iconlist list-inline">
+          <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
+            <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
+                <h5>View on GitHub</h5>
+                <p>Current Version&nbsp;<span>1.4.0</span><br/>Released&nbsp;<span></span>
+                </p></a></div>
+          </li>
+          <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
+          <li><a href="//www.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
+          <li><a href="https://twitter.com/OpenF2" title="@OpenF2" class="hexagon"><i class="fa fa-twitter fa-2x"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row deepFooter">
+      <div class="col-xs-12 hidden-md hidden-lg">
+        <p>Enabling smarter financial applications</p>
+        <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<!-- <script src="js/docs.js" type="text/javascript"></script> 
+<script type="text/javascript">new F2Docs().initialize();</script>-->
+<script>
+  window.prettyPrint && prettyPrint();
+
+	//docs
+	var current = location.pathname.split('/').pop();
+	$('a','ul.sidebar-toc').each(function(i,el){
+		var $el = $(el);
+		if (current.length && $el.attr('href').indexOf(current) > -1){
+			$el.parent().addClass('active');
+		}
+	});
+</script>
+</body>
+</html>

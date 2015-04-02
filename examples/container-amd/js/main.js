@@ -2,8 +2,9 @@ require(
 	{
 		basePath: 'js',
 		paths: {
-			'jquery': 'jquery.min',
-			'jquery-ui': 'jquery-ui.min',
+			'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
+			'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min',
+			'bootstrap': '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min',
 			'F2': '../../../sdk/f2.debug'
 		},
 		shim: {
@@ -67,23 +68,29 @@ require(
 				var showDivider = hasSettings || hasHelp || hasAbout;
 				var gridWidth = appConfig.minGridSize || 3;
 
+				var cogMenu = [
+					'<div class="dropdown pull-right">',
+						'<a class="dropdown-toggle" data-toggle="dropdown" href="#">',
+							'<span class="glyphicon glyphicon-cog"></span>',
+						'</a>',
+						'<ul class="dropdown-menu">',
+							hasSettings ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.SETTINGS + '">Edit Settings</a></li>' : '',
+							hasHelp ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.HELP + '">Help</a></li>' : '',
+							hasAbout ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.ABOUT + '">About</a></li>' : '',
+							showDivider ? '<li class="divider"></li>' : '',
+							'<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.REMOVE + '">Remove App</a></li>',
+						'</ul>',
+					'</div>'
+				].join('');
+
 				appConfig.root = $([
-					'<section class="' + F2.Constants.Css.APP + ' span' + gridWidth + '" data-grid-width="' + gridWidth + '">',
-						'<header class="clearfix">',
-							'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name.toUpperCase(), '</h2>',
-							'<div class="btn-group pull-right">',
-								'<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown">',
-									'<i class="icon-cog"></i>',
-								'</button>',
-								'<ul class="dropdown-menu">',
-									hasSettings ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.SETTINGS + '">Edit Settings</a></li>' : '',
-									hasHelp ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.HELP + '">Help</a></li>' : '',
-									hasAbout ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.ABOUT + '">About</a></li>' : '',
-									showDivider ? '<li class="divider"></li>' : '',
-									'<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.REMOVE + '">Remove App</a></li>',
-								'</ul>',
-							'</div>',
-						'</header>',
+					'<section class="col-md-' + gridWidth + '" data-grid-width="' + gridWidth + '">',
+						'<div class="f2-app-wrapper">',
+							'<header class="clearfix">',
+								'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name, '</h2>',
+								cogMenu,
+							'</header>',
+						'</div>',
 					'</section>'
 				].join('')).get(0);			
 			};
@@ -108,8 +115,14 @@ require(
 				if (row === undefined) {
 					row = $('<div class="row"></div>').appendTo('#mainContent');
 				}
+
 				// append app to app root and also to row
-				$(appConfig.root).append(app).appendTo(row);
+				$(appConfig.root)
+					.addClass(F2.Constants.Css.APP)
+					.find('.f2-app-wrapper')
+					.append(app)
+					.parent()
+					.appendTo(row);
 			};
 
 			var appRenderCompleteFunc = function(appConfig) {

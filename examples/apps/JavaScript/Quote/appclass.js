@@ -98,7 +98,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 		if (quoteData && quoteData.Data && quoteData.Data.Status == 'SUCCESS') {
 			appConfig.ui.setTitle(quoteData.Data.Name);
 
-			$caption.fadeOut().promise().done(function() {
+			$caption.promise().done(function() {
 				$(this)
 					.empty()
 					.append([
@@ -106,11 +106,10 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 							'<span class="last pull-left">', Format.number(quoteData.Data.LastPrice, 2), '</span>',
 							'<span class="last-change pull-right">', Format.number(quoteData.Data.Change, {precision:2, withColors:true}), ' ', Format.number(quoteData.Data.ChangePercent, {precision:2, withColors:true, prefix:'(', suffix:'%)'}), '</span>',
 						'</h3>'
-					].join(''))
-					.fadeIn();
+					].join(''));
 			});
 
-			$tbody.fadeOut().promise().done(function() {
+			$tbody.promise().done(function() {
 				$(this)
 					.empty()
 					.append([
@@ -130,8 +129,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 							'<th>Market Cap</th>',
 							'<td><strong>', Format.number(quoteData.Data.MarketCap, {withMagnitude:true,precision:1}), '</strong></td>',
 						'</tr>'
-					].join(''))
-					.fadeIn();
+					].join(''));
 			});
 
 			$('span', $addToWatchlist).text(quoteData.Data.Symbol);
@@ -154,7 +152,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 		if (_config.autoRefresh) {
 			F2.log('beginning refresh');
 			_autoRefreshInterval = setInterval(function() {
-				F2.log('here');
+				F2.log('refreshed');
 				_getQuote();
 			}, 30000);
 		}

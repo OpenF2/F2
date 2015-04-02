@@ -2,19 +2,15 @@ F2_jsonpCallback_com_openf2_examples_javascript_helloworld({
 	"scripts":[
 		"../apps/JavaScript/HelloWorld/appclass.js"
 	],
-	"styles":[
-
-	],
+	"styles":[],
 	"apps":[
 		{
 			"html":[
 				'<div>',
 					'<div class="f2-app-view" data-f2-view="home">',
-						'<p>Hello World!</p>',
-						'<ul>',
-							'<li><a href="#" class="testAlert">Alert Modal</a></li>',
-							'<li><a href="#" class="testConfirm">Confirm Modal</a></li>',
-						'</ul>',
+						'<p>Hello World! Test modals:</p>',
+						'<a href="#" class="btn btn-default testAlert">Alert Modal</a>&nbsp;',
+						'<a href="#" class="btn btn-default testConfirm">Confirm Modal</a>',
 					'</div>',
 				'</div>'
 			].join("")

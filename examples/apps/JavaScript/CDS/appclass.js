@@ -35,7 +35,7 @@ F2.Apps['com_openf2_examples_javascript_cds'] = (function (appConfig, appContent
     App.prototype.ROW = [
     	'<tr>',
 			'<td class=\'first\'>',
-				'<strong><a title=\'{name}\' data-context=\'{name}\' data-context-name=\'{name}\'>{name}</a></strong>',
+				'<a title=\'{name}\' href=\'#\' data-context=\'{name}\' data-context-name=\'{name}\'>{name}</a>',
 			'</td>',
 			'<td>{spread}</td>',
 			'<td>{changePct}</td>',
@@ -177,7 +177,6 @@ F2.Apps['com_openf2_examples_javascript_cds'] = (function (appConfig, appContent
 			this.drawTable(rTightenerData,rWidenerData);
 		});		
 	};
-
 
 	/**
 	 *  Number format helpers
