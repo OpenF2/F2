@@ -1,0 +1,21 @@
+{
+  "name": "F2",
+  "description": "F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.",
+  "keywords": [],
+  "homepage": "http://www.openf2.org",
+  "version": "1.4.0",
+  "main": [],
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt",
+    "CONTRIBUTING.md",
+    "docs",
+    "examples",
+    "tests"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:OpenF2/F2.git"
+  }
+}
