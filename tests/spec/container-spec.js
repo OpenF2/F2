@@ -160,38 +160,60 @@ describe('F2.registerApps - pre-load', function() {
 		});
 	});
 
-	it('should pass appConfig, appContent, root as arguments to the AppClass', function() {
+	it('should pass appConfig, appContent, and root to preloaded AppClasses when given AppContent', function() {
+		F2.PreloadArguments = [];
 
-		var scriptsLoaded = false;
-		F2.PreloadArguments;
-
-		var $appOnPage = $("body").find("div.com_openf2_tests_helloworld");
-		var appConfig = [{
+		var appConfig = {
 			appId:'com_openf2_tests_helloworld',
 			manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',
-			root: $appOnPage.get(0)
-		}];
+			root: $("div.com_openf2_tests_helloworld").get(0)
+		};
+		var appManifest = {
+			scripts: ["js/test.js"],
+			apps: [{
+				html: '<div class="test-app-2">Testing</div>'
+			}]
+		};
 
 		// init is called above
-		F2.registerApps(appConfig,[{"scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
-
-		//notify when dependencies have been loaded
-		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
-			scriptsLoaded = true;
-		});
+		F2.registerApps(appConfig, appManifest);
 
 		// wait for registerApps to complete and load both apps
 		waitsFor(function() {
-			return scriptsLoaded && F2.PreloadArguments;
+			return F2.PreloadArguments.length;
 		}, 'test app to load', 10000);
 
 		runs(function() {
-			expect(F2.PreloadArguments).toBe(3);
+			expect(F2.PreloadArguments[0].appId).toBe(appConfig.appId);
+			expect(F2.PreloadArguments[1]).toBe(appManifest.apps[0]);
+			expect(F2.PreloadArguments[2].className).toContain('com_openf2_tests_helloworld');
 		});
 	});
 
+	it('should pass appConfig, appContent, and root to preloaded AppClasses when not given AppContent', function() {
+		F2.PreloadArguments = [];
 
-	
+		var appConfig = {
+			appId:'com_openf2_tests_helloworld',
+			manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',
+			root: $("div.com_openf2_tests_helloworld").get(0)
+		};
+
+		// init is called above
+		F2.registerApps(appConfig);
+
+		// wait for registerApps to complete and load both apps
+		waitsFor(function() {
+			return F2.PreloadArguments.length;
+		}, 'test app to load', 10000);
+
+		runs(function() {
+			expect(F2.PreloadArguments[0].appId).toBe(appConfig.appId);
+			expect(F2.PreloadArguments[1]).toEqual({ status: 'SUCCESS', preloaded: true });
+			expect(F2.PreloadArguments[2].className).toContain('com_openf2_tests_helloworld');
+		});
+	});
+
 });
 
 describe('F2.init', function() {
