@@ -191,6 +191,11 @@ F2.extend('Constants', {
 
 	JSONP_CALLBACK: 'F2_jsonpCallback_',
 
+	AppStatus: {
+		ERROR: 'ERROR',
+		SUCCESS: 'SUCCESS'
+	},
+
 	/**
 	 * Constants for use with cross-domain sockets
 	 * @class F2.Constants.Sockets
