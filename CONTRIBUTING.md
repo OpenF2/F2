@@ -17,6 +17,7 @@ First, a couple of ground rules.
 	* Clearly describe the issue including steps to reproduce when it is a bug.
 	* Include the F2 version number.
 3. [Fork the F2 repository](https://github.com/OpenF2/F2/fork).
+4. Install Node.js, npm, grunt and grunt-cli.
 
 ## New to GitHub? 
 
