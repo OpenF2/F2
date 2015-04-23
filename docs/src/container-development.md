@@ -811,6 +811,15 @@ $(function(){
 });
 ```
 
+If a manifest is passed with the `AppConfig`, then the `AppClass` will receive an index from the manifest's `apps` property in place of `AppContent`. If no manifest is supplied, the `AppClass` will receive the following hardcoded `AppContent`:
+
+```
+{
+    preloaded: true,
+    status: 'SUCCESS'
+}
+```
+
 <span class="label label-danger">Important</span> The `F2.registerApps()` API supports both an array of objects and object literals for each argument. Internally, F2.js converts the value of each argument into an array using concatenation (`[].concat()`). If arrays of objects are used (when there are more than one app on the container), the `_appConfig` and `_appManifest` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for the sample news app used above must be in `_appConfig[0]` and `_appManifest[0]`.
 
 * * * *
