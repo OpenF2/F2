@@ -27,7 +27,7 @@ locals.templates = {
 
 //loop over *.md files in source directory for conversion
 srcFiles.forEach(function(filename) {
-  var src, html, title, content, dist, _locals, headings = [];
+  var src, html, dist, _locals, headings = [];
 
   _locals = _.extend({},locals,pkg);
 
@@ -84,7 +84,11 @@ srcFiles.forEach(function(filename) {
 
   //convert markdown to html and highlight source code
   html = marked(src, { renderer: renderer, smartypants: true, highlight: function (code, lang) {
-    return highlight.highlight(lang, code).value;
+    if (lang){
+      return highlight.highlight(lang, code).value;
+    } else {
+      return highlight.highlightAuto(code).value;
+    }
   }});
 
   //"content" is HTML (converted from markdown & variables compiled)
@@ -105,7 +109,7 @@ srcFiles.forEach(function(filename) {
     extend: _locals.title == 'Extending F2',
     f2js: _locals.title == 'F2.js SDK',
     about: _locals.title == 'About F2'
-  }
+  };
 
   //now compile the templateFile to add _locals.templates and _locals.content
   dist = (handlebars.compile(template, {noEscape:true}))(_locals);
