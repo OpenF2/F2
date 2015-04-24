@@ -1,7 +1,7 @@
 {
   "name": "F2",
   "description": "An open framework for the financial services industry.",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "keywords": [
     "openf2"
   ],
@@ -47,6 +47,6 @@
   "engines": {
     "node": ">=0.10"
   },
-  "_releaseDate": "2015-04-02T15:42:11.513Z",
-  "_releaseDateFormatted": "2 April 2015"
+  "_releaseDate": "2015-04-24T15:49:35.542Z",
+  "_releaseDateFormatted": "24 April 2015"
 }
