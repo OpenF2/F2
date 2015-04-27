@@ -113,8 +113,8 @@ Have a question? Find a bug? Need help?
 	<a class="media-left" href="https://openf2.slack.com/"><i class="fa fa-slack"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">Slack</h4>
-		Join [F2's Slack](https://openf2.slack.com/) for real-time project updates. <br>
-		_Slack is invite-only, to request an invite [submit your email on this form](https://docs.google.com/a/markit.com/forms/d/1Dp_m3yixZraH4fdmsg-AAd0HhfreKMx7bthZF5WW3gQ/viewform?c=0&w=1)._
+		Join the [F2 Slack](https://openf2.slack.com/) for real-time project updates. _[Get an invite](https://openf2-slack.herokuapp.com/)._<br><br>
+		<script async defer src="//openf2-slack.herokuapp.com/slackin.js"></script>
 	</div>
 </div>
 
