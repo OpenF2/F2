@@ -579,13 +579,13 @@ Both an `appId` and `manifestUrl` are required for F2.js to successfully registe
 F2 Context can be provided for auto-loaded Apps. Use the `data-f2-context` data attribute and assign stringified JSON as the value.
 
 ```html
-data-f2-context="{\"hello\":\"world\"}"
+data-f2-context="{&quot;hello&quot;:&quot;world&quot;}"
 ```
 
 Implemented:
 
 ```html
-<div id="f2-autoload" data-f2-appid="com_openf2_examples_nodejs_helloworld" data-f2-manifesturl="http://www.openf2.org/F2/apps" data-f2-context="{\"hello\":\"world\"}"></div>
+<div id="f2-autoload" data-f2-appid="com_openf2_examples_nodejs_helloworld" data-f2-manifesturl="http://www.openf2.org/F2/apps" data-f2-context="{&quot;hello&quot;:&quot;world&quot;}"></div>
 ```
 
 [Batch requesting](#batch-requesting-apps) of Apps as well as [secure Apps](app-development.html#secure-apps) are supported in the auto-loading mode.
