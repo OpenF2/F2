@@ -57,6 +57,38 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 		return list;
 	}
 
+	var _initQuoteButton = function() {
+
+		$('button.get-quote', $root).on('click', function(){
+			var symbol = $('.ui-autocomplete-input', $root).val();
+
+			if(!symbol || !symbol.length){
+				return;
+			}
+
+			symbol = symbol.trim().toUpperCase();
+
+			$.ajax({
+				url: '//dev.markitondemand.com/api/Lookup/jsonp',
+				dataType: 'jsonp',
+				data: {
+					input: symbol
+				},
+				success: function (data) {
+					var result = $.grep(data, function(item){
+						return item.Symbol == symbol; 
+					});
+
+					if(!result.length){
+						return;
+					}
+
+					_getQuote({symbol: symbol});
+				}
+			});
+		});
+	};
+
 	var _initTypeahead = function() {
 
 		$('input[name=lookup]', $root)
@@ -263,6 +295,9 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 
 			// init typeahead
 			_initTypeahead();
+			
+			// init quote button
+			_initQuoteButton();
 
 			// get quote
 			_getQuote();

@@ -23,7 +23,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_quote({
 									'<td colspan="2">',
 										'<div class="input-group">',
 											'<input type="text" name="lookup" class="form-control input-sm">',
-											'<span class="input-group-btn"><button type="button" class="btn btn-primary btn-sm">Get New Quote</button></span>',
+											'<span class="input-group-btn"><button type="button" class="btn btn-primary btn-sm get-quote">Get New Quote</button></span>',
 										'</div>',
 									'</td>',
 								'</tr>',
