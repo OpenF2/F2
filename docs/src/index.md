@@ -114,7 +114,7 @@ Have a question? Find a bug? Need help?
 	<div class="media-body">
 		<h4 class="media-heading">Slack</h4>
 		Join [F2's Slack](https://openf2.slack.com/) for real-time project updates. <br>
-		_Slack is invite-only, to request an invite [submit your email on this form](https://docs.google.com/a/markit.com/forms/d/1Dp_m3yixZraH4fdmsg-AAd0HhfreKMx7bthZF5WW3gQ/viewform?c=0&w=1)._
+		_Slack is invite-only, [get yours now](http://openf2-slack.herokuapp.com/)!_
 	</div>
 </div>
 
