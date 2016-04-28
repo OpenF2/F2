@@ -1044,7 +1044,10 @@ F2.extend('', (function() {
 					}
 					
 					// instantiate F2.App
-					_createAppInstance(a);
+					_createAppInstance(a, {
+						preloaded: true,
+						status: F2.Constants.AppStatus.SUCCESS
+					});
 
 					// init events
 					_initAppEvents(a);

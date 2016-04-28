@@ -579,13 +579,13 @@ Both an `appId` and `manifestUrl` are required for F2.js to successfully registe
 F2 Context can be provided for auto-loaded Apps. Use the `data-f2-context` data attribute and assign stringified JSON as the value.
 
 ```html
-data-f2-context="{\"hello\":\"world\"}"
+data-f2-context="{&quot;hello&quot;:&quot;world&quot;}"
 ```
 
 Implemented:
 
 ```html
-<div id="f2-autoload" data-f2-appid="com_openf2_examples_nodejs_helloworld" data-f2-manifesturl="http://www.openf2.org/F2/apps" data-f2-context="{\"hello\":\"world\"}"></div>
+<div id="f2-autoload" data-f2-appid="com_openf2_examples_nodejs_helloworld" data-f2-manifesturl="http://www.openf2.org/F2/apps" data-f2-context="{&quot;hello&quot;:&quot;world&quot;}"></div>
 ```
 
 [Batch requesting](#batch-requesting-apps) of Apps as well as [secure Apps](app-development.html#secure-apps) are supported in the auto-loading mode.
@@ -809,6 +809,15 @@ $(function(){
     F2.init();
     F2.registerApps(_appConfig,_appManifest);
 });
+```
+
+If a manifest is passed with the `AppConfig`, then the `AppClass` will receive an index from the manifest's `apps` property in place of `AppContent`. If no manifest is supplied, the `AppClass` will receive the following hardcoded `AppContent`:
+
+```
+{
+    preloaded: true,
+    status: 'SUCCESS'
+}
 ```
 
 <span class="label label-danger">Important</span> The `F2.registerApps()` API supports both an array of objects and object literals for each argument. Internally, F2.js converts the value of each argument into an array using concatenation (`[].concat()`). If arrays of objects are used (when there are more than one app on the container), the `_appConfig` and `_appManifest` arrays must be of equal length, and the object at each index must be a parallel reference. This means the `AppConfig` and `AppManifest` for the sample news app used above must be in `_appConfig[0]` and `_appManifest[0]`.
