@@ -15,12 +15,7 @@
 		"url": "https://github.com/OpenF2/F2/issues",
 		"email": "OpenF2@googlegroups.com"
 	},
-	"licenses": [
-		{
-			"type": "Apache-2.0",
-			"url": "http://www.apache.org/licenses/LICENSE-2.0"
-		}
-	],
+	"license": "Apache-2.0",
 	"devDependencies": {
 		"express": "~3.2.4",
 		"grunt": "~0.4.1",

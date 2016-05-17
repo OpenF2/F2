@@ -1088,9 +1088,8 @@ if (typeof JSON !== 'object') {
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
 
-/*!
- * Øyvind Sean Kinsey and others require the following notice to accompany easyXDM:
- * 
+/**
+ * easyXDM
  * http://easyxdm.net/
  * Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
  *
@@ -1115,6 +1114,30 @@ if (typeof JSON !== 'object') {
 (function (window, document, location, setTimeout, decodeURIComponent, encodeURIComponent) {
 /*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
 /*global JSON, XMLHttpRequest, window, escape, unescape, ActiveXObject */
+//
+// easyXDM
+// http://easyxdm.net/
+// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
+
 var global = this;
 var channelId = Math.floor(Math.random() * 10000); // randomize the initial id in case of multiple closures loaded 
 var emptyFn = Function.prototype;
@@ -1152,16 +1175,31 @@ function isArray(o){
 
 // end
 function hasFlash(){
-    try {
-        var activeX = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-        flashVersion = Array.prototype.slice.call(activeX.GetVariable("$version").match(/(\d+),(\d+),(\d+),(\d+)/), 1);
-        HAS_FLASH_THROTTLED_BUG = parseInt(flashVersion[0], 10) > 9 && parseInt(flashVersion[1], 10) > 0;
-        activeX = null;
-        return true;
-    } 
-    catch (notSupportedException) {
+    var name = "Shockwave Flash", mimeType = "application/x-shockwave-flash";
+    
+    if (!undef(navigator.plugins) && typeof navigator.plugins[name] == "object") {
+        // adapted from the swfobject code
+        var description = navigator.plugins[name].description;
+        if (description && !undef(navigator.mimeTypes) && navigator.mimeTypes[mimeType] && navigator.mimeTypes[mimeType].enabledPlugin) {
+            flashVersion = description.match(/\d+/g);
+        }
+    }
+    if (!flashVersion) {
+        var flash;
+        try {
+            flash = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+            flashVersion = Array.prototype.slice.call(flash.GetVariable("$version").match(/(\d+),(\d+),(\d+),(\d+)/), 1);
+            flash = null;
+        } 
+        catch (notSupportedException) {
+        }
+    }
+    if (!flashVersion) {
         return false;
     }
+    var major = parseInt(flashVersion[0], 10), minor = parseInt(flashVersion[1], 10);
+    HAS_FLASH_THROTTLED_BUG = major > 9 && minor > 0;
+    return true;
 }
 
 /*
@@ -1236,7 +1274,7 @@ if (!domIsReady) {
                 // http://javascript.nwbox.com/IEContentLoaded/
                 try {
                     document.documentElement.doScroll("left");
-                }
+                } 
                 catch (e) {
                     setTimeout(doScrollCheck, 1);
                     return;
@@ -1520,10 +1558,6 @@ function createFrame(config){
     frame.id = frame.name = config.props.name;
     delete config.props.name;
     
-    if (config.onLoad) {
-        on(frame, "load", config.onLoad);
-    }
-    
     if (typeof config.container == "string") {
         config.container = document.getElementById(config.container);
     }
@@ -1532,16 +1566,20 @@ function createFrame(config){
         // This needs to be hidden like this, simply setting display:none and the like will cause failures in some browsers.
         apply(frame.style, {
             position: "absolute",
-            top: "-2000px"
+            top: "-2000px",
+            // Avoid potential horizontal scrollbar
+            left: "0px"
         });
         config.container = document.body;
     }
     
-    // HACK for some reason, IE needs the source set
-    // after the frame has been appended into the DOM
-    // so remove the src, and set it afterwards
+    // HACK: IE cannot have the src attribute set when the frame is appended
+    //       into the container, so we set it to "javascript:false" as a
+    //       placeholder for now.  If we left the src undefined, it would
+    //       instead default to "about:blank", which causes SSL mixed-content
+    //       warnings in IE6 when on an SSL parent page.
     var src = config.props.src;
-    delete config.props.src;
+    config.props.src = "javascript:false";
     
     // transfer properties to the frame
     apply(frame, config.props);
@@ -1550,8 +1588,36 @@ function createFrame(config){
     frame.allowTransparency = true;
     config.container.appendChild(frame);
     
-    // HACK see above
-    frame.src = src;
+    if (config.onLoad) {
+        on(frame, "load", config.onLoad);
+    }
+    
+    // set the frame URL to the proper value (we previously set it to
+    // "javascript:false" to work around the IE issue mentioned above)
+    if(config.usePost) {
+        var form = config.container.appendChild(document.createElement('form')), input;
+        form.target = frame.name;
+        form.action = src;
+        form.method = 'POST';
+        if (typeof(config.usePost) === 'object') {
+            for (var i in config.usePost) {
+                if (config.usePost.hasOwnProperty(i)) {
+                    if (HAS_NAME_PROPERTY_BUG) {
+                        input = document.createElement('<input name="' + i + '"/>');
+                    } else {
+                        input = document.createElement("INPUT");
+                        input.name = i;
+                    }
+                    input.value = config.usePost[i];
+                    form.appendChild(input);
+                }
+            }
+        }
+        form.submit();
+        form.parentNode.removeChild(form);
+    } else {
+        frame.src = src;
+    }
     config.props.src = src;
     
     return frame;
@@ -1598,9 +1664,10 @@ function prepareTransportStack(config){
         config.props = {};
     }
     if (!config.isHost) {
-        config.channel = query.xdm_c;
+        config.channel = query.xdm_c.replace(/["'<>\\]/g, "");
         config.secret = query.xdm_s;
-        config.remote = query.xdm_e;
+        config.remote = query.xdm_e.replace(/["'<>\\]/g, "");
+        ;
         protocol = query.xdm_p;
         if (config.acl && !checkAcl(config.acl, config.remote)) {
             throw new Error("Access denied for " + config.remote);
@@ -1641,7 +1708,6 @@ function prepareTransportStack(config){
                  * navigating from one domain to another, and where parent.frames[foo] can be used
                  * to get access to a frame from the same domain
                  */
-                config.remoteHelper = resolveUrl(config.remoteHelper);
                 protocol = "2";
             }
             else {
@@ -1725,6 +1791,9 @@ function prepareTransportStack(config){
             stackEls = [new easyXDM.stack.PostMessageTransport(config)];
             break;
         case "2":
+            if (config.isHost) {
+                config.remoteHelper = resolveUrl(config.remoteHelper);
+            }
             stackEls = [new easyXDM.stack.NameTransport(config), new easyXDM.stack.QueueBehavior(), new easyXDM.stack.VerifyBehavior({
                 initiate: config.isHost
             })];
@@ -1806,7 +1875,7 @@ function removeFromStack(element){
 /** 
  * @class easyXDM
  * A javascript library providing cross-browser, cross-domain messaging/RPC.
- * @version 2.4.15.118
+ * @version 2.4.19.3
  * @singleton
  */
 apply(easyXDM, {
@@ -1814,7 +1883,7 @@ apply(easyXDM, {
      * The version of the library
      * @type {string}
      */
-    version: "2.4.15.118",
+    version: "2.4.19.3",
     /**
      * This is a map containing all the query parameters passed to the document.
      * All the values has been decoded using decodeURIComponent.
@@ -1997,6 +2066,9 @@ easyXDM.DomHelper = {
          * @namespace easyXDM.fn
          */
         get: function(name, del){
+            if (!_map.hasOwnProperty(name)) {
+                return;
+            }
             var fn = _map[name];
             
             if (del) {
@@ -2470,7 +2542,11 @@ easyXDM.stack.FlashTransport = function(config){
         }
         
         // create the object/embed
-        var flashVars = "callback=flash_loaded" + domain.replace(/[\-.]/g, "_") + "&proto=" + global.location.protocol + "&domain=" + getDomainName(global.location.href) + "&port=" + getPort(global.location.href) + "&ns=" + namespace;
+        var flashVars = "callback=flash_loaded" + encodeURIComponent(domain.replace(/[\-.]/g, "_"))
+            + "&proto=" + global.location.protocol
+            + "&domain=" + encodeURIComponent(getDomainName(global.location.href))
+            + "&port=" + encodeURIComponent(getPort(global.location.href))
+            + "&ns=" + encodeURIComponent(namespace);
         swfContainer.innerHTML = "<object height='20' width='20' type='application/x-shockwave-flash' id='" + id + "' data='" + url + "'>" +
         "<param name='allowScriptAccess' value='always'></param>" +
         "<param name='wmode' value='transparent'>" +
@@ -2922,26 +2998,28 @@ easyXDM.stack.NameTransport = function(config){
                 config.remoteHelper = config.remote;
                 easyXDM.Fn.set(config.channel, _onMessage);
             }
+            
             // Set up the iframe that will be used for the transport
+            var onLoad = function(){
+                // Remove the handler
+                var w = callerWindow || this;
+                un(w, "load", onLoad);
+                easyXDM.Fn.set(config.channel + "_load", _onLoad);
+                (function test(){
+                    if (typeof w.contentWindow.sendMessage == "function") {
+                        _onReady();
+                    }
+                    else {
+                        setTimeout(test, 50);
+                    }
+                }());
+            };
             
             callerWindow = createFrame({
                 props: {
                     src: config.local + "#_4" + config.channel
                 },
-                onLoad: function onLoad(){
-                    // Remove the handler
-                    var w = callerWindow || this;
-                    un(w, "load", onLoad);
-                    easyXDM.Fn.set(config.channel + "_load", _onLoad);
-                    (function test(){
-                        if (typeof w.contentWindow.sendMessage == "function") {
-                            _onReady();
-                        }
-                        else {
-                            setTimeout(test, 50);
-                        }
-                    }());
-                }
+                onLoad: onLoad
             });
         },
         init: function(){
@@ -3044,10 +3122,10 @@ easyXDM.stack.HashTransport = function(config){
             useParent = config.useParent;
             _remoteOrigin = getLocation(config.remote);
             if (isHost) {
-                config.props = {
+                apply(config.props, {
                     src: config.remote,
                     name: IFRAME_PREFIX + config.channel + "_provider"
-                };
+                });
                 if (useParent) {
                     config.onLoad = function(){
                         _listenerWindow = window;
@@ -3596,7 +3674,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.0 01-23-2014
+ * F2 v1.4.1 05-17-2016
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -3960,7 +4038,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '1.3.3'; }
+		version: function() { return '1.4.1'; }
 	};
 })();
 
@@ -4674,6 +4752,29 @@ F2.extend('', {
 		 */
 		isSecure: false,
 		/**
+		 * The language and region specification for this container 
+		 * represented as an IETF-defined standard language tag,
+		 * e.g. `"en-us"` or `"de-de"`. This is passed during the 
+		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process.
+		 *
+		 * @property containerLocale
+		 * @type string
+		 * @default null
+		 * @since 1.4.0
+		 */
+		containerLocale: null,
+		/**
+		 * The languages and regions supported by this app represented
+		 * as an array of IETF-defined standard language tags,
+		 * e.g. `["en-us","de-de"]`. 
+		 *
+		 * @property localeSupport
+		 * @type array
+		 * @default []
+		 * @since 1.4.0
+		 */
+		localeSupport: [],
+		/**
 		 * The url to retrieve the {{#crossLink "F2.AppManifest"}}{{/crossLink}}
 		 * object.
 		 * @property manifestUrl
@@ -4860,6 +4961,18 @@ F2.extend('', {
 		 * @default false
 		 */
 		debugMode: false,
+		/**
+		 * The default language and region specification for this container 
+		 * represented as an IETF-defined standard language tag,
+		 * e.g. `"en-us"` or `"de-de"`. This value is passed to each app
+		 * registered as `containerLocale`.
+		 *
+		 * @property locale
+		 * @type string
+		 * @default null
+		 * @since 1.4.0
+		 */
+		locale: null,
 		/**
 		 * Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.
 		 * @property scriptErrorTimeout
@@ -5208,6 +5321,15 @@ F2.extend('Constants', {
 
 		return {
 			/**
+			 * The APP_SCRIPTS_LOADED event is fired when all the scripts defined in
+			 * the AppManifest have been loaded.
+			 * @property APP_SCRIPTS_LOADED
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			APP_SCRIPTS_LOADED: _APP_EVENT_PREFIX + 'scriptsLoaded',
+			/**
 			 * The APP\_SYMBOL\_CHANGE event is fired when the symbol is changed in an
 			 * app. It is up to the app developer to fire this event.
 			 * Returns an object with the symbol and company name:
@@ -5256,11 +5378,40 @@ F2.extend('Constants', {
 			 * @static
 			 * @final
 			 */
-			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + 'widthChange'
+			CONTAINER_WIDTH_CHANGE: _CONTAINER_EVENT_PREFIX + 'widthChange',
+			/**
+			 * The CONTAINER\_LOCALE\_CHANGE event will be fired by the container when
+			 * the locale of the container has changed. This event should only be fired by the
+			 * container or container provider.
+			 * Returns an object with the updated locale (IETF-defined standard language tag):
+			 *
+			 *     { locale: 'en-us' }
+			 *
+			 * @property CONTAINER_LOCALE_CHANGE
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			CONTAINER_LOCALE_CHANGE: _CONTAINER_EVENT_PREFIX + 'localeChange',
+			/**
+			 * The RESOURCE_FAILED_TO_LOAD event will be fired by the container when
+			 * it fails to load a script or style.
+			 * @property RESOURCE_FAILED_TO_LOAD
+			 * @depreciated since 1.4
+			 * @type string
+			 * @static
+			 * @final
+			 */
+			RESOURCE_FAILED_TO_LOAD: _CONTAINER_EVENT_PREFIX + 'resourceFailedToLoad'
 		};
 	})(),
 
 	JSONP_CALLBACK: 'F2_jsonpCallback_',
+
+	AppStatus: {
+		ERROR: 'ERROR',
+		SUCCESS: 'SUCCESS'
+	},
 
 	/**
 	 * Constants for use with cross-domain sockets
@@ -5380,6 +5531,7 @@ F2.extend('Constants', {
 		SETTINGS: 'settings'
 	}
 });
+
 /**
  * Handles [Context](../../app-development.html#context) passing from
  * containers to apps and apps to apps.
@@ -5821,6 +5973,29 @@ F2.extend('UI', (function(){
 			}
 		};
 
+		//http://getbootstrap.com/javascript/#modals
+		var _modalHtml = function(type,message,showCancel){
+			return [
+				'<div class="modal">',
+					'<div class="modal-dialog">',
+						'<div class="modal-content">',
+							'<div class="modal-header">',
+								'<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>',
+								'<h4 class="modal-title">',type,'</h4>',
+							'</div>',
+							'<div class="modal-body"><p>',
+								message,
+								'</p></div>',
+							'<div class="modal-footer">',
+								((showCancel) ? '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' : ''),
+								'<button type="button" class="btn btn-primary btn-ok">OK</button>',
+							'</div>',
+						'</div>',
+					'</div>',
+				'</div>'
+				].join('');
+		};
+
 		return {
 			/**
 			 * Removes a overlay from an Element on the page
@@ -5839,40 +6014,11 @@ F2.extend('UI', (function(){
 			Modals: (function(){
 
 				var _renderAlert = function(message) {
-					return [
-						'<div class="modal">',
-							'<header class="modal-header">',
-								'<h3>Alert!</h3>',
-							'</header>',
-							'<div class="modal-body">',
-								'<p>',
-									message,
-								'</p>',
-							'</div>',
-							'<div class="modal-footer">',
-								'<button class="btn btn-primary btn-ok">OK</button>',
-							'</div>',
-						'</div>'
-					].join('');
+					return _modalHtml('Alert',message);
 				};
 
 				var _renderConfirm = function(message) {
-					return [
-						'<div class="modal">',
-							'<header class="modal-header">',
-								'<h3>Confirm</h3>',
-							'</header>',
-							'<div class="modal-body">',
-								'<p>',
-									message,
-								'</p>',
-							'</div>',
-							'<div class="modal-footer">',
-								'<button type="button" class="btn btn-primary btn-ok">OK</button>',
-								'<button type="button" class="btn btn-cancel">Cancel</button">',
-							'</div>',
-						'</div>'
-					].join('');
+					return _modalHtml('Confirm',message,true);
 				};
 
 				return {
@@ -5901,7 +6047,7 @@ F2.extend('UI', (function(){
 						} else {
 							// display the alert
 							jQuery(_renderAlert(message))
-								.on('show', function() {
+								.on('show.bs.modal', function() {
 									var modal = this;
 									jQuery(modal).find('.btn-primary').on('click', function() {
 										jQuery(modal).modal('hide').remove();
@@ -5938,9 +6084,9 @@ F2.extend('UI', (function(){
 						} else {
 							// display the alert
 							jQuery(_renderConfirm(message))
-								.on('show', function() {
+								.on('show.bs.modal', function() {
 									var modal = this;
-
+									
 									jQuery(modal).find('.btn-ok').on('click', function() {
 										jQuery(modal).modal('hide').remove();
 										(okCallback || jQuery.noop)();
@@ -6225,6 +6371,7 @@ F2.extend('', (function() {
 	var _config = false;
 	var _bUsesAppHandlers = false;
 	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
+	var _loadingScripts = {};
 
 	/**
 	 * Appends the app's html to the DOM
@@ -6247,7 +6394,7 @@ F2.extend('', (function() {
 			return;
 		}
 		else {
-			// apply APP class and Instance ID
+			// apply APP class
 			jQuery(appContainer).addClass(F2.Constants.Css.APP);
 			return appContainer.get(0);
 		}
@@ -6263,7 +6410,7 @@ F2.extend('', (function() {
 	 */
 	var _appRender = function(appConfig, html) {
 
-		// apply APP_CONTAINER class
+		// apply APP_CONTAINER class and AppID
 		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
 
 		// optionally apply wrapper html
@@ -6271,7 +6418,6 @@ F2.extend('', (function() {
 			html = _config.appRender(appConfig, html);
 		}
 
-		// apply APP class and instanceId
 		return _outerHtml(html);
 	};
 
@@ -6325,7 +6471,74 @@ F2.extend('', (function() {
 			appConfig.views.push(F2.Constants.Views.HOME);
 		}
 
+		//pass container-defined locale to each app
+		if (F2.ContainerConfig.locale){
+			appConfig.containerLocale = F2.ContainerConfig.locale;
+		}
+
 		return appConfig;
+	};
+
+	/**
+	 * Generate an AppConfig from the element's attributes
+	 * @method _getAppConfigFromElement
+	 * @private
+	 * @param {Element} node The DOM node from which to generate the F2.AppConfig object
+	 * @return {F2.AppConfig} The new F2.AppConfig object
+	 */
+	var _getAppConfigFromElement = function(node) {
+		var appConfig;
+
+		if (node) {
+			var appId = node.getAttribute('data-f2-appid');
+			var manifestUrl = node.getAttribute('data-f2-manifesturl');
+
+			if (appId && manifestUrl) {
+				appConfig = {
+					appId: appId,
+					enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
+					isSecure: node.hasAttribute('data-f2-issecure'),
+					manifestUrl: manifestUrl,
+					root: node
+				};
+
+				// See if the user passed in a block of serialized json
+				var contextJson = node.getAttribute('data-f2-context');
+
+				if (contextJson) {
+					try {
+						appConfig.context = F2.parse(contextJson);
+					}
+					catch (e) {
+						console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
+					}
+				}
+			}
+		}
+
+		return appConfig;
+	};
+
+	/**
+	 * Returns true if the DOM node has children that are not text nodes
+	 * @method _hasNonTextChildNodes
+	 * @private
+	 * @param {Element} node The DOM node
+	 * @return {bool} True if there are non-text children
+	 */
+	var _hasNonTextChildNodes = function(node) {
+		var hasNodes = false;
+
+		if (node.hasChildNodes()) {
+			for (var i = 0, len = node.childNodes.length; i < len; i++) {
+				if (node.childNodes[i].nodeType === 1) {
+					hasNodes = true;
+					break;
+				}
+			}
+		}
+
+		return hasNodes;
 	};
 
 	/**
@@ -6335,12 +6548,17 @@ F2.extend('', (function() {
 	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
 	 */
 	var _hydrateContainerConfig = function(containerConfig) {
+
 		if (!containerConfig.scriptErrorTimeout) {
 			containerConfig.scriptErrorTimeout = F2.ContainerConfig.scriptErrorTimeout;
 		}
 
 		if (containerConfig.debugMode !== true) {
 			containerConfig.debugMode = F2.ContainerConfig.debugMode;
+		}
+
+		if (containerConfig.locale && typeof containerConfig.locale == 'string'){
+			F2.ContainerConfig.locale = containerConfig.locale;
 		}
 	};
 
@@ -6383,6 +6601,29 @@ F2.extend('', (function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
+
+		//listen for container-broadcasted locale changes
+		F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+			if (data.locale && typeof data.locale == 'string'){
+				F2.ContainerConfig.locale = data.locale;
+			}
+		});
+	};
+
+	/**
+	 * Checks if an element is a placeholder element
+	 * @method _isPlaceholderElement
+	 * @private 
+	 * @param {Element} node The DOM element to check
+	 * @return {bool} True if the element is a placeholder
+	 */
+	var _isPlaceholderElement = function(node) {
+		return (
+			F2.isNativeDOMNode(node) &&
+			!_hasNonTextChildNodes(node) &&
+			!!node.getAttribute('data-f2-appid') &&
+			!!node.getAttribute('data-f2-manifesturl')
+		);
 	};
 
 	/**
@@ -6447,124 +6688,199 @@ F2.extend('', (function() {
 			return;
 		}
 
-		// Fn for loading manifest Styles
-		var _loadStyles = function(styles, cb) {
-			// Attempt to use the user provided method
-			if (_config.loadStyles) {
-				_config.loadStyles(styles, cb);
-			}
-			else {
-				// load styles, see #101
-				var stylesFragment = null,
-					useCreateStyleSheet = !! document.createStyleSheet;
-
-				jQuery.each(styles, function(i, e) {
-					if (useCreateStyleSheet) {
-						document.createStyleSheet(e);
-					}
-					else {
-						stylesFragment = stylesFragment || [];
-						stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + e + '"/>');
-					}
-				});
-
-				if (stylesFragment) {
-					jQuery('head').append(stylesFragment.join(''));
-				}
-
-				cb();
-			}
+		var _findExistingScripts = function() {
+			return jQuery('script[src]').map(function(i, tag) {
+				return tag.src;
+			});
 		};
 
-		// Fn for loading manifest Scripts
-		var _loadScripts = function(scripts, cb) {
+		var _findExistingStyles = function() {
+			return jQuery('link[href]').map(function(i, tag) {
+				return tag.href;
+			});
+		};
+
+		// Fn for loading manifest Styles
+		var _loadStyles = function(styles, cb) {
+			// Reduce the list to styles that haven't been loaded
+			var existingStyles = _findExistingStyles();
+			styles = jQuery.grep(styles, function(url) {
+				return url && jQuery.inArray(url, existingStyles) === -1;
+			});
+
 			// Attempt to use the user provided method
-			if (_config.loadScripts) {
-				_config.loadScripts(scripts, cb);
+			if (_config.loadStyles) {
+				return _config.loadStyles(styles, cb);
 			}
-			else {
-				if (scripts.length) {
-					var scriptCount = scripts.length;
-					var scriptsLoaded = 0;
 
-					// Check for IE10+ so that we don't rely on onreadystatechange
-					var readyStates = ('addEventListener' in window) ? {} : {
-						'loaded': true,
-						'complete': true
-					};
+			// load styles, see #101
+			var stylesFragment = null,
+				useCreateStyleSheet = !!document.createStyleSheet;
 
-					// Log and emit event for the failed (400,500) scripts
-					var _error = function(e) {
-						setTimeout(function() {
-							var evtData = {
-								src: e.target.src,
-								appId: appConfigs[0].appId
-							};
-
-							// Send error to console
-							F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
-
-							// Emit event
-							F2.Events.emit('RESOURCE_FAILED_TO_LOAD', evtData);
-
-							if (!_bUsesAppHandlers) {
-								_appScriptLoadFailed(appConfigs[0], evtData.src);
-							}
-							else {
-								F2.AppHandlers.__trigger(
-									_sAppHandlerToken,
-									F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-									appConfigs[0],
-									evtData.src
-								);
-							}
-						}, _config.scriptErrorTimeout); // Defaults to 7000
-					};
-
-					// Load scripts and eval inlines once complete
-					jQuery.each(scripts, function(i, e) {
-						var doc = document,
-							script = doc.createElement('script'),
-							resourceUrl = e;
-
-						// If in debugMode, add cache buster to each script URL
-						if (_config.debugMode) {
-							resourceUrl += '?cachebuster=' + new Date().getTime();
-						}
-
-						// Scripts needed to be loaded in order they're defined in the AppManifest
-						script.async = false;
-						// Add other attrs
-						script.src = resourceUrl;
-						script.type = 'text/javascript';
-						script.charset = 'utf-8';
-						script.onerror = _error;
-
-						// Use a closure for the load event so that we can dereference the original script
-						script.onload = script.onreadystatechange = function(e) {
-							e = e || window.event; // For older IE
-
-							if (e.type == 'load' || readyStates[script.readyState]) {
-								// Done, cleanup
-								script.onload = script.onreadystatechange = script.onerror = null;
-
-								// Dereference script
-								script = null;
-
-								// Are we done loading all scripts for this app?
-								if (++scriptsLoaded === scriptCount) {
-									cb();
-								}
-							}
-						};
-
-						doc.body.appendChild(script);
-					});
+			jQuery.each(styles, function(i, resourceUrl) {
+				if (useCreateStyleSheet) {
+					document.createStyleSheet(resourceUrl);
 				}
 				else {
+					stylesFragment = stylesFragment || [];
+					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + resourceUrl + '"/>');
+				}
+			});
+
+			if (stylesFragment) {
+				jQuery('head').append(stylesFragment.join(''));
+			}
+
+			cb();
+		};
+
+		// For loading AppManifest.scripts
+		// Parts derived from curljs, headjs, requirejs, dojo
+		var _loadScripts = function(scripts, cb) {
+			// Reduce the list to scripts that haven't been loaded
+			var existingScripts = _findExistingScripts();
+			scripts = jQuery.grep(scripts, function(url) {
+				return url && jQuery.inArray(url, existingScripts) === -1;
+			});
+
+			// Attempt to use the user provided method
+			if (_config.loadScripts) {
+				return _config.loadScripts(scripts, cb);
+			}
+
+			if (!scripts.length) {
+				return cb();
+			}
+
+			var doc = window.document;
+			var scriptCount = scripts.length;
+			var scriptsLoaded = 0;
+			//http://caniuse.com/#feat=script-async
+			// var supportsAsync = 'async' in doc.createElement('script') || 'MozAppearance' in doc.documentElement.style || window.opera;
+			var head = doc && (doc['head'] || doc.getElementsByTagName('head')[0]);
+			// to keep IE from crying, we need to put scripts before any
+			// <base> elements, but after any <meta>. this should do it:
+			var insertBeforeEl = head && head.getElementsByTagName('base')[0] || null;
+			// Check for IE10+ so that we don't rely on onreadystatechange, readyStates for IE6-9
+			var readyStates = 'addEventListener' in window ? {} : { 'loaded': true, 'complete': true };
+
+			// Log and emit event for the failed (400,500) scripts
+			var _error = function(e) {
+				setTimeout(function() {
+					var evtData = {
+						src: e.target.src,
+						appId: appConfigs[0].appId
+					};
+
+					// Send error to console
+					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
+
+					// TODO: deprecate, see #222
+					F2.Events.emit(F2.Constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
+
+					if (!_bUsesAppHandlers) {
+						_appScriptLoadFailed(appConfigs[0], evtData.src);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							appConfigs[0],
+							evtData.src
+						);
+					}
+				}, _config.scriptErrorTimeout); // Defaults to 7000
+			};
+
+			var _checkComplete = function() {
+				// Are we done loading all scripts for this app?
+				if (++scriptsLoaded === scriptCount) {
+					// success
 					cb();
 				}
-			}
+			};
+
+			var _emptyWaitlist = function(resourceKey, errorEvt) {
+				var waiting,
+					waitlist = _loadingScripts[resourceKey];
+
+				if (!waitlist) {
+					return;
+				}
+
+				for (var i=0; i<waitlist.length; i++) {
+					waiting = waitlist	[i];
+
+					if (errorEvt) {
+						waiting.error(errorEvt);
+					} else {
+						waiting.success();
+					}
+				}
+
+				_loadingScripts[resourceKey] = null;
+			};
+
+			// Load scripts and eval inlines once complete
+			jQuery.each(scripts, function(i, e) {
+				var script = doc.createElement('script'),
+					resourceUrl = e,
+					resourceKey = resourceUrl.toLowerCase();
+
+				// this script is actively loading, add this app to the wait list
+				if (_loadingScripts[resourceKey]) {
+					_loadingScripts[resourceKey].push({
+						success: _checkComplete,
+						error: _error
+					});
+					return;
+				}
+
+				// create the waitlist
+				_loadingScripts[resourceKey] = [];
+
+				// If in debugMode, add cache buster to each script URL
+				if (_config.debugMode) {
+					resourceUrl += '?cachebuster=' + new Date().getTime();
+				}
+
+				// Scripts are loaded asynchronously and executed in order
+				// in supported browsers: http://caniuse.com/#feat=script-async
+				script.async = false;
+				script.type = 'text/javascript';
+				script.charset = 'utf-8';
+
+				script.onerror = function(e) {
+					_error(e);
+					_emptyWaitlist(resourceKey, e);
+				};
+
+				// Use a closure for the load event so that we can dereference the original script
+				script.onload = script.onreadystatechange = function(e) {
+					e = e || window.event; // For older IE
+
+					// detect when it's done loading
+					// ev.type == 'load' is for all browsers except IE6-9
+					// IE6-9 need to use onreadystatechange and look for
+					// el.readyState in {loaded, complete} (yes, we need both)
+					if (e.type == 'load' || readyStates[script.readyState]) {
+						// Done, cleanup
+						script.onload = script.onreadystatechange = script.onerror = '';
+						// increment and check if scripts are done
+						_checkComplete();
+						// empty wait list
+						_emptyWaitlist(resourceKey);
+						// Dereference script
+						script = null;
+					}
+				};
+
+				//set the src, start loading
+				script.src = resourceUrl;
+
+				//<head> really is the best
+				head.insertBefore(script, insertBeforeEl);
+			});
 		};
 
 		var _loadInlineScripts = function(inlines, cb) {
@@ -6579,7 +6895,10 @@ F2.extend('', (function() {
 					}
 					catch (exception) {
 						F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
-
+						
+						// Emit events
+						F2.Events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
+						
 						if (!_bUsesAppHandlers) {
 							_appScriptLoadFailed(appConfigs[0], exception);
 						}
@@ -6615,7 +6934,12 @@ F2.extend('', (function() {
 		// Fn for loading manifest app html
 		var _loadHtml = function(apps) {
 			jQuery.each(apps, function(i, a) {
-				if (!_bUsesAppHandlers) {
+				if (_isPlaceholderElement(appConfigs[i].root)) {
+					jQuery(appConfigs[i].root)
+						.addClass(F2.Constants.Css.APP)
+						.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId));
+				}
+				else if (!_bUsesAppHandlers) {
 					// load html and save the root node
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
@@ -6624,11 +6948,11 @@ F2.extend('', (function() {
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
-						_outerHtml(a.html)
+						_outerHtml(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId))
 					);
 
-					var appId = appConfigs[i].appId;
-					var root = appConfigs[i].root;
+					var appId = appConfigs[i].appId,
+						root = appConfigs[i].root;
 
 					if (!root) {
 						throw ('Root for ' + appId + ' must be a native DOM element and cannot be null or undefined. Check your AppHandler callbacks to ensure you have set App root to a native DOM element.');
@@ -6647,8 +6971,6 @@ F2.extend('', (function() {
 					if (!F2.isNativeDOMNode(root)) {
 						throw ('App root for ' + appId + ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
 					}
-
-					$(root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appId);
 				}
 
 				// init events
@@ -6668,6 +6990,8 @@ F2.extend('', (function() {
 			_loadHtml(apps);
 			// Add the script content to the page
 			_loadScripts(scripts, function() {
+				// emit event we're done with scripts
+				if (appConfigs[0]){ F2.Events.emit('APP_SCRIPTS_LOADED', { appId:appConfigs[0].appId, scripts:scripts }); }
 				// Load any inline scripts
 				_loadInlineScripts(inlines, function() {
 					// Create the apps
@@ -6691,7 +7015,12 @@ F2.extend('', (function() {
 
 		// make sure the container is configured for secure apps
 		if (_config.secureAppPagePath) {
-			if (!_bUsesAppHandlers) {
+			if (_isPlaceholderElement(appConfig.root)) {
+				jQuery(appConfig.root)
+					.addClass(F2.Constants.Css.APP)
+					.append(jQuery('<div></div>').addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+			}
+			else if (!_bUsesAppHandlers) {
 				// create the html container for the iframe
 				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
 			}
@@ -6702,7 +7031,7 @@ F2.extend('', (function() {
 					_sAppHandlerToken,
 					F2.Constants.AppHandlers.APP_RENDER,
 					appConfig, // the app config
-					appManifest.html
+					_outerHtml(jQuery(appManifest.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId))
 				);
 
 				if ($root.parents('body:first').length === 0) {
@@ -6722,8 +7051,6 @@ F2.extend('', (function() {
 				if (!F2.isNativeDOMNode(appConfig.root)) {
 					throw ('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
 				}
-
-				jQuery(appConfig.root).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId);
 			}
 
 			// instantiate F2.UI
@@ -6811,6 +7138,19 @@ F2.extend('', (function() {
 			});
 		},
 		/**
+		 * Gets the current locale defined by the container
+		 * @method getContainerLocale
+		 * @returns {String} IETF-defined standard language tag
+		 */
+		getContainerLocale: function() {
+			if (!_isInit()) {
+				F2.log('F2.init() must be called before F2.getContainerLocale()');
+				return;
+			}
+
+			return F2.ContainerConfig.locale;
+		},
+		/**
 		 * Initializes the container. This method must be called before performing
 		 * any other actions in the container.
 		 * @method init
@@ -6844,6 +7184,56 @@ F2.extend('', (function() {
 		 * @return {bool} True if the container has been init
 		 */
 		isInit: _isInit,
+		/**
+		 * Automatically load apps that are already defined in the DOM. Elements will 
+		 * be rendered into the location of the placeholder DOM element. Any AppHandlers
+		 * that are defined will be bypassed.
+		 * @method loadPlaceholders
+		 * @param {Element} parentNode The element to search for placeholder apps
+		 */
+		loadPlaceholders: function(parentNode) {
+
+			var elements = [],
+				appConfigs = [],
+				add = function(e) {
+					if (!e) { return; }
+					elements.push(e);
+				},
+				addAll = function(els) {
+					if (!els) { return; }
+					for (var i = 0, len = els.length; i < len; i++) {
+						add(els[i]);
+					}
+				};
+
+			if (!!parentNode && !F2.isNativeDOMNode(parentNode)) {
+				throw ('"parentNode" must be null or a DOM node');
+			}
+
+			// if the passed in element has a data-f2-appid attribute add
+			// it to the list of elements but to not search within that
+			// element for other placeholders
+			if (parentNode && parentNode.hasAttribute('data-f2-appid')) {
+				add(parentNode);
+			} else {
+
+				// find placeholders within the parentNode only if 
+				// querySelectorAll exists
+				parentNode = parentNode || document;
+				if (parentNode.querySelectorAll) {
+					addAll(parentNode.querySelectorAll('[data-f2-appid]'));
+				}
+			}
+
+			for (var i = 0, len = elements.length; i < len; i++) {
+				var appConfig = _getAppConfigFromElement(elements[i]);
+				appConfigs.push(appConfig);
+			}
+
+			if (appConfigs.length) {
+				F2.registerApps(appConfigs);
+			}
+		},
 		/**
 		 * Begins the loading process for all apps and/or initialization process for pre-loaded apps.
 		 * The app will be passed the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object which will
@@ -7002,7 +7392,7 @@ F2.extend('', (function() {
 
 				// If the root property is defined then this app is considered to be preloaded and we will
 				// run it through that logic.
-				if (a.root) {
+				if (a.root && !_isPlaceholderElement(a.root)) {
 					if ((!a.root && typeof(a.root) != 'string') && !F2.isNativeDOMNode(a.root)) {
 						F2.log('AppConfig invalid for pre-load, not a valid string and not dom node');
 						F2.log('AppConfig instance:', a);
@@ -7014,9 +7404,12 @@ F2.extend('', (function() {
 						F2.log('Number of dom node instances:', jQuery(a.root).length);
 						throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
 					}
-
+					
 					// instantiate F2.App
-					_createAppInstance(a);
+					_createAppInstance(a, {
+						preloaded: true,
+						status: F2.Constants.AppStatus.SUCCESS
+					});
 
 					// init events
 					_initAppEvents(a);
@@ -7026,22 +7419,24 @@ F2.extend('', (function() {
 					return; // equivalent to continue in .each
 				}
 
-				if (!_bUsesAppHandlers) {
-					// fire beforeAppRender
-					a.root = _beforeAppRender(a);
-				}
-				else {
-					F2.AppHandlers.__trigger(
-						_sAppHandlerToken,
-						F2.Constants.AppHandlers.APP_CREATE_ROOT,
-						a // the app config
-					);
+				if (!_isPlaceholderElement(a.root)) {
+					if (!_bUsesAppHandlers) {
+						// fire beforeAppRender
+						a.root = _beforeAppRender(a);
+					}
+					else {
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_CREATE_ROOT,
+							a // the app config
+						);
 
-					F2.AppHandlers.__trigger(
-						_sAppHandlerToken,
-						F2.Constants.AppHandlers.APP_RENDER_BEFORE,
-						a // the app config
-					);
+						F2.AppHandlers.__trigger(
+							_sAppHandlerToken,
+							F2.Constants.AppHandlers.APP_RENDER_BEFORE,
+							a // the app config
+						);
+					}
 				}
 
 				// if we have the manifest, go ahead and load the app
@@ -7107,6 +7502,7 @@ F2.extend('', (function() {
 							},
 							errorFunc = function() {
 								jQuery.each(req.apps, function(idx, item) {
+									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.removeApp(item.instanceId);
 								});
@@ -7217,7 +7613,37 @@ F2.extend('', (function() {
 	};
 })());
 
-	
+	jQuery(function() {
+		var autoloadEls = [],
+			add = function(e) {
+				if (!e) { return; }
+				autoloadEls.push(e);
+			},
+			addAll = function(els) {
+				if (!els) { return; }
+				for (var i = 0, len = els.length; i < len; i++) {
+					add(els[i]);
+				}
+			};
+
+		// support id-based autoload
+		add(document.getElementById('f2-autoload'));
+
+		// support class/attribute based autoload
+		if (document.querySelectorAll) {
+			addAll(document.querySelectorAll('[data-f2-autoload]'));
+			addAll(document.querySelectorAll('.f2-autoload'));
+		}
+
+		// if elements were found, auto-init F2 and load any placeholders
+		if (autoloadEls.length) {
+			F2.init();
+			for (var i = 0, len = autoloadEls.length; i < len; i++) {
+				F2.loadPlaceholders(autoloadEls[i]);
+			}
+		}
+	});
+
 	exports.F2 = F2;
 
 	if (typeof define !== 'undefined' && define.amd) {
@@ -7225,7 +7651,7 @@ F2.extend('', (function() {
 		define(function() {
 			return F2;
 		});
-		
+
 	}
 
 })(typeof exports !== 'undefined' ? exports : window);

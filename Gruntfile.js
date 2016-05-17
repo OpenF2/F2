@@ -42,6 +42,21 @@ module.exports = function(grunt) {
 					}
 				]
 			},
+			'f2Dist': {
+				files: [
+					{
+						expand: true, 
+						flatten: true,
+						src: [
+							'sdk/packages/*',
+							'sdk/*.js',
+							'sdk/*.map'
+						], 
+						dest: 'dist/', 
+						filter: 'isFile'
+					}
+				]
+			},
 			'github-pages': {
 				files: [
 					{
@@ -226,7 +241,7 @@ module.exports = function(grunt) {
 			dist: {
 				files: {'sdk/f2.min.js' : ['sdk/f2.debug.js']},
 				options: {
-					report: 'gzip'
+					report: 'min'
 				}
 			},
 			sourcemap: {
@@ -243,19 +258,19 @@ module.exports = function(grunt) {
 			},
 			'package-no-jquery-or-bootstrap': {
 				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			},
 			'package-no-bootstrap': {
 				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			},
 			'package-no-easyXDM': {
 				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			},
 			'package-basic': {
 				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			}
 		},
 		sourcemap: {
@@ -442,7 +457,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
+	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',
