@@ -27,6 +27,6 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:OpenF2/F2.git"
+    "url": "git://github.com/OpenF2/F2.git"
   }
 }
