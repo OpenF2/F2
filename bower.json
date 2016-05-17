@@ -12,7 +12,7 @@
 	".gitattributes",
     ".jshintrc",
     ".travis.yml",
-    "gruntfile.js",
+    "Gruntfile.js",
     "package.json",
     "README.md",
     "CONTRIBUTING.md",
