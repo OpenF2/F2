@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 				files: [
 					{
 						expand: true,
-						cwd: 'docs/',
+						cwd: 'docs/dist',
 						src: ['**'],
 						dest: '../gh-pages'
 					},
