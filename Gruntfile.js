@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 		handlebars = require('handlebars'),
 		moment = require('moment'),
 		pkg = grunt.file.readJSON('package.json'),
+		bower_pkg = grunt.file.readJSON('bower.json'),
 		semver = require('semver'),
 		path = require('path');
 
@@ -424,13 +425,19 @@ module.exports = function(grunt) {
 			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
 			return;
 		}
+		
+		var version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
 
-		pkg.version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
+		pkg.version = version;
+		bower_pkg.version = version;
+		
 		pkg._releaseDate = new Date().toJSON();
 		pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
 
 		grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
+		grunt.file.write('./bower.json', JSON.stringify(bower_pkg, null, '\t'));
 		grunt.config.set('pkg', pkg);
+		
 
 		grunt.task.run('version');
 	});
@@ -473,4 +480,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
 	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
+	grunt.registerTask('build', ['js', 'docs', 'zip', 'packages', 'nuget'])
 };
