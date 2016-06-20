@@ -1,32 +1,36 @@
 {
-  "name": "F2",
-  "description": "F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end.",
-  "keywords": ["f2","openf2","markit f2"],
-  "homepage": "http://www.openf2.org",
-  "version": "1.4.1",
-  "main": "F2.latest.js",
-  "ignore": [
-    "**/.*",
-    ".bowerrc",
-    ".gitignore",
-	".gitattributes",
-    ".jshintrc",
-    ".travis.yml",
-    "Gruntfile.js",
-    "package.json",
-    "README.md",
-    "CONTRIBUTING.md",
-    "ThirdPartyMaterial.md",
-    "LICENSE",
-    "docs",
-    "examples",
-    "sdk",
-    "tests",
-    "node_modules"
-  ],
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/OpenF2/F2.git"
-  }
+	"name": "F2",
+	"description": "F2 is an open and free web integration framework that allows you to deploy apps & components both within your existing web application and cross-domain.",
+	"keywords": [
+		"f2",
+		"openf2",
+		"markit f2"
+	],
+	"homepage": "http://www.openf2.org",
+	"version": "1.4.2",
+	"main": "F2.latest.js",
+	"ignore": [
+		"**/.*",
+		".bowerrc",
+		".gitignore",
+		".gitattributes",
+		".jshintrc",
+		".travis.yml",
+		"Gruntfile.js",
+		"package.json",
+		"README.md",
+		"CONTRIBUTING.md",
+		"ThirdPartyMaterial.md",
+		"LICENSE",
+		"docs",
+		"examples",
+		"sdk",
+		"tests",
+		"node_modules"
+	],
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/OpenF2/F2.git"
+	}
 }
