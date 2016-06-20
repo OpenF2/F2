@@ -29,7 +29,7 @@ Join the team and help contribute to F2 on GitHub. Begin by reading our [contrib
 * Choose a [F2.js package](http://docs.openf2.org/f2js-sdk.html#packages), including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
 * Grab any version of F2 [on cdnjs.com](http://cdnjs.com/libraries/F2/).
 * For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/).
-* *Bower coming soon!*
+* Bower: `bower install F2`
 
 ### Docs
 
