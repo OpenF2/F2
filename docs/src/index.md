@@ -113,8 +113,8 @@ Have a question? Find a bug? Need help?
 	<a class="media-left" href="https://openf2.slack.com/"><i class="fa fa-slack"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">Slack</h4>
-		Join [F2's Slack](https://openf2.slack.com/) for real-time project updates. <br>
-		_Slack is invite-only, [get yours now](http://openf2-slack.herokuapp.com/)!_
+		Join the [F2 Slack](https://openf2.slack.com/) for real-time project updates. _[Get an invite](https://openf2-slack.herokuapp.com/)._<br><br>
+		<script async defer src="//openf2-slack.herokuapp.com/slackin.js"></script>
 	</div>
 </div>
 

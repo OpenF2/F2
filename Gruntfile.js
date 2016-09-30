@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 		handlebars = require('handlebars'),
 		moment = require('moment'),
 		pkg = grunt.file.readJSON('package.json'),
+		bower_pkg = grunt.file.readJSON('bower.json'),
 		semver = require('semver'),
 		path = require('path');
 
@@ -42,11 +43,26 @@ module.exports = function(grunt) {
 					}
 				]
 			},
+			'f2Dist': {
+				files: [
+					{
+						expand: true, 
+						flatten: true,
+						src: [
+							'sdk/packages/*',
+							'sdk/*.js',
+							'sdk/*.map'
+						], 
+						dest: 'dist/', 
+						filter: 'isFile'
+					}
+				]
+			},
 			'github-pages': {
 				files: [
 					{
 						expand: true,
-						cwd: 'docs/',
+						cwd: 'docs/dist',
 						src: ['**'],
 						dest: '../gh-pages'
 					},
@@ -226,7 +242,7 @@ module.exports = function(grunt) {
 			dist: {
 				files: {'sdk/f2.min.js' : ['sdk/f2.debug.js']},
 				options: {
-					report: 'gzip'
+					report: 'min'
 				}
 			},
 			sourcemap: {
@@ -243,19 +259,19 @@ module.exports = function(grunt) {
 			},
 			'package-no-jquery-or-bootstrap': {
 				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			},
 			'package-no-bootstrap': {
 				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			},
 			'package-no-easyXDM': {
 				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			},
 			'package-basic': {
 				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] },
-				options: { report: 'gzip' }
+				options: { report: 'min' }
 			}
 		},
 		sourcemap: {
@@ -409,13 +425,19 @@ module.exports = function(grunt) {
 			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
 			return;
 		}
+		
+		var version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
 
-		pkg.version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
+		pkg.version = version;
+		bower_pkg.version = version;
+		
 		pkg._releaseDate = new Date().toJSON();
 		pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
 
 		grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
+		grunt.file.write('./bower.json', JSON.stringify(bower_pkg, null, '\t'));
 		grunt.config.set('pkg', pkg);
+		
 
 		grunt.task.run('version');
 	});
@@ -442,7 +464,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot']);
+	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',
@@ -458,4 +480,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
 	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
+	grunt.registerTask('build', ['js', 'docs', 'zip', 'packages', 'nuget'])
 };

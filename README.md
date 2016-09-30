@@ -22,14 +22,14 @@ Join the team and help contribute to F2 on GitHub. Begin by reading our [contrib
 
 **Thank you to the [growing list of contributors](https://github.com/OpenF2/F2/graphs/contributors)!**
 
-## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.svg?branch=master)](https://travis-ci.org/OpenF2/F2)
+## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.svg?branch=master)](https://travis-ci.org/OpenF2/F2) [![Slack](https://openf2-slack.herokuapp.com/badge.svg)](https://openf2.slack.com)
 
 ### Get F2.js
 
 * Choose a [F2.js package](http://docs.openf2.org/f2js-sdk.html#packages), including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
 * Grab any version of F2 [on cdnjs.com](http://cdnjs.com/libraries/F2/).
-* For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/).
-* *Bower coming soon!*
+* For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/) or `PM> Install-Package F2`
+* Bower: `bower install F2`
 
 ### Docs
 

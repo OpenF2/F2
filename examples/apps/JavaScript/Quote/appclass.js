@@ -127,7 +127,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 
 	var _renderQuote = function(quoteData) {
 
-		if (quoteData && quoteData.Data && quoteData.Data.Status == 'SUCCESS') {
+		if (quoteData && quoteData.Data && quoteData.Data.Status == F2.Constants.AppStatus.SUCCESS) {
 			appConfig.ui.setTitle(quoteData.Data.Name);
 
 			$caption.promise().done(function() {
