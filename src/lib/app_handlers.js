@@ -41,14 +41,15 @@ F2.extend('AppHandlers', (function() {
 	var _f2t = F2.guid();
 	
 	var _handlerCollection = {
+		appManifestRequestFail:[],
 		appCreateRoot: [],
-		appRenderBefore: [],			
+		appRenderBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
 		appDestroy: [],
-		appScriptLoadFailed: []		
+		appScriptLoadFailed: []
 	};
 	
 	var _defaultMethods = {
@@ -61,7 +62,7 @@ F2.extend('AppHandlers', (function() {
 			{
 				appConfig.root = jQuery(appHtml).get(0);
 				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);				
+				$root = jQuery(appConfig.root);
 			}
 			else
 			{
@@ -425,7 +426,27 @@ F2.extend('Constants', {
 	**/
 	AppHandlers: (function()
 	{
-		return {
+			return {
+			/**
+			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
+			* @property APP_CREATE_ROOT
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+			*		function(appConfig)
+			*		{
+			*			You can use information from the appConfig to surface a custom error message in the dom
+			*			Or display some kind of default error placeholder element rather than having a blank spot in the dom
+			*		}
+			*	);
+			*/
+			APP_MANIFEST_REQUEST_FAIL: 'appManifestRequestFail',
 			/**
 			* Equivalent to `appCreateRoot`. Identifies the create root method for use in AppHandlers.on/off. 
 			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
