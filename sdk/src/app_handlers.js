@@ -428,24 +428,24 @@ F2.extend('Constants', {
 	{
 		return {
 			/**
- 			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
- 			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
- 			* @property APP_MANIFEST_REQUEST_FAIL
- 			* @type string
- 			* @static
- 			* @final
- 			* @example
- 			*	var _token = F2.AppHandlers.getToken();
- 			*	F2.AppHandlers.on(
- 			*		_token,
- 			*		F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
- 			*		function(appConfig)
- 			*		{
- 			*			You can use information from the appConfig to surface a custom error message in the dom
- 			*			Or display some kind of default error placeholder element rather than having a blank spot in the dom
- 			*		}
- 			*	);
- 			*/
+			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
+			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
+			* @property APP_MANIFEST_REQUEST_FAIL
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+			*		function(appConfig)
+			*		{
+			*			You can use information from the appConfig to surface a custom error message in the dom
+			*			Or display some kind of default error placeholder element rather than having a blank spot in the dom
+			*		}
+			*	);
+			*/
 			APP_MANIFEST_REQUEST_FAIL: 'appManifestRequestFail',
 			/**
 			* Equivalent to `appCreateRoot`. Identifies the create root method for use in AppHandlers.on/off. 
