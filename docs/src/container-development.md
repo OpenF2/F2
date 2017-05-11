@@ -869,6 +869,7 @@ Appending apps to the `<body>` is the default app rendering behavior of F2.
 
 F2 `AppHandlers` provide event handlers for customized app layout using `F2.AppHandlers.on()` and `F2.AppHandlers.off()`. The use of `on` and `off` require both a [token](#apphandler-tokens) and an event type as arguments. The event types, defined as constants in `F2.Constants.AppHandlers`, are: 
 
+* `appManifestRequestFail`
 * `appCreateRoot`
 * `appDestroy`
 * `appDestroyAfter`

@@ -14431,7 +14431,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.2 05-10-2017
+ * F2 v1.4.2 05-11-2017
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -14842,6 +14842,7 @@ F2.extend('AppHandlers', (function() {
 	var _f2t = F2.guid();
 	
 	var _handlerCollection = {
+		appManifestRequestFail: [],
 		appCreateRoot: [],
 		appRenderBefore: [],			
 		appDestroyBefore: [],
@@ -15227,6 +15228,26 @@ F2.extend('Constants', {
 	AppHandlers: (function()
 	{
 		return {
+			/**
+ 			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
+ 			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
+ 			* @property APP_MANIFEST_REQUEST_FAIL
+ 			* @type string
+ 			* @static
+ 			* @final
+ 			* @example
+ 			*	var _token = F2.AppHandlers.getToken();
+ 			*	F2.AppHandlers.on(
+ 			*		_token,
+ 			*		F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+ 			*		function(appConfig)
+ 			*		{
+ 			*			You can use information from the appConfig to surface a custom error message in the dom
+ 			*			Or display some kind of default error placeholder element rather than having a blank spot in the dom
+ 			*		}
+ 			*	);
+ 			*/
+			APP_MANIFEST_REQUEST_FAIL: 'appManifestRequestFail',
 			/**
 			* Equivalent to `appCreateRoot`. Identifies the create root method for use in AppHandlers.on/off. 
 			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
@@ -18261,6 +18282,11 @@ F2.extend('', (function() {
 								jQuery.each(req.apps, function(idx, item) {
 									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
+									F2.AppHandlers.__trigger(
+ 										_sAppHandlerToken,
+ 										F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+ 										item // the app config
+ 									);
 									F2.removeApp(item.instanceId);
 								});
 							},
