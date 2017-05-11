@@ -1142,6 +1142,11 @@ F2.extend('', (function() {
 								jQuery.each(req.apps, function(idx, item) {
 									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
+									F2.AppHandlers.__trigger(
+										_sAppHandlerToken,
+										F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+										item // the app config
+									);
 									F2.removeApp(item.instanceId);
 								});
 							},

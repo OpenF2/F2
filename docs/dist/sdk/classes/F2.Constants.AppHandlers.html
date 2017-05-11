@@ -211,7 +211,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/sdk_src_app_handlers.js.html#l422"><code>sdk\src\app_handlers.js:422</code></a>
+            Defined in: <a href="../files/sdk_src_app_handlers.js.html#l423"><code>sdk\src\app_handlers.js:423</code></a>
         </div>
     
 
@@ -303,6 +303,19 @@ following argument(s): ( appInstance )</p>
                                 <td><p>Equivalent to <code>appDestroyBefore</code>. Identifies the before app destroy method for use in AppHandlers.on/off. 
 When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
 following argument(s): ( appInstance )</p>
+</td>
+                            </tr>
+                            
+                            <tr class="index-item property">
+                                <td class="name">
+                                    <a href="#" data-tabid="#properties" data-anchor="#property_APP_MANIFEST_REQUEST_FAIL" data-tablink="APP_MANIFEST_REQUEST_FAIL">APP_MANIFEST_REQUEST_FAIL</a>
+                                    
+                                        <span class="label label-default static">static</span>
+                                    
+                                    
+                                </td>
+                                <td><p>When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
 </td>
                             </tr>
                             
@@ -409,7 +422,7 @@ following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l429"><code>sdk\src\app_handlers.js:429</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l450"><code>sdk\src\app_handlers.js:450</code></a>
         
         </p>
 
@@ -483,7 +496,7 @@ F2.AppHandlers.on(
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l550"><code>sdk\src\app_handlers.js:550</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l571"><code>sdk\src\app_handlers.js:571</code></a>
         
         </p>
 
@@ -568,7 +581,7 @@ F2.AppHandlers.on(
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l583"><code>sdk\src\app_handlers.js:583</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l604"><code>sdk\src\app_handlers.js:604</code></a>
         
         </p>
 
@@ -640,7 +653,7 @@ F2.AppHandlers.on(
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l530"><code>sdk\src\app_handlers.js:530</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l551"><code>sdk\src\app_handlers.js:551</code></a>
         
         </p>
 
@@ -670,6 +683,78 @@ F2.AppHandlers.on(
     function(appInstance)
     {
         F2.log(appInstance);
+    }
+);</code></pre>
+
+            </div>
+        </div>
+    
+
+    
+    <hr>
+</div>
+
+                
+                    <div id="property_APP_MANIFEST_REQUEST_FAIL" class="property item">
+    <h3>
+        APP_MANIFEST_REQUEST_FAIL
+
+        <span class="label type">String</span>
+
+        
+
+        
+
+        
+            <span class="label label-default final">final</span>
+        
+
+        
+            <span class="label label-default static">static</span>
+        
+    </h3>
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/sdk_src_app_handlers.js.html#l430"><code>sdk\src\app_handlers.js:430</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>When bound using <a href="../classes/F2.AppHandlers.html#method_on" class="crosslink">F2.AppHandlers.on()</a> the listener function passed will receive the 
+following argument(s): ( <a href="../classes/F2.AppConfig.html" class="crosslink">appConfig</a> )</p>
+
+    </div>
+
+    
+
+    
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+    function(appConfig)
+    {
+        You can use information from the appConfig to surface a custom error message in the dom
+        Or display some kind of default error placeholder element rather than having a blank spot in the dom
     }
 );</code></pre>
 
@@ -712,7 +797,7 @@ F2.AppHandlers.on(
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l471"><code>sdk\src\app_handlers.js:471</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l492"><code>sdk\src\app_handlers.js:492</code></a>
         
         </p>
 
@@ -803,7 +888,7 @@ F2.AppHandlers.on(
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l510"><code>sdk\src\app_handlers.js:510</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l531"><code>sdk\src\app_handlers.js:531</code></a>
         
         </p>
 
@@ -875,7 +960,7 @@ F2.AppHandlers.on(
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l451"><code>sdk\src\app_handlers.js:451</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l472"><code>sdk\src\app_handlers.js:472</code></a>
         
         </p>
 
@@ -947,7 +1032,7 @@ F2.AppHandlers.on(
             
         
         
-        <a href="../files/sdk_src_app_handlers.js.html#l603"><code>sdk\src\app_handlers.js:603</code></a>
+        <a href="../files/sdk_src_app_handlers.js.html#l624"><code>sdk\src\app_handlers.js:624</code></a>
         
         </p>
 
