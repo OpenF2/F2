@@ -2,6 +2,7 @@
 	"name": "F2",
 	"description": "An open framework for the financial services industry.",
 	"version": "1.4.2",
+	"main": "dist/f2.debug",
 	"keywords": [
 		"openf2"
 	],
@@ -39,6 +40,10 @@
 		"underscore": "^1.8.3",
 		"yuidocjs": "~0.3.44"
 	},
+	"files":[
+		"dist/*",
+		"ThirdPartyMaterial.md"
+	],
 	"engines": {
 		"node": ">=0.10"
 	},
