@@ -1,5 +1,5 @@
 {
-	"name": "F2",
+	"name": "f2",
 	"description": "An open framework for the financial services industry.",
 	"version": "1.4.3",
 	"main": "dist/f2.debug",
