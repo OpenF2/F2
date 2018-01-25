@@ -377,8 +377,9 @@ F2.extend('', (function() {
 		var _loadScripts = function(scripts, cb) {
 			// Reduce the list to scripts that haven't been loaded
 			var existingScripts = _findExistingScripts();
+			var loadingScripts = Object.keys(_loadingScripts);
 			scripts = jQuery.grep(scripts, function(url) {
-				return url && jQuery.inArray(url, existingScripts) === -1;
+				return url && (jQuery.inArray(url, existingScripts) === -1 || jQuery.inArray(url, loadingScripts) !== -1);
 			});
 
 			// Attempt to use the user provided method
