@@ -45,7 +45,7 @@
 		"ThirdPartyMaterial.md"
 	],
 	"engines": {
-		"node": ">=0.10"
+		"node": ">=6"
 	},
 	"_releaseDate": "2015-04-24T15:49:35.542Z",
 	"_releaseDateFormatted": "24 April 2015",
