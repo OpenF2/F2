@@ -29,7 +29,7 @@
 		"grunt-contrib-less": "~0.5.1",
 		"grunt-contrib-uglify": "~0.2.0",
 		"grunt-contrib-watch": "^0.6.1",
-		"grunt-express": "~0.3.3",
+		"grunt-express": "1.4.0",
 		"grunt-http": "^2.0.0",
 		"handlebars": "1.0.10",
 		"highlight.js": "^8.5.0",
@@ -40,13 +40,16 @@
 		"underscore": "^1.8.3",
 		"yuidocjs": "~0.3.44"
 	},
-	"files":[
+	"files": [
 		"dist/*",
 		"ThirdPartyMaterial.md"
 	],
 	"engines": {
-		"node": ">=0.10"
+		"node": ">=6"
 	},
 	"_releaseDate": "2015-04-24T15:49:35.542Z",
-	"_releaseDateFormatted": "24 April 2015"
+	"_releaseDateFormatted": "24 April 2015",
+	"dependencies": {
+		"grunt-cli": "^1.2.0"
+	}
 }
