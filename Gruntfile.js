@@ -191,11 +191,6 @@ module.exports = function(grunt) {
 				dest: 'sdk/packages/f2.basic.js'
 			},
 		},
-		/**
-		 * Need to downgrade forever-monitor to v1.1 because of:
-		 * https://github.com/blai/grunt-express/issues/12
-		 * cd node_modules/grunt-express; npm uninstall forever-monitor; npm install forever-monitor@1.1;
-		 */
 		express: {
 			server: {
 				options: {
