@@ -7,7 +7,7 @@
 		"markit f2"
 	],
 	"homepage": "http://www.openf2.org",
-	"version": "1.4.2",
+	"version": "1.4.4",
 	"main": "F2.latest.js",
 	"ignore": [
 		"**/.*",
