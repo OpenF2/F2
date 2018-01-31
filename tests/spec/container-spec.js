@@ -1127,14 +1127,24 @@ describe('F2.registerApps - rendering', function() {
 		});
 	});
 
-	it('should not inject an app\'s dependencies (scripts nor styles) more than one time', function() {
+	it('should always init an appclass', function() {
 		var appsRendered = 0;
-		var loadedJS = loadedCSS = 0;
+		var passedMessages = [];
+		var flag = false;
+		F2.log = function(message) {
+			passedMessages.push(message);
+		};
+
 		F2.init();
 		//notify when apps have been rendered
 		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; });
-		//load same app twice
+		// load a few of the same apps; existing scripts should not cause 
+		// app #2 and later to be loaded prematurely
 		F2.registerApps([
+			{
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
+			},
 			{
 				appId: TEST_APP_ID3,
 				manifestUrl: TEST_MANIFEST_URL3
@@ -1147,29 +1157,25 @@ describe('F2.registerApps - rendering', function() {
 
 		// wait for registerApps to complete and load both apps
 		waitsFor(function() {
-			return appsRendered === 2;
+			return appsRendered === 3;
 		}, 'test apps were never loaded', 15000);
 
+		// give the appclass time to init
 		runs(function() {
-			
-			//ensure this script only exists one time			
-			$('script').each(function(idx, item) {
-				var src = $(item).attr('src');
-				if (/com_openf2_examples_nodejs_helloworld\/appclass.js/.test(src)){
-					loadedJS++;
-				}
-			});
+			setTimeout(function() {
+				flag = true;
+			}, 100)
+		})
 
-			//ensure this stylesheet only exists one time
-			$('link').each(function(idx, item) {
-				var src = $(item).attr('href');
-				if (/com_openf2_examples_nodejs_helloworld\/app.css/.test(src)){
-					loadedCSS++;
-				}
-			});
+		waitsFor(function() {
+			return flag;
+		}, '', 101);
 
-			expect(loadedJS).toBe(1);
-			expect(loadedCSS).toBe(1);
+		runs(function() {
+			expect(passedMessages.length).toEqual(3);
+			expect(passedMessages[0]).toEqual('Hello World app init()');
+			expect(passedMessages[1]).toEqual('Hello World app init()');
+			expect(passedMessages[2]).toEqual('Hello World app init()');
 		});
 	});
 
