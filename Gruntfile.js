@@ -327,59 +327,15 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('generate-docs', 'Generate docs', function() {
 		var done = this.async(),
-		log = grunt.log.write('Generating docs...');
+			log = grunt.log.write('Generating docs...');
 
 		exec('node ' + path.join(__dirname, 'docs/bin/gen-docs'), function(err, stdout, stderr) {
-		  if (err) {
-		    grunt.log.error(err.message);
-		    grunt.fail.fatal('Docs generation aborted.');
-		    return;
-		  }
-		  grunt.log.write(stdout);
-		  log.ok();
-		  done();
-		});
-	});
-
-	grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', function() {
-
-		var builder,
-			docOptions = {
-				quiet: true,
-				norecurse: true,
-				paths: ['./sdk/src'],
-				outdir: './docs/dist/sdk/',
-				themedir: './docs/src/sdk-template',
-				helpers: ['./docs/src/sdk-template/helpers/helpers.js']
-			},
-			done = this.async(),
-			json,
-			log = grunt.log.write('Generating reference docs...'),
-			Y = require('yuidocjs');
-
-		json = (new Y.YUIDoc(docOptions)).run();
-		// massage in some meta information from F2.json
-		json.project = {
-			docsAssets: '../',
-			version: pkg.version,
-			releaseDateFormatted: pkg._releaseDateFormatted
-		};
-		docOptions = Y.Project.mix(json, docOptions);
-
-		// ensures that the class has members and isn't just an empty namespace
-		// used in sidebar.handlebars
-		Y.Handlebars.registerHelper('hasClassMembers', function() {
-			for (var i = 0, len = json.classitems.length; i < len; i++) {
-				//console.log(json.classitems[i].class, this.name);
-				if (json.classitems[i].class === this.name) {
-					return '';
-				}
+			if (err) {
+				grunt.log.error(err.message);
+				grunt.fail.fatal('Docs generation aborted.');
+				return;
 			}
-			return 'hidden';
-		});
-
-		builder = new Y.DocBuilder(docOptions, json);
-		builder.compile(function() {
+			grunt.log.write(stdout);
 			log.ok();
 			done();
 		});
@@ -444,6 +400,28 @@ module.exports = function(grunt) {
 		));
 	});
 
+	grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', function() {
+		var done = this.async();
+		var log = grunt.log.write('Generating reference docs...');
+
+		// using YUIDoc within a grunt task OR using grunt-contrib-yuidoc results in a
+		// this.parsedir error. See https://github.com/gruntjs/grunt-contrib-yuidoc/issues/33
+		// the grunt-contrib-yuidoc folks blame it on yuidoc and the yuidoc folks blame it
+		// on grunt-contrib-yuidoc (https://github.com/yui/yuidoc/issues/242)
+		// it seems like its actually a grunt issue so for now using an external script seems
+		// to work fine
+		exec('node ' + path.join(__dirname, 'docs/bin/yuidocs'), function(err, stdout, stderr) {
+			if (err) {
+				grunt.log.error(err.message);
+				grunt.fail.fatal('YUIDocs failed.');
+				return;
+			}
+			grunt.log.write(stdout);
+			log.ok();
+			done();
+		});
+	});
+
 	// Load plugins
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
@@ -456,7 +434,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-http');
 
-	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', /*'yuidoc'*/]);
+	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
