@@ -23,7 +23,13 @@ F2.extend('', {
 			 * @method init
 			 * @optional
 			 */
-			init:function() {}
+			init:function() {},
+      /**
+       * An optional destroy function that will automatically be called when
+       * F2.{{#crossLink "F2\removeApp"}}{{/crossLink}} and subsequently
+       * the {{#crossLink "F2.Constants.AppHandlers\APP_DESTROY"}} AppHandler.
+       */
+      destroy:function() {}
 		};
 	},
 	/**
