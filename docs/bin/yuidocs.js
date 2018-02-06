@@ -5,10 +5,10 @@ var builder,
   docOptions = {
     quiet: false,
     norecurse: true,
-    paths: [path.resolve(__dirname, '../../sdk/src')],
-    outdir: path.resolve(__dirname, '../dist/sdk/'),
-    themedir: path.resolve(__dirname, '../src/sdk-template'),
-    helpers: [path.resolve(__dirname, '../src/sdk-template/helpers/helpers.js')]
+    paths: ['../../sdk/src'],
+    outdir: '../dist/sdk/',
+    themedir: '../src/sdk-template',
+    helpers: ['../src/sdk-template/helpers/helpers.js']
   },
   json,
   pkg = require('../../package.json');
