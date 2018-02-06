@@ -91,7 +91,7 @@
           <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
           <li><a href="http://www.openf2.org/developers">Developers</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.2</span>&nbsp;<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.4</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="index.html">Getting Started</a></li>
               <li class="active"><a href="container-development.html">Container Development</a></li>
@@ -144,20 +144,20 @@ The container is the foundation of any F2-enabled solution. By leveraging the <a
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
 
 <p>Setup a basic container HTML template (or add F2.js to an existing website):</p>
-<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"/path/to/your/bootstrap.css"</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/path/to/your/bootstrap.css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <p><span class="label label-info">Note</span> In developing a more advanced container, the HTML document’s <code>body</code> element would contain additional markup and allow for <a href="#apphandlers-for-app-layout">specific positioning or placement of apps</a>. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the <a href="#container-design">F2 design guidelines</a>.</p>
 <h4 class="link-header" id="appconfig-amp-init">AppConfig &amp; Init<a class="anchor" href="#appconfig-amp-init"><span>#</span></a></h4><pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _appConfig = {
-    appId: <span class="hljs-string">'com_openf2_examples_javascript_helloworld'</span>,
-    manifestUrl: <span class="hljs-string">'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_openf2_examples_javascript_helloworld'</span>,
+    <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
 };
 
 $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
@@ -190,7 +190,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 <hr>
 <h2 class="link-header" id="developing-f2-containers">Developing F2 Containers<a class="anchor" href="#developing-f2-containers"><span>#</span></a></h2><p>A container is a browser-based web application which brings F2 apps together onto a seamless user interface. It can also provide data and user context to its apps in the form of request-response web services or streaming data feeds.</p>
 <h3 class="link-header" id="including-the-f2-sdk">Including the F2 SDK<a class="anchor" href="#including-the-f2-sdk"><span>#</span></a></h3><p>For a webpage to be considered an F2 container, it must first include the <a href="f2js-sdk.html">F2.js JavaScript SDK</a>. This is as simple as <a href="f2js-sdk.html#download">downloading the F2 project from GitHub</a> and adding a <code>script</code> tag to the page. </p>
-<pre><code class="lang-javascript">&lt;script src=<span class="hljs-string">"/path/to/your/f2.js"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span></span>
+<pre><code class="lang-javascript">&lt;script src=<span class="hljs-string">"/path/to/your/f2.js"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
 </code></pre>
 <p>You will find a basic container in the <a href="https://github.com/OpenF2/F2/tree/master/examples/">project repo on GitHub</a> along with a number of sample apps. Once the script tag has been added, it is up to the Container Developer to configure and customize the container. The first step is getting a ContainerID.</p>
 <h3 class="link-header" id="f2-containerid">F2 ContainerID<a class="anchor" href="#f2-containerid"><span>#</span></a></h3><p>To develop a production F2 container, you need a unique identifier called a ContainerID. This ContainerID will be unique to <em>your container</em> across the entire open financial framework ecosystem. The format of the ContainerID looks like this: <code>com_container_companyName_containerName</code>, where the <code>companyName</code> “namespace” is your company name and <code>containerName</code> is the name of your container.</p>
@@ -210,16 +210,16 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 </code></pre>
 <p>To initialize a container with a <code>ContainerConfig</code>, use:</p>
 <pre><code class="lang-javascript">F2.init({
-    UI: {},
-    xhr: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{},
-    supportedViews: []
+    <span class="hljs-attr">UI</span>: {},
+    <span class="hljs-attr">xhr</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{},
+    <span class="hljs-attr">supportedViews</span>: []
 });
 </code></pre>
 <p>Review all of the <code>ContainerConfig</code> properties in the <a href="./sdk/classes/F2.ContainerConfig.html">reference documentation</a>. </p>
 <p>To see a more detailed example of <code>F2.init()</code>, <a href="https://github.com/OpenF2/F2/blob/master/examples/container/js/container.js">look at the sample container javascript</a> in the F2 repo on GitHub.</p>
 <h3 class="link-header" id="debug-mode">Debug Mode<a class="anchor" href="#debug-mode"><span>#</span></a></h3><p>To enable debug mode in a container, use the following <a href="./sdk/classes/F2.ContainerConfig.html">property</a> in <code>F2.init()</code>. Setting <code>debugMode: true</code> adds additional logging, resource cache busting, etc.</p>
 <pre><code class="lang-javascript">F2.init({
-   debugMode: <span class="hljs-literal">true</span> 
+   <span class="hljs-attr">debugMode</span>: <span class="hljs-literal">true</span> 
 });
 </code></pre>
 <p><span class="label label-warning">Note</span> For obvious reasons, this property should only be used in a development environment.</p>
@@ -228,7 +228,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 <h3 class="link-header" id="internationalization">Internationalization<a class="anchor" href="#internationalization"><span>#</span></a></h3><p>To configure internationalization, or “<a href="http://en.wikipedia.org/wiki/Internationalization_and_localization">i18n</a>“, in an application the region and language can be set on the <code>ContainerConfig</code>. This “locale” information is shared with all Apps using <a href="http://en.wikipedia.org/wiki/IETF_language_tag">IETF-defined standard language tags</a>.</p>
 <p>Configuration of current region and language using the <code>locale</code>:</p>
 <pre><code class="lang-javascript">F2.init({
-    locale: <span class="hljs-string">'en-us'</span>
+    <span class="hljs-attr">locale</span>: <span class="hljs-string">'en-us'</span>
 });
 </code></pre>
 <p><span class="label label-danger">Important</span> Providing a <code>locale</code> config is only a means of communicating localization information in the container. F2 does not perform translations, number formatting or other localization modifications to Containers or Apps.</p>
@@ -238,7 +238,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 
 <span class="hljs-comment">//emit F2 event with new locale</span>
 F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,{
-    locale: <span class="hljs-string">'en-gb'</span>
+    <span class="hljs-attr">locale</span>: <span class="hljs-string">'en-gb'</span>
 });
 
 <span class="hljs-comment">//get newly-updated locale</span>
@@ -279,40 +279,40 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <h3 class="link-header" id="setting-up-a-loading-gif">Setting Up a Loading GIF<a class="anchor" href="#setting-up-a-loading-gif"><span>#</span></a></h3><p>Container Developers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers’ toolkit in F2.js. One of those is <code>F2.UI.Mask</code>. The <code>Mask</code> object contains configuration defaults for the <code>F2.UI.showMask()</code> and <code>F2.UI.hideMask()</code> methods.</p>
 <p>An example of setting the mask in <code>F2.init()</code>:</p>
 <pre><code class="lang-javascript">F2.init({
-    UI:{
-        Mask:{
-            loadingIcon:<span class="hljs-string">'./img/spinner.gif'</span>,
-            backgroundColor: <span class="hljs-string">'#fff'</span>,
-            opacity: <span class="hljs-number">0.5</span>
+    <span class="hljs-attr">UI</span>:{
+        <span class="hljs-attr">Mask</span>:{
+            <span class="hljs-attr">loadingIcon</span>:<span class="hljs-string">'./img/spinner.gif'</span>,
+            <span class="hljs-attr">backgroundColor</span>: <span class="hljs-string">'#fff'</span>,
+            <span class="hljs-attr">opacity</span>: <span class="hljs-number">0.5</span>
         }
     }
 });
 </code></pre>
 <p>Included in the <code>F2.UI.Mask</code> configuration object are the following properties: <code>backgroundColor</code>, <code>loadingIcon</code>, <code>opacity</code>, <code>useClasses</code>, and <code>zIndex</code>. Each of these <code>F2.UI.Mask</code> properties is detailed in <a href="./sdk/classes/F2.ContainerConfig.UI.Mask.html">the F2.js SDK docs</a>.</p>
 <p>For more information on <code>F2.UI</code>, <a href="./sdk/classes/F2.UI.html">browse to the F2.js SDK docs</a>.</p>
-<h3 class="link-header" id="override-the-appmanifest-request">Override the AppManifest Request<a class="anchor" href="#override-the-appmanifest-request"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>&mdash;intentionally obscured from developers through the <code>F2.registerApps()</code> API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.)  In version 1.4.2 of F2, the <code>AppManifest</code> request can be overridden in the Container Config. </p>
+<h3 class="link-header" id="override-the-appmanifest-request">Override the AppManifest Request<a class="anchor" href="#override-the-appmanifest-request"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>&mdash;intentionally obscured from developers through the <code>F2.registerApps()</code> API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.)  In version 1.4.4 of F2, the <code>AppManifest</code> request can be overridden in the Container Config. </p>
 <p><span class="label label-info">Note</span> The <code>AppManifest</code> endpoint is configured in the <code>manifestUrl</code> property within each <a href="#appconfigs"><code>AppConfig</code></a>.</p>
 <p>The following example demonstrates how the <code>xhr</code> property of the <code>ContainerConfig</code> is used to override F2.js.</p>
 <pre><code class="lang-javascript">F2.init({
-    xhr: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url, appConfigs, success, error, complete</span>) </span>{
+    <span class="hljs-attr">xhr</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url, appConfigs, success, error, complete</span>) </span>{
         $.ajax({
-            url: url,
-            type: <span class="hljs-string">'POST'</span>,
-            data: {
-                params: F2.stringify(appConfigs, F2.appConfigReplacer)
+            <span class="hljs-attr">url</span>: url,
+            <span class="hljs-attr">type</span>: <span class="hljs-string">'POST'</span>,
+            <span class="hljs-attr">data</span>: {
+                <span class="hljs-attr">params</span>: F2.stringify(appConfigs, F2.appConfigReplacer)
             },
-            jsonp: <span class="hljs-literal">false</span>, <span class="hljs-comment">// do not put 'callback=' in the query string</span>
+            <span class="hljs-attr">jsonp</span>: <span class="hljs-literal">false</span>, <span class="hljs-comment">// do not put 'callback=' in the query string</span>
             jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[<span class="hljs-number">0</span>].appId, <span class="hljs-comment">// Unique function name</span>
             dataType: <span class="hljs-string">'json'</span>,
-            success: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appManifest</span>) </span>{
+            <span class="hljs-attr">success</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appManifest</span>) </span>{
                 <span class="hljs-comment">// custom success logic</span>
                 success(appManifest); <span class="hljs-comment">// fire success callback</span>
             },
-            error: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-attr">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
                 <span class="hljs-comment">// custom error logic</span>
                 error(); <span class="hljs-comment">// fire error callback</span>
             },
-            complete: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-attr">complete</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
                 <span class="hljs-comment">// custom complete logic</span>
                 complete(); <span class="hljs-comment">// fire complete callback</span>
             }
@@ -323,8 +323,8 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <h3 class="link-header" id="extending-xhr">Extending XHR<a class="anchor" href="#extending-xhr"><span>#</span></a></h3><p>The <code>F2.ContainerConfig.xhr</code> property has two additional customizable properties available: <code>dataType</code> and <code>type</code>. </p>
 <h4 class="link-header" id="datatype">DataType<a class="anchor" href="#datatype"><span>#</span></a></h4><p>The <code>dataType</code> property allows the container to override the request data type (JSON or JSONP) that is used for the request. Using JSON as a <code>dataType</code> is only available for F2 apps running on the same domain as the container.</p>
 <pre><code class="lang-javascript">F2.init({
-    xhr: {
-        dataType: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
+    <span class="hljs-attr">xhr</span>: {
+        <span class="hljs-attr">dataType</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
             <span class="hljs-keyword">return</span> F2.isLocalRequest(url) ? <span class="hljs-string">'json'</span> : <span class="hljs-string">'jsonp'</span>;
         }
     }
@@ -332,19 +332,19 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 </code></pre>
 <h4 class="link-header" id="type">Type<a class="anchor" href="#type"><span>#</span></a></h4><p>The <code>type</code> property allows the container to override the request method that is used (similar to the <a href="http://api.jquery.com/jQuery.ajax/">type parameter to jQuery.ajax()</a>). Since HTTP POST is not supported on JSONP requests, using POST as a <code>type</code> is only available for F2 apps using JSON and are therefore running on the same base domain as the container.</p>
 <pre><code class="lang-javascript">F2.init({
-    xhr: {
-        type: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
+    <span class="hljs-attr">xhr</span>: {
+        <span class="hljs-attr">type</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
             <span class="hljs-keyword">return</span> F2.isLocalRequest(url) ? <span class="hljs-string">'POST'</span> : <span class="hljs-string">'GET'</span>;
         }
     }
 });
 </code></pre>
 <p>For more information on <code>F2.ContainerConfig.xhr</code>, <a href="./sdk/classes/F2.ContainerConfig.html">browse to the F2.js SDK docs</a>.</p>
-<h3 class="link-header" id="override-the-request-for-app-dependencies">Override the Request for App Dependencies<a class="anchor" href="#override-the-request-for-app-dependencies"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the request mechanism in F2.js for <code>AppManifest</code>-defined dependencies. The current dependency request process is handled by the straightforward <code>createElement(&#39;script&#39;)</code> and <code>createStyleSheet()</code> statements for scripts and styles, respectively. In version 1.4.2 of F2, the app dependency request can be overridden in the <a href="./sdk/classes/F2.ContainerConfig.html"><code>ContainerConfig</code></a>.</p>
+<h3 class="link-header" id="override-the-request-for-app-dependencies">Override the Request for App Dependencies<a class="anchor" href="#override-the-request-for-app-dependencies"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the request mechanism in F2.js for <code>AppManifest</code>-defined dependencies. The current dependency request process is handled by the straightforward <code>createElement(&#39;script&#39;)</code> and <code>createStyleSheet()</code> statements for scripts and styles, respectively. In version 1.4.4 of F2, the app dependency request can be overridden in the <a href="./sdk/classes/F2.ContainerConfig.html"><code>ContainerConfig</code></a>.</p>
 <h4 class="link-header" id="override-the-script-loader">Override the Script Loader<a class="anchor" href="#override-the-script-loader"><span>#</span></a></h4><p>As defined in the <code>AppManifest</code>, each F2 App can have script file dependencies. These are <a href="app-development.html#app-manifest">defined as URLs</a> in the <code>AppManifest.scripts</code> property (type array). The script loader can be replaced with any script loading mechanism such as those found in <a href="http://requirejs.org/">RequireJS</a>, <a href="http://jquery.com">jQuery</a> or <a href="http://headjs.com/">HeadJS</a>.</p>
 <p>To override the script loader, assign a function to <code>loadScripts</code> in <code>F2.init</code> as shown below. The function is passed <code>scripts</code> (array) and <code>callback</code> (function) which needs to be called when all scripts have been loaded.</p>
 <pre><code class="lang-javascript">F2.init({
-    loadScripts: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">scripts,callback</span>)</span>{
+    <span class="hljs-attr">loadScripts</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">scripts,callback</span>)</span>{
         <span class="hljs-comment">//perform script loading</span>
         callback();
     }
@@ -352,7 +352,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 </code></pre>
 <p>The following example demonstrates using <a href="http://headjs.com/site/api/v1.00.html#load">HeadJS</a> to load script dependencies:</p>
 <pre><code class="lang-javascript">F2.init({
-    loadScripts: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">scripts,callback</span>)</span>{
+    <span class="hljs-attr">loadScripts</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">scripts,callback</span>)</span>{
         head.load(scripts, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
             callback();
         });
@@ -363,7 +363,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <h4 class="link-header" id="override-the-stylesheet-loader">Override the Stylesheet Loader<a class="anchor" href="#override-the-stylesheet-loader"><span>#</span></a></h4><p>As defined in the <code>AppManifest</code>, each F2 App can have stylesheet file dependencies. These are <a href="app-development.html#app-manifest">defined as URLs</a> in the <code>AppManifest.styles</code> property. The stylesheet loader can be replaced with any stylesheet loading mechanism such as those found in <a href="http://headjs.com/">HeadJS</a> or <a href="https://github.com/rgrove/lazyload">LazyLoad</a>.</p>
 <p>To override the stylesheet loader, assign a function to <code>loadStyles</code> in <code>F2.init</code> as shown below. The function is passed <code>styles</code> (array) and <code>callback</code> (function) which needs to be called when all stylesheets have been loaded.</p>
 <pre><code class="lang-javascript">F2.init({
-    loadStyles: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">styles,callback</span>)</span>{
+    <span class="hljs-attr">loadStyles</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">styles,callback</span>)</span>{
         <span class="hljs-comment">//perform stylesheet loading</span>
         callback();
     }
@@ -371,7 +371,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 </code></pre>
 <p>The following example demonstrates using <a href="http://headjs.com/site/api/v1.00.html#load">HeadJS</a> to load stylesheet dependencies:</p>
 <pre><code class="lang-javascript">F2.init({
-    loadStyles: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">styles,callback</span>)</span>{
+    <span class="hljs-attr">loadStyles</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">styles,callback</span>)</span>{
         head.load(styles, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
             callback();
         });
@@ -382,7 +382,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <h4 class="link-header" id="override-the-inline-script-loader">Override the Inline Script Loader<a class="anchor" href="#override-the-inline-script-loader"><span>#</span></a></h4><p>As defined in the <code>AppManifest</code>, each F2 App can have inline script dependencies. These are <a href="app-development.html#app-manifest">defined as strings</a> in the <code>AppManifest.inlineScripts</code> property (type array). The inline script evaluator can be replaced with any script evaluator, however, it is expected Container Developers will not require an alternative to the <code>eval</code> currently in use.</p>
 <p>To override the inline script evaluator, assign a function to <code>loadInlineScripts</code> in <code>F2.init</code> as shown below. The function is passed <code>inlines</code> (array) and <code>callback</code> (function) which needs to be called when all inline scripts have been evaluated.</p>
 <pre><code class="lang-javascript">F2.init({
-    loadInlineScripts: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">inlines,callback</span>)</span>{
+    <span class="hljs-attr">loadInlineScripts</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">inlines,callback</span>)</span>{
         <span class="hljs-comment">//perform inline script evaluation</span>
         callback();
     }
@@ -404,7 +404,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 </code></pre>
 <h3 class="link-header" id="supported-views">Supported Views<a class="anchor" href="#supported-views"><span>#</span></a></h3><p>F2 Container Developers should define which <a href="app-development.html#f2.ui.views">app views</a> their container supports. This is set in the <code>supportedViews</code> property of the <code>ContainerConfig</code> using <a href="./sdk/classes/F2.Constants.Views.html"><code>F2.Constants.Views</code></a>.</p>
 <pre><code class="lang-javascript">F2.init({
-    supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE]
+    <span class="hljs-attr">supportedViews</span>: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE]
 });
 </code></pre>
 <p><span class="label label-info">Note</span> Every F2 app has a <code>home</code> view (whether defined by the App Developer or not). This means if no views are provided by the App Developer, a <code>home</code> view is automatically added to <code>appConfig.views</code> during the app registration process inside F2.</p>
@@ -417,38 +417,38 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <h3 class="link-header" id="appconfigs">AppConfigs<a class="anchor" href="#appconfigs"><span>#</span></a></h3><p>Before continuing, let’s discuss the <code>AppConfig</code>. The container-provided app configurations are represented simply as an array of <a href="./sdk/classes/F2.AppConfig.html">AppConfig objects</a>. These could be configured statically or fetched from an F2 Registry API. <code>AppConfig</code> objects contain app meta data&mdash;including the <code>manifestUrl</code>&mdash;provided by the App Developer when an app is registered in the <a href="about-f2.html#developer-center">Developer Center</a>. </p>
 <p>An example <code>AppConfig</code> object from an <em>individual</em> app:</p>
 <pre><code class="lang-javascript">{
-    appId: <span class="hljs-string">"com_companyName_appName"</span>,
-    manifestUrl: <span class="hljs-string">"http://www.domain.com/manifest.js"</span>,
-    name: <span class="hljs-string">"App name"</span>,
-    context: {
-        data: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">"com_companyName_appName"</span>,
+    <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">"http://www.domain.com/manifest.js"</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"App name"</span>,
+    <span class="hljs-attr">context</span>: {
+        <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
     }
 }
 </code></pre>
 <p>An example array of <code>AppConfig</code> objects for a collection of apps:</p>
 <pre><code class="lang-javascript">[
     {
-        appId: <span class="hljs-string">"com_companyName_appName"</span>,
-        manifestUrl: <span class="hljs-string">"http://www.domain.com/manifest.js"</span>,
-        name: <span class="hljs-string">"App name"</span>,
-        context: {
-            data: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+        <span class="hljs-attr">appId</span>: <span class="hljs-string">"com_companyName_appName"</span>,
+        <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">"http://www.domain.com/manifest.js"</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"App name"</span>,
+        <span class="hljs-attr">context</span>: {
+            <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
         }
     },
     {
-        appId: <span class="hljs-string">"com_companyName_appName2"</span>,
-        manifestUrl: <span class="hljs-string">"http://www.domain.com/manifest2.js"</span>,
-        name: <span class="hljs-string">"App2 name"</span>,
-        context: {
-            name: <span class="hljs-string">'value'</span>
+        <span class="hljs-attr">appId</span>: <span class="hljs-string">"com_companyName_appName2"</span>,
+        <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">"http://www.domain.com/manifest2.js"</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"App2 name"</span>,
+        <span class="hljs-attr">context</span>: {
+            <span class="hljs-attr">name</span>: <span class="hljs-string">'value'</span>
         }
     },
     {
-        appId: <span class="hljs-string">"com_companyName_appName3"</span>,
-        manifestUrl: <span class="hljs-string">"http://www.domain.com/manifest3.js"</span>,
-        name: <span class="hljs-string">"App3 name"</span>,
-        context: {
-            status: <span class="hljs-string">'ok'</span>
+        <span class="hljs-attr">appId</span>: <span class="hljs-string">"com_companyName_appName3"</span>,
+        <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">"http://www.domain.com/manifest3.js"</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"App3 name"</span>,
+        <span class="hljs-attr">context</span>: {
+            <span class="hljs-attr">status</span>: <span class="hljs-string">'ok'</span>
         }
     },
 ];
@@ -473,7 +473,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <p><span class="label label-danger">Important</span> Since version 1.4.0, regardless of how many times a particular app is loaded, each of its <code>scripts</code> and <code>styles</code> dependencies is requested and inserted into the page <strong>only once</strong>.</p>
 <h3 class="link-header" id="auto-loading-apps">Auto-Loading Apps<a class="anchor" href="#auto-loading-apps"><span>#</span></a></h3><p>Since version 1.4.0, App Placeholders provide a way to greatly simplify F2 App integration. This newer declarative style allows Container Developers to add F2.js and minimal HTML (with data attributes) to a web page, F2 will then automatically find and register the App associated to the HTML. </p>
 <p>By using one of the available attributes (<code>f2-autoload</code>), F2 auto-registers this “Hello World” App and inserts it into this “placeholder” DOM element.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"f2-autoload"</span> <span class="hljs-attribute">data-f2-appid</span>=<span class="hljs-value">"com_openf2_examples_nodejs_helloworld"</span> <span class="hljs-attribute">data-f2-manifesturl</span>=<span class="hljs-value">"http://www.openf2.org/F2/apps"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"f2-autoload"</span> <span class="hljs-attr">data-f2-appid</span>=<span class="hljs-string">"com_openf2_examples_nodejs_helloworld"</span> <span class="hljs-attr">data-f2-manifesturl</span>=<span class="hljs-string">"http://www.openf2.org/F2/apps"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <h4 class="link-header" id="supported-auto-load-attributes">Supported Auto-Load Attributes<a class="anchor" href="#supported-auto-load-attributes"><span>#</span></a></h4><p>The following HTML elements are automatically parsed by F2.js and will trigger auto-loading (provided requirements below are met):</p>
 <ul>
@@ -482,13 +482,13 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <li>ID attribute: <code>#f2-autoload</code></li>
 </ul>
 <h4 class="link-header" id="requirements">Requirements<a class="anchor" href="#requirements"><span>#</span></a></h4><p>Both an <code>appId</code> and <code>manifestUrl</code> are required for F2.js to successfully register an App. Use <code>data-f2-appid</code> and <code>data-f2-manifesturl</code> as shown in this example:</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"f2-autoload"</span> <span class="hljs-attribute">data-f2-appid</span>=<span class="hljs-value">"com_openf2_examples_nodejs_helloworld"</span> <span class="hljs-attribute">data-f2-manifesturl</span>=<span class="hljs-value">"http://www.openf2.org/F2/apps"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"f2-autoload"</span> <span class="hljs-attr">data-f2-appid</span>=<span class="hljs-string">"com_openf2_examples_nodejs_helloworld"</span> <span class="hljs-attr">data-f2-manifesturl</span>=<span class="hljs-string">"http://www.openf2.org/F2/apps"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <h4 class="link-header" id="other-options">Other Options<a class="anchor" href="#other-options"><span>#</span></a></h4><p>F2 Context can be provided for auto-loaded Apps. Use the <code>data-f2-context</code> data attribute and assign stringified JSON as the value.</p>
 <pre><code class="lang-html">data-f2-context="{&amp;quot;hello&amp;quot;:&amp;quot;world&amp;quot;}"
 </code></pre>
 <p>Implemented:</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"f2-autoload"</span> <span class="hljs-attribute">data-f2-appid</span>=<span class="hljs-value">"com_openf2_examples_nodejs_helloworld"</span> <span class="hljs-attribute">data-f2-manifesturl</span>=<span class="hljs-value">"http://www.openf2.org/F2/apps"</span> <span class="hljs-attribute">data-f2-context</span>=<span class="hljs-value">"{&amp;quot;hello&amp;quot;:&amp;quot;world&amp;quot;}"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"f2-autoload"</span> <span class="hljs-attr">data-f2-appid</span>=<span class="hljs-string">"com_openf2_examples_nodejs_helloworld"</span> <span class="hljs-attr">data-f2-manifesturl</span>=<span class="hljs-string">"http://www.openf2.org/F2/apps"</span> <span class="hljs-attr">data-f2-context</span>=<span class="hljs-string">"{&amp;quot;hello&amp;quot;:&amp;quot;world&amp;quot;}"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p><a href="#batch-requesting-apps">Batch requesting</a> of Apps as well as <a href="app-development.html#secure-apps">secure Apps</a> are supported in the auto-loading mode.</p>
 <ul>
@@ -522,22 +522,22 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 <h3 class="link-header" id="registering-pre-loaded-apps">Registering Pre-Loaded Apps<a class="anchor" href="#registering-pre-loaded-apps"><span>#</span></a></h3><p>Incorporating apps which have been pre-loaded or are otherwise already on the container when it loads is an alternative method to integrating F2 apps. This method is useful when the container is being constructed on the server-side (at run-time or on a schedule) and F2 functionality is desired. To use pre-loaded apps, the Container Developer is required to make a request to each app’s <code>AppManifest</code> and its dependencies <em>before</em> the page is rendered.</p>
 <p>For the following example, let’s assume you have a web page composed on the server and all of its HTML is delivered to the browser in one payload. This page also has at least one widget (or component) you’d like to register with F2.js. </p>
 <h4 class="link-header" id="1-setup-container">1. Setup Container<a class="anchor" href="#1-setup-container"><span>#</span></a></h4><p>To use pre-loaded apps, a web page with a placeholder element for the apps is required. This simple (and empty) web page features a <code>div#news_app.col-md-12</code> which serves as that placeholder or “root” element.</p>
-<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"/path/to/your/bootstrap.css"</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"container"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-12"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/path/to/your/bootstrap.css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-12"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"news_app"</span>&gt;</span>
                     <span class="hljs-comment">&lt;!--app goes here--&gt;</span>
-                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <h4 class="link-header" id="2-request-appmanifest">2. Request AppManifest<a class="anchor" href="#2-request-appmanifest"><span>#</span></a></h4><p>Next, make a server-side request to the news app’s <code>AppManifest</code>&mdash;the URL is found in <code>manifestUrl</code>&mdash;and capture the resulting JSON. Each <code>AppManifest</code> contains scripts, style sheets and HTML (<a href="app-development.html#app-manifest">more about the <code>AppManifest</code></a>). The market news app’s <code>AppManifest</code> looks like this:</p>
 <pre><code class="lang-javascript">{
@@ -560,54 +560,54 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 </div>
 
 <h4 class="link-header" id="3-add-app-to-container">3. Add App to Container<a class="anchor" href="#3-add-app-to-container"><span>#</span></a></h4><p>You’re almost there. Next, embed the news app’s <code>html</code>, <code>scripts</code> and <code>styles</code>. The F2 app is inserted into <code>.row &gt; .col-md-12</code> following <a href="http://getbootstrap.com/css/#grid">Bootstrap’s scaffolding</a> guidelines. The <code>styles</code> were appended to the <code>head</code> and the <code>scripts</code> were appended to the <code>body</code> (in this case just one URL for each).</p>
-<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"/path/to/your/bootstrap.css"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"http://www.openf2.org/css/site.css"</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"container"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-12"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-module-name</span>=<span class="hljs-value">"MarketNewsApp"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"news_app"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-                <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://www.openf2.org/js/main.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/path/to/your/bootstrap.css"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://www.openf2.org/css/site.css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-12"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"news_app"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">data-module-name</span>=<span class="hljs-string">"MarketNewsApp"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"news_app"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://www.openf2.org/js/main.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <p>The example news app is now part of the web page and everything should be functioning properly. <strong>The final step is to register the app with F2</strong>.</p>
 <h4 class="link-header" id="4-assign-root-element-to-appconfig">4. Assign Root Element to AppConfig<a class="anchor" href="#4-assign-root-element-to-appconfig"><span>#</span></a></h4><p>To use pre-loaded apps, an additional property is required on the <code>AppConfig</code> object. It is called <code>root</code> and can be either a CSS selector string <em>or</em> a DOM element. Regardless of type, F2 will parse the value of <code>root</code> and it must return an existing in-page DOM element. Furthermore, the value of <code>root</code> must represent a <em>unique</em> DOM element as each app needs its own containing, or <code>root</code>, element.</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _appConfig = {
-    appId: <span class="hljs-string">'com_openf2_examples_csharp_marketnews'</span>,
-    description: <span class="hljs-string">'Example News'</span>,
-    manifestUrl: <span class="hljs-string">'http://www.openf2.org/Examples/Apps'</span>,
-    name: <span class="hljs-string">'Example News'</span>,
-    root: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_openf2_examples_csharp_marketnews'</span>,
+    <span class="hljs-attr">description</span>: <span class="hljs-string">'Example News'</span>,
+    <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">'http://www.openf2.org/Examples/Apps'</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'Example News'</span>,
+    <span class="hljs-attr">root</span>: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
 };
 </code></pre>
 <p>Both of these are valid values for the <code>root</code> property. </p>
 <p>Using JavaScript:</p>
 <pre><code class="lang-javascript">{
-    root: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
+    <span class="hljs-attr">root</span>: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
 }
 </code></pre>
 <p>Using a CSS selector string:</p>
 <pre><code class="lang-javascript">{
-    root: <span class="hljs-string">'#news_app'</span>
+    <span class="hljs-attr">root</span>: <span class="hljs-string">'#news_app'</span>
 }
 </code></pre>
 <p>F2.js uses jQuery internally to parse the value of the <code>root</code> property and, in turn, jQuery relies on the <a href="http://sizzlejs.com/">Sizzle javascript selector library</a>. If a CSS selector string is assigned to <code>root</code>, it must be a valid CSS 3 selector supported by Sizzle. Refer to the <a href="https://github.com/jquery/sizzle/wiki/Sizzle-Documentation">Sizzle documentation for more details</a>.</p>
 <h4 class="link-header" id="5-register-app">5. Register App<a class="anchor" href="#5-register-app"><span>#</span></a></h4><p>Since you started with the <code>AppConfig</code> and now have the <code>AppManifest</code> from step 2 along with an HTML page containing the embedded app, all that remains is a simple call to F2. Registering pre-loaded apps with F2.js means passing the ammended <code>AppConfig</code> as shown in the example below. </p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _appConfig = {
-    appId: <span class="hljs-string">'com_openf2_examples_csharp_marketnews'</span>,
-    description: <span class="hljs-string">'Example News'</span>,
-    manifestUrl: <span class="hljs-string">'http://www.openf2.org/Examples/Apps'</span>,
-    name: <span class="hljs-string">'Example News'</span>,
-    root: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_openf2_examples_csharp_marketnews'</span>,
+    <span class="hljs-attr">description</span>: <span class="hljs-string">'Example News'</span>,
+    <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">'http://www.openf2.org/Examples/Apps'</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'Example News'</span>,
+    <span class="hljs-attr">root</span>: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
 };
 
 $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
@@ -619,11 +619,11 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 <h3 class="link-header" id="combining-appconfig-and-appmanifest">Combining AppConfig and AppManifest<a class="anchor" href="#combining-appconfig-and-appmanifest"><span>#</span></a></h3><p>Container Developers can use the <code>AppConfig</code> and pre-loaded <code>AppManifest</code> (from <a href="#request-appmanifest">step 2 above</a>) in conjunction with <code>F2.registerApps()</code> to speed up the loading of F2 containers. The <a href="./sdk/classes/F2.html#methods-registerApps"><code>F2.registerApps()</code> API supports</a> two arguments: <code>appConfigs</code> and <code>appManifests</code>. The former is an array of <a href="./sdk/classes/F2.AppConfig.html"><code>F2.AppConfig</code> objects</a> and the latter is an array of <a href="./sdk/classes/F2.AppManifest.html"><code>F2.AppManifest</code> objects</a>. The <code>appManifests</code> array must be the same length as the <code>appConfigs</code> array that is used as the first argument. This can be useful if apps are loaded on the server-side and passed down to the client.</p>
 <p>In the following example, the <code>AppManifest</code> was pre-loaded and stored in the <code>_appManifest</code> variable.</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _appConfig = {
-    appId: <span class="hljs-string">'com_openf2_examples_csharp_marketnews'</span>,
-    description: <span class="hljs-string">'Example News'</span>,
-    manifestUrl: <span class="hljs-string">'http://www.openf2.org/Examples/Apps'</span>,
-    name: <span class="hljs-string">'Example News'</span>,
-    root: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_openf2_examples_csharp_marketnews'</span>,
+    <span class="hljs-attr">description</span>: <span class="hljs-string">'Example News'</span>,
+    <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">'http://www.openf2.org/Examples/Apps'</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'Example News'</span>,
+    <span class="hljs-attr">root</span>: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'news_app'</span>)
 };
 
 <span class="hljs-keyword">var</span> _appManifest = {
@@ -645,10 +645,10 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 });
 </code></pre>
 <p>If a manifest is passed with the <code>AppConfig</code>, then the <code>AppClass</code> will receive an index from the manifest’s <code>apps</code> property in place of <code>AppContent</code>. If no manifest is supplied, the <code>AppClass</code> will receive the following hardcoded <code>AppContent</code>:</p>
-<pre><code><span class="hljs-rules">{
-    <span class="hljs-rule"><span class="hljs-attribute">preloaded</span>:<span class="hljs-value"> true,
+<pre><code>{
+    <span class="hljs-attribute">preloaded</span>: true,
     status: <span class="hljs-string">'SUCCESS'</span>
-</span></span></span>}
+}
 </code></pre><p><span class="label label-danger">Important</span> The <code>F2.registerApps()</code> API supports both an array of objects and object literals for each argument. Internally, F2.js converts the value of each argument into an array using concatenation (<code>[].concat()</code>). If arrays of objects are used (when there are more than one app on the container), the <code>_appConfig</code> and <code>_appManifest</code> arrays must be of equal length, and the object at each index must be a parallel reference. This means the <code>AppConfig</code> and <code>AppManifest</code> for the sample news app used above must be in <code>_appConfig[0]</code> and <code>_appManifest[0]</code>.</p>
 <hr>
 <h2 class="link-header" id="apphandlers-for-app-layout">AppHandlers for App Layout<a class="anchor" href="#apphandlers-for-app-layout"><span>#</span></a></h2><p>New functionality called <code>F2.AppHandlers</code> was added in F2 1.2, and the conversation about this collection of features occurred in <a href="https://github.com/OpenF2/F2/issues/38">#38</a> on GitHub. The new <code>AppHandlers</code> functionality provides Container Developers a higher level of control over configuring app rendering and interaction. </p>
@@ -677,6 +677,7 @@ F2.registerApps(appConfig);
 <p>Appending apps to the <code>&lt;body&gt;</code> is the default app rendering behavior of F2.</p>
 <h3 class="link-header" id="custom-app-layout">Custom App Layout<a class="anchor" href="#custom-app-layout"><span>#</span></a></h3><p>F2 <code>AppHandlers</code> provide event handlers for customized app layout using <code>F2.AppHandlers.on()</code> and <code>F2.AppHandlers.off()</code>. The use of <code>on</code> and <code>off</code> require both a <a href="#apphandler-tokens">token</a> and an event type as arguments. The event types, defined as constants in <code>F2.Constants.AppHandlers</code>, are: </p>
 <ul>
+<li><code>appManifestRequestFail</code></li>
 <li><code>appCreateRoot</code></li>
 <li><code>appDestroy</code></li>
 <li><code>appDestroyAfter</code></li>
@@ -690,8 +691,8 @@ F2.registerApps(appConfig);
 <p>In the following example, the app will be appended to the <code>#my_sidebar</code> DOM element on the container.</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _token = F2.AppHandlers.getToken(),
     _appConfig = {
-        appId: <span class="hljs-string">'com_example_app'</span>,
-        manifestUrl: <span class="hljs-string">'/manifest.js'</span>
+        <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_example_app'</span>,
+        <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">'/manifest.js'</span>
     };
 
 F2.init();
@@ -699,14 +700,14 @@ F2.AppHandlers.on(_token, <span class="hljs-string">'appRender'</span>, <span cl
 F2.registerApps(_appConfig);
 </code></pre>
 <p>F2 will insert <code>html</code> from the <code>AppManifest</code> inside the specified DOM element. The resulting HTML will look like this after <code>registerApps</code> is called. Take note F2.js adds three class names to the app’s outermost element (<code>f2-app</code>, <code>f2-app-container</code>, and <code>com_example_app</code> for the <code>appId</code>).</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"my_sidebar"</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"my_sidebar"</span>&gt;</span>
     <span class="hljs-comment">&lt;!--HTML defined in AppManifest inserted here--&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"f2-app f2-app-container com_example_app"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"f2-app-view"</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">"home"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Hello World!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"f2-app f2-app-container com_example_app"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"f2-app-view"</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">"home"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Hello World!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p><span class="label label-info">Note</span> The original <code>html</code> in this example app manifest is <a href="http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js">available here</a>.</p>
 <p>The jsfiddle below demonstrates a Hello World example using the <code>appRender</code> event type and a DOM element as the third argument in <code>on</code>.</p>
@@ -723,19 +724,19 @@ F2.registerApps(_appConfig);
 <p>To avoid styling conflicts or other display issues related to injecting app-provided style sheets into your container when <code>F2.registerApps()</code> is called, App Developers <a href="app-development.html#namespacing-css">must namespace their CSS selectors</a>. <strong>While there are strict rules for App Developers, the same is true for Container Developers</strong>. This is especially true when nesting multiple F2 apps inside an existing container where that container already has a CSS framework in place. (This is often called the “mutliple container” issue, and a conversation about existing problems and enhancements to F2.js is being discussed in <a href="https://github.com/OpenF2/F2/issues/37">#37</a> and <a href="https://github.com/OpenF2/F2/issues/38">#38</a>.)</p>
 <p>In the event there are multiple containers, every CSS selector in container-provided style sheets must be properly namespaced. The <a href="https://github.com/OpenF2/F2/tree/master/examples/container/css">CSS files bundled with the example containers in the F2 project on GitHub</a> demonstrate this concept, and we have included a <a href="https://github.com/OpenF2/F2/blob/master/examples/container/css/README.md">readme</a> for how to use a LESS compiler to automate the namespacing of Bootstrap’s CSS.</p>
 <p>In this simple example, container-provided CSS should be namespaced as shown below.</p>
-<pre><code class="lang-css"><span class="hljs-class">.com_container_companyName_containerName</span> <span class="hljs-tag">p</span> <span class="hljs-rules">{
-    <span class="hljs-rule"><span class="hljs-attribute">padding</span>:<span class="hljs-value"><span class="hljs-number">5px</span></span></span>;
-}</span>
+<pre><code class="lang-css"><span class="hljs-selector-class">.com_container_companyName_containerName</span> <span class="hljs-selector-tag">p</span> {
+    <span class="hljs-attribute">padding</span>:<span class="hljs-number">5px</span>;
+}
 
-<span class="hljs-class">.com_container_companyName_containerName</span> <span class="hljs-class">.alert</span> <span class="hljs-rules">{
-    <span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value">red</span></span>;
-}</span>
+<span class="hljs-selector-class">.com_container_companyName_containerName</span> <span class="hljs-selector-class">.alert</span> {
+    <span class="hljs-attribute">color</span>:red;
+}
 </code></pre>
 <p>Note <code>.com_container_companyName_containerName</code> is prefixed on both <code>p</code> and <code>.alert</code> selectors.</p>
 <p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and while prefixing F2 ContainerIDs on CSS selectors isn’t required, it is recommended.</p>
-<pre><code class="lang-css"><span class="hljs-class">.com_container_companyName_containerName</span> <span class="hljs-id">#notice</span> <span class="hljs-rules">{
-    <span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value">yellow</span></span>;
-}</span>
+<pre><code class="lang-css"><span class="hljs-selector-class">.com_container_companyName_containerName</span> <span class="hljs-selector-id">#notice</span> {
+    <span class="hljs-attribute">background-color</span>:yellow;
+}
 </code></pre>
 <h4 class="link-header" id="about-css-resets">About CSS Resets<a class="anchor" href="#about-css-resets"><span>#</span></a></h4><p>It is a common web development practice to use <a href="http://meyerweb.com/eric/tools/css/reset/">CSS resets</a>, and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including <a href="http://necolas.github.com/normalize.css/">Normalize.css</a> which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.</p>
 <h3 class="link-header" id="keeping-javascript-clean">Keeping JavaScript Clean<a class="anchor" href="#keeping-javascript-clean"><span>#</span></a></h3><p>Adhering to one of the <a href="http://www.openajax.org/">OpenAjax Alliance</a> goals, F2 also promotes the concept of an uncluttered global javascript namespace. For Container and App Developers alike, this means following this spec closely and ensuring javascript code is contained inside <a href="http://jibbering.com/faq/notes/closures/">closures</a> or is extended as a new namespace on <code>F2</code>.</p>
@@ -743,7 +744,7 @@ F2.registerApps(_appConfig);
 <p>Example:</p>
 <pre><code class="lang-javascript">F2.extend(<span class="hljs-string">'YourPluginName'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">return</span> {
-        doSomething: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-attr">doSomething</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
             F2.log(<span class="hljs-string">"Something has been done."</span>);
         }
     };
@@ -762,8 +763,8 @@ F2.registerApps(_appConfig);
 <pre><code class="lang-javascript">F2.Events.emit(
     F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
     { 
-        symbol: <span class="hljs-string">"AAPL"</span>, 
-        name: <span class="hljs-string">"Apple, Inc."</span> 
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"AAPL"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Apple, Inc."</span> 
     }
 );
 </code></pre>
@@ -781,13 +782,13 @@ F2.registerApps(_appConfig);
 <pre><code class="lang-javascript"><span class="hljs-comment">//define app config</span>
 <span class="hljs-keyword">var</span> _appConfigs = [
     {
-        appId: <span class="hljs-string">"com_acmecorp_news"</span>,
-        description: <span class="hljs-string">"Acme Corp News"</span>,
-        manifestUrl: <span class="hljs-string">"http://www.acme.com/apps/news-manifest.js"</span>,
-        name: <span class="hljs-string">"Acme News App"</span>,
-        context: {
-            sessionId: myApp.sessionId,
-            someArray: [value1,value2]
+        <span class="hljs-attr">appId</span>: <span class="hljs-string">"com_acmecorp_news"</span>,
+        <span class="hljs-attr">description</span>: <span class="hljs-string">"Acme Corp News"</span>,
+        <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">"http://www.acme.com/apps/news-manifest.js"</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Acme News App"</span>,
+        <span class="hljs-attr">context</span>: {
+            <span class="hljs-attr">sessionId</span>: myApp.sessionId,
+            <span class="hljs-attr">someArray</span>: [value1,value2]
         }
     }
 ];
@@ -803,8 +804,8 @@ F2.registerApps(_appConfig);
 <pre><code class="lang-javascript">F2.Events.emit(
     F2.Constants.Events.APP_SYMBOL_CHANGE, 
     { 
-        symbol: <span class="hljs-string">"MSFT"</span>, 
-        name: <span class="hljs-string">"Microsoft, Inc."</span> 
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"MSFT"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Microsoft, Inc."</span> 
     }
 );
 </code></pre>
@@ -822,11 +823,11 @@ F2.registerApps(_appConfig);
 <pre><code class="lang-javascript">F2.Events.emit(
     <span class="hljs-string">"buy_stock"</span>, <span class="hljs-comment">//custom event name</span>
     { 
-        symbol: <span class="hljs-string">"GOOG"</span>, 
-        name: <span class="hljs-string">"Google Inc"</span>,
-        price: <span class="hljs-number">682.68</span>,
-        isAvailableToPurchase: <span class="hljs-literal">true</span>,
-        orderType: <span class="hljs-string">"Market Order"</span>
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"GOOG"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Google Inc"</span>,
+        <span class="hljs-attr">price</span>: <span class="hljs-number">682.68</span>,
+        <span class="hljs-attr">isAvailableToPurchase</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">orderType</span>: <span class="hljs-string">"Market Order"</span>
     }
 );
 </code></pre>
@@ -859,10 +860,10 @@ F2.registerApps(_appConfig);
         watchlist: [<span class="hljs-string">'AAPL'</span>,<span class="hljs-string">'MSFT'</span>,<span class="hljs-string">'GE'</span>],
         <span class="hljs-comment">//object</span>
         userInfo: {
-            name: <span class="hljs-string">'John Smith'</span>,
-            title: <span class="hljs-string">'Managing Director'</span>,
-            groups: [<span class="hljs-string">'Alpha'</span>,<span class="hljs-string">'Beta'</span>],
-            sessionId: <span class="hljs-number">1234567890</span>
+            <span class="hljs-attr">name</span>: <span class="hljs-string">'John Smith'</span>,
+            <span class="hljs-attr">title</span>: <span class="hljs-string">'Managing Director'</span>,
+            <span class="hljs-attr">groups</span>: [<span class="hljs-string">'Alpha'</span>,<span class="hljs-string">'Beta'</span>],
+            <span class="hljs-attr">sessionId</span>: <span class="hljs-number">1234567890</span>
         }
     }
 );
@@ -871,11 +872,11 @@ F2.registerApps(_appConfig);
 <pre><code class="lang-javascript">F2.Events.emit(
     <span class="hljs-string">"buy_stock"</span>, <span class="hljs-comment">//custom event name</span>
     { 
-        symbol: <span class="hljs-string">"GOOG"</span>, 
-        name: <span class="hljs-string">"Google Inc"</span>,
-        price: <span class="hljs-number">682.68</span>,
-        isAvailableToPurchase: <span class="hljs-literal">true</span>,
-        orderType: <span class="hljs-string">"Market Order"</span>,
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"GOOG"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Google Inc"</span>,
+        <span class="hljs-attr">price</span>: <span class="hljs-number">682.68</span>,
+        <span class="hljs-attr">isAvailableToPurchase</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">orderType</span>: <span class="hljs-string">"Market Order"</span>,
         <span class="hljs-comment">//define callback</span>
         callback: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>{
             alert(<span class="hljs-string">'Trade ticket populated'</span>);
@@ -907,8 +908,8 @@ F2.registerApps(_appConfig);
     F2.init({
         <span class="hljs-comment">//define ContainerConfig properties</span>
         appRender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>)</span>{ ... },
-        beforeAppRender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>)</span>{ ... },
-        afterAppRender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig</span>)</span>{ ... }
+        <span class="hljs-attr">beforeAppRender</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>)</span>{ ... },
+        <span class="hljs-attr">afterAppRender</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig</span>)</span>{ ... }
     });
 });
 </code></pre>
@@ -917,9 +918,9 @@ F2.registerApps(_appConfig);
     F2.init({
         <span class="hljs-comment">//define ContainerConfig properties</span>
         appRender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>)</span>{ ... },
-        beforeAppRender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>)</span>{ ... },
-        afterAppRender: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig</span>)</span>{ ... },
-        secureAppPagePath: <span class="hljs-string">"https://secure.domain.com/container"</span> <span class="hljs-comment">//define secure page path</span>
+        <span class="hljs-attr">beforeAppRender</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>)</span>{ ... },
+        <span class="hljs-attr">afterAppRender</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig</span>)</span>{ ... },
+        <span class="hljs-attr">secureAppPagePath</span>: <span class="hljs-string">"https://secure.domain.com/container"</span> <span class="hljs-comment">//define secure page path</span>
     });
 });
 </code></pre>
@@ -927,14 +928,14 @@ F2.registerApps(_appConfig);
 <p><span class="label label-danger">Important</span> Therefore Container Developers need two containers: one non-secure (parent), one secure (child). The parent container can follow the <a href="#basic-container-template">basic template</a> style and must call <code>F2.init()</code> and <code>F2.registerApps()</code> appropriately. Per the above, it must also define the <code>secureAppPagePath</code> property in its <code>ContainerConfig</code>. To see a working container, <a href="https://github.com/OpenF2/F2">browse to the examples in the project repo on GitHub</a>.</p>
 <p>Since it will be loaded in an iframe and like its parent, the secure child container must also include a <a href="f2js-sdk.html">copy of the F2.js SDK</a>. Additionally, it must also call <code>F2.init()</code> with a unique <code>ContainerConfig</code>. </p>
 <pre><code class="lang-javascript">F2.init({
-    appRender:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>) </span>{
+    <span class="hljs-attr">appRender</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>) </span>{
         <span class="hljs-keyword">return</span> [
             <span class="hljs-string">'&lt;div class="col-md-4"&gt;'</span>,
                 html,
             <span class="hljs-string">'&lt;/div&gt;'</span>
         ].join(<span class="hljs-string">''</span>);
     },
-    afterAppRender:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>) </span>{ ... },
+    <span class="hljs-attr">afterAppRender</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, html</span>) </span>{ ... },
 
     <span class="hljs-comment">//now set this property to true to tell F2 this is the secure child frame.</span>
     isSecureAppPage:<span class="hljs-literal">true</span>
@@ -991,7 +992,7 @@ F2.registerApps(_appConfig);
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.2</span><br/>Released&nbsp;<span>24 April 2015</span>
+                <p>Current Version&nbsp;<span>1.4.4</span><br/>Released&nbsp;<span>31 January 2018</span>
                 </p></a></div>
           </li>
           <li> <a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>

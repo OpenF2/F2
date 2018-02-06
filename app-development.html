@@ -91,7 +91,7 @@
           <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
           <li><a href="http://www.openf2.org/developers">Developers</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.2</span>&nbsp;<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.4</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="index.html">Getting Started</a></li>
               <li><a href="container-development.html">Container Development</a></li>
@@ -154,20 +154,20 @@ Apps are the building blocks of any F2-enabled solution. F2 apps are web-based, 
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
 
 <p>Setup a basic container HTML template (or add F2.js to an existing website):</p>
-<pre><code class="lang-html"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"/path/to/your/bootstrap.css"</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>F2 Container<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/path/to/your/bootstrap.css"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/path/to/your/F2.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <p><span class="label label-info">Note</span> In <a href="container-development.html">developing a more advanced container</a>, the HTML document’s <code>body</code> element would contain additional markup and allow for <a href="container-development.html#apphandlers-for-app-layout">specific positioning or placement of apps</a>. Additionally, more advanced containers could introduce features and functionality to their apps in the form of authentication APIs, streaming data feeds, federated search, etc. All containers must follow the <a href="container-development.html#container-design">F2 design guidelines</a>.</p>
 <h3 class="link-header" id="basic-appconfig">Basic AppConfig<a class="anchor" href="#basic-appconfig"><span>#</span></a></h3><pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _appConfig = {
-    appId: <span class="hljs-string">'com_openf2_examples_javascript_helloworld'</span>,
-    manifestUrl: <span class="hljs-string">'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_openf2_examples_javascript_helloworld'</span>,
+    <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
 };
 
 $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
@@ -239,8 +239,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
     ],     
     <span class="hljs-string">"apps"</span>:[{
             <span class="hljs-string">"data"</span>:{ 
-                foo: <span class="hljs-string">"bar"</span>,
-                value: <span class="hljs-number">12345</span>
+                <span class="hljs-attr">foo</span>: <span class="hljs-string">"bar"</span>,
+                <span class="hljs-attr">value</span>: <span class="hljs-number">12345</span>
             },
             <span class="hljs-string">"html"</span>:<span class="hljs-string">"&lt;div class=\"sunrise\"&gt;Hello world.&lt;/div&gt;"</span>,
             <span class="hljs-string">"status"</span>:<span class="hljs-string">"good"</span>
@@ -265,8 +265,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 <h4 class="link-header" id="data">data<a class="anchor" href="#data"><span>#</span></a></h4><p>The <code>data</code> property exists to support the placement of arbitrary data needing to be passed along with the app. <em>This field is optional.</em></p>
 <p>Example:</p>
 <pre><code class="lang-javascript"><span class="hljs-string">"data"</span>: { 
-    foo: <span class="hljs-string">"bar"</span>,
-    value: <span class="hljs-number">12345</span>
+    <span class="hljs-attr">foo</span>: <span class="hljs-string">"bar"</span>,
+    <span class="hljs-attr">value</span>: <span class="hljs-number">12345</span>
 }
 </code></pre>
 <h4 class="link-header" id="status">status<a class="anchor" href="#status"><span>#</span></a></h4><p>The <code>status</code> property allows app developers to communicate a server-side arbitrary status code to itself or to the container. <em>This field is optional.</em></p>
@@ -325,8 +325,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
     ],     
     <span class="hljs-string">"apps"</span>:[{
             <span class="hljs-string">"data"</span>:{ 
-                foo: <span class="hljs-string">"bar"</span>,
-                value: <span class="hljs-number">12345</span>
+                <span class="hljs-attr">foo</span>: <span class="hljs-string">"bar"</span>,
+                <span class="hljs-attr">value</span>: <span class="hljs-number">12345</span>
             },
             <span class="hljs-string">"html"</span>:<span class="hljs-string">"&lt;div class=\"sunrise\"&gt;Hello world.&lt;/div&gt;"</span>,
             <span class="hljs-string">"status"</span>:<span class="hljs-string">"good"</span>
@@ -362,7 +362,7 @@ F2_jsonpCallback_com_companyname_appname({
 </ol>
 <p>Wait, what? Check out this example below or <a href="https://github.com/OpenF2/F2/tree/master/examples/apps">browse to example apps on GitHub</a>:</p>
 <p>Step 1.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"sunrise"</span>&gt;</span>Hello world.<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sunrise"</span>&gt;</span>Hello world.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p>Step 2. Encoded HTML. <em>(Optional)</em></p>
 <pre><code class="lang-html">%3Cdiv%20class%3D%22sunrise%22%3EHello%20world.%3C%2Fdiv%3E
@@ -380,10 +380,10 @@ F2_jsonpCallback_com_companyname_appname({
 <h4 class="link-header" id="automatic-consistency">Automatic Consistency<a class="anchor" href="#automatic-consistency"><span>#</span></a></h4><p>F2 uses and recommends <a href="http://getbootstrap.com">Bootstrap</a> for Container and App Developers to benefit from a consistent HTML and CSS structure regardless of who developed the F2 component. This way, Container Developers can write CSS they <em>know</em> will style F2 apps without engaging with the app developer to ensure compatibility.</p>
 <p>This also means App Developers must adhere to <a href="http://getbootstrap.com/css/#grid">Bootstrap’s grid system</a> as defined on their website. </p>
 <p>An example two-column layout using Bootstrap-specifed markup:</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-4"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-8"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-4"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-8"</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p>The <code>.col-md-4</code> and <code>.col-md-8</code> provide two columns in the <a href="http://getbootstrap.com/css/#grid">12-column grid</a>.</p>
 <p><span class="label label-default">Note</span> Read more about <a href="about-f2.html#container">Creating a Common Look and Feel with F2</a>.</p>
@@ -398,7 +398,7 @@ F2_jsonpCallback_com_companyname_appname({
 <p>Example:</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">//appclass.js snippet</span>
 ...
-    <span class="hljs-keyword">var</span> App_Class = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, appContent, root</span>) </span>{
+    var App_Class = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, appContent, root</span>) </span>{
 ...
 </code></pre>
 <h4 class="link-header" id="prototypal-inheritance-pattern">Prototypal Inheritance Pattern<a class="anchor" href="#prototypal-inheritance-pattern"><span>#</span></a></h4><p>We won’t even begin to talk about or describe this fantastic design pattern simply because Douglas Crockford <a href="http://javascript.crockford.com/prototypal.html">has already written</a> <a href="http://javascript.crockford.com/inheritance.html">all about it</a>. </p>
@@ -419,7 +419,7 @@ F2_jsonpCallback_com_companyname_appname({
 <h4 class="link-header" id="module-pattern">Module Pattern<a class="anchor" href="#module-pattern"><span>#</span></a></h4><p>As an alternative to the prototypal inheritance pattern above, <code>appclass.js</code> code could be written following the module pattern shown in the example below. Note the inclusion of an <code>init()</code> function&mdash;which will be called automatically during app load&mdash;and the <em>exclusion</em> of the closure and trailing parentheses present in the example using prototypal inheritance above.</p>
 <pre><code class="lang-javascript">F2.Apps[<span class="hljs-string">"com_companyname_appname"</span>] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appConfig, appContent, root</span>) </span>{
    <span class="hljs-keyword">return</span> {
-       init:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+       <span class="hljs-attr">init</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
            <span class="hljs-comment">// perform init actions</span>
        }
    };
@@ -483,25 +483,25 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <h3 class="link-header" id="namespacing-css">Namespacing CSS<a class="anchor" href="#namespacing-css"><span>#</span></a></h3><p>As discussed in <a href="#f2-appid">Developing F2 Apps: F2 AppID</a>, to develop an F2 app, you need a unique identifier called an AppID. This AppID will be unique to your app across the entire open financial framework ecosystem. The format of the AppID looks like this: <code>com_companyName_appName</code>, where the <code>companyName</code> “namespace” is your company name and <code>appName</code> is the name of your app.</p>
 <p>When Container Developers <a href="container-development.html#app-integration">register apps</a>, F2.js draws each app as defined by the <a href="container-development.html#container-config">ContainerConfig</a>. Before the app is added to the container DOM, F2 automatically wraps an outer HTML element&mdash;with the AppID used as a class&mdash;around the rendered app.</p>
 <p>This example shows app HTML after it has been drawn on the container. Note the <code>com_companyName_appName</code> classname.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"f2-app-container com_companyName_appName"</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"f2-app-container com_companyName_appName"</span>&gt;</span>
     ...
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p>To avoid styling conflicts or other display issues related to app-provided style sheets, <strong>App Developers must namespace their CSS selectors.</strong> Fortunately, this is quite easy. </p>
 <p>Every selector in app-provided style sheets must look like this:</p>
-<pre><code class="lang-css"><span class="hljs-class">.com_companyName_appName</span> <span class="hljs-tag">p</span> <span class="hljs-rules">{
-    <span class="hljs-rule"><span class="hljs-attribute">padding</span>:<span class="hljs-value"><span class="hljs-number">5px</span></span></span>;
-}</span>
+<pre><code class="lang-css"><span class="hljs-selector-class">.com_companyName_appName</span> <span class="hljs-selector-tag">p</span> {
+    <span class="hljs-attribute">padding</span>:<span class="hljs-number">5px</span>;
+}
 
-<span class="hljs-class">.com_companyName_appName</span> <span class="hljs-class">.alert</span> <span class="hljs-rules">{
-    <span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value">red</span></span>;
-}</span>
+<span class="hljs-selector-class">.com_companyName_appName</span> <span class="hljs-selector-class">.alert</span> {
+    <span class="hljs-attribute">color</span>:red;
+}
 </code></pre>
 <p>Note <code>.com_companyName_appName</code> is prefixed on both <code>p</code> and <code>.alert</code> selectors.</p>
 <p>While the <a href="http://www.webdesignfromscratch.com/html-css/css-inheritance-cascade/">CSS cascade</a> will assign more points to IDs and while prefixing F2 AppIDs on CSS selectors isn’t required, it is recommended.</p>
-<pre><code class="lang-css"><span class="hljs-class">.com_companyName_appName</span> <span class="hljs-id">#notice</span> <span class="hljs-rules">{
-    <span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value">yellow</span></span>;
-}</span>
+<pre><code class="lang-css"><span class="hljs-selector-class">.com_companyName_appName</span> <span class="hljs-selector-id">#notice</span> {
+    <span class="hljs-attribute">background-color</span>:yellow;
+}
 </code></pre>
 <p><span class="label label-default">Note</span> App Developers should familiarize themselves with <a href="container-development.html#namespacing">CSS namespacing rules for Container Developers</a>. They are largely the same with a couple notable additions.</p>
 <h4 class="link-header" id="about-css-resets">About CSS Resets<a class="anchor" href="#about-css-resets"><span>#</span></a></h4><p>It is a common web development practice to use <a href="http://meyerweb.com/eric/tools/css/reset/">CSS resets</a>, and it is likely both Container and App Developers will use them. Since there are many ways to normalize built-in browser stylesheets, including <a href="http://necolas.github.com/normalize.css/">Normalize.css</a> which is used by Bootstrap, Container and App Developers must namespace their CSS reset selectors.</p>
@@ -511,7 +511,7 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <p>Example:</p>
 <pre><code class="lang-javascript">F2.extend(<span class="hljs-string">'YourPluginName'</span>, (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
     <span class="hljs-keyword">return</span> {
-        doSomething: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-attr">doSomething</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
             F2.log(<span class="hljs-string">"Something has been done."</span>);
         }
     };
@@ -528,8 +528,8 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <pre><code class="lang-javascript">F2.Events.emit(
     F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, 
     { 
-        symbol: <span class="hljs-string">"AAPL"</span>, 
-        name: <span class="hljs-string">"Apple, Inc."</span> 
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"AAPL"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Apple, Inc."</span> 
     }
 );
 </code></pre>
@@ -547,13 +547,13 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <pre><code class="lang-javascript"><span class="hljs-comment">//define app config</span>
 <span class="hljs-keyword">var</span> _appConfigs = [
     {
-        appId: <span class="hljs-string">"com_acmecorp_news"</span>,
-        description: <span class="hljs-string">"Acme Corp News"</span>,
-        manifestUrl: <span class="hljs-string">"http://www.acme.com/apps/news-manifest.js"</span>,
-        name: <span class="hljs-string">"Acme News App"</span>,
-        context: {
-            sessionId: myApp.sessionId,
-            someArray: [value1,value2]
+        <span class="hljs-attr">appId</span>: <span class="hljs-string">"com_acmecorp_news"</span>,
+        <span class="hljs-attr">description</span>: <span class="hljs-string">"Acme Corp News"</span>,
+        <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">"http://www.acme.com/apps/news-manifest.js"</span>,
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Acme News App"</span>,
+        <span class="hljs-attr">context</span>: {
+            <span class="hljs-attr">sessionId</span>: myApp.sessionId,
+            <span class="hljs-attr">someArray</span>: [value1,value2]
         }
     }
 ];
@@ -571,8 +571,8 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <pre><code class="lang-javascript">F2.Events.emit(
     F2.Constants.Events.APP_SYMBOL_CHANGE, 
     { 
-        symbol: <span class="hljs-string">"MSFT"</span>, 
-        name: <span class="hljs-string">"Microsoft, Inc."</span> 
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"MSFT"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Microsoft, Inc."</span> 
     }
 );
 </code></pre>
@@ -590,11 +590,11 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <pre><code class="lang-javascript">F2.Events.emit(
     <span class="hljs-string">"buy_stock"</span>, <span class="hljs-comment">//custom event name</span>
     { 
-        symbol: <span class="hljs-string">"GOOG"</span>, 
-        name: <span class="hljs-string">"Google Inc"</span>,
-        price: <span class="hljs-number">682.68</span>,
-        isAvailableToPurchase: <span class="hljs-literal">true</span>,
-        orderType: <span class="hljs-string">"Market Order"</span>
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"GOOG"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Google Inc"</span>,
+        <span class="hljs-attr">price</span>: <span class="hljs-number">682.68</span>,
+        <span class="hljs-attr">isAvailableToPurchase</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">orderType</span>: <span class="hljs-string">"Market Order"</span>
     }
 );
 </code></pre>
@@ -627,10 +627,10 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
         watchlist: [<span class="hljs-string">'AAPL'</span>,<span class="hljs-string">'MSFT'</span>,<span class="hljs-string">'GE'</span>],
         <span class="hljs-comment">//object</span>
         userInfo: {
-            name: <span class="hljs-string">'John Smith'</span>,
-            title: <span class="hljs-string">'Managing Director'</span>,
-            groups: [<span class="hljs-string">'Alpha'</span>,<span class="hljs-string">'Beta'</span>],
-            sessionId: <span class="hljs-number">1234567890</span>
+            <span class="hljs-attr">name</span>: <span class="hljs-string">'John Smith'</span>,
+            <span class="hljs-attr">title</span>: <span class="hljs-string">'Managing Director'</span>,
+            <span class="hljs-attr">groups</span>: [<span class="hljs-string">'Alpha'</span>,<span class="hljs-string">'Beta'</span>],
+            <span class="hljs-attr">sessionId</span>: <span class="hljs-number">1234567890</span>
         }
     }
 );
@@ -639,11 +639,11 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <pre><code class="lang-javascript">F2.Events.emit(
     <span class="hljs-string">"buy_stock"</span>, <span class="hljs-comment">//custom event name</span>
     { 
-        symbol: <span class="hljs-string">"GOOG"</span>, 
-        name: <span class="hljs-string">"Google Inc"</span>,
-        price: <span class="hljs-number">682.68</span>,
-        isAvailableToPurchase: <span class="hljs-literal">true</span>,
-        orderType: <span class="hljs-string">"Market Order"</span>,
+        <span class="hljs-attr">symbol</span>: <span class="hljs-string">"GOOG"</span>, 
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"Google Inc"</span>,
+        <span class="hljs-attr">price</span>: <span class="hljs-number">682.68</span>,
+        <span class="hljs-attr">isAvailableToPurchase</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">orderType</span>: <span class="hljs-string">"Market Order"</span>,
         <span class="hljs-comment">//define callback</span>
         callback: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>{
             alert(<span class="hljs-string">'Trade ticket populated'</span>);
@@ -691,8 +691,8 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,<span class="hljs-funct
 <p><code>http://localhost/F2/examples/container/</code></p>
 <p>If you open <code>~/F2/examples/container/js/sampleApps.js</code> in your text editor, you’ll find a list of sample F2 apps broken down by programming language. Simply modify this file to your liking and add your app anywhere in the appropriate array (JavaScript, PHP or C#). The configuration is comprised of <code>F2.AppConfig</code> properties, and the following are the minimum <strong>required</strong> properties.</p>
 <pre><code class="lang-javascript">{
-    appId: <span class="hljs-string">"com_companyName_appName"</span>,
-    manifestUrl: <span class="hljs-string">"http://www.domain.com/manifest.js"</span>
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">"com_companyName_appName"</span>,
+    <span class="hljs-attr">manifestUrl</span>: <span class="hljs-string">"http://www.domain.com/manifest.js"</span>
 }
 </code></pre>
 <p>For full details on these <code>F2.AppConfig</code> properties and all the others, <a href="./sdk/classes/F2.AppConfig.html">browse the F2.js SDK documentation</a>.</p>
@@ -725,7 +725,7 @@ $(<span class="hljs-string">".row"</span>).remove();
 
 <span class="hljs-comment">//app makes data request</span>
 $.ajax({
-    url: <span class="hljs-string">"../data.json"</span>
+    <span class="hljs-attr">url</span>: <span class="hljs-string">"../data.json"</span>
 }).done(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">jqxhr</span>)</span>{
     F2.log(jqxhr);
     <span class="hljs-comment">//hide loading</span>
@@ -772,17 +772,17 @@ $.ajax({
 <p><span class="label label-default">Note</span> If the container doesn’t support all the views you need inside your app, you will need to coordinate those additions with the container provider.</p>
 <h4 class="link-header" id="setting-up-views">Setting Up Views<a class="anchor" href="#setting-up-views"><span>#</span></a></h4><p>Once you’ve determined the views you’d like to include in your app, the view should be specified by applying the <code>F2.Constants.Css.APPVIEW</code> classname to the containing DOM Element. A <code>data-</code> attribute should be added to the element as well which defines what view type is represented. Bootstrap’s <code>hide</code> class should be applied to views that are hidden on startup.</p>
 <p>To setup a single view in your app, use this HTML on your app’s outermost element noting the use of the <code>f2-app-view</code> classname and the <code>data-f2-view</code> attribute.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">'f2-app-view'</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">'home'</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'f2-app-view'</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">'home'</span>&gt;</span>
     ...
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p>To setup multiple views in your app, write HTML like this noting the use the <code>f2-app-view</code> and <code>hide</code> classnames as well as the <code>data-f2-view</code> attributes.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">'f2-app-view'</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">'home'</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'f2-app-view'</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">'home'</span>&gt;</span>
     ...
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">'f2-app-view hide'</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">'about'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'f2-app-view hide'</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">'about'</span>&gt;</span>
     ...
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p>For details on <code>F2.Constants.Css.APPVIEW</code>, <a href="./sdk/classes/F2.Constants.Css.html#properties-APP_VIEW">browse to the SDK docs</a>.</p>
 <h4 class="link-header" id="controlling-view-state">Controlling View State<a class="anchor" href="#controlling-view-state"><span>#</span></a></h4><p>The <code>F2.UI</code> namespace provides an API for developers to manage F2 app View state. </p>
@@ -792,17 +792,17 @@ $.ajax({
 <p><span class="label label-info">Note</span> When <code>appConfig.ui.Views.change()</code> is called, the <code>hide</code> classname is automatically added or removed by F2.js depending on the visibility of the view. <a href="./sdk/classes/F2.UI.Views.html#methods-change">Read more in the SDK docs</a>.</p>
 <p>In F2 app HTML, you can use a combination of CSS classnames and <code>data-</code> attributes to provide UI elements making it easy for users to navigate between Views. </p>
 <p>For example, an app has two views: “home” and “about”. On the “home” View, a button allows the user to navigate to the “about” view. In the presence of the classname <code>f2-app-view-trigger</code> and the <code>data-f2-view</code> data attribute, F2.js automatically adds a javascript event to the button.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"f2-app-view"</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">"home"</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"f2-app-view"</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">"home"</span>&gt;</span>
     <span class="hljs-comment">&lt;!--use 'data-f2-view' to switch to the "about" View--&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"btn btn-default f2-app-view-trigger"</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">"about"</span>&gt;</span>Show About View<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-default f2-app-view-trigger"</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">"about"</span>&gt;</span>Show About View<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <p>To get back to the “home” View from the “about” View:</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"f2-app-view"</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">"about"</span>&gt;</span>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"f2-app-view"</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">"about"</span>&gt;</span>
     ...
-    <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"btn btn-default f2-app-view-trigger"</span> <span class="hljs-attribute">data-f2-view</span>=<span class="hljs-value">"home"</span>&gt;</span>&amp;laquo; Back Home<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-default f2-app-view-trigger"</span> <span class="hljs-attr">data-f2-view</span>=<span class="hljs-string">"home"</span>&gt;</span>&amp;laquo; Back Home<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
     ...
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
 <h4 class="link-header" id="listening-to-app-view-changes">Listening to App View Changes<a class="anchor" href="#listening-to-app-view-changes"><span>#</span></a></h4><p>You shouldn’t be surprised to know F2.js contains event triggers for handling app View changes. To listen for View changes inside F2 app javascript code:</p>
 <pre><code class="lang-javascript">appConfig.ui.Views.change(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">view</span>)</span>{
@@ -855,7 +855,7 @@ $.ajax({
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.2</span><br/>Released&nbsp;<span>24 April 2015</span>
+                <p>Current Version&nbsp;<span>1.4.4</span><br/>Released&nbsp;<span>31 January 2018</span>
                 </p></a></div>
           </li>
           <li> <a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
