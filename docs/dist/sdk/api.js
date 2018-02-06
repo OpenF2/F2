@@ -31,6 +31,7 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "f2",
             "description": "Open F2"
         }
-    ]
+    ],
+    "elements": []
 } };
 });
