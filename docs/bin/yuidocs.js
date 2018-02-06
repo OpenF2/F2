@@ -1,17 +1,17 @@
+var path = require('path');
+var Y = require('yuidocjs');
+
 var builder,
   docOptions = {
-    quiet: true,
+    quiet: false,
     norecurse: true,
-    paths: '../../sdk/src',
-    outdir: '../dist/sdk/',
-    themedir: '../src/sdk-template',
-    helpers: ['../src/sdk-template/helpers/helpers.js']
+    paths: [path.resolve(__dirname, '../../sdk/src')],
+    outdir: path.resolve(__dirname, '../dist/sdk/'),
+    themedir: path.resolve(__dirname, '../src/sdk-template'),
+    helpers: [path.resolve(__dirname, '../src/sdk-template/helpers/helpers.js')]
   },
   json,
-  pkg = require('../../package.json'),
-  Y = require('yuidocjs');
-
-docOptions = Y.Project.init(docOptions);
+  pkg = require('../../package.json');
 
 json = (new Y.YUIDoc(docOptions)).run();
 // massage in some meta information from F2.json

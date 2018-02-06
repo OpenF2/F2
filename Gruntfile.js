@@ -410,9 +410,10 @@ module.exports = function(grunt) {
 		// on grunt-contrib-yuidoc (https://github.com/yui/yuidoc/issues/242)
 		// it seems like its actually a grunt issue so for now using an external script seems
 		// to work fine
-		exec('node ' + path.join(__dirname, 'docs/bin/yuidocs'), function(err, stdout, stderr) {
+		exec('node ' + path.join(__dirname, 'docs/bin/yuidocs.js'), function(err, stdout, stderr) {
 			if (err) {
 				grunt.log.error(err.message);
+				grunt.log.error(stderr);
 				grunt.fail.fatal('YUIDocs failed.');
 				return;
 			}
