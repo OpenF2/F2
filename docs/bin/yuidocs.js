@@ -1,14 +1,15 @@
 var path = require('path');
 var Y = require('yuidocjs');
 
+// paths relative to root of the repo...
 var builder,
   docOptions = {
     quiet: false,
     norecurse: true,
-    paths: ['../../sdk/src'],
-    outdir: '../dist/sdk/',
-    themedir: '../src/sdk-template',
-    helpers: ['../src/sdk-template/helpers/helpers.js']
+    paths: ['./sdk/src'],
+    outdir: './docs/dist/sdk/',
+    themedir: './docs/src/sdk-template',
+    helpers: ['./docs/src/sdk-template/helpers/helpers.js']
   },
   json,
   pkg = require('../../package.json');
