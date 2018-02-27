@@ -1251,6 +1251,10 @@ F2.extend('', (function() {
 					_apps[instanceId] // the app instance
 				);
 
+				if (_apps[instanceId].config.isSecure) {
+					F2.Rpc.destroy(instanceId);
+				}
+
 				delete _apps[instanceId];
 			}
 		}
