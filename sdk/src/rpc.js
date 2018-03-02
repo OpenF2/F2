@@ -320,6 +320,18 @@ F2.extend('Rpc', (function(){
 			} else {
 				F2.log('Unable to register socket connection. Please check container configuration.');
 			}
+		},
+
+		/**
+		 * Cleans up a given app instance
+		 * @method destroy
+		 * @param {string} instanceId The Instance ID
+		 */
+		destroy: function(instanceId) {
+			if (_apps[instanceId] && _apps[instanceId].socket) {
+				_apps[instanceId].socket.destroy();
+			}
+			delete _apps[instanceId];
 		}
 	};
 })());
