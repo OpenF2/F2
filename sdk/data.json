@@ -2771,6 +2771,22 @@
             "module": "f2"
         },
         {
+            "file": "sdk\\src\\rpc.js",
+            "line": 325,
+            "description": "Cleans up a given app instance",
+            "itemtype": "method",
+            "name": "destroy",
+            "params": [
+                {
+                    "name": "instanceId",
+                    "description": "The Instance ID",
+                    "type": "String"
+                }
+            ],
+            "class": "F2.Rpc",
+            "module": "f2"
+        },
+        {
             "file": "sdk\\src\\ui.js",
             "line": 58,
             "description": "Removes a overlay from an Element on the page",
