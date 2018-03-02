@@ -1,7 +1,7 @@
 {
 	"name": "f2",
 	"description": "An open framework for the financial services industry.",
-	"version": "1.4.4",
+	"version": "1.4.5",
 	"main": "dist/f2.debug",
 	"keywords": [
 		"openf2"
@@ -47,8 +47,8 @@
 	"engines": {
 		"node": ">=6"
 	},
-	"_releaseDate": "2018-01-31T23:18:46.833Z",
-	"_releaseDateFormatted": "31 January 2018",
+	"_releaseDate": "2018-03-02T20:52:10.133Z",
+	"_releaseDateFormatted": "2 March 2018",
 	"dependencies": {
 		"grunt-cli": "^1.2.0"
 	}
