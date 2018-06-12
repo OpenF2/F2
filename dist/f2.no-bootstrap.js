@@ -14431,7 +14431,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.3 01-31-2018
+ * F2 v1.4.5 03-02-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -14795,7 +14795,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '1.4.3'; }
+		version: function() { return '1.4.5'; }
 	};
 })();
 
@@ -15466,11 +15466,19 @@ F2.extend('', {
 		return {
 			/**
 			 * An optional init function that will automatically be called when
-			 * F2.{{#crossLink "F2\registerApps"}}{{/crossLink}} is called.
+			 *{{#crossLink "F2/registerApps"}}F2.registerApps(){{/crossLink}} is called.
 			 * @method init
 			 * @optional
 			 */
-			init:function() {}
+			init:function() {},
+			/**
+			 * An optional destroy function that will automatically be called when
+			 * {{#crossLink "F2/removeApp"}}F2.removeApp(){{/crossLink}} and subsequently
+			 * the {{#crossLink "F2.Constants.AppHandlers/APP_DESTROY:property"}}F2.Constants.AppHandlers.APP_DESTROY{{/crossLink}} AppHandler.
+			 * @method destroy
+			 * @optional
+			 */
+			destroy:function() {}
 		};
 	},
 	/**
@@ -16715,6 +16723,18 @@ F2.extend('Rpc', (function(){
 			} else {
 				F2.log('Unable to register socket connection. Please check container configuration.');
 			}
+		},
+
+		/**
+		 * Cleans up a given app instance
+		 * @method destroy
+		 * @param {string} instanceId The Instance ID
+		 */
+		destroy: function(instanceId) {
+			if (_apps[instanceId] && _apps[instanceId].socket) {
+				_apps[instanceId].socket.destroy();
+			}
+			delete _apps[instanceId];
 		}
 	};
 })());
@@ -18390,6 +18410,10 @@ F2.extend('', (function() {
 					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
 					_apps[instanceId] // the app instance
 				);
+
+				if (_apps[instanceId].config.isSecure) {
+					F2.Rpc.destroy(instanceId);
+				}
 
 				delete _apps[instanceId];
 			}
