@@ -156,7 +156,6 @@ module.exports = function(grunt) {
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/jquery.noconflict.js',
 					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -235,14 +234,6 @@ module.exports = function(grunt) {
 			},
 			'package-no-bootstrap': {
 				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
-				options: { report: 'min' }
-			},
-			'package-no-easyXDM': {
-				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] },
-				options: { report: 'min' }
-			},
-			'package-basic': {
-				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] },
 				options: { report: 'min' }
 			}
 		},
@@ -441,12 +432,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('packages', [
 		'concat:no-jquery-or-bootstrap',
 		'concat:no-bootstrap',
-		'concat:no-easyXDM',
-		'concat:basic',
 		'uglify:package-no-jquery-or-bootstrap',
-		'uglify:package-no-bootstrap',
-		'uglify:package-no-easyXDM',
-		'uglify:package-basic'
+		'uglify:package-no-bootstrap'
 	]);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
