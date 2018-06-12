@@ -14431,7 +14431,7 @@ global.easyXDM = easyXDM;
 })(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
 
 /*!
- * F2 v1.4.2 05-11-2017
+ * F2 v1.4.5 03-02-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -14795,7 +14795,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '1.4.2'; }
+		version: function() { return '1.4.5'; }
 	};
 })();
 
@@ -15229,24 +15229,24 @@ F2.extend('Constants', {
 	{
 		return {
 			/**
- 			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the 
- 			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
- 			* @property APP_MANIFEST_REQUEST_FAIL
- 			* @type string
- 			* @static
- 			* @final
- 			* @example
- 			*	var _token = F2.AppHandlers.getToken();
- 			*	F2.AppHandlers.on(
- 			*		_token,
- 			*		F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
- 			*		function(appConfig)
- 			*		{
- 			*			You can use information from the appConfig to surface a custom error message in the dom
- 			*			Or display some kind of default error placeholder element rather than having a blank spot in the dom
- 			*		}
- 			*	);
- 			*/
+			* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
+			* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
+			* @property APP_MANIFEST_REQUEST_FAIL
+			* @type string
+			* @static
+			* @final
+			* @example
+			*	var _token = F2.AppHandlers.getToken();
+			*	F2.AppHandlers.on(
+			*		_token,
+			*		F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+			*		function(appConfig)
+			*		{
+			*			You can use information from the appConfig to surface a custom error message in the dom
+			*			Or display some kind of default error placeholder element rather than having a blank spot in the dom
+			*		}
+			*	);
+			*/
 			APP_MANIFEST_REQUEST_FAIL: 'appManifestRequestFail',
 			/**
 			* Equivalent to `appCreateRoot`. Identifies the create root method for use in AppHandlers.on/off. 
@@ -15466,11 +15466,19 @@ F2.extend('', {
 		return {
 			/**
 			 * An optional init function that will automatically be called when
-			 * F2.{{#crossLink "F2\registerApps"}}{{/crossLink}} is called.
+			 *{{#crossLink "F2/registerApps"}}F2.registerApps(){{/crossLink}} is called.
 			 * @method init
 			 * @optional
 			 */
-			init:function() {}
+			init:function() {},
+			/**
+			 * An optional destroy function that will automatically be called when
+			 * {{#crossLink "F2/removeApp"}}F2.removeApp(){{/crossLink}} and subsequently
+			 * the {{#crossLink "F2.Constants.AppHandlers/APP_DESTROY:property"}}F2.Constants.AppHandlers.APP_DESTROY{{/crossLink}} AppHandler.
+			 * @method destroy
+			 * @optional
+			 */
+			destroy:function() {}
 		};
 	},
 	/**
@@ -16715,6 +16723,18 @@ F2.extend('Rpc', (function(){
 			} else {
 				F2.log('Unable to register socket connection. Please check container configuration.');
 			}
+		},
+
+		/**
+		 * Cleans up a given app instance
+		 * @method destroy
+		 * @param {string} instanceId The Instance ID
+		 */
+		destroy: function(instanceId) {
+			if (_apps[instanceId] && _apps[instanceId].socket) {
+				_apps[instanceId].socket.destroy();
+			}
+			delete _apps[instanceId];
 		}
 	};
 })());
@@ -17517,8 +17537,9 @@ F2.extend('', (function() {
 		var _loadScripts = function(scripts, cb) {
 			// Reduce the list to scripts that haven't been loaded
 			var existingScripts = _findExistingScripts();
+			var loadingScripts = Object.keys(_loadingScripts);
 			scripts = jQuery.grep(scripts, function(url) {
-				return url && jQuery.inArray(url, existingScripts) === -1;
+				return url && (jQuery.inArray(url, existingScripts) === -1 || jQuery.inArray(url, loadingScripts) !== -1);
 			});
 
 			// Attempt to use the user provided method
@@ -18283,10 +18304,10 @@ F2.extend('', (function() {
 									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.AppHandlers.__trigger(
- 										_sAppHandlerToken,
- 										F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
- 										item // the app config
- 									);
+										_sAppHandlerToken,
+										F2.Constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+										item // the app config
+									);
 									F2.removeApp(item.instanceId);
 								});
 							},
@@ -18389,6 +18410,10 @@ F2.extend('', (function() {
 					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
 					_apps[instanceId] // the app instance
 				);
+
+				if (_apps[instanceId].config.isSecure) {
+					F2.Rpc.destroy(instanceId);
+				}
 
 				delete _apps[instanceId];
 			}

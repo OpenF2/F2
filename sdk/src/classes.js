@@ -19,11 +19,19 @@ F2.extend('', {
 		return {
 			/**
 			 * An optional init function that will automatically be called when
-			 * F2.{{#crossLink "F2\registerApps"}}{{/crossLink}} is called.
+			 *{{#crossLink "F2/registerApps"}}F2.registerApps(){{/crossLink}} is called.
 			 * @method init
 			 * @optional
 			 */
-			init:function() {}
+			init:function() {},
+			/**
+			 * An optional destroy function that will automatically be called when
+			 * {{#crossLink "F2/removeApp"}}F2.removeApp(){{/crossLink}} and subsequently
+			 * the {{#crossLink "F2.Constants.AppHandlers/APP_DESTROY:property"}}F2.Constants.AppHandlers.APP_DESTROY{{/crossLink}} AppHandler.
+			 * @method destroy
+			 * @optional
+			 */
+			destroy:function() {}
 		};
 	},
 	/**

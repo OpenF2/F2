@@ -338,8 +338,9 @@ F2.extend('', (function() {
 		var _loadScripts = function(scripts, cb) {
 			// Reduce the list to scripts that haven't been loaded
 			var existingScripts = _findExistingScripts();
+			var loadingScripts = Object.keys(_loadingScripts);
 			scripts = jQuery.grep(scripts, function(url) {
-				return url && jQuery.inArray(url, existingScripts) === -1;
+				return url && (jQuery.inArray(url, existingScripts) === -1 || jQuery.inArray(url, loadingScripts) !== -1);
 			});
 
 			// Attempt to use the user provided method
@@ -1135,6 +1136,10 @@ F2.extend('', (function() {
 					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
 					_apps[instanceId] // the app instance
 				);
+
+				if (_apps[instanceId].config.isSecure) {
+					F2.Rpc.destroy(instanceId);
+				}
 
 				delete _apps[instanceId];
 			}

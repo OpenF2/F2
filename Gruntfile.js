@@ -162,11 +162,6 @@ module.exports = function(grunt) {
 				dest: 'sdk/packages/f2.no-bootstrap.js'
 			}
 		},
-		/**
-		 * Need to downgrade forever-monitor to v1.1 because of:
-		 * https://github.com/blai/grunt-express/issues/12
-		 * cd node_modules/grunt-express; npm uninstall forever-monitor; npm install forever-monitor@1.1;
-		 */
 		express: {
 			server: {
 				options: {
@@ -295,59 +290,15 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('generate-docs', 'Generate docs', function() {
 		var done = this.async(),
-		log = grunt.log.write('Generating docs...');
+			log = grunt.log.write('Generating docs...');
 
 		exec('node ' + path.join(__dirname, 'docs/bin/gen-docs'), function(err, stdout, stderr) {
-		  if (err) {
-		    grunt.log.error(err.message);
-		    grunt.fail.fatal('Docs generation aborted.');
-		    return;
-		  }
-		  grunt.log.write(stdout);
-		  log.ok();
-		  done();
-		});
-	});
-
-	grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', function() {
-
-		var builder,
-			docOptions = {
-				quiet: true,
-				norecurse: true,
-				paths: ['./sdk/src'],
-				outdir: './docs/dist/sdk/',
-				themedir: './docs/src/sdk-template',
-				helpers: ['./docs/src/sdk-template/helpers/helpers.js']
-			},
-			done = this.async(),
-			json,
-			log = grunt.log.write('Generating reference docs...'),
-			Y = require('yuidocjs');
-
-		json = (new Y.YUIDoc(docOptions)).run();
-		// massage in some meta information from F2.json
-		json.project = {
-			docsAssets: '../',
-			version: pkg.version,
-			releaseDateFormatted: pkg._releaseDateFormatted
-		};
-		docOptions = Y.Project.mix(json, docOptions);
-
-		// ensures that the class has members and isn't just an empty namespace
-		// used in sidebar.handlebars
-		Y.Handlebars.registerHelper('hasClassMembers', function() {
-			for (var i = 0, len = json.classitems.length; i < len; i++) {
-				//console.log(json.classitems[i].class, this.name);
-				if (json.classitems[i].class === this.name) {
-					return '';
-				}
+			if (err) {
+				grunt.log.error(err.message);
+				grunt.fail.fatal('Docs generation aborted.');
+				return;
 			}
-			return 'hidden';
-		});
-
-		builder = new Y.DocBuilder(docOptions, json);
-		builder.compile(function() {
+			grunt.log.write(stdout);
 			log.ok();
 			done();
 		});
@@ -410,6 +361,29 @@ module.exports = function(grunt) {
 			'This copy of F2 is at version <%= version %> with a release date of <%= _releaseDateFormatted %>',
 			{ data: pkg }
 		));
+	});
+
+	grunt.registerTask('yuidoc', 'Builds the reference docs with YUIDocJS', function() {
+		var done = this.async();
+		var log = grunt.log.write('Generating reference docs...');
+
+		// using YUIDoc within a grunt task OR using grunt-contrib-yuidoc results in a
+		// this.parsedir error. See https://github.com/gruntjs/grunt-contrib-yuidoc/issues/33
+		// the grunt-contrib-yuidoc folks blame it on yuidoc and the yuidoc folks blame it
+		// on grunt-contrib-yuidoc (https://github.com/yui/yuidoc/issues/242)
+		// it seems like its actually a grunt issue so for now using an external script seems
+		// to work fine
+		exec('node ' + path.join(__dirname, 'docs/bin/yuidocs.js'), function(err, stdout, stderr) {
+			if (err) {
+				grunt.log.error(err.message);
+				grunt.fail.fatal('YUIDocs failed.');
+				return;
+			}
+			grunt.log.error(stderr);
+			grunt.log.write(stdout);
+			log.ok();
+			done();
+		});
 	});
 
 	// Load plugins

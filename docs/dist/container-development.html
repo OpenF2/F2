@@ -91,7 +91,7 @@
           <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
           <li><a href="http://www.openf2.org/developers">Developers</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.3</span>&nbsp;<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.5</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="index.html">Getting Started</a></li>
               <li class="active"><a href="container-development.html">Container Development</a></li>
@@ -290,7 +290,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 </code></pre>
 <p>Included in the <code>F2.UI.Mask</code> configuration object are the following properties: <code>backgroundColor</code>, <code>loadingIcon</code>, <code>opacity</code>, <code>useClasses</code>, and <code>zIndex</code>. Each of these <code>F2.UI.Mask</code> properties is detailed in <a href="./sdk/classes/F2.ContainerConfig.UI.Mask.html">the F2.js SDK docs</a>.</p>
 <p>For more information on <code>F2.UI</code>, <a href="./sdk/classes/F2.UI.html">browse to the F2.js SDK docs</a>.</p>
-<h3 class="link-header" id="override-the-appmanifest-request">Override the AppManifest Request<a class="anchor" href="#override-the-appmanifest-request"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>&mdash;intentionally obscured from developers through the <code>F2.registerApps()</code> API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.)  In version 1.4.3 of F2, the <code>AppManifest</code> request can be overridden in the Container Config. </p>
+<h3 class="link-header" id="override-the-appmanifest-request">Override the AppManifest Request<a class="anchor" href="#override-the-appmanifest-request"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the <code>AppManifest</code> request mechanism in F2.js. The <a href="./sdk/classes/F2.html#methods-registerApps">manifest request process</a>&mdash;intentionally obscured from developers through the <code>F2.registerApps()</code> API&mdash;is handled by a simple ajax call to an HTTP endpoint. (F2 relies on <code>jQuery.ajax()</code> for this.)  In version 1.4.5 of F2, the <code>AppManifest</code> request can be overridden in the Container Config. </p>
 <p><span class="label label-info">Note</span> The <code>AppManifest</code> endpoint is configured in the <code>manifestUrl</code> property within each <a href="#appconfigs"><code>AppConfig</code></a>.</p>
 <p>The following example demonstrates how the <code>xhr</code> property of the <code>ContainerConfig</code> is used to override F2.js.</p>
 <pre><code class="lang-javascript">F2.init({
@@ -340,7 +340,7 @@ currentLocale = F2.getContainerLocale(); <span class="hljs-comment">//en-gb</spa
 });
 </code></pre>
 <p>For more information on <code>F2.ContainerConfig.xhr</code>, <a href="./sdk/classes/F2.ContainerConfig.html">browse to the F2.js SDK docs</a>.</p>
-<h3 class="link-header" id="override-the-request-for-app-dependencies">Override the Request for App Dependencies<a class="anchor" href="#override-the-request-for-app-dependencies"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the request mechanism in F2.js for <code>AppManifest</code>-defined dependencies. The current dependency request process is handled by the straightforward <code>createElement(&#39;script&#39;)</code> and <code>createStyleSheet()</code> statements for scripts and styles, respectively. In version 1.4.3 of F2, the app dependency request can be overridden in the <a href="./sdk/classes/F2.ContainerConfig.html"><code>ContainerConfig</code></a>.</p>
+<h3 class="link-header" id="override-the-request-for-app-dependencies">Override the Request for App Dependencies<a class="anchor" href="#override-the-request-for-app-dependencies"><span>#</span></a></h3><p>Occasionally Container Developers need more granular control over the request mechanism in F2.js for <code>AppManifest</code>-defined dependencies. The current dependency request process is handled by the straightforward <code>createElement(&#39;script&#39;)</code> and <code>createStyleSheet()</code> statements for scripts and styles, respectively. In version 1.4.5 of F2, the app dependency request can be overridden in the <a href="./sdk/classes/F2.ContainerConfig.html"><code>ContainerConfig</code></a>.</p>
 <h4 class="link-header" id="override-the-script-loader">Override the Script Loader<a class="anchor" href="#override-the-script-loader"><span>#</span></a></h4><p>As defined in the <code>AppManifest</code>, each F2 App can have script file dependencies. These are <a href="app-development.html#app-manifest">defined as URLs</a> in the <code>AppManifest.scripts</code> property (type array). The script loader can be replaced with any script loading mechanism such as those found in <a href="http://requirejs.org/">RequireJS</a>, <a href="http://jquery.com">jQuery</a> or <a href="http://headjs.com/">HeadJS</a>.</p>
 <p>To override the script loader, assign a function to <code>loadScripts</code> in <code>F2.init</code> as shown below. The function is passed <code>scripts</code> (array) and <code>callback</code> (function) which needs to be called when all scripts have been loaded.</p>
 <pre><code class="lang-javascript">F2.init({
@@ -992,7 +992,7 @@ F2.registerApps(_appConfig);
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.3</span><br/>Released&nbsp;<span>24 April 2015</span>
+                <p>Current Version&nbsp;<span>1.4.5</span><br/>Released&nbsp;<span>2 March 2018</span>
                 </p></a></div>
           </li>
           <li> <a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
