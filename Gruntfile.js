@@ -126,7 +126,6 @@ module.exports = function(grunt) {
 					'sdk/src/template/header.js.tmpl',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/bootstrap-modal.js',
 					'sdk/src/third-party/eventemitter2.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
@@ -140,26 +139,6 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.no-third-party.js'
-			},
-			'no-jquery-or-bootstrap': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/eventemitter2.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.no-jquery-or-bootstrap.js'
-			},
-			'no-bootstrap': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.no-bootstrap.js'
 			}
 		},
 		express: {
@@ -222,14 +201,6 @@ module.exports = function(grunt) {
 						return path.replace(grunt.config('sourcemap.options.prefix'), '').replace(/\.js$/, '.map');
 					}
 				}
-			},
-			'package-no-jquery-or-bootstrap': {
-				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
-				options: { report: 'min' }
-			},
-			'package-no-bootstrap': {
-				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
-				options: { report: 'min' }
 			}
 		},
 		sourcemap: {
@@ -403,15 +374,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-	grunt.registerTask('packages', [
-		'concat:no-jquery-or-bootstrap',
-		'concat:no-bootstrap',
-		'uglify:package-no-jquery-or-bootstrap',
-		'uglify:package-no-bootstrap'
-	]);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
 	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
-	grunt.registerTask('build', ['js', 'docs', 'zip', 'packages', 'nuget'])
+	grunt.registerTask('build', ['js', 'docs', 'zip', 'nuget'])
 };
