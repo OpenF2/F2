@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v1.4.5 06-12-2018
+ * F2 v2.0.0-alpha 06-12-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -369,7 +369,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '1.4.5'; }
+		version: function() { return '2.0.0-alpha'; }
 	};
 })();
 
