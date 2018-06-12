@@ -103,12 +103,6 @@ F2.extend('', (function() {
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
 
-		// default the views if not provided
-		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
-			appConfig.views.push(F2.Constants.Views.HOME);
-		}
-
 		//pass container-defined locale to each app
 		if (F2.ContainerConfig.locale){
 			appConfig.containerLocale = F2.ContainerConfig.locale;
@@ -201,29 +195,6 @@ F2.extend('', (function() {
 	};
 
 	/**
-	 * Attach app events
-	 * @method _initAppEvents
-	 * @private
-	 */
-	var _initAppEvents = function(appConfig) {
-
-		jQuery(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
-
-			event.preventDefault();
-
-			var view = jQuery(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
-
-			// handle the special REMOVE view
-			if (view == F2.Constants.Views.REMOVE) {
-				F2.removeApp(appConfig.instanceId);
-			}
-			else {
-				appConfig.ui.Views.change(view);
-			}
-		});
-	};
-
-	/**
 	 * Attach container Events
 	 * @method _initContainerEvents
 	 * @private
@@ -281,9 +252,6 @@ F2.extend('', (function() {
 	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
 	 */
 	var _createAppInstance = function(appConfig, appContent) {
-		// instantiate F2.UI
-		appConfig.ui = new F2.UI(appConfig);
-
 		// instantiate F2.App
 		if (F2.Apps[appConfig.appId] !== undefined) {
 			if (typeof F2.Apps[appConfig.appId] === 'function') {
@@ -611,8 +579,6 @@ F2.extend('', (function() {
 					}
 				}
 
-				// init events
-				_initAppEvents(appConfigs[i]);
 			});
 		};
 
@@ -691,10 +657,6 @@ F2.extend('', (function() {
 				}
 			}
 
-			// instantiate F2.UI
-			appConfig.ui = new F2.UI(appConfig);
-			// init events
-			_initAppEvents(appConfig);
 			// create RPC socket
 			F2.Rpc.register(appConfig, appManifest);
 		}
@@ -809,8 +771,6 @@ F2.extend('', (function() {
 			if ( !! _config.secureAppPagePath || _config.isSecureAppPage) {
 				F2.Rpc.init( !! _config.secureAppPagePath ? _config.secureAppPagePath : false);
 			}
-
-			F2.UI.init(_config);
 
 			if (!_config.isSecureAppPage) {
 				_initContainerEvents();
@@ -1049,8 +1009,6 @@ F2.extend('', (function() {
 						status: F2.Constants.AppStatus.SUCCESS
 					});
 
-					// init events
-					_initAppEvents(a);
 
 					// Continue on in the .each loop, no need to continue because the app is on the page
 					// the js in initialized, and it is ready to role.
