@@ -14,17 +14,6 @@ F2.extend('Events', (function() {
 
 	return {
 		/**
-		 * Same as F2.Events.emit except that it will not send the event
-		 * to all sockets.
-		 * @method _socketEmit
-		 * @private
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
-		 */
-		_socketEmit: function() {
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
-		},
-		/**
 		 * Execute each of the listeners that may be listening for the specified
 		 * event name in order with the list of arguments.
 		 * @method emit
@@ -32,7 +21,6 @@ F2.extend('Events', (function() {
 		 * @param {object} [arg]* The arguments to be passed
 		 */
 		emit: function() {
-			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
 			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**

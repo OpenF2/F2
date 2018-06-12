@@ -2267,7 +2267,7 @@ describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
 	var appManifest = function()
 	{
 		return {
-			scripts:['http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/doesNotExist.js'],
+			scripts:['http://openf2.org/demos/apps/JavaScript/HelloWorld/doesNotExist.js'],
 			styles:[],
 			inlineScripts:[],
 			apps:[

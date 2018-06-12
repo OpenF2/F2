@@ -69,17 +69,6 @@ F2.extend('', {
 		 */
 		instanceId: '',
 		/**
-		 * True if the app will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
-		 * sets isSecure = true. It will also be true if the
-		 * [container](../../container-development.html) has made the decision to
-		 * run apps in iframes.
-		 * @property isSecure
-		 * @type bool
-		 * @default false
-		 */
-		isSecure: false,
-		/**
 		 * The language and region specification for this container 
 		 * represented as an IETF-defined standard language tag,
 		 * e.g. `"en-us"` or `"de-de"`. This is passed during the 
@@ -287,22 +276,6 @@ F2.extend('', {
 		 * @default 7000 (7 seconds)
 		 */
 		scriptErrorTimeout: 7000,
-		/**
-		 * Tells the container that it is currently running within
-		 * a secure app page
-		 * @property isSecureAppPage
-		 * @type bool
-		 */
-		isSecureAppPage: false,
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
 		/**
 		 * Allows the container to fully override how the AppManifest request is
 		 * made inside of F2.

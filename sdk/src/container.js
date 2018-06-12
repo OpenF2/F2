@@ -129,7 +129,6 @@ F2.extend('', (function() {
 				appConfig = {
 					appId: appId,
 					enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
-					isSecure: node.hasAttribute('data-f2-issecure'),
 					manifestUrl: manifestUrl,
 					root: node
 				};
@@ -281,12 +280,6 @@ F2.extend('', (function() {
 	 */
 	var _loadApps = function(appConfigs, appManifest) {
 		appConfigs = [].concat(appConfigs);
-
-		// check for secure app
-		if (appConfigs.length == 1 && appConfigs[0].isSecure && !_config.isSecureAppPage) {
-			_loadSecureApp(appConfigs[0], appManifest);
-			return;
-		}
 
 		// check that the number of apps in manifest matches the number requested
 		if (appConfigs.length != appManifest.apps.length) {
@@ -607,64 +600,6 @@ F2.extend('', (function() {
 		});
 	};
 
-	/**
-	 * Loads the app's html/css/javascript into an iframe
-	 * @method loadSecureApp
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The app's html/css/js to be loaded into the
-	 * page.
-	 */
-	var _loadSecureApp = function(appConfig, appManifest) {
-
-		// make sure the container is configured for secure apps
-		if (_config.secureAppPagePath) {
-			if (_isPlaceholderElement(appConfig.root)) {
-				jQuery(appConfig.root)
-					.addClass(F2.Constants.Css.APP)
-					.append(jQuery('<div></div>').addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
-			}
-			else if (!_bUsesAppHandlers) {
-				// create the html container for the iframe
-				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
-			}
-			else {
-				var $root = jQuery(appConfig.root);
-
-				F2.AppHandlers.__trigger(
-					_sAppHandlerToken,
-					F2.Constants.AppHandlers.APP_RENDER,
-					appConfig, // the app config
-					_outerHtml(jQuery(appManifest.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId))
-				);
-
-				if ($root.parents('body:first').length === 0) {
-					throw ('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
-				}
-
-				F2.AppHandlers.__trigger(
-					_sAppHandlerToken,
-					F2.Constants.AppHandlers.APP_RENDER_AFTER,
-					appConfig // the app config
-				);
-
-				if (!appConfig.root) {
-					throw ('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
-				}
-
-				if (!F2.isNativeDOMNode(appConfig.root)) {
-					throw ('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
-				}
-			}
-
-			// create RPC socket
-			F2.Rpc.register(appConfig, appManifest);
-		}
-		else {
-			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
-		}
-	};
-
 	var _outerHtml = function(html) {
 		return jQuery('<div></div>').append(html).html();
 	};
@@ -767,14 +702,7 @@ F2.extend('', (function() {
 			// TODO: Remove in v2.0
 			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
 
-			// only establish RPC connection if the container supports the secure app page
-			if ( !! _config.secureAppPagePath || _config.isSecureAppPage) {
-				F2.Rpc.init( !! _config.secureAppPagePath ? _config.secureAppPagePath : false);
-			}
-
-			if (!_config.isSecureAppPage) {
-				_initContainerEvents();
-			}
+			_initContainerEvents();
 		},
 		/**
 		 * Has the container been init?
@@ -1041,7 +969,7 @@ F2.extend('', (function() {
 				}
 				else {
 					// check if this app can be batched
-					if (a.enableBatchRequests && !a.isSecure) {
+					if (a.enableBatchRequests) {
 						batches[a.manifestUrl.toLowerCase()] = batches[a.manifestUrl.toLowerCase()] || [];
 						batches[a.manifestUrl.toLowerCase()].push(a);
 					}

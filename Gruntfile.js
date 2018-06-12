@@ -128,7 +128,6 @@ module.exports = function(grunt) {
 					'sdk/src/third-party/jquery.noconflict.js',
 					'sdk/src/third-party/bootstrap-modal.js',
 					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -146,7 +145,6 @@ module.exports = function(grunt) {
 				src: [
 					'sdk/src/template/header.js.tmpl',
 					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -163,28 +161,7 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/packages/f2.no-bootstrap.js'
-			},
-			'no-easyXDM': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/bootstrap-modal.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.no-easyXDM.js'
-			},
-			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/eventemitter2.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.basic.js'
-			},
+			}
 		},
 		/**
 		 * Need to downgrade forever-monitor to v1.1 because of:
