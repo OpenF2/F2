@@ -3,6 +3,7 @@ F2.Apps["com_openf2_tests_helloworld"] = (function() {
 	F2.testAppInitialized = false;
 
 	var App_Class = function (appConfig, appContent, root) {
+		console.log('??????????', appConfig, appContent, root);
 		F2.PreloadArguments = Array.prototype.slice.call(arguments);
 		this.appConfig = appConfig;
 		this.appContent = appContent;

@@ -42,9 +42,8 @@ F2.extend('', (function() {
 	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
-
 		var handler = _config.afterAppRender || function(appConfig, html) {
-				return document.body.appendChild(domify(html));//.appendTo('body'); // TODO-JQUERY
+				return document.body.appendChild(domify(html));
 			};
 		var appContainer = handler(appConfig, html);
 
@@ -53,8 +52,8 @@ F2.extend('', (function() {
 			return;
 		}
 		else {
-			// apply APP class
-			appContainer.classList.add(F2.Constants.Css.APP); // TODO-JQUERY
+			//apply APP class
+			appContainer.classList.add(F2.Constants.Css.APP); //TODO-JQUERY
 			return appContainer;
 		}
 	};
@@ -68,13 +67,12 @@ F2.extend('', (function() {
 	 * @param {string} html The string of html
 	 */
 	var _appRender = function(appConfig, html) {
-
-		// apply APP_CONTAINER class and AppID
+		//apply APP_CONTAINER class and AppID
 		var node = domify(html);
 		node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfig.appId);
 		html = _outerHtml(node);
 
-		// optionally apply wrapper html
+		//optionally apply wrapper html
 		if (_config.appRender) {
 			html = _outerHtml(_config.appRender(appConfig, html));
 		}
@@ -122,6 +120,7 @@ F2.extend('', (function() {
 
 		// make a copy of the app config to ensure that the original is not modified
 		appConfig = _.cloneDeep(appConfig) || {};
+		// appConfig = jQuery.extend(true, {}, appConfig);
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
@@ -228,7 +227,8 @@ F2.extend('', (function() {
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
-		jQuery(window).on('resize', function() {
+		// TODO: remove this on destroy()
+		window.addEventListener('resize', function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
@@ -567,14 +567,16 @@ F2.extend('', (function() {
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
 				else {
-					var node = domify(a.html);
-					node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+					// var node = domify(a.html);
+					// node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+					// var html = _outerHtml(node);
 
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
-						_outerHtml(node)
+						jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html()
+
 					);
 
 					var appId = appConfigs[i].appId,
@@ -949,9 +951,6 @@ F2.extend('', (function() {
 					config: a
 				};
 
-
-				console.log('>>>', a.root);
-
 				// If the root property is defined then this app is considered to be preloaded and we will
 				// run it through that logic.
 				if (a.root && !_isPlaceholderElement(a.root)) {
@@ -961,7 +960,6 @@ F2.extend('', (function() {
 						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
 					else if (jQuery(a.root).length != 1) {
-						console.log('>>>', a.root, jQuery(a.root).length);
 						F2.log('AppConfig invalid for pre-load, root not unique');
 						F2.log('AppConfig instance:', a);
 						F2.log('Number of dom node instances:', jQuery(a.root).length);
