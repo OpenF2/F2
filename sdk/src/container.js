@@ -631,7 +631,6 @@ F2.extend('', (function() {
 		var wrapper = document.createElement('div');
 		wrapper.appendChild(node);
 		return wrapper.innerHTML;
-		// return jQuery('<div></div>').append(html).html();
 	};
 
 	/**
@@ -950,6 +949,9 @@ F2.extend('', (function() {
 					config: a
 				};
 
+
+				console.log('>>>', a.root);
+
 				// If the root property is defined then this app is considered to be preloaded and we will
 				// run it through that logic.
 				if (a.root && !_isPlaceholderElement(a.root)) {
@@ -959,6 +961,7 @@ F2.extend('', (function() {
 						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
 					else if (jQuery(a.root).length != 1) {
+						console.log('>>>', a.root, jQuery(a.root).length);
 						F2.log('AppConfig invalid for pre-load, root not unique');
 						F2.log('AppConfig instance:', a);
 						F2.log('Number of dom node instances:', jQuery(a.root).length);
