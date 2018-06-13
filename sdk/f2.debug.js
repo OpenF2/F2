@@ -15056,7 +15056,7 @@ F2.extend('', (function() {
 	var _afterAppRender = function(appConfig, html) {
 
 		var handler = _config.afterAppRender || function(appConfig, html) {
-				return jQuery(html).appendTo('body'); // TODO-JQUERY
+				return document.body.appendChild(domify(html));//.appendTo('body'); // TODO-JQUERY
 			};
 		var appContainer = handler(appConfig, html);
 
@@ -15066,8 +15066,8 @@ F2.extend('', (function() {
 		}
 		else {
 			// apply APP class
-			(appContainer).addClass(F2.Constants.Css.APP); // TODO-JQUERY
-			return appContainer.get(0);
+			appContainer.classList.add(F2.Constants.Css.APP); // TODO-JQUERY
+			return appContainer;
 		}
 	};
 
@@ -15132,8 +15132,6 @@ F2.extend('', (function() {
 
 		// make a copy of the app config to ensure that the original is not modified
 		appConfig = _.cloneDeep(appConfig) || {};
-
-		console.log('???', appConfig);
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
