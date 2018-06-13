@@ -22,7 +22,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 
-;!function(undefined) {
+ ;!function(exports, undefined) {
 	/**
 	 * Tests for browser support.
 	 */
@@ -129,14 +129,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	  return fragment;
 	}
 
-  if (typeof define === 'function' && define.amd) {
-    define(function() {
-      return parse;
-    });
-  } else if (typeof exports === 'object') {
-    module.exports = parse;
-  }
-  else {
-    window.domify = parse;
-  }
-}();
+	exports.domify = parse; 
+
+}(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);

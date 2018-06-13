@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v2.0.0-alpha 06-12-2018
+ * F2 v2.0.0-alpha 06-13-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -1705,7 +1705,7 @@ F2.extend('', (function() {
 	var _afterAppRender = function(appConfig, html) {
 
 		var handler = _config.afterAppRender || function(appConfig, html) {
-				return jQuery(html).appendTo('body');
+				return jQuery(html).appendTo('body'); // TODO-JQUERY
 			};
 		var appContainer = handler(appConfig, html);
 
@@ -1715,7 +1715,7 @@ F2.extend('', (function() {
 		}
 		else {
 			// apply APP class
-			jQuery(appContainer).addClass(F2.Constants.Css.APP);
+			(appContainer).addClass(F2.Constants.Css.APP); // TODO-JQUERY
 			return appContainer.get(0);
 		}
 	};
@@ -2349,11 +2349,15 @@ F2.extend('', (function() {
 				return;
 			}
 
-			return jQuery.map(_apps, function(app) {
-				return {
-					appId: app.config.appId
-				};
-			});
+			var apps = [];
+
+			for (var i = 0; i < _apps.length; i++) {
+				apps.push({
+					appId: _apps[i].config.appId
+				});
+			}
+
+			return apps;
 		},
 		/**
 		 * Gets the current locale defined by the container
