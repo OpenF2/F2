@@ -2104,7 +2104,7 @@ F2.extend('', (function() {
 			};
 
 			// Load scripts and eval inlines once complete
-			jQuery.each(scripts, function(i, e) {
+			scripts.forEach(function(e, i) {
 				var script = doc.createElement('script'),
 					resourceUrl = e,
 					resourceKey = resourceUrl.toLowerCase();
@@ -2215,7 +2215,7 @@ F2.extend('', (function() {
 
 		// Fn for loading manifest app html
 		var _loadHtml = function(apps) {
-			jQuery.each(apps, function(i, a) {
+			apps.forEach(function(a, i) {
 				if (_isPlaceholderElement(appConfigs[i].root)) {
 					jQuery(appConfigs[i].root)
 						.addClass(F2.Constants.Css.APP)
@@ -2275,7 +2275,7 @@ F2.extend('', (function() {
 				// Load any inline scripts
 				_loadInlineScripts(inlines, function() {
 					// Create the apps
-					jQuery.each(appConfigs, function(i, a) {
+					appConfigs.forEach(function(a, i) {
 						_createAppInstance(a, appManifest.apps[i]);
 					});
 				});
@@ -2584,7 +2584,7 @@ F2.extend('', (function() {
 
 			// validate each app and assign it an instanceId
 			// then determine which apps can be batched together
-			jQuery.each(appConfigs, function(i, a) {
+			appConfigs.forEach(function(a, i) {
 				// add properties and methods
 				a = _createAppConfig(a);
 
