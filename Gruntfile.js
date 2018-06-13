@@ -124,6 +124,7 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'sdk/src/template/header.js.tmpl',
+					'sdk/src/third-party/domify.js',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/jquery.noconflict.js',
 					'sdk/src/third-party/eventemitter2.js',
