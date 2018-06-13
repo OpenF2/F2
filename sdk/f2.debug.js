@@ -13072,15 +13072,15 @@ F2.extend('', (function() {
 			var stylesFragment = null,
 				useCreateStyleSheet = !!document.createStyleSheet;
 
-			jQuery.each(styles, function(i, resourceUrl) {
+			for (var i = 0; i < styles.length; i++) {
 				if (useCreateStyleSheet) {
-					document.createStyleSheet(resourceUrl);
+					document.createStyleSheet(styles[i]);
 				}
 				else {
 					stylesFragment = stylesFragment || [];
-					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + resourceUrl + '"/>');
+					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + styles[i] + '"/>');
 				}
-			});
+			}
 
 			if (stylesFragment) {
 				jQuery('head').append(stylesFragment.join(''));
@@ -13759,7 +13759,7 @@ F2.extend('', (function() {
 				// another request for the same app.  We'll create a callbackStack
 				// that will ensure that requests for the same app are loaded in order
 				// rather than at the same time
-				jQuery.each(appStack, function(i, req) {
+				appStack.forEach(function(req, i) {
 					// define the callback function based on the first app's App ID
 					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
 
@@ -13786,7 +13786,7 @@ F2.extend('', (function() {
 								manifestRequest(i, requests.pop());
 							},
 							errorFunc = function() {
-								jQuery.each(req.apps, function(idx, item) {
+								req.apps.forEach(function(item, idx) {
 									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.AppHandlers.__trigger(
@@ -13862,7 +13862,7 @@ F2.extend('', (function() {
 				return;
 			}
 
-			jQuery.each(_apps, function(i, a) {
+			_apps.each(function(a) {
 				F2.removeApp(a.config.instanceId);
 			});
 		},
