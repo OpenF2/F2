@@ -1751,7 +1751,7 @@ F2.extend('', (function() {
 	 * @return {Element} The DOM Element surrounding the app
 	 */
 	var _beforeAppRender = function(appConfig) {
-		var handler = _config.beforeAppRender || jQuery.noop;
+		var handler = _config.beforeAppRender || function() { return this; };
 		return handler(appConfig);
 	};
 
@@ -1765,7 +1765,7 @@ F2.extend('', (function() {
 	 * for the inline script that failed to execute
 	 */
 	var _appScriptLoadFailed = function(appConfig, scriptInfo) {
-		var handler = _config.appScriptLoadFailed || jQuery.noop;
+		var handler = _config.appScriptLoadFailed || function() { return this; };
 		return handler(appConfig, scriptInfo);
 	};
 
