@@ -119,7 +119,7 @@ F2.extend('', (function() {
 	var _createAppConfig = function(appConfig) {
 
 		// make a copy of the app config to ensure that the original is not modified
-		appConfig = jQuery.extend(true, {}, appConfig);
+		appConfig = _.cloneDeep(appConfig) || {};
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
