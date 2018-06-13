@@ -12,6 +12,27 @@ F2.extend('', (function() {
 	var _loadingScripts = {};
 
 	/**
+   * Search for a value within an array.
+   * @method inArray
+   * @param {object} value The value to search for
+   * @param {Array} array The array to search
+   * @return {bool} True if the item is in the array
+   */
+	var _inArray = function(value, array) {
+		if (Array.isArray(array)) {
+			return array.indexOf(value) > -1;
+		}
+
+		for (var i = 0; i < array.length; i++) {
+			if (array[i] === value) {
+				return i > -1;
+			}
+		}
+
+		return -1;
+	};
+
+	/**
 	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
 	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
@@ -304,7 +325,7 @@ F2.extend('', (function() {
 			// Reduce the list to styles that haven't been loaded
 			var existingStyles = _findExistingStyles();
 			styles = jQuery.grep(styles, function(url) {
-				return url && jQuery.inArray(url, existingStyles) === -1;
+				return url && _inArray(url, existingStyles) === -1;
 			});
 
 			// Attempt to use the user provided method
@@ -340,7 +361,7 @@ F2.extend('', (function() {
 			var existingScripts = _findExistingScripts();
 			var loadingScripts = Object.keys(_loadingScripts);
 			scripts = jQuery.grep(scripts, function(url) {
-				return url && (jQuery.inArray(url, existingScripts) === -1 || jQuery.inArray(url, loadingScripts) !== -1);
+				return url && (_inArray(url, existingScripts) === -1 || _inArray(url, loadingScripts) !== -1);
 			});
 
 			// Attempt to use the user provided method
