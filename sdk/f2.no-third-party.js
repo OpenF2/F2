@@ -2672,12 +2672,12 @@ F2.extend('', (function() {
 			// we don't have the manifests, go ahead and load them
 			if (!haveManifests) {
 				// add the batches to the appStack
-				jQuery.each(batches, function(i, b) {
+				for (var key in batches) {
 					appStack.push({
-						url: i,
-						apps: b
+						url: key,
+						apps: batches[key]
 					});
-				});
+				}
 
 				// if an app is being loaded more than once on the page, there is the
 				// potential that the jsonp callback will be clobbered if the request
@@ -2697,8 +2697,9 @@ F2.extend('', (function() {
 				// loop through each item in the callback stack and make the request
 				// for the AppManifest. When the request is complete, pop the next
 				// request off the stack and make the request.
-				jQuery.each(callbackStack, function(i, requests) {
-
+				for (var i in callbackStack) {
+					/*jshint loopfunc: true */
+					var requests = callbackStack[i];
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) {
 							return;
@@ -2774,7 +2775,8 @@ F2.extend('', (function() {
 					};
 
 					manifestRequest(i, requests.pop());
-				});
+				}
+				
 			}
 		},
 		/**
