@@ -1742,14 +1742,16 @@ F2.extend('', (function() {
 	var _appRender = function(appConfig, html) {
 
 		// apply APP_CONTAINER class and AppID
-		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
+		var node = domify(html);
+		node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfig.appId);
+		html = _outerHtml(node);
 
 		// optionally apply wrapper html
 		if (_config.appRender) {
-			html = _config.appRender(appConfig, html);
+			html = _outerHtml(_config.appRender(appConfig, html));
 		}
 
-		return _outerHtml(html);
+		return html;
 	};
 
 	/**
@@ -1919,6 +1921,7 @@ F2.extend('', (function() {
 	 * @return {bool} True if the element is a placeholder
 	 */
 	var _isPlaceholderElement = function(node) {
+		console.log('!!!!!!!!!!!!', node);
 		return (
 			F2.isNativeDOMNode(node) &&
 			!_hasNonTextChildNodes(node) &&
@@ -2237,11 +2240,14 @@ F2.extend('', (function() {
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
 				else {
+					var node = domify(a.html);
+					node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
-						_outerHtml(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId))
+						_outerHtml(node)
 					);
 
 					var appId = appConfigs[i].appId,
@@ -2294,8 +2300,12 @@ F2.extend('', (function() {
 		});
 	};
 
-	var _outerHtml = function(html) {
-		return jQuery('<div></div>').append(html).html();
+	var _outerHtml = function(node) {
+		console.log('_outerHtml', typeof node, node);
+		var wrapper = document.createElement('div');
+		wrapper.appendChild(node);
+		return wrapper.innerHTML;
+		// return jQuery('<div></div>').append(html).html();
 	};
 
 	/**

@@ -86,7 +86,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	 */
 
 	function parse(html, doc) {
-	  if ('string' != typeof html) throw new TypeError('String expected');
+	  if ('string' != typeof html) throw new TypeError('String expected, got ' + typeof html);
 
 	  // default to the global `document` object
 	  if (!doc) doc = document;
