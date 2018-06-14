@@ -13345,7 +13345,7 @@ var _ = window._.noConflict();
 
 
 /*!
- * F2 v2.0.0-alpha 06-13-2018
+ * F2 v2.0.0-alpha 06-14-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13748,38 +13748,31 @@ F2.extend('AppHandlers', (function() {
 	var _handlerCollection = {
 		appManifestRequestFail: [],
 		appCreateRoot: [],
-		appRenderBefore: [],			
+		appRenderBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
 		appDestroy: [],
-		appScriptLoadFailed: []		
+		appScriptLoadFailed: []
 	};
 	
 	var _defaultMethods = {
 		appRender: function(appConfig, appHtml)
 		{
-			var $root = null;
-			
 			// if no app root is defined use the app's outer most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
-				appConfig.root = jQuery(appHtml).get(0);
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);				
+				appConfig.root = domify(appHtml);
 			}
 			else
 			{
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);			
-				
 				// append the app html to the root
-				$root.append(appHtml);
+				appConfig.root.appendChild(domify(appHtml));
 			}			
 			
 			// append the root to the body by default.
-			jQuery('body').append($root);
+			document.body.appendChild(appConfig.root);
 		},
 		appDestroy: function(appInstance)
 		{
@@ -15054,21 +15047,6 @@ F2.extend('', (function() {
 	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
-		//var handler = _config.afterAppRender || function(appConfig, html) {
-		//		return jQuery(html).appendTo('body');
-		//	};
-		//var appContainer = handler(appConfig, html);
-
-		//if ( !! _config.afterAppRender && !appContainer) {
-		//	F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app');
-		//	return;
-		//}
-		//else {
-			//apply APP class
-			//jQuery(appContainer).addClass(F2.Constants.Css.APP);
-			//return appContainer.get(0);
-		//}
-
 		var handler = _config.afterAppRender || function(appConfig, html) {
 				return document.body.appendChild(domify(html));
 			};
@@ -15080,7 +15058,7 @@ F2.extend('', (function() {
 		}
 		else {
 			//apply APP class
-			appContainer.classList.add(F2.Constants.Css.APP); //TODO-JQUERY
+			appContainer.classList.add(F2.Constants.Css.APP);
 			return appContainer;
 		}
 	};
@@ -15094,16 +15072,6 @@ F2.extend('', (function() {
 	 * @param {string} html The string of html
 	 */
 	var _appRender = function(appConfig, html) {
-		//apply APP_CONTAINER class and AppID
-		//html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
-
-		//optionally apply wrapper html
-		//if (_config.appRender) {
-		//	html = _config.appRender(appConfig, html);
-		//}
-
-		//return _outerHtml(html);
-
 		//apply APP_CONTAINER class and AppID
 		var node = domify(html);
 		node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfig.appId);
@@ -15157,7 +15125,6 @@ F2.extend('', (function() {
 
 		// make a copy of the app config to ensure that the original is not modified
 		appConfig = _.cloneDeep(appConfig) || {};
-		// appConfig = jQuery.extend(true, {}, appConfig);
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
@@ -15612,6 +15579,7 @@ F2.extend('', (function() {
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
+						// TODO: the vanilla version is breaking phantomjs tests for preloaded apps
 						jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html()
 
 					);
@@ -15667,7 +15635,6 @@ F2.extend('', (function() {
 	};
 
 	var _outerHtml = function(node) {
-		// return jQuery('<div></div>').append(node).html();
 		var wrapper = document.createElement('div');
 		wrapper.appendChild(node);
 		return wrapper.innerHTML;

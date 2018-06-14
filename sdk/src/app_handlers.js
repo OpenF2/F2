@@ -43,38 +43,31 @@ F2.extend('AppHandlers', (function() {
 	var _handlerCollection = {
 		appManifestRequestFail: [],
 		appCreateRoot: [],
-		appRenderBefore: [],			
+		appRenderBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
 		appDestroy: [],
-		appScriptLoadFailed: []		
+		appScriptLoadFailed: []
 	};
 	
 	var _defaultMethods = {
 		appRender: function(appConfig, appHtml)
 		{
-			var $root = null;
-			
 			// if no app root is defined use the app's outer most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
-				appConfig.root = jQuery(appHtml).get(0);
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);				
+				appConfig.root = domify(appHtml);
 			}
 			else
 			{
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);			
-				
 				// append the app html to the root
-				$root.append(appHtml);
+				appConfig.root.appendChild(domify(appHtml));
 			}			
 			
 			// append the root to the body by default.
-			jQuery('body').append($root);
+			document.body.appendChild(appConfig.root);
 		},
 		appDestroy: function(appInstance)
 		{

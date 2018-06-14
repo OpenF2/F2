@@ -53,7 +53,7 @@ F2.extend('', (function() {
 		}
 		else {
 			//apply APP class
-			appContainer.classList.add(F2.Constants.Css.APP); //TODO-JQUERY
+			appContainer.classList.add(F2.Constants.Css.APP);
 			return appContainer;
 		}
 	};
@@ -120,7 +120,6 @@ F2.extend('', (function() {
 
 		// make a copy of the app config to ensure that the original is not modified
 		appConfig = _.cloneDeep(appConfig) || {};
-		// appConfig = jQuery.extend(true, {}, appConfig);
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
@@ -575,6 +574,7 @@ F2.extend('', (function() {
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
+						// TODO: the vanilla version is breaking phantomjs tests for preloaded apps
 						jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html()
 
 					);
