@@ -429,7 +429,7 @@ F2.extend('AppHandlers', (function() {
 			{
 				// append the app html to the root
 				appConfig.root.appendChild(domify(appHtml));
-			}			
+			}
 			
 			// append the root to the body by default.
 			document.body.appendChild(appConfig.root);
@@ -446,11 +446,9 @@ F2.extend('AppHandlers', (function() {
 			{
 				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 			}
-			
-			// fade out and remove the root
-			jQuery(appInstance.config.root).fadeOut(500, function() {
-				jQuery(this).remove();
-			});
+
+			// remove the root
+			appInstance.config.root.parentNode.removeChild(appInstance.config.root);
 		}
 	};
 	
