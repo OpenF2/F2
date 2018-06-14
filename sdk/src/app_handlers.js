@@ -254,13 +254,15 @@ F2.extend('AppHandlers', (function() {
 					// appRender where root is already defined
 					if (handler.domNode && arguments[2] && arguments[2].root && arguments[3])
 					{
-						var appRoot = arguments[2].root.appendChild(domify(arguments[3]));
-						handler.domNode.appendChild(appRoot);
+						arguments[2].root.appendChild(domify(arguments[3]));
+						handler.domNode.appendChild(arguments[2].root);
 					}
 					else if (handler.domNode && arguments[2] && !arguments[2].root && arguments[3])
 					{
 						// set the root to the actual HTML of the app
 						arguments[2].root = domify(arguments[3]);
+						// arguments[2].root = jQuery(arguments[3]).get(0);
+						// jQuery(handler.domNode).append(arguments[2].root);
 						// appends the root to the dom node specified
 						handler.domNode.appendChild(arguments[2].root);
 					}
