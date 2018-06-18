@@ -261,8 +261,6 @@ F2.extend('AppHandlers', (function() {
 					{
 						// set the root to the actual HTML of the app
 						arguments[2].root = domify(arguments[3]);
-						// arguments[2].root = jQuery(arguments[3]).get(0);
-						// jQuery(handler.domNode).append(arguments[2].root);
 						// appends the root to the dom node specified
 						handler.domNode.appendChild(arguments[2].root);
 					}

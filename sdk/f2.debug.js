@@ -13345,7 +13345,7 @@ var _ = window._.noConflict();
 
 
 /*!
- * F2 v2.0.0-alpha 06-14-2018
+ * F2 v2.0.0-alpha 06-18-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -13966,8 +13966,6 @@ F2.extend('AppHandlers', (function() {
 					{
 						// set the root to the actual HTML of the app
 						arguments[2].root = domify(arguments[3]);
-						// arguments[2].root = jQuery(arguments[3]).get(0);
-						// jQuery(handler.domNode).append(arguments[2].root);
 						// appends the root to the dom node specified
 						handler.domNode.appendChild(arguments[2].root);
 					}
@@ -15259,46 +15257,74 @@ F2.extend('', (function() {
 		}
 
 		var _findExistingScripts = function() {
-			return jQuery('script[src]').map(function(i, tag) {
-				return tag.src;
+			// TODO: another one that breaks in non-live testing while being fine in live testing
+			//jQuery('script[src]').map(function(i, tag) {
+			//	return tag.src;
+			//});
+			var scripts = [];
+
+			document.querySelectorAll('script[src]').forEach(function(tag) {
+				scripts.push(tag.src);
 			});
+
+			return scripts;
 		};
 
 		var _findExistingStyles = function() {
-			return jQuery('link[href]').map(function(i, tag) {
-				return tag.href;
+			// TODO: another one that breaks in non-live testing while being fine in live testing
+			// return jQuery('link[href]').map(function(i, tag) {
+			// return tag.href;
+			// });
+
+			var styles = [];
+
+			document.querySelectorAll('link[href]').forEach(function(tag) {
+				styles.push(tag.href);
 			});
+
+			return styles;
 		};
 
 		// Fn for loading manifest Styles
 		var _loadStyles = function(styles, cb) {
 			// Reduce the list to styles that haven't been loaded
 			var existingStyles = _findExistingStyles();
-			styles = jQuery.grep(styles, function(url) {
-				return url && _inArray(url, existingStyles) === -1;
-			});
+			var filteredStyles = [];
+
+			for (var i = 0; i < styles.length; i++) {
+				var url = styles[i];
+				if (url && _inArray(url, existingStyles) === -1) {
+					filteredStyles.push(url);
+				}
+			}
+
+			//styles = jQuery.grep(styles, function(url) {
+			//	return url && _inArray(url, existingStyles) === -1;
+			//});
 
 			// Attempt to use the user provided method
 			if (_config.loadStyles) {
-				return _config.loadStyles(styles, cb);
+				return _config.loadStyles(filteredStyles, cb);
 			}
 
 			// load styles, see #101
 			var stylesFragment = null,
 				useCreateStyleSheet = !!document.createStyleSheet;
 
-			for (var i = 0; i < styles.length; i++) {
+			for (var j = 0; j < filteredStyles.length; j++) {
 				if (useCreateStyleSheet) {
-					document.createStyleSheet(styles[i]);
+					document.createStyleSheet(filteredStyles[j]);
 				}
 				else {
 					stylesFragment = stylesFragment || [];
-					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + styles[i] + '"/>');
+					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + filteredStyles[j] + '"/>');
 				}
 			}
 
 			if (stylesFragment) {
-				jQuery('head').append(stylesFragment.join(''));
+				var node = domify(stylesFragment.join(''));
+				document.getElementsByTagName('head')[0].appendChild(node);
+				// jQuery('head').append(stylesFragment.join(''));
 			}
 
 			cb();
@@ -15310,21 +15336,29 @@ F2.extend('', (function() {
 			// Reduce the list to scripts that haven't been loaded
 			var existingScripts = _findExistingScripts();
 			var loadingScripts = Object.keys(_loadingScripts);
-			scripts = jQuery.grep(scripts, function(url) {
-				return url && (_inArray(url, existingScripts) === -1 || _inArray(url, loadingScripts) !== -1);
-			});
+			var filteredScripts = [];
+
+			for (var i = 0; i < scripts.length; i++) {
+				var url = scripts[i];
+				if (url && (_inArray(url, existingScripts) === -1 || _inArray(url, loadingScripts) !== -1)) {
+					filteredScripts.push(url);
+				}
+			}
+			//scripts = jQuery.grep(scripts, function(url) {
+			//	return url && (_inArray(url, existingScripts) === -1 || _inArray(url, loadingScripts) !== -1);
+			//});
 
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
-				return _config.loadScripts(scripts, cb);
+				return _config.loadScripts(filteredScripts, cb);
 			}
 
-			if (!scripts.length) {
+			if (!filteredScripts.length) {
 				return cb();
 			}
 
 			var doc = window.document;
-			var scriptCount = scripts.length;
+			var scriptCount = filteredScripts.length;
 			var scriptsLoaded = 0;
 			//http://caniuse.com/#feat=script-async
 			// var supportsAsync = 'async' in doc.createElement('script') || 'MozAppearance' in doc.documentElement.style || window.opera;
@@ -15393,7 +15427,7 @@ F2.extend('', (function() {
 			};
 
 			// Load scripts and eval inlines once complete
-			scripts.forEach(function(e, i) {
+			filteredScripts.forEach(function(e, i) {
 				var script = doc.createElement('script'),
 					resourceUrl = e,
 					resourceKey = resourceUrl.toLowerCase();
@@ -15506,9 +15540,14 @@ F2.extend('', (function() {
 		var _loadHtml = function(apps) {
 			apps.forEach(function(a, i) {
 				if (_isPlaceholderElement(appConfigs[i].root)) {
-					jQuery(appConfigs[i].root)
-						.addClass(F2.Constants.Css.APP)
-						.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId));
+					var node = domify(a.html);
+					node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+					appConfigs[i].root.classList.add(F2.Constants.Css.APP);
+					appConfigs[i].root.appendChild(node);
+
+					//jQuery(appConfigs[i].root)
+					//	.addClass(F2.Constants.Css.APP)
+					//	.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId));
 				}
 				else if (!_bUsesAppHandlers) {
 					// load html and save the root node
@@ -15518,14 +15557,18 @@ F2.extend('', (function() {
 					// var node = domify(a.html);
 					// node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
 					// var html = _outerHtml(node);
+					var container = document.createElement('div');
+					var childNode = domify(a.html);
+					childNode.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+					container.appendChild(childNode);
 
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
+						container.innerHTML
 						// TODO: the vanilla version is breaking phantomjs tests for preloaded apps
-						jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html()
-
+						// jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html()
 					);
 
 					var appId = appConfigs[i].appId,
@@ -15908,12 +15951,13 @@ F2.extend('', (function() {
 						F2.log('AppConfig instance:', a);
 						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
-					else if (jQuery(a.root).length != 1) {
-						F2.log('AppConfig invalid for pre-load, root not unique');
-						F2.log('AppConfig instance:', a);
-						F2.log('Number of dom node instances:', jQuery(a.root).length);
-						throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
-					}
+					//TODO: if we accept only explicit DOM references, do we still need this?
+					//else if (jQuery(a.root).length != 1) {
+					//	F2.log('AppConfig invalid for pre-load, root not unique');
+					//	F2.log('AppConfig instance:', a);
+					//	F2.log('Number of dom node instances:', jQuery(a.root).length);
+					//	throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
+					//}
 					
 					// instantiate F2.App
 					_createAppInstance(a, {
@@ -16132,7 +16176,7 @@ F2.extend('', (function() {
 	};
 })());
 
-	jQuery(function() {
+	var callback = function() {
 		var autoloadEls = [],
 			add = function(e) {
 				if (!e) { return; }
@@ -16161,7 +16205,13 @@ F2.extend('', (function() {
 				F2.loadPlaceholders(autoloadEls[i]);
 			}
 		}
-	});
+	};
+
+	if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
+		callback();
+	} else {
+		document.addEventListener('DOMContentLoaded', callback);
+	}
 
 	exports.F2 = F2;
 

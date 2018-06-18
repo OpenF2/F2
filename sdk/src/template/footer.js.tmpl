@@ -1,4 +1,4 @@
-	jQuery(function() {
+	var callback = function() {
 		var autoloadEls = [],
 			add = function(e) {
 				if (!e) { return; }
@@ -27,7 +27,13 @@
 				F2.loadPlaceholders(autoloadEls[i]);
 			}
 		}
-	});
+	};
+
+	if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
+		callback();
+	} else {
+		document.addEventListener('DOMContentLoaded', callback);
+	}
 
 	exports.F2 = F2;
 
