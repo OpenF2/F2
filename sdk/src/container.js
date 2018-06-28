@@ -69,7 +69,9 @@ F2.extend('', (function() {
 	var _appRender = function(appConfig, html) {
 		//apply APP_CONTAINER class and AppID
 		var node = domify(html);
-		node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfig.appId);
+		// classList.add twice because phantomjs breaks otherwise
+		node.classList.add(F2.Constants.Css.APP_CONTAINER);
+		node.classList.add(appConfig.appId);
 		html = _outerHtml(node);
 
 		//optionally apply wrapper html
@@ -577,7 +579,8 @@ F2.extend('', (function() {
 			apps.forEach(function(a, i) {
 				if (_isPlaceholderElement(appConfigs[i].root)) {
 					var node = domify(a.html);
-					node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+					node.classList.add(F2.Constants.Css.APP_CONTAINER);
+					node.classList.add(appConfigs[i].appId);
 					appConfigs[i].root.classList.add(F2.Constants.Css.APP);
 					appConfigs[i].root.appendChild(node);
 				}
