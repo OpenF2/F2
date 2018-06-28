@@ -15261,7 +15261,6 @@ F2.extend('', (function() {
 			var src = [];
 
 			for (var i = 0; i < scripts.length; i ++) {
-				console.info(scripts[i].src);
 				src.push(scripts[i].src);
 			}
 
@@ -15538,31 +15537,32 @@ F2.extend('', (function() {
 					node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
 					appConfigs[i].root.classList.add(F2.Constants.Css.APP);
 					appConfigs[i].root.appendChild(node);
-
-					//jQuery(appConfigs[i].root)
-					//	.addClass(F2.Constants.Css.APP)
-					//	.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId));
 				}
 				else if (!_bUsesAppHandlers) {
 					// load html and save the root node
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
 				else {
-					// var node = domify(a.html);
-					// node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
-					// var html = _outerHtml(node);
 					var container = document.createElement('div');
 					var childNode = domify(a.html);
-					childNode.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+					childNode.classList.add(F2.Constants.Css.APP_CONTAINER);
+					childNode.classList.add(appConfigs[i].appId);
 					container.appendChild(childNode);
+
+					var working = jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html();
+
+					if (working != container.innerHTML) {
+						console.info(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+						console.info(working, '\n\n', container.innerHTML);
+						console.info('======================');
+					}
+
 
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
 						container.innerHTML
-						// TODO: the vanilla version is breaking phantomjs tests for preloaded apps
-						// jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html()
 					);
 
 					var appId = appConfigs[i].appId,

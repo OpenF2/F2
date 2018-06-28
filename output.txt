@@ -1,0 +1,359 @@
+[31m>> [39mLocal Npm module "grunt-parallel" not found. Is it installed?
+
+[4mRunning "jshint:files" (jshint) task[24m
+[32m>> [39m6 files lint free.
+
+[4mRunning "express:server" (express) task[24m
+
+[4mRunning "express-server:server" (express-server) task[24m
+Web server started on port:8080, no hostname specified [pid: 12748]
+
+[4mRunning "jasmine:non-amd" (jasmine) task[24m
+Testing jasmine specs via phantom
+.............f2-app-container com_openf2_examples_javascript_helloworld
+<div class="f2-app-view f2-app-container com_openf2_examples_javascript_helloworld" data-f2-view="home">Hello world!</div> 
+
+ <div class="f2-app-view f2-app-container" data-f2-view="home">Hello world!</div>
+======================
+...f2-app-container com_openf2_tests_helloworld
+<div class="test-app-2 f2-app-container com_openf2_tests_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+............f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_tests_helloworld
+<div class="test-app-2 f2-app-container com_openf2_tests_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_tests_helloworld
+<div class="test-app-2 f2-app-container com_openf2_tests_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_tests_helloworld
+<div class="test-app-2 f2-app-container com_openf2_tests_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_tests_helloworld
+<div class="test-app-2 f2-app-container com_openf2_tests_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+......f2-app-container com_openf2_examples_javascript_helloworld
+<div class="f2-app-container com_openf2_examples_javascript_helloworld"></div> 
+
+ <div class="f2-app-container"></div>
+======================
+..f2-app-container com_openf2_examples_javascript_helloworld
+<div class="f2-app-view f2-app-container com_openf2_examples_javascript_helloworld" data-f2-view="home">Hello world!</div> 
+
+ <div class="f2-app-view f2-app-container" data-f2-view="home">Hello world!</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="f2-app-view f2-app-container com_openf2_examples_javascript_helloworld" data-f2-view="home">Hello world!</div> 
+
+ <div class="f2-app-view f2-app-container" data-f2-view="home">Hello world!</div>
+======================
+..f2-app-container com_openf2_examples_javascript_helloworld
+<div class="f2-app-view f2-app-container com_openf2_examples_javascript_helloworld" data-f2-view="home">Hello world!</div> 
+
+ <div class="f2-app-view f2-app-container" data-f2-view="home">Hello world!</div>
+======================
+..f2-app-container com_openf2_examples_javascript_helloworld
+<div class="f2-app-view f2-app-container com_openf2_examples_javascript_helloworld" data-f2-view="home">Hello world!</div> 
+
+ <div class="f2-app-view f2-app-container" data-f2-view="home">Hello world!</div>
+======================
+..f2-app-container com_openf2_examples_javascript_helloworld
+<div class="f2-app-view f2-app-container com_openf2_examples_javascript_helloworld" data-f2-view="home">Hello world!</div> 
+
+ <div class="f2-app-view f2-app-container" data-f2-view="home">Hello world!</div>
+======================
+.f2-app-container com_test_app
+<div class="f2-app-container com_test_app"></div> 
+
+ <div class="f2-app-container"></div>
+======================
+.f2-app-container com_test_app
+<div class="f2-app-container com_test_app"></div> 
+
+ <div class="f2-app-container"></div>
+======================
+...f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app-2 f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_nodejs_helloworld
+<div class="f2-app-container com_openf2_examples_nodejs_helloworld"><div data-f2-view="home" class="f2-app-view"><h1 class="page-header">Hello, World!</h1><p class="lead">This demonstrates a simple "Hello World" F2 App. </p><h4>Container Developers</h4><p>If you're a Container Provider and want to learn how to integrate F2 into your website, <a href="http://docs.openf2.org/container-development.html#developing-f2-containers">browse to the Container docs</a>.</p><h4>App Developers</h4><p>If you're an App Provider and want to learn how to build F2 apps, <a href="http://docs.openf2.org/app-development.html#developing-f2-apps">browse to the App docs</a>.</p><hr><p>Get your hands on an example F2 Container and Apps! </p><button onclick="location.href=&quot;http://docs.openf2.org/F2-examples.zip&quot;" class="btn btn-primary">Download F2 Examples</button></div></div> 
+
+ <div class="f2-app-container"><div data-f2-view="home" class="f2-app-view"><h1 class="page-header">Hello, World!</h1><p class="lead">This demonstrates a simple "Hello World" F2 App. </p><h4>Container Developers</h4><p>If you're a Container Provider and want to learn how to integrate F2 into your website, <a href="http://docs.openf2.org/container-development.html#developing-f2-containers">browse to the Container docs</a>.</p><h4>App Developers</h4><p>If you're an App Provider and want to learn how to build F2 apps, <a href="http://docs.openf2.org/app-development.html#developing-f2-apps">browse to the App docs</a>.</p><hr><p>Get your hands on an example F2 Container and Apps! </p><button onclick="location.href=&quot;http://docs.openf2.org/F2-examples.zip&quot;" class="btn btn-primary">Download F2 Examples</button></div></div>
+======================
+f2-app-container com_openf2_examples_nodejs_helloworld
+<div class="f2-app-container com_openf2_examples_nodejs_helloworld"><div data-f2-view="home" class="f2-app-view"><h1 class="page-header">Hello, World!</h1><p class="lead">This demonstrates a simple "Hello World" F2 App. </p><h4>Container Developers</h4><p>If you're a Container Provider and want to learn how to integrate F2 into your website, <a href="http://docs.openf2.org/container-development.html#developing-f2-containers">browse to the Container docs</a>.</p><h4>App Developers</h4><p>If you're an App Provider and want to learn how to build F2 apps, <a href="http://docs.openf2.org/app-development.html#developing-f2-apps">browse to the App docs</a>.</p><hr><p>Get your hands on an example F2 Container and Apps! </p><button onclick="location.href=&quot;http://docs.openf2.org/F2-examples.zip&quot;" class="btn btn-primary">Download F2 Examples</button></div></div> 
+
+ <div class="f2-app-container"><div data-f2-view="home" class="f2-app-view"><h1 class="page-header">Hello, World!</h1><p class="lead">This demonstrates a simple "Hello World" F2 App. </p><h4>Container Developers</h4><p>If you're a Container Provider and want to learn how to integrate F2 into your website, <a href="http://docs.openf2.org/container-development.html#developing-f2-containers">browse to the Container docs</a>.</p><h4>App Developers</h4><p>If you're an App Provider and want to learn how to build F2 apps, <a href="http://docs.openf2.org/app-development.html#developing-f2-apps">browse to the App docs</a>.</p><hr><p>Get your hands on an example F2 Container and Apps! </p><button onclick="location.href=&quot;http://docs.openf2.org/F2-examples.zip&quot;" class="btn btn-primary">Download F2 Examples</button></div></div>
+======================
+f2-app-container com_openf2_examples_nodejs_helloworld
+<div class="f2-app-container com_openf2_examples_nodejs_helloworld"><div data-f2-view="home" class="f2-app-view"><h1 class="page-header">Hello, World!</h1><p class="lead">This demonstrates a simple "Hello World" F2 App. </p><h4>Container Developers</h4><p>If you're a Container Provider and want to learn how to integrate F2 into your website, <a href="http://docs.openf2.org/container-development.html#developing-f2-containers">browse to the Container docs</a>.</p><h4>App Developers</h4><p>If you're an App Provider and want to learn how to build F2 apps, <a href="http://docs.openf2.org/app-development.html#developing-f2-apps">browse to the App docs</a>.</p><hr><p>Get your hands on an example F2 Container and Apps! </p><button onclick="location.href=&quot;http://docs.openf2.org/F2-examples.zip&quot;" class="btn btn-primary">Download F2 Examples</button></div></div> 
+
+ <div class="f2-app-container"><div data-f2-view="home" class="f2-app-view"><h1 class="page-header">Hello, World!</h1><p class="lead">This demonstrates a simple "Hello World" F2 App. </p><h4>Container Developers</h4><p>If you're a Container Provider and want to learn how to integrate F2 into your website, <a href="http://docs.openf2.org/container-development.html#developing-f2-containers">browse to the Container docs</a>.</p><h4>App Developers</h4><p>If you're an App Provider and want to learn how to build F2 apps, <a href="http://docs.openf2.org/app-development.html#developing-f2-apps">browse to the App docs</a>.</p><hr><p>Get your hands on an example F2 Container and Apps! </p><button onclick="location.href=&quot;http://docs.openf2.org/F2-examples.zip&quot;" class="btn btn-primary">Download F2 Examples</button></div></div>
+======================
+.f2-app-container com_openf2_tests_helloworld
+<div class="test-app-1 f2-app-container com_openf2_tests_helloworld">Testing</div> 
+
+ <div class="test-app-1 f2-app-container">Testing</div>
+======================
+.......................f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+......f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_tests_helloworld
+<div class="test-app-2 f2-app-container com_openf2_tests_helloworld">Testing</div> 
+
+ <div class="test-app-2 f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.f2-app-container com_openf2_examples_javascript_helloworld
+<div class="test-app f2-app-container com_openf2_examples_javascript_helloworld">Testing</div> 
+
+ <div class="test-app f2-app-container">Testing</div>
+======================
+.
+130 specs in 19.226s.
+[32m>> [39m0 failures
+
+[4mRunning "jasmine:amd" (jasmine) task[24m
+Testing jasmine specs via phantom
+[31mFatal error: EBUSY: resource busy or locked, unlink 'C:\Users\POLINN~3.CHI\AppData\Local\Temp\1530205337593.4'[39m

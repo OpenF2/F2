@@ -344,10 +344,6 @@ F2.extend('', (function() {
 				}
 			}
 
-			//styles = jQuery.grep(styles, function(url) {
-			//	return url && _inArray(url, existingStyles) === -1;
-			//});
-
 			// Attempt to use the user provided method
 			if (_config.loadStyles) {
 				return _config.loadStyles(filteredStyles, cb);
@@ -370,7 +366,6 @@ F2.extend('', (function() {
 			if (stylesFragment) {
 				var node = domify(stylesFragment.join(''));
 				document.getElementsByTagName('head')[0].appendChild(node);
-				// jQuery('head').append(stylesFragment.join(''));
 			}
 
 			cb();
@@ -390,9 +385,6 @@ F2.extend('', (function() {
 					filteredScripts.push(url);
 				}
 			}
-			//scripts = jQuery.grep(scripts, function(url) {
-			//	return url && (_inArray(url, existingScripts) === -1 || _inArray(url, loadingScripts) !== -1);
-			//});
 
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
@@ -444,9 +436,7 @@ F2.extend('', (function() {
 			};
 
 			var _checkComplete = function() {
-				// Are we done loading all scripts for this app?
 				if (++scriptsLoaded === scriptCount) {
-					// success
 					cb();
 				}
 			};
@@ -590,31 +580,25 @@ F2.extend('', (function() {
 					node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
 					appConfigs[i].root.classList.add(F2.Constants.Css.APP);
 					appConfigs[i].root.appendChild(node);
-
-					//jQuery(appConfigs[i].root)
-					//	.addClass(F2.Constants.Css.APP)
-					//	.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId));
 				}
 				else if (!_bUsesAppHandlers) {
 					// load html and save the root node
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
 				else {
-					// var node = domify(a.html);
-					// node.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
-					// var html = _outerHtml(node);
 					var container = document.createElement('div');
 					var childNode = domify(a.html);
-					childNode.classList.add(F2.Constants.Css.APP_CONTAINER, appConfigs[i].appId);
+					childNode.classList.add(F2.Constants.Css.APP_CONTAINER);
+					childNode.classList.add(appConfigs[i].appId);
 					container.appendChild(childNode);
+
+					var working = jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html();
 
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
 						container.innerHTML
-						// TODO: the vanilla version is breaking phantomjs tests for preloaded apps
-						// jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html()
 					);
 
 					var appId = appConfigs[i].appId,
