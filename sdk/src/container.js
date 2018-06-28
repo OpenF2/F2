@@ -418,7 +418,7 @@ F2.extend('', (function() {
 					// Send error to console
 					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-					// TODO: deprecate, see #222
+					// @Brian ? TODO: deprecate, see #222
 					F2.Events.emit(F2.Constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
 
 					if (!_bUsesAppHandlers) {
@@ -756,7 +756,7 @@ F2.extend('', (function() {
 			_hydrateContainerConfig(_config);
 
 			// dictates whether we use the old logic or the new logic.
-			// TODO: Remove in v2.0
+			// @Brian ? TODO: Remove in v2.0
 			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
 
 			_initContainerEvents();
@@ -981,7 +981,7 @@ F2.extend('', (function() {
 						F2.log('AppConfig instance:', a);
 						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
-					//TODO: if we accept only explicit DOM references, do we still need this?
+					// @Brian ? TODO: if we accept only explicit DOM references, do we still need this?
 					//else if (jQuery(a.root).length != 1) {
 					//	F2.log('AppConfig invalid for pre-load, root not unique');
 					//	F2.log('AppConfig instance:', a);
