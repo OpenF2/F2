@@ -592,8 +592,6 @@ F2.extend('', (function() {
 					childNode.classList.add(appConfigs[i].appId);
 					container.appendChild(childNode);
 
-					var working = jQuery('<div></div>').append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId)).html();
-
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
