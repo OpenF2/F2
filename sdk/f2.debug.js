@@ -13345,7 +13345,7 @@ var _ = window._.noConflict();
 
 
 /*!
- * F2 v2.0.0-alpha 06-18-2018
+ * F2 v2.0.0-alpha 06-28-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -15257,32 +15257,26 @@ F2.extend('', (function() {
 		}
 
 		var _findExistingScripts = function() {
-			// TODO: another one that breaks in non-live testing while being fine in live testing
-			//jQuery('script[src]').map(function(i, tag) {
-			//	return tag.src;
-			//});
-			var scripts = [];
+			var scripts = document.querySelectorAll('script[src]') || [];
+			var src = [];
 
-			document.querySelectorAll('script[src]').forEach(function(tag) {
-				scripts.push(tag.src);
-			});
+			for (var i = 0; i < scripts.length; i ++) {
+				console.info(scripts[i].src);
+				src.push(scripts[i].src);
+			}
 
-			return scripts;
+			return src;
 		};
 
 		var _findExistingStyles = function() {
-			// TODO: another one that breaks in non-live testing while being fine in live testing
-			// return jQuery('link[href]').map(function(i, tag) {
-			// return tag.href;
-			// });
+			var src = [];
+			var styles = document.querySelectorAll('link[href]') || [];
 
-			var styles = [];
+			for (var i = 0; i < styles.length; i ++) {
+				src.push(styles[i].src);
+			}
 
-			document.querySelectorAll('link[href]').forEach(function(tag) {
-				styles.push(tag.href);
-			});
-
-			return styles;
+			return src;
 		};
 
 		// Fn for loading manifest Styles
