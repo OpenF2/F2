@@ -89,7 +89,7 @@
           <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
           <li><a href="http://www.openf2.org/developers">Developers</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.5</span>&nbsp;<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v2.0.0-alpha</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="../../index.html">Getting Started</a></li>
               <li><a href="../../container-development.html">Container Development</a></li>
@@ -122,15 +122,8 @@
                   <li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
                   <li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
                   <li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
-                  <li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
                   <li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
-                  <li class="hidden"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
-                  <li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
                   <li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
-                  <li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
-                  <li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
-                  <li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
-                  <li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
             </ul>
           </div>
           <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
@@ -251,10 +244,7 @@
 	                                                    <a href="#" data-tabid="#properties" data-anchor="#property_height" data-tablink="height">height</a>
 	                                                </td>
 	                                                <td><p>The height of the app. The initial height will be pulled from
-	                the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
-	                modified by calling
-	                F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
-	                for secure apps to be able to set the initial height of the iframe.</p>
+	                the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object</p>
 	                </td>
 	                                            </tr>
 	                                            <tr class="index-item property">
@@ -264,17 +254,6 @@
 	                                                <td><p>The unique runtime ID of the app.</p>
 	                <p><strong>This property is populated during the
 	                F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item property">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#properties" data-anchor="#property_isSecure" data-tablink="isSecure">isSecure</a>
-	                                                </td>
-	                                                <td><p>True if the app will be loaded in an iframe. This property
-	                will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
-	                sets isSecure = true. It will also be true if the
-	                <a href="../../container-development.html">container</a> has made the decision to
-	                run apps in iframes.</p>
 	                </td>
 	                                            </tr>
 	                                            <tr class="index-item property">
@@ -340,26 +319,6 @@
 	                F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
 	                </td>
 	                                            </tr>
-	                                            <tr class="index-item property">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#properties" data-anchor="#property_ui" data-tablink="ui">ui</a>
-	                                                </td>
-	                                                <td><p>The instance of F2.UI providing easy access to F2.UI methods</p>
-	                <p><strong>This property is populated during the
-	                F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item property">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#properties" data-anchor="#property_views" data-tablink="views">views</a>
-	                                                </td>
-	                                                <td><p>The views that this app supports. Available views
-	                are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
-	                presence of a view can be checked via
-	                F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
-	                <pre><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)</code></pre>
-	                </td>
-	                                            </tr>
 	                                        </tbody>
 	                                    </table>
 	                                </div>
@@ -415,7 +374,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l93"><code>sdk\src\classes.js:93</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l79"><code>sdk\src\classes.js:79</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -516,10 +475,7 @@
 	                                    
 	                                        <div class="description">
 	                                            <p>The height of the app. The initial height will be pulled from
-	                                    the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object, but later
-	                                    modified by calling
-	                                    F2.UI.<a href="../classes/F2.UI.html#method_updateHeight" class="crosslink">updateHeight</a>. This is used
-	                                    for secure apps to be able to set the initial height of the iframe.</p>
+	                                    the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object</p>
 	                                    
 	                                        </div>
 	                                    
@@ -541,7 +497,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l73"><code>sdk\src\classes.js:73</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l70"><code>sdk\src\classes.js:70</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -554,40 +510,6 @@
 	                                    
 	                                        </div>
 	                                    
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="property_isSecure" class="property item">
-	                                        <h3>
-	                                            isSecure
-	                                    
-	                                            <span class="label type">Bool</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l82"><code>sdk\src\classes.js:82</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>True if the app will be loaded in an iframe. This property
-	                                    will be true if the <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object
-	                                    sets isSecure = true. It will also be true if the
-	                                    <a href="../../container-development.html">container</a> has made the decision to
-	                                    run apps in iframes.</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <p><span class="label label-default">Default:</span> <code>false</code></p>
 	                                    
 	                                    
 	                                        <hr>
@@ -606,7 +528,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l105"><code>sdk\src\classes.js:105</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l91"><code>sdk\src\classes.js:91</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -639,7 +561,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l116"><code>sdk\src\classes.js:116</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l102"><code>sdk\src\classes.js:102</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -669,7 +591,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l124"><code>sdk\src\classes.js:124</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l110"><code>sdk\src\classes.js:110</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -701,7 +623,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l133"><code>sdk\src\classes.js:133</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l119"><code>sdk\src\classes.js:119</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -734,7 +656,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l143"><code>sdk\src\classes.js:143</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l129"><code>sdk\src\classes.js:129</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -767,7 +689,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l153"><code>sdk\src\classes.js:153</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l139"><code>sdk\src\classes.js:139</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -796,7 +718,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l160"><code>sdk\src\classes.js:160</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l146"><code>sdk\src\classes.js:146</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -806,70 +728,6 @@
 	                                            <p>The root DOM element that contains the app</p>
 	                                    <p><strong>This property is populated during the
 	                                    F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
-	                                    
-	                                        </div>
-	                                    
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="property_ui" class="property item">
-	                                        <h3>
-	                                            ui
-	                                    
-	                                            <span class="label type"><a href="../classes/F2.UI.html" class="crosslink">F2.UI</a></span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l169"><code>sdk\src\classes.js:169</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>The instance of F2.UI providing easy access to F2.UI methods</p>
-	                                    <p><strong>This property is populated during the
-	                                    F2.<a href="../classes/F2.html#method_registerApps" class="crosslink">registerApps</a> process</strong></p>
-	                                    
-	                                        </div>
-	                                    
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="property_views" class="property item">
-	                                        <h3>
-	                                            views
-	                                    
-	                                            <span class="label type">Array</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l178"><code>sdk\src\classes.js:178</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>The views that this app supports. Available views
-	                                    are defined in <a href="../classes/F2.Constants.Views.html" class="crosslink">F2.Constants.Views</a>. The
-	                                    presence of a view can be checked via
-	                                    F2.<a href="../classes/F2.html#method_inArray" class="crosslink">inArray</a>:</p>
-	                                    <pre class="code prettyprint"><code>F2.inArray(F2.Constants.Views.SETTINGS, app.views)</code></pre>
 	                                    
 	                                        </div>
 	                                    
@@ -914,7 +772,7 @@
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.5</span><br/>Released&nbsp;<span></span>
+                <p>Current Version&nbsp;<span>2.0.0-alpha</span><br/>Released&nbsp;<span></span>
                 </p></a></div>
           </li>
           <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>

@@ -124,12 +124,11 @@ module.exports = function(grunt) {
 			dist: {
 				src: [
 					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json3.js',
+					'sdk/src/third-party/domify.js',
+					'sdk/src/third-party/lodash.custom.js',
 					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/bootstrap-modal.js',
+					'sdk/src/third-party/noconflict.js',
 					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
 					'<%= jshint.files %>',
 					'sdk/src/template/footer.js.tmpl'
 				],
@@ -142,54 +141,7 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.no-third-party.js'
-			},
-			'no-jquery-or-bootstrap': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json3.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.no-jquery-or-bootstrap.js'
-			},
-			'no-bootstrap': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json3.js',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'sdk/src/third-party/easyXDM/easyXDM.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.no-bootstrap.js'
-			},
-			'no-easyXDM': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json3.js',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/bootstrap-modal.js',
-					'sdk/src/third-party/jquery.noconflict.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.no-easyXDM.js'
-			},
-			'basic': { //reminiscent of F2 1.0, no secure apps and Container Provide must have jQuery & Bootstrap on page before F2.
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/json3.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/packages/f2.basic.js'
-			},
+			}
 		},
 		express: {
 			server: {
@@ -251,22 +203,6 @@ module.exports = function(grunt) {
 						return path.replace(grunt.config('sourcemap.options.prefix'), '').replace(/\.js$/, '.map');
 					}
 				}
-			},
-			'package-no-jquery-or-bootstrap': {
-				files: { 'sdk/packages/f2.no-jquery-or-bootstrap.min.js' : ['sdk/packages/f2.no-jquery-or-bootstrap.js'] },
-				options: { report: 'min' }
-			},
-			'package-no-bootstrap': {
-				files: { 'sdk/packages/f2.no-bootstrap.min.js' : ['sdk/packages/f2.no-bootstrap.js'] },
-				options: { report: 'min' }
-			},
-			'package-no-easyXDM': {
-				files: { 'sdk/packages/f2.no-easyXDM.min.js' : ['sdk/packages/f2.no-easyXDM.js'] },
-				options: { report: 'min' }
-			},
-			'package-basic': {
-				files: { 'sdk/packages/f2.basic.min.js' : ['sdk/packages/f2.basic.js'] },
-				options: { report: 'min' }
 			}
 		},
 		sourcemap: {
@@ -440,19 +376,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
-	grunt.registerTask('packages', [
-		'concat:no-jquery-or-bootstrap',
-		'concat:no-bootstrap',
-		'concat:no-easyXDM',
-		'concat:basic',
-		'uglify:package-no-jquery-or-bootstrap',
-		'uglify:package-no-bootstrap',
-		'uglify:package-no-easyXDM',
-		'uglify:package-basic'
-	]);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
 	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
-	grunt.registerTask('build', ['js', 'docs', 'zip', 'packages', 'nuget'])
+	grunt.registerTask('build', ['js', 'docs', 'zip', 'nuget'])
 };

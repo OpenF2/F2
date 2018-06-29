@@ -200,16 +200,6 @@ F2 = (function() {
 			return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
 		},
 		/**
-		 * Search for a value within an array.
-		 * @method inArray
-		 * @param {object} value The value to search for
-		 * @param {Array} array The array to search
-		 * @return {bool} True if the item is in the array
-		 */
-		inArray: function(value, array) {
-			return jQuery.inArray(value, array) > -1;
-		},
-		/**
 		 * Tests a URL to see if it's on the same domain (local) or not
 		 * @method isLocalRequest
 		 * @param {URL to test} url

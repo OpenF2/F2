@@ -43,38 +43,31 @@ F2.extend('AppHandlers', (function() {
 	var _handlerCollection = {
 		appManifestRequestFail: [],
 		appCreateRoot: [],
-		appRenderBefore: [],			
+		appRenderBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
 		appDestroy: [],
-		appScriptLoadFailed: []		
+		appScriptLoadFailed: []
 	};
 	
 	var _defaultMethods = {
 		appRender: function(appConfig, appHtml)
 		{
-			var $root = null;
-			
 			// if no app root is defined use the app's outer most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
-				appConfig.root = jQuery(appHtml).get(0);
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);				
+				appConfig.root = domify(appHtml);
 			}
 			else
 			{
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);			
-				
 				// append the app html to the root
-				$root.append(appHtml);
-			}			
+				appConfig.root.appendChild(domify(appHtml));
+			}
 			
 			// append the root to the body by default.
-			jQuery('body').append($root);
+			document.body.appendChild(appConfig.root);
 		},
 		appDestroy: function(appInstance)
 		{
@@ -88,23 +81,21 @@ F2.extend('AppHandlers', (function() {
 			{
 				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 			}
-			
-			// fade out and remove the root
-			jQuery(appInstance.config.root).fadeOut(500, function() {
-				jQuery(this).remove();
-			});
+
+			// remove the root
+			appInstance.config.root.parentNode.removeChild(appInstance.config.root);
 		}
 	};
 	
 	var _createHandler = function(token, sNamespace, func_or_element, bDomNodeAppropriate)
 	{	
 		// will throw an exception and stop execution if the token is invalid
-		_validateToken(token);			
+		_validateToken(token);
 		
 		// create handler structure. Not all arguments properties will be populated/used.
 		var handler = {
 			func: (typeof(func_or_element)) ? func_or_element : null,
-			namespace: sNamespace,			
+			namespace: sNamespace,
 			domNode: (F2.isNativeDOMNode(func_or_element)) ? func_or_element : null
 		};
 		
@@ -263,15 +254,15 @@ F2.extend('AppHandlers', (function() {
 					// appRender where root is already defined
 					if (handler.domNode && arguments[2] && arguments[2].root && arguments[3])
 					{
-						var $appRoot = jQuery(arguments[2].root).append(arguments[3]);
-						jQuery(handler.domNode).append($appRoot);
+						arguments[2].root.appendChild(domify(arguments[3]));
+						handler.domNode.appendChild(arguments[2].root);
 					}
 					else if (handler.domNode && arguments[2] && !arguments[2].root && arguments[3])
 					{
 						// set the root to the actual HTML of the app
-						arguments[2].root = jQuery(arguments[3]).get(0);
+						arguments[2].root = domify(arguments[3]);
 						// appends the root to the dom node specified
-						jQuery(handler.domNode).append(arguments[2].root);
+						handler.domNode.appendChild(arguments[2].root);
 					}
 					else
 					{
@@ -464,7 +455,7 @@ F2.extend('Constants', {
 			*		{
 			*			// If you want to create a custom root. By default F2 uses the app's outermost HTML element.
 			*			// the app's html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
-			*			appConfig.root = jQuery('<section></section>').get(0);
+			*			appConfig.root = document.createElement('section');
 			*		}
 			*	);
 			*/
@@ -498,34 +489,7 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	var _token = F2.AppHandlers.getToken();
-			*	F2.AppHandlers.on(
-			*		_token,
-			*		F2.Constants.AppHandlers.APP_RENDER,
-			*		function(appConfig, appHtml)
-			*		{
-			*			var $root = null;
-			*
-			*			// if no app root is defined use the app's outer most node
-			*			if(!F2.isNativeDOMNode(appConfig.root))
-			*			{
-			*				appConfig.root = jQuery(appHtml).get(0);
-			*				// get a handle on the root in jQuery
-			*				$root = jQuery(appConfig.root);				
-			*			}
-			*			else
-			*			{
-			*				// get a handle on the root in jQuery
-			*				$root = jQuery(appConfig.root);			
-			*				
-			*				// append the app html to the root
-			*				$root.append(appHtml);
-			*			}			
-			*			
-			*			// append the root to the body by default.
-			*			jQuery('body').append($root);
-			*		}
-			*	);
+			*	TODO: WRITE $QUERYLESS EXAMPLE
 			*/		
 			APP_RENDER: 'appRender',
 			/**
@@ -577,28 +541,7 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	var _token = F2.AppHandlers.getToken();
-			*	F2.AppHandlers.on(
-			*		_token,
-			*		F2.Constants.AppHandlers.APP_DESTROY,
-			*		function(appInstance)
-			*		{
-			*			// call the apps destroy method, if it has one
-			*			if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')
-			*			{
-			*				appInstance.app.destroy();
-			*			}
-			*			else if(appInstance && appInstance.app && appInstance.app.destroy)
-			*			{
-			*				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
-			*			}
-			*			
-			*			// fade out and remove the root
-			*			jQuery(appInstance.config.root).fadeOut(500, function() {
-			*				jQuery(this).remove();
-			*			});
-			*		}
-			*	);
+			*	TODO: WRITE $QUERYLESS EXAMPLE
 			*/		
 			APP_DESTROY: 'appDestroy',
 			/**
@@ -610,15 +553,7 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	var _token = F2.AppHandlers.getToken();
-			*	F2.AppHandlers.on(
-			*		_token,
-			*		F2.Constants.AppHandlers.APP_DESTROY_AFTER,
-			*		function(appInstance)
-			*		{
-			*			F2.log(appInstance);
-			*		}
-			*	);
+			*	TODO: WRITE $QUERYLESS EXAMPLE
 			*/
 			APP_DESTROY_AFTER: 'appDestroyAfter',
 			/**

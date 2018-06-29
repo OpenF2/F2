@@ -91,7 +91,7 @@
           <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
           <li><a href="http://www.openf2.org/developers">Developers</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.5</span>&nbsp;<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v2.0.0-alpha</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="index.html">Getting Started</a></li>
               <li><a href="container-development.html">Container Development</a></li>
@@ -139,10 +139,10 @@
 <h2 class="link-header" id="f2-js">F2.js<a class="anchor" href="#f2-js"><span>#</span></a></h2><p>F2 is an open framework and to get Container and App Developers started, there is a JavaScript SDK&mdash;called F2.js&mdash;in addition to example apps as part of an open-source project maintained on <a href="https://github.com/OpenF2/F2/">GitHub</a>.</p>
 <hr>
 <h2 class="link-header" id="download">Download<a class="anchor" href="#download"><span>#</span></a></h2><p>Anyone is free to download F2.js from the <a href="https://github.com/OpenF2/F2/">F2 project repository on GitHub</a>. Once downloaded, F2.js can be added to any web page using a script tag:</p>
-<pre><code class="lang-javascript">&lt;script src=<span class="hljs-string">"//cdnjs.cloudflare.com/ajax/libs/F2/1.4.5/f2.min.js"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+<pre><code class="lang-javascript">&lt;script src=<span class="hljs-string">"//cdnjs.cloudflare.com/ajax/libs/F2/2.0.0-alpha/f2.min.js"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
 </code></pre>
-<p>The latest version of F2.js is <strong>1.4.5</strong>.</p>
-<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js 1.4.5</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small btn-default" target="_blank">View on GitHub</a></p>
+<p>The latest version of F2.js is <strong>2.0.0-alpha</strong>.</p>
+<p><a href="https://raw.github.com/OpenF2/F2/master/F2.latest.js" class="btn btn-primary btn-small">Download F2.js 2.0.0-alpha</a> <a href="https://github.com/OpenF2/F2/" class="btn btn-small btn-default" target="_blank">View on GitHub</a></p>
 
 <h3 class="link-header" id="packages">Packages<a class="anchor" href="#packages"><span>#</span></a></h3><p>Packages are variants of F2.js. They are ideally used when, for example, a container already has jQuery or <a href="app-development.html#secure-apps">sandboxed apps</a> aren’t needed. In circumstances where not all F2 features are required, Container Providers can use smaller, faster, lighter-weight versions of F2.js. Choose one below:</p>
 <ul>
@@ -183,11 +183,11 @@
 <hr>
 <h2 class="link-header" id="upgrading">Upgrading<a class="anchor" href="#upgrading"><span>#</span></a></h2><p>It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. The details from each release of F2, minor and major, are tracked in the <a href="https://github.com/OpenF2/F2/wiki/Changelog">changelog</a>. As of version 1.2, no breaking changes have been introduced and therefore upgrading should be as simple as <a href="https://raw.github.com/OpenF2/F2/master/sdk/f2.min.js">downloading the latest copy of F2.js</a> and updating your website.</p>
 <p>Developers can quick-link to the latest copy of F2.js:</p>
-<p><code>//cdnjs.cloudflare.com/ajax/libs/F2/1.4.5/f2.min.js</code></p>
-<p>A download (<a href="https://github.com/OpenF2/F2/zipball/master">zip</a>) of the current version (1.4.5) of F2 is always available along with <a href="https://github.com/OpenF2/F2/releases">tags of previous releases</a>.</p>
+<p><code>//cdnjs.cloudflare.com/ajax/libs/F2/2.0.0-alpha/f2.min.js</code></p>
+<p>A download (<a href="https://github.com/OpenF2/F2/zipball/master">zip</a>) of the current version (2.0.0-alpha) of F2 is always available along with <a href="https://github.com/OpenF2/F2/releases">tags of previous releases</a>.</p>
 <h3 class="link-header" id="deprecated-features">Deprecated Features<a class="anchor" href="#deprecated-features"><span>#</span></a></h3><p>There is a page on the wiki <a href="https://github.com/OpenF2/F2/wiki/F2.js-Deprecated">tracking deprecated features in F2</a>. Starting with version 1.2, three <code>ContainerConfig</code> properties have been retired. As F2 features and/or F2.js APIs are deprecated, we will attempt to give reasonable advance notice via any or all of the F2 <a href="https://github.com/OpenF2/F2/blob/master/CONTRIBUTING.md#keep-in-touch">communication channels</a>. In addition, we will strive to ensure that backward compatibility will be maintained for at least one major version of F2. For example, if <code>Feature X</code> is deprecated in version <code>1.3</code>, we will attempt to maintain backward compatibility until the next major release (version <code>2.0</code>). F2 documentation will be updated accordingly to reflect any changes, and the conversation behind deprecated features will be publicly <a href="https://github.com/OpenF2/F2/issues">available on GitHub</a>.</p>
 <h3 class="link-header" id="third-party-libraries">Third Party Libraries<a class="anchor" href="#third-party-libraries"><span>#</span></a></h3><p>F2 uses third party libraries inside F2.js (see <a href="http://docs.openf2.org/#choices">Framework: Choices</a>). These open-source libraries are all on their own release schedules. We cannot guarantee that we will always stay abreast and in tune with such latest releases, but in an effort to improve the F2 framework, we will attempt to update F2.js so that it uses the latest, most stable and most secure version of the third party software. These updates to F2 will be made through the normal release process on GitHub and comments will be open.</p>
-<h2 class="link-header" id="issues-enhancements-bugs">Issues, Enhancements, Bugs<a class="anchor" href="#issues-enhancements-bugs"><span>#</span></a></h2><p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a> (or send an email to <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#79;&#x70;&#101;&#110;&#70;&#50;&#x40;&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#x72;&#111;&#117;&#x70;&#115;&#46;&#x63;&#x6f;&#x6d;">&#79;&#x70;&#101;&#110;&#70;&#50;&#x40;&#x67;&#x6f;&#x6f;&#x67;&#108;&#x65;&#x67;&#x72;&#111;&#117;&#x70;&#115;&#46;&#x63;&#x6f;&#x6d;</a>) or start a discussion using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>. </p>
+<h2 class="link-header" id="issues-enhancements-bugs">Issues, Enhancements, Bugs<a class="anchor" href="#issues-enhancements-bugs"><span>#</span></a></h2><p>Have a question? Ask it on the <a href="https://groups.google.com/forum/#!forum/OpenF2">F2 Google Group</a> (or send an email to <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#x4f;&#x70;&#x65;&#110;&#70;&#50;&#x40;&#103;&#111;&#x6f;&#103;&#108;&#x65;&#103;&#114;&#111;&#x75;&#112;&#x73;&#46;&#x63;&#111;&#x6d;">&#x4f;&#x70;&#x65;&#110;&#70;&#50;&#x40;&#103;&#111;&#x6f;&#103;&#108;&#x65;&#103;&#114;&#111;&#x75;&#112;&#x73;&#46;&#x63;&#111;&#x6d;</a>) or start a discussion using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>. </p>
 <p>To track bugs, enhancements or other issues, F2 is using <a href="https://github.com/OpenF2/F2/issues">Issues on GitHub</a>.</p>
 <hr>
 <h2 class="link-header" id="license">License<a class="anchor" href="#license"><span>#</span></a></h2><p>F2 is licensed under the Apache License version 2.0. Details are available in the <a href="https://github.com/OpenF2/F2#copyright-and-license">project readme</a>.</p>
@@ -223,7 +223,7 @@
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.5</span><br/>Released&nbsp;<span>2 March 2018</span>
+                <p>Current Version&nbsp;<span>2.0.0-alpha</span><br/>Released&nbsp;<span>2 March 2018</span>
                 </p></a></div>
           </li>
           <li> <a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>

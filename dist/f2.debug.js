@@ -4,908 +4,2406 @@
 		return;
 	}
 
-/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
-;(function () {
-  // Detect the `define` function exposed by asynchronous module loaders. The
-  // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = typeof define === "function" && define.amd;
+/*
+Copyright (c) 2016 http://component.github.io/
 
-  // A set of types used to distinguish objects from primitives.
-  var objectTypes = {
-    "function": true,
-    "object": true
-  };
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-  // Detect the `exports` object exposed by CommonJS implementations.
-  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-  // Use the `global` object exposed by Node (including Browserify via
-  // `insert-module-globals`), Narwhal, and Ringo as the default context,
-  // and the `window` object in browsers. Rhino exports a `global` function
-  // instead.
-  var root = objectTypes[typeof window] && window || this,
-      freeGlobal = freeExports && objectTypes[typeof module] && module && !module.nodeType && typeof global == "object" && global;
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
-  if (freeGlobal && (freeGlobal["global"] === freeGlobal || freeGlobal["window"] === freeGlobal || freeGlobal["self"] === freeGlobal)) {
-    root = freeGlobal;
-  }
 
-  // Public: Initializes JSON 3 using the given `context` object, attaching the
-  // `stringify` and `parse` functions to the specified `exports` object.
-  function runInContext(context, exports) {
-    context || (context = root["Object"]());
-    exports || (exports = root["Object"]());
+ ;!function(exports, undefined) {
+	/**
+	 * Tests for browser support.
+	 */
 
-    // Native constructor aliases.
-    var Number = context["Number"] || root["Number"],
-        String = context["String"] || root["String"],
-        Object = context["Object"] || root["Object"],
-        Date = context["Date"] || root["Date"],
-        SyntaxError = context["SyntaxError"] || root["SyntaxError"],
-        TypeError = context["TypeError"] || root["TypeError"],
-        Math = context["Math"] || root["Math"],
-        nativeJSON = context["JSON"] || root["JSON"];
+	var innerHTMLBug = false;
+	var bugTestDiv;
+	if (typeof document !== 'undefined') {
+	  bugTestDiv = document.createElement('div');
+	  // Setup
+	  bugTestDiv.innerHTML = '  <link/><table></table><a href="/a">a</a><input type="checkbox"/>';
+	  // Make sure that link elements get serialized correctly by innerHTML
+	  // This requires a wrapper element in IE
+	  innerHTMLBug = !bugTestDiv.getElementsByTagName('link').length;
+	  bugTestDiv = undefined;
+	}
 
-    // Delegate to the native `stringify` and `parse` implementations.
-    if (typeof nativeJSON == "object" && nativeJSON) {
-      exports.stringify = nativeJSON.stringify;
-      exports.parse = nativeJSON.parse;
-    }
+	/**
+	 * Wrap map from jquery.
+	 */
 
-    // Convenience aliases.
-    var objectProto = Object.prototype,
-        getClass = objectProto.toString,
-        isProperty, forEach, undef;
+	var map = {
+	  legend: [1, '<fieldset>', '</fieldset>'],
+	  tr: [2, '<table><tbody>', '</tbody></table>'],
+	  col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
+	  // for script/link/style tags to work in IE6-8, you have to wrap
+	  // in a div with a non-whitespace character in front, ha!
+	  _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']
+	};
 
-    // Test the `Date#getUTC*` methods. Based on work by @Yaffle.
-    var isExtended = new Date(-3509827334573292);
+	map.td =
+	map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+
+	map.option =
+	map.optgroup = [1, '<select multiple="multiple">', '</select>'];
+
+	map.thead =
+	map.tbody =
+	map.colgroup =
+	map.caption =
+	map.tfoot = [1, '<table>', '</table>'];
+
+	map.polyline =
+	map.ellipse =
+	map.polygon =
+	map.circle =
+	map.text =
+	map.line =
+	map.path =
+	map.rect =
+	map.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
+
+	/**
+	 * Parse `html` and return a DOM Node instance, which could be a TextNode,
+	 * HTML DOM Node of some kind (<div> for example), or a DocumentFragment
+	 * instance, depending on the contents of the `html` string.
+	 *
+	 * @param {String} html - HTML string to "domify"
+	 * @param {Document} doc - The `document` instance to create the Node for
+	 * @return {DOMNode} the TextNode, DOM Node, or DocumentFragment instance
+	 * @api private
+	 */
+
+	function parse(html, doc) {
+	  if ('string' != typeof html) throw new TypeError('String expected, got ' + typeof html);
+
+	  // default to the global `document` object
+	  if (!doc) doc = document;
+
+	  // tag name
+	  var m = /<([\w:]+)/.exec(html);
+	  if (!m) return doc.createTextNode(html);
+
+	  html = html.replace(/^\s+|\s+$/g, ''); // Remove leading/trailing whitespace
+
+	  var tag = m[1];
+
+	  // body support
+	  if (tag == 'body') {
+	    var el = doc.createElement('html');
+	    el.innerHTML = html;
+	    return el.removeChild(el.lastChild);
+	  }
+
+	  // wrap map
+	  var wrap = map[tag] || map._default;
+	  var depth = wrap[0];
+	  var prefix = wrap[1];
+	  var suffix = wrap[2];
+	  var el = doc.createElement('div');
+	  el.innerHTML = prefix + html + suffix;
+	  while (depth--) el = el.lastChild;
+
+	  // one element
+	  if (el.firstChild == el.lastChild) {
+	    return el.removeChild(el.firstChild);
+	  }
+
+	  // several elements
+	  var fragment = doc.createDocumentFragment();
+	  while (el.firstChild) {
+	    fragment.appendChild(el.removeChild(el.firstChild));
+	  }
+
+	  return fragment;
+	}
+
+	exports.domify = parse; 
+
+}(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
+
+/**
+ * @license
+ * Lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash include="cloneDeep,noConflict" exports="global"`
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+;(function() {
+
+  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+  var undefined;
+
+  /** Used as the semantic version number. */
+  var VERSION = '4.17.5';
+
+  /** Used as the size to enable large array optimizations. */
+  var LARGE_ARRAY_SIZE = 200;
+
+  /** Used to stand-in for `undefined` hash values. */
+  var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+  /** Used to compose bitmasks for cloning. */
+  var CLONE_DEEP_FLAG = 1,
+      CLONE_FLAT_FLAG = 2,
+      CLONE_SYMBOLS_FLAG = 4;
+
+  /** Used as references for various `Number` constants. */
+  var MAX_SAFE_INTEGER = 9007199254740991;
+
+  /** `Object#toString` result references. */
+  var argsTag = '[object Arguments]',
+      arrayTag = '[object Array]',
+      asyncTag = '[object AsyncFunction]',
+      boolTag = '[object Boolean]',
+      dateTag = '[object Date]',
+      errorTag = '[object Error]',
+      funcTag = '[object Function]',
+      genTag = '[object GeneratorFunction]',
+      mapTag = '[object Map]',
+      numberTag = '[object Number]',
+      nullTag = '[object Null]',
+      objectTag = '[object Object]',
+      promiseTag = '[object Promise]',
+      proxyTag = '[object Proxy]',
+      regexpTag = '[object RegExp]',
+      setTag = '[object Set]',
+      stringTag = '[object String]',
+      symbolTag = '[object Symbol]',
+      undefinedTag = '[object Undefined]',
+      weakMapTag = '[object WeakMap]';
+
+  var arrayBufferTag = '[object ArrayBuffer]',
+      dataViewTag = '[object DataView]',
+      float32Tag = '[object Float32Array]',
+      float64Tag = '[object Float64Array]',
+      int8Tag = '[object Int8Array]',
+      int16Tag = '[object Int16Array]',
+      int32Tag = '[object Int32Array]',
+      uint8Tag = '[object Uint8Array]',
+      uint8ClampedTag = '[object Uint8ClampedArray]',
+      uint16Tag = '[object Uint16Array]',
+      uint32Tag = '[object Uint32Array]';
+
+  /**
+   * Used to match `RegExp`
+   * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+   */
+  var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+  /** Used to match `RegExp` flags from their coerced string values. */
+  var reFlags = /\w*$/;
+
+  /** Used to detect host constructors (Safari). */
+  var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+  /** Used to detect unsigned integer values. */
+  var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+  /** Used to identify `toStringTag` values of typed arrays. */
+  var typedArrayTags = {};
+  typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+  typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+  typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+  typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+  typedArrayTags[uint32Tag] = true;
+  typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+  typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+  typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+  typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+  typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+  typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+  typedArrayTags[setTag] = typedArrayTags[stringTag] =
+  typedArrayTags[weakMapTag] = false;
+
+  /** Used to identify `toStringTag` values supported by `_.clone`. */
+  var cloneableTags = {};
+  cloneableTags[argsTag] = cloneableTags[arrayTag] =
+  cloneableTags[arrayBufferTag] = cloneableTags[dataViewTag] =
+  cloneableTags[boolTag] = cloneableTags[dateTag] =
+  cloneableTags[float32Tag] = cloneableTags[float64Tag] =
+  cloneableTags[int8Tag] = cloneableTags[int16Tag] =
+  cloneableTags[int32Tag] = cloneableTags[mapTag] =
+  cloneableTags[numberTag] = cloneableTags[objectTag] =
+  cloneableTags[regexpTag] = cloneableTags[setTag] =
+  cloneableTags[stringTag] = cloneableTags[symbolTag] =
+  cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
+  cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
+  cloneableTags[errorTag] = cloneableTags[funcTag] =
+  cloneableTags[weakMapTag] = false;
+
+  /** Detect free variable `global` from Node.js. */
+  var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+  /** Detect free variable `self`. */
+  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+  /** Used as a reference to the global object. */
+  var root = freeGlobal || freeSelf || Function('return this')();
+
+  /** Detect free variable `exports`. */
+  var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+  /** Detect free variable `module`. */
+  var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+  /** Detect the popular CommonJS extension `module.exports`. */
+  var moduleExports = freeModule && freeModule.exports === freeExports;
+
+  /** Detect free variable `process` from Node.js. */
+  var freeProcess = moduleExports && freeGlobal.process;
+
+  /** Used to access faster Node.js helpers. */
+  var nodeUtil = (function() {
     try {
-      // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
-      // results for certain dates in Opera >= 10.53.
-      isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
-        // Safari < 2.0.2 stores the internal millisecond time value correctly,
-        // but clips the values returned by the date methods to the range of
-        // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
-        isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;
-    } catch (exception) {}
+      return freeProcess && freeProcess.binding && freeProcess.binding('util');
+    } catch (e) {}
+  }());
 
-    // Internal: Determines whether the native `JSON.stringify` and `parse`
-    // implementations are spec-compliant. Based on work by Ken Snyder.
-    function has(name) {
-      if (has[name] !== undef) {
-        // Return cached feature test result.
-        return has[name];
-      }
-      var isSupported;
-      if (name == "bug-string-char-index") {
-        // IE <= 7 doesn't support accessing string characters using square
-        // bracket notation. IE 8 only supports this for primitives.
-        isSupported = "a"[0] != "a";
-      } else if (name == "json") {
-        // Indicates whether both `JSON.stringify` and `JSON.parse` are
-        // supported.
-        isSupported = has("json-stringify") && has("json-parse");
-      } else {
-        var value, serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}';
-        // Test `JSON.stringify`.
-        if (name == "json-stringify") {
-          var stringify = exports.stringify, stringifySupported = typeof stringify == "function" && isExtended;
-          if (stringifySupported) {
-            // A test function object with a custom `toJSON` method.
-            (value = function () {
-              return 1;
-            }).toJSON = value;
-            try {
-              stringifySupported =
-                // Firefox 3.1b1 and b2 serialize string, number, and boolean
-                // primitives as object literals.
-                stringify(0) === "0" &&
-                // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
-                // literals.
-                stringify(new Number()) === "0" &&
-                stringify(new String()) == '""' &&
-                // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
-                // does not define a canonical JSON representation (this applies to
-                // objects with `toJSON` properties as well, *unless* they are nested
-                // within an object or array).
-                stringify(getClass) === undef &&
-                // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
-                // FF 3.1b3 pass this test.
-                stringify(undef) === undef &&
-                // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
-                // respectively, if the value is omitted entirely.
-                stringify() === undef &&
-                // FF 3.1b1, 2 throw an error if the given value is not a number,
-                // string, array, object, Boolean, or `null` literal. This applies to
-                // objects with custom `toJSON` methods as well, unless they are nested
-                // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
-                // methods entirely.
-                stringify(value) === "1" &&
-                stringify([value]) == "[1]" &&
-                // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
-                // `"[null]"`.
-                stringify([undef]) == "[null]" &&
-                // YUI 3.0.0b1 fails to serialize `null` literals.
-                stringify(null) == "null" &&
-                // FF 3.1b1, 2 halts serialization if an array contains a function:
-                // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
-                // elides non-JSON values from objects and arrays, unless they
-                // define custom `toJSON` methods.
-                stringify([undef, getClass, null]) == "[null,null,null]" &&
-                // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
-                // where character escape codes are expected (e.g., `\b` => `\u0008`).
-                stringify({ "a": [value, true, false, null, "\x00\b\n\f\r\t"] }) == serialized &&
-                // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
-                stringify(null, value) === "1" &&
-                stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
-                // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
-                // serialize extended years.
-                stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
-                // The milliseconds are optional in ES 5, but required in 5.1.
-                stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
-                // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
-                // four-digit years instead of six-digit years. Credits: @Yaffle.
-                stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
-                // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
-                // values less than 1000. Credits: @Yaffle.
-                stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
-            } catch (exception) {
-              stringifySupported = false;
-            }
-          }
-          isSupported = stringifySupported;
-        }
-        // Test `JSON.parse`.
-        if (name == "json-parse") {
-          var parse = exports.parse;
-          if (typeof parse == "function") {
-            try {
-              // FF 3.1b1, b2 will throw an exception if a bare literal is provided.
-              // Conforming implementations should also coerce the initial argument to
-              // a string prior to parsing.
-              if (parse("0") === 0 && !parse(false)) {
-                // Simple parsing test.
-                value = parse(serialized);
-                var parseSupported = value["a"].length == 5 && value["a"][0] === 1;
-                if (parseSupported) {
-                  try {
-                    // Safari <= 5.1.2 and FF 3.1b1 allow unescaped tabs in strings.
-                    parseSupported = !parse('"\t"');
-                  } catch (exception) {}
-                  if (parseSupported) {
-                    try {
-                      // FF 4.0 and 4.0.1 allow leading `+` signs and leading
-                      // decimal points. FF 4.0, 4.0.1, and IE 9-10 also allow
-                      // certain octal literals.
-                      parseSupported = parse("01") !== 1;
-                    } catch (exception) {}
-                  }
-                  if (parseSupported) {
-                    try {
-                      // FF 4.0, 4.0.1, and Rhino 1.7R3-R4 allow trailing decimal
-                      // points. These environments, along with FF 3.1b1 and 2,
-                      // also allow trailing commas in JSON objects and arrays.
-                      parseSupported = parse("1.") !== 1;
-                    } catch (exception) {}
-                  }
-                }
-              }
-            } catch (exception) {
-              parseSupported = false;
-            }
-          }
-          isSupported = parseSupported;
-        }
-      }
-      return has[name] = !!isSupported;
-    }
+  /* Node.js helper references. */
+  var nodeIsMap = nodeUtil && nodeUtil.isMap,
+      nodeIsSet = nodeUtil && nodeUtil.isSet,
+      nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
 
-    if (!has("json")) {
-      // Common `[[Class]]` name aliases.
-      var functionClass = "[object Function]",
-          dateClass = "[object Date]",
-          numberClass = "[object Number]",
-          stringClass = "[object String]",
-          arrayClass = "[object Array]",
-          booleanClass = "[object Boolean]";
+  /*--------------------------------------------------------------------------*/
 
-      // Detect incomplete support for accessing string characters by index.
-      var charIndexBuggy = has("bug-string-char-index");
+  /**
+   * A specialized version of `_.forEach` for arrays without support for
+   * iteratee shorthands.
+   *
+   * @private
+   * @param {Array} [array] The array to iterate over.
+   * @param {Function} iteratee The function invoked per iteration.
+   * @returns {Array} Returns `array`.
+   */
+  function arrayEach(array, iteratee) {
+    var index = -1,
+        length = array == null ? 0 : array.length;
 
-      // Define additional utility methods if the `Date` methods are buggy.
-      if (!isExtended) {
-        var floor = Math.floor;
-        // A mapping between the months of the year and the number of days between
-        // January 1st and the first of the respective month.
-        var Months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-        // Internal: Calculates the number of days between the Unix epoch and the
-        // first day of the given month.
-        var getDay = function (year, month) {
-          return Months[month] + 365 * (year - 1970) + floor((year - 1969 + (month = +(month > 1))) / 4) - floor((year - 1901 + month) / 100) + floor((year - 1601 + month) / 400);
-        };
-      }
-
-      // Internal: Determines if a property is a direct property of the given
-      // object. Delegates to the native `Object#hasOwnProperty` method.
-      if (!(isProperty = objectProto.hasOwnProperty)) {
-        isProperty = function (property) {
-          var members = {}, constructor;
-          if ((members.__proto__ = null, members.__proto__ = {
-            // The *proto* property cannot be set multiple times in recent
-            // versions of Firefox and SeaMonkey.
-            "toString": 1
-          }, members).toString != getClass) {
-            // Safari <= 2.0.3 doesn't implement `Object#hasOwnProperty`, but
-            // supports the mutable *proto* property.
-            isProperty = function (property) {
-              // Capture and break the object's prototype chain (see section 8.6.2
-              // of the ES 5.1 spec). The parenthesized expression prevents an
-              // unsafe transformation by the Closure Compiler.
-              var original = this.__proto__, result = property in (this.__proto__ = null, this);
-              // Restore the original prototype chain.
-              this.__proto__ = original;
-              return result;
-            };
-          } else {
-            // Capture a reference to the top-level `Object` constructor.
-            constructor = members.constructor;
-            // Use the `constructor` property to simulate `Object#hasOwnProperty` in
-            // other environments.
-            isProperty = function (property) {
-              var parent = (this.constructor || constructor).prototype;
-              return property in this && !(property in parent && this[property] === parent[property]);
-            };
-          }
-          members = null;
-          return isProperty.call(this, property);
-        };
-      }
-
-      // Internal: Normalizes the `for...in` iteration algorithm across
-      // environments. Each enumerated key is yielded to a `callback` function.
-      forEach = function (object, callback) {
-        var size = 0, Properties, members, property;
-
-        // Tests for bugs in the current environment's `for...in` algorithm. The
-        // `valueOf` property inherits the non-enumerable flag from
-        // `Object.prototype` in older versions of IE, Netscape, and Mozilla.
-        (Properties = function () {
-          this.valueOf = 0;
-        }).prototype.valueOf = 0;
-
-        // Iterate over a new instance of the `Properties` class.
-        members = new Properties();
-        for (property in members) {
-          // Ignore all properties inherited from `Object.prototype`.
-          if (isProperty.call(members, property)) {
-            size++;
-          }
-        }
-        Properties = members = null;
-
-        // Normalize the iteration algorithm.
-        if (!size) {
-          // A list of non-enumerable properties inherited from `Object.prototype`.
-          members = ["valueOf", "toString", "toLocaleString", "propertyIsEnumerable", "isPrototypeOf", "hasOwnProperty", "constructor"];
-          // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
-          // properties.
-          forEach = function (object, callback) {
-            var isFunction = getClass.call(object) == functionClass, property, length;
-            var hasProperty = !isFunction && typeof object.constructor != "function" && objectTypes[typeof object.hasOwnProperty] && object.hasOwnProperty || isProperty;
-            for (property in object) {
-              // Gecko <= 1.0 enumerates the `prototype` property of functions under
-              // certain conditions; IE does not.
-              if (!(isFunction && property == "prototype") && hasProperty.call(object, property)) {
-                callback(property);
-              }
-            }
-            // Manually invoke the callback for each non-enumerable property.
-            for (length = members.length; property = members[--length]; hasProperty.call(object, property) && callback(property));
-          };
-        } else if (size == 2) {
-          // Safari <= 2.0.4 enumerates shadowed properties twice.
-          forEach = function (object, callback) {
-            // Create a set of iterated properties.
-            var members = {}, isFunction = getClass.call(object) == functionClass, property;
-            for (property in object) {
-              // Store each property name to prevent double enumeration. The
-              // `prototype` property of functions is not enumerated due to cross-
-              // environment inconsistencies.
-              if (!(isFunction && property == "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
-                callback(property);
-              }
-            }
-          };
-        } else {
-          // No bugs detected; use the standard `for...in` algorithm.
-          forEach = function (object, callback) {
-            var isFunction = getClass.call(object) == functionClass, property, isConstructor;
-            for (property in object) {
-              if (!(isFunction && property == "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
-                callback(property);
-              }
-            }
-            // Manually invoke the callback for the `constructor` property due to
-            // cross-environment inconsistencies.
-            if (isConstructor || isProperty.call(object, (property = "constructor"))) {
-              callback(property);
-            }
-          };
-        }
-        return forEach(object, callback);
-      };
-
-      // Public: Serializes a JavaScript `value` as a JSON string. The optional
-      // `filter` argument may specify either a function that alters how object and
-      // array members are serialized, or an array of strings and numbers that
-      // indicates which properties should be serialized. The optional `width`
-      // argument may be either a string or number that specifies the indentation
-      // level of the output.
-      if (!has("json-stringify")) {
-        // Internal: A map of control characters and their escaped equivalents.
-        var Escapes = {
-          92: "\\\\",
-          34: '\\"',
-          8: "\\b",
-          12: "\\f",
-          10: "\\n",
-          13: "\\r",
-          9: "\\t"
-        };
-
-        // Internal: Converts `value` into a zero-padded string such that its
-        // length is at least equal to `width`. The `width` must be <= 6.
-        var leadingZeroes = "000000";
-        var toPaddedString = function (width, value) {
-          // The `|| 0` expression is necessary to work around a bug in
-          // Opera <= 7.54u2 where `0 == -0`, but `String(-0) !== "0"`.
-          return (leadingZeroes + (value || 0)).slice(-width);
-        };
-
-        // Internal: Double-quotes a string `value`, replacing all ASCII control
-        // characters (characters with code unit values between 0 and 31) with
-        // their escaped equivalents. This is an implementation of the
-        // `Quote(value)` operation defined in ES 5.1 section 15.12.3.
-        var unicodePrefix = "\\u00";
-        var quote = function (value) {
-          var result = '"', index = 0, length = value.length, useCharIndex = !charIndexBuggy || length > 10;
-          var symbols = useCharIndex && (charIndexBuggy ? value.split("") : value);
-          for (; index < length; index++) {
-            var charCode = value.charCodeAt(index);
-            // If the character is a control character, append its Unicode or
-            // shorthand escape sequence; otherwise, append the character as-is.
-            switch (charCode) {
-              case 8: case 9: case 10: case 12: case 13: case 34: case 92:
-                result += Escapes[charCode];
-                break;
-              default:
-                if (charCode < 32) {
-                  result += unicodePrefix + toPaddedString(2, charCode.toString(16));
-                  break;
-                }
-                result += useCharIndex ? symbols[index] : value.charAt(index);
-            }
-          }
-          return result + '"';
-        };
-
-        // Internal: Recursively serializes an object. Implements the
-        // `Str(key, holder)`, `JO(value)`, and `JA(value)` operations.
-        var serialize = function (property, object, callback, properties, whitespace, indentation, stack) {
-          var value, className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, result;
-          try {
-            // Necessary for host object support.
-            value = object[property];
-          } catch (exception) {}
-          if (typeof value == "object" && value) {
-            className = getClass.call(value);
-            if (className == dateClass && !isProperty.call(value, "toJSON")) {
-              if (value > -1 / 0 && value < 1 / 0) {
-                // Dates are serialized according to the `Date#toJSON` method
-                // specified in ES 5.1 section 15.9.5.44. See section 15.9.1.15
-                // for the ISO 8601 date time string format.
-                if (getDay) {
-                  // Manually compute the year, month, date, hours, minutes,
-                  // seconds, and milliseconds if the `getUTC*` methods are
-                  // buggy. Adapted from @Yaffle's `date-shim` project.
-                  date = floor(value / 864e5);
-                  for (year = floor(date / 365.2425) + 1970 - 1; getDay(year + 1, 0) <= date; year++);
-                  for (month = floor((date - getDay(year, 0)) / 30.42); getDay(year, month + 1) <= date; month++);
-                  date = 1 + date - getDay(year, month);
-                  // The `time` value specifies the time within the day (see ES
-                  // 5.1 section 15.9.1.2). The formula `(A % B + B) % B` is used
-                  // to compute `A modulo B`, as the `%` operator does not
-                  // correspond to the `modulo` operation for negative numbers.
-                  time = (value % 864e5 + 864e5) % 864e5;
-                  // The hours, minutes, seconds, and milliseconds are obtained by
-                  // decomposing the time within the day. See section 15.9.1.10.
-                  hours = floor(time / 36e5) % 24;
-                  minutes = floor(time / 6e4) % 60;
-                  seconds = floor(time / 1e3) % 60;
-                  milliseconds = time % 1e3;
-                } else {
-                  year = value.getUTCFullYear();
-                  month = value.getUTCMonth();
-                  date = value.getUTCDate();
-                  hours = value.getUTCHours();
-                  minutes = value.getUTCMinutes();
-                  seconds = value.getUTCSeconds();
-                  milliseconds = value.getUTCMilliseconds();
-                }
-                // Serialize extended years correctly.
-                value = (year <= 0 || year >= 1e4 ? (year < 0 ? "-" : "+") + toPaddedString(6, year < 0 ? -year : year) : toPaddedString(4, year)) +
-                  "-" + toPaddedString(2, month + 1) + "-" + toPaddedString(2, date) +
-                  // Months, dates, hours, minutes, and seconds should have two
-                  // digits; milliseconds should have three.
-                  "T" + toPaddedString(2, hours) + ":" + toPaddedString(2, minutes) + ":" + toPaddedString(2, seconds) +
-                  // Milliseconds are optional in ES 5.0, but required in 5.1.
-                  "." + toPaddedString(3, milliseconds) + "Z";
-              } else {
-                value = null;
-              }
-            } else if (typeof value.toJSON == "function" && ((className != numberClass && className != stringClass && className != arrayClass) || isProperty.call(value, "toJSON"))) {
-              // Prototype <= 1.6.1 adds non-standard `toJSON` methods to the
-              // `Number`, `String`, `Date`, and `Array` prototypes. JSON 3
-              // ignores all `toJSON` methods on these objects unless they are
-              // defined directly on an instance.
-              value = value.toJSON(property);
-            }
-          }
-          if (callback) {
-            // If a replacement function was provided, call it to obtain the value
-            // for serialization.
-            value = callback.call(object, property, value);
-          }
-          if (value === null) {
-            return "null";
-          }
-          className = getClass.call(value);
-          if (className == booleanClass) {
-            // Booleans are represented literally.
-            return "" + value;
-          } else if (className == numberClass) {
-            // JSON numbers must be finite. `Infinity` and `NaN` are serialized as
-            // `"null"`.
-            return value > -1 / 0 && value < 1 / 0 ? "" + value : "null";
-          } else if (className == stringClass) {
-            // Strings are double-quoted and escaped.
-            return quote("" + value);
-          }
-          // Recursively serialize objects and arrays.
-          if (typeof value == "object") {
-            // Check for cyclic structures. This is a linear search; performance
-            // is inversely proportional to the number of unique nested objects.
-            for (length = stack.length; length--;) {
-              if (stack[length] === value) {
-                // Cyclic structures cannot be serialized by `JSON.stringify`.
-                throw TypeError();
-              }
-            }
-            // Add the object to the stack of traversed objects.
-            stack.push(value);
-            results = [];
-            // Save the current indentation level and indent one additional level.
-            prefix = indentation;
-            indentation += whitespace;
-            if (className == arrayClass) {
-              // Recursively serialize array elements.
-              for (index = 0, length = value.length; index < length; index++) {
-                element = serialize(index, value, callback, properties, whitespace, indentation, stack);
-                results.push(element === undef ? "null" : element);
-              }
-              result = results.length ? (whitespace ? "[\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "]" : ("[" + results.join(",") + "]")) : "[]";
-            } else {
-              // Recursively serialize object members. Members are selected from
-              // either a user-specified list of property names, or the object
-              // itself.
-              forEach(properties || value, function (property) {
-                var element = serialize(property, value, callback, properties, whitespace, indentation, stack);
-                if (element !== undef) {
-                  // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
-                  // is not the empty string, let `member` {quote(property) + ":"}
-                  // be the concatenation of `member` and the `space` character."
-                  // The "`space` character" refers to the literal space
-                  // character, not the `space` {width} argument provided to
-                  // `JSON.stringify`.
-                  results.push(quote(property) + ":" + (whitespace ? " " : "") + element);
-                }
-              });
-              result = results.length ? (whitespace ? "{\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "}" : ("{" + results.join(",") + "}")) : "{}";
-            }
-            // Remove the object from the traversed object stack.
-            stack.pop();
-            return result;
-          }
-        };
-
-        // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
-        exports.stringify = function (source, filter, width) {
-          var whitespace, callback, properties, className;
-          if (objectTypes[typeof filter] && filter) {
-            if ((className = getClass.call(filter)) == functionClass) {
-              callback = filter;
-            } else if (className == arrayClass) {
-              // Convert the property names array into a makeshift set.
-              properties = {};
-              for (var index = 0, length = filter.length, value; index < length; value = filter[index++], ((className = getClass.call(value)), className == stringClass || className == numberClass) && (properties[value] = 1));
-            }
-          }
-          if (width) {
-            if ((className = getClass.call(width)) == numberClass) {
-              // Convert the `width` to an integer and create a string containing
-              // `width` number of space characters.
-              if ((width -= width % 1) > 0) {
-                for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ");
-              }
-            } else if (className == stringClass) {
-              whitespace = width.length <= 10 ? width : width.slice(0, 10);
-            }
-          }
-          // Opera <= 7.54u2 discards the values associated with empty string keys
-          // (`""`) only if they are used directly within an object member list
-          // (e.g., `!("" in { "": 1})`).
-          return serialize("", (value = {}, value[""] = source, value), callback, properties, whitespace, "", []);
-        };
-      }
-
-      // Public: Parses a JSON source string.
-      if (!has("json-parse")) {
-        var fromCharCode = String.fromCharCode;
-
-        // Internal: A map of escaped control characters and their unescaped
-        // equivalents.
-        var Unescapes = {
-          92: "\\",
-          34: '"',
-          47: "/",
-          98: "\b",
-          116: "\t",
-          110: "\n",
-          102: "\f",
-          114: "\r"
-        };
-
-        // Internal: Stores the parser state.
-        var Index, Source;
-
-        // Internal: Resets the parser state and throws a `SyntaxError`.
-        var abort = function () {
-          Index = Source = null;
-          throw SyntaxError();
-        };
-
-        // Internal: Returns the next token, or `"$"` if the parser has reached
-        // the end of the source string. A token may be a string, number, `null`
-        // literal, or Boolean literal.
-        var lex = function () {
-          var source = Source, length = source.length, value, begin, position, isSigned, charCode;
-          while (Index < length) {
-            charCode = source.charCodeAt(Index);
-            switch (charCode) {
-              case 9: case 10: case 13: case 32:
-                // Skip whitespace tokens, including tabs, carriage returns, line
-                // feeds, and space characters.
-                Index++;
-                break;
-              case 123: case 125: case 91: case 93: case 58: case 44:
-                // Parse a punctuator token (`{`, `}`, `[`, `]`, `:`, or `,`) at
-                // the current position.
-                value = charIndexBuggy ? source.charAt(Index) : source[Index];
-                Index++;
-                return value;
-              case 34:
-                // `"` delimits a JSON string; advance to the next character and
-                // begin parsing the string. String tokens are prefixed with the
-                // sentinel `@` character to distinguish them from punctuators and
-                // end-of-string tokens.
-                for (value = "@", Index++; Index < length;) {
-                  charCode = source.charCodeAt(Index);
-                  if (charCode < 32) {
-                    // Unescaped ASCII control characters (those with a code unit
-                    // less than the space character) are not permitted.
-                    abort();
-                  } else if (charCode == 92) {
-                    // A reverse solidus (`\`) marks the beginning of an escaped
-                    // control character (including `"`, `\`, and `/`) or Unicode
-                    // escape sequence.
-                    charCode = source.charCodeAt(++Index);
-                    switch (charCode) {
-                      case 92: case 34: case 47: case 98: case 116: case 110: case 102: case 114:
-                        // Revive escaped control characters.
-                        value += Unescapes[charCode];
-                        Index++;
-                        break;
-                      case 117:
-                        // `\u` marks the beginning of a Unicode escape sequence.
-                        // Advance to the first character and validate the
-                        // four-digit code point.
-                        begin = ++Index;
-                        for (position = Index + 4; Index < position; Index++) {
-                          charCode = source.charCodeAt(Index);
-                          // A valid sequence comprises four hexdigits (case-
-                          // insensitive) that form a single hexadecimal value.
-                          if (!(charCode >= 48 && charCode <= 57 || charCode >= 97 && charCode <= 102 || charCode >= 65 && charCode <= 70)) {
-                            // Invalid Unicode escape sequence.
-                            abort();
-                          }
-                        }
-                        // Revive the escaped character.
-                        value += fromCharCode("0x" + source.slice(begin, Index));
-                        break;
-                      default:
-                        // Invalid escape sequence.
-                        abort();
-                    }
-                  } else {
-                    if (charCode == 34) {
-                      // An unescaped double-quote character marks the end of the
-                      // string.
-                      break;
-                    }
-                    charCode = source.charCodeAt(Index);
-                    begin = Index;
-                    // Optimize for the common case where a string is valid.
-                    while (charCode >= 32 && charCode != 92 && charCode != 34) {
-                      charCode = source.charCodeAt(++Index);
-                    }
-                    // Append the string as-is.
-                    value += source.slice(begin, Index);
-                  }
-                }
-                if (source.charCodeAt(Index) == 34) {
-                  // Advance to the next character and return the revived string.
-                  Index++;
-                  return value;
-                }
-                // Unterminated string.
-                abort();
-              default:
-                // Parse numbers and literals.
-                begin = Index;
-                // Advance past the negative sign, if one is specified.
-                if (charCode == 45) {
-                  isSigned = true;
-                  charCode = source.charCodeAt(++Index);
-                }
-                // Parse an integer or floating-point value.
-                if (charCode >= 48 && charCode <= 57) {
-                  // Leading zeroes are interpreted as octal literals.
-                  if (charCode == 48 && ((charCode = source.charCodeAt(Index + 1)), charCode >= 48 && charCode <= 57)) {
-                    // Illegal octal literal.
-                    abort();
-                  }
-                  isSigned = false;
-                  // Parse the integer component.
-                  for (; Index < length && ((charCode = source.charCodeAt(Index)), charCode >= 48 && charCode <= 57); Index++);
-                  // Floats cannot contain a leading decimal point; however, this
-                  // case is already accounted for by the parser.
-                  if (source.charCodeAt(Index) == 46) {
-                    position = ++Index;
-                    // Parse the decimal component.
-                    for (; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
-                    if (position == Index) {
-                      // Illegal trailing decimal.
-                      abort();
-                    }
-                    Index = position;
-                  }
-                  // Parse exponents. The `e` denoting the exponent is
-                  // case-insensitive.
-                  charCode = source.charCodeAt(Index);
-                  if (charCode == 101 || charCode == 69) {
-                    charCode = source.charCodeAt(++Index);
-                    // Skip past the sign following the exponent, if one is
-                    // specified.
-                    if (charCode == 43 || charCode == 45) {
-                      Index++;
-                    }
-                    // Parse the exponential component.
-                    for (position = Index; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
-                    if (position == Index) {
-                      // Illegal empty exponent.
-                      abort();
-                    }
-                    Index = position;
-                  }
-                  // Coerce the parsed value to a JavaScript number.
-                  return +source.slice(begin, Index);
-                }
-                // A negative sign may only precede numbers.
-                if (isSigned) {
-                  abort();
-                }
-                // `true`, `false`, and `null` literals.
-                if (source.slice(Index, Index + 4) == "true") {
-                  Index += 4;
-                  return true;
-                } else if (source.slice(Index, Index + 5) == "false") {
-                  Index += 5;
-                  return false;
-                } else if (source.slice(Index, Index + 4) == "null") {
-                  Index += 4;
-                  return null;
-                }
-                // Unrecognized token.
-                abort();
-            }
-          }
-          // Return the sentinel `$` character if the parser has reached the end
-          // of the source string.
-          return "$";
-        };
-
-        // Internal: Parses a JSON `value` token.
-        var get = function (value) {
-          var results, hasMembers;
-          if (value == "$") {
-            // Unexpected end of input.
-            abort();
-          }
-          if (typeof value == "string") {
-            if ((charIndexBuggy ? value.charAt(0) : value[0]) == "@") {
-              // Remove the sentinel `@` character.
-              return value.slice(1);
-            }
-            // Parse object and array literals.
-            if (value == "[") {
-              // Parses a JSON array, returning a new JavaScript array.
-              results = [];
-              for (;; hasMembers || (hasMembers = true)) {
-                value = lex();
-                // A closing square bracket marks the end of the array literal.
-                if (value == "]") {
-                  break;
-                }
-                // If the array literal contains elements, the current token
-                // should be a comma separating the previous element from the
-                // next.
-                if (hasMembers) {
-                  if (value == ",") {
-                    value = lex();
-                    if (value == "]") {
-                      // Unexpected trailing `,` in array literal.
-                      abort();
-                    }
-                  } else {
-                    // A `,` must separate each array element.
-                    abort();
-                  }
-                }
-                // Elisions and leading commas are not permitted.
-                if (value == ",") {
-                  abort();
-                }
-                results.push(get(value));
-              }
-              return results;
-            } else if (value == "{") {
-              // Parses a JSON object, returning a new JavaScript object.
-              results = {};
-              for (;; hasMembers || (hasMembers = true)) {
-                value = lex();
-                // A closing curly brace marks the end of the object literal.
-                if (value == "}") {
-                  break;
-                }
-                // If the object literal contains members, the current token
-                // should be a comma separator.
-                if (hasMembers) {
-                  if (value == ",") {
-                    value = lex();
-                    if (value == "}") {
-                      // Unexpected trailing `,` in object literal.
-                      abort();
-                    }
-                  } else {
-                    // A `,` must separate each object member.
-                    abort();
-                  }
-                }
-                // Leading commas are not permitted, object property names must be
-                // double-quoted strings, and a `:` must separate each property
-                // name and value.
-                if (value == "," || typeof value != "string" || (charIndexBuggy ? value.charAt(0) : value[0]) != "@" || lex() != ":") {
-                  abort();
-                }
-                results[value.slice(1)] = get(lex());
-              }
-              return results;
-            }
-            // Unexpected token encountered.
-            abort();
-          }
-          return value;
-        };
-
-        // Internal: Updates a traversed object member.
-        var update = function (source, property, callback) {
-          var element = walk(source, property, callback);
-          if (element === undef) {
-            delete source[property];
-          } else {
-            source[property] = element;
-          }
-        };
-
-        // Internal: Recursively traverses a parsed JSON object, invoking the
-        // `callback` function for each value. This is an implementation of the
-        // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
-        var walk = function (source, property, callback) {
-          var value = source[property], length;
-          if (typeof value == "object" && value) {
-            // `forEach` can't be used to traverse an array in Opera <= 8.54
-            // because its `Object#hasOwnProperty` implementation returns `false`
-            // for array indices (e.g., `![1, 2, 3].hasOwnProperty("0")`).
-            if (getClass.call(value) == arrayClass) {
-              for (length = value.length; length--;) {
-                update(value, length, callback);
-              }
-            } else {
-              forEach(value, function (property) {
-                update(value, property, callback);
-              });
-            }
-          }
-          return callback.call(source, property, value);
-        };
-
-        // Public: `JSON.parse`. See ES 5.1 section 15.12.2.
-        exports.parse = function (source, callback) {
-          var result, value;
-          Index = 0;
-          Source = "" + source;
-          result = get(lex());
-          // If a JSON string contains multiple tokens, it is invalid.
-          if (lex() != "$") {
-            abort();
-          }
-          // Reset the parser state.
-          Index = Source = null;
-          return callback && getClass.call(callback) == functionClass ? walk((value = {}, value[""] = result, value), "", callback) : result;
-        };
+    while (++index < length) {
+      if (iteratee(array[index], index, array) === false) {
+        break;
       }
     }
-
-    exports["runInContext"] = runInContext;
-    return exports;
+    return array;
   }
 
-  if (freeExports && !isLoader) {
-    // Export for CommonJS environments.
-    runInContext(root, freeExports);
-  } else {
-    // Export for web browsers and JavaScript engines.
-    var nativeJSON = root.JSON,
-        previousJSON = root["JSON3"],
-        isRestored = false;
+  /**
+   * A specialized version of `_.filter` for arrays without support for
+   * iteratee shorthands.
+   *
+   * @private
+   * @param {Array} [array] The array to iterate over.
+   * @param {Function} predicate The function invoked per iteration.
+   * @returns {Array} Returns the new filtered array.
+   */
+  function arrayFilter(array, predicate) {
+    var index = -1,
+        length = array == null ? 0 : array.length,
+        resIndex = 0,
+        result = [];
 
-    var JSON3 = runInContext(root, (root["JSON3"] = {
-      // Public: Restores the original value of the global `JSON` object and
-      // returns a reference to the `JSON3` object.
-      "noConflict": function () {
-        if (!isRestored) {
-          isRestored = true;
-          root.JSON = nativeJSON;
-          root["JSON3"] = previousJSON;
-          nativeJSON = previousJSON = null;
-        }
-        return JSON3;
+    while (++index < length) {
+      var value = array[index];
+      if (predicate(value, index, array)) {
+        result[resIndex++] = value;
       }
-    }));
+    }
+    return result;
+  }
 
-    root.JSON = {
-      "parse": JSON3.parse,
-      "stringify": JSON3.stringify
+  /**
+   * Appends the elements of `values` to `array`.
+   *
+   * @private
+   * @param {Array} array The array to modify.
+   * @param {Array} values The values to append.
+   * @returns {Array} Returns `array`.
+   */
+  function arrayPush(array, values) {
+    var index = -1,
+        length = values.length,
+        offset = array.length;
+
+    while (++index < length) {
+      array[offset + index] = values[index];
+    }
+    return array;
+  }
+
+  /**
+   * The base implementation of `_.times` without support for iteratee shorthands
+   * or max array length checks.
+   *
+   * @private
+   * @param {number} n The number of times to invoke `iteratee`.
+   * @param {Function} iteratee The function invoked per iteration.
+   * @returns {Array} Returns the array of results.
+   */
+  function baseTimes(n, iteratee) {
+    var index = -1,
+        result = Array(n);
+
+    while (++index < n) {
+      result[index] = iteratee(index);
+    }
+    return result;
+  }
+
+  /**
+   * The base implementation of `_.unary` without support for storing metadata.
+   *
+   * @private
+   * @param {Function} func The function to cap arguments for.
+   * @returns {Function} Returns the new capped function.
+   */
+  function baseUnary(func) {
+    return function(value) {
+      return func(value);
     };
   }
 
-  // Export for asynchronous module loaders.
-  if (isLoader) {
-    define(function () {
-      return JSON3;
-    });
+  /**
+   * Gets the value at `key` of `object`.
+   *
+   * @private
+   * @param {Object} [object] The object to query.
+   * @param {string} key The key of the property to get.
+   * @returns {*} Returns the property value.
+   */
+  function getValue(object, key) {
+    return object == null ? undefined : object[key];
   }
-}).call(this);
+
+  /**
+   * Creates a unary function that invokes `func` with its argument transformed.
+   *
+   * @private
+   * @param {Function} func The function to wrap.
+   * @param {Function} transform The argument transform.
+   * @returns {Function} Returns the new function.
+   */
+  function overArg(func, transform) {
+    return function(arg) {
+      return func(transform(arg));
+    };
+  }
+
+  /*--------------------------------------------------------------------------*/
+
+  /** Used for built-in method references. */
+  var arrayProto = Array.prototype,
+      funcProto = Function.prototype,
+      objectProto = Object.prototype;
+
+  /** Used to detect overreaching core-js shims. */
+  var coreJsData = root['__core-js_shared__'];
+
+  /** Used to resolve the decompiled source of functions. */
+  var funcToString = funcProto.toString;
+
+  /** Used to check objects for own properties. */
+  var hasOwnProperty = objectProto.hasOwnProperty;
+
+  /** Used to detect methods masquerading as native. */
+  var maskSrcKey = (function() {
+    var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+    return uid ? ('Symbol(src)_1.' + uid) : '';
+  }());
+
+  /**
+   * Used to resolve the
+   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var nativeObjectToString = objectProto.toString;
+
+  /** Used to restore the original `_` reference in `_.noConflict`. */
+  var oldDash = root._;
+
+  /** Used to detect if a method is native. */
+  var reIsNative = RegExp('^' +
+    funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+    .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+  );
+
+  /** Built-in value references. */
+  var Buffer = moduleExports ? root.Buffer : undefined,
+      Symbol = root.Symbol,
+      Uint8Array = root.Uint8Array,
+      allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined,
+      getPrototype = overArg(Object.getPrototypeOf, Object),
+      objectCreate = Object.create,
+      propertyIsEnumerable = objectProto.propertyIsEnumerable,
+      splice = arrayProto.splice,
+      symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+  var defineProperty = (function() {
+    try {
+      var func = getNative(Object, 'defineProperty');
+      func({}, '', {});
+      return func;
+    } catch (e) {}
+  }());
+
+  /* Built-in method references for those with the same name as other `lodash` methods. */
+  var nativeGetSymbols = Object.getOwnPropertySymbols,
+      nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+      nativeKeys = overArg(Object.keys, Object);
+
+  /* Built-in method references that are verified to be native. */
+  var DataView = getNative(root, 'DataView'),
+      Map = getNative(root, 'Map'),
+      Promise = getNative(root, 'Promise'),
+      Set = getNative(root, 'Set'),
+      WeakMap = getNative(root, 'WeakMap'),
+      nativeCreate = getNative(Object, 'create');
+
+  /** Used to lookup unminified function names. */
+  var realNames = {};
+
+  /** Used to detect maps, sets, and weakmaps. */
+  var dataViewCtorString = toSource(DataView),
+      mapCtorString = toSource(Map),
+      promiseCtorString = toSource(Promise),
+      setCtorString = toSource(Set),
+      weakMapCtorString = toSource(WeakMap);
+
+  /** Used to convert symbols to primitives and strings. */
+  var symbolProto = Symbol ? Symbol.prototype : undefined,
+      symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates a `lodash` object which wraps `value` to enable implicit method
+   * chain sequences. Methods that operate on and return arrays, collections,
+   * and functions can be chained together. Methods that retrieve a single value
+   * or may return a primitive value will automatically end the chain sequence
+   * and return the unwrapped value. Otherwise, the value must be unwrapped
+   * with `_#value`.
+   *
+   * Explicit chain sequences, which must be unwrapped with `_#value`, may be
+   * enabled using `_.chain`.
+   *
+   * The execution of chained methods is lazy, that is, it's deferred until
+   * `_#value` is implicitly or explicitly called.
+   *
+   * Lazy evaluation allows several methods to support shortcut fusion.
+   * Shortcut fusion is an optimization to merge iteratee calls; this avoids
+   * the creation of intermediate arrays and can greatly reduce the number of
+   * iteratee executions. Sections of a chain sequence qualify for shortcut
+   * fusion if the section is applied to an array and iteratees accept only
+   * one argument. The heuristic for whether a section qualifies for shortcut
+   * fusion is subject to change.
+   *
+   * Chaining is supported in custom builds as long as the `_#value` method is
+   * directly or indirectly included in the build.
+   *
+   * In addition to lodash methods, wrappers have `Array` and `String` methods.
+   *
+   * The wrapper `Array` methods are:
+   * `concat`, `join`, `pop`, `push`, `shift`, `sort`, `splice`, and `unshift`
+   *
+   * The wrapper `String` methods are:
+   * `replace` and `split`
+   *
+   * The wrapper methods that support shortcut fusion are:
+   * `at`, `compact`, `drop`, `dropRight`, `dropWhile`, `filter`, `find`,
+   * `findLast`, `head`, `initial`, `last`, `map`, `reject`, `reverse`, `slice`,
+   * `tail`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, and `toArray`
+   *
+   * The chainable wrapper methods are:
+   * `after`, `ary`, `assign`, `assignIn`, `assignInWith`, `assignWith`, `at`,
+   * `before`, `bind`, `bindAll`, `bindKey`, `castArray`, `chain`, `chunk`,
+   * `commit`, `compact`, `concat`, `conforms`, `constant`, `countBy`, `create`,
+   * `curry`, `debounce`, `defaults`, `defaultsDeep`, `defer`, `delay`,
+   * `difference`, `differenceBy`, `differenceWith`, `drop`, `dropRight`,
+   * `dropRightWhile`, `dropWhile`, `extend`, `extendWith`, `fill`, `filter`,
+   * `flatMap`, `flatMapDeep`, `flatMapDepth`, `flatten`, `flattenDeep`,
+   * `flattenDepth`, `flip`, `flow`, `flowRight`, `fromPairs`, `functions`,
+   * `functionsIn`, `groupBy`, `initial`, `intersection`, `intersectionBy`,
+   * `intersectionWith`, `invert`, `invertBy`, `invokeMap`, `iteratee`, `keyBy`,
+   * `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
+   * `memoize`, `merge`, `mergeWith`, `method`, `methodOf`, `mixin`, `negate`,
+   * `nthArg`, `omit`, `omitBy`, `once`, `orderBy`, `over`, `overArgs`,
+   * `overEvery`, `overSome`, `partial`, `partialRight`, `partition`, `pick`,
+   * `pickBy`, `plant`, `property`, `propertyOf`, `pull`, `pullAll`, `pullAllBy`,
+   * `pullAllWith`, `pullAt`, `push`, `range`, `rangeRight`, `rearg`, `reject`,
+   * `remove`, `rest`, `reverse`, `sampleSize`, `set`, `setWith`, `shuffle`,
+   * `slice`, `sort`, `sortBy`, `splice`, `spread`, `tail`, `take`, `takeRight`,
+   * `takeRightWhile`, `takeWhile`, `tap`, `throttle`, `thru`, `toArray`,
+   * `toPairs`, `toPairsIn`, `toPath`, `toPlainObject`, `transform`, `unary`,
+   * `union`, `unionBy`, `unionWith`, `uniq`, `uniqBy`, `uniqWith`, `unset`,
+   * `unshift`, `unzip`, `unzipWith`, `update`, `updateWith`, `values`,
+   * `valuesIn`, `without`, `wrap`, `xor`, `xorBy`, `xorWith`, `zip`,
+   * `zipObject`, `zipObjectDeep`, and `zipWith`
+   *
+   * The wrapper methods that are **not** chainable by default are:
+   * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clamp`, `clone`,
+   * `cloneDeep`, `cloneDeepWith`, `cloneWith`, `conformsTo`, `deburr`,
+   * `defaultTo`, `divide`, `each`, `eachRight`, `endsWith`, `eq`, `escape`,
+   * `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`, `findLast`,
+   * `findLastIndex`, `findLastKey`, `first`, `floor`, `forEach`, `forEachRight`,
+   * `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `get`, `gt`, `gte`, `has`,
+   * `hasIn`, `head`, `identity`, `includes`, `indexOf`, `inRange`, `invoke`,
+   * `isArguments`, `isArray`, `isArrayBuffer`, `isArrayLike`, `isArrayLikeObject`,
+   * `isBoolean`, `isBuffer`, `isDate`, `isElement`, `isEmpty`, `isEqual`,
+   * `isEqualWith`, `isError`, `isFinite`, `isFunction`, `isInteger`, `isLength`,
+   * `isMap`, `isMatch`, `isMatchWith`, `isNaN`, `isNative`, `isNil`, `isNull`,
+   * `isNumber`, `isObject`, `isObjectLike`, `isPlainObject`, `isRegExp`,
+   * `isSafeInteger`, `isSet`, `isString`, `isUndefined`, `isTypedArray`,
+   * `isWeakMap`, `isWeakSet`, `join`, `kebabCase`, `last`, `lastIndexOf`,
+   * `lowerCase`, `lowerFirst`, `lt`, `lte`, `max`, `maxBy`, `mean`, `meanBy`,
+   * `min`, `minBy`, `multiply`, `noConflict`, `noop`, `now`, `nth`, `pad`,
+   * `padEnd`, `padStart`, `parseInt`, `pop`, `random`, `reduce`, `reduceRight`,
+   * `repeat`, `result`, `round`, `runInContext`, `sample`, `shift`, `size`,
+   * `snakeCase`, `some`, `sortedIndex`, `sortedIndexBy`, `sortedLastIndex`,
+   * `sortedLastIndexBy`, `startCase`, `startsWith`, `stubArray`, `stubFalse`,
+   * `stubObject`, `stubString`, `stubTrue`, `subtract`, `sum`, `sumBy`,
+   * `template`, `times`, `toFinite`, `toInteger`, `toJSON`, `toLength`,
+   * `toLower`, `toNumber`, `toSafeInteger`, `toString`, `toUpper`, `trim`,
+   * `trimEnd`, `trimStart`, `truncate`, `unescape`, `uniqueId`, `upperCase`,
+   * `upperFirst`, `value`, and `words`
+   *
+   * @name _
+   * @constructor
+   * @category Seq
+   * @param {*} value The value to wrap in a `lodash` instance.
+   * @returns {Object} Returns the new `lodash` wrapper instance.
+   * @example
+   *
+   * function square(n) {
+   *   return n * n;
+   * }
+   *
+   * var wrapped = _([1, 2, 3]);
+   *
+   * // Returns an unwrapped value.
+   * wrapped.reduce(_.add);
+   * // => 6
+   *
+   * // Returns a wrapped value.
+   * var squares = wrapped.map(square);
+   *
+   * _.isArray(squares);
+   * // => false
+   *
+   * _.isArray(squares.value());
+   * // => true
+   */
+  function lodash() {
+    // No operation performed.
+  }
+
+  /**
+   * The base implementation of `_.create` without support for assigning
+   * properties to the created object.
+   *
+   * @private
+   * @param {Object} proto The object to inherit from.
+   * @returns {Object} Returns the new object.
+   */
+  var baseCreate = (function() {
+    function object() {}
+    return function(proto) {
+      if (!isObject(proto)) {
+        return {};
+      }
+      if (objectCreate) {
+        return objectCreate(proto);
+      }
+      object.prototype = proto;
+      var result = new object;
+      object.prototype = undefined;
+      return result;
+    };
+  }());
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates a hash object.
+   *
+   * @private
+   * @constructor
+   * @param {Array} [entries] The key-value pairs to cache.
+   */
+  function Hash(entries) {
+    var index = -1,
+        length = entries == null ? 0 : entries.length;
+
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+
+  /**
+   * Removes all key-value entries from the hash.
+   *
+   * @private
+   * @name clear
+   * @memberOf Hash
+   */
+  function hashClear() {
+    this.__data__ = nativeCreate ? nativeCreate(null) : {};
+    this.size = 0;
+  }
+
+  /**
+   * Removes `key` and its value from the hash.
+   *
+   * @private
+   * @name delete
+   * @memberOf Hash
+   * @param {Object} hash The hash to modify.
+   * @param {string} key The key of the value to remove.
+   * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+   */
+  function hashDelete(key) {
+    var result = this.has(key) && delete this.__data__[key];
+    this.size -= result ? 1 : 0;
+    return result;
+  }
+
+  /**
+   * Gets the hash value for `key`.
+   *
+   * @private
+   * @name get
+   * @memberOf Hash
+   * @param {string} key The key of the value to get.
+   * @returns {*} Returns the entry value.
+   */
+  function hashGet(key) {
+    var data = this.__data__;
+    if (nativeCreate) {
+      var result = data[key];
+      return result === HASH_UNDEFINED ? undefined : result;
+    }
+    return hasOwnProperty.call(data, key) ? data[key] : undefined;
+  }
+
+  /**
+   * Checks if a hash value for `key` exists.
+   *
+   * @private
+   * @name has
+   * @memberOf Hash
+   * @param {string} key The key of the entry to check.
+   * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+   */
+  function hashHas(key) {
+    var data = this.__data__;
+    return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
+  }
+
+  /**
+   * Sets the hash `key` to `value`.
+   *
+   * @private
+   * @name set
+   * @memberOf Hash
+   * @param {string} key The key of the value to set.
+   * @param {*} value The value to set.
+   * @returns {Object} Returns the hash instance.
+   */
+  function hashSet(key, value) {
+    var data = this.__data__;
+    this.size += this.has(key) ? 0 : 1;
+    data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+    return this;
+  }
+
+  // Add methods to `Hash`.
+  Hash.prototype.clear = hashClear;
+  Hash.prototype['delete'] = hashDelete;
+  Hash.prototype.get = hashGet;
+  Hash.prototype.has = hashHas;
+  Hash.prototype.set = hashSet;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates an list cache object.
+   *
+   * @private
+   * @constructor
+   * @param {Array} [entries] The key-value pairs to cache.
+   */
+  function ListCache(entries) {
+    var index = -1,
+        length = entries == null ? 0 : entries.length;
+
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+
+  /**
+   * Removes all key-value entries from the list cache.
+   *
+   * @private
+   * @name clear
+   * @memberOf ListCache
+   */
+  function listCacheClear() {
+    this.__data__ = [];
+    this.size = 0;
+  }
+
+  /**
+   * Removes `key` and its value from the list cache.
+   *
+   * @private
+   * @name delete
+   * @memberOf ListCache
+   * @param {string} key The key of the value to remove.
+   * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+   */
+  function listCacheDelete(key) {
+    var data = this.__data__,
+        index = assocIndexOf(data, key);
+
+    if (index < 0) {
+      return false;
+    }
+    var lastIndex = data.length - 1;
+    if (index == lastIndex) {
+      data.pop();
+    } else {
+      splice.call(data, index, 1);
+    }
+    --this.size;
+    return true;
+  }
+
+  /**
+   * Gets the list cache value for `key`.
+   *
+   * @private
+   * @name get
+   * @memberOf ListCache
+   * @param {string} key The key of the value to get.
+   * @returns {*} Returns the entry value.
+   */
+  function listCacheGet(key) {
+    var data = this.__data__,
+        index = assocIndexOf(data, key);
+
+    return index < 0 ? undefined : data[index][1];
+  }
+
+  /**
+   * Checks if a list cache value for `key` exists.
+   *
+   * @private
+   * @name has
+   * @memberOf ListCache
+   * @param {string} key The key of the entry to check.
+   * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+   */
+  function listCacheHas(key) {
+    return assocIndexOf(this.__data__, key) > -1;
+  }
+
+  /**
+   * Sets the list cache `key` to `value`.
+   *
+   * @private
+   * @name set
+   * @memberOf ListCache
+   * @param {string} key The key of the value to set.
+   * @param {*} value The value to set.
+   * @returns {Object} Returns the list cache instance.
+   */
+  function listCacheSet(key, value) {
+    var data = this.__data__,
+        index = assocIndexOf(data, key);
+
+    if (index < 0) {
+      ++this.size;
+      data.push([key, value]);
+    } else {
+      data[index][1] = value;
+    }
+    return this;
+  }
+
+  // Add methods to `ListCache`.
+  ListCache.prototype.clear = listCacheClear;
+  ListCache.prototype['delete'] = listCacheDelete;
+  ListCache.prototype.get = listCacheGet;
+  ListCache.prototype.has = listCacheHas;
+  ListCache.prototype.set = listCacheSet;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates a map cache object to store key-value pairs.
+   *
+   * @private
+   * @constructor
+   * @param {Array} [entries] The key-value pairs to cache.
+   */
+  function MapCache(entries) {
+    var index = -1,
+        length = entries == null ? 0 : entries.length;
+
+    this.clear();
+    while (++index < length) {
+      var entry = entries[index];
+      this.set(entry[0], entry[1]);
+    }
+  }
+
+  /**
+   * Removes all key-value entries from the map.
+   *
+   * @private
+   * @name clear
+   * @memberOf MapCache
+   */
+  function mapCacheClear() {
+    this.size = 0;
+    this.__data__ = {
+      'hash': new Hash,
+      'map': new (Map || ListCache),
+      'string': new Hash
+    };
+  }
+
+  /**
+   * Removes `key` and its value from the map.
+   *
+   * @private
+   * @name delete
+   * @memberOf MapCache
+   * @param {string} key The key of the value to remove.
+   * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+   */
+  function mapCacheDelete(key) {
+    var result = getMapData(this, key)['delete'](key);
+    this.size -= result ? 1 : 0;
+    return result;
+  }
+
+  /**
+   * Gets the map value for `key`.
+   *
+   * @private
+   * @name get
+   * @memberOf MapCache
+   * @param {string} key The key of the value to get.
+   * @returns {*} Returns the entry value.
+   */
+  function mapCacheGet(key) {
+    return getMapData(this, key).get(key);
+  }
+
+  /**
+   * Checks if a map value for `key` exists.
+   *
+   * @private
+   * @name has
+   * @memberOf MapCache
+   * @param {string} key The key of the entry to check.
+   * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+   */
+  function mapCacheHas(key) {
+    return getMapData(this, key).has(key);
+  }
+
+  /**
+   * Sets the map `key` to `value`.
+   *
+   * @private
+   * @name set
+   * @memberOf MapCache
+   * @param {string} key The key of the value to set.
+   * @param {*} value The value to set.
+   * @returns {Object} Returns the map cache instance.
+   */
+  function mapCacheSet(key, value) {
+    var data = getMapData(this, key),
+        size = data.size;
+
+    data.set(key, value);
+    this.size += data.size == size ? 0 : 1;
+    return this;
+  }
+
+  // Add methods to `MapCache`.
+  MapCache.prototype.clear = mapCacheClear;
+  MapCache.prototype['delete'] = mapCacheDelete;
+  MapCache.prototype.get = mapCacheGet;
+  MapCache.prototype.has = mapCacheHas;
+  MapCache.prototype.set = mapCacheSet;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates a stack cache object to store key-value pairs.
+   *
+   * @private
+   * @constructor
+   * @param {Array} [entries] The key-value pairs to cache.
+   */
+  function Stack(entries) {
+    var data = this.__data__ = new ListCache(entries);
+    this.size = data.size;
+  }
+
+  /**
+   * Removes all key-value entries from the stack.
+   *
+   * @private
+   * @name clear
+   * @memberOf Stack
+   */
+  function stackClear() {
+    this.__data__ = new ListCache;
+    this.size = 0;
+  }
+
+  /**
+   * Removes `key` and its value from the stack.
+   *
+   * @private
+   * @name delete
+   * @memberOf Stack
+   * @param {string} key The key of the value to remove.
+   * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+   */
+  function stackDelete(key) {
+    var data = this.__data__,
+        result = data['delete'](key);
+
+    this.size = data.size;
+    return result;
+  }
+
+  /**
+   * Gets the stack value for `key`.
+   *
+   * @private
+   * @name get
+   * @memberOf Stack
+   * @param {string} key The key of the value to get.
+   * @returns {*} Returns the entry value.
+   */
+  function stackGet(key) {
+    return this.__data__.get(key);
+  }
+
+  /**
+   * Checks if a stack value for `key` exists.
+   *
+   * @private
+   * @name has
+   * @memberOf Stack
+   * @param {string} key The key of the entry to check.
+   * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+   */
+  function stackHas(key) {
+    return this.__data__.has(key);
+  }
+
+  /**
+   * Sets the stack `key` to `value`.
+   *
+   * @private
+   * @name set
+   * @memberOf Stack
+   * @param {string} key The key of the value to set.
+   * @param {*} value The value to set.
+   * @returns {Object} Returns the stack cache instance.
+   */
+  function stackSet(key, value) {
+    var data = this.__data__;
+    if (data instanceof ListCache) {
+      var pairs = data.__data__;
+      if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+        pairs.push([key, value]);
+        this.size = ++data.size;
+        return this;
+      }
+      data = this.__data__ = new MapCache(pairs);
+    }
+    data.set(key, value);
+    this.size = data.size;
+    return this;
+  }
+
+  // Add methods to `Stack`.
+  Stack.prototype.clear = stackClear;
+  Stack.prototype['delete'] = stackDelete;
+  Stack.prototype.get = stackGet;
+  Stack.prototype.has = stackHas;
+  Stack.prototype.set = stackSet;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates an array of the enumerable property names of the array-like `value`.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @param {boolean} inherited Specify returning inherited property names.
+   * @returns {Array} Returns the array of property names.
+   */
+  function arrayLikeKeys(value, inherited) {
+    var isArr = isArray(value),
+        isArg = !isArr && isArguments(value),
+        isBuff = !isArr && !isArg && isBuffer(value),
+        isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+        skipIndexes = isArr || isArg || isBuff || isType,
+        result = skipIndexes ? baseTimes(value.length, String) : [],
+        length = result.length;
+
+    for (var key in value) {
+      if ((inherited || hasOwnProperty.call(value, key)) &&
+          !(skipIndexes && (
+             // Safari 9 has enumerable `arguments.length` in strict mode.
+             key == 'length' ||
+             // Node.js 0.10 has enumerable non-index properties on buffers.
+             (isBuff && (key == 'offset' || key == 'parent')) ||
+             // PhantomJS 2 has enumerable non-index properties on typed arrays.
+             (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+             // Skip index properties.
+             isIndex(key, length)
+          ))) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Assigns `value` to `key` of `object` if the existing value is not equivalent
+   * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+   * for equality comparisons.
+   *
+   * @private
+   * @param {Object} object The object to modify.
+   * @param {string} key The key of the property to assign.
+   * @param {*} value The value to assign.
+   */
+  function assignValue(object, key, value) {
+    var objValue = object[key];
+    if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+        (value === undefined && !(key in object))) {
+      baseAssignValue(object, key, value);
+    }
+  }
+
+  /**
+   * Gets the index at which the `key` is found in `array` of key-value pairs.
+   *
+   * @private
+   * @param {Array} array The array to inspect.
+   * @param {*} key The key to search for.
+   * @returns {number} Returns the index of the matched value, else `-1`.
+   */
+  function assocIndexOf(array, key) {
+    var length = array.length;
+    while (length--) {
+      if (eq(array[length][0], key)) {
+        return length;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * The base implementation of `_.assign` without support for multiple sources
+   * or `customizer` functions.
+   *
+   * @private
+   * @param {Object} object The destination object.
+   * @param {Object} source The source object.
+   * @returns {Object} Returns `object`.
+   */
+  function baseAssign(object, source) {
+    return object && copyObject(source, keys(source), object);
+  }
+
+  /**
+   * The base implementation of `_.assignIn` without support for multiple sources
+   * or `customizer` functions.
+   *
+   * @private
+   * @param {Object} object The destination object.
+   * @param {Object} source The source object.
+   * @returns {Object} Returns `object`.
+   */
+  function baseAssignIn(object, source) {
+    return object && copyObject(source, keysIn(source), object);
+  }
+
+  /**
+   * The base implementation of `assignValue` and `assignMergeValue` without
+   * value checks.
+   *
+   * @private
+   * @param {Object} object The object to modify.
+   * @param {string} key The key of the property to assign.
+   * @param {*} value The value to assign.
+   */
+  function baseAssignValue(object, key, value) {
+    if (key == '__proto__' && defineProperty) {
+      defineProperty(object, key, {
+        'configurable': true,
+        'enumerable': true,
+        'value': value,
+        'writable': true
+      });
+    } else {
+      object[key] = value;
+    }
+  }
+
+  /**
+   * The base implementation of `_.clone` and `_.cloneDeep` which tracks
+   * traversed objects.
+   *
+   * @private
+   * @param {*} value The value to clone.
+   * @param {boolean} bitmask The bitmask flags.
+   *  1 - Deep clone
+   *  2 - Flatten inherited properties
+   *  4 - Clone symbols
+   * @param {Function} [customizer] The function to customize cloning.
+   * @param {string} [key] The key of `value`.
+   * @param {Object} [object] The parent object of `value`.
+   * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
+   * @returns {*} Returns the cloned value.
+   */
+  function baseClone(value, bitmask, customizer, key, object, stack) {
+    var result,
+        isDeep = bitmask & CLONE_DEEP_FLAG,
+        isFlat = bitmask & CLONE_FLAT_FLAG,
+        isFull = bitmask & CLONE_SYMBOLS_FLAG;
+
+    if (customizer) {
+      result = object ? customizer(value, key, object, stack) : customizer(value);
+    }
+    if (result !== undefined) {
+      return result;
+    }
+    if (!isObject(value)) {
+      return value;
+    }
+    var isArr = isArray(value);
+    if (isArr) {
+      result = initCloneArray(value);
+      if (!isDeep) {
+        return copyArray(value, result);
+      }
+    } else {
+      var tag = getTag(value),
+          isFunc = tag == funcTag || tag == genTag;
+
+      if (isBuffer(value)) {
+        return cloneBuffer(value, isDeep);
+      }
+      if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
+        result = (isFlat || isFunc) ? {} : initCloneObject(value);
+        if (!isDeep) {
+          return isFlat
+            ? copySymbolsIn(value, baseAssignIn(result, value))
+            : copySymbols(value, baseAssign(result, value));
+        }
+      } else {
+        if (!cloneableTags[tag]) {
+          return object ? value : {};
+        }
+        result = initCloneByTag(value, tag, isDeep);
+      }
+    }
+    // Check for circular references and return its corresponding clone.
+    stack || (stack = new Stack);
+    var stacked = stack.get(value);
+    if (stacked) {
+      return stacked;
+    }
+    stack.set(value, result);
+
+    if (isSet(value)) {
+      value.forEach(function(subValue) {
+        result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
+      });
+
+      return result;
+    }
+
+    if (isMap(value)) {
+      value.forEach(function(subValue, key) {
+        result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
+      });
+
+      return result;
+    }
+
+    var keysFunc = isFull
+      ? (isFlat ? getAllKeysIn : getAllKeys)
+      : (isFlat ? keysIn : keys);
+
+    var props = isArr ? undefined : keysFunc(value);
+    arrayEach(props || value, function(subValue, key) {
+      if (props) {
+        key = subValue;
+        subValue = value[key];
+      }
+      // Recursively populate clone (susceptible to call stack limits).
+      assignValue(result, key, baseClone(subValue, bitmask, customizer, key, value, stack));
+    });
+    return result;
+  }
+
+  /**
+   * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
+   * `keysFunc` and `symbolsFunc` to get the enumerable property names and
+   * symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @param {Function} keysFunc The function to get the keys of `object`.
+   * @param {Function} symbolsFunc The function to get the symbols of `object`.
+   * @returns {Array} Returns the array of property names and symbols.
+   */
+  function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+    var result = keysFunc(object);
+    return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
+  }
+
+  /**
+   * The base implementation of `getTag` without fallbacks for buggy environments.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the `toStringTag`.
+   */
+  function baseGetTag(value) {
+    if (value == null) {
+      return value === undefined ? undefinedTag : nullTag;
+    }
+    return (symToStringTag && symToStringTag in Object(value))
+      ? getRawTag(value)
+      : objectToString(value);
+  }
+
+  /**
+   * The base implementation of `_.isArguments`.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+   */
+  function baseIsArguments(value) {
+    return isObjectLike(value) && baseGetTag(value) == argsTag;
+  }
+
+  /**
+   * The base implementation of `_.isMap` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+   */
+  function baseIsMap(value) {
+    return isObjectLike(value) && getTag(value) == mapTag;
+  }
+
+  /**
+   * The base implementation of `_.isNative` without bad shim checks.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a native function,
+   *  else `false`.
+   */
+  function baseIsNative(value) {
+    if (!isObject(value) || isMasked(value)) {
+      return false;
+    }
+    var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+    return pattern.test(toSource(value));
+  }
+
+  /**
+   * The base implementation of `_.isSet` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+   */
+  function baseIsSet(value) {
+    return isObjectLike(value) && getTag(value) == setTag;
+  }
+
+  /**
+   * The base implementation of `_.isTypedArray` without Node.js optimizations.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+   */
+  function baseIsTypedArray(value) {
+    return isObjectLike(value) &&
+      isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+  }
+
+  /**
+   * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   */
+  function baseKeys(object) {
+    if (!isPrototype(object)) {
+      return nativeKeys(object);
+    }
+    var result = [];
+    for (var key in Object(object)) {
+      if (hasOwnProperty.call(object, key) && key != 'constructor') {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   */
+  function baseKeysIn(object) {
+    if (!isObject(object)) {
+      return nativeKeysIn(object);
+    }
+    var isProto = isPrototype(object),
+        result = [];
+
+    for (var key in object) {
+      if (!(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Creates a clone of  `buffer`.
+   *
+   * @private
+   * @param {Buffer} buffer The buffer to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Buffer} Returns the cloned buffer.
+   */
+  function cloneBuffer(buffer, isDeep) {
+    if (isDeep) {
+      return buffer.slice();
+    }
+    var length = buffer.length,
+        result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+
+    buffer.copy(result);
+    return result;
+  }
+
+  /**
+   * Creates a clone of `arrayBuffer`.
+   *
+   * @private
+   * @param {ArrayBuffer} arrayBuffer The array buffer to clone.
+   * @returns {ArrayBuffer} Returns the cloned array buffer.
+   */
+  function cloneArrayBuffer(arrayBuffer) {
+    var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
+    new Uint8Array(result).set(new Uint8Array(arrayBuffer));
+    return result;
+  }
+
+  /**
+   * Creates a clone of `dataView`.
+   *
+   * @private
+   * @param {Object} dataView The data view to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Object} Returns the cloned data view.
+   */
+  function cloneDataView(dataView, isDeep) {
+    var buffer = isDeep ? cloneArrayBuffer(dataView.buffer) : dataView.buffer;
+    return new dataView.constructor(buffer, dataView.byteOffset, dataView.byteLength);
+  }
+
+  /**
+   * Creates a clone of `regexp`.
+   *
+   * @private
+   * @param {Object} regexp The regexp to clone.
+   * @returns {Object} Returns the cloned regexp.
+   */
+  function cloneRegExp(regexp) {
+    var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
+    result.lastIndex = regexp.lastIndex;
+    return result;
+  }
+
+  /**
+   * Creates a clone of the `symbol` object.
+   *
+   * @private
+   * @param {Object} symbol The symbol object to clone.
+   * @returns {Object} Returns the cloned symbol object.
+   */
+  function cloneSymbol(symbol) {
+    return symbolValueOf ? Object(symbolValueOf.call(symbol)) : {};
+  }
+
+  /**
+   * Creates a clone of `typedArray`.
+   *
+   * @private
+   * @param {Object} typedArray The typed array to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Object} Returns the cloned typed array.
+   */
+  function cloneTypedArray(typedArray, isDeep) {
+    var buffer = isDeep ? cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
+    return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
+  }
+
+  /**
+   * Copies the values of `source` to `array`.
+   *
+   * @private
+   * @param {Array} source The array to copy values from.
+   * @param {Array} [array=[]] The array to copy values to.
+   * @returns {Array} Returns `array`.
+   */
+  function copyArray(source, array) {
+    var index = -1,
+        length = source.length;
+
+    array || (array = Array(length));
+    while (++index < length) {
+      array[index] = source[index];
+    }
+    return array;
+  }
+
+  /**
+   * Copies properties of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy properties from.
+   * @param {Array} props The property identifiers to copy.
+   * @param {Object} [object={}] The object to copy properties to.
+   * @param {Function} [customizer] The function to customize copied values.
+   * @returns {Object} Returns `object`.
+   */
+  function copyObject(source, props, object, customizer) {
+    var isNew = !object;
+    object || (object = {});
+
+    var index = -1,
+        length = props.length;
+
+    while (++index < length) {
+      var key = props[index];
+
+      var newValue = customizer
+        ? customizer(object[key], source[key], key, object, source)
+        : undefined;
+
+      if (newValue === undefined) {
+        newValue = source[key];
+      }
+      if (isNew) {
+        baseAssignValue(object, key, newValue);
+      } else {
+        assignValue(object, key, newValue);
+      }
+    }
+    return object;
+  }
+
+  /**
+   * Copies own symbols of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy symbols from.
+   * @param {Object} [object={}] The object to copy symbols to.
+   * @returns {Object} Returns `object`.
+   */
+  function copySymbols(source, object) {
+    return copyObject(source, getSymbols(source), object);
+  }
+
+  /**
+   * Copies own and inherited symbols of `source` to `object`.
+   *
+   * @private
+   * @param {Object} source The object to copy symbols from.
+   * @param {Object} [object={}] The object to copy symbols to.
+   * @returns {Object} Returns `object`.
+   */
+  function copySymbolsIn(source, object) {
+    return copyObject(source, getSymbolsIn(source), object);
+  }
+
+  /**
+   * Creates an array of own enumerable property names and symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names and symbols.
+   */
+  function getAllKeys(object) {
+    return baseGetAllKeys(object, keys, getSymbols);
+  }
+
+  /**
+   * Creates an array of own and inherited enumerable property names and
+   * symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names and symbols.
+   */
+  function getAllKeysIn(object) {
+    return baseGetAllKeys(object, keysIn, getSymbolsIn);
+  }
+
+  /**
+   * Gets the data for `map`.
+   *
+   * @private
+   * @param {Object} map The map to query.
+   * @param {string} key The reference key.
+   * @returns {*} Returns the map data.
+   */
+  function getMapData(map, key) {
+    var data = map.__data__;
+    return isKeyable(key)
+      ? data[typeof key == 'string' ? 'string' : 'hash']
+      : data.map;
+  }
+
+  /**
+   * Gets the native function at `key` of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @param {string} key The key of the method to get.
+   * @returns {*} Returns the function if it's native, else `undefined`.
+   */
+  function getNative(object, key) {
+    var value = getValue(object, key);
+    return baseIsNative(value) ? value : undefined;
+  }
+
+  /**
+   * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the raw `toStringTag`.
+   */
+  function getRawTag(value) {
+    var isOwn = hasOwnProperty.call(value, symToStringTag),
+        tag = value[symToStringTag];
+
+    try {
+      value[symToStringTag] = undefined;
+      var unmasked = true;
+    } catch (e) {}
+
+    var result = nativeObjectToString.call(value);
+    if (unmasked) {
+      if (isOwn) {
+        value[symToStringTag] = tag;
+      } else {
+        delete value[symToStringTag];
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Creates an array of the own enumerable symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of symbols.
+   */
+  var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+    if (object == null) {
+      return [];
+    }
+    object = Object(object);
+    return arrayFilter(nativeGetSymbols(object), function(symbol) {
+      return propertyIsEnumerable.call(object, symbol);
+    });
+  };
+
+  /**
+   * Creates an array of the own and inherited enumerable symbols of `object`.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of symbols.
+   */
+  var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
+    var result = [];
+    while (object) {
+      arrayPush(result, getSymbols(object));
+      object = getPrototype(object);
+    }
+    return result;
+  };
+
+  /**
+   * Gets the `toStringTag` of `value`.
+   *
+   * @private
+   * @param {*} value The value to query.
+   * @returns {string} Returns the `toStringTag`.
+   */
+  var getTag = baseGetTag;
+
+  // Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
+  if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+      (Map && getTag(new Map) != mapTag) ||
+      (Promise && getTag(Promise.resolve()) != promiseTag) ||
+      (Set && getTag(new Set) != setTag) ||
+      (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+    getTag = function(value) {
+      var result = baseGetTag(value),
+          Ctor = result == objectTag ? value.constructor : undefined,
+          ctorString = Ctor ? toSource(Ctor) : '';
+
+      if (ctorString) {
+        switch (ctorString) {
+          case dataViewCtorString: return dataViewTag;
+          case mapCtorString: return mapTag;
+          case promiseCtorString: return promiseTag;
+          case setCtorString: return setTag;
+          case weakMapCtorString: return weakMapTag;
+        }
+      }
+      return result;
+    };
+  }
+
+  /**
+   * Initializes an array clone.
+   *
+   * @private
+   * @param {Array} array The array to clone.
+   * @returns {Array} Returns the initialized clone.
+   */
+  function initCloneArray(array) {
+    var length = array.length,
+        result = new array.constructor(length);
+
+    // Add properties assigned by `RegExp#exec`.
+    if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
+      result.index = array.index;
+      result.input = array.input;
+    }
+    return result;
+  }
+
+  /**
+   * Initializes an object clone.
+   *
+   * @private
+   * @param {Object} object The object to clone.
+   * @returns {Object} Returns the initialized clone.
+   */
+  function initCloneObject(object) {
+    return (typeof object.constructor == 'function' && !isPrototype(object))
+      ? baseCreate(getPrototype(object))
+      : {};
+  }
+
+  /**
+   * Initializes an object clone based on its `toStringTag`.
+   *
+   * **Note:** This function only supports cloning values with tags of
+   * `Boolean`, `Date`, `Error`, `Map`, `Number`, `RegExp`, `Set`, or `String`.
+   *
+   * @private
+   * @param {Object} object The object to clone.
+   * @param {string} tag The `toStringTag` of the object to clone.
+   * @param {boolean} [isDeep] Specify a deep clone.
+   * @returns {Object} Returns the initialized clone.
+   */
+  function initCloneByTag(object, tag, isDeep) {
+    var Ctor = object.constructor;
+    switch (tag) {
+      case arrayBufferTag:
+        return cloneArrayBuffer(object);
+
+      case boolTag:
+      case dateTag:
+        return new Ctor(+object);
+
+      case dataViewTag:
+        return cloneDataView(object, isDeep);
+
+      case float32Tag: case float64Tag:
+      case int8Tag: case int16Tag: case int32Tag:
+      case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
+        return cloneTypedArray(object, isDeep);
+
+      case mapTag:
+        return new Ctor;
+
+      case numberTag:
+      case stringTag:
+        return new Ctor(object);
+
+      case regexpTag:
+        return cloneRegExp(object);
+
+      case setTag:
+        return new Ctor;
+
+      case symbolTag:
+        return cloneSymbol(object);
+    }
+  }
+
+  /**
+   * Checks if `value` is a valid array-like index.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+   * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+   */
+  function isIndex(value, length) {
+    var type = typeof value;
+    length = length == null ? MAX_SAFE_INTEGER : length;
+
+    return !!length &&
+      (type == 'number' ||
+        (type != 'symbol' && reIsUint.test(value))) &&
+          (value > -1 && value % 1 == 0 && value < length);
+  }
+
+  /**
+   * Checks if `value` is suitable for use as unique object key.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+   */
+  function isKeyable(value) {
+    var type = typeof value;
+    return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+      ? (value !== '__proto__')
+      : (value === null);
+  }
+
+  /**
+   * Checks if `func` has its source masked.
+   *
+   * @private
+   * @param {Function} func The function to check.
+   * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+   */
+  function isMasked(func) {
+    return !!maskSrcKey && (maskSrcKey in func);
+  }
+
+  /**
+   * Checks if `value` is likely a prototype object.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+   */
+  function isPrototype(value) {
+    var Ctor = value && value.constructor,
+        proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+    return value === proto;
+  }
+
+  /**
+   * This function is like
+   * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+   * except that it includes inherited enumerable properties.
+   *
+   * @private
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   */
+  function nativeKeysIn(object) {
+    var result = [];
+    if (object != null) {
+      for (var key in Object(object)) {
+        result.push(key);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Converts `value` to a string using `Object.prototype.toString`.
+   *
+   * @private
+   * @param {*} value The value to convert.
+   * @returns {string} Returns the converted string.
+   */
+  function objectToString(value) {
+    return nativeObjectToString.call(value);
+  }
+
+  /**
+   * Converts `func` to its source code.
+   *
+   * @private
+   * @param {Function} func The function to convert.
+   * @returns {string} Returns the source code.
+   */
+  function toSource(func) {
+    if (func != null) {
+      try {
+        return funcToString.call(func);
+      } catch (e) {}
+      try {
+        return (func + '');
+      } catch (e) {}
+    }
+    return '';
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * This method is like `_.clone` except that it recursively clones `value`.
+   *
+   * @static
+   * @memberOf _
+   * @since 1.0.0
+   * @category Lang
+   * @param {*} value The value to recursively clone.
+   * @returns {*} Returns the deep cloned value.
+   * @see _.clone
+   * @example
+   *
+   * var objects = [{ 'a': 1 }, { 'b': 2 }];
+   *
+   * var deep = _.cloneDeep(objects);
+   * console.log(deep[0] === objects[0]);
+   * // => false
+   */
+  function cloneDeep(value) {
+    return baseClone(value, CLONE_DEEP_FLAG | CLONE_SYMBOLS_FLAG);
+  }
+
+  /**
+   * Performs a
+   * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+   * comparison between two values to determine if they are equivalent.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to compare.
+   * @param {*} other The other value to compare.
+   * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+   * @example
+   *
+   * var object = { 'a': 1 };
+   * var other = { 'a': 1 };
+   *
+   * _.eq(object, object);
+   * // => true
+   *
+   * _.eq(object, other);
+   * // => false
+   *
+   * _.eq('a', 'a');
+   * // => true
+   *
+   * _.eq('a', Object('a'));
+   * // => false
+   *
+   * _.eq(NaN, NaN);
+   * // => true
+   */
+  function eq(value, other) {
+    return value === other || (value !== value && other !== other);
+  }
+
+  /**
+   * Checks if `value` is likely an `arguments` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+   *  else `false`.
+   * @example
+   *
+   * _.isArguments(function() { return arguments; }());
+   * // => true
+   *
+   * _.isArguments([1, 2, 3]);
+   * // => false
+   */
+  var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+    return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+      !propertyIsEnumerable.call(value, 'callee');
+  };
+
+  /**
+   * Checks if `value` is classified as an `Array` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+   * @example
+   *
+   * _.isArray([1, 2, 3]);
+   * // => true
+   *
+   * _.isArray(document.body.children);
+   * // => false
+   *
+   * _.isArray('abc');
+   * // => false
+   *
+   * _.isArray(_.noop);
+   * // => false
+   */
+  var isArray = Array.isArray;
+
+  /**
+   * Checks if `value` is array-like. A value is considered array-like if it's
+   * not a function and has a `value.length` that's an integer greater than or
+   * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+   * @example
+   *
+   * _.isArrayLike([1, 2, 3]);
+   * // => true
+   *
+   * _.isArrayLike(document.body.children);
+   * // => true
+   *
+   * _.isArrayLike('abc');
+   * // => true
+   *
+   * _.isArrayLike(_.noop);
+   * // => false
+   */
+  function isArrayLike(value) {
+    return value != null && isLength(value.length) && !isFunction(value);
+  }
+
+  /**
+   * Checks if `value` is a buffer.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.3.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+   * @example
+   *
+   * _.isBuffer(new Buffer(2));
+   * // => true
+   *
+   * _.isBuffer(new Uint8Array(2));
+   * // => false
+   */
+  var isBuffer = nativeIsBuffer || stubFalse;
+
+  /**
+   * Checks if `value` is classified as a `Function` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+   * @example
+   *
+   * _.isFunction(_);
+   * // => true
+   *
+   * _.isFunction(/abc/);
+   * // => false
+   */
+  function isFunction(value) {
+    if (!isObject(value)) {
+      return false;
+    }
+    // The use of `Object#toString` avoids issues with the `typeof` operator
+    // in Safari 9 which returns 'object' for typed arrays and other constructors.
+    var tag = baseGetTag(value);
+    return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+  }
+
+  /**
+   * Checks if `value` is a valid array-like length.
+   *
+   * **Note:** This method is loosely based on
+   * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+   * @example
+   *
+   * _.isLength(3);
+   * // => true
+   *
+   * _.isLength(Number.MIN_VALUE);
+   * // => false
+   *
+   * _.isLength(Infinity);
+   * // => false
+   *
+   * _.isLength('3');
+   * // => false
+   */
+  function isLength(value) {
+    return typeof value == 'number' &&
+      value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+  }
+
+  /**
+   * Checks if `value` is the
+   * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+   * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+   *
+   * @static
+   * @memberOf _
+   * @since 0.1.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+   * @example
+   *
+   * _.isObject({});
+   * // => true
+   *
+   * _.isObject([1, 2, 3]);
+   * // => true
+   *
+   * _.isObject(_.noop);
+   * // => true
+   *
+   * _.isObject(null);
+   * // => false
+   */
+  function isObject(value) {
+    var type = typeof value;
+    return value != null && (type == 'object' || type == 'function');
+  }
+
+  /**
+   * Checks if `value` is object-like. A value is object-like if it's not `null`
+   * and has a `typeof` result of "object".
+   *
+   * @static
+   * @memberOf _
+   * @since 4.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+   * @example
+   *
+   * _.isObjectLike({});
+   * // => true
+   *
+   * _.isObjectLike([1, 2, 3]);
+   * // => true
+   *
+   * _.isObjectLike(_.noop);
+   * // => false
+   *
+   * _.isObjectLike(null);
+   * // => false
+   */
+  function isObjectLike(value) {
+    return value != null && typeof value == 'object';
+  }
+
+  /**
+   * Checks if `value` is classified as a `Map` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.3.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+   * @example
+   *
+   * _.isMap(new Map);
+   * // => true
+   *
+   * _.isMap(new WeakMap);
+   * // => false
+   */
+  var isMap = nodeIsMap ? baseUnary(nodeIsMap) : baseIsMap;
+
+  /**
+   * Checks if `value` is classified as a `Set` object.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.3.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+   * @example
+   *
+   * _.isSet(new Set);
+   * // => true
+   *
+   * _.isSet(new WeakSet);
+   * // => false
+   */
+  var isSet = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
+
+  /**
+   * Checks if `value` is classified as a typed array.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+   * @example
+   *
+   * _.isTypedArray(new Uint8Array);
+   * // => true
+   *
+   * _.isTypedArray([]);
+   * // => false
+   */
+  var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Creates an array of the own enumerable property names of `object`.
+   *
+   * **Note:** Non-object values are coerced to objects. See the
+   * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+   * for more details.
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Object
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   * @example
+   *
+   * function Foo() {
+   *   this.a = 1;
+   *   this.b = 2;
+   * }
+   *
+   * Foo.prototype.c = 3;
+   *
+   * _.keys(new Foo);
+   * // => ['a', 'b'] (iteration order is not guaranteed)
+   *
+   * _.keys('hi');
+   * // => ['0', '1']
+   */
+  function keys(object) {
+    return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+  }
+
+  /**
+   * Creates an array of the own and inherited enumerable property names of `object`.
+   *
+   * **Note:** Non-object values are coerced to objects.
+   *
+   * @static
+   * @memberOf _
+   * @since 3.0.0
+   * @category Object
+   * @param {Object} object The object to query.
+   * @returns {Array} Returns the array of property names.
+   * @example
+   *
+   * function Foo() {
+   *   this.a = 1;
+   *   this.b = 2;
+   * }
+   *
+   * Foo.prototype.c = 3;
+   *
+   * _.keysIn(new Foo);
+   * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+   */
+  function keysIn(object) {
+    return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Reverts the `_` variable to its previous value and returns a reference to
+   * the `lodash` function.
+   *
+   * @static
+   * @since 0.1.0
+   * @memberOf _
+   * @category Util
+   * @returns {Function} Returns the `lodash` function.
+   * @example
+   *
+   * var lodash = _.noConflict();
+   */
+  function noConflict() {
+    if (root._ === this) {
+      root._ = oldDash;
+    }
+    return this;
+  }
+
+  /**
+   * This method returns a new empty array.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.13.0
+   * @category Util
+   * @returns {Array} Returns the new empty array.
+   * @example
+   *
+   * var arrays = _.times(2, _.stubArray);
+   *
+   * console.log(arrays);
+   * // => [[], []]
+   *
+   * console.log(arrays[0] === arrays[1]);
+   * // => false
+   */
+  function stubArray() {
+    return [];
+  }
+
+  /**
+   * This method returns `false`.
+   *
+   * @static
+   * @memberOf _
+   * @since 4.13.0
+   * @category Util
+   * @returns {boolean} Returns `false`.
+   * @example
+   *
+   * _.times(2, _.stubFalse);
+   * // => [false, false]
+   */
+  function stubFalse() {
+    return false;
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  // Add methods that return wrapped values in chain sequences.
+  lodash.keys = keys;
+  lodash.keysIn = keysIn;
+
+  /*------------------------------------------------------------------------*/
+
+  // Add methods that return unwrapped values in chain sequences.
+  lodash.cloneDeep = cloneDeep;
+  lodash.eq = eq;
+  lodash.isArguments = isArguments;
+  lodash.isArray = isArray;
+  lodash.isArrayLike = isArrayLike;
+  lodash.isBuffer = isBuffer;
+  lodash.isFunction = isFunction;
+  lodash.isLength = isLength;
+  lodash.isMap = isMap;
+  lodash.isObject = isObject;
+  lodash.isObjectLike = isObjectLike;
+  lodash.isSet = isSet;
+  lodash.isTypedArray = isTypedArray;
+  lodash.stubArray = stubArray;
+  lodash.stubFalse = stubFalse;
+  lodash.noConflict = noConflict;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * The semantic version number.
+   *
+   * @static
+   * @memberOf _
+   * @type {string}
+   */
+  lodash.VERSION = VERSION;
+
+  /*--------------------------------------------------------------------------*/
+
+  // Export to the global object.
+  root._ = lodash;
+}.call(this));
+
 /*!
  * jQuery JavaScript Library v1.11.2
  * http://jquery.com/
@@ -11253,347 +12751,11 @@ return jQuery;
 
 }));
 /*!
- * This file creates $ and jQuery variables within the F2 closure scope
+ * Ensure no conflict for thirty party modules
  */
 var $, jQuery = $ = window.jQuery.noConflict(true);
+var _ = window._.noConflict();
 
-/* ========================================================================
- * Bootstrap: modal.js v3.3.4
- * http://getbootstrap.com/javascript/#modals
- * ========================================================================
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // MODAL CLASS DEFINITION
-  // ======================
-
-  var Modal = function (element, options) {
-    this.options             = options
-    this.$body               = $(document.body)
-    this.$element            = $(element)
-    this.$dialog             = this.$element.find('.modal-dialog')
-    this.$backdrop           = null
-    this.isShown             = null
-    this.originalBodyPad     = null
-    this.scrollbarWidth      = 0
-    this.ignoreBackdropClick = false
-
-    if (this.options.remote) {
-      this.$element
-        .find('.modal-content')
-        .load(this.options.remote, $.proxy(function () {
-          this.$element.trigger('loaded.bs.modal')
-        }, this))
-    }
-  }
-
-  Modal.VERSION  = '3.3.4'
-
-  Modal.TRANSITION_DURATION = 300
-  Modal.BACKDROP_TRANSITION_DURATION = 150
-
-  Modal.DEFAULTS = {
-    backdrop: true,
-    keyboard: true,
-    show: true
-  }
-
-  Modal.prototype.toggle = function (_relatedTarget) {
-    return this.isShown ? this.hide() : this.show(_relatedTarget)
-  }
-
-  Modal.prototype.show = function (_relatedTarget) {
-    var that = this
-    var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
-
-    this.$element.trigger(e)
-
-    if (this.isShown || e.isDefaultPrevented()) return
-
-    this.isShown = true
-
-    this.checkScrollbar()
-    this.setScrollbar()
-    this.$body.addClass('modal-open')
-
-    this.escape()
-    this.resize()
-
-    this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
-
-    this.$dialog.on('mousedown.dismiss.bs.modal', function () {
-      that.$element.one('mouseup.dismiss.bs.modal', function (e) {
-        if ($(e.target).is(that.$element)) that.ignoreBackdropClick = true
-      })
-    })
-
-    this.backdrop(function () {
-      var transition = $.support.transition && that.$element.hasClass('fade')
-
-      if (!that.$element.parent().length) {
-        that.$element.appendTo(that.$body) // don't move modals dom position
-      }
-
-      that.$element
-        .show()
-        .scrollTop(0)
-
-      that.adjustDialog()
-
-      if (transition) {
-        that.$element[0].offsetWidth // force reflow
-      }
-
-      that.$element.addClass('in')
-
-      that.enforceFocus()
-
-      var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
-
-      transition ?
-        that.$dialog // wait for modal to slide in
-          .one('bsTransitionEnd', function () {
-            that.$element.trigger('focus').trigger(e)
-          })
-          .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-        that.$element.trigger('focus').trigger(e)
-    })
-  }
-
-  Modal.prototype.hide = function (e) {
-    if (e) e.preventDefault()
-
-    e = $.Event('hide.bs.modal')
-
-    this.$element.trigger(e)
-
-    if (!this.isShown || e.isDefaultPrevented()) return
-
-    this.isShown = false
-
-    this.escape()
-    this.resize()
-
-    $(document).off('focusin.bs.modal')
-
-    this.$element
-      .removeClass('in')
-      .off('click.dismiss.bs.modal')
-      .off('mouseup.dismiss.bs.modal')
-
-    this.$dialog.off('mousedown.dismiss.bs.modal')
-
-    $.support.transition && this.$element.hasClass('fade') ?
-      this.$element
-        .one('bsTransitionEnd', $.proxy(this.hideModal, this))
-        .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-      this.hideModal()
-  }
-
-  Modal.prototype.enforceFocus = function () {
-    $(document)
-      .off('focusin.bs.modal') // guard against infinite focus loop
-      .on('focusin.bs.modal', $.proxy(function (e) {
-        if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-          this.$element.trigger('focus')
-        }
-      }, this))
-  }
-
-  Modal.prototype.escape = function () {
-    if (this.isShown && this.options.keyboard) {
-      this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
-        e.which == 27 && this.hide()
-      }, this))
-    } else if (!this.isShown) {
-      this.$element.off('keydown.dismiss.bs.modal')
-    }
-  }
-
-  Modal.prototype.resize = function () {
-    if (this.isShown) {
-      $(window).on('resize.bs.modal', $.proxy(this.handleUpdate, this))
-    } else {
-      $(window).off('resize.bs.modal')
-    }
-  }
-
-  Modal.prototype.hideModal = function () {
-    var that = this
-    this.$element.hide()
-    this.backdrop(function () {
-      that.$body.removeClass('modal-open')
-      that.resetAdjustments()
-      that.resetScrollbar()
-      that.$element.trigger('hidden.bs.modal')
-    })
-  }
-
-  Modal.prototype.removeBackdrop = function () {
-    this.$backdrop && this.$backdrop.remove()
-    this.$backdrop = null
-  }
-
-  Modal.prototype.backdrop = function (callback) {
-    var that = this
-    var animate = this.$element.hasClass('fade') ? 'fade' : ''
-
-    if (this.isShown && this.options.backdrop) {
-      var doAnimate = $.support.transition && animate
-
-      this.$backdrop = $(document.createElement('div'))
-        .addClass('modal-backdrop ' + animate)
-        .appendTo(this.$body)
-
-      this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
-        if (this.ignoreBackdropClick) {
-          this.ignoreBackdropClick = false
-          return
-        }
-        if (e.target !== e.currentTarget) return
-        this.options.backdrop == 'static'
-          ? this.$element[0].focus()
-          : this.hide()
-      }, this))
-
-      if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
-
-      this.$backdrop.addClass('in')
-
-      if (!callback) return
-
-      doAnimate ?
-        this.$backdrop
-          .one('bsTransitionEnd', callback)
-          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
-        callback()
-
-    } else if (!this.isShown && this.$backdrop) {
-      this.$backdrop.removeClass('in')
-
-      var callbackRemove = function () {
-        that.removeBackdrop()
-        callback && callback()
-      }
-      $.support.transition && this.$element.hasClass('fade') ?
-        this.$backdrop
-          .one('bsTransitionEnd', callbackRemove)
-          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
-        callbackRemove()
-
-    } else if (callback) {
-      callback()
-    }
-  }
-
-  // these following methods are used to handle overflowing modals
-
-  Modal.prototype.handleUpdate = function () {
-    this.adjustDialog()
-  }
-
-  Modal.prototype.adjustDialog = function () {
-    var modalIsOverflowing = this.$element[0].scrollHeight > document.documentElement.clientHeight
-
-    this.$element.css({
-      paddingLeft:  !this.bodyIsOverflowing && modalIsOverflowing ? this.scrollbarWidth : '',
-      paddingRight: this.bodyIsOverflowing && !modalIsOverflowing ? this.scrollbarWidth : ''
-    })
-  }
-
-  Modal.prototype.resetAdjustments = function () {
-    this.$element.css({
-      paddingLeft: '',
-      paddingRight: ''
-    })
-  }
-
-  Modal.prototype.checkScrollbar = function () {
-    var fullWindowWidth = window.innerWidth
-    if (!fullWindowWidth) { // workaround for missing window.innerWidth in IE8
-      var documentElementRect = document.documentElement.getBoundingClientRect()
-      fullWindowWidth = documentElementRect.right - Math.abs(documentElementRect.left)
-    }
-    this.bodyIsOverflowing = document.body.clientWidth < fullWindowWidth
-    this.scrollbarWidth = this.measureScrollbar()
-  }
-
-  Modal.prototype.setScrollbar = function () {
-    var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-    this.originalBodyPad = document.body.style.paddingRight || ''
-    if (this.bodyIsOverflowing) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
-  }
-
-  Modal.prototype.resetScrollbar = function () {
-    this.$body.css('padding-right', this.originalBodyPad)
-  }
-
-  Modal.prototype.measureScrollbar = function () { // thx walsh
-    var scrollDiv = document.createElement('div')
-    scrollDiv.className = 'modal-scrollbar-measure'
-    this.$body.append(scrollDiv)
-    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
-    this.$body[0].removeChild(scrollDiv)
-    return scrollbarWidth
-  }
-
-
-  // MODAL PLUGIN DEFINITION
-  // =======================
-
-  function Plugin(option, _relatedTarget) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.modal')
-      var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
-      if (typeof option == 'string') data[option](_relatedTarget)
-      else if (options.show) data.show(_relatedTarget)
-    })
-  }
-
-  var old = $.fn.modal
-
-  $.fn.modal             = Plugin
-  $.fn.modal.Constructor = Modal
-
-
-  // MODAL NO CONFLICT
-  // =================
-
-  $.fn.modal.noConflict = function () {
-    $.fn.modal = old
-    return this
-  }
-
-
-  // MODAL DATA-API
-  // ==============
-
-  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
-    var $this   = $(this)
-    var href    = $this.attr('href')
-    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
-    var option  = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
-
-    if ($this.is('a')) e.preventDefault()
-
-    $target.one('show.bs.modal', function (showEvent) {
-      if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
-      $target.one('hidden.bs.modal', function () {
-        $this.is(':visible') && $this.trigger('focus')
-      })
-    })
-    Plugin.call($target, option, this)
-  })
-
-}(jQuery);
 /*!
  * Hij1nx requires the following notice to accompany EventEmitter:
  * 
@@ -12182,2593 +13344,8 @@ var $, jQuery = $ = window.jQuery.noConflict(true);
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
 
-/**
- * easyXDM
- * http://easyxdm.net/
- * Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-(function (window, document, location, setTimeout, decodeURIComponent, encodeURIComponent) {
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global JSON, XMLHttpRequest, window, escape, unescape, ActiveXObject */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-var global = this;
-var channelId = Math.floor(Math.random() * 10000); // randomize the initial id in case of multiple closures loaded 
-var emptyFn = Function.prototype;
-var reURI = /^((http.?:)\/\/([^:\/\s]+)(:\d+)*)/; // returns groups for protocol (2), domain (3) and port (4) 
-var reParent = /[\-\w]+\/\.\.\//; // matches a foo/../ expression 
-var reDoubleSlash = /([^:])\/\//g; // matches // anywhere but in the protocol
-var namespace = ""; // stores namespace under which easyXDM object is stored on the page (empty if object is global)
-var easyXDM = {};
-var _easyXDM = window.easyXDM; // map over global easyXDM in case of overwrite
-var IFRAME_PREFIX = "easyXDM_";
-var HAS_NAME_PROPERTY_BUG;
-var useHash = false; // whether to use the hash over the query
-var flashVersion; // will be set if using flash
-var HAS_FLASH_THROTTLED_BUG;
-
-
-// http://peter.michaux.ca/articles/feature-detection-state-of-the-art-browser-scripting
-function isHostMethod(object, property){
-    var t = typeof object[property];
-    return t == 'function' ||
-    (!!(t == 'object' && object[property])) ||
-    t == 'unknown';
-}
-
-function isHostObject(object, property){
-    return !!(typeof(object[property]) == 'object' && object[property]);
-}
-
-// end
-
-// http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/
-function isArray(o){
-    return Object.prototype.toString.call(o) === '[object Array]';
-}
-
-// end
-function hasFlash(){
-    var name = "Shockwave Flash", mimeType = "application/x-shockwave-flash";
-    
-    if (!undef(navigator.plugins) && typeof navigator.plugins[name] == "object") {
-        // adapted from the swfobject code
-        var description = navigator.plugins[name].description;
-        if (description && !undef(navigator.mimeTypes) && navigator.mimeTypes[mimeType] && navigator.mimeTypes[mimeType].enabledPlugin) {
-            flashVersion = description.match(/\d+/g);
-        }
-    }
-    if (!flashVersion) {
-        var flash;
-        try {
-            flash = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-            flashVersion = Array.prototype.slice.call(flash.GetVariable("$version").match(/(\d+),(\d+),(\d+),(\d+)/), 1);
-            flash = null;
-        } 
-        catch (notSupportedException) {
-        }
-    }
-    if (!flashVersion) {
-        return false;
-    }
-    var major = parseInt(flashVersion[0], 10), minor = parseInt(flashVersion[1], 10);
-    HAS_FLASH_THROTTLED_BUG = major > 9 && minor > 0;
-    return true;
-}
-
-/*
- * Cross Browser implementation for adding and removing event listeners.
- */
-var on, un;
-if (isHostMethod(window, "addEventListener")) {
-    on = function(target, type, listener){
-        target.addEventListener(type, listener, false);
-    };
-    un = function(target, type, listener){
-        target.removeEventListener(type, listener, false);
-    };
-}
-else if (isHostMethod(window, "attachEvent")) {
-    on = function(object, sEvent, fpNotify){
-        object.attachEvent("on" + sEvent, fpNotify);
-    };
-    un = function(object, sEvent, fpNotify){
-        object.detachEvent("on" + sEvent, fpNotify);
-    };
-}
-else {
-    throw new Error("Browser not supported");
-}
-
-/*
- * Cross Browser implementation of DOMContentLoaded.
- */
-var domIsReady = false, domReadyQueue = [], readyState;
-if ("readyState" in document) {
-    // If browser is WebKit-powered, check for both 'loaded' (legacy browsers) and
-    // 'interactive' (HTML5 specs, recent WebKit builds) states.
-    // https://bugs.webkit.org/show_bug.cgi?id=45119
-    readyState = document.readyState;
-    domIsReady = readyState == "complete" || (~ navigator.userAgent.indexOf('AppleWebKit/') && (readyState == "loaded" || readyState == "interactive"));
-}
-else {
-    // If readyState is not supported in the browser, then in order to be able to fire whenReady functions apropriately
-    // when added dynamically _after_ DOM load, we have to deduce wether the DOM is ready or not.
-    // We only need a body to add elements to, so the existence of document.body is enough for us.
-    domIsReady = !!document.body;
-}
-
-function dom_onReady(){
-    if (domIsReady) {
-        return;
-    }
-    domIsReady = true;
-    for (var i = 0; i < domReadyQueue.length; i++) {
-        domReadyQueue[i]();
-    }
-    domReadyQueue.length = 0;
-}
-
-
-if (!domIsReady) {
-    if (isHostMethod(window, "addEventListener")) {
-        on(document, "DOMContentLoaded", dom_onReady);
-    }
-    else {
-        on(document, "readystatechange", function(){
-            if (document.readyState == "complete") {
-                dom_onReady();
-            }
-        });
-        if (document.documentElement.doScroll && window === top) {
-            var doScrollCheck = function(){
-                if (domIsReady) {
-                    return;
-                }
-                // http://javascript.nwbox.com/IEContentLoaded/
-                try {
-                    document.documentElement.doScroll("left");
-                } 
-                catch (e) {
-                    setTimeout(doScrollCheck, 1);
-                    return;
-                }
-                dom_onReady();
-            };
-            doScrollCheck();
-        }
-    }
-    
-    // A fallback to window.onload, that will always work
-    on(window, "load", dom_onReady);
-}
-/**
- * This will add a function to the queue of functions to be run once the DOM reaches a ready state.
- * If functions are added after this event then they will be executed immediately.
- * @param {function} fn The function to add
- * @param {Object} scope An optional scope for the function to be called with.
- */
-function whenReady(fn, scope){
-    if (domIsReady) {
-        fn.call(scope);
-        return;
-    }
-    domReadyQueue.push(function(){
-        fn.call(scope);
-    });
-}
-
-/**
- * Returns an instance of easyXDM from the parent window with
- * respect to the namespace.
- *
- * @return An instance of easyXDM (in the parent window)
- */
-function getParentObject(){
-    var obj = parent;
-    if (namespace !== "") {
-        for (var i = 0, ii = namespace.split("."); i < ii.length; i++) {
-            obj = obj[ii[i]];
-        }
-    }
-    return obj.easyXDM;
-}
-
-/**
- * Removes easyXDM variable from the global scope. It also returns control
- * of the easyXDM variable to whatever code used it before.
- *
- * @param {String} ns A string representation of an object that will hold
- *                    an instance of easyXDM.
- * @return An instance of easyXDM
- */
-function noConflict(ns){
-    
-    window.easyXDM = _easyXDM;
-    namespace = ns;
-    if (namespace) {
-        IFRAME_PREFIX = "easyXDM_" + namespace.replace(".", "_") + "_";
-    }
-    return easyXDM;
-}
-
-/*
- * Methods for working with URLs
- */
-/**
- * Get the domain name from a url.
- * @param {String} url The url to extract the domain from.
- * @return The domain part of the url.
- * @type {String}
- */
-function getDomainName(url){
-    return url.match(reURI)[3];
-}
-
-/**
- * Get the port for a given URL, or "" if none
- * @param {String} url The url to extract the port from.
- * @return The port part of the url.
- * @type {String}
- */
-function getPort(url){
-    return url.match(reURI)[4] || "";
-}
-
-/**
- * Returns  a string containing the schema, domain and if present the port
- * @param {String} url The url to extract the location from
- * @return {String} The location part of the url
- */
-function getLocation(url){
-    var m = url.toLowerCase().match(reURI);
-    var proto = m[2], domain = m[3], port = m[4] || "";
-    if ((proto == "http:" && port == ":80") || (proto == "https:" && port == ":443")) {
-        port = "";
-    }
-    return proto + "//" + domain + port;
-}
-
-/**
- * Resolves a relative url into an absolute one.
- * @param {String} url The path to resolve.
- * @return {String} The resolved url.
- */
-function resolveUrl(url){
-    
-    // replace all // except the one in proto with /
-    url = url.replace(reDoubleSlash, "$1/");
-    
-    // If the url is a valid url we do nothing
-    if (!url.match(/^(http||https):\/\//)) {
-        // If this is a relative path
-        var path = (url.substring(0, 1) === "/") ? "" : location.pathname;
-        if (path.substring(path.length - 1) !== "/") {
-            path = path.substring(0, path.lastIndexOf("/") + 1);
-        }
-        
-        url = location.protocol + "//" + location.host + path + url;
-    }
-    
-    // reduce all 'xyz/../' to just '' 
-    while (reParent.test(url)) {
-        url = url.replace(reParent, "");
-    }
-    
-    return url;
-}
-
-/**
- * Appends the parameters to the given url.<br/>
- * The base url can contain existing query parameters.
- * @param {String} url The base url.
- * @param {Object} parameters The parameters to add.
- * @return {String} A new valid url with the parameters appended.
- */
-function appendQueryParameters(url, parameters){
-    
-    var hash = "", indexOf = url.indexOf("#");
-    if (indexOf !== -1) {
-        hash = url.substring(indexOf);
-        url = url.substring(0, indexOf);
-    }
-    var q = [];
-    for (var key in parameters) {
-        if (parameters.hasOwnProperty(key)) {
-            q.push(key + "=" + encodeURIComponent(parameters[key]));
-        }
-    }
-    return url + (useHash ? "#" : (url.indexOf("?") == -1 ? "?" : "&")) + q.join("&") + hash;
-}
-
-
-// build the query object either from location.query, if it contains the xdm_e argument, or from location.hash
-var query = (function(input){
-    input = input.substring(1).split("&");
-    var data = {}, pair, i = input.length;
-    while (i--) {
-        pair = input[i].split("=");
-        data[pair[0]] = decodeURIComponent(pair[1]);
-    }
-    return data;
-}(/xdm_e=/.test(location.search) ? location.search : location.hash));
-
-/*
- * Helper methods
- */
-/**
- * Helper for checking if a variable/property is undefined
- * @param {Object} v The variable to test
- * @return {Boolean} True if the passed variable is undefined
- */
-function undef(v){
-    return typeof v === "undefined";
-}
-
-/**
- * A safe implementation of HTML5 JSON. Feature testing is used to make sure the implementation works.
- * @return {JSON} A valid JSON conforming object, or null if not found.
- */
-var getJSON = function(){
-    var cached = {};
-    var obj = {
-        a: [1, 2, 3]
-    }, json = "{\"a\":[1,2,3]}";
-    
-    if (typeof JSON != "undefined" && typeof JSON.stringify === "function" && JSON.stringify(obj).replace((/\s/g), "") === json) {
-        // this is a working JSON instance
-        return JSON;
-    }
-    if (Object.toJSON) {
-        if (Object.toJSON(obj).replace((/\s/g), "") === json) {
-            // this is a working stringify method
-            cached.stringify = Object.toJSON;
-        }
-    }
-    
-    if (typeof String.prototype.evalJSON === "function") {
-        obj = json.evalJSON();
-        if (obj.a && obj.a.length === 3 && obj.a[2] === 3) {
-            // this is a working parse method           
-            cached.parse = function(str){
-                return str.evalJSON();
-            };
-        }
-    }
-    
-    if (cached.stringify && cached.parse) {
-        // Only memoize the result if we have valid instance
-        getJSON = function(){
-            return cached;
-        };
-        return cached;
-    }
-    return null;
-};
-
-/**
- * Applies properties from the source object to the target object.<br/>
- * @param {Object} target The target of the properties.
- * @param {Object} source The source of the properties.
- * @param {Boolean} noOverwrite Set to True to only set non-existing properties.
- */
-function apply(destination, source, noOverwrite){
-    var member;
-    for (var prop in source) {
-        if (source.hasOwnProperty(prop)) {
-            if (prop in destination) {
-                member = source[prop];
-                if (typeof member === "object") {
-                    apply(destination[prop], member, noOverwrite);
-                }
-                else if (!noOverwrite) {
-                    destination[prop] = source[prop];
-                }
-            }
-            else {
-                destination[prop] = source[prop];
-            }
-        }
-    }
-    return destination;
-}
-
-// This tests for the bug in IE where setting the [name] property using javascript causes the value to be redirected into [submitName].
-function testForNamePropertyBug(){
-    var form = document.body.appendChild(document.createElement("form")), input = form.appendChild(document.createElement("input"));
-    input.name = IFRAME_PREFIX + "TEST" + channelId; // append channelId in order to avoid caching issues
-    HAS_NAME_PROPERTY_BUG = input !== form.elements[input.name];
-    document.body.removeChild(form);
-}
-
-/**
- * Creates a frame and appends it to the DOM.
- * @param config {object} This object can have the following properties
- * <ul>
- * <li> {object} prop The properties that should be set on the frame. This should include the 'src' property.</li>
- * <li> {object} attr The attributes that should be set on the frame.</li>
- * <li> {DOMElement} container Its parent element (Optional).</li>
- * <li> {function} onLoad A method that should be called with the frames contentWindow as argument when the frame is fully loaded. (Optional)</li>
- * </ul>
- * @return The frames DOMElement
- * @type DOMElement
- */
-function createFrame(config){
-    if (undef(HAS_NAME_PROPERTY_BUG)) {
-        testForNamePropertyBug();
-    }
-    var frame;
-    // This is to work around the problems in IE6/7 with setting the name property. 
-    // Internally this is set as 'submitName' instead when using 'iframe.name = ...'
-    // This is not required by easyXDM itself, but is to facilitate other use cases 
-    if (HAS_NAME_PROPERTY_BUG) {
-        frame = document.createElement("<iframe name=\"" + config.props.name + "\"/>");
-    }
-    else {
-        frame = document.createElement("IFRAME");
-        frame.name = config.props.name;
-    }
-    
-    frame.id = frame.name = config.props.name;
-    delete config.props.name;
-    
-    if (typeof config.container == "string") {
-        config.container = document.getElementById(config.container);
-    }
-    
-    if (!config.container) {
-        // This needs to be hidden like this, simply setting display:none and the like will cause failures in some browsers.
-        apply(frame.style, {
-            position: "absolute",
-            top: "-2000px",
-            // Avoid potential horizontal scrollbar
-            left: "0px"
-        });
-        config.container = document.body;
-    }
-    
-    // HACK: IE cannot have the src attribute set when the frame is appended
-    //       into the container, so we set it to "javascript:false" as a
-    //       placeholder for now.  If we left the src undefined, it would
-    //       instead default to "about:blank", which causes SSL mixed-content
-    //       warnings in IE6 when on an SSL parent page.
-    var src = config.props.src;
-    config.props.src = "javascript:false";
-    
-    // transfer properties to the frame
-    apply(frame, config.props);
-    
-    frame.border = frame.frameBorder = 0;
-    frame.allowTransparency = true;
-    config.container.appendChild(frame);
-    
-    if (config.onLoad) {
-        on(frame, "load", config.onLoad);
-    }
-    
-    // set the frame URL to the proper value (we previously set it to
-    // "javascript:false" to work around the IE issue mentioned above)
-    if(config.usePost) {
-        var form = config.container.appendChild(document.createElement('form')), input;
-        form.target = frame.name;
-        form.action = src;
-        form.method = 'POST';
-        if (typeof(config.usePost) === 'object') {
-            for (var i in config.usePost) {
-                if (config.usePost.hasOwnProperty(i)) {
-                    if (HAS_NAME_PROPERTY_BUG) {
-                        input = document.createElement('<input name="' + i + '"/>');
-                    } else {
-                        input = document.createElement("INPUT");
-                        input.name = i;
-                    }
-                    input.value = config.usePost[i];
-                    form.appendChild(input);
-                }
-            }
-        }
-        form.submit();
-        form.parentNode.removeChild(form);
-    } else {
-        frame.src = src;
-    }
-    config.props.src = src;
-    
-    return frame;
-}
-
-/**
- * Check whether a domain is allowed using an Access Control List.
- * The ACL can contain * and ? as wildcards, or can be regular expressions.
- * If regular expressions they need to begin with ^ and end with $.
- * @param {Array/String} acl The list of allowed domains
- * @param {String} domain The domain to test.
- * @return {Boolean} True if the domain is allowed, false if not.
- */
-function checkAcl(acl, domain){
-    // normalize into an array
-    if (typeof acl == "string") {
-        acl = [acl];
-    }
-    var re, i = acl.length;
-    while (i--) {
-        re = acl[i];
-        re = new RegExp(re.substr(0, 1) == "^" ? re : ("^" + re.replace(/(\*)/g, ".$1").replace(/\?/g, ".") + "$"));
-        if (re.test(domain)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/*
- * Functions related to stacks
- */
-/**
- * Prepares an array of stack-elements suitable for the current configuration
- * @param {Object} config The Transports configuration. See easyXDM.Socket for more.
- * @return {Array} An array of stack-elements with the TransportElement at index 0.
- */
-function prepareTransportStack(config){
-    var protocol = config.protocol, stackEls;
-    config.isHost = config.isHost || undef(query.xdm_p);
-    useHash = config.hash || false;
-    
-    if (!config.props) {
-        config.props = {};
-    }
-    if (!config.isHost) {
-        config.channel = query.xdm_c.replace(/["'<>\\]/g, "");
-        config.secret = query.xdm_s;
-        config.remote = query.xdm_e.replace(/["'<>\\]/g, "");
-        ;
-        protocol = query.xdm_p;
-        if (config.acl && !checkAcl(config.acl, config.remote)) {
-            throw new Error("Access denied for " + config.remote);
-        }
-    }
-    else {
-        config.remote = resolveUrl(config.remote);
-        config.channel = config.channel || "default" + channelId++;
-        config.secret = Math.random().toString(16).substring(2);
-        if (undef(protocol)) {
-            if (getLocation(location.href) == getLocation(config.remote)) {
-                /*
-                 * Both documents has the same origin, lets use direct access.
-                 */
-                protocol = "4";
-            }
-            else if (isHostMethod(window, "postMessage") || isHostMethod(document, "postMessage")) {
-                /*
-                 * This is supported in IE8+, Firefox 3+, Opera 9+, Chrome 2+ and Safari 4+
-                 */
-                protocol = "1";
-            }
-            else if (config.swf && isHostMethod(window, "ActiveXObject") && hasFlash()) {
-                /*
-                 * The Flash transport superseedes the NixTransport as the NixTransport has been blocked by MS
-                 */
-                protocol = "6";
-            }
-            else if (navigator.product === "Gecko" && "frameElement" in window && navigator.userAgent.indexOf('WebKit') == -1) {
-                /*
-                 * This is supported in Gecko (Firefox 1+)
-                 */
-                protocol = "5";
-            }
-            else if (config.remoteHelper) {
-                /*
-                 * This is supported in all browsers that retains the value of window.name when
-                 * navigating from one domain to another, and where parent.frames[foo] can be used
-                 * to get access to a frame from the same domain
-                 */
-                protocol = "2";
-            }
-            else {
-                /*
-                 * This is supported in all browsers where [window].location is writable for all
-                 * The resize event will be used if resize is supported and the iframe is not put
-                 * into a container, else polling will be used.
-                 */
-                protocol = "0";
-            }
-        }
-    }
-    config.protocol = protocol; // for conditional branching
-    switch (protocol) {
-        case "0":// 0 = HashTransport
-            apply(config, {
-                interval: 100,
-                delay: 2000,
-                useResize: true,
-                useParent: false,
-                usePolling: false
-            }, true);
-            if (config.isHost) {
-                if (!config.local) {
-                    // If no local is set then we need to find an image hosted on the current domain
-                    var domain = location.protocol + "//" + location.host, images = document.body.getElementsByTagName("img"), image;
-                    var i = images.length;
-                    while (i--) {
-                        image = images[i];
-                        if (image.src.substring(0, domain.length) === domain) {
-                            config.local = image.src;
-                            break;
-                        }
-                    }
-                    if (!config.local) {
-                        // If no local was set, and we are unable to find a suitable file, then we resort to using the current window 
-                        config.local = window;
-                    }
-                }
-                
-                var parameters = {
-                    xdm_c: config.channel,
-                    xdm_p: 0
-                };
-                
-                if (config.local === window) {
-                    // We are using the current window to listen to
-                    config.usePolling = true;
-                    config.useParent = true;
-                    config.local = location.protocol + "//" + location.host + location.pathname + location.search;
-                    parameters.xdm_e = config.local;
-                    parameters.xdm_pa = 1; // use parent
-                }
-                else {
-                    parameters.xdm_e = resolveUrl(config.local);
-                }
-                
-                if (config.container) {
-                    config.useResize = false;
-                    parameters.xdm_po = 1; // use polling
-                }
-                config.remote = appendQueryParameters(config.remote, parameters);
-            }
-            else {
-                apply(config, {
-                    channel: query.xdm_c,
-                    remote: query.xdm_e,
-                    useParent: !undef(query.xdm_pa),
-                    usePolling: !undef(query.xdm_po),
-                    useResize: config.useParent ? false : config.useResize
-                });
-            }
-            stackEls = [new easyXDM.stack.HashTransport(config), new easyXDM.stack.ReliableBehavior({}), new easyXDM.stack.QueueBehavior({
-                encode: true,
-                maxLength: 4000 - config.remote.length
-            }), new easyXDM.stack.VerifyBehavior({
-                initiate: config.isHost
-            })];
-            break;
-        case "1":
-            stackEls = [new easyXDM.stack.PostMessageTransport(config)];
-            break;
-        case "2":
-            if (config.isHost) {
-                config.remoteHelper = resolveUrl(config.remoteHelper);
-            }
-            stackEls = [new easyXDM.stack.NameTransport(config), new easyXDM.stack.QueueBehavior(), new easyXDM.stack.VerifyBehavior({
-                initiate: config.isHost
-            })];
-            break;
-        case "3":
-            stackEls = [new easyXDM.stack.NixTransport(config)];
-            break;
-        case "4":
-            stackEls = [new easyXDM.stack.SameOriginTransport(config)];
-            break;
-        case "5":
-            stackEls = [new easyXDM.stack.FrameElementTransport(config)];
-            break;
-        case "6":
-            if (!flashVersion) {
-                hasFlash();
-            }
-            stackEls = [new easyXDM.stack.FlashTransport(config)];
-            break;
-    }
-    // this behavior is responsible for buffering outgoing messages, and for performing lazy initialization
-    stackEls.push(new easyXDM.stack.QueueBehavior({
-        lazy: config.lazy,
-        remove: true
-    }));
-    return stackEls;
-}
-
-/**
- * Chains all the separate stack elements into a single usable stack.<br/>
- * If an element is missing a necessary method then it will have a pass-through method applied.
- * @param {Array} stackElements An array of stack elements to be linked.
- * @return {easyXDM.stack.StackElement} The last element in the chain.
- */
-function chainStack(stackElements){
-    var stackEl, defaults = {
-        incoming: function(message, origin){
-            this.up.incoming(message, origin);
-        },
-        outgoing: function(message, recipient){
-            this.down.outgoing(message, recipient);
-        },
-        callback: function(success){
-            this.up.callback(success);
-        },
-        init: function(){
-            this.down.init();
-        },
-        destroy: function(){
-            this.down.destroy();
-        }
-    };
-    for (var i = 0, len = stackElements.length; i < len; i++) {
-        stackEl = stackElements[i];
-        apply(stackEl, defaults, true);
-        if (i !== 0) {
-            stackEl.down = stackElements[i - 1];
-        }
-        if (i !== len - 1) {
-            stackEl.up = stackElements[i + 1];
-        }
-    }
-    return stackEl;
-}
-
-/**
- * This will remove a stackelement from its stack while leaving the stack functional.
- * @param {Object} element The elment to remove from the stack.
- */
-function removeFromStack(element){
-    element.up.down = element.down;
-    element.down.up = element.up;
-    element.up = element.down = null;
-}
-
-/*
- * Export the main object and any other methods applicable
- */
-/** 
- * @class easyXDM
- * A javascript library providing cross-browser, cross-domain messaging/RPC.
- * @version 2.4.19.3
- * @singleton
- */
-apply(easyXDM, {
-    /**
-     * The version of the library
-     * @type {string}
-     */
-    version: "2.4.19.3",
-    /**
-     * This is a map containing all the query parameters passed to the document.
-     * All the values has been decoded using decodeURIComponent.
-     * @type {object}
-     */
-    query: query,
-    /**
-     * @private
-     */
-    stack: {},
-    /**
-     * Applies properties from the source object to the target object.<br/>
-     * @param {object} target The target of the properties.
-     * @param {object} source The source of the properties.
-     * @param {boolean} noOverwrite Set to True to only set non-existing properties.
-     */
-    apply: apply,
-    
-    /**
-     * A safe implementation of HTML5 JSON. Feature testing is used to make sure the implementation works.
-     * @return {JSON} A valid JSON conforming object, or null if not found.
-     */
-    getJSONObject: getJSON,
-    /**
-     * This will add a function to the queue of functions to be run once the DOM reaches a ready state.
-     * If functions are added after this event then they will be executed immediately.
-     * @param {function} fn The function to add
-     * @param {object} scope An optional scope for the function to be called with.
-     */
-    whenReady: whenReady,
-    /**
-     * Removes easyXDM variable from the global scope. It also returns control
-     * of the easyXDM variable to whatever code used it before.
-     *
-     * @param {String} ns A string representation of an object that will hold
-     *                    an instance of easyXDM.
-     * @return An instance of easyXDM
-     */
-    noConflict: noConflict
-});
-
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global console, _FirebugCommandLine,  easyXDM, window, escape, unescape, isHostObject, undef, _trace, domIsReady, emptyFn, namespace */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, isHostObject, isHostMethod, un, on, createFrame, debug */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/** 
- * @class easyXDM.DomHelper
- * Contains methods for dealing with the DOM
- * @singleton
- */
-easyXDM.DomHelper = {
-    /**
-     * Provides a consistent interface for adding eventhandlers
-     * @param {Object} target The target to add the event to
-     * @param {String} type The name of the event
-     * @param {Function} listener The listener
-     */
-    on: on,
-    /**
-     * Provides a consistent interface for removing eventhandlers
-     * @param {Object} target The target to remove the event from
-     * @param {String} type The name of the event
-     * @param {Function} listener The listener
-     */
-    un: un,
-    /**
-     * Checks for the presence of the JSON object.
-     * If it is not present it will use the supplied path to load the JSON2 library.
-     * This should be called in the documents head right after the easyXDM script tag.
-     * http://json.org/json2.js
-     * @param {String} path A valid path to json2.js
-     */
-    requiresJSON: function(path){
-        if (!isHostObject(window, "JSON")) {
-            // we need to encode the < in order to avoid an illegal token error
-            // when the script is inlined in a document.
-            document.write('<' + 'script type="text/javascript" src="' + path + '"><' + '/script>');
-        }
-    }
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, debug */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-(function(){
-    // The map containing the stored functions
-    var _map = {};
-    
-    /**
-     * @class easyXDM.Fn
-     * This contains methods related to function handling, such as storing callbacks.
-     * @singleton
-     * @namespace easyXDM
-     */
-    easyXDM.Fn = {
-        /**
-         * Stores a function using the given name for reference
-         * @param {String} name The name that the function should be referred by
-         * @param {Function} fn The function to store
-         * @namespace easyXDM.fn
-         */
-        set: function(name, fn){
-            _map[name] = fn;
-        },
-        /**
-         * Retrieves the function referred to by the given name
-         * @param {String} name The name of the function to retrieve
-         * @param {Boolean} del If the function should be deleted after retrieval
-         * @return {Function} The stored function
-         * @namespace easyXDM.fn
-         */
-        get: function(name, del){
-            if (!_map.hasOwnProperty(name)) {
-                return;
-            }
-            var fn = _map[name];
-            
-            if (del) {
-                delete _map[name];
-            }
-            return fn;
-        }
-    };
-    
-}());
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, chainStack, prepareTransportStack, getLocation, debug */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.Socket
- * This class creates a transport channel between two domains that is usable for sending and receiving string-based messages.<br/>
- * The channel is reliable, supports queueing, and ensures that the message originates from the expected domain.<br/>
- * Internally different stacks will be used depending on the browsers features and the available parameters.
- * <h2>How to set up</h2>
- * Setting up the provider:
- * <pre><code>
- * var socket = new easyXDM.Socket({
- * &nbsp; local: "name.html",
- * &nbsp; onReady: function(){
- * &nbsp; &nbsp; &#47;&#47; you need to wait for the onReady callback before using the socket
- * &nbsp; &nbsp; socket.postMessage("foo-message");
- * &nbsp; },
- * &nbsp; onMessage: function(message, origin) {
- * &nbsp;&nbsp; alert("received " + message + " from " + origin);
- * &nbsp; }
- * });
- * </code></pre>
- * Setting up the consumer:
- * <pre><code>
- * var socket = new easyXDM.Socket({
- * &nbsp; remote: "http:&#47;&#47;remotedomain/page.html",
- * &nbsp; remoteHelper: "http:&#47;&#47;remotedomain/name.html",
- * &nbsp; onReady: function(){
- * &nbsp; &nbsp; &#47;&#47; you need to wait for the onReady callback before using the socket
- * &nbsp; &nbsp; socket.postMessage("foo-message");
- * &nbsp; },
- * &nbsp; onMessage: function(message, origin) {
- * &nbsp;&nbsp; alert("received " + message + " from " + origin);
- * &nbsp; }
- * });
- * </code></pre>
- * If you are unable to upload the <code>name.html</code> file to the consumers domain then remove the <code>remoteHelper</code> property
- * and easyXDM will fall back to using the HashTransport instead of the NameTransport when not able to use any of the primary transports.
- * @namespace easyXDM
- * @constructor
- * @cfg {String/Window} local The url to the local name.html document, a local static file, or a reference to the local window.
- * @cfg {Boolean} lazy (Consumer only) Set this to true if you want easyXDM to defer creating the transport until really needed. 
- * @cfg {String} remote (Consumer only) The url to the providers document.
- * @cfg {String} remoteHelper (Consumer only) The url to the remote name.html file. This is to support NameTransport as a fallback. Optional.
- * @cfg {Number} delay The number of milliseconds easyXDM should try to get a reference to the local window.  Optional, defaults to 2000.
- * @cfg {Number} interval The interval used when polling for messages. Optional, defaults to 300.
- * @cfg {String} channel (Consumer only) The name of the channel to use. Can be used to set consistent iframe names. Must be unique. Optional.
- * @cfg {Function} onMessage The method that should handle incoming messages.<br/> This method should accept two arguments, the message as a string, and the origin as a string. Optional.
- * @cfg {Function} onReady A method that should be called when the transport is ready. Optional.
- * @cfg {DOMElement|String} container (Consumer only) The element, or the id of the element that the primary iframe should be inserted into. If not set then the iframe will be positioned off-screen. Optional.
- * @cfg {Array/String} acl (Provider only) Here you can specify which '[protocol]://[domain]' patterns that should be allowed to act as the consumer towards this provider.<br/>
- * This can contain the wildcards ? and *.  Examples are 'http://example.com', '*.foo.com' and '*dom?.com'. If you want to use reqular expressions then you pattern needs to start with ^ and end with $.
- * If none of the patterns match an Error will be thrown.  
- * @cfg {Object} props (Consumer only) Additional properties that should be applied to the iframe. This can also contain nested objects e.g: <code>{style:{width:"100px", height:"100px"}}</code>. 
- * Properties such as 'name' and 'src' will be overrided. Optional.
- */
-easyXDM.Socket = function(config){
-    
-    // create the stack
-    var stack = chainStack(prepareTransportStack(config).concat([{
-        incoming: function(message, origin){
-            config.onMessage(message, origin);
-        },
-        callback: function(success){
-            if (config.onReady) {
-                config.onReady(success);
-            }
-        }
-    }])), recipient = getLocation(config.remote);
-    
-    // set the origin
-    this.origin = getLocation(config.remote);
-	
-    /**
-     * Initiates the destruction of the stack.
-     */
-    this.destroy = function(){
-        stack.destroy();
-    };
-    
-    /**
-     * Posts a message to the remote end of the channel
-     * @param {String} message The message to send
-     */
-    this.postMessage = function(message){
-        stack.outgoing(message, recipient);
-    };
-    
-    stack.init();
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, undef,, chainStack, prepareTransportStack, debug, getLocation */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/** 
- * @class easyXDM.Rpc
- * Creates a proxy object that can be used to call methods implemented on the remote end of the channel, and also to provide the implementation
- * of methods to be called from the remote end.<br/>
- * The instantiated object will have methods matching those specified in <code>config.remote</code>.<br/>
- * This requires the JSON object present in the document, either natively, using json.org's json2 or as a wrapper around library spesific methods.
- * <h2>How to set up</h2>
- * <pre><code>
- * var rpc = new easyXDM.Rpc({
- * &nbsp; &#47;&#47; this configuration is equal to that used by the Socket.
- * &nbsp; remote: "http:&#47;&#47;remotedomain/...",
- * &nbsp; onReady: function(){
- * &nbsp; &nbsp; &#47;&#47; you need to wait for the onReady callback before using the proxy
- * &nbsp; &nbsp; rpc.foo(...
- * &nbsp; }
- * },{
- * &nbsp; local: {..},
- * &nbsp; remote: {..}
- * });
- * </code></pre>
- * 
- * <h2>Exposing functions (procedures)</h2>
- * <pre><code>
- * var rpc = new easyXDM.Rpc({
- * &nbsp; ...
- * },{
- * &nbsp; local: {
- * &nbsp; &nbsp; nameOfMethod: {
- * &nbsp; &nbsp; &nbsp; method: function(arg1, arg2, success, error){
- * &nbsp; &nbsp; &nbsp; &nbsp; ...
- * &nbsp; &nbsp; &nbsp; }
- * &nbsp; &nbsp; },
- * &nbsp; &nbsp; &#47;&#47; with shorthand notation 
- * &nbsp; &nbsp; nameOfAnotherMethod:  function(arg1, arg2, success, error){
- * &nbsp; &nbsp; }
- * &nbsp; },
- * &nbsp; remote: {...}
- * });
- * </code></pre>
-
- * The function referenced by  [method] will receive the passed arguments followed by the callback functions <code>success</code> and <code>error</code>.<br/>
- * To send a successfull result back you can use
- *     <pre><code>
- *     return foo;
- *     </pre></code>
- * or
- *     <pre><code>
- *     success(foo);
- *     </pre></code>
- *  To return an error you can use
- *     <pre><code>
- *     throw new Error("foo error");
- *     </code></pre>
- * or
- *     <pre><code>
- *     error("foo error");
- *     </code></pre>
- *
- * <h2>Defining remotely exposed methods (procedures/notifications)</h2>
- * The definition of the remote end is quite similar:
- * <pre><code>
- * var rpc = new easyXDM.Rpc({
- * &nbsp; ...
- * },{
- * &nbsp; local: {...},
- * &nbsp; remote: {
- * &nbsp; &nbsp; nameOfMethod: {}
- * &nbsp; }
- * });
- * </code></pre>
- * To call a remote method use
- * <pre><code>
- * rpc.nameOfMethod("arg1", "arg2", function(value) {
- * &nbsp; alert("success: " + value);
- * }, function(message) {
- * &nbsp; alert("error: " + message + );
- * });
- * </code></pre>
- * Both the <code>success</code> and <code>errror</code> callbacks are optional.<br/>
- * When called with no callback a JSON-RPC 2.0 notification will be executed.
- * Be aware that you will not be notified of any errors with this method.
- * <br/>
- * <h2>Specifying a custom serializer</h2>
- * If you do not want to use the JSON2 library for non-native JSON support, but instead capabilities provided by some other library
- * then you can specify a custom serializer using <code>serializer: foo</code>
- * <pre><code>
- * var rpc = new easyXDM.Rpc({
- * &nbsp; ...
- * },{
- * &nbsp; local: {...},
- * &nbsp; remote: {...},
- * &nbsp; serializer : {
- * &nbsp; &nbsp; parse: function(string){ ... },
- * &nbsp; &nbsp; stringify: function(object) {...}
- * &nbsp; }
- * });
- * </code></pre>
- * If <code>serializer</code> is set then the class will not attempt to use the native implementation.
- * @namespace easyXDM
- * @constructor
- * @param {Object} config The underlying transports configuration. See easyXDM.Socket for available parameters.
- * @param {Object} jsonRpcConfig The description of the interface to implement.
- */
-easyXDM.Rpc = function(config, jsonRpcConfig){
-    
-    // expand shorthand notation
-    if (jsonRpcConfig.local) {
-        for (var method in jsonRpcConfig.local) {
-            if (jsonRpcConfig.local.hasOwnProperty(method)) {
-                var member = jsonRpcConfig.local[method];
-                if (typeof member === "function") {
-                    jsonRpcConfig.local[method] = {
-                        method: member
-                    };
-                }
-            }
-        }
-    }
-	
-    // create the stack
-    var stack = chainStack(prepareTransportStack(config).concat([new easyXDM.stack.RpcBehavior(this, jsonRpcConfig), {
-        callback: function(success){
-            if (config.onReady) {
-                config.onReady(success);
-            }
-        }
-    }]));
-	
-    // set the origin 
-    this.origin = getLocation(config.remote);
-	
-    
-    /**
-     * Initiates the destruction of the stack.
-     */
-    this.destroy = function(){
-        stack.destroy();
-    };
-    
-    stack.init();
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, getLocation, appendQueryParameters, createFrame, debug, un, on, apply, whenReady, getParentObject, IFRAME_PREFIX*/
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.SameOriginTransport
- * SameOriginTransport is a transport class that can be used when both domains have the same origin.<br/>
- * This can be useful for testing and for when the main application supports both internal and external sources.
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The transports configuration.
- * @cfg {String} remote The remote document to communicate with.
- */
-easyXDM.stack.SameOriginTransport = function(config){
-    var pub, frame, send, targetOrigin;
-    
-    return (pub = {
-        outgoing: function(message, domain, fn){
-            send(message);
-            if (fn) {
-                fn();
-            }
-        },
-        destroy: function(){
-            if (frame) {
-                frame.parentNode.removeChild(frame);
-                frame = null;
-            }
-        },
-        onDOMReady: function(){
-            targetOrigin = getLocation(config.remote);
-            
-            if (config.isHost) {
-                // set up the iframe
-                apply(config.props, {
-                    src: appendQueryParameters(config.remote, {
-                        xdm_e: location.protocol + "//" + location.host + location.pathname,
-                        xdm_c: config.channel,
-                        xdm_p: 4 // 4 = SameOriginTransport
-                    }),
-                    name: IFRAME_PREFIX + config.channel + "_provider"
-                });
-                frame = createFrame(config);
-                easyXDM.Fn.set(config.channel, function(sendFn){
-                    send = sendFn;
-                    setTimeout(function(){
-                        pub.up.callback(true);
-                    }, 0);
-                    return function(msg){
-                        pub.up.incoming(msg, targetOrigin);
-                    };
-                });
-            }
-            else {
-                send = getParentObject().Fn.get(config.channel, true)(function(msg){
-                    pub.up.incoming(msg, targetOrigin);
-                });
-                setTimeout(function(){
-                    pub.up.callback(true);
-                }, 0);
-            }
-        },
-        init: function(){
-            whenReady(pub.onDOMReady, pub);
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global global, easyXDM, window, getLocation, appendQueryParameters, createFrame, debug, apply, whenReady, IFRAME_PREFIX, namespace, resolveUrl, getDomainName, HAS_FLASH_THROTTLED_BUG, getPort, query*/
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.FlashTransport
- * FlashTransport is a transport class that uses an SWF with LocalConnection to pass messages back and forth.
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The transports configuration.
- * @cfg {String} remote The remote domain to communicate with.
- * @cfg {String} secret the pre-shared secret used to secure the communication.
- * @cfg {String} swf The path to the swf file
- * @cfg {Boolean} swfNoThrottle Set this to true if you want to take steps to avoid beeing throttled when hidden.
- * @cfg {String || DOMElement} swfContainer Set this if you want to control where the swf is placed
- */
-easyXDM.stack.FlashTransport = function(config){
-    var pub, // the public interface
- frame, send, targetOrigin, swf, swfContainer;
-    
-    function onMessage(message, origin){
-        setTimeout(function(){
-            pub.up.incoming(message, targetOrigin);
-        }, 0);
-    }
-    
-    /**
-     * This method adds the SWF to the DOM and prepares the initialization of the channel
-     */
-    function addSwf(domain){
-        // the differentiating query argument is needed in Flash9 to avoid a caching issue where LocalConnection would throw an error.
-        var url = config.swf + "?host=" + config.isHost;
-        var id = "easyXDM_swf_" + Math.floor(Math.random() * 10000);
-        
-        // prepare the init function that will fire once the swf is ready
-        easyXDM.Fn.set("flash_loaded" + domain.replace(/[\-.]/g, "_"), function(){
-            easyXDM.stack.FlashTransport[domain].swf = swf = swfContainer.firstChild;
-            var queue = easyXDM.stack.FlashTransport[domain].queue;
-            for (var i = 0; i < queue.length; i++) {
-                queue[i]();
-            }
-            queue.length = 0;
-        });
-        
-        if (config.swfContainer) {
-            swfContainer = (typeof config.swfContainer == "string") ? document.getElementById(config.swfContainer) : config.swfContainer;
-        }
-        else {
-            // create the container that will hold the swf
-            swfContainer = document.createElement('div');
-            
-            // http://bugs.adobe.com/jira/browse/FP-4796
-            // http://tech.groups.yahoo.com/group/flexcoders/message/162365
-            // https://groups.google.com/forum/#!topic/easyxdm/mJZJhWagoLc
-            apply(swfContainer.style, HAS_FLASH_THROTTLED_BUG && config.swfNoThrottle ? {
-                height: "20px",
-                width: "20px",
-                position: "fixed",
-                right: 0,
-                top: 0
-            } : {
-                height: "1px",
-                width: "1px",
-                position: "absolute",
-                overflow: "hidden",
-                right: 0,
-                top: 0
-            });
-            document.body.appendChild(swfContainer);
-        }
-        
-        // create the object/embed
-        var flashVars = "callback=flash_loaded" + encodeURIComponent(domain.replace(/[\-.]/g, "_"))
-            + "&proto=" + global.location.protocol
-            + "&domain=" + encodeURIComponent(getDomainName(global.location.href))
-            + "&port=" + encodeURIComponent(getPort(global.location.href))
-            + "&ns=" + encodeURIComponent(namespace);
-        swfContainer.innerHTML = "<object height='20' width='20' type='application/x-shockwave-flash' id='" + id + "' data='" + url + "'>" +
-        "<param name='allowScriptAccess' value='always'></param>" +
-        "<param name='wmode' value='transparent'>" +
-        "<param name='movie' value='" +
-        url +
-        "'></param>" +
-        "<param name='flashvars' value='" +
-        flashVars +
-        "'></param>" +
-        "<embed type='application/x-shockwave-flash' FlashVars='" +
-        flashVars +
-        "' allowScriptAccess='always' wmode='transparent' src='" +
-        url +
-        "' height='1' width='1'></embed>" +
-        "</object>";
-    }
-    
-    return (pub = {
-        outgoing: function(message, domain, fn){
-            swf.postMessage(config.channel, message.toString());
-            if (fn) {
-                fn();
-            }
-        },
-        destroy: function(){
-            try {
-                swf.destroyChannel(config.channel);
-            } 
-            catch (e) {
-            }
-            swf = null;
-            if (frame) {
-                frame.parentNode.removeChild(frame);
-                frame = null;
-            }
-        },
-        onDOMReady: function(){
-            
-            targetOrigin = config.remote;
-            
-            // Prepare the code that will be run after the swf has been intialized
-            easyXDM.Fn.set("flash_" + config.channel + "_init", function(){
-                setTimeout(function(){
-                    pub.up.callback(true);
-                });
-            });
-            
-            // set up the omMessage handler
-            easyXDM.Fn.set("flash_" + config.channel + "_onMessage", onMessage);
-            
-            config.swf = resolveUrl(config.swf); // reports have been made of requests gone rogue when using relative paths
-            var swfdomain = getDomainName(config.swf);
-            var fn = function(){
-                // set init to true in case the fn was called was invoked from a separate instance
-                easyXDM.stack.FlashTransport[swfdomain].init = true;
-                swf = easyXDM.stack.FlashTransport[swfdomain].swf;
-                // create the channel
-                swf.createChannel(config.channel, config.secret, getLocation(config.remote), config.isHost);
-                
-                if (config.isHost) {
-                    // if Flash is going to be throttled and we want to avoid this
-                    if (HAS_FLASH_THROTTLED_BUG && config.swfNoThrottle) {
-                        apply(config.props, {
-                            position: "fixed",
-                            right: 0,
-                            top: 0,
-                            height: "20px",
-                            width: "20px"
-                        });
-                    }
-                    // set up the iframe
-                    apply(config.props, {
-                        src: appendQueryParameters(config.remote, {
-                            xdm_e: getLocation(location.href),
-                            xdm_c: config.channel,
-                            xdm_p: 6, // 6 = FlashTransport
-                            xdm_s: config.secret
-                        }),
-                        name: IFRAME_PREFIX + config.channel + "_provider"
-                    });
-                    frame = createFrame(config);
-                }
-            };
-            
-            if (easyXDM.stack.FlashTransport[swfdomain] && easyXDM.stack.FlashTransport[swfdomain].init) {
-                // if the swf is in place and we are the consumer
-                fn();
-            }
-            else {
-                // if the swf does not yet exist
-                if (!easyXDM.stack.FlashTransport[swfdomain]) {
-                    // add the queue to hold the init fn's
-                    easyXDM.stack.FlashTransport[swfdomain] = {
-                        queue: [fn]
-                    };
-                    addSwf(swfdomain);
-                }
-                else {
-                    easyXDM.stack.FlashTransport[swfdomain].queue.push(fn);
-                }
-            }
-        },
-        init: function(){
-            whenReady(pub.onDOMReady, pub);
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, getLocation, appendQueryParameters, createFrame, debug, un, on, apply, whenReady, IFRAME_PREFIX*/
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.PostMessageTransport
- * PostMessageTransport is a transport class that uses HTML5 postMessage for communication.<br/>
- * <a href="http://msdn.microsoft.com/en-us/library/ms644944(VS.85).aspx">http://msdn.microsoft.com/en-us/library/ms644944(VS.85).aspx</a><br/>
- * <a href="https://developer.mozilla.org/en/DOM/window.postMessage">https://developer.mozilla.org/en/DOM/window.postMessage</a>
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The transports configuration.
- * @cfg {String} remote The remote domain to communicate with.
- */
-easyXDM.stack.PostMessageTransport = function(config){
-    var pub, // the public interface
- frame, // the remote frame, if any
- callerWindow, // the window that we will call with
- targetOrigin; // the domain to communicate with
-    /**
-     * Resolves the origin from the event object
-     * @private
-     * @param {Object} event The messageevent
-     * @return {String} The scheme, host and port of the origin
-     */
-    function _getOrigin(event){
-        if (event.origin) {
-            // This is the HTML5 property
-            return getLocation(event.origin);
-        }
-        if (event.uri) {
-            // From earlier implementations 
-            return getLocation(event.uri);
-        }
-        if (event.domain) {
-            // This is the last option and will fail if the 
-            // origin is not using the same schema as we are
-            return location.protocol + "//" + event.domain;
-        }
-        throw "Unable to retrieve the origin of the event";
-    }
-    
-    /**
-     * This is the main implementation for the onMessage event.<br/>
-     * It checks the validity of the origin and passes the message on if appropriate.
-     * @private
-     * @param {Object} event The messageevent
-     */
-    function _window_onMessage(event){
-        var origin = _getOrigin(event);
-        if (origin == targetOrigin && event.data.substring(0, config.channel.length + 1) == config.channel + " ") {
-            pub.up.incoming(event.data.substring(config.channel.length + 1), origin);
-        }
-    }
-    
-    return (pub = {
-        outgoing: function(message, domain, fn){
-            callerWindow.postMessage(config.channel + " " + message, domain || targetOrigin);
-            if (fn) {
-                fn();
-            }
-        },
-        destroy: function(){
-            un(window, "message", _window_onMessage);
-            if (frame) {
-                callerWindow = null;
-                frame.parentNode.removeChild(frame);
-                frame = null;
-            }
-        },
-        onDOMReady: function(){
-            targetOrigin = getLocation(config.remote);
-            if (config.isHost) {
-                // add the event handler for listening
-                var waitForReady = function(event){  
-                    if (event.data == config.channel + "-ready") {
-                        // replace the eventlistener
-                        callerWindow = ("postMessage" in frame.contentWindow) ? frame.contentWindow : frame.contentWindow.document;
-                        un(window, "message", waitForReady);
-                        on(window, "message", _window_onMessage);
-                        setTimeout(function(){
-                            pub.up.callback(true);
-                        }, 0);
-                    }
-                };
-                on(window, "message", waitForReady);
-                
-                // set up the iframe
-                apply(config.props, {
-                    src: appendQueryParameters(config.remote, {
-                        xdm_e: getLocation(location.href),
-                        xdm_c: config.channel,
-                        xdm_p: 1 // 1 = PostMessage
-                    }),
-                    name: IFRAME_PREFIX + config.channel + "_provider"
-                });
-                frame = createFrame(config);
-            }
-            else {
-                // add the event handler for listening
-                on(window, "message", _window_onMessage);
-                callerWindow = ("postMessage" in window.parent) ? window.parent : window.parent.document;
-                callerWindow.postMessage(config.channel + "-ready", targetOrigin);
-                
-                setTimeout(function(){
-                    pub.up.callback(true);
-                }, 0);
-            }
-        },
-        init: function(){
-            whenReady(pub.onDOMReady, pub);
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, getLocation, appendQueryParameters, createFrame, debug, apply, query, whenReady, IFRAME_PREFIX*/
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.FrameElementTransport
- * FrameElementTransport is a transport class that can be used with Gecko-browser as these allow passing variables using the frameElement property.<br/>
- * Security is maintained as Gecho uses Lexical Authorization to determine under which scope a function is running.
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The transports configuration.
- * @cfg {String} remote The remote document to communicate with.
- */
-easyXDM.stack.FrameElementTransport = function(config){
-    var pub, frame, send, targetOrigin;
-    
-    return (pub = {
-        outgoing: function(message, domain, fn){
-            send.call(this, message);
-            if (fn) {
-                fn();
-            }
-        },
-        destroy: function(){
-            if (frame) {
-                frame.parentNode.removeChild(frame);
-                frame = null;
-            }
-        },
-        onDOMReady: function(){
-            targetOrigin = getLocation(config.remote);
-            
-            if (config.isHost) {
-                // set up the iframe
-                apply(config.props, {
-                    src: appendQueryParameters(config.remote, {
-                        xdm_e: getLocation(location.href),
-                        xdm_c: config.channel,
-                        xdm_p: 5 // 5 = FrameElementTransport
-                    }),
-                    name: IFRAME_PREFIX + config.channel + "_provider"
-                });
-                frame = createFrame(config);
-                frame.fn = function(sendFn){
-                    delete frame.fn;
-                    send = sendFn;
-                    setTimeout(function(){
-                        pub.up.callback(true);
-                    }, 0);
-                    // remove the function so that it cannot be used to overwrite the send function later on
-                    return function(msg){
-                        pub.up.incoming(msg, targetOrigin);
-                    };
-                };
-            }
-            else {
-                // This is to mitigate origin-spoofing
-                if (document.referrer && getLocation(document.referrer) != query.xdm_e) {
-                    window.top.location = query.xdm_e;
-                }
-                send = window.frameElement.fn(function(msg){
-                    pub.up.incoming(msg, targetOrigin);
-                });
-                pub.up.callback(true);
-            }
-        },
-        init: function(){
-            whenReady(pub.onDOMReady, pub);
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, undef, getLocation, appendQueryParameters, resolveUrl, createFrame, debug, un, apply, whenReady, IFRAME_PREFIX*/
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.NameTransport
- * NameTransport uses the window.name property to relay data.
- * The <code>local</code> parameter needs to be set on both the consumer and provider,<br/>
- * and the <code>remoteHelper</code> parameter needs to be set on the consumer.
- * @constructor
- * @param {Object} config The transports configuration.
- * @cfg {String} remoteHelper The url to the remote instance of hash.html - this is only needed for the host.
- * @namespace easyXDM.stack
- */
-easyXDM.stack.NameTransport = function(config){
-    
-    var pub; // the public interface
-    var isHost, callerWindow, remoteWindow, readyCount, callback, remoteOrigin, remoteUrl;
-    
-    function _sendMessage(message){
-        var url = config.remoteHelper + (isHost ? "#_3" : "#_2") + config.channel;
-        callerWindow.contentWindow.sendMessage(message, url);
-    }
-    
-    function _onReady(){
-        if (isHost) {
-            if (++readyCount === 2 || !isHost) {
-                pub.up.callback(true);
-            }
-        }
-        else {
-            _sendMessage("ready");
-            pub.up.callback(true);
-        }
-    }
-    
-    function _onMessage(message){
-        pub.up.incoming(message, remoteOrigin);
-    }
-    
-    function _onLoad(){
-        if (callback) {
-            setTimeout(function(){
-                callback(true);
-            }, 0);
-        }
-    }
-    
-    return (pub = {
-        outgoing: function(message, domain, fn){
-            callback = fn;
-            _sendMessage(message);
-        },
-        destroy: function(){
-            callerWindow.parentNode.removeChild(callerWindow);
-            callerWindow = null;
-            if (isHost) {
-                remoteWindow.parentNode.removeChild(remoteWindow);
-                remoteWindow = null;
-            }
-        },
-        onDOMReady: function(){
-            isHost = config.isHost;
-            readyCount = 0;
-            remoteOrigin = getLocation(config.remote);
-            config.local = resolveUrl(config.local);
-            
-            if (isHost) {
-                // Register the callback
-                easyXDM.Fn.set(config.channel, function(message){
-                    if (isHost && message === "ready") {
-                        // Replace the handler
-                        easyXDM.Fn.set(config.channel, _onMessage);
-                        _onReady();
-                    }
-                });
-                
-                // Set up the frame that points to the remote instance
-                remoteUrl = appendQueryParameters(config.remote, {
-                    xdm_e: config.local,
-                    xdm_c: config.channel,
-                    xdm_p: 2
-                });
-                apply(config.props, {
-                    src: remoteUrl + '#' + config.channel,
-                    name: IFRAME_PREFIX + config.channel + "_provider"
-                });
-                remoteWindow = createFrame(config);
-            }
-            else {
-                config.remoteHelper = config.remote;
-                easyXDM.Fn.set(config.channel, _onMessage);
-            }
-            
-            // Set up the iframe that will be used for the transport
-            var onLoad = function(){
-                // Remove the handler
-                var w = callerWindow || this;
-                un(w, "load", onLoad);
-                easyXDM.Fn.set(config.channel + "_load", _onLoad);
-                (function test(){
-                    if (typeof w.contentWindow.sendMessage == "function") {
-                        _onReady();
-                    }
-                    else {
-                        setTimeout(test, 50);
-                    }
-                }());
-            };
-            
-            callerWindow = createFrame({
-                props: {
-                    src: config.local + "#_4" + config.channel
-                },
-                onLoad: onLoad
-            });
-        },
-        init: function(){
-            whenReady(pub.onDOMReady, pub);
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, getLocation, createFrame, debug, un, on, apply, whenReady, IFRAME_PREFIX*/
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.HashTransport
- * HashTransport is a transport class that uses the IFrame URL Technique for communication.<br/>
- * <a href="http://msdn.microsoft.com/en-us/library/bb735305.aspx">http://msdn.microsoft.com/en-us/library/bb735305.aspx</a><br/>
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The transports configuration.
- * @cfg {String/Window} local The url to the local file used for proxying messages, or the local window.
- * @cfg {Number} delay The number of milliseconds easyXDM should try to get a reference to the local window.
- * @cfg {Number} interval The interval used when polling for messages.
- */
-easyXDM.stack.HashTransport = function(config){
-    var pub;
-    var me = this, isHost, _timer, pollInterval, _lastMsg, _msgNr, _listenerWindow, _callerWindow;
-    var useParent, _remoteOrigin;
-    
-    function _sendMessage(message){
-        if (!_callerWindow) {
-            return;
-        }
-        var url = config.remote + "#" + (_msgNr++) + "_" + message;
-        ((isHost || !useParent) ? _callerWindow.contentWindow : _callerWindow).location = url;
-    }
-    
-    function _handleHash(hash){
-        _lastMsg = hash;
-        pub.up.incoming(_lastMsg.substring(_lastMsg.indexOf("_") + 1), _remoteOrigin);
-    }
-    
-    /**
-     * Checks location.hash for a new message and relays this to the receiver.
-     * @private
-     */
-    function _pollHash(){
-        if (!_listenerWindow) {
-            return;
-        }
-        var href = _listenerWindow.location.href, hash = "", indexOf = href.indexOf("#");
-        if (indexOf != -1) {
-            hash = href.substring(indexOf);
-        }
-        if (hash && hash != _lastMsg) {
-            _handleHash(hash);
-        }
-    }
-    
-    function _attachListeners(){
-        _timer = setInterval(_pollHash, pollInterval);
-    }
-    
-    return (pub = {
-        outgoing: function(message, domain){
-            _sendMessage(message);
-        },
-        destroy: function(){
-            window.clearInterval(_timer);
-            if (isHost || !useParent) {
-                _callerWindow.parentNode.removeChild(_callerWindow);
-            }
-            _callerWindow = null;
-        },
-        onDOMReady: function(){
-            isHost = config.isHost;
-            pollInterval = config.interval;
-            _lastMsg = "#" + config.channel;
-            _msgNr = 0;
-            useParent = config.useParent;
-            _remoteOrigin = getLocation(config.remote);
-            if (isHost) {
-                apply(config.props, {
-                    src: config.remote,
-                    name: IFRAME_PREFIX + config.channel + "_provider"
-                });
-                if (useParent) {
-                    config.onLoad = function(){
-                        _listenerWindow = window;
-                        _attachListeners();
-                        pub.up.callback(true);
-                    };
-                }
-                else {
-                    var tries = 0, max = config.delay / 50;
-                    (function getRef(){
-                        if (++tries > max) {
-                            throw new Error("Unable to reference listenerwindow");
-                        }
-                        try {
-                            _listenerWindow = _callerWindow.contentWindow.frames[IFRAME_PREFIX + config.channel + "_consumer"];
-                        } 
-                        catch (ex) {
-                        }
-                        if (_listenerWindow) {
-                            _attachListeners();
-                            pub.up.callback(true);
-                        }
-                        else {
-                            setTimeout(getRef, 50);
-                        }
-                    }());
-                }
-                _callerWindow = createFrame(config);
-            }
-            else {
-                _listenerWindow = window;
-                _attachListeners();
-                if (useParent) {
-                    _callerWindow = parent;
-                    pub.up.callback(true);
-                }
-                else {
-                    apply(config, {
-                        props: {
-                            src: config.remote + "#" + config.channel + new Date(),
-                            name: IFRAME_PREFIX + config.channel + "_consumer"
-                        },
-                        onLoad: function(){
-                            pub.up.callback(true);
-                        }
-                    });
-                    _callerWindow = createFrame(config);
-                }
-            }
-        },
-        init: function(){
-            whenReady(pub.onDOMReady, pub);
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, debug */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.ReliableBehavior
- * This is a behavior that tries to make the underlying transport reliable by using acknowledgements.
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The behaviors configuration.
- */
-easyXDM.stack.ReliableBehavior = function(config){
-    var pub, // the public interface
- callback; // the callback to execute when we have a confirmed success/failure
-    var idOut = 0, idIn = 0, currentMessage = "";
-    
-    return (pub = {
-        incoming: function(message, origin){
-            var indexOf = message.indexOf("_"), ack = message.substring(0, indexOf).split(",");
-            message = message.substring(indexOf + 1);
-            
-            if (ack[0] == idOut) {
-                currentMessage = "";
-                if (callback) {
-                    callback(true);
-                }
-            }
-            if (message.length > 0) {
-                pub.down.outgoing(ack[1] + "," + idOut + "_" + currentMessage, origin);
-                if (idIn != ack[1]) {
-                    idIn = ack[1];
-                    pub.up.incoming(message, origin);
-                }
-            }
-            
-        },
-        outgoing: function(message, origin, fn){
-            currentMessage = message;
-            callback = fn;
-            pub.down.outgoing(idIn + "," + (++idOut) + "_" + message, origin);
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, debug, undef, removeFromStack*/
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.QueueBehavior
- * This is a behavior that enables queueing of messages. <br/>
- * It will buffer incoming messages and dispach these as fast as the underlying transport allows.
- * This will also fragment/defragment messages so that the outgoing message is never bigger than the
- * set length.
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The behaviors configuration. Optional.
- * @cfg {Number} maxLength The maximum length of each outgoing message. Set this to enable fragmentation.
- */
-easyXDM.stack.QueueBehavior = function(config){
-    var pub, queue = [], waiting = true, incoming = "", destroying, maxLength = 0, lazy = false, doFragment = false;
-    
-    function dispatch(){
-        if (config.remove && queue.length === 0) {
-            removeFromStack(pub);
-            return;
-        }
-        if (waiting || queue.length === 0 || destroying) {
-            return;
-        }
-        waiting = true;
-        var message = queue.shift();
-        
-        pub.down.outgoing(message.data, message.origin, function(success){
-            waiting = false;
-            if (message.callback) {
-                setTimeout(function(){
-                    message.callback(success);
-                }, 0);
-            }
-            dispatch();
-        });
-    }
-    return (pub = {
-        init: function(){
-            if (undef(config)) {
-                config = {};
-            }
-            if (config.maxLength) {
-                maxLength = config.maxLength;
-                doFragment = true;
-            }
-            if (config.lazy) {
-                lazy = true;
-            }
-            else {
-                pub.down.init();
-            }
-        },
-        callback: function(success){
-            waiting = false;
-            var up = pub.up; // in case dispatch calls removeFromStack
-            dispatch();
-            up.callback(success);
-        },
-        incoming: function(message, origin){
-            if (doFragment) {
-                var indexOf = message.indexOf("_"), seq = parseInt(message.substring(0, indexOf), 10);
-                incoming += message.substring(indexOf + 1);
-                if (seq === 0) {
-                    if (config.encode) {
-                        incoming = decodeURIComponent(incoming);
-                    }
-                    pub.up.incoming(incoming, origin);
-                    incoming = "";
-                }
-            }
-            else {
-                pub.up.incoming(message, origin);
-            }
-        },
-        outgoing: function(message, origin, fn){
-            if (config.encode) {
-                message = encodeURIComponent(message);
-            }
-            var fragments = [], fragment;
-            if (doFragment) {
-                // fragment into chunks
-                while (message.length !== 0) {
-                    fragment = message.substring(0, maxLength);
-                    message = message.substring(fragment.length);
-                    fragments.push(fragment);
-                }
-                // enqueue the chunks
-                while ((fragment = fragments.shift())) {
-                    queue.push({
-                        data: fragments.length + "_" + fragment,
-                        origin: origin,
-                        callback: fragments.length === 0 ? fn : null
-                    });
-                }
-            }
-            else {
-                queue.push({
-                    data: message,
-                    origin: origin,
-                    callback: fn
-                });
-            }
-            if (lazy) {
-                pub.down.init();
-            }
-            else {
-                dispatch();
-            }
-        },
-        destroy: function(){
-            destroying = true;
-            pub.down.destroy();
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, undef, debug */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.VerifyBehavior
- * This behavior will verify that communication with the remote end is possible, and will also sign all outgoing,
- * and verify all incoming messages. This removes the risk of someone hijacking the iframe to send malicious messages.
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} config The behaviors configuration.
- * @cfg {Boolean} initiate If the verification should be initiated from this end.
- */
-easyXDM.stack.VerifyBehavior = function(config){
-    var pub, mySecret, theirSecret, verified = false;
-    
-    function startVerification(){
-        mySecret = Math.random().toString(16).substring(2);
-        pub.down.outgoing(mySecret);
-    }
-    
-    return (pub = {
-        incoming: function(message, origin){
-            var indexOf = message.indexOf("_");
-            if (indexOf === -1) {
-                if (message === mySecret) {
-                    pub.up.callback(true);
-                }
-                else if (!theirSecret) {
-                    theirSecret = message;
-                    if (!config.initiate) {
-                        startVerification();
-                    }
-                    pub.down.outgoing(message);
-                }
-            }
-            else {
-                if (message.substring(0, indexOf) === theirSecret) {
-                    pub.up.incoming(message.substring(indexOf + 1), origin);
-                }
-            }
-        },
-        outgoing: function(message, origin, fn){
-            pub.down.outgoing(mySecret + "_" + message, origin, fn);
-        },
-        callback: function(success){
-            if (config.initiate) {
-                startVerification();
-            }
-        }
-    });
-};
-/*jslint evil: true, browser: true, immed: true, passfail: true, undef: true, newcap: true*/
-/*global easyXDM, window, escape, unescape, undef, getJSON, debug, emptyFn, isArray */
-//
-// easyXDM
-// http://easyxdm.net/
-// Copyright(c) 2009-2011, Øyvind Sean Kinsey, oyvind@kinsey.no.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-/**
- * @class easyXDM.stack.RpcBehavior
- * This uses JSON-RPC 2.0 to expose local methods and to invoke remote methods and have responses returned over the the string based transport stack.<br/>
- * Exposed methods can return values synchronous, asyncronous, or bet set up to not return anything.
- * @namespace easyXDM.stack
- * @constructor
- * @param {Object} proxy The object to apply the methods to.
- * @param {Object} config The definition of the local and remote interface to implement.
- * @cfg {Object} local The local interface to expose.
- * @cfg {Object} remote The remote methods to expose through the proxy.
- * @cfg {Object} serializer The serializer to use for serializing and deserializing the JSON. Should be compatible with the HTML5 JSON object. Optional, will default to JSON.
- */
-easyXDM.stack.RpcBehavior = function(proxy, config){
-    var pub, serializer = config.serializer || getJSON();
-    var _callbackCounter = 0, _callbacks = {};
-    
-    /**
-     * Serializes and sends the message
-     * @private
-     * @param {Object} data The JSON-RPC message to be sent. The jsonrpc property will be added.
-     */
-    function _send(data){
-        data.jsonrpc = "2.0";
-        pub.down.outgoing(serializer.stringify(data));
-    }
-    
-    /**
-     * Creates a method that implements the given definition
-     * @private
-     * @param {Object} The method configuration
-     * @param {String} method The name of the method
-     * @return {Function} A stub capable of proxying the requested method call
-     */
-    function _createMethod(definition, method){
-        var slice = Array.prototype.slice;
-        
-        return function(){
-            var l = arguments.length, callback, message = {
-                method: method
-            };
-            
-            if (l > 0 && typeof arguments[l - 1] === "function") {
-                //with callback, procedure
-                if (l > 1 && typeof arguments[l - 2] === "function") {
-                    // two callbacks, success and error
-                    callback = {
-                        success: arguments[l - 2],
-                        error: arguments[l - 1]
-                    };
-                    message.params = slice.call(arguments, 0, l - 2);
-                }
-                else {
-                    // single callback, success
-                    callback = {
-                        success: arguments[l - 1]
-                    };
-                    message.params = slice.call(arguments, 0, l - 1);
-                }
-                _callbacks["" + (++_callbackCounter)] = callback;
-                message.id = _callbackCounter;
-            }
-            else {
-                // no callbacks, a notification
-                message.params = slice.call(arguments, 0);
-            }
-            if (definition.namedParams && message.params.length === 1) {
-                message.params = message.params[0];
-            }
-            // Send the method request
-            _send(message);
-        };
-    }
-    
-    /**
-     * Executes the exposed method
-     * @private
-     * @param {String} method The name of the method
-     * @param {Number} id The callback id to use
-     * @param {Function} method The exposed implementation
-     * @param {Array} params The parameters supplied by the remote end
-     */
-    function _executeMethod(method, id, fn, params){
-        if (!fn) {
-            if (id) {
-                _send({
-                    id: id,
-                    error: {
-                        code: -32601,
-                        message: "Procedure not found."
-                    }
-                });
-            }
-            return;
-        }
-        
-        var success, error;
-        if (id) {
-            success = function(result){
-                success = emptyFn;
-                _send({
-                    id: id,
-                    result: result
-                });
-            };
-            error = function(message, data){
-                error = emptyFn;
-                var msg = {
-                    id: id,
-                    error: {
-                        code: -32099,
-                        message: message
-                    }
-                };
-                if (data) {
-                    msg.error.data = data;
-                }
-                _send(msg);
-            };
-        }
-        else {
-            success = error = emptyFn;
-        }
-        // Call local method
-        if (!isArray(params)) {
-            params = [params];
-        }
-        try {
-            var result = fn.method.apply(fn.scope, params.concat([success, error]));
-            if (!undef(result)) {
-                success(result);
-            }
-        } 
-        catch (ex1) {
-            error(ex1.message);
-        }
-    }
-    
-    return (pub = {
-        incoming: function(message, origin){
-            var data = serializer.parse(message);
-            if (data.method) {
-                // A method call from the remote end
-                if (config.handle) {
-                    config.handle(data, _send);
-                }
-                else {
-                    _executeMethod(data.method, data.id, config.local[data.method], data.params);
-                }
-            }
-            else {
-                // A method response from the other end
-                var callback = _callbacks[data.id];
-                if (data.error) {
-                    if (callback.error) {
-                        callback.error(data.error);
-                    }
-                }
-                else if (callback.success) {
-                    callback.success(data.result);
-                }
-                delete _callbacks[data.id];
-            }
-        },
-        init: function(){
-            if (config.remote) {
-                // Implement the remote sides exposed methods
-                for (var method in config.remote) {
-                    if (config.remote.hasOwnProperty(method)) {
-                        proxy[method] = _createMethod(config.remote[method], method);
-                    }
-                }
-            }
-            pub.down.init();
-        },
-        destroy: function(){
-            for (var method in config.remote) {
-                if (config.remote.hasOwnProperty(method) && proxy.hasOwnProperty(method)) {
-                    delete proxy[method];
-                }
-            }
-            pub.down.destroy();
-        }
-    });
-};
-global.easyXDM = easyXDM;
-})(window, document, location, window.setTimeout, decodeURIComponent, encodeURIComponent);
-
 /*!
- * F2 v1.4.5 03-02-2018
+ * F2 v2.0.0-alpha 06-28-2018
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
@@ -14969,16 +13546,6 @@ F2 = (function() {
 			return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
 		},
 		/**
-		 * Search for a value within an array.
-		 * @method inArray
-		 * @param {object} value The value to search for
-		 * @param {Array} array The array to search
-		 * @return {bool} True if the item is in the array
-		 */
-		inArray: function(value, array) {
-			return jQuery.inArray(value, array) > -1;
-		},
-		/**
 		 * Tests a URL to see if it's on the same domain (local) or not
 		 * @method isLocalRequest
 		 * @param {URL to test} url
@@ -15132,7 +13699,7 @@ F2 = (function() {
 		 * @method version
 		 * @return {string} F2 version number
 		 */
-		version: function() { return '1.4.5'; }
+		version: function() { return '2.0.0-alpha'; }
 	};
 })();
 
@@ -15181,38 +13748,31 @@ F2.extend('AppHandlers', (function() {
 	var _handlerCollection = {
 		appManifestRequestFail: [],
 		appCreateRoot: [],
-		appRenderBefore: [],			
+		appRenderBefore: [],
 		appDestroyBefore: [],
 		appRenderAfter: [],
 		appDestroyAfter: [],
 		appRender: [],
 		appDestroy: [],
-		appScriptLoadFailed: []		
+		appScriptLoadFailed: []
 	};
 	
 	var _defaultMethods = {
 		appRender: function(appConfig, appHtml)
 		{
-			var $root = null;
-			
 			// if no app root is defined use the app's outer most node
 			if(!F2.isNativeDOMNode(appConfig.root))
 			{
-				appConfig.root = jQuery(appHtml).get(0);
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);				
+				appConfig.root = domify(appHtml);
 			}
 			else
 			{
-				// get a handle on the root in jQuery
-				$root = jQuery(appConfig.root);			
-				
 				// append the app html to the root
-				$root.append(appHtml);
-			}			
+				appConfig.root.appendChild(domify(appHtml));
+			}
 			
 			// append the root to the body by default.
-			jQuery('body').append($root);
+			document.body.appendChild(appConfig.root);
 		},
 		appDestroy: function(appInstance)
 		{
@@ -15226,23 +13786,21 @@ F2.extend('AppHandlers', (function() {
 			{
 				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 			}
-			
-			// fade out and remove the root
-			jQuery(appInstance.config.root).fadeOut(500, function() {
-				jQuery(this).remove();
-			});
+
+			// remove the root
+			appInstance.config.root.parentNode.removeChild(appInstance.config.root);
 		}
 	};
 	
 	var _createHandler = function(token, sNamespace, func_or_element, bDomNodeAppropriate)
 	{	
 		// will throw an exception and stop execution if the token is invalid
-		_validateToken(token);			
+		_validateToken(token);
 		
 		// create handler structure. Not all arguments properties will be populated/used.
 		var handler = {
 			func: (typeof(func_or_element)) ? func_or_element : null,
-			namespace: sNamespace,			
+			namespace: sNamespace,
 			domNode: (F2.isNativeDOMNode(func_or_element)) ? func_or_element : null
 		};
 		
@@ -15401,15 +13959,15 @@ F2.extend('AppHandlers', (function() {
 					// appRender where root is already defined
 					if (handler.domNode && arguments[2] && arguments[2].root && arguments[3])
 					{
-						var $appRoot = jQuery(arguments[2].root).append(arguments[3]);
-						jQuery(handler.domNode).append($appRoot);
+						arguments[2].root.appendChild(domify(arguments[3]));
+						handler.domNode.appendChild(arguments[2].root);
 					}
 					else if (handler.domNode && arguments[2] && !arguments[2].root && arguments[3])
 					{
 						// set the root to the actual HTML of the app
-						arguments[2].root = jQuery(arguments[3]).get(0);
+						arguments[2].root = domify(arguments[3]);
 						// appends the root to the dom node specified
-						jQuery(handler.domNode).append(arguments[2].root);
+						handler.domNode.appendChild(arguments[2].root);
 					}
 					else
 					{
@@ -15602,7 +14160,7 @@ F2.extend('Constants', {
 			*		{
 			*			// If you want to create a custom root. By default F2 uses the app's outermost HTML element.
 			*			// the app's html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
-			*			appConfig.root = jQuery('<section></section>').get(0);
+			*			appConfig.root = document.createElement('section');
 			*		}
 			*	);
 			*/
@@ -15636,34 +14194,7 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	var _token = F2.AppHandlers.getToken();
-			*	F2.AppHandlers.on(
-			*		_token,
-			*		F2.Constants.AppHandlers.APP_RENDER,
-			*		function(appConfig, appHtml)
-			*		{
-			*			var $root = null;
-			*
-			*			// if no app root is defined use the app's outer most node
-			*			if(!F2.isNativeDOMNode(appConfig.root))
-			*			{
-			*				appConfig.root = jQuery(appHtml).get(0);
-			*				// get a handle on the root in jQuery
-			*				$root = jQuery(appConfig.root);				
-			*			}
-			*			else
-			*			{
-			*				// get a handle on the root in jQuery
-			*				$root = jQuery(appConfig.root);			
-			*				
-			*				// append the app html to the root
-			*				$root.append(appHtml);
-			*			}			
-			*			
-			*			// append the root to the body by default.
-			*			jQuery('body').append($root);
-			*		}
-			*	);
+			*	TODO: WRITE $QUERYLESS EXAMPLE
 			*/		
 			APP_RENDER: 'appRender',
 			/**
@@ -15715,28 +14246,7 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	var _token = F2.AppHandlers.getToken();
-			*	F2.AppHandlers.on(
-			*		_token,
-			*		F2.Constants.AppHandlers.APP_DESTROY,
-			*		function(appInstance)
-			*		{
-			*			// call the apps destroy method, if it has one
-			*			if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')
-			*			{
-			*				appInstance.app.destroy();
-			*			}
-			*			else if(appInstance && appInstance.app && appInstance.app.destroy)
-			*			{
-			*				F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
-			*			}
-			*			
-			*			// fade out and remove the root
-			*			jQuery(appInstance.config.root).fadeOut(500, function() {
-			*				jQuery(this).remove();
-			*			});
-			*		}
-			*	);
+			*	TODO: WRITE $QUERYLESS EXAMPLE
 			*/		
 			APP_DESTROY: 'appDestroy',
 			/**
@@ -15748,15 +14258,7 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	var _token = F2.AppHandlers.getToken();
-			*	F2.AppHandlers.on(
-			*		_token,
-			*		F2.Constants.AppHandlers.APP_DESTROY_AFTER,
-			*		function(appInstance)
-			*		{
-			*			F2.log(appInstance);
-			*		}
-			*	);
+			*	TODO: WRITE $QUERYLESS EXAMPLE
 			*/
 			APP_DESTROY_AFTER: 'appDestroyAfter',
 			/**
@@ -15846,10 +14348,7 @@ F2.extend('', {
 		enableBatchRequests: false,
 		/**
 		 * The height of the app. The initial height will be pulled from
-		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later
-		 * modified by calling
-		 * F2.UI.{{#crossLink "F2.UI/updateHeight"}}{{/crossLink}}. This is used
-		 * for secure apps to be able to set the initial height of the iframe.
+		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * @property height
 		 * @type int
 		 */
@@ -15863,17 +14362,6 @@ F2.extend('', {
 		 * @type string
 		 */
 		instanceId: '',
-		/**
-		 * True if the app will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
-		 * sets isSecure = true. It will also be true if the
-		 * [container](../../container-development.html) has made the decision to
-		 * run apps in iframes.
-		 * @property isSecure
-		 * @type bool
-		 * @default false
-		 */
-		isSecure: false,
 		/**
 		 * The language and region specification for this container 
 		 * represented as an IETF-defined standard language tag,
@@ -15949,28 +14437,7 @@ F2.extend('', {
 		 * @property root
 		 * @type Element
 		 */
-		root: undefined,
-		/**
-		 * The instance of F2.UI providing easy access to F2.UI methods
-		 *
-		 * **This property is populated during the
-		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
-		 * @property ui
-		 * @type F2.UI
-		 */
-		ui: undefined,
-		/**
-		 * The views that this app supports. Available views
-		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
-		 * presence of a view can be checked via
-		 * F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
-		 * 
-		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-		 *
-		 * @property views
-		 * @type Array
-		 */
-		views: []
+		root: undefined
 	},
 	/**
 	 * The assets needed to render an app on the page
@@ -16103,81 +14570,6 @@ F2.extend('', {
 		 * @default 7000 (7 seconds)
 		 */
 		scriptErrorTimeout: 7000,
-		/**
-		 * Tells the container that it is currently running within
-		 * a secure app page
-		 * @property isSecureAppPage
-		 * @type bool
-		 */
-		isSecureAppPage: false,
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
-		/**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app's header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 */
-		supportedViews: [],
-		/**
-		 * An object containing configuration defaults for F2.UI
-		 * @class F2.ContainerConfig.UI
-		 */
-		UI: {
-			/**
-			 * An object containing configuration defaults for the 
-			 * F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} and
-			 * F2.UI.{{#crossLink "F2.UI/hideMask"}}{{/crossLink}} methods.
-			 * @class F2.ContainerConfig.UI.Mask
-			 */
-			Mask: {
-				/**
-				 * The backround color of the overlay
-				 * @property backgroundColor
-				 * @type string
-				 * @default #FFF
-				 */
-				backgroundColor: '#FFF',
-				/**
-				 * The path to the loading icon
-				 * @property loadingIcon
-				 * @type string
-				 */
-				loadingIcon: '',
-				/**
-				 * The opacity of the background overlay
-				 * @property opacity
-				 * @type int
-				 * @default 0.6
-				 */
-				opacity: 0.6,
-				/**
-				 * Do not use inline styles for mask functinality. Instead classes will
-				 * be applied to the elements and it is up to the container provider to
-				 * implement the class definitions.
-				 * @property useClasses
-				 * @type bool
-				 * @default false
-				 */
-				useClasses: false,
-				/**
-				 * The z-index to use for the overlay
-				 * @property zIndex
-				 * @type int
-				 * @default 2
-				 */
-				zIndex: 2
-			}
-		},
 		/**
 		 * Allows the container to fully override how the AppManifest request is
 		 * made inside of F2.
@@ -16373,62 +14765,7 @@ F2.extend('Constants', {
 			 * @static
 			 * @final
 			 */
-			APP_CONTAINER: _PREFIX + 'app-container',
-			/**
-			 * The APP\_TITLE class should be applied to the DOM Element that contains
-			 * the title for an app.  If this class is not present, then
-			 * F2.UI.{{#crossLink "F2.UI/setTitle"}}{{/crossLink}} will not function.
-			 * @property APP_TITLE
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_TITLE: _PREFIX + 'app-title',
-			/**
-			 * The APP\_VIEW class should be applied to the DOM Element that contains
-			 * a view for an app. The DOM Element should also have a
-			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
-			 * attribute that specifies which
-			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it is. 
-			 * @property APP_VIEW
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_VIEW: _PREFIX + 'app-view',
-			/**
-			 * APP\_VIEW\_TRIGGER class should be applied to the DOM Elements that
-			 * trigger an
-			 * {{#crossLink "F2.Constants.Events"}}{{/crossLink}}.APP\_VIEW\_CHANGE
-			 * event. The DOM Element should also have a
-			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}}.DATA_ATTRIBUTE
-			 * attribute that specifies which
-			 * {{#crossLink "F2.Constants.Views"}}{{/crossLink}} it will trigger.
-			 * @property APP_VIEW_TRIGGER
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			APP_VIEW_TRIGGER: _PREFIX + 'app-view-trigger',
-			/**
-			 * The MASK class is applied to the overlay element that is created
-			 * when the F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} method is
-			 * fired.
-			 * @property MASK
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			MASK: _PREFIX + 'mask',
-			/**
-			 * The MASK_CONTAINER class is applied to the Element that is passed into
-			 * the F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} method.
-			 * @property MASK_CONTAINER
-			 * @type string
-			 * @static
-			 * @final
-			 */
-			MASK_CONTAINER: _PREFIX + 'mask-container'
+			APP_CONTAINER: _PREFIX + 'app-container'
 		};
 	})(),
 	
@@ -16534,124 +14871,6 @@ F2.extend('Constants', {
 	AppStatus: {
 		ERROR: 'ERROR',
 		SUCCESS: 'SUCCESS'
-	},
-
-	/**
-	 * Constants for use with cross-domain sockets
-	 * @class F2.Constants.Sockets
-	 * @protected
-	 */
-	Sockets: {
-		/**
-		 * The EVENT message is sent whenever
-		 * F2.Events.{{#crossLink "F2.Events/emit"}}{{/crossLink}} is fired
-		 * @property EVENT
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		EVENT: '__event__',
-		/**
-		 * The LOAD message is sent when an iframe socket initially loads.
-		 * Returns a JSON string that represents:
-		 *
-		 *     [ App, AppManifest]
-		 * 
-		 * @property LOAD
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		LOAD: '__socketLoad__',
-		/**
-		 * The RPC message is sent when a method is passed up from within a secure
-		 * app page.
-		 * @property RPC
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		RPC: '__rpc__',
-		/**
-		 * The RPC\_CALLBACK message is sent when a call back from an RPC method is
-		 * fired.
-		 * @property RPC_CALLBACK
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		RPC_CALLBACK: '__rpcCallback__',
-		/**
-		 * The UI\_RPC message is sent when a UI method called.
-		 * @property UI_RPC
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		UI_RPC: '__uiRpc__'
-	},
-
-	/**
-	 * The available view types to apps. The view should be specified by applying
-	 * the {{#crossLink "F2.Constants.Css"}}{{/crossLink}}.APP\_VIEW class to the
-	 * containing DOM Element. A DATA\_ATTRIBUTE attribute should be added to the
-	 * Element as well which defines what view type is represented.
-	 * The `hide` class can be applied to views that should be hidden by default.
-	 * @class F2.Constants.Views
-	 */
-	Views: {
-		/**
-		 * The DATA_ATTRIBUTE should be placed on the DOM Element that contains the
-		 * view.
-		 * @property DATA_ATTRIBUTE
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		DATA_ATTRIBUTE: 'data-f2-view',
-		/**
-		 * The ABOUT view gives details about the app.
-		 * @property ABOUT
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		ABOUT: 'about',
-		/**
-		 * The HELP view provides users with help information for using an app.
-		 * @property HELP
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		HELP: 'help',
-		/**
-		 * The HOME view is the main view for an app. This view should always
-		 * be provided by an app.
-		 * @property HOME
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		HOME: 'home',
-		/**
-		 * The REMOVE view is a special view that handles the removal of an app
-		 * from the container.
-		 * @property REMOVE
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		REMOVE: 'remove',
-		/**
-		 * The SETTINGS view provides users the ability to modify advanced settings
-		 * for an app.
-		 * @property SETTINGS
-		 * @type string
-		 * @static
-		 * @final
-		 */
-		SETTINGS: 'settings'
 	}
 });
 
@@ -16671,17 +14890,6 @@ F2.extend('Events', (function() {
 
 	return {
 		/**
-		 * Same as F2.Events.emit except that it will not send the event
-		 * to all sockets.
-		 * @method _socketEmit
-		 * @private
-		 * @param {string} event The event name
-		 * @param {object} [arg]* The arguments to be passed
-		 */
-		_socketEmit: function() {
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
-		},
-		/**
 		 * Execute each of the listeners that may be listening for the specified
 		 * event name in order with the list of arguments.
 		 * @method emit
@@ -16689,7 +14897,6 @@ F2.extend('Events', (function() {
 		 * @param {object} [arg]* The arguments to be passed
 		 */
 		emit: function() {
-			F2.Rpc.broadcast(F2.Constants.Sockets.EVENT, [].slice.call(arguments));
 			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
@@ -16739,763 +14946,6 @@ F2.extend('Events', (function() {
 	};
 })());
 /**
- * Handles socket communication between the container and secure apps
- * @class F2.Rpc
- */
-F2.extend('Rpc', (function(){
-	var _callbacks = {};
-	var _secureAppPagePath = '';
-	var _apps = {};
-	var _rEvents = new RegExp('^' + F2.Constants.Sockets.EVENT);
-	var _rRpc = new RegExp('^' + F2.Constants.Sockets.RPC);
-	var _rRpcCallback = new RegExp('^' + F2.Constants.Sockets.RPC_CALLBACK);
-	var _rSocketLoad = new RegExp('^' + F2.Constants.Sockets.LOAD);
-	var _rUiCall = new RegExp('^' + F2.Constants.Sockets.UI_RPC);
-
-	/**
-	 * Creates a socket connection from the app to the container using 
-	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
-	 * @method _createAppToContainerSocket
-	 * @private
-	 */
-	var _createAppToContainerSocket = function() {
-
-		var appConfig; // socket closure
-		var isLoaded = false;
-		// its possible for messages to be received before the socket load event has
-		// happened.  We'll save off these messages and replay them once the socket
-		// is ready
-		var messagePlayback = [];
-
-		var socket = new easyXDM.Socket({
-			onMessage: function(message, origin){
-
-				// handle Socket Load
-				if (!isLoaded && _rSocketLoad.test(message)) {
-					message = message.replace(_rSocketLoad, '');
-					var appParts = F2.parse(message);
-
-					// make sure we have the AppConfig and AppManifest
-					if (appParts.length == 2) {
-						appConfig = appParts[0];
-
-						// save socket
-						_apps[appConfig.instanceId] = {
-							config:appConfig,
-							socket:socket
-						};	
-
-						// register app
-						F2.registerApps([appConfig], [appParts[1]]);
-
-						// socket message playback
-						jQuery.each(messagePlayback, function(i, e) {
-							_onMessage(appConfig, message, origin);
-						});
-						
-						isLoaded = true;
-					}
-				} else if (isLoaded) {
-					// pass everyting else to _onMessage
-					_onMessage(appConfig, message, origin);
-				} else {
-					//F2.log('socket not ready, queuing message', message);
-					messagePlayback.push(message);
-				}
-			}
-		});
-	};
-
-	/**
-	 * Creates a socket connection from the container to the app using 
-	 * <a href="http://easyxdm.net" target="_blank">easyXDM</a>.
-	 * @method _createContainerToAppSocket
-	 * @private
-	 * @param {appConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The F2.AppManifest object
-	 */
-	var _createContainerToAppSocket = function(appConfig, appManifest) {
-
-		var container = jQuery(appConfig.root);
-
-		if (!container.is('.' + F2.Constants.Css.APP_CONTAINER)) {
-			container.find('.' + F2.Constants.Css.APP_CONTAINER);
-		}
-
-		if (!container.length) {
-			F2.log('Unable to locate app in order to establish secure connection.');
-			return;
-		}
-
-		var iframeProps = {
-			scrolling:'no',
-			style:{
-				width:'100%'
-			}
-		};
-
-		if (appConfig.height) {
-			iframeProps.style.height = appConfig.height + 'px';
-		}
-
-		var socket = new easyXDM.Socket({
-			remote: _secureAppPagePath,
-			container: container.get(0),
-			props:iframeProps,
-			onMessage: function(message, origin) {
-				// pass everything to _onMessage
-				_onMessage(appConfig, message, origin);
-			},
-			onReady: function() {
-				socket.postMessage(F2.Constants.Sockets.LOAD + F2.stringify([appConfig, appManifest], F2.appConfigReplacer));
-			}
-		});
-
-		return socket;
-	};
-
-	/**
-	 * @method _createRpcCallback
-	 * @private
-	 * @param {string} instanceId The app's Instance ID
-	 * @param {function} callbackId The callback ID
-	 * @return {function} A function to make the RPC call
-	 */
-	var _createRpcCallback = function(instanceId, callbackId) {
-		return function() {
-			F2.Rpc.call(
-				instanceId,
-				F2.Constants.Sockets.RPC_CALLBACK,
-				callbackId,
-				[].slice.call(arguments).slice(2)
-			);
-		};
-	};
-
-	/**
-	 * Handles messages that come across the sockets
-	 * @method _onMessage
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {string} message The socket message
-	 * @param {string} origin The originator
-	 */
-	var _onMessage = function(appConfig, message, origin) {
-
-		var obj, func;
-
-		function parseFunction(parent, functionName) {
-			var path = String(functionName).split('.');
-			for (var i = 0; i < path.length; i++) {
-				if (parent[path[i]] === undefined) {
-					parent = undefined;
-					break;
-				}
-				parent = parent[path[i]];
-			}
-			return parent;
-		}
-
-		function parseMessage(regEx, message, instanceId) {
-			var o = F2.parse(message.replace(regEx, ''));
-
-			// if obj.callbacks
-			//   for each callback
-			//     for each params
-			//       if callback matches param
-			//        replace param with _createRpcCallback(app.instanceId, callback)
-			if (o.params && o.params.length && o.callbacks && o.callbacks.length) {
-				jQuery.each(o.callbacks, function(i, c) {
-					jQuery.each(o.params, function(i, p) {
-						if (c == p) {
-							o.params[i] = _createRpcCallback(instanceId, c);
-						}
-					});
-				});
-			}
-
-			return o;
-		}
-
-		// handle UI Call
-		if (_rUiCall.test(message)) {
-			obj = parseMessage(_rUiCall, message, appConfig.instanceId);
-			func = parseFunction(appConfig.ui, obj.functionName);
-			// if we found the function, call it
-			if (func !== undefined) {
-				func.apply(appConfig.ui, obj.params);
-			} else {
-				F2.log('Unable to locate UI RPC function: ' + obj.functionName);
-			}
-
-		// handle RPC
-		} else if (_rRpc.test(message)) {
-			obj = parseMessage(_rRpc, message, appConfig.instanceId);
-			func = parseFunction(window, obj.functionName);
-			if (func !== undefined) {
-				func.apply(func, obj.params);
-			} else {
-				F2.log('Unable to locate RPC function: ' + obj.functionName);
-			}
-
-		// handle RPC Callback
-		} else if (_rRpcCallback.test(message)) {
-			obj = parseMessage(_rRpcCallback, message, appConfig.instanceId);
-			if (_callbacks[obj.functionName] !== undefined) {
-				_callbacks[obj.functionName].apply(_callbacks[obj.functionName], obj.params);
-				delete _callbacks[obj.functionName];
-			}
-
-		// handle Events
-		} else if (_rEvents.test(message)) {
-			obj = parseMessage(_rEvents, message, appConfig.instanceId);
-			F2.Events._socketEmit.apply(F2.Events, obj);
-		}
-	};
-
-	/**
-	 * Registers a callback function
-	 * @method _registerCallback
-	 * @private
-	 * @param {function} callback The callback function
-	 * @return {string} The callback ID
-	 */
-	var _registerCallback = function(callback) {
-		var callbackId = F2.guid();
-		_callbacks[callbackId] = callback;
-		return callbackId;
-	};
-
-	return {
-		/**
-		 * Broadcast an RPC function to all sockets
-		 * @method broadcast
-		 * @param {string} messageType The message type
-		 * @param {Array} params The parameters to broadcast
-		 */
-		broadcast: function(messageType, params) {
-			// check valid messageType
-			var message = messageType + F2.stringify(params);
-			jQuery.each(_apps, function(i, a) {
-				a.socket.postMessage(message);
-			});
-		},
-		/**
-		 * Calls a remote function
-		 * @method call
-		 * @param {string} instanceId The app's Instance ID
-		 * @param {string} messageType The message type
-		 * @param {string} functionName The name of the remote function
-		 * @param {Array} params An array of parameters to pass to the remote
-		 * function. Any functions found within the params will be treated as a
-		 * callback function.
-		 */
-		call: function(instanceId, messageType, functionName, params) {
-			// loop through params and find functions and convert them to callbacks
-			var callbacks = [];
-			jQuery.each(params, function(i, e) {
-				if (typeof e === 'function') {
-					var cid = _registerCallback(e);
-					params[i] = cid;
-					callbacks.push(cid);
-				}
-			});
-			// check valid messageType
-			_apps[instanceId].socket.postMessage(
-				messageType + F2.stringify({
-					functionName:functionName,
-					params:params,
-					callbacks:callbacks
-				})
-			);
-		},
-
-		/**
-		 * Init function which tells F2.Rpc whether it is running at the container-
-		 * level or the app-level. This method is generally called by
-		 * F2.{{#crossLink "F2/init"}}{{/crossLink}}
-		 * @method init
-		 * @param {string} [secureAppPagePath] The
-		 * {{#crossLink "F2.ContainerConfig"}}{{/crossLink}}.secureAppPagePath
-		 * property
-		 */
-		init: function(secureAppPagePath) {
-			_secureAppPagePath = secureAppPagePath;
-			if (!_secureAppPagePath) {
-				_createAppToContainerSocket();
-			}
-		},
-
-		/**
-		 * Determines whether the Instance ID is considered to be 'remote'. This is
-		 * determined by checking if 1) the app has an open socket and 2) whether
-		 * F2.Rpc is running inside of an iframe
-		 * @method isRemote
-		 * @param {string} instanceId The Instance ID
-		 * @return {bool} True if there is an open socket
-		 */
-		isRemote: function(instanceId) {
-			return (
-				// we have an app
-				_apps[instanceId] !== undefined &&
-				// the app is secure
-				_apps[instanceId].config.isSecure &&
-				// we can't access the iframe
-				jQuery(_apps[instanceId].config.root).find('iframe').length === 0
-			);
-		},
-
-		/**
-		 * Creates a container-to-app or app-to-container socket for communication
-		 * @method register
-		 * @param {F2.AppConfig} [appConfig] The F2.AppConfig object
-		 * @param {F2.AppManifest} [appManifest] The F2.AppManifest object
-		 */
-		register: function(appConfig, appManifest) {
-			if (!!appConfig && !!appManifest) {
-				_apps[appConfig.instanceId] = {
-					config:appConfig,
-					socket:_createContainerToAppSocket(appConfig, appManifest)
-				};
-			} else {
-				F2.log('Unable to register socket connection. Please check container configuration.');
-			}
-		},
-
-		/**
-		 * Cleans up a given app instance
-		 * @method destroy
-		 * @param {string} instanceId The Instance ID
-		 */
-		destroy: function(instanceId) {
-			if (_apps[instanceId] && _apps[instanceId].socket) {
-				_apps[instanceId].socket.destroy();
-			}
-			delete _apps[instanceId];
-		}
-	};
-})());
-F2.extend('UI', (function(){
-
-	var _containerConfig;
-
-	/**
-	 * UI helper methods
-	 * @class F2.UI
-	 * @constructor
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 */
-	var UI_Class = function(appConfig) {
-
-		var _appConfig = appConfig;
-		var $root = jQuery(appConfig.root);
-
-		var _updateHeight = function(height) {
-			height = height || jQuery(_appConfig.root).outerHeight();
-
-			if (F2.Rpc.isRemote(_appConfig.instanceId)) {
-				F2.Rpc.call(
-					_appConfig.instanceId,
-					F2.Constants.Sockets.UI_RPC,
-					'updateHeight',
-					[
-						height
-					]
-				);
-			} else {
-				_appConfig.height = height;
-				$root.find('iframe').height(_appConfig.height);
-			}
-		};
-
-		//http://getbootstrap.com/javascript/#modals
-		var _modalHtml = function(type,message,showCancel){
-			return [
-				'<div class="modal">',
-					'<div class="modal-dialog">',
-						'<div class="modal-content">',
-							'<div class="modal-header">',
-								'<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>',
-								'<h4 class="modal-title">',type,'</h4>',
-							'</div>',
-							'<div class="modal-body"><p>',
-								message,
-								'</p></div>',
-							'<div class="modal-footer">',
-								((showCancel) ? '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' : ''),
-								'<button type="button" class="btn btn-primary btn-ok">OK</button>',
-							'</div>',
-						'</div>',
-					'</div>',
-				'</div>'
-				].join('');
-		};
-
-		return {
-			/**
-			 * Removes a overlay from an Element on the page
-			 * @method hideMask
-			 * @param {string|Element} selector The Element or selector to an Element
-			 * that currently contains the loader
-			 */
-			hideMask: function(selector) {
-				F2.UI.hideMask(_appConfig.instanceId, selector);
-			},
-			/**
-			 * Helper methods for creating and using Modals
-			 * @class F2.UI.Modals
-			 * @for F2.UI
-			 */
-			Modals: (function(){
-
-				var _renderAlert = function(message) {
-					return _modalHtml('Alert',message);
-				};
-
-				var _renderConfirm = function(message) {
-					return _modalHtml('Confirm',message,true);
-				};
-
-				return {
-					/**
-					 * Display an alert message on the page
-					 * @method alert
-					 * @param {string} message The message to be displayed
-					 * @param {function} [callback] The callback to be fired when the user
-					 * closes the dialog
-					 * @for F2.UI.Modals
-					 */
-					alert: function(message, callback) {
-
-						if (!F2.isInit()) {
-							F2.log('F2.init() must be called before F2.UI.Modals.alert()');
-							return;
-						}
-
-						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
-							F2.Rpc.call(
-								_appConfig.instanceId,
-								F2.Constants.Sockets.UI_RPC,
-								'Modals.alert',
-								[].slice.call(arguments)
-							);
-						} else {
-							// display the alert
-							jQuery(_renderAlert(message))
-								.on('show.bs.modal', function() {
-									var modal = this;
-									jQuery(modal).find('.btn-primary').on('click', function() {
-										jQuery(modal).modal('hide').remove();
-										(callback || jQuery.noop)();
-									});
-								})
-								.modal({backdrop:true});
-						}
-					},
-					/**
-					 * Display a confirm message on the page
-					 * @method confirm
-					 * @param {string} message The message to be displayed
-					 * @param {function} okCallback The function that will be called when the OK
-					 * button is pressed
-					 * @param {function} cancelCallback The function that will be called when
-					 * the Cancel button is pressed
-					 * @for F2.UI.Modals
-					 */
-					confirm: function(message, okCallback, cancelCallback) {
-
-						if (!F2.isInit()) {
-							F2.log('F2.init() must be called before F2.UI.Modals.confirm()');
-							return;
-						}
-
-						if (F2.Rpc.isRemote(_appConfig.instanceId)) {
-							F2.Rpc.call(
-								_appConfig.instanceId,
-								F2.Constants.Sockets.UI_RPC,
-								'Modals.confirm',
-								[].slice.call(arguments)
-							);
-						} else {
-							// display the alert
-							jQuery(_renderConfirm(message))
-								.on('show.bs.modal', function() {
-									var modal = this;
-									
-									jQuery(modal).find('.btn-ok').on('click', function() {
-										jQuery(modal).modal('hide').remove();
-										(okCallback || jQuery.noop)();
-									});
-
-									jQuery(modal).find('.btn-cancel').on('click', function() {
-										jQuery(modal).modal('hide').remove();
-										(cancelCallback || jQuery.noop)();
-									});
-								})
-								.modal({backdrop:true});
-						}
-					}
-				};
-			})(),
-			/**
-			 * Sets the title of the app as shown in the browser. Depending on the
-			 * container HTML, this method may do nothing if the container has not been
-			 * configured properly or else the container provider does not allow Title's
-			 * to be set.
-			 * @method setTitle
-			 * @params {string} title The title of the app
-			 * @for F2.UI
-			 */
-			setTitle: function(title) {
-
-				if (F2.Rpc.isRemote(_appConfig.instanceId)) {
-					F2.Rpc.call(
-						_appConfig.instanceId,
-						F2.Constants.Sockets.UI_RPC,
-						'setTitle',
-						[
-							title
-						]
-					);
-				} else {
-					jQuery(_appConfig.root).find('.' + F2.Constants.Css.APP_TITLE).text(title);
-				}
-			},
-			/**
-			 * Display an ovarlay over an Element on the page
-			 * @method showMask
-			 * @param {string|Element} selector The Element or selector to an Element
-			 * over which to display the loader
-			 * @param {bool} showLoading Display a loading icon
-			 */
-			showMask: function(selector, showLoader) {
-				F2.UI.showMask(_appConfig.instanceId, selector, showLoader);
-			},
-			/**
-			 * For secure apps, this method updates the size of the iframe that
-			 * contains the app. **Note: It is recommended that app developers call
-			 * this method anytime Elements are added or removed from the DOM**
-			 * @method updateHeight
-			 * @params {int} height The height of the app
-			 */
-			updateHeight: _updateHeight,
-			/**
-			 * Helper methods for creating and using Views
-			 * @class F2.UI.Views
-			 * @for F2.UI
-			 */
-			Views: (function(){
-
-				var _events = new EventEmitter2();
-				var _rValidEvents = /change/i;
-
-				// unlimited listeners, set to > 0 for debugging
-				_events.setMaxListeners(0);
-
-				var _isValid = function(eventName) {
-					if (_rValidEvents.test(eventName)) {
-						return true;
-					} else {
-						F2.log('"' + eventName + '" is not a valid F2.UI.Views event name');
-						return false;
-					}
-				};
-
-				return {
-					/**
-					 * Change the current view for the app or add an event listener
-					 * @method change
-					 * @param {string|function} [input] If a string is passed in, the view
-					 * will be changed for the app. If a function is passed in, a change
-					 * event listener will be added.
-					 * @for F2.UI.Views
-					 */
-					change: function(input) {
-
-						if (typeof input === 'function') {
-							this.on('change', input);
-						} else if (typeof input === 'string') {
-
-							if (_appConfig.isSecure && !F2.Rpc.isRemote(_appConfig.instanceId)) {
-								F2.Rpc.call(
-									_appConfig.instanceId,
-									F2.Constants.Sockets.UI_RPC,
-									'Views.change',
-									[].slice.call(arguments)
-								);
-							} else if (F2.inArray(input, _appConfig.views)) {
-								jQuery('.' + F2.Constants.Css.APP_VIEW, $root)
-									.addClass('hide')
-									.filter('[data-f2-view="' + input + '"]', $root)
-									.removeClass('hide');
-								
-								_updateHeight();
-								_events.emit('change', input);
-							}							
-						}
-					},
-					/**
-					 * Removes a view event listener
-					 * @method off
-					 * @param {string} event The event name
-					 * @param {function} listener The function that will be removed
-					 * @for F2.UI.Views
-					 */
-					off: function(event, listener) {
-						if (_isValid(event)) {
-							_events.off(event, listener);
-						}
-					},
-					/**
-					 * Adds a view event listener
-					 * @method on
-					 * @param {string} event The event name
-					 * @param {function} listener The function to be fired when the event is
-					 * emitted
-					 * @for F2.UI.Views
-					 */
-					on: function(event, listener) {
-						if (_isValid(event)) {
-							_events.on(event, listener);
-						}
-					}
-				};
-			})()
-		};
-	};
-
-	/**
-	 * Removes a overlay from an Element on the page
-	 * @method hideMask
-	 * @static
-	 * @param {string} instanceId The Instance ID of the app
-	 * @param {string|Element} selector The Element or selector to an Element
-	 * that currently contains the loader
-	 * @for F2.UI
-	 */
-	UI_Class.hideMask = function(instanceId, selector) {
-
-		if (!F2.isInit()) {
-			F2.log('F2.init() must be called before F2.UI.hideMask()');
-			return;
-		}
-
-		if (F2.Rpc.isRemote(instanceId) && !jQuery(selector).is('.' + F2.Constants.Css.APP)) {
-			F2.Rpc.call(
-				instanceId,
-				F2.Constants.Sockets.RPC,
-				'F2.UI.hideMask',
-				[
-					instanceId,
-					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
-					jQuery(selector).selector
-				]
-			);
-		} else {
-			
-			var container = jQuery(selector);
-			container.find('> .' + F2.Constants.Css.MASK).remove();
-			container.removeClass(F2.Constants.Css.MASK_CONTAINER);
-
-			// if the element contains this data property, we need to reset static
-			// position
-			if (container.data(F2.Constants.Css.MASK_CONTAINER)) {
-				container.css({'position':'static'});
-			}
-		}
-	};
-
-	/**
-	 *
-	 * @method init
-	 * @static
-	 * @param {F2.ContainerConfig} containerConfig The F2.ContainerConfig object
-	 */
-	UI_Class.init = function(containerConfig) {
-		_containerConfig = containerConfig;
-
-		// set defaults
-		_containerConfig.UI = jQuery.extend(true, {}, F2.ContainerConfig.UI, _containerConfig.UI || {});
-	};
-
-	/**
-	 * Display an ovarlay over an Element on the page
-	 * @method showMask
-	 * @static
-	 * @param {string} instanceId The Instance ID of the app
-	 * @param {string|Element} selector The Element or selector to an Element
-	 * over which to display the loader
-	 * @param {bool} showLoading Display a loading icon
-	 */
-	UI_Class.showMask = function(instanceId, selector, showLoading) {
-
-		if (!F2.isInit()) {
-			F2.log('F2.init() must be called before F2.UI.showMask()');
-			return;
-		}
-
-		if (F2.Rpc.isRemote(instanceId) && jQuery(selector).is('.' + F2.Constants.Css.APP)) {
-			F2.Rpc.call(
-				instanceId,
-				F2.Constants.Sockets.RPC,
-				'F2.UI.showMask',
-				[
-					instanceId,
-					// must only pass the selector argument. if we pass an Element there
-					// will be F2.stringify() errors
-					jQuery(selector).selector,
-					showLoading
-				]
-			);
-		} else {
-
-			if (showLoading && !_containerConfig.UI.Mask.loadingIcon) {
-				F2.log('Unable to display loading icon. Please set F2.ContainerConfig.UI.Mask.loadingIcon	when calling F2.init();');
-			}
-
-			var container = jQuery(selector).addClass(F2.Constants.Css.MASK_CONTAINER);
-			var mask = jQuery('<div>')
-				.height('100%' /*container.outerHeight()*/)
-				.width('100%' /*container.outerWidth()*/)
-				.addClass(F2.Constants.Css.MASK);
-
-			// set inline styles if useClasses is false
-			if (!_containerConfig.UI.Mask.useClasses) {
-				mask.css({
-					'background-color':_containerConfig.UI.Mask.backgroundColor,
-					'background-image': !!_containerConfig.UI.Mask.loadingIcon ? ('url(' + _containerConfig.UI.Mask.loadingIcon + ')') : '',
-					'background-position':'50% 50%',
-					'background-repeat':'no-repeat',
-					'display':'block',
-					'left':0,
-					'min-height':30,
-					'padding':0,
-					'position':'absolute',
-					'top':0,
-					'z-index':_containerConfig.UI.Mask.zIndex,
-
-					'filter':'alpha(opacity=' + (_containerConfig.UI.Mask.opacity * 100) + ')',
-					'opacity':_containerConfig.UI.Mask.opacity
-				});
-			}
-
-			// only set the position if the container is currently static
-			if (container.css('position') === 'static') {
-				container.css({'position':'relative'});
-				// setting this data property tells hideMask to set the position
-				// back to static
-				container.data(F2.Constants.Css.MASK_CONTAINER, true);
-			}
-
-			// add the mask to the container
-			container.append(mask);
-		}
-	};
-
-	return UI_Class;
-})());
-/**
  * Root namespace of the F2 SDK
  * @module f2
  * @class F2
@@ -17509,6 +14959,27 @@ F2.extend('', (function() {
 	var _loadingScripts = {};
 
 	/**
+   * Search for a value within an array.
+   * @method inArray
+   * @param {object} value The value to search for
+   * @param {Array} array The array to search
+   * @return {bool} True if the item is in the array
+   */
+	var _inArray = function(value, array) {
+		if (Array.isArray(array)) {
+			return array.indexOf(value) > -1;
+		}
+
+		for (var i = 0; i < array.length; i++) {
+			if (array[i] === value) {
+				return i > -1;
+			}
+		}
+
+		return -1;
+	};
+
+	/**
 	 * Appends the app's html to the DOM
 	 * @method _afterAppRender
 	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
@@ -17518,9 +14989,8 @@ F2.extend('', (function() {
 	 * @return {Element} The DOM Element that contains the app
 	 */
 	var _afterAppRender = function(appConfig, html) {
-
 		var handler = _config.afterAppRender || function(appConfig, html) {
-				return jQuery(html).appendTo('body');
+				return document.body.appendChild(domify(html));
 			};
 		var appContainer = handler(appConfig, html);
 
@@ -17529,9 +14999,9 @@ F2.extend('', (function() {
 			return;
 		}
 		else {
-			// apply APP class
-			jQuery(appContainer).addClass(F2.Constants.Css.APP);
-			return appContainer.get(0);
+			//apply APP class
+			appContainer.classList.add(F2.Constants.Css.APP);
+			return appContainer;
 		}
 	};
 
@@ -17544,16 +15014,19 @@ F2.extend('', (function() {
 	 * @param {string} html The string of html
 	 */
 	var _appRender = function(appConfig, html) {
+		//apply APP_CONTAINER class and AppID
+		var node = domify(html);
+		// classList.add twice because phantomjs breaks otherwise
+		node.classList.add(F2.Constants.Css.APP_CONTAINER);
+		node.classList.add(appConfig.appId);
+		html = _outerHtml(node);
 
-		// apply APP_CONTAINER class and AppID
-		html = _outerHtml(jQuery(html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
-
-		// optionally apply wrapper html
+		//optionally apply wrapper html
 		if (_config.appRender) {
-			html = _config.appRender(appConfig, html);
+			html = _outerHtml(_config.appRender(appConfig, html));
 		}
 
-		return _outerHtml(html);
+		return html;
 	};
 
 	/**
@@ -17566,7 +15039,7 @@ F2.extend('', (function() {
 	 * @return {Element} The DOM Element surrounding the app
 	 */
 	var _beforeAppRender = function(appConfig) {
-		var handler = _config.beforeAppRender || jQuery.noop;
+		var handler = _config.beforeAppRender || function() { return this; };
 		return handler(appConfig);
 	};
 
@@ -17580,7 +15053,7 @@ F2.extend('', (function() {
 	 * for the inline script that failed to execute
 	 */
 	var _appScriptLoadFailed = function(appConfig, scriptInfo) {
-		var handler = _config.appScriptLoadFailed || jQuery.noop;
+		var handler = _config.appScriptLoadFailed || function() { return this; };
 		return handler(appConfig, scriptInfo);
 	};
 
@@ -17595,16 +15068,10 @@ F2.extend('', (function() {
 	var _createAppConfig = function(appConfig) {
 
 		// make a copy of the app config to ensure that the original is not modified
-		appConfig = jQuery.extend(true, {}, appConfig);
+		appConfig = _.cloneDeep(appConfig) || {};
 
 		// create the instanceId for the app
 		appConfig.instanceId = appConfig.instanceId || F2.guid();
-
-		// default the views if not provided
-		appConfig.views = appConfig.views || [];
-		if (!F2.inArray(F2.Constants.Views.HOME, appConfig.views)) {
-			appConfig.views.push(F2.Constants.Views.HOME);
-		}
 
 		//pass container-defined locale to each app
 		if (F2.ContainerConfig.locale){
@@ -17632,7 +15099,6 @@ F2.extend('', (function() {
 				appConfig = {
 					appId: appId,
 					enableBatchRequests: node.hasAttribute('data-f2-enablebatchrequests'),
-					isSecure: node.hasAttribute('data-f2-issecure'),
 					manifestUrl: manifestUrl,
 					root: node
 				};
@@ -17698,29 +15164,6 @@ F2.extend('', (function() {
 	};
 
 	/**
-	 * Attach app events
-	 * @method _initAppEvents
-	 * @private
-	 */
-	var _initAppEvents = function(appConfig) {
-
-		jQuery(appConfig.root).on('click', '.' + F2.Constants.Css.APP_VIEW_TRIGGER + '[' + F2.Constants.Views.DATA_ATTRIBUTE + ']', function(event) {
-
-			event.preventDefault();
-
-			var view = jQuery(this).attr(F2.Constants.Views.DATA_ATTRIBUTE).toLowerCase();
-
-			// handle the special REMOVE view
-			if (view == F2.Constants.Views.REMOVE) {
-				F2.removeApp(appConfig.instanceId);
-			}
-			else {
-				appConfig.ui.Views.change(view);
-			}
-		});
-	};
-
-	/**
 	 * Attach container Events
 	 * @method _initContainerEvents
 	 * @private
@@ -17732,7 +15175,8 @@ F2.extend('', (function() {
 			F2.Events.emit(F2.Constants.Events.CONTAINER_WIDTH_CHANGE);
 		};
 
-		jQuery(window).on('resize', function() {
+		// TODO: remove this on destroy()
+		window.addEventListener('resize', function() {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(resizeHandler, 100);
 		});
@@ -17778,9 +15222,6 @@ F2.extend('', (function() {
 	 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}} objects
 	 */
 	var _createAppInstance = function(appConfig, appContent) {
-		// instantiate F2.UI
-		appConfig.ui = new F2.UI(appConfig);
-
 		// instantiate F2.App
 		if (F2.Apps[appConfig.appId] !== undefined) {
 			if (typeof F2.Apps[appConfig.appId] === 'function') {
@@ -17811,12 +15252,6 @@ F2.extend('', (function() {
 	var _loadApps = function(appConfigs, appManifest) {
 		appConfigs = [].concat(appConfigs);
 
-		// check for secure app
-		if (appConfigs.length == 1 && appConfigs[0].isSecure && !_config.isSecureAppPage) {
-			_loadSecureApp(appConfigs[0], appManifest);
-			return;
-		}
-
 		// check that the number of apps in manifest matches the number requested
 		if (appConfigs.length != appManifest.apps.length) {
 			F2.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
@@ -17824,46 +15259,62 @@ F2.extend('', (function() {
 		}
 
 		var _findExistingScripts = function() {
-			return jQuery('script[src]').map(function(i, tag) {
-				return tag.src;
-			});
+			var scripts = document.querySelectorAll('script[src]') || [];
+			var src = [];
+
+			for (var i = 0; i < scripts.length; i ++) {
+				src.push(scripts[i].src);
+			}
+
+			return src;
 		};
 
 		var _findExistingStyles = function() {
-			return jQuery('link[href]').map(function(i, tag) {
-				return tag.href;
-			});
+			var src = [];
+			var styles = document.querySelectorAll('link[href]') || [];
+
+			for (var i = 0; i < styles.length; i ++) {
+				src.push(styles[i].src);
+			}
+
+			return src;
 		};
 
 		// Fn for loading manifest Styles
 		var _loadStyles = function(styles, cb) {
 			// Reduce the list to styles that haven't been loaded
 			var existingStyles = _findExistingStyles();
-			styles = jQuery.grep(styles, function(url) {
-				return url && jQuery.inArray(url, existingStyles) === -1;
-			});
+			var filteredStyles = [];
+
+			for (var i = 0; i < styles.length; i++) {
+				var url = styles[i];
+				if (url && _inArray(url, existingStyles) === -1) {
+					filteredStyles.push(url);
+				}
+			}
 
 			// Attempt to use the user provided method
 			if (_config.loadStyles) {
-				return _config.loadStyles(styles, cb);
+				return _config.loadStyles(filteredStyles, cb);
 			}
 
 			// load styles, see #101
 			var stylesFragment = null,
 				useCreateStyleSheet = !!document.createStyleSheet;
 
-			jQuery.each(styles, function(i, resourceUrl) {
+			for (var j = 0; j < filteredStyles.length; j++) {
 				if (useCreateStyleSheet) {
-					document.createStyleSheet(resourceUrl);
+					document.createStyleSheet(filteredStyles[j]);
 				}
 				else {
 					stylesFragment = stylesFragment || [];
-					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + resourceUrl + '"/>');
+					stylesFragment.push('<link rel="stylesheet" type="text/css" href="' + filteredStyles[j] + '"/>');
 				}
-			});
+			}
 
 			if (stylesFragment) {
-				jQuery('head').append(stylesFragment.join(''));
+				var node = domify(stylesFragment.join(''));
+				document.getElementsByTagName('head')[0].appendChild(node);
 			}
 
 			cb();
@@ -17875,21 +15326,26 @@ F2.extend('', (function() {
 			// Reduce the list to scripts that haven't been loaded
 			var existingScripts = _findExistingScripts();
 			var loadingScripts = Object.keys(_loadingScripts);
-			scripts = jQuery.grep(scripts, function(url) {
-				return url && (jQuery.inArray(url, existingScripts) === -1 || jQuery.inArray(url, loadingScripts) !== -1);
-			});
+			var filteredScripts = [];
+
+			for (var i = 0; i < scripts.length; i++) {
+				var url = scripts[i];
+				if (url && (_inArray(url, existingScripts) === -1 || _inArray(url, loadingScripts) !== -1)) {
+					filteredScripts.push(url);
+				}
+			}
 
 			// Attempt to use the user provided method
 			if (_config.loadScripts) {
-				return _config.loadScripts(scripts, cb);
+				return _config.loadScripts(filteredScripts, cb);
 			}
 
-			if (!scripts.length) {
+			if (!filteredScripts.length) {
 				return cb();
 			}
 
 			var doc = window.document;
-			var scriptCount = scripts.length;
+			var scriptCount = filteredScripts.length;
 			var scriptsLoaded = 0;
 			//http://caniuse.com/#feat=script-async
 			// var supportsAsync = 'async' in doc.createElement('script') || 'MozAppearance' in doc.documentElement.style || window.opera;
@@ -17911,7 +15367,7 @@ F2.extend('', (function() {
 					// Send error to console
 					F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-					// TODO: deprecate, see #222
+					// @Brian ? TODO: deprecate, see #222
 					F2.Events.emit(F2.Constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
 
 					if (!_bUsesAppHandlers) {
@@ -17929,9 +15385,7 @@ F2.extend('', (function() {
 			};
 
 			var _checkComplete = function() {
-				// Are we done loading all scripts for this app?
 				if (++scriptsLoaded === scriptCount) {
-					// success
 					cb();
 				}
 			};
@@ -17958,7 +15412,7 @@ F2.extend('', (function() {
 			};
 
 			// Load scripts and eval inlines once complete
-			jQuery.each(scripts, function(i, e) {
+			filteredScripts.forEach(function(e, i) {
 				var script = doc.createElement('script'),
 					resourceUrl = e,
 					resourceKey = resourceUrl.toLowerCase();
@@ -18069,22 +15523,30 @@ F2.extend('', (function() {
 
 		// Fn for loading manifest app html
 		var _loadHtml = function(apps) {
-			jQuery.each(apps, function(i, a) {
+			apps.forEach(function(a, i) {
 				if (_isPlaceholderElement(appConfigs[i].root)) {
-					jQuery(appConfigs[i].root)
-						.addClass(F2.Constants.Css.APP)
-						.append(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId));
+					var node = domify(a.html);
+					node.classList.add(F2.Constants.Css.APP_CONTAINER);
+					node.classList.add(appConfigs[i].appId);
+					appConfigs[i].root.classList.add(F2.Constants.Css.APP);
+					appConfigs[i].root.appendChild(node);
 				}
 				else if (!_bUsesAppHandlers) {
 					// load html and save the root node
 					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
 				else {
+					var container = document.createElement('div');
+					var childNode = domify(a.html);
+					childNode.classList.add(F2.Constants.Css.APP_CONTAINER);
+					childNode.classList.add(appConfigs[i].appId);
+					container.appendChild(childNode);
+
 					F2.AppHandlers.__trigger(
 						_sAppHandlerToken,
 						F2.Constants.AppHandlers.APP_RENDER,
 						appConfigs[i], // the app config
-						_outerHtml(jQuery(a.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfigs[i].appId))
+						container.innerHTML
 					);
 
 					var appId = appConfigs[i].appId,
@@ -18109,8 +15571,6 @@ F2.extend('', (function() {
 					}
 				}
 
-				// init events
-				_initAppEvents(appConfigs[i]);
 			});
 		};
 
@@ -18131,7 +15591,7 @@ F2.extend('', (function() {
 				// Load any inline scripts
 				_loadInlineScripts(inlines, function() {
 					// Create the apps
-					jQuery.each(appConfigs, function(i, a) {
+					appConfigs.forEach(function(a, i) {
 						_createAppInstance(a, appManifest.apps[i]);
 					});
 				});
@@ -18139,70 +15599,10 @@ F2.extend('', (function() {
 		});
 	};
 
-	/**
-	 * Loads the app's html/css/javascript into an iframe
-	 * @method loadSecureApp
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {F2.AppManifest} appManifest The app's html/css/js to be loaded into the
-	 * page.
-	 */
-	var _loadSecureApp = function(appConfig, appManifest) {
-
-		// make sure the container is configured for secure apps
-		if (_config.secureAppPagePath) {
-			if (_isPlaceholderElement(appConfig.root)) {
-				jQuery(appConfig.root)
-					.addClass(F2.Constants.Css.APP)
-					.append(jQuery('<div></div>').addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId));
-			}
-			else if (!_bUsesAppHandlers) {
-				// create the html container for the iframe
-				appConfig.root = _afterAppRender(appConfig, _appRender(appConfig, '<div></div>'));
-			}
-			else {
-				var $root = jQuery(appConfig.root);
-
-				F2.AppHandlers.__trigger(
-					_sAppHandlerToken,
-					F2.Constants.AppHandlers.APP_RENDER,
-					appConfig, // the app config
-					_outerHtml(jQuery(appManifest.html).addClass(F2.Constants.Css.APP_CONTAINER + ' ' + appConfig.appId))
-				);
-
-				if ($root.parents('body:first').length === 0) {
-					throw ('App was never rendered on the page. Please check your AppHandler callbacks to ensure you have rendered the app root to the DOM.');
-				}
-
-				F2.AppHandlers.__trigger(
-					_sAppHandlerToken,
-					F2.Constants.AppHandlers.APP_RENDER_AFTER,
-					appConfig // the app config
-				);
-
-				if (!appConfig.root) {
-					throw ('App Root must be a native dom node and can not be null or undefined. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
-				}
-
-				if (!F2.isNativeDOMNode(appConfig.root)) {
-					throw ('App Root must be a native dom node. Please check your AppHandler callbacks to ensure you have set App Root to a native dom node.');
-				}
-			}
-
-			// instantiate F2.UI
-			appConfig.ui = new F2.UI(appConfig);
-			// init events
-			_initAppEvents(appConfig);
-			// create RPC socket
-			F2.Rpc.register(appConfig, appManifest);
-		}
-		else {
-			F2.log('Unable to load secure app: "secureAppPagePath" is not defined in F2.ContainerConfig.');
-		}
-	};
-
-	var _outerHtml = function(html) {
-		return jQuery('<div></div>').append(html).html();
+	var _outerHtml = function(node) {
+		var wrapper = document.createElement('div');
+		wrapper.appendChild(node);
+		return wrapper.innerHTML;
 	};
 
 	/**
@@ -18267,11 +15667,15 @@ F2.extend('', (function() {
 				return;
 			}
 
-			return jQuery.map(_apps, function(app) {
-				return {
-					appId: app.config.appId
-				};
-			});
+			var apps = [];
+
+			for (var i = 0; i < _apps.length; i++) {
+				apps.push({
+					appId: _apps[i].config.appId
+				});
+			}
+
+			return apps;
 		},
 		/**
 		 * Gets the current locale defined by the container
@@ -18300,19 +15704,10 @@ F2.extend('', (function() {
 			_hydrateContainerConfig(_config);
 
 			// dictates whether we use the old logic or the new logic.
-			// TODO: Remove in v2.0
+			// @Brian ? TODO: Remove in v2.0
 			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
 
-			// only establish RPC connection if the container supports the secure app page
-			if ( !! _config.secureAppPagePath || _config.isSecureAppPage) {
-				F2.Rpc.init( !! _config.secureAppPagePath ? _config.secureAppPagePath : false);
-			}
-
-			F2.UI.init(_config);
-
-			if (!_config.isSecureAppPage) {
-				_initContainerEvents();
-			}
+			_initContainerEvents();
 		},
 		/**
 		 * Has the container been init?
@@ -18507,7 +15902,7 @@ F2.extend('', (function() {
 
 			// validate each app and assign it an instanceId
 			// then determine which apps can be batched together
-			jQuery.each(appConfigs, function(i, a) {
+			appConfigs.forEach(function(a, i) {
 				// add properties and methods
 				a = _createAppConfig(a);
 
@@ -18534,12 +15929,13 @@ F2.extend('', (function() {
 						F2.log('AppConfig instance:', a);
 						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
-					else if (jQuery(a.root).length != 1) {
-						F2.log('AppConfig invalid for pre-load, root not unique');
-						F2.log('AppConfig instance:', a);
-						F2.log('Number of dom node instances:', jQuery(a.root).length);
-						throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
-					}
+					// @Brian ? TODO: if we accept only explicit DOM references, do we still need this?
+					//else if (jQuery(a.root).length != 1) {
+					//	F2.log('AppConfig invalid for pre-load, root not unique');
+					//	F2.log('AppConfig instance:', a);
+					//	F2.log('Number of dom node instances:', jQuery(a.root).length);
+					//	throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
+					//}
 					
 					// instantiate F2.App
 					_createAppInstance(a, {
@@ -18547,8 +15943,6 @@ F2.extend('', (function() {
 						status: F2.Constants.AppStatus.SUCCESS
 					});
 
-					// init events
-					_initAppEvents(a);
 
 					// Continue on in the .each loop, no need to continue because the app is on the page
 					// the js in initialized, and it is ready to role.
@@ -18581,7 +15975,7 @@ F2.extend('', (function() {
 				}
 				else {
 					// check if this app can be batched
-					if (a.enableBatchRequests && !a.isSecure) {
+					if (a.enableBatchRequests) {
 						batches[a.manifestUrl.toLowerCase()] = batches[a.manifestUrl.toLowerCase()] || [];
 						batches[a.manifestUrl.toLowerCase()].push(a);
 					}
@@ -18597,12 +15991,12 @@ F2.extend('', (function() {
 			// we don't have the manifests, go ahead and load them
 			if (!haveManifests) {
 				// add the batches to the appStack
-				jQuery.each(batches, function(i, b) {
+				for (var key in batches) {
 					appStack.push({
-						url: i,
-						apps: b
+						url: key,
+						apps: batches[key]
 					});
-				});
+				}
 
 				// if an app is being loaded more than once on the page, there is the
 				// potential that the jsonp callback will be clobbered if the request
@@ -18610,7 +16004,7 @@ F2.extend('', (function() {
 				// another request for the same app.  We'll create a callbackStack
 				// that will ensure that requests for the same app are loaded in order
 				// rather than at the same time
-				jQuery.each(appStack, function(i, req) {
+				appStack.forEach(function(req, i) {
 					// define the callback function based on the first app's App ID
 					var jsonpCallback = F2.Constants.JSONP_CALLBACK + req.apps[0].appId;
 
@@ -18622,8 +16016,9 @@ F2.extend('', (function() {
 				// loop through each item in the callback stack and make the request
 				// for the AppManifest. When the request is complete, pop the next
 				// request off the stack and make the request.
-				jQuery.each(callbackStack, function(i, requests) {
-
+				for (var i in callbackStack) {
+					/*jshint loopfunc: true */
+					var requests = callbackStack[i];
 					var manifestRequest = function(jsonpCallback, req) {
 						if (!req) {
 							return;
@@ -18637,7 +16032,7 @@ F2.extend('', (function() {
 								manifestRequest(i, requests.pop());
 							},
 							errorFunc = function() {
-								jQuery.each(req.apps, function(idx, item) {
+								req.apps.forEach(function(item, idx) {
 									item.name = item.name || item.appId;
 									F2.log('Removed failed ' + item.name + ' app', item);
 									F2.AppHandlers.__trigger(
@@ -18699,7 +16094,8 @@ F2.extend('', (function() {
 					};
 
 					manifestRequest(i, requests.pop());
-				});
+				}
+				
 			}
 		},
 		/**
@@ -18713,7 +16109,7 @@ F2.extend('', (function() {
 				return;
 			}
 
-			jQuery.each(_apps, function(i, a) {
+			_apps.each(function(a) {
 				F2.removeApp(a.config.instanceId);
 			});
 		},
@@ -18758,7 +16154,7 @@ F2.extend('', (function() {
 	};
 })());
 
-	jQuery(function() {
+	var callback = function() {
 		var autoloadEls = [],
 			add = function(e) {
 				if (!e) { return; }
@@ -18787,7 +16183,13 @@ F2.extend('', (function() {
 				F2.loadPlaceholders(autoloadEls[i]);
 			}
 		}
-	});
+	};
+
+	if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
+		callback();
+	} else {
+		document.addEventListener('DOMContentLoaded', callback);
+	}
 
 	exports.F2 = F2;
 

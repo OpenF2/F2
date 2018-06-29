@@ -62,10 +62,7 @@ F2.extend('', {
 		enableBatchRequests: false,
 		/**
 		 * The height of the app. The initial height will be pulled from
-		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object, but later
-		 * modified by calling
-		 * F2.UI.{{#crossLink "F2.UI/updateHeight"}}{{/crossLink}}. This is used
-		 * for secure apps to be able to set the initial height of the iframe.
+		 * the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
 		 * @property height
 		 * @type int
 		 */
@@ -79,17 +76,6 @@ F2.extend('', {
 		 * @type string
 		 */
 		instanceId: '',
-		/**
-		 * True if the app will be loaded in an iframe. This property
-		 * will be true if the {{#crossLink "F2.AppConfig"}}{{/crossLink}} object
-		 * sets isSecure = true. It will also be true if the
-		 * [container](../../container-development.html) has made the decision to
-		 * run apps in iframes.
-		 * @property isSecure
-		 * @type bool
-		 * @default false
-		 */
-		isSecure: false,
 		/**
 		 * The language and region specification for this container 
 		 * represented as an IETF-defined standard language tag,
@@ -165,28 +151,7 @@ F2.extend('', {
 		 * @property root
 		 * @type Element
 		 */
-		root: undefined,
-		/**
-		 * The instance of F2.UI providing easy access to F2.UI methods
-		 *
-		 * **This property is populated during the
-		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process**
-		 * @property ui
-		 * @type F2.UI
-		 */
-		ui: undefined,
-		/**
-		 * The views that this app supports. Available views
-		 * are defined in {{#crossLink "F2.Constants.Views"}}{{/crossLink}}. The
-		 * presence of a view can be checked via
-		 * F2.{{#crossLink "F2/inArray"}}{{/crossLink}}:
-		 * 
-		 *     F2.inArray(F2.Constants.Views.SETTINGS, app.views)
-		 *
-		 * @property views
-		 * @type Array
-		 */
-		views: []
+		root: undefined
 	},
 	/**
 	 * The assets needed to render an app on the page
@@ -319,81 +284,6 @@ F2.extend('', {
 		 * @default 7000 (7 seconds)
 		 */
 		scriptErrorTimeout: 7000,
-		/**
-		 * Tells the container that it is currently running within
-		 * a secure app page
-		 * @property isSecureAppPage
-		 * @type bool
-		 */
-		isSecureAppPage: false,
-		/**
-		 * Allows the container to specify which page is used when
-		 * loading a secure app. The page must reside on a different domain than the
-		 * container
-		 * @property secureAppPagePath
-		 * @type string
-		 * @for F2.ContainerConfig
-		 */
-		secureAppPagePath: '',
-		/**
-		 * Specifies what views a container will provide buttons
-		 * or links to. Generally, the views will be switched via buttons or links
-		 * in the app's header.
-		 * @property supportedViews
-		 * @type Array
-		 * @required
-		 */
-		supportedViews: [],
-		/**
-		 * An object containing configuration defaults for F2.UI
-		 * @class F2.ContainerConfig.UI
-		 */
-		UI: {
-			/**
-			 * An object containing configuration defaults for the 
-			 * F2.UI.{{#crossLink "F2.UI/showMask"}}{{/crossLink}} and
-			 * F2.UI.{{#crossLink "F2.UI/hideMask"}}{{/crossLink}} methods.
-			 * @class F2.ContainerConfig.UI.Mask
-			 */
-			Mask: {
-				/**
-				 * The backround color of the overlay
-				 * @property backgroundColor
-				 * @type string
-				 * @default #FFF
-				 */
-				backgroundColor: '#FFF',
-				/**
-				 * The path to the loading icon
-				 * @property loadingIcon
-				 * @type string
-				 */
-				loadingIcon: '',
-				/**
-				 * The opacity of the background overlay
-				 * @property opacity
-				 * @type int
-				 * @default 0.6
-				 */
-				opacity: 0.6,
-				/**
-				 * Do not use inline styles for mask functinality. Instead classes will
-				 * be applied to the elements and it is up to the container provider to
-				 * implement the class definitions.
-				 * @property useClasses
-				 * @type bool
-				 * @default false
-				 */
-				useClasses: false,
-				/**
-				 * The z-index to use for the overlay
-				 * @property zIndex
-				 * @type int
-				 * @default 2
-				 */
-				zIndex: 2
-			}
-		},
 		/**
 		 * Allows the container to fully override how the AppManifest request is
 		 * made inside of F2.
