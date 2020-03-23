@@ -2267,7 +2267,7 @@ describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
 	var appManifest = function()
 	{
 		return {
-			scripts:['http://www.openf2.org/foobar.js'],
+			scripts:['https://www.openf2.org/foobar.js'],
 			styles:[],
 			inlineScripts:[],
 			apps:[

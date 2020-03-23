@@ -2,27 +2,27 @@
  * F2 v<%= version%> <%= grunt.template.today("mm-dd-yyyy")%>
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
- * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * "F2" is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed 
- * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
  * language governing permissions and limitations under the License.
  *
- * Please note that F2 ("Software") may contain third party material that Markit 
- * On Demand Inc. has a license to use and include within the Software (the 
- * "Third Party Material"). A list of the software comprising the Third Party Material 
- * and the terms and conditions under which such Third Party Material is distributed 
+ * Please note that F2 ("Software") may contain third party material that Markit
+ * On Demand Inc. has a license to use and include within the Software (the
+ * "Third Party Material"). A list of the software comprising the Third Party Material
+ * and the terms and conditions under which such Third Party Material is distributed
  * are reproduced in the ThirdPartyMaterial.md file available at:
- * 
+ *
  * https://github.com/OpenF2/F2/blob/master/ThirdPartyMaterial.md
- * 
- * The inclusion of the Third Party Material in the Software does not grant, provide 
- * nor result in you having acquiring any rights whatsoever, other than as stipulated 
+ *
+ * The inclusion of the Third Party Material in the Software does not grant, provide
+ * nor result in you having acquiring any rights whatsoever, other than as stipulated
  * in the terms and conditions related to the specific Third Party Material, if any.
  *
  */
@@ -114,11 +114,11 @@ F2 = (function() {
 		/**
 		 * The apps namespace is a place for app developers to put the javascript
 		 * class that is used to initialize their app. The javascript classes should
-		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. 
+		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId.
 		 * It is recommended that the code be placed in a closure to help keep the
 		 * global namespace clean.
 		 *
-		 * If the class has an 'init' function, that function will be called 
+		 * If the class has an 'init' function, that function will be called
 		 * automatically by F2.
 		 * @property Apps
 		 * @type object
@@ -151,7 +151,7 @@ F2 = (function() {
 		 * Creates a namespace on F2 and copies the contents of an object into
 		 * that namespace optionally overwriting existing properties.
 		 * @method extend
-		 * @param {string} ns The namespace to create. Pass a falsy value to 
+		 * @param {string} ns The namespace to create. Pass a falsy value to
 		 * add properties to the F2 namespace directly.
 		 * @param {object} obj The object to copy into the namespace.
 		 * @param {bool} overwrite True if object properties should be overwritten
@@ -162,7 +162,7 @@ F2 = (function() {
 			var parts = ns ? ns.split('.') : [];
 			var parent = this;
 			obj = obj || {};
-			
+
 			// ignore leading global
 			if (parts[0] === 'F2') {
 				parts = parts.slice(1);
@@ -181,13 +181,13 @@ F2 = (function() {
 				for (var prop in obj) {
 					if (typeof parent[prop] === 'undefined' || overwrite) {
 						parent[prop] = obj[prop];
-					} 
+					}
 				}
 			}
 
 			return parent;
 		},
-		/** 
+		/**
 		 * Generates a somewhat random id
 		 * @method guid
 		 * @return {string} A random id
@@ -240,7 +240,7 @@ F2 = (function() {
 					(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
 						(parts[ 3 ] || (parts[ 1 ] === 'http:' ? '80' : '443')) !==
 							(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === 'http:' ? '80' : '443'))));
-		
+
 			return matched;
 		},
 		/**
@@ -251,19 +251,19 @@ F2 = (function() {
 		 */
 		isNativeDOMNode: function(testObject) {
 			var bIsNode = (
-				typeof Node === 'object' ? testObject instanceof Node : 
+				typeof Node === 'object' ? testObject instanceof Node :
 				testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
 			);
-			
+
 			var bIsElement = (
 				typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
 				testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
 			);
-			
+
 			return (bIsNode || bIsElement);
 		},
 		/**
-		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console). 
+		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
 		 * @method log
 		 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 		 * @param {object} [obj2]* An object to be logged
@@ -271,7 +271,7 @@ F2 = (function() {
 			//Pass any object (string, int, array, object, bool) to .log()
 			F2.log('foo');
 			F2.log(myArray);
-			//Use a console method name as the first argument. 
+			//Use a console method name as the first argument.
 			F2.log('error', err);
 			F2.log('info', 'The session ID is ' + sessionId);
 		 * Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
@@ -299,7 +299,7 @@ F2 = (function() {
 					console[method] = noop;
 				}
 
-				//if first arg is a console function, use it. 
+				//if first arg is a console function, use it.
 				//defaults to console.log()
 				if (arguments && arguments.length > 1 && arguments[0] == method){
 					_logMethod = method;
@@ -311,12 +311,12 @@ F2 = (function() {
 			if (Function.prototype.bind) {
 				_log = Function.prototype.bind.call(console[_logMethod], console);
 			} else {
-				_log = function() { 
+				_log = function() {
 					Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
 				};
 			}
 
-			_log.apply(this, (args || arguments));			
+			_log.apply(this, (args || arguments));
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object
@@ -336,7 +336,7 @@ F2 = (function() {
 		 * @method stringify
 		 * @param {object} value The object to convert
 		 * @param {function|Array} replacer An optional parameter that determines
-		 * how object values are stringified for objects. It can be a function or an 
+		 * how object values are stringified for objects. It can be a function or an
 		 * array of strings.
 		 * @param {int|string} space An optional parameter that specifies the
 		 * indentation of nested structures. If it is omitted, the text will be
@@ -348,7 +348,7 @@ F2 = (function() {
 		stringify: function(value, replacer, space) {
 			return JSON.stringify(value, replacer, space);
 		},
-		/** 
+		/**
 		 * Function to get the F2 version number
 		 * @method version
 		 * @return {string} F2 version number

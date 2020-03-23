@@ -956,7 +956,7 @@ describe('F2.registerApps - xhr overrides', function() {
 			});
 			F2.registerApps({
 				appId: 'com_test_app',
-				manifestUrl: 'http://www.openf2.org/httpPostTest'
+				manifestUrl: TEST_MANIFEST_URL_HTTP_XDOMAIN
 			});
 		});
 
@@ -1138,7 +1138,7 @@ describe('F2.registerApps - rendering', function() {
 		F2.init();
 		//notify when apps have been rendered
 		F2.AppHandlers.on(F2.AppHandlers.getToken(),F2.Constants.AppHandlers.APP_RENDER_AFTER,function(){ appsRendered++; });
-		// load a few of the same apps; existing scripts should not cause 
+		// load a few of the same apps; existing scripts should not cause
 		// app #2 and later to be loaded prematurely
 		F2.registerApps([
 			{
@@ -1169,7 +1169,7 @@ describe('F2.registerApps - rendering', function() {
 
 		waitsFor(function() {
 			return flag;
-		}, '', 101);
+		}, '', 1000);
 
 		runs(function() {
 			expect(passedMessages.length).toEqual(3);

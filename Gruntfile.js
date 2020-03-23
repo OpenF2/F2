@@ -46,14 +46,14 @@ module.exports = function(grunt) {
 			'f2Dist': {
 				files: [
 					{
-						expand: true, 
+						expand: true,
 						flatten: true,
 						src: [
 							'sdk/packages/*',
 							'sdk/*.js',
 							'sdk/*.map'
-						], 
-						dest: 'dist/', 
+						],
+						dest: 'dist/',
 						filter: 'isFile'
 					}
 				]
@@ -150,6 +150,15 @@ module.exports = function(grunt) {
 					port: 8080,
 					server: (require('path')).resolve('./tests/server')
 				}
+			},
+			// this is a duplicate of the above ^^^ to allow for testing cross origin
+			// requests (GET/JSONP vs POST/JSON)
+			server2: {
+				options: {
+					bases: './',
+					port: 8081,
+					server: (require('path')).resolve('./tests/server')
+				}
 			}
 		},
 		jasmine: {
@@ -168,7 +177,7 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			options: {
-				jshintrc: '.jshintrc'
+				jshintrc: true
 			},
 			files: [
 				'sdk/src/F2.js',
@@ -312,19 +321,19 @@ module.exports = function(grunt) {
 			grunt.log.error('"' + releaseType + '" is not a valid release type (major, minor, or patch) or SemVer version');
 			return;
 		}
-		
+
 		var version = semver.valid(releaseType) ? releaseType : String(semver.inc(pkg.version, releaseType)).replace(/\-\w+$/, '');
 
 		pkg.version = version;
 		bower_pkg.version = version;
-		
+
 		pkg._releaseDate = new Date().toJSON();
 		pkg._releaseDateFormatted = moment(pkg._releaseDate).format('D MMMM YYYY');
 
 		grunt.file.write('./package.json', JSON.stringify(pkg, null, '\t'));
 		grunt.file.write('./bower.json', JSON.stringify(bower_pkg, null, '\t'));
 		grunt.config.set('pkg', pkg);
-		
+
 
 		grunt.task.run('version');
 	});

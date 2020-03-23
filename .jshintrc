@@ -14,7 +14,7 @@
 		"domify": true,
 		"_": true
 	},
-	"latedef": true,
+	"latedef": false,
 	"noarg": true,
 	"quotmark": "single",
 	"shadow": false,

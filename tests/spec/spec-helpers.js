@@ -2,7 +2,8 @@ var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
 	TEST_APP_ID = 'com_openf2_examples_javascript_helloworld',
 	TEST_MANIFEST_URL2 = 'http://localhost:8080/F2/apps/test/market-news',
 	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews',
-	TEST_MANIFEST_URL_HTTP_POST = 'http://localhost:8080/F2/apps/test/http-post'
+	TEST_MANIFEST_URL_HTTP_POST = 'http://localhost:8080/F2/apps/test/http-post',
+	TEST_MANIFEST_URL_HTTP_XDOMAIN = 'http://localhost:8081/F2/apps/test/http-post'
 	TEST_MANIFEST_URL3 = 'http://localhost:8080/F2/apps/test/hello-world-node',
 	TEST_APP_ID3 = 'com_openf2_examples_nodejs_helloworld'
 ;
@@ -62,7 +63,7 @@ beforeEach(function() {
 			var result = false;
 			var suite = this;
 			var passedMessage;
-			
+
 			F2.log = function(message) {
 				passedMessage = message;
 			};
