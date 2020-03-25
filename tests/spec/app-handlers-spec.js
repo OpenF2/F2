@@ -2,8 +2,11 @@ describe('F2.AppHandlers', function() {
 
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -155,7 +158,7 @@ describe('F2.AppHandlers', function() {
 	it(
 		'F2.AppHandlers.getToken() method should be destroyed after first call.',
 		function() {
-			// F2.AppHandlers.getToken is called above in the async.beforeEachReloadF2
+			// F2.AppHandlers.getToken is called above in the beforeEachReloadF2
 			expect(F2.AppHandlers.getToken).toBeFalsy();
 		}
 	);
@@ -260,8 +263,11 @@ describe('F2.AppHandlers - rendering - appCreateRoot', function() {
 
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -639,8 +645,11 @@ describe('F2.AppHandlers - rendering - appRenderBefore', function() {
 
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -1035,8 +1044,11 @@ describe('F2.AppHandlers - rendering - appRender', function() {
 
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -1536,8 +1548,11 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -1704,8 +1719,11 @@ describe('F2.AppHandlers - rendering - appRenderAfter', function() {
 describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -1852,8 +1870,11 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -2104,8 +2125,11 @@ describe('F2.AppHandlers - rendering - appDestroy', function() {
 describe('F2.AppHandlers - rendering - appDestroyBefore', function() {
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{
@@ -2253,8 +2277,11 @@ describe('F2.AppHandlers - error handling - appScriptLoadFailed',function() {
 
 	var containerAppHandlerToken = null;
 
-	var async = new AsyncSpec(this);
-	async.beforeEachReloadF2(function() { if(F2.AppHandlers.getToken) { containerAppHandlerToken = F2.AppHandlers.getToken(); } });
+	beforeEachReloadF2(function() {
+		if (F2.AppHandlers.getToken) {
+			containerAppHandlerToken = F2.AppHandlers.getToken();
+		}
+	});
 
 	var appConfig = function()
 	{

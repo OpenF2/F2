@@ -1,4 +1,4 @@
-F2.Apps['com_openf2_examples_nodejs_helloworld'] = (function(appConfig, appContent, root) {
+F2.Apps['com_openf2_examples_nodejs_helloworld'] = (function() {
   var App = function(appConfig, appContent, root) {
     this.appConfig = appConfig;
     this.appContent = appContent;
@@ -15,4 +15,4 @@ F2.Apps['com_openf2_examples_nodejs_helloworld'] = (function(appConfig, appConte
     F2.log("Hello World app init()");
   };
   return App;
-})();;
+})();

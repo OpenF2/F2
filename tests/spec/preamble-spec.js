@@ -1,5 +1,7 @@
 describe('F2.extend', function() {
 
+	beforeEachReloadF2();
+
 	it('should ignore extra F2 namespace', function() {
 		F2.extend('F2.TestObj', { foo: 'bar' });
 		expect(F2.TestObj).toEqual({ foo: 'bar' })
