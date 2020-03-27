@@ -17,7 +17,7 @@ beforeEachReloadF2 = function(callback) {
 	beforeEach(function(done) {
 		window.F2 = null;
 		$.ajax({
-			url: 'http://localhost:8080/sdk/f2.min.js',
+			url: 'http://localhost:8080/sdk/f2.debug.js',
 			dataType: 'script',
 			complete: function() {
 				window.refreshPreloadedApp();

@@ -245,7 +245,7 @@ F2.extend('', (function() {
 	/**
 	 * Checks if an element is a placeholder element
 	 * @method _isPlaceholderElement
-	 * @private 
+	 * @private
 	 * @param {Element} node The DOM element to check
 	 * @return {bool} True if the element is a placeholder
 	 */
@@ -538,10 +538,10 @@ F2.extend('', (function() {
 					}
 					catch (exception) {
 						F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
-						
+
 						// Emit events
 						F2.Events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
-						
+
 						if (!_bUsesAppHandlers) {
 							_appScriptLoadFailed(appConfigs[0], exception);
 						}
@@ -769,7 +769,7 @@ F2.extend('', (function() {
 		 */
 		isInit: _isInit,
 		/**
-		 * Automatically load apps that are already defined in the DOM. Elements will 
+		 * Automatically load apps that are already defined in the DOM. Elements will
 		 * be rendered into the location of the placeholder DOM element. Any AppHandlers
 		 * that are defined will be bypassed.
 		 * @method loadPlaceholders
@@ -801,7 +801,7 @@ F2.extend('', (function() {
 				add(parentNode);
 			} else {
 
-				// find placeholders within the parentNode only if 
+				// find placeholders within the parentNode only if
 				// querySelectorAll exists
 				parentNode = parentNode || document;
 				if (parentNode.querySelectorAll) {
@@ -989,7 +989,7 @@ F2.extend('', (function() {
 					//	F2.log('Number of dom node instances:', jQuery(a.root).length);
 					//	throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
 					//}
-					
+
 					// instantiate F2.App
 					_createAppInstance(a, {
 						preloaded: true,
@@ -1148,7 +1148,7 @@ F2.extend('', (function() {
 
 					manifestRequest(i, requests.pop());
 				}
-				
+
 			}
 		},
 		/**
@@ -1196,10 +1196,6 @@ F2.extend('', (function() {
 					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
 					_apps[instanceId] // the app instance
 				);
-
-				if (_apps[instanceId].config.isSecure) {
-					F2.Rpc.destroy(instanceId);
-				}
 
 				delete _apps[instanceId];
 			}
