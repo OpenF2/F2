@@ -1124,21 +1124,44 @@ F2.extend('', (function() {
 						var requestFunc = _config.xhr;
 						if (typeof requestFunc !== 'function') {
 							requestFunc = function(url, appConfigs, successCallback, errorCallback, completeCallback) {
-								jQuery.ajax({
-									url: url,
-									type: type,
-									data: {
-										params: F2.stringify(req.apps, F2.appConfigReplacer)
-									},
-									jsonp: false, // do not put 'callback=' in the query string
-									jsonpCallback: jsonpCallback, // Unique function name
-									dataType: dataType,
-									success: successCallback,
-									error: function(jqxhr, settings, exception) {
-										F2.log('Failed to load app(s)', exception.toString(), req.apps);
-										errorCallback();
-									},
-									complete: completeCallback
+								if (!window.fetch) {
+									throw ('Browser does not support the Fetch API.');
+								}
+
+								var fetchFunc, 
+									fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
+
+								if (dataType === 'json') {
+									var fetchInputs = {
+										method: type,
+										mode: 'no-cors'
+									};
+
+									if (type === 'POST') {
+										fetchUrl = url;
+										fetchInputs.body = {
+											params: F2.stringify(req.apps, F2.appConfigReplacer)
+										};
+									}
+
+									fetchFunc = fetch(fetchUrl, fetchInputs);
+								} else if (dataType === 'jsonp') {
+									fetchFunc = fetchJsonp(fetchUrl, {
+										timeout: 3000,
+										jsonpCallbackFunction: jsonpCallback
+									});									
+								}
+
+								fetchFunc.then(function(response) {
+									return response.json();
+								})
+								.then(function(data) {
+									successCallback(data);
+									completeCallback();							
+								})
+								.catch(function(error) {
+									F2.log('Failed to load app(s)', error.toString(), req.apps);
+									errorCallback();
 								});
 							};
 						}

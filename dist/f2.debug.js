@@ -139,6 +139,129 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
+(function (global, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['exports', 'module'], factory);
+  } else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
+    factory(exports, module);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, mod);
+    global.fetchJsonp = mod.exports;
+  }
+})(this, function (exports, module) {
+  'use strict';
+
+  var defaultOptions = {
+    timeout: 5000,
+    jsonpCallback: 'callback',
+    jsonpCallbackFunction: null
+  };
+
+  function generateCallbackFunction() {
+    return 'jsonp_' + Date.now() + '_' + Math.ceil(Math.random() * 100000);
+  }
+
+  function clearFunction(functionName) {
+    // IE8 throws an exception when you try to delete a property on window
+    // http://stackoverflow.com/a/1824228/751089
+    try {
+      delete window[functionName];
+    } catch (e) {
+      window[functionName] = undefined;
+    }
+  }
+
+  function removeScript(scriptId) {
+    var script = document.getElementById(scriptId);
+    if (script) {
+      document.getElementsByTagName('head')[0].removeChild(script);
+    }
+  }
+
+  function fetchJsonp(_url) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    // to avoid param reassign
+    var url = _url;
+    var timeout = options.timeout || defaultOptions.timeout;
+    var jsonpCallback = options.jsonpCallback || defaultOptions.jsonpCallback;
+
+    var timeoutId = undefined;
+
+    return new Promise(function (resolve, reject) {
+      var callbackFunction = options.jsonpCallbackFunction || generateCallbackFunction();
+      var scriptId = jsonpCallback + '_' + callbackFunction;
+
+      window[callbackFunction] = function (response) {
+        resolve({
+          ok: true,
+          // keep consistent with fetch API
+          json: function json() {
+            return Promise.resolve(response);
+          }
+        });
+
+        if (timeoutId) clearTimeout(timeoutId);
+
+        removeScript(scriptId);
+
+        clearFunction(callbackFunction);
+      };
+
+      // Check if the user set their own params, and if not add a ? to start a list of params
+      url += url.indexOf('?') === -1 ? '?' : '&';
+
+      var jsonpScript = document.createElement('script');
+      jsonpScript.setAttribute('src', '' + url + jsonpCallback + '=' + callbackFunction);
+      if (options.charset) {
+        jsonpScript.setAttribute('charset', options.charset);
+      }
+      jsonpScript.id = scriptId;
+      document.getElementsByTagName('head')[0].appendChild(jsonpScript);
+
+      timeoutId = setTimeout(function () {
+        reject(new Error('JSONP request to ' + _url + ' timed out'));
+
+        clearFunction(callbackFunction);
+        removeScript(scriptId);
+        window[callbackFunction] = function () {
+          clearFunction(callbackFunction);
+        };
+      }, timeout);
+
+      // Caught if got 404/500
+      jsonpScript.onerror = function () {
+        reject(new Error('JSONP request to ' + _url + ' failed'));
+
+        clearFunction(callbackFunction);
+        removeScript(scriptId);
+        if (timeoutId) clearTimeout(timeoutId);
+      };
+    });
+  }
+
+  // export as global function
+  /*
+  let local;
+  if (typeof global !== 'undefined') {
+    local = global;
+  } else if (typeof self !== 'undefined') {
+    local = self;
+  } else {
+    try {
+      local = Function('return this')();
+    } catch (e) {
+      throw new Error('polyfill failed because global object is unavailable in this environment');
+    }
+  }
+  local.fetchJsonp = fetchJsonp;
+  */
+
+  module.exports = fetchJsonp;
+});
 /**
  * @license
  * Lodash (Custom Build) <https://lodash.com/>
@@ -13345,30 +13468,30 @@ var _ = window._.noConflict();
 
 
 /*!
- * F2 v2.0.0-alpha 06-28-2018
+ * F2 v2.0.0-alpha 01-03-2021
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
- * "F2" is licensed under the Apache License, Version 2.0 (the "License"); 
- * you may not use this file except in compliance with the License. 
+ * "F2" is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at:
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed 
- * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
  * language governing permissions and limitations under the License.
  *
- * Please note that F2 ("Software") may contain third party material that Markit 
- * On Demand Inc. has a license to use and include within the Software (the 
- * "Third Party Material"). A list of the software comprising the Third Party Material 
- * and the terms and conditions under which such Third Party Material is distributed 
+ * Please note that F2 ("Software") may contain third party material that Markit
+ * On Demand Inc. has a license to use and include within the Software (the
+ * "Third Party Material"). A list of the software comprising the Third Party Material
+ * and the terms and conditions under which such Third Party Material is distributed
  * are reproduced in the ThirdPartyMaterial.md file available at:
- * 
+ *
  * https://github.com/OpenF2/F2/blob/master/ThirdPartyMaterial.md
- * 
- * The inclusion of the Third Party Material in the Software does not grant, provide 
- * nor result in you having acquiring any rights whatsoever, other than as stipulated 
+ *
+ * The inclusion of the Third Party Material in the Software does not grant, provide
+ * nor result in you having acquiring any rights whatsoever, other than as stipulated
  * in the terms and conditions related to the specific Third Party Material, if any.
  *
  */
@@ -13460,11 +13583,11 @@ F2 = (function() {
 		/**
 		 * The apps namespace is a place for app developers to put the javascript
 		 * class that is used to initialize their app. The javascript classes should
-		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId. 
+		 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId.
 		 * It is recommended that the code be placed in a closure to help keep the
 		 * global namespace clean.
 		 *
-		 * If the class has an 'init' function, that function will be called 
+		 * If the class has an 'init' function, that function will be called
 		 * automatically by F2.
 		 * @property Apps
 		 * @type object
@@ -13497,7 +13620,7 @@ F2 = (function() {
 		 * Creates a namespace on F2 and copies the contents of an object into
 		 * that namespace optionally overwriting existing properties.
 		 * @method extend
-		 * @param {string} ns The namespace to create. Pass a falsy value to 
+		 * @param {string} ns The namespace to create. Pass a falsy value to
 		 * add properties to the F2 namespace directly.
 		 * @param {object} obj The object to copy into the namespace.
 		 * @param {bool} overwrite True if object properties should be overwritten
@@ -13508,7 +13631,7 @@ F2 = (function() {
 			var parts = ns ? ns.split('.') : [];
 			var parent = this;
 			obj = obj || {};
-			
+
 			// ignore leading global
 			if (parts[0] === 'F2') {
 				parts = parts.slice(1);
@@ -13527,13 +13650,13 @@ F2 = (function() {
 				for (var prop in obj) {
 					if (typeof parent[prop] === 'undefined' || overwrite) {
 						parent[prop] = obj[prop];
-					} 
+					}
 				}
 			}
 
 			return parent;
 		},
-		/** 
+		/**
 		 * Generates a somewhat random id
 		 * @method guid
 		 * @return {string} A random id
@@ -13586,7 +13709,7 @@ F2 = (function() {
 					(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
 						(parts[ 3 ] || (parts[ 1 ] === 'http:' ? '80' : '443')) !==
 							(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === 'http:' ? '80' : '443'))));
-		
+
 			return matched;
 		},
 		/**
@@ -13597,19 +13720,19 @@ F2 = (function() {
 		 */
 		isNativeDOMNode: function(testObject) {
 			var bIsNode = (
-				typeof Node === 'object' ? testObject instanceof Node : 
+				typeof Node === 'object' ? testObject instanceof Node :
 				testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
 			);
-			
+
 			var bIsElement = (
 				typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
 				testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
 			);
-			
+
 			return (bIsNode || bIsElement);
 		},
 		/**
-		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console). 
+		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
 		 * @method log
 		 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 		 * @param {object} [obj2]* An object to be logged
@@ -13617,7 +13740,7 @@ F2 = (function() {
 			//Pass any object (string, int, array, object, bool) to .log()
 			F2.log('foo');
 			F2.log(myArray);
-			//Use a console method name as the first argument. 
+			//Use a console method name as the first argument.
 			F2.log('error', err);
 			F2.log('info', 'The session ID is ' + sessionId);
 		 * Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
@@ -13645,7 +13768,7 @@ F2 = (function() {
 					console[method] = noop;
 				}
 
-				//if first arg is a console function, use it. 
+				//if first arg is a console function, use it.
 				//defaults to console.log()
 				if (arguments && arguments.length > 1 && arguments[0] == method){
 					_logMethod = method;
@@ -13657,12 +13780,12 @@ F2 = (function() {
 			if (Function.prototype.bind) {
 				_log = Function.prototype.bind.call(console[_logMethod], console);
 			} else {
-				_log = function() { 
+				_log = function() {
 					Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
 				};
 			}
 
-			_log.apply(this, (args || arguments));			
+			_log.apply(this, (args || arguments));
 		},
 		/**
 		 * Wrapper to convert a JSON string to an object
@@ -13682,7 +13805,7 @@ F2 = (function() {
 		 * @method stringify
 		 * @param {object} value The object to convert
 		 * @param {function|Array} replacer An optional parameter that determines
-		 * how object values are stringified for objects. It can be a function or an 
+		 * how object values are stringified for objects. It can be a function or an
 		 * array of strings.
 		 * @param {int|string} space An optional parameter that specifies the
 		 * indentation of nested structures. If it is omitted, the text will be
@@ -13694,7 +13817,7 @@ F2 = (function() {
 		stringify: function(value, replacer, space) {
 			return JSON.stringify(value, replacer, space);
 		},
-		/** 
+		/**
 		 * Function to get the F2 version number
 		 * @method version
 		 * @return {string} F2 version number
@@ -15192,7 +15315,7 @@ F2.extend('', (function() {
 	/**
 	 * Checks if an element is a placeholder element
 	 * @method _isPlaceholderElement
-	 * @private 
+	 * @private
 	 * @param {Element} node The DOM element to check
 	 * @return {bool} True if the element is a placeholder
 	 */
@@ -15485,10 +15608,10 @@ F2.extend('', (function() {
 					}
 					catch (exception) {
 						F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
-						
+
 						// Emit events
 						F2.Events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
-						
+
 						if (!_bUsesAppHandlers) {
 							_appScriptLoadFailed(appConfigs[0], exception);
 						}
@@ -15716,7 +15839,7 @@ F2.extend('', (function() {
 		 */
 		isInit: _isInit,
 		/**
-		 * Automatically load apps that are already defined in the DOM. Elements will 
+		 * Automatically load apps that are already defined in the DOM. Elements will
 		 * be rendered into the location of the placeholder DOM element. Any AppHandlers
 		 * that are defined will be bypassed.
 		 * @method loadPlaceholders
@@ -15748,7 +15871,7 @@ F2.extend('', (function() {
 				add(parentNode);
 			} else {
 
-				// find placeholders within the parentNode only if 
+				// find placeholders within the parentNode only if
 				// querySelectorAll exists
 				parentNode = parentNode || document;
 				if (parentNode.querySelectorAll) {
@@ -15936,7 +16059,7 @@ F2.extend('', (function() {
 					//	F2.log('Number of dom node instances:', jQuery(a.root).length);
 					//	throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
 					//}
-					
+
 					// instantiate F2.App
 					_createAppInstance(a, {
 						preloaded: true,
@@ -16071,21 +16194,44 @@ F2.extend('', (function() {
 						var requestFunc = _config.xhr;
 						if (typeof requestFunc !== 'function') {
 							requestFunc = function(url, appConfigs, successCallback, errorCallback, completeCallback) {
-								jQuery.ajax({
-									url: url,
-									type: type,
-									data: {
-										params: F2.stringify(req.apps, F2.appConfigReplacer)
-									},
-									jsonp: false, // do not put 'callback=' in the query string
-									jsonpCallback: jsonpCallback, // Unique function name
-									dataType: dataType,
-									success: successCallback,
-									error: function(jqxhr, settings, exception) {
-										F2.log('Failed to load app(s)', exception.toString(), req.apps);
-										errorCallback();
-									},
-									complete: completeCallback
+								if (!window.fetch) {
+									throw ('Browser does not support the Fetch API.');
+								}
+
+								var fetchFunc, 
+									fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
+
+								if (dataType === 'json') {
+									var fetchInputs = {
+										method: type,
+										mode: 'no-cors'
+									};
+
+									if (type === 'POST') {
+										fetchUrl = url;
+										fetchInputs.body = {
+											params: F2.stringify(req.apps, F2.appConfigReplacer)
+										};
+									}
+
+									fetchFunc = fetch(fetchUrl, fetchInputs);
+								} else if (dataType === 'jsonp') {
+									fetchFunc = fetchJsonp(fetchUrl, {
+										timeout: 3000,
+										jsonpCallbackFunction: jsonpCallback
+									});									
+								}
+
+								fetchFunc.then(function(response) {
+									return response.json();
+								})
+								.then(function(data) {
+									successCallback(data);
+									completeCallback();							
+								})
+								.catch(function(error) {
+									F2.log('Failed to load app(s)', error.toString(), req.apps);
+									errorCallback();
 								});
 							};
 						}
@@ -16095,7 +16241,7 @@ F2.extend('', (function() {
 
 					manifestRequest(i, requests.pop());
 				}
-				
+
 			}
 		},
 		/**
@@ -16143,10 +16289,6 @@ F2.extend('', (function() {
 					F2.Constants.AppHandlers.APP_DESTROY_AFTER,
 					_apps[instanceId] // the app instance
 				);
-
-				if (_apps[instanceId].config.isSecure) {
-					F2.Rpc.destroy(instanceId);
-				}
 
 				delete _apps[instanceId];
 			}

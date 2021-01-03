@@ -12,6 +12,7 @@
 		"jQuery": true,
 		"$": true,
 		"domify": true,
+		"fetchJsonp": true,
 		"_": true
 	},
 	"latedef": false,

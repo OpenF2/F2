@@ -125,6 +125,7 @@ module.exports = function(grunt) {
 				src: [
 					'sdk/src/template/header.js.tmpl',
 					'sdk/src/third-party/domify.js',
+					'sdk/src/third-party/fetch-jsonp.js',
 					'sdk/src/third-party/lodash.custom.js',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/noconflict.js',
