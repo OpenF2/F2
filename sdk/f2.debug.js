@@ -12876,7 +12876,6 @@ return jQuery;
 /*!
  * Ensure no conflict for thirty party modules
  */
-var $, jQuery = $ = window.jQuery.noConflict(true);
 var _ = window._.noConflict();
 
 /*!
@@ -13468,7 +13467,7 @@ var _ = window._.noConflict();
 
 
 /*!
- * F2 v2.0.0-alpha 01-03-2021
+ * F2 v2.0.0-alpha 01-04-2021
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License");
