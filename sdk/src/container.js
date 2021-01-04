@@ -1130,7 +1130,9 @@ F2.extend('', (function() {
 
 								var fetchFunc, 
 									fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
-
+									
+								// Fetch API does not support the JSONP calls so making JSON calls using Fetch API and
+								// JSONP call using fetch-jsonp package (https://www.npmjs.com/package/fetch-jsonp)
 								if (dataType === 'json') {
 									var fetchInputs = {
 										method: type,

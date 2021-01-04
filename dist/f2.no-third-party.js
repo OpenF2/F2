@@ -5,7 +5,7 @@
 	}
 
 /*!
- * F2 v2.0.0-alpha 01-03-2021
+ * F2 v2.0.0-alpha 01-04-2021
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License");
@@ -2737,7 +2737,9 @@ F2.extend('', (function() {
 
 								var fetchFunc, 
 									fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
-
+									
+								// Fetch API does not support the JSONP calls so making JSON calls using Fetch API and
+								// JSONP call using fetch-jsonp package (https://www.npmjs.com/package/fetch-jsonp)
 								if (dataType === 'json') {
 									var fetchInputs = {
 										method: type,
