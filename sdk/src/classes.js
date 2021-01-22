@@ -304,28 +304,7 @@ F2.extend('', {
 		 * @example
 		 *     F2.init({
 		 *         xhr: function(url, appConfigs, success, error, complete) {
-		 *             $.ajax({
-		 *                 url: url,
-		 *                 type: 'POST',
-		 *                 data: {
-		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
-		 *                 },
-		 *                 jsonp: false, // do not put 'callback=' in the query string
-		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
-		 *                 dataType: 'json',
-		 *                 success: function(appManifest) {
-		 *                     // custom success logic
-		 *                     success(appManifest); // fire success callback
-		 *                 },
-		 *                 error: function() {
-		 *                     // custom error logic
-		 *                     error(); // fire error callback
-		 *                 },
-		 *                 complete: function() {
-		 *                     // custom complete logic
-		 *                     complete(); // fire complete callback
-		 *                 }
-		 *             });
+		 *          TODO: add fetch jsonp example
 		 *         }
 		 *     });
 		 *

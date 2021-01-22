@@ -1424,11 +1424,9 @@ describe('F2.AppHandlers - rendering - appDestroy', function () {
 						else if (appInstance && appInstance.app && appInstance.app.destroy) {
 							F2.log(app.config.appId + " has a destroy property, but destroy is not of type function and as such will not be executed.");
 						}
-
-						// fade out and remove the root
-						jQuery(appInstance.config.root).fadeOut(250, function () {
-							jQuery(this).remove();
-						});
+						
+						//remove the root
+						appInstance.config.root.remove();
 
 						bAppDestroyOnMethodCalled = true;
 					}
