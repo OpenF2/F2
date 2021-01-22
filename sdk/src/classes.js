@@ -222,43 +222,6 @@ F2.extend('', {
 	 */
 	ContainerConfig: {		
 		/**
-		 * Allows the [container](../../container-development.html) to override how
-		 * an app's html is inserted into the page. The function should accept an
-		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
-		 * html
-		 * @method afterAppRender
-		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
-		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @param {string} html The string of html representing the app 
-		 * @return {Element} The DOM Element surrounding the app
-		 */
-		afterAppRender: function(appConfig, html) {},
-		/**
-		 * Allows the [container](../../container-development.html) to wrap an app
-		 * in extra html. The function should accept an
-		 * {{#crossLink "F2.AppConfig"}}{{/crossLink}} object and also a string of
-		 * html. The extra html can provide links to edit app settings and remove an
-		 * app from the container. See
-		 * {{#crossLink "F2.Constants.Css"}}{{/crossLink}} for CSS classes that
-		 * should be applied to elements.
-		 * @method appRender
-		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
-		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @param {string} html The string of html representing the app
-		 */
-		appRender: function(appConfig, html) {},
-		/**
-		 * Allows the container to render html for an app before the AppManifest for
-		 * an app has loaded. This can be useful if the design calls for loading
-		 * icons to appear for each app before each app is loaded and rendered to
-		 * the page.
-		 * @method beforeAppRender
-		 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
-		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-		 * @return {Element} The DOM Element surrounding the app
-		 */
-		beforeAppRender: function(appConfig) {},
-		/**
 		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
 		 * @property debugMode
 		 * @type bool
