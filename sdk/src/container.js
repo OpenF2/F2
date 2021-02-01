@@ -15,16 +15,16 @@ F2.extend('', (function() {
    * @method inArray
    * @param {object} value The value to search for
    * @param {Array} array The array to search
-   * @return {bool} True if the item is in the array
+   * @return {int} index of the value in the array, -1 if value not found
    */
 	var _inArray = function(value, array) {
 		if (Array.isArray(array)) {
-			return array.indexOf(value) > -1;
+			return array.indexOf(value);
 		}
 
 		for (var i = 0; i < array.length; i++) {
 			if (array[i] === value) {
-				return i > -1;
+				return i;
 			}
 		}
 
