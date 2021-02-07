@@ -125,6 +125,7 @@ module.exports = function(grunt) {
 				src: [
 					'sdk/src/template/header.js.tmpl',
 					'sdk/src/third-party/domify.js',
+					'sdk/src/third-party/fetch-jsonp.js',
 					'sdk/src/third-party/lodash.custom.js',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/noconflict.js',
@@ -133,14 +134,6 @@ module.exports = function(grunt) {
 					'sdk/src/template/footer.js.tmpl'
 				],
 				dest: 'sdk/f2.debug.js'
-			},
-			'no-third-party': {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/f2.no-third-party.js'
 			}
 		},
 		express: {
@@ -383,7 +376,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', 'yuidoc']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'concat:no-third-party', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
+	grunt.registerTask('js', ['concat:dist', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
 	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);

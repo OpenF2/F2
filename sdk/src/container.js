@@ -7,7 +7,6 @@ F2.extend('', (function() {
 
 	var _apps = {};
 	var _config = false;
-	var _bUsesAppHandlers = false;
 	var _sAppHandlerToken = F2.AppHandlers.__f2GetToken();
 	var _loadingScripts = {};
 
@@ -16,98 +15,20 @@ F2.extend('', (function() {
    * @method inArray
    * @param {object} value The value to search for
    * @param {Array} array The array to search
-   * @return {bool} True if the item is in the array
+   * @return {int} index of the value in the array, -1 if value not found
    */
 	var _inArray = function(value, array) {
 		if (Array.isArray(array)) {
-			return array.indexOf(value) > -1;
+			return array.indexOf(value);
 		}
 
 		for (var i = 0; i < array.length; i++) {
 			if (array[i] === value) {
-				return i > -1;
+				return i;
 			}
 		}
 
 		return -1;
-	};
-
-	/**
-	 * Appends the app's html to the DOM
-	 * @method _afterAppRender
-	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {string} html The string of html
-	 * @return {Element} The DOM Element that contains the app
-	 */
-	var _afterAppRender = function(appConfig, html) {
-		var handler = _config.afterAppRender || function(appConfig, html) {
-				return document.body.appendChild(domify(html));
-			};
-		var appContainer = handler(appConfig, html);
-
-		if ( !! _config.afterAppRender && !appContainer) {
-			F2.log('F2.ContainerConfig.afterAppRender() must return the DOM Element that contains the app');
-			return;
-		}
-		else {
-			//apply APP class
-			appContainer.classList.add(F2.Constants.Css.APP);
-			return appContainer;
-		}
-	};
-
-	/**
-	 * Renders the html for an app.
-	 * @method _appRender
-	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param {string} html The string of html
-	 */
-	var _appRender = function(appConfig, html) {
-		//apply APP_CONTAINER class and AppID
-		var node = domify(html);
-		// classList.add twice because phantomjs breaks otherwise
-		node.classList.add(F2.Constants.Css.APP_CONTAINER);
-		node.classList.add(appConfig.appId);
-		html = _outerHtml(node);
-
-		//optionally apply wrapper html
-		if (_config.appRender) {
-			html = _outerHtml(_config.appRender(appConfig, html));
-		}
-
-		return html;
-	};
-
-	/**
-	 * Rendering hook to allow containers to render some html prior to an app
-	 * loading
-	 * @method _beforeAppRender
-	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @return {Element} The DOM Element surrounding the app
-	 */
-	var _beforeAppRender = function(appConfig) {
-		var handler = _config.beforeAppRender || function() { return this; };
-		return handler(appConfig);
-	};
-
-	/**
-	 * Handler to inform the container that a script failed to load
-	 * @method _onScriptLoadFailure
-	 * @deprecated This has been replaced with {{#crossLink "F2.AppHandlers"}}{{/crossLink}} and will be removed in v2.0
-	 * @private
-	 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	 * @param scriptInfo The path of the script that failed to load or the exception info
-	 * for the inline script that failed to execute
-	 */
-	var _appScriptLoadFailed = function(appConfig, scriptInfo) {
-		var handler = _config.appScriptLoadFailed || function() { return this; };
-		return handler(appConfig, scriptInfo);
 	};
 
 	/**
@@ -423,17 +344,12 @@ F2.extend('', (function() {
 					// @Brian ? TODO: deprecate, see #222
 					F2.Events.emit(F2.Constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
 
-					if (!_bUsesAppHandlers) {
-						_appScriptLoadFailed(appConfigs[0], evtData.src);
-					}
-					else {
-						F2.AppHandlers.__trigger(
+					F2.AppHandlers.__trigger(
 							_sAppHandlerToken,
 							F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
 							appConfigs[0],
 							evtData.src
 						);
-					}
 				}, _config.scriptErrorTimeout); // Defaults to 7000
 			};
 
@@ -541,18 +457,12 @@ F2.extend('', (function() {
 
 						// Emit events
 						F2.Events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
-
-						if (!_bUsesAppHandlers) {
-							_appScriptLoadFailed(appConfigs[0], exception);
-						}
-						else {
 							F2.AppHandlers.__trigger(
 								_sAppHandlerToken,
 								F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
 								appConfigs[0],
 								exception
 							);
-						}
 					}
 				}
 				cb();
@@ -583,10 +493,6 @@ F2.extend('', (function() {
 					node.classList.add(appConfigs[i].appId);
 					appConfigs[i].root.classList.add(F2.Constants.Css.APP);
 					appConfigs[i].root.appendChild(node);
-				}
-				else if (!_bUsesAppHandlers) {
-					// load html and save the root node
-					appConfigs[i].root = _afterAppRender(appConfigs[i], _appRender(appConfigs[i], a.html));
 				}
 				else {
 					var container = document.createElement('div');
@@ -652,11 +558,6 @@ F2.extend('', (function() {
 		});
 	};
 
-	var _outerHtml = function(node) {
-		var wrapper = document.createElement('div');
-		wrapper.appendChild(node);
-		return wrapper.innerHTML;
-	};
 
 	/**
 	 * Checks if the app is valid
@@ -757,9 +658,6 @@ F2.extend('', (function() {
 			_hydrateContainerConfig(_config);
 
 			// dictates whether we use the old logic or the new logic.
-			// @Brian ? TODO: Remove in v2.0
-			_bUsesAppHandlers = (!_config.beforeAppRender && !_config.appRender && !_config.afterAppRender && !_config.appScriptLoadFailed);
-
 			_initContainerEvents();
 		},
 		/**
@@ -1003,12 +901,7 @@ F2.extend('', (function() {
 				}
 
 				if (!_isPlaceholderElement(a.root)) {
-					if (!_bUsesAppHandlers) {
-						// fire beforeAppRender
-						a.root = _beforeAppRender(a);
-					}
-					else {
-						F2.AppHandlers.__trigger(
+					 	F2.AppHandlers.__trigger(
 							_sAppHandlerToken,
 							F2.Constants.AppHandlers.APP_CREATE_ROOT,
 							a // the app config
@@ -1019,7 +912,6 @@ F2.extend('', (function() {
 							F2.Constants.AppHandlers.APP_RENDER_BEFORE,
 							a // the app config
 						);
-					}
 				}
 
 				// if we have the manifest, go ahead and load the app
@@ -1124,21 +1016,46 @@ F2.extend('', (function() {
 						var requestFunc = _config.xhr;
 						if (typeof requestFunc !== 'function') {
 							requestFunc = function(url, appConfigs, successCallback, errorCallback, completeCallback) {
-								jQuery.ajax({
-									url: url,
-									type: type,
-									data: {
-										params: F2.stringify(req.apps, F2.appConfigReplacer)
-									},
-									jsonp: false, // do not put 'callback=' in the query string
-									jsonpCallback: jsonpCallback, // Unique function name
-									dataType: dataType,
-									success: successCallback,
-									error: function(jqxhr, settings, exception) {
-										F2.log('Failed to load app(s)', exception.toString(), req.apps);
-										errorCallback();
-									},
-									complete: completeCallback
+								if (!window.fetch) {
+									throw ('Browser does not support the Fetch API.');
+								}
+
+								var fetchFunc, 
+									fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
+									
+								// Fetch API does not support the JSONP calls so making JSON calls using Fetch API and
+								// JSONP call using fetch-jsonp package (https://www.npmjs.com/package/fetch-jsonp)
+								if (dataType === 'json') {
+									var fetchInputs = {
+										method: type,
+										mode: 'no-cors'
+									};
+
+									if (type === 'POST') {
+										fetchUrl = url;
+										fetchInputs.body = {
+											params: F2.stringify(req.apps, F2.appConfigReplacer)
+										};
+									}
+
+									fetchFunc = fetch(fetchUrl, fetchInputs);
+								} else if (dataType === 'jsonp') {
+									fetchFunc = fetchJsonp(fetchUrl, {
+										timeout: 3000,
+										jsonpCallbackFunction: jsonpCallback
+									});									
+								}
+
+								fetchFunc.then(function(response) {
+									return response.json();
+								})
+								.then(function(data) {
+									successCallback(data);
+									completeCallback();							
+								})
+								.catch(function(error) {
+									F2.log('Failed to load app(s)', error.toString(), req.apps);
+									errorCallback();
 								});
 							};
 						}

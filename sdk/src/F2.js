@@ -127,7 +127,7 @@ F2 = (function() {
 		 *         var App_Class = function(appConfig, appContent, root) {
 		 *             this._app = appConfig; // the F2.AppConfig object
 		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
-		 *             this.$root = $(root); // the root DOM Element that contains this app
+		 *             this.$root = root; // the root DOM Element that contains this app
 		 *         }
 		 *
 		 *         App_Class.prototype.init = function() {
