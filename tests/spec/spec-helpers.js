@@ -13,7 +13,7 @@ var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
 /**
  * Reload F2 before each spec
  */
-beforeEachReloadF2 = function(callback) {
+var beforeEachReloadF2 = function(callback) {
 	beforeEach(function(done) {
 		window.F2 = null;
 		var head = (document.head || document.getElementsByTagName('head')[0]);
@@ -33,10 +33,24 @@ beforeEachReloadF2 = function(callback) {
 	});
 };
 
+var afterEachDeleteTestScripts = function(callback) {
+	afterEach(function(done) {
+		var scripts = Array.from(document.querySelectorAll('script[src]') || []);
+		var styles = Array.from(document.querySelectorAll('link[href]') || []);
+
+		([].concat(scripts,styles)).forEach(s => {
+			if (/tests/.test(s.src)) {
+				s.parentNode.removeChild(s);
+			}
+		});
+		done();
+	});
+}
+
 /**
  *
  */
-itConditionally = function(condition, desc, func) {
+var itConditionally = function(condition, desc, func) {
 	if (condition) {
 		return jasmine.getEnv().it(desc, func);
 	} else {

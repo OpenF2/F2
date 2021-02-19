@@ -1,8 +1,9 @@
-xdescribe('F2.registerApps - pre-load', function() {
+describe('F2.registerApps - pre-load', function() {
 
 	beforeEachReloadF2(function() {
 		spyOn(F2, 'log').and.callThrough();
 	});
+	afterEachDeleteTestScripts();
 
 	it('should throw exception if F2.init() is not called prior', function() {
 		var appConfig = {
@@ -220,6 +221,7 @@ describe('F2.isInit', function() {
 describe('F2.init - internationalization', function() {
 
 	beforeEachReloadF2();
+	afterEachDeleteTestScripts();
 
 	var appConfig = {
 		appId: TEST_APP_ID,
@@ -282,43 +284,33 @@ describe('F2.init - internationalization', function() {
 		expect(appConfig.locale).toBeFalsy();
 	});
 
-	xit('app should receive locale as "containerLocale" in appConfig', function() {
-		F2.testLocaleFromAppConfig = false;
+	it('app should receive locale as "containerLocale" in appConfig', function(done) {
 		F2.init({
 			locale: 'en-us'
 		});
-		F2.registerApps([{
-			appId:'com_openf2_tests_helloworld',
-			manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld'
-		}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
 
-		waitsFor(
-			function(){
-				return F2.testLocaleFromAppConfig;
-			},
-			'containerLocale not defined in AppClass',
-			3000
-		);
+		F2.registerApps({
+			appId: TEST_APP_ID3,
+			manifestUrl: TEST_MANIFEST_URL3
+		});
 
-		runs(function() {
-			expect(F2.testLocaleFromAppConfig == F2.getContainerLocale()).toBeTruthy();
+		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', data => {
+			expect(data.testLocaleFromAppConfig).toEqual(F2.getContainerLocale());
+			done();
 		});
 	});
 
-	xit('app should not receive locale as "containerLocale" in appConfig when locale is not defined', function() {
+	it('app should not receive locale as "containerLocale" in appConfig when locale is not defined', function(done) {
 		F2.init();
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld'}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
 
-		waitsFor(
-			function(){
-				return !F2.testLocaleFromAppConfig;
-			},
-			'containerLocale is defined in AppClass',
-			3000
-		);
+		F2.registerApps({
+			appId: TEST_APP_ID3,
+			manifestUrl: TEST_MANIFEST_URL3
+		});
 
-		runs(function() {
-			expect(F2.testLocaleFromAppConfig).toBeFalsy();
+		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', data => {
+			expect(data.testLocaleFromAppConfig).toBeFalsy();
+			done();
 		});
 	});
 
@@ -395,43 +387,37 @@ describe('F2.init - internationalization', function() {
 		expect(appConfig.localeSupport.length == 2).toBeTruthy();
 	});
 
-	xit('app should receive localeSupport in appConfig', function() {
-		F2.testLocaleSupportFromAppConfig = false;
+	it('app should receive localeSupport in appConfig', function(done) {
 		F2.init({
 			locale: 'en-us'
 		});
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',localeSupport:['en-us','de-de']}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
 
-		waitsFor(
-			function(){
-				return F2.testLocaleSupportFromAppConfig;
-			},
-			'localeSupport not defined in AppClass',
-			3000
-		);
+		F2.registerApps({
+			appId: TEST_APP_ID3,
+			manifestUrl: TEST_MANIFEST_URL3,
+			localeSupport: ['en-us']
+		});
 
-		runs(function() {
-			expect(F2.testLocaleSupportFromAppConfig).toBeTruthy();
+		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', data => {
+			expect(data.testLocaleSupportFromAppConfig).toEqual(['en-us']);
+			done();
 		});
 	});
 
-	xit('app should receive localeSupport in appConfig and have 2 items', function() {
-		F2.testLocaleSupportFromAppConfig = false;
+	it('app should receive localeSupport in appConfig and have 2 items', function(done) {
 		F2.init({
 			locale: 'en-us'
 		});
-		F2.registerApps([{appId:'com_openf2_tests_helloworld', manifestUrl:'/F2/apps/test/com_openf2_tests_helloworld',localeSupport:['en-us','de-de']}], [{"inlineScripts": [], "scripts":["js/test.js"],"apps":[{ html: '<div class="test-app-2">Testing</div>' }]}]);
 
-		waitsFor(
-			function(){
-				return F2.testLocaleSupportFromAppConfig;
-			},
-			'localeSupport not defined in AppClass',
-			3000
-		);
+		F2.registerApps({
+			appId: TEST_APP_ID3,
+			manifestUrl: TEST_MANIFEST_URL3,
+			localeSupport: ['en-us','de-de']
+		});
 
-		runs(function() {
-			expect(F2.testLocaleSupportFromAppConfig.length == 2).toBeTruthy();
+		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', data => {
+			expect(data.testLocaleSupportFromAppConfig.length).toBe(2);
+			done();
 		});
 	});
 
@@ -666,9 +652,10 @@ describe('F2.registerApps - xhr overrides', function() {
 	});
 });
 
-xdescribe('F2.registerApps - rendering', function() {
+describe('F2.registerApps - rendering', function() {
 
 	beforeEachReloadF2();
+	afterEachDeleteTestScripts();
 
 	var appConfig = {
 		appId: TEST_APP_ID,
@@ -784,21 +771,19 @@ xdescribe('F2.registerApps - rendering', function() {
 		}]);
 	});
 
-	xit('should always init an appclass', function() {
-		var appsRendered = 0;
-		var passedMessages = [];
-		var flag = false;
-		F2.log = function(message) {
-			passedMessages.push(message);
-		};
+	it('should always init an appclass', function(done) {
+		var appsInitialized = 0;
 
 		F2.init();
-		//notify when apps have been rendered
-		F2.AppHandlers.on(
-			F2.AppHandlers.getToken(),
-			F2.Constants.AppHandlers.APP_RENDER_AFTER,
-			function(){ appsRendered++; }
-		);
+
+		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', () => {
+			appsInitialized++;
+			if (appsInitialized === 3) {
+				expect(appsInitialized).toBe(3);
+				done();
+			}
+		});
+
 		// load a few of the same apps; existing scripts should not cause
 		// app #2 and later to be loaded prematurely
 		F2.registerApps([
@@ -815,57 +800,30 @@ xdescribe('F2.registerApps - rendering', function() {
 				manifestUrl: TEST_MANIFEST_URL3
 			}
 		]);
+	}, 10000);
 
-		// wait for registerApps to complete and load both apps
-		waitsFor(function() {
-			return appsRendered === 3;
-		}, 'test apps were never loaded', 15000);
+	it('should load and execute scripts in order', function(done) {
 
-		// give the appclass time to init
-		runs(function() {
-			setTimeout(function() {
-				flag = true;
-			}, 100)
-		})
-
-		waitsFor(function() {
-			return flag;
-		}, '', 1000);
-
-		runs(function() {
-			expect(passedMessages.length).toEqual(3);
-			expect(passedMessages[0]).toEqual('Hello World app init()');
-			expect(passedMessages[1]).toEqual('Hello World app init()');
-			expect(passedMessages[2]).toEqual('Hello World app init()');
-		});
-	});
-
-	xit('should load and execute scripts in order', function() {
-		var scriptsLoaded = false;
 		F2.init();
+
 		//load 1 app with 2 script files, the 2nd one defines F2.HightChartsIsDefined global.
 		F2.registerApps([{
-				appId: 'com_openf2_tests_helloworld',
-				manifestUrl: '/'
+				appId: TEST_APP_ID3,
+				manifestUrl: TEST_MANIFEST_URL3
 		}], [{
-			'scripts': ['http://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.3/highcharts.js','js/test.js'],
+			'scripts': [
+				'https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.3/highcharts.js',
+				'http://localhost:8080/tests/apps/com_openf2_examples_nodejs_helloworld/appclass.js'
+			],
 			'apps': [{
 				'html': '<div class="test-app-1">Testing</div>'
 			}]
 		}]);
 
 		//notify when dependencies have been loaded
-		F2.Events.on('APP_SCRIPTS_LOADED', function(data){
-			scriptsLoaded = true;
-		});
-
-		// wait for registerApps to complete and load both apps
-		waitsFor(function() {
-			return scriptsLoaded && F2.HightChartsIsDefined;
-		}, 'test apps to load', 10000);
-
-		runs(function() {
-			expect(F2.HightChartsIsDefined).toBeTruthy();
+		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', data => {
+			expect(data.HightChartsIsDefined).toBeTruthy();
+			done();
 		});
 	});
 
