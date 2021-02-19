@@ -1,4 +1,4 @@
-describe('F2.registerApps - pre-load', function() {
+xdescribe('F2.registerApps - pre-load', function() {
 
 	beforeEachReloadF2(function() {
 		spyOn(F2, 'log').and.callThrough();
@@ -666,7 +666,7 @@ describe('F2.registerApps - xhr overrides', function() {
 	});
 });
 
-describe('F2.registerApps - rendering', function() {
+xdescribe('F2.registerApps - rendering', function() {
 
 	beforeEachReloadF2();
 

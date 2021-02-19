@@ -1271,7 +1271,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function () {
 		});
 
 		F2.registerApps(appConfig());
-	});
+	}, 10000);
 
 	it(
 		'should remove on() appDestroy handlers regardless of namespace if no namespace passed to off() event.',
@@ -1341,7 +1341,7 @@ describe('F2.AppHandlers - rendering - appDestroy', function () {
 						else if (appInstance && appInstance.app && appInstance.app.destroy) {
 							F2.log(app.config.appId + " has a destroy property, but destroy is not of type function and as such will not be executed.");
 						}
-						
+
 						//remove the root
 						appInstance.config.root.remove();
 
