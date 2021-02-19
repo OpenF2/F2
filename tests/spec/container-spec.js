@@ -1,8 +1,6 @@
 describe('F2.registerApps - pre-load', function() {
 
-	beforeEachReloadF2();
-
-	beforeEach(function() {
+	beforeEachReloadF2(function() {
 		spyOn(F2, 'log').and.callThrough();
 	});
 
@@ -1114,9 +1112,7 @@ describe('F2.loadPlaceholders - auto', function() {
 describe('F2.loadPlaceholders - manual', function() {
 
 	// force F2 to be reloaded
-	beforeEachReloadF2();
-
-	beforeEach(function() {
+	beforeEachReloadF2(function() {
 		// add the f2-autoload element to the test fixture for use in each
 		// test
 		$('#test-fixture').append('<div id="f2-autoload"></div>');

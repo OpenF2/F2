@@ -16,15 +16,20 @@ var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
 beforeEachReloadF2 = function(callback) {
 	beforeEach(function(done) {
 		window.F2 = null;
-		$.ajax({
-			url: 'http://localhost:8080/sdk/f2.debug.js',
-			dataType: 'script',
-			complete: function() {
-				window.refreshPreloadedApp();
-				callback && callback();
-				done();
+		var head = (document.head || document.getElementsByTagName('head')[0]);
+		var script = document.createElement('script');
+		script.async = false;
+		script.onload = script.onreadystatechange = function(e) {
+			script = null;
+			if (!window.F2) {
+				throw new Error('F2 WAS NOT PROPERLY LOADED');
 			}
-		});
+			window.refreshPreloadedApp();
+			callback && callback();
+			done();
+		}
+		script.src = '../sdk/f2.debug.js';
+		head.appendChild(script);
 	});
 };
 
