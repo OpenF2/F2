@@ -4,8 +4,8 @@
  */
 F2.extend('', {
 	/**
-	 * The App Class is an optional class that can be namespaced onto the 
-	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
+	 * The App Class is an optional class that can be namespaced onto the
+	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The
 	 * [F2 Docs](../../app-development.html#app-class)
 	 * has more information on the usage of the App Class.
 	 * @class F2.App
@@ -77,9 +77,9 @@ F2.extend('', {
 		 */
 		instanceId: '',
 		/**
-		 * The language and region specification for this container 
+		 * The language and region specification for this container
 		 * represented as an IETF-defined standard language tag,
-		 * e.g. `"en-us"` or `"de-de"`. This is passed during the 
+		 * e.g. `"en-us"` or `"de-de"`. This is passed during the
 		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process.
 		 *
 		 * @property containerLocale
@@ -91,7 +91,7 @@ F2.extend('', {
 		/**
 		 * The languages and regions supported by this app represented
 		 * as an array of IETF-defined standard language tags,
-		 * e.g. `["en-us","de-de"]`. 
+		 * e.g. `["en-us","de-de"]`.
 		 *
 		 * @property localeSupport
 		 * @type array
@@ -220,7 +220,7 @@ F2.extend('', {
 	 * [container](../../container-development.html)
 	 * @class F2.ContainerConfig
 	 */
-	ContainerConfig: {		
+	ContainerConfig: {
 		/**
 		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
 		 * @property debugMode
@@ -229,7 +229,7 @@ F2.extend('', {
 		 */
 		debugMode: false,
 		/**
-		 * The default language and region specification for this container 
+		 * The default language and region specification for this container
 		 * represented as an IETF-defined standard language tag,
 		 * e.g. `"en-us"` or `"de-de"`. This value is passed to each app
 		 * registered as `containerLocale`.
@@ -250,7 +250,7 @@ F2.extend('', {
 		/**
 		 * Allows the container to fully override how the AppManifest request is
 		 * made inside of F2.
-		 * 
+		 *
 		 * @method xhr
 		 * @param {string} url The manifest url
 		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
@@ -260,9 +260,7 @@ F2.extend('', {
 		 * @param {function} error The function to be called if the request fails
 		 * @param {function} complete The function to be called when the request
 		 * finishes (after success and error callbacks have been executed)
-		 * @return {XMLHttpRequest} The XMLHttpRequest object (or an object that has
-		 * an `abort` function (such as the jqXHR object in jQuery) to abort the
-		 * request)
+		 * @return {XMLHttpRequest} The XMLHttpRequest object
 		 *
 		 * @example
 		 *     F2.init({
@@ -313,8 +311,7 @@ F2.extend('', {
 			 */
 			dataType: function(url, appConfigs) {},
 			/**
-			 * Allows the container to override the request method that is used (just
-			 * like the `type` parameter to `jQuery.ajax()`.
+			 * Allows the container to override the request method that is used.
 			 * @method xhr.type
 			 * @param {string} url The manifest url
 			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}

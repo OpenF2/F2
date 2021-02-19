@@ -880,13 +880,6 @@ F2.extend('', (function() {
 						F2.log('AppConfig instance:', a);
 						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
-					// @Brian ? TODO: if we accept only explicit DOM references, do we still need this?
-					//else if (jQuery(a.root).length != 1) {
-					//	F2.log('AppConfig invalid for pre-load, root not unique');
-					//	F2.log('AppConfig instance:', a);
-					//	F2.log('Number of dom node instances:', jQuery(a.root).length);
-					//	throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
-					//}
 
 					// instantiate F2.App
 					_createAppInstance(a, {
@@ -1020,9 +1013,9 @@ F2.extend('', (function() {
 									throw ('Browser does not support the Fetch API.');
 								}
 
-								var fetchFunc, 
+								var fetchFunc,
 									fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
-									
+
 								// Fetch API does not support the JSONP calls so making JSON calls using Fetch API and
 								// JSONP call using fetch-jsonp package (https://www.npmjs.com/package/fetch-jsonp)
 								if (dataType === 'json') {
@@ -1043,7 +1036,7 @@ F2.extend('', (function() {
 									fetchFunc = fetchJsonp(fetchUrl, {
 										timeout: 3000,
 										jsonpCallbackFunction: jsonpCallback
-									});									
+									});
 								}
 
 								fetchFunc.then(function(response) {
@@ -1051,7 +1044,7 @@ F2.extend('', (function() {
 								})
 								.then(function(data) {
 									successCallback(data);
-									completeCallback();							
+									completeCallback();
 								})
 								.catch(function(error) {
 									F2.log('Failed to load app(s)', error.toString(), req.apps);
