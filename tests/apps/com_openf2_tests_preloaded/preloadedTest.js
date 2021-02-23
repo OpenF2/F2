@@ -2,7 +2,8 @@
  * Because of how tests have to refresh F2 on the page repeatedly, we need a
  * way to replace the preloaded app after F2 has been refreshed.
  */
-window.refreshPreloadedApp = function() {
+window.F2_PRELOADED = window.F2_PRELOADED || [];
+window.F2_PRELOADED.push(function() {
 	F2.Apps[TEST_PRELOADED_APP_ID] = (function() {
 
 		var App_Class = function (appConfig, appContent, root) {
@@ -24,4 +25,4 @@ window.refreshPreloadedApp = function() {
 
 		return App_Class;
 	})();
-};
+});

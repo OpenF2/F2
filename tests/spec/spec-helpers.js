@@ -3,7 +3,7 @@ var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
 	TEST_MANIFEST_URL2 = 'http://localhost:8080/F2/apps/test/market-news',
 	TEST_APP_ID2 = 'com_openf2_examples_csharp_marketnews',
 	TEST_MANIFEST_URL_HTTP_POST = 'http://localhost:8080/F2/apps/test/http-post',
-	TEST_MANIFEST_URL_HTTP_XDOMAIN = 'http://localhost:8081/F2/apps/test/http-post'
+	TEST_MANIFEST_URL_HTTP_XDOMAIN = 'http://localhost:8081/F2/apps/test/http-post',
 	TEST_MANIFEST_URL3 = 'http://localhost:8080/F2/apps/test/hello-world-node',
 	TEST_APP_ID3 = 'com_openf2_examples_nodejs_helloworld',
 	TEST_PRELOADED_APP_ID = 'com_openf2_tests_preloaded',
@@ -24,7 +24,6 @@ var beforeEachReloadF2 = function(callback) {
 			if (!window.F2) {
 				throw new Error('F2 WAS NOT PROPERLY LOADED');
 			}
-			window.refreshPreloadedApp();
 			callback && callback();
 			done();
 		}
@@ -67,7 +66,10 @@ var itConditionally = function(condition, desc, func) {
  * Clean out the test fixture before each spec
  */
 beforeEach(function() {
-	$('#test-fixture').empty();
+	var fixture = document.getElementById('test-fixture');
+	while (fixture.firstChild) {
+		fixture.removeChild(fixture.firstChild);
+	}
 });
 
 /**

@@ -2,6 +2,8 @@ describe('F2.registerApps - pre-load', function() {
 
 	beforeEachReloadF2(function() {
 		spyOn(F2, 'log').and.callThrough();
+		// refresh the preloaded apps since the F2/F2.Apps namespace was wiped out
+		window.F2_PRELOADED.forEach(f => f());
 	});
 	afterEachDeleteTestScripts();
 
@@ -9,7 +11,7 @@ describe('F2.registerApps - pre-load', function() {
 		var appConfig = {
 			appId: TEST_PRELOADED_APP_ID,
 			manifestUrl: TEST_PRELOADED_MANIFEST_URL,
-			root: $("body").find("div." + TEST_PRELOADED_APP_ID + ":first").get(0)
+			root: document.querySelector(`div.${TEST_PRELOADED_APP_ID}`)
 		};
 		F2.registerApps([appConfig]);
 
@@ -27,7 +29,7 @@ describe('F2.registerApps - pre-load', function() {
 			F2.init();
 			var appConfig = {
 				appId: TEST_PRELOADED_APP_ID,
-				root: $("body").find("div." + TEST_PRELOADED_APP_ID + ":first").get(0)
+				root: document.querySelector(`div.${TEST_PRELOADED_APP_ID}`)
 			};
 			F2.registerApps(appConfig);
 		}).not.toThrow();
@@ -37,7 +39,7 @@ describe('F2.registerApps - pre-load', function() {
 		F2.init();
 		var appConfig = {
 			appId: TEST_PRELOADED_APP_ID,
-			root: $("body").find("div." + TEST_PRELOADED_APP_ID + ":first").get(0)
+			root: document.querySelector(`div.${TEST_PRELOADED_APP_ID}`)
 		};
 		F2.registerApps(appConfig);
 		expect(F2.log).not.toHaveBeenCalledWith('"manifestUrl" missing from app object');
@@ -57,7 +59,7 @@ describe('F2.registerApps - pre-load', function() {
 			manifestUrl: TEST_MANIFEST_URL
 		}, {
 			appId: TEST_PRELOADED_APP_ID,
-			root: $("body").find('div.' + TEST_PRELOADED_APP_ID + ':first').get(0)
+			root: document.querySelector(`div.${TEST_PRELOADED_APP_ID}`)
 		}];
 
 		F2.init();
@@ -80,21 +82,21 @@ describe('F2.registerApps - pre-load', function() {
 
 	it('should allow you to init/register multiple of the same app that are already on the page.', function(done) {
 
-		var $appsOnPage = $("body").find("div." + TEST_PRELOADED_APP_ID);
+		var appsOnPage = document.querySelectorAll(`div.${TEST_PRELOADED_APP_ID}`);
 		var appConfigs = [{
 			appId: TEST_PRELOADED_APP_ID,
 			context: {
 				app: 1
 			},
 			manifestUrl: TEST_PRELOADED_MANIFEST_URL,
-			root: $appsOnPage.get(0)
+			root: appsOnPage[0]
 		}, {
 			appId: TEST_PRELOADED_APP_ID,
 			context: {
 				app: 2
 			},
 			manifestUrl: TEST_PRELOADED_MANIFEST_URL,
-			root: $appsOnPage.get(1)
+			root: appsOnPage[1]
 		}];
 
 		F2.init();
@@ -117,11 +119,11 @@ describe('F2.registerApps - pre-load', function() {
 	// appManifest.
 	// See container.js line 979
 	//
-	xit('should pass appConfig, appContent, and root to preloaded AppClasses when given AppContent', function(done) {
+	it('should pass appConfig, appContent, and root to preloaded AppClasses when given AppContent', function(done) {
 
 		var appConfig = {
 			appId:'com_openf2_tests_preloaded_argtester',
-			root: $("div.com_openf2_tests_preloaded_argtester").get(0)
+			root: document.querySelector('div.com_openf2_tests_preloaded_argtester')
 		};
 		var appManifest = {
 			scripts: ["/tests/apps/com_openf2_tests_preloaded_argtester/appclass.js"],
@@ -463,12 +465,7 @@ describe('F2.registerApps - basic', function() {
 		expect(F2.log).toHaveBeenCalledWith('The length of "apps" does not equal the length of "appManifests"');
 	});
 
-	xit('should not fail when a single appManifest is passed (#55)', function() {
-
-		var passedMessage = false;
-		F2.log = function(message) {
-			passedMessage = true;
-		};
+	it('should not fail when a single appManifest is passed (#55)', function(done) {
 
 		F2.registerApps({
 			appId: TEST_APP_ID,
@@ -480,12 +477,11 @@ describe('F2.registerApps - basic', function() {
 		});
 
 		// wait long enough for registerApps to have failed
-		waits(1000);
-
-		// F2.log should not have run
-		runs(function() {
-			expect(passedMessage).toBeFalsy();
-		});
+		setTimeout(function() {
+			// F2.log should not have run
+			expect(F2.log).not.toHaveBeenCalled();
+			done();
+		}, 1000);
 	});
 
 	it('should not modify the original AppConfig that was passed in', function() {
@@ -712,15 +708,14 @@ describe('F2.registerApps - rendering', function() {
 
 		F2.checkCacheBuster = function() {
 			var bustedCache = false;
-			$('script').each(function(idx, item) {
-				var src = $(item).attr('src');
-				//find script, test for cachebuster string
-				if (/appclass.js\?cachebuster/.test(src)) {
+			var scripts = document.querySelectorAll('script');
+
+			for (var i = 0; i < scripts.length; i++) {
+				if (/appclass.js\?cachebuster/.test(scripts[i].src)) {
 					bustedCache = true;
-					$(item).remove();
-					return false; //break from $.each
+					break;
 				}
-			});
+			}
 
 			expect(bustedCache).toBe(true);
 			done();
@@ -744,15 +739,14 @@ describe('F2.registerApps - rendering', function() {
 	it('should not add cache buster to AppManifest.scripts when F2.ContainerConfig.debugMode is undefined or false', function(done) {
 		F2.checkCacheBuster = function() {
 			var bustedCache = false;
-			$('script').each(function(idx, item) {
-				var src = $(item).attr('src');
-				//find script
-				if (/appclass.js/.test(src)) {
-					bustedCache = /cachebuster/.test(src);
-					$(item).remove();
-					return false; //break from $.each
+			var scripts = document.querySelectorAll('script');
+
+			for (var i = 0; i < scripts.length; i++) {
+				if (/appclass.js/.test(scripts[i].src)) {
+					bustedCache = /cachebuster/.test(scripts[i].src);
+					break;
 				}
-			});
+			}
 
 			expect(bustedCache).toBe(false);
 			done();
@@ -836,7 +830,13 @@ describe('F2.loadPlaceholders - auto', function() {
 			var children = 0;
 			var periodicCheck = setInterval(
 				function() {
-					children = $(selector).children().length;
+					var element = document.querySelectorAll(selector);
+					if (!element) {
+						clearInterval(periodicCheck);
+						throw new Error('unable to locate selector: ' + selector);
+					}
+					// sum the number of children found in each of the elements that were found
+					children = Array.from(element).reduce((total, current) => total + current.children.length, 0);
 					if (children === count) {
 						expect(children).toEqual(count);
 						clearInterval(periodicCheck);
@@ -851,9 +851,8 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('single app by id', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append(
-				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
-			);
+			document.getElementById('test-fixture').innerHTML +=
+				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>';
 		});
 
 		// force F2 to be reloaded
@@ -870,11 +869,11 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('single app by id, with children', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append(
+			document.getElementById('test-fixture').innerHTML += [
 				'<div id="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '">',
 					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
 				'</div>'
-			);
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -883,11 +882,11 @@ describe('F2.loadPlaceholders - auto', function() {
 		itShouldFindAndRegisterApps('#f2-autoload', 1);
 
 		it('should ignore apps within apps', function(done) {
-
-			var proceed = false;
-			var timeout = setTimeout(function verify() {
-				expect($('#f2-autoload').children().length).toEqual(1);
-				expect($('#f2-autoload [data-f2-appid]').length).toEqual(0);
+			setTimeout(function () {
+				expect(document.getElementById('f2-autoload').children.length).toEqual(1);
+				expect(
+					Array.from(document.querySelectorAll('#f2-autoload [data-f2-appid]')).reduce((total, current) => total + current.children.length, 0)
+				).toEqual(0);
 				done();
 			}, 3000); // arbitrary amount of time
 		});
@@ -896,9 +895,8 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('single app by attribute', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append(
-				'<div data-f2-autoload data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
-			);
+			document.getElementById('test-fixture').innerHTML +=
+				'<div data-f2-autoload data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>';
 		});
 
 		// force F2 to be reloaded
@@ -914,9 +912,8 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('single app by class', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append(
-				'<div class="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>'
-			);
+			document.getElementById('test-fixture').innerHTML +=
+				'<div class="f2-autoload" data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>';
 		});
 
 		// force F2 to be reloaded
@@ -932,11 +929,11 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('single app by id, nested', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div id="f2-autoload">',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 				'</div>'
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -948,11 +945,11 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('single app by attribute, nested', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div id="f2-autoload-single" data-f2-autoload>',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 				'</div>'
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -964,11 +961,11 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('single app by class, nested', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div id="f2-autoload-single" class="f2-autoload">',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 				'</div>'
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -980,12 +977,12 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('many apps by id', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div id="f2-autoload">',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
 				'</div>'
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -997,12 +994,12 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('many apps by attribute', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div id="f2-autoload-many" data-f2-autoload>',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
 				'</div>'
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -1014,12 +1011,12 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('many apps by class', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div id="f2-autoload-many" class="f2-autoload">',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
 				'</div>'
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -1031,14 +1028,14 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('many placeholders by attribute', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div data-f2-autoload>',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 				'</div>',
 				'<div data-f2-autoload>',
 					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
 				'</div>',
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -1050,14 +1047,14 @@ describe('F2.loadPlaceholders - auto', function() {
 	describe('many placeholders by class', function() {
 		// append test to DOM before reloading F2
 		beforeEach(function() {
-			$('#test-fixture').append([
+			document.getElementById('test-fixture').innerHTML += [
 				'<div class="f2-autoload">',
 					'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
 				'</div>',
 				'<div class="f2-autoload">',
 					'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
 				'</div>',
-			].join(''));
+			].join('');
 		});
 
 		// force F2 to be reloaded
@@ -1071,16 +1068,33 @@ describe('F2.loadPlaceholders - manual', function() {
 
 	// force F2 to be reloaded
 	beforeEachReloadF2(function() {
-		// add the f2-autoload element to the test fixture for use in each
-		// test
-		$('#test-fixture').append('<div id="f2-autoload"></div>');
+		document.getElementById('test-fixture').innerHTML += '<div id="f2-autoload"></div>';
 
 		spyOn(F2, 'log').and.callThrough();
 	});
 
+	var shouldFindAndRegisterApps = function(selector, count, done) {
+		var children = 0;
+		var periodicCheck = setInterval(
+			function() {
+				var element = document.querySelectorAll(selector);
+				if (!element) {
+					clearInterval(periodicCheck);
+					throw new Error('unable to locate selector: ' + selector);
+				}
+				// sum the number of children found in each of the elements that were found
+				children = Array.from(element).reduce((total, current) => total + current.children.length, 0);
+				if (children === count) {
+					expect(children).toEqual(count);
+					clearInterval(periodicCheck);
+					done();
+				}
+		}, 100);
+	};
+
 	it('should require the presence of data-f2-manifesturl', function() {
 		// add the invalid placeholder
-		$('#f2-autoload').append('<div data-f2-appid="' + TEST_APP_ID + '"></div>');
+		document.getElementById('f2-autoload').innerHTML += '<div data-f2-appid="' + TEST_APP_ID + '"></div>';
 
 		// even though the manifesturl is missing, the message is generic because a
 		// null AppConfig was generated
@@ -1091,52 +1105,31 @@ describe('F2.loadPlaceholders - manual', function() {
 	});
 
 	it('should find and register apps', function(done) {
-
-		// add the placeholder
-		var $f2Autoload = $('<div id="f2-autoload" />');
-		$f2Autoload.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
-		$('#test-fixture').append($f2Autoload);
+		document.getElementById('test-fixture').innerHTML += [
+			'<div id="f2-autoload">',
+				'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+			'</div>'
+		].join('');
 
 		F2.init();
 		F2.loadPlaceholders();
 
-		var children = 0;
-		var periodicCheck = setInterval(
-			function() {
-				children = $('#f2-autoload [data-f2-appid]').children().length;
-				if (children) {
-					expect(children).toEqual(1);
-					clearInterval(periodicCheck);
-					done();
-				}
-			},
-			100
-		);
+		shouldFindAndRegisterApps('#f2-autoload [data-f2-appid]', 1, done);
 	});
 
 	it('should find and register multiple apps', function(done) {
 		// add the placeholder
-		var $f2Autoload = $('<div id="f2-autoload" />');
-		$f2Autoload
-			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>')
-			.append('<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>');
-		$('#test-fixture').append($f2Autoload);
+		document.getElementById('test-fixture').innerHTML += [
+			'<div id="f2-autoload">',
+				'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+				'<div data-f2-appid="' + TEST_APP_ID2 + '" data-f2-manifesturl="' + TEST_MANIFEST_URL2 + '"></div>',
+			'</div>'
+		].join('');
 
 		F2.init();
 		F2.loadPlaceholders();
 
-		var children = 0;
-		var periodicCheck = setInterval(
-			function() {
-				children = $('#f2-autoload [data-f2-appid]').children().length;
-				if (children) {
-					expect(children).toEqual(2);
-					clearInterval(periodicCheck);
-					done();
-				}
-			},
-			100
-		);
+		shouldFindAndRegisterApps('#f2-autoload [data-f2-appid]', 2, done);
 	});
 
 	it('should throw an exception when an invalid parentNode is passed', function() {
@@ -1148,25 +1141,15 @@ describe('F2.loadPlaceholders - manual', function() {
 
 	it('should find and register apps within a given scope', function(done) {
 		// add the placeholder
-		var $f2Autoload = $('<div id="f2-autoload" />');
-		$f2Autoload
-			.append('<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>');
-		$('#test-fixture').append($f2Autoload);
+		document.getElementById('test-fixture').innerHTML += [
+			'<div id="f2-autoload">',
+				'<div data-f2-appid="' + TEST_APP_ID + '" data-f2-manifesturl="' + TEST_MANIFEST_URL + '"></div>',
+			'</div>'
+		].join('');
 
 		F2.init();
 		F2.loadPlaceholders(document.getElementById('test-fixture'));
 
-		var children = 0;
-		var periodicCheck = setInterval(
-			function() {
-				children = $('#f2-autoload [data-f2-appid]').children().length;
-				if (children) {
-					expect(children).toEqual(1);
-					clearInterval(periodicCheck);
-					done();
-				}
-			},
-			100
-		);
+		shouldFindAndRegisterApps('#f2-autoload [data-f2-appid]', 1, done);
 	});
 });
