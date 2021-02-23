@@ -242,13 +242,13 @@ describe('F2.init - internationalization', function() {
 
 	it('should not fail F2.init when locale is undefined', function() {
 		F2.init();
-		F2.registerApps(appConfig,appManifest);
+		//F2.registerApps(appConfig,appManifest);
 		expect(F2.isInit()).toBeTruthy();
 	});
 
 	it('F2.getContainerLocale() should return null when locale is undefined', function() {
 		F2.init();
-		F2.registerApps(appConfig,appManifest);
+		//F2.registerApps(appConfig,appManifest);
 		expect(F2.getContainerLocale()).toBe(null);
 	});
 
@@ -256,7 +256,7 @@ describe('F2.init - internationalization', function() {
 		F2.init({
 			locale: 'en-us'
 		});
-		F2.registerApps(appConfig,appManifest);
+		//F2.registerApps(appConfig,appManifest);
 		expect(F2.getContainerLocale()).toBe('en-us');
 	});
 
@@ -264,7 +264,7 @@ describe('F2.init - internationalization', function() {
 		F2.init({
 			locale: 'en-us'
 		});
-		F2.registerApps(appConfig,appManifest);
+		//F2.registerApps(appConfig,appManifest);
 		expect(typeof F2.getContainerLocale() === 'string').toBeTruthy();
 	});
 
@@ -272,7 +272,7 @@ describe('F2.init - internationalization', function() {
 		F2.init({
 			locale: 'en-us'
 		});
-		F2.registerApps(appConfig,appManifest);
+		//F2.registerApps(appConfig,appManifest);
 		//see http://www.w3.org/TR/xmlschema11-2/#language
 		expect( /[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*/.test( F2.getContainerLocale() ) ).toBeTruthy();
 	});
@@ -341,7 +341,6 @@ describe('F2.init - internationalization', function() {
 	});
 
 	it('should update containerLocale when CONTAINER_LOCALE_CHANGE is fired after being undefined', function(done) {
-		var _locale;
 		F2.init();
 		F2.registerApps(appConfig,appManifest);
 
@@ -350,7 +349,6 @@ describe('F2.init - internationalization', function() {
 
 		//listen for changes
 		F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
-			_locale = data.locale;
 			//now locale should be changed
 			expect(F2.getContainerLocale() == 'de-de').toBeTruthy();
 			done();
@@ -429,25 +427,28 @@ describe('F2.registerApps - basic', function() {
 
 	beforeEachReloadF2(function() {
 		spyOn(F2, 'log').and.callThrough();
-		F2.init();
 	});
 
 	it('should fail on empty parameters', function() {
+		F2.init();
 		F2.registerApps();
 		expect(F2.log).toHaveBeenCalledWith('At least one AppConfig must be passed when calling F2.registerApps()');
 	});
 
 	it('should fail when passed an empty array', function() {
+		F2.init();
 		F2.registerApps([]);
 		expect(F2.log).toHaveBeenCalledWith('At least one AppConfig must be passed when calling F2.registerApps()');
 	});
 
 	it('should fail when the parameters are invalid', function() {
+		F2.init();
 		F2.registerApps(null, []);
 		expect(F2.log).toHaveBeenCalledWith('At least one AppConfig must be passed when calling F2.registerApps()');
 	});
 
 	it('should fail when the AppConfig is invalid', function() {
+		F2.init();
 		F2.registerApps({});
 		expect(F2.log).toHaveBeenCalledWith('"appId" missing from app object');
 
@@ -458,6 +459,7 @@ describe('F2.registerApps - basic', function() {
 	});
 
 	it('should fail when the parameter lengths do not match', function() {
+		F2.init();
 		F2.registerApps({
 			appId: TEST_APP_ID,
 			manifestUrl: TEST_MANIFEST_URL
@@ -466,7 +468,7 @@ describe('F2.registerApps - basic', function() {
 	});
 
 	it('should not fail when a single appManifest is passed (#55)', function(done) {
-
+		F2.init();
 		F2.registerApps({
 			appId: TEST_APP_ID,
 			manifestUrl: TEST_MANIFEST_URL
@@ -489,6 +491,7 @@ describe('F2.registerApps - basic', function() {
 			appId: TEST_APP_ID,
 			manifestUrl: TEST_MANIFEST_URL
 		};
+		F2.init();
 		F2.registerApps(appConfig);
 
 		// original appConfig object should remain clean
