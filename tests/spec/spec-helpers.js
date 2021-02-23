@@ -42,6 +42,7 @@ var afterEachDeleteTestScripts = function(callback) {
 				s.parentNode.removeChild(s);
 			}
 		});
+		callback && callback();
 		done();
 	});
 }
