@@ -489,8 +489,28 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	TODO: WRITE $QUERYLESS EXAMPLE
-			*/		
+			*   var _token = F2.AppHandlers.getToken();
+            *   F2.AppHandlers.on(
+            *       _token,
+            *       F2.Constants.AppHandlers.APP_RENDER,
+            *       function(appConfig, appHtml)
+            *       {
+            *           // if no app root is defined use the app's outer most node
+            *           if(!F2.isNativeDOMNode(appConfig.root))
+            *           {
+            *               appConfig.root = domify(appHtml);                               
+            *           }
+            *           else
+            *           {                       
+            *               // append the app html to the root
+            *               appConfig.root.appendChild(domify(appHtml));
+            *           }           
+            *           
+            *           // append the root to the body by default.
+            *           document.body.appendChild(appConfig.root);
+            *       }
+            *   );
+            */		
 			APP_RENDER: 'appRender',
 			/**
 			* Equivalent to `appRenderAfter`. Identifies the after app render method for use in AppHandlers.on/off. 
@@ -541,8 +561,27 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	TODO: WRITE $QUERYLESS EXAMPLE
-			*/		
+			*   var _token = F2.AppHandlers.getToken();
+            *   F2.AppHandlers.on(
+            *       _token,
+            *       F2.Constants.AppHandlers.APP_DESTROY,
+            *       function(appInstance)
+            *       {
+            *           // call the apps destroy method, if it has one
+            *           if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')
+            *           {
+            *               appInstance.app.destroy();
+            *           }
+            *           else if(appInstance && appInstance.app && appInstance.app.destroy)
+            *           {
+            *               F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+            *           }
+            *           
+            *           // remove the root          
+            *           appInstance.config.root.parentNode.removeChild(appInstance.config.root);
+            *       }
+            *   );
+            */		
 			APP_DESTROY: 'appDestroy',
 			/**
 			* Equivalent to `appDestroyAfter`. Identifies the after app destroy method for use in AppHandlers.on/off. 
@@ -553,8 +592,16 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	TODO: WRITE $QUERYLESS EXAMPLE
-			*/
+			*   var _token = F2.AppHandlers.getToken();
+            *   F2.AppHandlers.on(
+            *       _token,
+            *       F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+            *       function(appInstance)
+            *       {
+            *           F2.log(appInstance);
+            *       }
+            *   );
+            */
 			APP_DESTROY_AFTER: 'appDestroyAfter',
 			/**
 			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
