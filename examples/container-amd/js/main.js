@@ -62,33 +62,12 @@ require(
 			var containerAppHandlerToken = F2.AppHandlers.getToken();
 
 			var appCreateRootFunc = function(appConfig) {
-				var hasSettings = F2.inArray(F2.Constants.Views.SETTINGS, appConfig.views);
-				var hasHelp = F2.inArray(F2.Constants.Views.HELP, appConfig.views);
-				var hasAbout = F2.inArray(F2.Constants.Views.ABOUT, appConfig.views);
-				var showDivider = hasSettings || hasHelp || hasAbout;
 				var gridWidth = appConfig.minGridSize || 3;
-
-				var cogMenu = [
-					'<div class="dropdown pull-right">',
-						'<a class="dropdown-toggle" data-toggle="dropdown" href="#">',
-							'<span class="glyphicon glyphicon-cog"></span>',
-						'</a>',
-						'<ul class="dropdown-menu">',
-							hasSettings ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.SETTINGS + '">Edit Settings</a></li>' : '',
-							hasHelp ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.HELP + '">Help</a></li>' : '',
-							hasAbout ? '<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.ABOUT + '">About</a></li>' : '',
-							showDivider ? '<li class="divider"></li>' : '',
-							'<li><a href="#" class="' + F2.Constants.Css.APP_VIEW_TRIGGER + '" ' + F2.Constants.Views.DATA_ATTRIBUTE + '="' + F2.Constants.Views.REMOVE + '">Remove App</a></li>',
-						'</ul>',
-					'</div>'
-				].join('');
-
 				appConfig.root = $([
 					'<section class="col-md-' + gridWidth + '" data-grid-width="' + gridWidth + '">',
 						'<div class="f2-app-wrapper">',
 							'<header class="clearfix">',
 								'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name, '</h2>',
-								cogMenu,
 							'</header>',
 						'</div>',
 					'</section>'
@@ -126,7 +105,6 @@ require(
 			};
 
 			var appRenderCompleteFunc = function(appConfig) {
-				F2.UI.hideMask(appConfig.instanceId, appConfig.root);
 			};
 
 			var appDestroyFunc = function(appInstance) {
@@ -154,12 +132,6 @@ require(
 			 * Init Container
 			 */
 			F2.init({
-				UI:{
-					Mask:{
-						loadingIcon:'./img/ajax-loader.gif'
-					}
-				},
-				supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE],
 				secureAppPagePath: 'secure.html' // this should go on a separate domain from index.html
 			});
 				

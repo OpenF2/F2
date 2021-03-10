@@ -25,7 +25,6 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
     }
 
     App.prototype.init = function() {
-		this.ui.showMask(this.root);
 		this.initLocalStorage();
 		this.getData();
         this.initEvents();
@@ -118,11 +117,6 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 			this._saveSettings();
 		},this));
 
-		this.ui.Views.change($.proxy(function(view) {
-			if (view === F2.Constants.Views.SETTINGS) {
-				this._populateSettings();
-			}
-		},this));
 	}
 
 	App.prototype._saveSettings = function(){
@@ -144,7 +138,6 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 
 	App.prototype.addSymbol = function(sym){
 		if (sym){
-			this.ui.showMask(this.root);
 			var s = this.getSymbols();
 			s.push(sym.toUpperCase());
 			this.setSymbols(s);
@@ -152,12 +145,11 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 			$("input[name='lookup']", this.$root).val("").focus();
 			this.getData();
 		} else {
-			this.ui.Modals.alert("Please enter a symbol.");
+			alert("Please enter a symbol.");
 		}	
 	}
 
 	App.prototype.deleteSymbol = function(sym){
-		this.ui.showMask(this.root);
 
 		var curr = this.getSymbols(), updated = [];
 		$.each(curr,function(idx,item){
@@ -167,7 +159,7 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 		});
 
 		if (!updated.length) {
-			this.ui.Modals.alert("You have deleted all the symbols in your watchlist. For the purposes of this example app, the default symbols have been re-added to your list.")
+			alert("You have deleted all the symbols in your watchlist. For the purposes of this example app, the default symbols have been re-added to your list.")
 			updated = this.DEFAULT_SYMBOLS;
 		}
 
@@ -263,9 +255,6 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 		);
 
 		$("div.watchlist", this.root).html(table.join(''));
-
-		this.ui.updateHeight();
-		this.ui.hideMask(this.root);
 	}
 
 	App.prototype._renderSymbolAlert = function() {
@@ -335,7 +324,7 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 		}).fail(function(jqxhr,txtStatus){
 			
 			F2.log("OOPS. Yahoo! didn't work.");
-			this.ui.Modals.alert("Your watchlist failed to load. Refresh.");
+			alert("Your watchlist failed to load. Refresh.");
 
 		});
 	}

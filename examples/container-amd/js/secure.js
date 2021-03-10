@@ -38,12 +38,6 @@ require(
 			F2.init({
 				isSecureAppPage:true,
 				debugMode: true,
-				UI:{
-					Mask:{
-						loadingIcon:'./img/ajax-loader.gif'
-					}
-				},
-				supportedViews:[F2.Constants.Views.HOME]
 			});
 		});
 	}

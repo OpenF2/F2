@@ -28,14 +28,12 @@
 			"appId": "com_openf2_examples_javascript_watchlist",
 			"manifestUrl": "../apps/JavaScript/Watchlist/manifest.js",
 			"name": "Watchlist",
-			"views": ["home", "settings"],
 			"minGridSize": 4
 		},
 		{
 			"appId": "com_openf2_examples_javascript_cds",
 			"manifestUrl": "../apps/JavaScript/CDS/manifest.js",
 			"name": "CDS Sovereign Big Movers",
-			"views": ["home", "about"],
 			"minGridSize": 5
 		},
 		{
