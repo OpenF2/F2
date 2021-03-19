@@ -1,6 +1,6 @@
 <?php
 	$apps = $_REQUEST["params"];
-	$apps = get_magic_quotes_gpc() ? stripslashes($apps) : $apps;
+	$apps = stripslashes($apps);
 	$app = json_decode($apps);  
 	$app = $app[0]; // this App doesn't support batchedRequests
 

@@ -68,7 +68,6 @@
 			"appId": "com_openf2_examples_php_marketnews",
 			"manifestUrl": "../apps/PHP/MarketNews/marketnews.php",
 			"name": "Market News",
-			"views": ["home", "settings"],
 			"minGridSize": 6
 		},
 		{
