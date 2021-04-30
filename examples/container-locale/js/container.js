@@ -83,9 +83,6 @@ $(function() {
 			.appendTo(row);
 	};
 
-	var appRenderCompleteFunc = function(appConfig) {
-	};
-
 	var appDestroyFunc = function(appInstance) {
 		if(!appInstance) { return; }
 		
@@ -112,15 +109,13 @@ $(function() {
 	 */
 	F2.init({
 		debugMode: true,
-		locale: "en-gb",
-		secureAppPagePath: 'secure.html' // this should go on a separate domain from index.html
+		locale: "en-gb"
 	});
 		
 	// Define these prior to calling F2.registerApps
 	F2.AppHandlers
 		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_CREATE_ROOT, 	appCreateRootFunc)
 		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_RENDER, 			appRenderFunc)
-		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_RENDER_AFTER, 	appRenderCompleteFunc)
 		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY,			appDestroyFunc)
 	;
 	

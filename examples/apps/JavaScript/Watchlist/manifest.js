@@ -11,7 +11,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_watchlist({
 		{
 			"html":[
 				'<div>',
-					'<div class="f2-app-view" data-f2-view="home">',
+					'<div>',
 						'<div class="watchlist"></div>',
 						'<div class="input-group">',
 							'<input type="text" name="lookup" class="form-control input-sm">',
@@ -21,7 +21,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_watchlist({
 							'<small>Market data delayed at least 15 minutes. <a href="http://developer.yahoo.com/yql/" target="_blank">By Yahoo!</a></small>',
 						'</p>',
 					'</div>',
-					'<form class="f2-app-view hide" data-f2-view="settings">',
+					'<form class="hide" data-f2-view="settings">',
 						'<h3>Settings</h3>',
 						'<span class="help-block">This App can listen for symbols from nearby Apps which allows <em>other apps</em> to add symbols to this watchlist.</span>',
 						'<span class="help-block">Allow Symbols from Nearby Apps</span>',
@@ -30,13 +30,13 @@ F2_jsonpCallback_com_openf2_examples_javascript_watchlist({
 						'</label></div>',
 						'<div class="form-actions">',
 							'<button type="button" class="btn btn-primary btn-custom1 save">Save</button> ',
-							'<button type="button" class="btn btn-default btn-custom2 cancel f2-app-view-trigger" data-f2-view="home">Cancel</button>',
+							'<button type="button" class="btn btn-default btn-custom2 cancelr" data-f2-view="home">Cancel</button>',
 						'</div>',
 					'</form>',
-					'<div class="f2-app-view hide" data-f2-view="about">',
+					'<div class="hide">',
 						'<h3>About</h3>',
 						'<p>Quick Quote App v0.12.3</p>',
-						'<p><a href="#" class="f2-app-view-trigger" data-f2-view="home">&laquo; Back</a>',
+						'<p><a href="#">&laquo; Back</a>',
 					'</div>',
 				'</div>'
 			].join("")

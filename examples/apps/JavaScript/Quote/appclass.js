@@ -30,9 +30,6 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			success: _renderQuote,
 			error: function() {
 
-			},
-			complete: function() {
-
 			}
 		});
 

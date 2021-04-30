@@ -36,8 +36,7 @@ require(
 			});
 			// init Container
 			F2.init({
-				isSecureAppPage:true,
-				debugMode: true,
+				debugMode: true
 			});
 		});
 	}

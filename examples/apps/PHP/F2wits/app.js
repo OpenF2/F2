@@ -27,8 +27,6 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
 
 	App_Class.prototype.getTwits = function(){
 		$.ajax({
-			beforeSend: function(){
-			},
 			url: "../apps/PHP/F2wits/stocktwits.php",
 			data: {
 				symbol: this.symbol

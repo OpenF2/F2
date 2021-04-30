@@ -8,7 +8,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_chart({
 	],   
 	"apps":[{
 		"html":[
-			'<div class="f2-app-view">',
+			'<div>',
 				'<div id="f2-1year-chart-container">',
 					'<div id="f2-1year-chart"></div>',
 				'</div>',

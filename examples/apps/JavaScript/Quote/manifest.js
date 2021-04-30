@@ -9,7 +9,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_quote({
 		{
 			"html":[
 				'<div>',
-					'<div class="f2-app-view" data-f2-view="home">',
+					'<div>',
 						'<table class="table table-condensed">',
 							'<caption></caption>',
 							'<tbody></tbody>',
@@ -30,7 +30,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_quote({
 							'</tfoot>',
 						'</table>',
 					'</div>',
-					'<form class="f2-app-view hide" data-f2-view="settings">',
+					'<form class="hide" data-f2-view="settings">',
 						'<h3>Settings</h3>',
 						'<span class="help-block">This App can listen for symbol changes from nearby Apps or the page as a whole and automatically request a quote for the symbol.</span>',
 						'<span class="help-block">Symbol Change Mode</span>',
@@ -49,13 +49,13 @@ F2_jsonpCallback_com_openf2_examples_javascript_quote({
 						'</label></div>',
 						'<div class="form-actions">',
 							'<button type="button" class="btn btn-primary save">Save</button> ',
-							'<button type="button" class="btn btn-default cancel f2-app-view-trigger" data-f2-view="home">Cancel</button>',
+							'<button type="button" class="btn btn-default cancel">Cancel</button>',
 						'</div>',
 					'</form>',
-					'<div class="f2-app-view hide" data-f2-view="about">',
+					'<div class="hide">',
 						'<h3>About</h3>',
 						'<p>Quick Quote App v0.12.3</p>',
-						'<p><a href="#" class="f2-app-view-trigger" data-f2-view="home">&laquo; Back</a>',
+						'<p><a href="#">&laquo; Back</a>',
 					'</div>',
 				'</div>'
 			].join("")

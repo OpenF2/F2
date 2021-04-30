@@ -18,7 +18,6 @@ F2.Apps['com_openf2_examples_javascript_cds'] = (function (appConfig, appContent
     	this.root = root;
     	this.$root = $(root);
     	this.$settings = $('form[data-f2-view="settings"]', this.$root);
-    	this.ui = this.appConfig.ui;
     	this.settings = {
     		allowExternalAdd: false
     	};

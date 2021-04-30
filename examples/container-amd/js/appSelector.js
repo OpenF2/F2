@@ -77,9 +77,7 @@ define(
 				})
 
 				// if no requested apps, hide the loader, otherwise register the apps
-				if (!requestedApps.length) {
-
-				} else {
+				if (requestedApps.length > 0) {
 					// check the appropriate boxes
 					$.each(requestedApps, function(i, a) {
 						$('input[name="app"][value="' + a + '"]', $modal).prop('checked', true);

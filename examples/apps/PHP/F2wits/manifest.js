@@ -8,7 +8,7 @@ F2_jsonpCallback_com_openf2_examples_php_f2wits({
 	],	 
 	"apps":[{
 			"html":[
-				'<div class="f2-app-view" data-f2-view="home"></div>'
+				'<div data-f2-view="home"></div>'
 			].join("")
 	}]
 })

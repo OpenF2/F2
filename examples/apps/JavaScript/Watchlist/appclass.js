@@ -18,7 +18,6 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
     	this.root = root;
     	this.$root = $(root);
     	this.$settings = $('form[data-f2-view="settings"]', this.$root);
-    	this.ui = this.appConfig.ui;
     	this.settings = {
     		allowExternalAdd: true
     	};
@@ -121,7 +120,6 @@ F2.Apps['com_openf2_examples_javascript_watchlist'] = (function (appConfig, appC
 
 	App.prototype._saveSettings = function(){
 		this.settings.allowExternalAdd = $('input[name=allowExternalAdd]', this.$settings).is(':checked');
-		this.ui.Views.change(F2.Constants.Views.HOME);
 	}
 
 	App.prototype._populateSettings = function(){

@@ -104,9 +104,6 @@ require(
 					.appendTo(row);
 			};
 
-			var appRenderCompleteFunc = function(appConfig) {
-			};
-
 			var appDestroyFunc = function(appInstance) {
 				if(!appInstance) { return; }
 				
@@ -131,15 +128,12 @@ require(
 			/**
 			 * Init Container
 			 */
-			F2.init({
-				secureAppPagePath: 'secure.html' // this should go on a separate domain from index.html
-			});
+			F2.init();
 				
 			// Define these prior to calling F2.registerApps
 			F2.AppHandlers
 				.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_CREATE_ROOT, 	appCreateRootFunc)
 				.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_RENDER, 			appRenderFunc)
-				.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_RENDER_AFTER, 	appRenderCompleteFunc)
 				.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY,			appDestroyFunc)
 			;
 

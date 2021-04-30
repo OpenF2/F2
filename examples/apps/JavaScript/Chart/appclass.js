@@ -60,9 +60,6 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 	app.prototype.getData = function() {
 
 		$.ajax({
-			beforeSend:function () {
-
-			},
 			data: { 
 				symbol: this.symbol, 
 				duration: 365  // Fixed to one year 
