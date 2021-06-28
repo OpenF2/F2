@@ -3,33 +3,25 @@ F2.Apps["com_openf2_examples_php_helloworld"] = (function() {
 	var App_Class = function (appConfig, appContent, root) {
 		this.appConfig = appConfig;
 		this.appContent = appContent;
-		this.ui = appConfig.ui;
 		this.$root = $(root);
 	};
 
 	App_Class.prototype.init = function () {
 
 		$('a.testAlert', this.$root).on('click', $.proxy(function() {
-			this.ui.Modals.alert("Hello World!", function() {
+				alert("Hello World!");
 				F2.log('callback fired!');	
-			});
 		}, this));
 
 		$('a.testConfirm', this.$root).on('click', $.proxy(function() {
-			this.ui.Modals.confirm(
-				"Hello World!",
-				function() {
-					F2.log('ok callback fired!');	
-				},
-				function() {
-					F2.log('cancel callback fired!');
-				}
-			); 
+			let r = confirm('Hello World!');
+			if (r == true) {
+				F2.log('ok callback fired!');	
+			} else {
+				F2.log('cancel callback fired!');
+			}
 		}, this));
 
-		this.ui.setTitle((this.appConfig.isSecure ? 'Secure' : '') + ' Hello World (PHP)');
-		this.ui.updateHeight();
-		
 		// bind symbol change event
 		F2.Events.on(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, $.proxy(this._handleSymbolChange, this));
 	};
@@ -42,8 +34,6 @@ F2.Apps["com_openf2_examples_php_helloworld"] = (function() {
 			: this._renderSymbolAlert();
 
 		$("span:first", symbolAlert).text("The symbol has been changed to " + data.symbol);
-
-		this.ui.updateHeight();
 	};
 
 	App_Class.prototype._renderSymbolAlert = function() {

@@ -12,7 +12,6 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
 	}
 
 	App_Class.prototype.init = function() {
-		this.appConfig.ui.showMask(this.$app, true);
 		this.getTwits();
 	}
 
@@ -28,9 +27,6 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
 
 	App_Class.prototype.getTwits = function(){
 		$.ajax({
-			beforeSend: function(){
-				this.appConfig.ui.setTitle("Loading StockTwits...");
-			},
 			url: "../apps/PHP/F2wits/stocktwits.php",
 			data: {
 				symbol: this.symbol
@@ -44,16 +40,12 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
 			this.draw();
 		}).fail(function(jqxhr,txtStatus){
 			console.error("F2wits failed to load StockTwits data.", jqxhr, txtStatus);
-			this.appConfig.ui.setTitle("StockTwits Error");
 			this.$app.html("<p>An error occurred loading StockTwits data for " +this.symbol+ ".</p>");
-			this.appConfig.ui.hideMask(this.$app);
-			this.appConfig.ui.updateHeight();
 		});
 	}
 
 	App_Class.prototype.draw = function(){
 
-		this.appConfig.ui.setTitle("StockTwits for $" + this.symbol);
 
 		var html = [];
 		html.push('<table class="table">');
@@ -101,8 +93,6 @@ F2.Apps["com_openf2_examples_php_f2wits"] = (function() {
 		html.push('</table>');
 
 		this.$app.html(html.join(''));
-		this.appConfig.ui.hideMask(this.$app);
-		this.appConfig.ui.updateHeight();
 
 		//assign event to change container focus
 		$("a.focus",this.$app).click(function(){

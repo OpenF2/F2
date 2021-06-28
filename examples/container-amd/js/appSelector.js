@@ -55,7 +55,6 @@ define(
 
 			// show a loading mask and the modal if there were no requested apps
 			if (!requestedApps.length) {
-				F2.UI.showMask('', $('#languageSelect'), true);
 				$modal.modal('show');
 			}
 
@@ -78,10 +77,7 @@ define(
 				})
 
 				// if no requested apps, hide the loader, otherwise register the apps
-				if (!requestedApps.length) {
-					F2.UI.hideMask('', $modal);
-
-				} else {
+				if (requestedApps.length > 0) {
 					// check the appropriate boxes
 					$.each(requestedApps, function(i, a) {
 						$('input[name="app"][value="' + a + '"]', $modal).prop('checked', true);

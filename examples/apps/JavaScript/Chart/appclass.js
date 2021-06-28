@@ -4,7 +4,6 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		this.symbol = "MSFT";
 		this.appConfig = appConfig;
 		this.appContent = appContent;
-		this.ui = this.appConfig.ui;
 		this.root = root;
 		this.$root = $(root);
 		this.$app = $("#f2-1year-chart", this.$root);
@@ -60,12 +59,7 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 	app.prototype.getData = function() {
 
-		this.ui.showMask(this.$root,true);
-
 		$.ajax({
-			beforeSend:function () {
-				this.ui.setTitle('Loading chart...');
-			},
 			data: { 
 				symbol: this.symbol, 
 				duration: 365  // Fixed to one year 
@@ -91,10 +85,8 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 
 	app.prototype._chartError = function(jqxhr) {
 		F2.log("Price Chart Error", jqxhr);
-		this.ui.setTitle("Chart Error");
+
 		this.$app.html("<p>An error occurred loading price data for " +this.symbol+ ".</p>");
-		this.ui.hideMask(this.$root);
-		this.ui.updateHeight();
 	};
 
 	
@@ -125,9 +117,6 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
 		//hcChartObj.setTitle({ text: ('One-year price movement for ' + json.Data.Name).toUpperCase() });  // Set title
 		hcChartObj.setTitle({ text:'' });
 
-		this.ui.hideMask(this.$root);
-		this.ui.setTitle("One-Year Price Movement " + this.symbol);
-		
 		// No options setting is available for this, so force the price line to be rounded 
 		$('.highcharts-series path:first', this.root).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
 		
@@ -182,7 +171,6 @@ F2.Apps["com_openf2_examples_javascript_chart"] = (function(){
         
         hcChartObj.yAxis[0].setExtremes(dataRanges.dataMin, dataRanges.dataMax, true, false);
 
-		this.ui.updateHeight();
 	};
 
 	// Defines the HighCharts configuration options.

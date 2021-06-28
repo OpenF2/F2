@@ -3,23 +3,20 @@ F2.Apps["com_openf2_examples_php_marketnews"] = (function() {
 	var App_Class = function (appConfig, appContent, root) {
 		this.appConfig = appConfig;
 		this.appContent = appContent;
-		this.ui = appConfig.ui;
 		this.$root = $(root);
 	};
 
 	App_Class.prototype.init = function () {
 
-		this.ui.updateHeight();
-		
-		// populate settings
-		this.ui.Views.change($.proxy(this._populateSettings, this));
-
-		// save settings
-		$(this.$root).on("click", "button.save", $.proxy(this._handleSaveSettings, this));
-
-		// cancel settings
-		$(this.$root).on("click", "button.cancel", $.proxy(function () {
-			this.ui.Views.change(F2.Constants.Views.HOME);
+		$('button.save', this.$root).on('click', $.proxy(function(e) {
+			if($('form.f2-app-view input[name="autoRefresh"]', this.$root).prop('checked'))
+			{	alert("Auto refresh in 30 seconds enabled") 						
+			}
+			else
+				alert('Auto refresh in 30 seconds disabled')
+				
+			this._handleSaveSettings();
+			
 		}, this));
 	};
 
@@ -34,22 +31,11 @@ F2.Apps["com_openf2_examples_php_marketnews"] = (function() {
 			this._refreshInterval = setInterval($.proxy(this._refresh, this), 30000);
 		}
 
-		this.ui.Views.change(F2.Constants.Views.HOME);
 		this._refresh();
-	};
-
-	App_Class.prototype._propulateSettings = function() {
-
-		$.each(this.appConfig.context, $.proxy(function(key, value) {
-
-			$('form.f2-app-view input[name="' + key + '"]', this.$root).val(value);
-
-		}, this));
 	};
 
 	App_Class.prototype._refresh = function () {
 		
-		this.ui.showMask(this.$root, true);
 
 		$.ajax({
 			url: this.appConfig.manifestUrl,
@@ -63,10 +49,8 @@ F2.Apps["com_openf2_examples_php_marketnews"] = (function() {
 			context:this,
 			success:function (data) {
 				$("div.f2-app-view", this.$root).replaceWith($(data.apps[0].html).find("div.f2-app-view"));
-				this.ui.updateHeight();
 			},
 			complete:function() {
-				this.ui.hideMask(this.$root);
 			}
 		})
 	};

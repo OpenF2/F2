@@ -13,8 +13,6 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 
 	var _getQuote = function(symbolData) {
 
-		appConfig.ui.showMask($root, true);
-
 		appConfig.context = appConfig.context || {};
 
 		if (!!symbolData){
@@ -32,9 +30,6 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			success: _renderQuote,
 			error: function() {
 
-			},
-			complete: function() {
-				appConfig.ui.hideMask($root);
 			}
 		});
 
@@ -128,7 +123,6 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 	var _renderQuote = function(quoteData) {
 
 		if (quoteData && quoteData.Data && quoteData.Data.Status == F2.Constants.AppStatus.SUCCESS) {
-			appConfig.ui.setTitle(quoteData.Data.Name);
 
 			$caption.promise().done(function() {
 				$(this)
@@ -189,7 +183,6 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			}, 30000);
 		}
 
-		appConfig.ui.Views.change(F2.Constants.Views.HOME);
 	};
 
 	/**
@@ -267,18 +260,12 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 				}
 			);
 
-			// bind view change
-			appConfig.ui.Views.change(function(view) {
-				if (view === F2.Constants.Views.SETTINGS) {
-					_populateSettings();
-				}
-			});
 
 			//Talk to External Watchlist App
 			$root.on("click", "a[data-watchlist-add]", function(e){
 
 				if (!_hasWatchListApp()){
-					appConfig.ui.Modals.alert("The Watchlist App is not on this container.");
+					alert("The Watchlist App is not on this container.");
 				} else {
 
 					F2.Events.emit(

@@ -3,7 +3,6 @@ F2.Apps["com_openf2_examples_javascript_helloworldlocale"] = (function() {
 	var App_Class = function (appConfig, appContent, root) {
 		this.appConfig = appConfig;
 		this.appContent = appContent;
-		this.ui = appConfig.ui;
 		this.$root = $(root);
 	};
 
@@ -26,7 +25,6 @@ F2.Apps["com_openf2_examples_javascript_helloworldlocale"] = (function() {
 
 		$("span:first", symbolAlert).text("The symbol has been changed to " + data.symbol);
 
-		this.ui.updateHeight();
 	};
 
 	App_Class.prototype._handleLocaleChange = function (data) {
@@ -36,7 +34,6 @@ F2.Apps["com_openf2_examples_javascript_helloworldlocale"] = (function() {
 
 		$('#current_locale_date',this.$root).text( this._setCurrentDate(data.locale) );
 
-		this.ui.updateHeight();
 	};
 
 	App_Class.prototype._setCurrentDate = function(locale) {

@@ -9,7 +9,7 @@ F2_jsonpCallback_com_openf2_examples_javascript_cds({
 		{
 			"html":[
 				'<div>',
-					'<div class="f2-app-view" data-f2-view="home">',
+					'<div>',
 						'<p class="cdsDate">',
 							'<span></span>',
 						'</p>',						
@@ -21,10 +21,10 @@ F2_jsonpCallback_com_openf2_examples_javascript_cds({
 							'<small>All CDS are denominated in U.S. Dollars except U.S. sovereigns, which are in Euros.</small>',
 						'</p>',
 					'</div>',					
-					'<div class="f2-app-view hide" data-f2-view="about">',
+					'<div class="hide">',
 						'<h3>About</h3>',
 						'<p>CDS Sovereign Big Movers v 1.0</p>',
-						'<p><a href="#" class="f2-app-view-trigger" data-f2-view="home">&laquo; Back</a>',
+						'<p><a href="#">&laquo; Back</a>',
 					'</div>',
 				'</div>'
 			].join("")

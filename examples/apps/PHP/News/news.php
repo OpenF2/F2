@@ -1,30 +1,31 @@
 <?php
 	date_default_timezone_set("America/New_York");
 	$DEFAULT_SYMBOL = 'MSFT';
-	$DEFAULT_PROVIDER = 'google';
+	$DEFAULT_PROVIDER = 'yahoo';
 	$MAX_ARTICLES = 5;
 	$PROVIDERS = array(
-		'google' => array('display' => 'Google Finance', 'feed' => 'http://www.google.com/finance/company_news?output=rss&q='),
-		'yahoo' => array('display' => 'Yahoo Finance', 'feed' => 'http://finance.yahoo.com/rss/headline?s=')
+		'yahoo' => array('display' => 'Yahoo Finance', 'feed' => 'https://feeds.finance.yahoo.com/rss/2.0/headline?s=&region=US&lang=en-US')
 	);
 
 	$apps = $_REQUEST["params"];
-	$apps = get_magic_quotes_gpc() ? stripslashes($apps) : $apps;
+	$apps = stripslashes($apps);
 	$app = json_decode($apps);  
 	$app = $app[0]; // this App doesn't support batchedRequests
-	$provider = (array_key_exists('context', $app) && array_key_exists('provider', $app->context) && array_key_exists($app->context->provider, $PROVIDERS))
-		? $app->context->provider
-		: $DEFAULT_PROVIDER;
-	$symbol = (array_key_exists('context', $app) && array_key_exists('symbol', $app->context))
-		? $app->context->symbol
-		: $DEFAULT_SYMBOL;
+	$provider = $DEFAULT_PROVIDER;
+	$symbol = $DEFAULT_SYMBOL;
 	$serverPath = 
 		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
 		$_SERVER["SERVER_NAME"] .
 		str_replace("news.php", "", $_SERVER["SCRIPT_NAME"]);
 
+		$arrContextOptions=array(
+			"ssl"=>array(
+				"verify_peer"=>false,
+				"verify_peer_name"=>false,
+			),
+		);  
 	// read in the news
-	$xml_source = file_get_contents($PROVIDERS[$provider]['feed'] . $symbol);
+	$xml_source = file_get_contents($PROVIDERS[$provider]['feed'] . $symbol, false, stream_context_create($arrContextOptions));
 	$doc = simplexml_load_string($xml_source);
 
 	$newsItems = array();
@@ -68,7 +69,7 @@
 		global $PROVIDERS;
 		global $provider;
 		global $doc;
-
+		
 		$html = array(
 			'<div class="f2-app-view" data-f2-view="home">',
 				/*'<header>',
@@ -78,8 +79,8 @@
 				'</header>',*/
 				'<ul class="list-unstyled">'
 		);
-
-		for ($i = 0; $i < $MAX_ARTICLES; $i++) {
+	
+		for ($i = 0; $i < count($newsItems); $i++) {
 			$date = date_format(new DateTime($newsItems[$i]['date']), 'g:iA \o\n l M j, Y');
 			$html[] = <<<HTML
 <li>

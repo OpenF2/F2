@@ -1072,9 +1072,11 @@ F2.extend('', (function() {
 				return;
 			}
 
-			_apps.each(function(a) {
-				F2.removeApp(a.config.instanceId);
-			});
+			if(Object.keys(_apps).length > 0) {
+				 Object.keys(_apps).forEach(function(key) {
+				 	F2.removeApp(_apps[key].config.instanceId);
+			  });
+			}
 		},
 		/**
 		 * Removes an app from the container

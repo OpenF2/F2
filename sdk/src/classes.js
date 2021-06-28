@@ -262,12 +262,28 @@ F2.extend('', {
 		 * finishes (after success and error callbacks have been executed)
 		 * @return {XMLHttpRequest} The XMLHttpRequest object
 		 *
-		 * @example
-		 *     F2.init({
-		 *         xhr: function(url, appConfigs, success, error, complete) {
-		 *          TODO: add fetch jsonp example
-		 *         }
-		 *     });
+		 * @example
+         *     F2.init({
+         *         xhr: function(url, appConfigs,successCallback, errorCallback, completeCallback) {
+         *          var jsonpCallback = F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+         *          var fetchUrl = url + '?params=' + F2.stringify(appConfigs.apps, F2.appConfigReplacer);
+         *          var fetchFunc = fetchJsonp(fetchUrl, {
+         *                          timeout: 3000,
+         *                          jsonpCallbackFunction: jsonpCallback
+         *                          });                
+         *           fetchFunc.then(function(response) {
+         *                          return response.json();
+         *                      })
+         *                      .then(function(data) {
+         *                      	successCallback(data);
+         *                      	completeCallback();                         
+         *                  })
+         *                  .catch(function(error) {
+         *                      F2.log('Failed to load app(s)', error.toString());
+         *                      errorCallback();
+         *                  });
+         *         }
+         *     });
 		 *
 		 * @for F2.ContainerConfig
 		 */

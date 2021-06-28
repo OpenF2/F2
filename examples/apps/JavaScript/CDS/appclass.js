@@ -18,14 +18,12 @@ F2.Apps['com_openf2_examples_javascript_cds'] = (function (appConfig, appContent
     	this.root = root;
     	this.$root = $(root);
     	this.$settings = $('form[data-f2-view="settings"]', this.$root);
-    	this.ui = this.appConfig.ui;
     	this.settings = {
     		allowExternalAdd: false
     	};
     };
 
     App.prototype.init = function() {
-		this.ui.showMask(this.root);
 		this.getData();
         this.initEvents();
     };
@@ -51,16 +49,10 @@ F2.Apps['com_openf2_examples_javascript_cds'] = (function (appConfig, appContent
 			this._saveSettings();
 		},this));
 
-		this.ui.Views.change($.proxy(function(view) {
-			if (view === F2.Constants.Views.SETTINGS) {
-				this._populateSettings();
-			}
-		},this));
 	};
 
 	App.prototype._saveSettings = function(){
 		this.settings.allowExternalAdd = $('input[name=allowExternalAdd]', this.$settings).is(':checked');
-		this.ui.Views.change(F2.Constants.Views.HOME);
 	};
 
 	App.prototype._populateSettings = function(){
@@ -106,8 +98,6 @@ F2.Apps['com_openf2_examples_javascript_cds'] = (function (appConfig, appContent
 			WidenerTable.join('')].join('')
 		);
 
-		this.ui.updateHeight();
-		this.ui.hideMask(this.root);
 	};
 
 	App.prototype.drawCDSList = function(bTighteners, cdsData){
