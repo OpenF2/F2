@@ -180,7 +180,7 @@
 	                
 	                
 	                        <div class="foundat">
-	                            Defined in: <a href="../files/sdk_src_app_handlers.js.html#l423"><code>sdk\src\app_handlers.js:423</code></a>
+	                            Defined in: <a href="../files/sdk_src_app_handlers.js.html#l414"><code>sdk\src\app_handlers.js:414</code></a>
 	                        </div>
 	                
 	                </div>
@@ -323,7 +323,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l450"><code>sdk\src\app_handlers.js:450</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l441"><code>sdk\src\app_handlers.js:441</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -349,7 +349,7 @@
 	                                        {
 	                                            // If you want to create a custom root. By default F2 uses the app's outermost HTML element.
 	                                            // the app's html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER
-	                                            appConfig.root = jQuery('&lt;section&gt;&lt;/section&gt;').get(0);
+	                                            appConfig.root = document.createElement('section');
 	                                        }
 	                                    );</code></pre>
 	                                    
@@ -374,7 +374,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l571"><code>sdk\src\app_handlers.js:571</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l555"><code>sdk\src\app_handlers.js:555</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -392,28 +392,26 @@
 	                                                <h4>Example:</h4>
 	                                    
 	                                                <div class="example-content">
-	                                                    <pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
-	                                    F2.AppHandlers.on(
-	                                        _token,
-	                                        F2.Constants.AppHandlers.APP_DESTROY,
-	                                        function(appInstance)
-	                                        {
-	                                            // call the apps destroy method, if it has one
-	                                            if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == 'function')
-	                                            {
-	                                                appInstance.app.destroy();
-	                                            }
-	                                            else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
-	                                            {
-	                                                F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
-	                                            }
-	                                            
-	                                            // fade out and remove the root
-	                                            jQuery(appInstance.config.root).fadeOut(500, function() {
-	                                                jQuery(this).remove();
-	                                            });
-	                                        }
-	                                    );</code></pre>
+	                                                    <p>var _token = F2.AppHandlers.getToken();
+	                                       F2.AppHandlers.on(
+	                                           _token,
+	                                           F2.Constants.AppHandlers.APP_DESTROY,
+	                                           function(appInstance)
+	                                           {
+	                                               // call the apps destroy method, if it has one
+	                                               if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy &amp;&amp; typeof(appInstance.app.destroy) == 'function')
+	                                               {
+	                                                   appInstance.app.destroy();
+	                                               }
+	                                               else if(appInstance &amp;&amp; appInstance.app &amp;&amp; appInstance.app.destroy)
+	                                               {
+	                                                   F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+	                                               }
+	                                               
+	                                               // remove the root          
+	                                               appInstance.config.root.parentNode.removeChild(appInstance.config.root);
+	                                           }
+	                                       );</p>
 	                                    
 	                                                </div>
 	                                            </div>
@@ -436,7 +434,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l604"><code>sdk\src\app_handlers.js:604</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l586"><code>sdk\src\app_handlers.js:586</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -454,15 +452,15 @@
 	                                                <h4>Example:</h4>
 	                                    
 	                                                <div class="example-content">
-	                                                    <pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
-	                                    F2.AppHandlers.on(
-	                                        _token,
-	                                        F2.Constants.AppHandlers.APP_DESTROY_AFTER,
-	                                        function(appInstance)
-	                                        {
-	                                            F2.log(appInstance);
-	                                        }
-	                                    );</code></pre>
+	                                                    <p>var _token = F2.AppHandlers.getToken();
+	                                       F2.AppHandlers.on(
+	                                           _token,
+	                                           F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+	                                           function(appInstance)
+	                                           {
+	                                               F2.log(appInstance);
+	                                           }
+	                                       );</p>
 	                                    
 	                                                </div>
 	                                            </div>
@@ -485,7 +483,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l551"><code>sdk\src\app_handlers.js:551</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l535"><code>sdk\src\app_handlers.js:535</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -534,7 +532,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l430"><code>sdk\src\app_handlers.js:430</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l421"><code>sdk\src\app_handlers.js:421</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -583,7 +581,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l492"><code>sdk\src\app_handlers.js:492</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l483"><code>sdk\src\app_handlers.js:483</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -601,34 +599,27 @@
 	                                                <h4>Example:</h4>
 	                                    
 	                                                <div class="example-content">
-	                                                    <pre class="code prettyprint"><code>var _token = F2.AppHandlers.getToken();
-	                                    F2.AppHandlers.on(
-	                                        _token,
-	                                        F2.Constants.AppHandlers.APP_RENDER,
-	                                        function(appConfig, appHtml)
-	                                        {
-	                                            var $root = null;
-	                                    
-	                                            // if no app root is defined use the app's outer most node
-	                                            if(!F2.isNativeDOMNode(appConfig.root))
-	                                            {
-	                                                appConfig.root = jQuery(appHtml).get(0);
-	                                                // get a handle on the root in jQuery
-	                                                $root = jQuery(appConfig.root);             
-	                                            }
-	                                            else
-	                                            {
-	                                                // get a handle on the root in jQuery
-	                                                $root = jQuery(appConfig.root);         
-	                                                
-	                                                // append the app html to the root
-	                                                $root.append(appHtml);
-	                                            }           
-	                                            
-	                                            // append the root to the body by default.
-	                                            jQuery('body').append($root);
-	                                        }
-	                                    );</code></pre>
+	                                                    <p>var _token = F2.AppHandlers.getToken();
+	                                       F2.AppHandlers.on(
+	                                           _token,
+	                                           F2.Constants.AppHandlers.APP_RENDER,
+	                                           function(appConfig, appHtml)
+	                                           {
+	                                               // if no app root is defined use the app's outer most node
+	                                               if(!F2.isNativeDOMNode(appConfig.root))
+	                                               {
+	                                                   appConfig.root = domify(appHtml);                               
+	                                               }
+	                                               else
+	                                               {                       
+	                                                   // append the app html to the root
+	                                                   appConfig.root.appendChild(domify(appHtml));
+	                                               }           
+	                                               
+	                                               // append the root to the body by default.
+	                                               document.body.appendChild(appConfig.root);
+	                                           }
+	                                       );</p>
 	                                    
 	                                                </div>
 	                                            </div>
@@ -651,7 +642,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l531"><code>sdk\src\app_handlers.js:531</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l515"><code>sdk\src\app_handlers.js:515</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -700,7 +691,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l472"><code>sdk\src\app_handlers.js:472</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l463"><code>sdk\src\app_handlers.js:463</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -749,7 +740,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_app_handlers.js.html#l624"><code>sdk\src\app_handlers.js:624</code></a>
+	                                            <a href="../files/sdk_src_app_handlers.js.html#l606"><code>sdk\src\app_handlers.js:606</code></a>
 	                                            </p>
 	                                    
 	                                    

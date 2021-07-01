@@ -209,75 +209,6 @@
 	                                            </tr>
 	                                        </thead>
 	                                        <tbody>
-	                                            <tr class="index-item method deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_afterAppRender" data-tablink="afterAppRender">
-	                                                        afterAppRender
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                                <li>
-	                                                                        html
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                </td>
-	                                                <td><p>Allows the <a href="../../container-development.html">container</a> to override how
-	                an app's html is inserted into the page. The function should accept an
-	                <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
-	                html</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_appRender" data-tablink="appRender">
-	                                                        appRender
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                                <li>
-	                                                                        html
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                </td>
-	                                                <td><p>Allows the <a href="../../container-development.html">container</a> to wrap an app
-	                in extra html. The function should accept an
-	                <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
-	                html. The extra html can provide links to edit app settings and remove an
-	                app from the container. See
-	                <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
-	                should be applied to elements.</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_beforeAppRender" data-tablink="beforeAppRender">
-	                                                        beforeAppRender
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                </td>
-	                                                <td><p>Allows the container to render html for an app before the AppManifest for
-	                an app has loaded. This can be useful if the design calls for loading
-	                icons to appear for each app before each app is loaded and rendered to
-	                the page.</p>
-	                </td>
-	                                            </tr>
 	                                            <tr class="index-item method">
 	                                                <td class="name">
 	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_xhr" data-tablink="xhr">
@@ -343,8 +274,7 @@
 	                                                        <span class="paren">)</span>
 	                                                    </a>
 	                                                </td>
-	                                                <td><p>Allows the container to override the request method that is used (just
-	                like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
+	                                                <td><p>Allows the container to override the request method that is used.</p>
 	                </td>
 	                                            </tr>
 	                                            <tr class="index-item method">
@@ -439,232 +369,6 @@
 	                            <div id="methods" class="tab-pane">
 	                                <h2 class="off-left">Methods</h2>
 	                
-	                                    <div id="method_afterAppRender" class="method item deprecated">
-	                                        <h3>
-	                                            afterAppRender
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                    <li>
-	                                                            html
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l224"><code>sdk\src\classes.js:224</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Allows the <a href="../../container-development.html">container</a> to override how
-	                                    an app's html is inserted into the page. The function should accept an
-	                                    <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
-	                                    html</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                    <li class="param">
-	                                                            <code class="param-name">html</code>
-	                                                            <span class="type">String</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The string of html representing the app</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                            <div class="returns">
-	                                                <h4>Returns:</h4>
-	                                    
-	                                                <div class="returns-description">
-	                                                            <span class="label label-default type">Element</span>:
-	                                                        <p>The DOM Element surrounding the app</p>
-	                                    
-	                                                </div>
-	                                            </div>
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="method_appRender" class="method item deprecated">
-	                                        <h3>
-	                                            appRender
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                    <li>
-	                                                            html
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l236"><code>sdk\src\classes.js:236</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Allows the <a href="../../container-development.html">container</a> to wrap an app
-	                                    in extra html. The function should accept an
-	                                    <a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a> object and also a string of
-	                                    html. The extra html can provide links to edit app settings and remove an
-	                                    app from the container. See
-	                                    <a href="../classes/F2.Constants.Css.html" class="crosslink">F2.Constants.Css</a> for CSS classes that
-	                                    should be applied to elements.</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                    <li class="param">
-	                                                            <code class="param-name">html</code>
-	                                                            <span class="type">String</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The string of html representing the app</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="method_beforeAppRender" class="method item deprecated">
-	                                        <h3>
-	                                            beforeAppRender
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l250"><code>sdk\src\classes.js:250</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Allows the container to render html for an app before the AppManifest for
-	                                    an app has loaded. This can be useful if the design calls for loading
-	                                    icons to appear for each app before each app is loaded and rendered to
-	                                    the page.</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                            <div class="returns">
-	                                                <h4>Returns:</h4>
-	                                    
-	                                                <div class="returns-description">
-	                                                            <span class="label label-default type">Element</span>:
-	                                                        <p>The DOM Element surrounding the app</p>
-	                                    
-	                                                </div>
-	                                            </div>
-	                                    
-	                                        <hr>
-	                                    </div>
 	                                    <div id="method_xhr" class="method item">
 	                                        <h3>
 	                                            xhr
@@ -698,7 +402,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l287"><code>sdk\src\classes.js:287</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l250"><code>sdk\src\classes.js:250</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -781,9 +485,7 @@
 	                                    
 	                                                <div class="returns-description">
 	                                                            <span class="label label-default type">XMLHttpRequest</span>:
-	                                                        <p>The XMLHttpRequest object (or an object that has
-	                                    an <code>abort</code> function (such as the jqXHR object in jQuery) to abort the
-	                                    request)</p>
+	                                                        <p>The XMLHttpRequest object</p>
 	                                    
 	                                                </div>
 	                                            </div>
@@ -792,32 +494,27 @@
 	                                                <h4>Example:</h4>
 	                                    
 	                                                <div class="example-content">
-	                                                    <pre class="code prettyprint"><code>F2.init({
-	                                        xhr: function(url, appConfigs, success, error, complete) {
-	                                            $.ajax({
-	                                                url: url,
-	                                                type: 'POST',
-	                                                data: {
-	                                                    params: F2.stringify(appConfigs, F2.appConfigReplacer)
-	                                                },
-	                                                jsonp: false, // do not put 'callback=' in the query string
-	                                                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
-	                                                dataType: 'json',
-	                                                success: function(appManifest) {
-	                                                    // custom success logic
-	                                                    success(appManifest); // fire success callback
-	                                                },
-	                                                error: function() {
-	                                                    // custom error logic
-	                                                    error(); // fire error callback
-	                                                },
-	                                                complete: function() {
-	                                                    // custom complete logic
-	                                                    complete(); // fire complete callback
-	                                                }
-	                                            });
-	                                        }
-	                                    });</code></pre>
+	                                                    <p>F2.init({
+	                                             xhr: function(url, appConfigs,successCallback, errorCallback, completeCallback) {
+	                                              var jsonpCallback = F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+	                                    var fetchUrl = url + '?params=' + F2.stringify(appConfigs.apps, F2.appConfigReplacer);
+	                                              var fetchFunc = fetchJsonp(fetchUrl, {
+	                                                              timeout: 3000,
+	                                                              jsonpCallbackFunction: jsonpCallback
+	                                                              });                
+	                                               fetchFunc.then(function(response) {
+	                                                              return response.json();
+	                                                          })
+	                                                          .then(function(data) {
+	                                                            successCallback(data);
+	                                                            completeCallback();                         
+	                                                      })
+	                                                      .catch(function(error) {
+	                                                          F2.log('Failed to load app(s)', error.toString());
+	                                                          errorCallback();
+	                                                      });
+	                                             }
+	                                         });</p>
 	                                    
 	                                                </div>
 	                                            </div>
@@ -847,7 +544,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l351"><code>sdk\src\classes.js:351</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l307"><code>sdk\src\classes.js:307</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -943,7 +640,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l373"><code>sdk\src\classes.js:373</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l329"><code>sdk\src\classes.js:329</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -951,8 +648,7 @@
 	                                        </div>
 	                                    
 	                                        <div class="description">
-	                                            <p>Allows the container to override the request method that is used (just
-	                                    like the <code>type</code> parameter to <code>jQuery.ajax()</code>.</p>
+	                                            <p>Allows the container to override the request method that is used.</p>
 	                                    
 	                                        </div>
 	                                    
@@ -1039,7 +735,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l395"><code>sdk\src\classes.js:395</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l350"><code>sdk\src\classes.js:350</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1127,7 +823,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l261"><code>sdk\src\classes.js:261</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l224"><code>sdk\src\classes.js:224</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1157,7 +853,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l415"><code>sdk\src\classes.js:415</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l370"><code>sdk\src\classes.js:370</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1200,7 +896,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l430"><code>sdk\src\classes.js:430</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l385"><code>sdk\src\classes.js:385</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1243,7 +939,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l268"><code>sdk\src\classes.js:268</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l231"><code>sdk\src\classes.js:231</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1277,7 +973,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l280"><code>sdk\src\classes.js:280</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l243"><code>sdk\src\classes.js:243</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1307,7 +1003,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_classes.js.html#l335"><code>sdk\src\classes.js:335</code></a>
+	                                            <a href="../files/sdk_src_classes.js.html#l291"><code>sdk\src\classes.js:291</code></a>
 	                                            </p>
 	                                    
 	                                    

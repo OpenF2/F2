@@ -177,27 +177,27 @@
 	                 * F2 v&lt;%= version%&gt; &lt;%= grunt.template.today(&quot;mm-dd-yyyy&quot;)%&gt;
 	                 * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
 	                 *
-	                 * &quot;F2&quot; is licensed under the Apache License, Version 2.0 (the &quot;License&quot;); 
-	                 * you may not use this file except in compliance with the License. 
+	                 * &quot;F2&quot; is licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+	                 * you may not use this file except in compliance with the License.
 	                 * You may obtain a copy of the License at:
 	                 *
 	                 * http://www.apache.org/licenses/LICENSE-2.0
 	                 *
-	                 * Unless required by applicable law or agreed to in writing, software distributed 
-	                 * under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR 
+	                 * Unless required by applicable law or agreed to in writing, software distributed
+	                 * under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR
 	                 * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
 	                 * language governing permissions and limitations under the License.
 	                 *
-	                 * Please note that F2 (&quot;Software&quot;) may contain third party material that Markit 
-	                 * On Demand Inc. has a license to use and include within the Software (the 
-	                 * &quot;Third Party Material&quot;). A list of the software comprising the Third Party Material 
-	                 * and the terms and conditions under which such Third Party Material is distributed 
+	                 * Please note that F2 (&quot;Software&quot;) may contain third party material that Markit
+	                 * On Demand Inc. has a license to use and include within the Software (the
+	                 * &quot;Third Party Material&quot;). A list of the software comprising the Third Party Material
+	                 * and the terms and conditions under which such Third Party Material is distributed
 	                 * are reproduced in the ThirdPartyMaterial.md file available at:
-	                 * 
+	                 *
 	                 * https://github.com/OpenF2/F2/blob/master/ThirdPartyMaterial.md
-	                 * 
-	                 * The inclusion of the Third Party Material in the Software does not grant, provide 
-	                 * nor result in you having acquiring any rights whatsoever, other than as stipulated 
+	                 *
+	                 * The inclusion of the Third Party Material in the Software does not grant, provide
+	                 * nor result in you having acquiring any rights whatsoever, other than as stipulated
 	                 * in the terms and conditions related to the specific Third Party Material, if any.
 	                 *
 	                 */
@@ -289,11 +289,11 @@
 	                		/**
 	                		 * The apps namespace is a place for app developers to put the javascript
 	                		 * class that is used to initialize their app. The javascript classes should
-	                		 * be namepaced with the {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}}.appId. 
+	                		 * be namepaced with the {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}}.appId.
 	                		 * It is recommended that the code be placed in a closure to help keep the
 	                		 * global namespace clean.
 	                		 *
-	                		 * If the class has an &#x27;init&#x27; function, that function will be called 
+	                		 * If the class has an &#x27;init&#x27; function, that function will be called
 	                		 * automatically by F2.
 	                		 * @property Apps
 	                		 * @type object
@@ -302,7 +302,7 @@
 	                		 *         var App_Class = function(appConfig, appContent, root) {
 	                		 *             this._app = appConfig; // the F2.AppConfig object
 	                		 *             this._appContent = appContent // the F2.AppManifest.AppContent object
-	                		 *             this.$root = $(root); // the root DOM Element that contains this app
+	                		 *             this.$root = root; // the root DOM Element that contains this app
 	                		 *         }
 	                		 *
 	                		 *         App_Class.prototype.init = function() {
@@ -326,7 +326,7 @@
 	                		 * Creates a namespace on F2 and copies the contents of an object into
 	                		 * that namespace optionally overwriting existing properties.
 	                		 * @method extend
-	                		 * @param {string} ns The namespace to create. Pass a falsy value to 
+	                		 * @param {string} ns The namespace to create. Pass a falsy value to
 	                		 * add properties to the F2 namespace directly.
 	                		 * @param {object} obj The object to copy into the namespace.
 	                		 * @param {bool} overwrite True if object properties should be overwritten
@@ -337,7 +337,7 @@
 	                			var parts = ns ? ns.split(&#x27;.&#x27;) : [];
 	                			var parent = this;
 	                			obj = obj || {};
-	                			
+	                
 	                			// ignore leading global
 	                			if (parts[0] === &#x27;F2&#x27;) {
 	                				parts = parts.slice(1);
@@ -356,13 +356,13 @@
 	                				for (var prop in obj) {
 	                					if (typeof parent[prop] === &#x27;undefined&#x27; || overwrite) {
 	                						parent[prop] = obj[prop];
-	                					} 
+	                					}
 	                				}
 	                			}
 	                
 	                			return parent;
 	                		},
-	                		/** 
+	                		/**
 	                		 * Generates a somewhat random id
 	                		 * @method guid
 	                		 * @return {string} A random id
@@ -373,16 +373,6 @@
 	                				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	                			};
 	                			return (S4()+S4()+&#x27;-&#x27;+S4()+&#x27;-&#x27;+S4()+&#x27;-&#x27;+S4()+&#x27;-&#x27;+S4()+S4()+S4());
-	                		},
-	                		/**
-	                		 * Search for a value within an array.
-	                		 * @method inArray
-	                		 * @param {object} value The value to search for
-	                		 * @param {Array} array The array to search
-	                		 * @return {bool} True if the item is in the array
-	                		 */
-	                		inArray: function(value, array) {
-	                			return jQuery.inArray(value, array) &gt; -1;
 	                		},
 	                		/**
 	                		 * Tests a URL to see if it&#x27;s on the same domain (local) or not
@@ -425,7 +415,7 @@
 	                					(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
 	                						(parts[ 3 ] || (parts[ 1 ] === &#x27;http:&#x27; ? &#x27;80&#x27; : &#x27;443&#x27;)) !==
 	                							(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === &#x27;http:&#x27; ? &#x27;80&#x27; : &#x27;443&#x27;))));
-	                		
+	                
 	                			return matched;
 	                		},
 	                		/**
@@ -436,19 +426,19 @@
 	                		 */
 	                		isNativeDOMNode: function(testObject) {
 	                			var bIsNode = (
-	                				typeof Node === &#x27;object&#x27; ? testObject instanceof Node : 
+	                				typeof Node === &#x27;object&#x27; ? testObject instanceof Node :
 	                				testObject &amp;&amp; typeof testObject === &#x27;object&#x27; &amp;&amp; typeof testObject.nodeType === &#x27;number&#x27; &amp;&amp; typeof testObject.nodeName === &#x27;string&#x27;
 	                			);
-	                			
+	                
 	                			var bIsElement = (
 	                				typeof HTMLElement === &#x27;object&#x27; ? testObject instanceof HTMLElement : //DOM2
 	                				testObject &amp;&amp; typeof testObject === &#x27;object&#x27; &amp;&amp; testObject.nodeType === 1 &amp;&amp; typeof testObject.nodeName === &#x27;string&#x27;
 	                			);
-	                			
+	                
 	                			return (bIsNode || bIsElement);
 	                		},
 	                		/**
-	                		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [&#x60;console&#x60; API](https://developers.google.com/chrome-developer-tools/docs/console). 
+	                		 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [&#x60;console&#x60; API](https://developers.google.com/chrome-developer-tools/docs/console).
 	                		 * @method log
 	                		 * @param {object|string} Object/Method An object to be logged _or_ a &#x60;console&#x60; API method name, such as &#x60;warn&#x60; or &#x60;error&#x60;. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
 	                		 * @param {object} [obj2]* An object to be logged
@@ -456,7 +446,7 @@
 	                			//Pass any object (string, int, array, object, bool) to .log()
 	                			F2.log(&#x27;foo&#x27;);
 	                			F2.log(myArray);
-	                			//Use a console method name as the first argument. 
+	                			//Use a console method name as the first argument.
 	                			F2.log(&#x27;error&#x27;, err);
 	                			F2.log(&#x27;info&#x27;, &#x27;The session ID is &#x27; + sessionId);
 	                		 * Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
@@ -484,7 +474,7 @@
 	                					console[method] = noop;
 	                				}
 	                
-	                				//if first arg is a console function, use it. 
+	                				//if first arg is a console function, use it.
 	                				//defaults to console.log()
 	                				if (arguments &amp;&amp; arguments.length &gt; 1 &amp;&amp; arguments[0] == method){
 	                					_logMethod = method;
@@ -496,12 +486,12 @@
 	                			if (Function.prototype.bind) {
 	                				_log = Function.prototype.bind.call(console[_logMethod], console);
 	                			} else {
-	                				_log = function() { 
+	                				_log = function() {
 	                					Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
 	                				};
 	                			}
 	                
-	                			_log.apply(this, (args || arguments));			
+	                			_log.apply(this, (args || arguments));
 	                		},
 	                		/**
 	                		 * Wrapper to convert a JSON string to an object
@@ -521,7 +511,7 @@
 	                		 * @method stringify
 	                		 * @param {object} value The object to convert
 	                		 * @param {function|Array} replacer An optional parameter that determines
-	                		 * how object values are stringified for objects. It can be a function or an 
+	                		 * how object values are stringified for objects. It can be a function or an
 	                		 * array of strings.
 	                		 * @param {int|string} space An optional parameter that specifies the
 	                		 * indentation of nested structures. If it is omitted, the text will be
@@ -533,7 +523,7 @@
 	                		stringify: function(value, replacer, space) {
 	                			return JSON.stringify(value, replacer, space);
 	                		},
-	                		/** 
+	                		/**
 	                		 * Function to get the F2 version number
 	                		 * @method version
 	                		 * @return {string} F2 version number

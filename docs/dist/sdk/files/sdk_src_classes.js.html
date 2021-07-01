@@ -179,8 +179,8 @@
 	                 */
 	                F2.extend(&#x27;&#x27;, {
 	                	/**
-	                	 * The App Class is an optional class that can be namespaced onto the 
-	                	 * {{#crossLink &quot;F2\Apps&quot;}}{{/crossLink}} namespace.  The 
+	                	 * The App Class is an optional class that can be namespaced onto the
+	                	 * {{#crossLink &quot;F2\Apps&quot;}}{{/crossLink}} namespace.  The
 	                	 * [F2 Docs](../../app-development.html#app-class)
 	                	 * has more information on the usage of the App Class.
 	                	 * @class F2.App
@@ -252,9 +252,9 @@
 	                		 */
 	                		instanceId: &#x27;&#x27;,
 	                		/**
-	                		 * The language and region specification for this container 
+	                		 * The language and region specification for this container
 	                		 * represented as an IETF-defined standard language tag,
-	                		 * e.g. &#x60;&quot;en-us&quot;&#x60; or &#x60;&quot;de-de&quot;&#x60;. This is passed during the 
+	                		 * e.g. &#x60;&quot;en-us&quot;&#x60; or &#x60;&quot;de-de&quot;&#x60;. This is passed during the
 	                		 * F2.{{#crossLink &quot;F2/registerApps&quot;}}{{/crossLink}} process.
 	                		 *
 	                		 * @property containerLocale
@@ -266,7 +266,7 @@
 	                		/**
 	                		 * The languages and regions supported by this app represented
 	                		 * as an array of IETF-defined standard language tags,
-	                		 * e.g. &#x60;[&quot;en-us&quot;,&quot;de-de&quot;]&#x60;. 
+	                		 * e.g. &#x60;[&quot;en-us&quot;,&quot;de-de&quot;]&#x60;.
 	                		 *
 	                		 * @property localeSupport
 	                		 * @type array
@@ -395,44 +395,7 @@
 	                	 * [container](../../container-development.html)
 	                	 * @class F2.ContainerConfig
 	                	 */
-	                	ContainerConfig: {		
-	                		/**
-	                		 * Allows the [container](../../container-development.html) to override how
-	                		 * an app&#x27;s html is inserted into the page. The function should accept an
-	                		 * {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} object and also a string of
-	                		 * html
-	                		 * @method afterAppRender
-	                		 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0
-	                		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	                		 * @param {string} html The string of html representing the app 
-	                		 * @return {Element} The DOM Element surrounding the app
-	                		 */
-	                		afterAppRender: function(appConfig, html) {},
-	                		/**
-	                		 * Allows the [container](../../container-development.html) to wrap an app
-	                		 * in extra html. The function should accept an
-	                		 * {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}} object and also a string of
-	                		 * html. The extra html can provide links to edit app settings and remove an
-	                		 * app from the container. See
-	                		 * {{#crossLink &quot;F2.Constants.Css&quot;}}{{/crossLink}} for CSS classes that
-	                		 * should be applied to elements.
-	                		 * @method appRender
-	                		 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0
-	                		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	                		 * @param {string} html The string of html representing the app
-	                		 */
-	                		appRender: function(appConfig, html) {},
-	                		/**
-	                		 * Allows the container to render html for an app before the AppManifest for
-	                		 * an app has loaded. This can be useful if the design calls for loading
-	                		 * icons to appear for each app before each app is loaded and rendered to
-	                		 * the page.
-	                		 * @method beforeAppRender
-	                		 * @deprecated This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0
-	                		 * @param {F2.AppConfig} appConfig The F2.AppConfig object
-	                		 * @return {Element} The DOM Element surrounding the app
-	                		 */
-	                		beforeAppRender: function(appConfig) {},
+	                	ContainerConfig: {
 	                		/**
 	                		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
 	                		 * @property debugMode
@@ -441,7 +404,7 @@
 	                		 */
 	                		debugMode: false,
 	                		/**
-	                		 * The default language and region specification for this container 
+	                		 * The default language and region specification for this container
 	                		 * represented as an IETF-defined standard language tag,
 	                		 * e.g. &#x60;&quot;en-us&quot;&#x60; or &#x60;&quot;de-de&quot;&#x60;. This value is passed to each app
 	                		 * registered as &#x60;containerLocale&#x60;.
@@ -462,7 +425,7 @@
 	                		/**
 	                		 * Allows the container to fully override how the AppManifest request is
 	                		 * made inside of F2.
-	                		 * 
+	                		 *
 	                		 * @method xhr
 	                		 * @param {string} url The manifest url
 	                		 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}}
@@ -472,37 +435,30 @@
 	                		 * @param {function} error The function to be called if the request fails
 	                		 * @param {function} complete The function to be called when the request
 	                		 * finishes (after success and error callbacks have been executed)
-	                		 * @return {XMLHttpRequest} The XMLHttpRequest object (or an object that has
-	                		 * an &#x60;abort&#x60; function (such as the jqXHR object in jQuery) to abort the
-	                		 * request)
+	                		 * @return {XMLHttpRequest} The XMLHttpRequest object
 	                		 *
-	                		 * @example
-	                		 *     F2.init({
-	                		 *         xhr: function(url, appConfigs, success, error, complete) {
-	                		 *             $.ajax({
-	                		 *                 url: url,
-	                		 *                 type: &#x27;POST&#x27;,
-	                		 *                 data: {
-	                		 *                     params: F2.stringify(appConfigs, F2.appConfigReplacer)
-	                		 *                 },
-	                		 *                 jsonp: false, // do not put &#x27;callback=&#x27; in the query string
-	                		 *                 jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
-	                		 *                 dataType: &#x27;json&#x27;,
-	                		 *                 success: function(appManifest) {
-	                		 *                     // custom success logic
-	                		 *                     success(appManifest); // fire success callback
-	                		 *                 },
-	                		 *                 error: function() {
-	                		 *                     // custom error logic
-	                		 *                     error(); // fire error callback
-	                		 *                 },
-	                		 *                 complete: function() {
-	                		 *                     // custom complete logic
-	                		 *                     complete(); // fire complete callback
-	                		 *                 }
-	                		 *             });
-	                		 *         }
-	                		 *     });
+	                		 * @example
+	                         *     F2.init({
+	                         *         xhr: function(url, appConfigs,successCallback, errorCallback, completeCallback) {
+	                         *          var jsonpCallback = F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+	                         *          var fetchUrl = url + &#x27;?params=&#x27; + F2.stringify(appConfigs.apps, F2.appConfigReplacer);
+	                         *          var fetchFunc = fetchJsonp(fetchUrl, {
+	                         *                          timeout: 3000,
+	                         *                          jsonpCallbackFunction: jsonpCallback
+	                         *                          });                
+	                         *           fetchFunc.then(function(response) {
+	                         *                          return response.json();
+	                         *                      })
+	                         *                      .then(function(data) {
+	                         *                      	successCallback(data);
+	                         *                      	completeCallback();                         
+	                         *                  })
+	                         *                  .catch(function(error) {
+	                         *                      F2.log(&#x27;Failed to load app(s)&#x27;, error.toString());
+	                         *                      errorCallback();
+	                         *                  });
+	                         *         }
+	                         *     });
 	                		 *
 	                		 * @for F2.ContainerConfig
 	                		 */
@@ -546,8 +502,7 @@
 	                			 */
 	                			dataType: function(url, appConfigs) {},
 	                			/**
-	                			 * Allows the container to override the request method that is used (just
-	                			 * like the &#x60;type&#x60; parameter to &#x60;jQuery.ajax()&#x60;.
+	                			 * Allows the container to override the request method that is used.
 	                			 * @method xhr.type
 	                			 * @param {string} url The manifest url
 	                			 * @param {Array} appConfigs An array of {{#crossLink &quot;F2.AppConfig&quot;}}{{/crossLink}}

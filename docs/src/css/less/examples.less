@@ -1,0 +1,115 @@
+.examples {
+
+	.aboutbox {
+		.container {
+			text-align: left;
+
+			@media (min-width: @screen-sm-min){
+				padding-top: 60px;
+			}
+		}
+
+		h1, h5 {
+			.font-bold();
+		}
+
+		section {
+			padding-top: 20px;
+			padding-bottom: 40px;
+
+			@media (min-width: @screen-sm-min){
+				padding-top: 40px;
+			}
+
+			p {
+				font-size: 18px;
+				font-family: @font-family-sans-serif-thin;
+
+				@media (min-width: @screen-sm-min){
+					font-size: 23px;
+					line-height: 1.6;
+				}
+
+				a {
+					.font-bold();
+					text-decoration: underline;
+				}
+
+				&.tip {
+					margin-top: 25px;
+					font-size: 15px;
+					code {
+						color: @f2blueDark;
+					}
+				}
+			}
+		}
+
+		aside {
+			.blue-box-aside();
+			font-family: @font-family-sans-serif-thin;
+			margin-bottom: 40px;
+		}
+	}
+
+	.examples-container {
+
+		p {
+			font-size: 15px;
+		}
+
+		&.f2-mode-highlighted {
+			outline: 2px dotted @f2blue;
+			.f2-app-container {
+				-webkit-filter: blur(2px); 
+				-moz-filter: blur(2px); 
+				-o-filter: blur(2px); 
+				-ms-filter: blur(2px); 
+				filter: blur(2px);
+			}
+		}
+
+		.page-header {
+			margin-top: 0;
+		}
+
+		p.lead {
+			font-size: 19px;
+		}
+
+		p.intro-text {
+			// font-size: 16px;
+		}
+	}
+
+	.examples-registry {
+		margin-bottom: 100px;
+	}
+
+	.f2-app-container {
+		margin-bottom: 50px;
+		min-height: 340px;
+
+		&.f2-mode-highlighted {
+			outline: 2px dotted @f2blueDark;
+		}
+	}
+
+	.f2-app-title {
+		.page-header();
+		margin-top: 0;
+	}
+
+	.f2-app-view {
+		.btn {
+			.btn-primary();
+		}
+	}
+
+	.com_openf2_examples_csharp_marketnews .f2-app-view header a {
+		.font-bold();
+	}
+
+	@import "jquery-ui.less";
+
+}

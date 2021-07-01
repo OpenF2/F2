@@ -1,0 +1,128 @@
+
+//put this background image only on the home page
+.home .navbar-inverse {
+	@media (min-width: @screen-sm-min){
+		background: @navbar-inverse-bg url('/img/header-bg.png?v=@{version}') center -114px no-repeat;
+	}
+
+	@media (min-width: @screen-md-min){
+		background-position: center top;
+	}
+}
+
+//for /developers page
+.cssanimations .developers .navbar-inverse {
+	background-color: transparent !important;
+}
+
+//Site-wide nav
+.navbar {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-bottom: 0;
+
+	@media (min-width: @screen-md-min){
+		.container {
+			padding-right: 0px;
+		}
+	}
+
+	&.navbar-static-top {
+		border-bottom: 0 none;
+	}
+
+	.navbar-header {
+		margin-left: 15px;
+
+		@media (min-width: @screen-md-min){
+			width: @navbar-width;
+		}
+	}
+
+	.navbar-brand {
+		.text-hide();
+
+		@media (min-width: @screen-sm-min){
+			padding-left: 0;
+			padding-right: 0;
+		}
+		width: @navbar-width;
+		height: @navbar-height;
+		background: transparent url('/img/logo.png?v=@{version}') top left no-repeat;
+
+		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+			background-image: url('/img/logo@2x.png?v=@{version}');
+			background-size: @navbar-width @navbar-height;
+		}
+	}
+
+	.navbar-collapse {
+		border-top: 0;
+		box-shadow: none;
+	}
+
+	.navbar-nav {
+		//use these to align with text in jumbotron
+		.make-md-column-push(6);
+		.make-md-column(6);
+		margin-top: 20px;
+		float: none;
+
+		@media (min-width: @screen-sm-min){
+			margin-top: 0;
+			padding-left: 0;
+			padding-right: 0;
+			margin-left: -@navbar-width; //it's not in a "row", so slide it left
+		}
+
+		@media (min-width: @screen-sm-min) and (max-width: @screen-md-min){
+			float: right;
+		}
+
+		//
+		> li {
+			> a {
+				font-size: 15px;
+				text-transform: uppercase;
+				border-bottom: 4px solid @navbar-inverse-bg;
+				font-family: @font-family-sans-serif-thin;
+				font-weight: @font-weight-bold;
+				border: 0 solid @navbarSeparator;
+				border-bottom-width: 1px;
+
+				@media (min-width: @screen-sm-min){
+					font-size: 12px;
+					border: 0 none;
+					&.active,
+					&:hover,
+					&:active,
+					&:visited {
+						border-bottom: 4px solid #fff;
+					}
+				}
+
+				@media (min-width: @screen-sm-min){
+					margin: 0 5px;
+					padding: 8px 8px;
+				}
+
+				@media (min-width: @screen-md-min){
+					margin: 0 8px;
+				}
+
+				@media (min-width: @screen-lg-min){
+					margin: 0 8px;
+				}
+			}
+
+			&:first-child > a {
+				border-top-width: 1px;
+				margin-left: 0;
+			}
+
+			&:last-child > a {
+				margin-right: 0;
+			}
+		}
+	}
+}

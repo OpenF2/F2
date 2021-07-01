@@ -138,7 +138,7 @@
             "module": "f2",
             "namespace": "",
             "file": "sdk\\src\\app_handlers.js",
-            "line": 423,
+            "line": 414,
             "description": "A convenient collection of all available appHandler events."
         },
         "F2.App": {
@@ -153,7 +153,7 @@
             "namespace": "",
             "file": "sdk\\src\\classes.js",
             "line": 6,
-            "description": "The App Class is an optional class that can be namespaced onto the \n{{#crossLink \"F2\\Apps\"}}{{/crossLink}} namespace.  The \n[F2 Docs](../../app-development.html#app-class)\nhas more information on the usage of the App Class.",
+            "description": "The App Class is an optional class that can be namespaced onto the\n{{#crossLink \"F2\\Apps\"}}{{/crossLink}} namespace.  The\n[F2 Docs](../../app-development.html#app-class)\nhas more information on the usage of the App Class.",
             "is_constructor": 1,
             "params": [
                 {
@@ -350,12 +350,12 @@
         {
             "file": "sdk\\src\\F2.js",
             "line": 114,
-            "description": "The apps namespace is a place for app developers to put the javascript\nclass that is used to initialize their app. The javascript classes should\nbe namepaced with the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.appId. \nIt is recommended that the code be placed in a closure to help keep the\nglobal namespace clean.\n\nIf the class has an 'init' function, that function will be called \nautomatically by F2.",
+            "description": "The apps namespace is a place for app developers to put the javascript\nclass that is used to initialize their app. The javascript classes should\nbe namepaced with the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.appId.\nIt is recommended that the code be placed in a closure to help keep the\nglobal namespace clean.\n\nIf the class has an 'init' function, that function will be called\nautomatically by F2.",
             "itemtype": "property",
             "name": "Apps",
             "type": "object",
             "example": [
-                "\n    F2.Apps[\"com_example_helloworld\"] = (function() {\n        var App_Class = function(appConfig, appContent, root) {\n            this._app = appConfig; // the F2.AppConfig object\n            this._appContent = appContent // the F2.AppManifest.AppContent object\n            this.$root = $(root); // the root DOM Element that contains this app\n        }\n\n        App_Class.prototype.init = function() {\n            // perform init actions\n        }\n\n        return App_Class;\n    })();",
+                "\n    F2.Apps[\"com_example_helloworld\"] = (function() {\n        var App_Class = function(appConfig, appContent, root) {\n            this._app = appConfig; // the F2.AppConfig object\n            this._appContent = appContent // the F2.AppManifest.AppContent object\n            this.$root = root; // the root DOM Element that contains this app\n        }\n\n        App_Class.prototype.init = function() {\n            // perform init actions\n        }\n\n        return App_Class;\n    })();",
                 "\n    F2.Apps[\"com_example_helloworld\"] = function(appConfig, appContent, root) {\n       return {\n           init:function() {\n               // perform init actions\n           }\n       };\n    };"
             ],
             "class": "F2",
@@ -370,7 +370,7 @@
             "params": [
                 {
                     "name": "ns",
-                    "description": "The namespace to create. Pass a falsy value to \nadd properties to the F2 namespace directly.",
+                    "description": "The namespace to create. Pass a falsy value to\nadd properties to the F2 namespace directly.",
                     "type": "String"
                 },
                 {
@@ -407,31 +407,6 @@
         {
             "file": "sdk\\src\\F2.js",
             "line": 202,
-            "description": "Search for a value within an array.",
-            "itemtype": "method",
-            "name": "inArray",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "The value to search for",
-                    "type": "Object"
-                },
-                {
-                    "name": "array",
-                    "description": "The array to search",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "True if the item is in the array",
-                "type": "Bool"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\F2.js",
-            "line": 212,
             "description": "Tests a URL to see if it's on the same domain (local) or not",
             "itemtype": "method",
             "name": "isLocalRequest",
@@ -451,7 +426,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 256,
+            "line": 246,
             "description": "Utility method to determine whether or not the argument passed in is or is not a native dom node.",
             "itemtype": "method",
             "name": "isNativeDOMNode",
@@ -471,7 +446,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 275,
+            "line": 265,
             "description": "A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).",
             "itemtype": "method",
             "name": "log",
@@ -490,14 +465,14 @@
                 }
             ],
             "example": [
-                "\n\t\t\t//Pass any object (string, int, array, object, bool) to .log()\n\t\t\tF2.log('foo');\n\t\t\tF2.log(myArray);\n\t\t\t//Use a console method name as the first argument. \n\t\t\tF2.log('error', err);\n\t\t\tF2.log('info', 'The session ID is ' + sessionId);\nSome code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)"
+                "\n\t\t\t//Pass any object (string, int, array, object, bool) to .log()\n\t\t\tF2.log('foo');\n\t\t\tF2.log(myArray);\n\t\t\t//Use a console method name as the first argument.\n\t\t\tF2.log('error', err);\n\t\t\tF2.log('info', 'The session ID is ' + sessionId);\nSome code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)"
             ],
             "class": "F2",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 331,
+            "line": 321,
             "description": "Wrapper to convert a JSON string to an object",
             "itemtype": "method",
             "name": "parse",
@@ -517,7 +492,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 340,
+            "line": 330,
             "description": "Wrapper to convert an object to JSON\n\n**Note: When using F2.stringify on an F2.AppConfig object, it is\nrecommended to pass F2.appConfigReplacer as the replacer function in\norder to prevent circular serialization errors.**",
             "itemtype": "method",
             "name": "stringify",
@@ -529,7 +504,7 @@
                 },
                 {
                     "name": "replacer",
-                    "description": "An optional parameter that determines\nhow object values are stringified for objects. It can be a function or an \narray of strings.",
+                    "description": "An optional parameter that determines\nhow object values are stringified for objects. It can be a function or an\narray of strings.",
                     "type": "Function|Array"
                 },
                 {
@@ -547,7 +522,7 @@
         },
         {
             "file": "sdk\\src\\F2.js",
-            "line": 361,
+            "line": 351,
             "description": "Function to get the F2 version number",
             "itemtype": "method",
             "name": "version",
@@ -560,7 +535,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 192,
+            "line": 183,
             "description": "Allows Container Developer to retrieve a unique token which must be passed to\nall `on` and `off` methods. This function will self destruct and can only be called \none time. Container Developers must store the return value inside of a closure.",
             "itemtype": "method",
             "name": "getToken",
@@ -569,7 +544,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 206,
+            "line": 197,
             "description": "Allows F2 to get a token internally. Token is required to call {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}.\nThis function will self destruct to eliminate other sources from using the {{#crossLink \"F2.AppHandlers/\\_\\_trigger:method\"}}{{/crossLink}}\nand additional internal methods.",
             "itemtype": "method",
             "name": "__f2GetToken",
@@ -580,7 +555,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 221,
+            "line": 212,
             "description": "Allows F2 to trigger specific events internally.",
             "itemtype": "method",
             "name": "__trigger",
@@ -604,7 +579,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 289,
+            "line": 280,
             "description": "Allows Container Developer to easily tell all apps to render in a specific location. Only valid for eventType `appRender`.",
             "itemtype": "method",
             "name": "on",
@@ -635,7 +610,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 314,
+            "line": 305,
             "description": "Allows Container Developer to add listener method that will be triggered when a specific event occurs.",
             "itemtype": "method",
             "name": "on",
@@ -666,7 +641,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 374,
+            "line": 365,
             "description": "Allows Container Developer to remove listener methods for specific events",
             "itemtype": "method",
             "name": "off",
@@ -691,7 +666,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 430,
+            "line": 421,
             "description": "When bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the\nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}} )",
             "itemtype": "property",
             "name": "APP_MANIFEST_REQUEST_FAIL",
@@ -706,7 +681,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 450,
+            "line": 441,
             "description": "Equivalent to `appCreateRoot`. Identifies the create root method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}} )",
             "itemtype": "property",
             "name": "APP_CREATE_ROOT",
@@ -714,14 +689,14 @@
             "static": 1,
             "final": 1,
             "example": [
-                "\n\tvar _token = F2.AppHandlers.getToken();\n\tF2.AppHandlers.on(\n\t\t_token,\n\t\tF2.Constants.AppHandlers.APP_CREATE_ROOT,\n\t\tfunction(appConfig)\n\t\t{\n\t\t\t// If you want to create a custom root. By default F2 uses the app's outermost HTML element.\n\t\t\t// the app's html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER\n\t\t\tappConfig.root = jQuery('<section></section>').get(0);\n\t\t}\n\t);"
+                "\n\tvar _token = F2.AppHandlers.getToken();\n\tF2.AppHandlers.on(\n\t\t_token,\n\t\tF2.Constants.AppHandlers.APP_CREATE_ROOT,\n\t\tfunction(appConfig)\n\t\t{\n\t\t\t// If you want to create a custom root. By default F2 uses the app's outermost HTML element.\n\t\t\t// the app's html is not available until after the manifest is retrieved so this logic occurs in F2.Constants.AppHandlers.APP_RENDER\n\t\t\tappConfig.root = document.createElement('section');\n\t\t}\n\t);"
             ],
             "class": "F2.Constants.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 472,
+            "line": 463,
             "description": "Equivalent to `appRenderBefore`. Identifies the before app render method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}} )",
             "itemtype": "property",
             "name": "APP_RENDER_BEFORE",
@@ -736,7 +711,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 492,
+            "line": 483,
             "description": "Equivalent to `appRender`. Identifies the app render method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}}, [appHtml](../../app-development.html#app-design) )",
             "itemtype": "property",
             "name": "APP_RENDER",
@@ -744,14 +719,14 @@
             "static": 1,
             "final": 1,
             "example": [
-                "\n\tvar _token = F2.AppHandlers.getToken();\n\tF2.AppHandlers.on(\n\t\t_token,\n\t\tF2.Constants.AppHandlers.APP_RENDER,\n\t\tfunction(appConfig, appHtml)\n\t\t{\n\t\t\tvar $root = null;\n\n\t\t\t// if no app root is defined use the app's outer most node\n\t\t\tif(!F2.isNativeDOMNode(appConfig.root))\n\t\t\t{\n\t\t\t\tappConfig.root = jQuery(appHtml).get(0);\n\t\t\t\t// get a handle on the root in jQuery\n\t\t\t\t$root = jQuery(appConfig.root);\t\t\t\t\n\t\t\t}\n\t\t\telse\n\t\t\t{\n\t\t\t\t// get a handle on the root in jQuery\n\t\t\t\t$root = jQuery(appConfig.root);\t\t\t\n\t\t\t\t\n\t\t\t\t// append the app html to the root\n\t\t\t\t$root.append(appHtml);\n\t\t\t}\t\t\t\n\t\t\t\n\t\t\t// append the root to the body by default.\n\t\t\tjQuery('body').append($root);\n\t\t}\n\t);"
+                "\n   var _token = F2.AppHandlers.getToken();\n   F2.AppHandlers.on(\n       _token,\n       F2.Constants.AppHandlers.APP_RENDER,\n       function(appConfig, appHtml)\n       {\n           // if no app root is defined use the app's outer most node\n           if(!F2.isNativeDOMNode(appConfig.root))\n           {\n               appConfig.root = domify(appHtml);                               \n           }\n           else\n           {                       \n               // append the app html to the root\n               appConfig.root.appendChild(domify(appHtml));\n           }           \n           \n           // append the root to the body by default.\n           document.body.appendChild(appConfig.root);\n       }\n   );"
             ],
             "class": "F2.Constants.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 531,
+            "line": 515,
             "description": "Equivalent to `appRenderAfter`. Identifies the after app render method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}} )",
             "itemtype": "property",
             "name": "APP_RENDER_AFTER",
@@ -766,7 +741,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 551,
+            "line": 535,
             "description": "Equivalent to `appDestroyBefore`. Identifies the before app destroy method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( appInstance )",
             "itemtype": "property",
             "name": "APP_DESTROY_BEFORE",
@@ -781,7 +756,7 @@
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 571,
+            "line": 555,
             "description": "Equivalent to `appDestroy`. Identifies the app destroy method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( appInstance )",
             "itemtype": "property",
             "name": "APP_DESTROY",
@@ -789,14 +764,14 @@
             "static": 1,
             "final": 1,
             "example": [
-                "\n\tvar _token = F2.AppHandlers.getToken();\n\tF2.AppHandlers.on(\n\t\t_token,\n\t\tF2.Constants.AppHandlers.APP_DESTROY,\n\t\tfunction(appInstance)\n\t\t{\n\t\t\t// call the apps destroy method, if it has one\n\t\t\tif(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')\n\t\t\t{\n\t\t\t\tappInstance.app.destroy();\n\t\t\t}\n\t\t\telse if(appInstance && appInstance.app && appInstance.app.destroy)\n\t\t\t{\n\t\t\t\tF2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');\n\t\t\t}\n\t\t\t\n\t\t\t// fade out and remove the root\n\t\t\tjQuery(appInstance.config.root).fadeOut(500, function() {\n\t\t\t\tjQuery(this).remove();\n\t\t\t});\n\t\t}\n\t);"
+                "\n   var _token = F2.AppHandlers.getToken();\n   F2.AppHandlers.on(\n       _token,\n       F2.Constants.AppHandlers.APP_DESTROY,\n       function(appInstance)\n       {\n           // call the apps destroy method, if it has one\n           if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')\n           {\n               appInstance.app.destroy();\n           }\n           else if(appInstance && appInstance.app && appInstance.app.destroy)\n           {\n               F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');\n           }\n           \n           // remove the root          \n           appInstance.config.root.parentNode.removeChild(appInstance.config.root);\n       }\n   );"
             ],
             "class": "F2.Constants.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 604,
+            "line": 586,
             "description": "Equivalent to `appDestroyAfter`. Identifies the after app destroy method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( appInstance )",
             "itemtype": "property",
             "name": "APP_DESTROY_AFTER",
@@ -804,14 +779,14 @@
             "static": 1,
             "final": 1,
             "example": [
-                "\n\tvar _token = F2.AppHandlers.getToken();\n\tF2.AppHandlers.on(\n\t\t_token,\n\t\tF2.Constants.AppHandlers.APP_DESTROY_AFTER,\n\t\tfunction(appInstance)\n\t\t{\n\t\t\tF2.log(appInstance);\n\t\t}\n\t);"
+                "\n   var _token = F2.AppHandlers.getToken();\n   F2.AppHandlers.on(\n       _token,\n       F2.Constants.AppHandlers.APP_DESTROY_AFTER,\n       function(appInstance)\n       {\n           F2.log(appInstance);\n       }\n   );"
             ],
             "class": "F2.Constants.AppHandlers",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\app_handlers.js",
-            "line": 624,
+            "line": 606,
             "description": "Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. \nWhen bound using {{#crossLink \"F2.AppHandlers/on\"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the \nfollowing argument(s): ( {{#crossLink \"F2.AppConfig\"}}appConfig{{/crossLink}}, scriptInfo )",
             "itemtype": "property",
             "name": "APP_SCRIPT_LOAD_FAILED",
@@ -910,7 +885,7 @@
         {
             "file": "sdk\\src\\classes.js",
             "line": 79,
-            "description": "The language and region specification for this container \nrepresented as an IETF-defined standard language tag,\ne.g. `\"en-us\"` or `\"de-de\"`. This is passed during the \nF2.{{#crossLink \"F2/registerApps\"}}{{/crossLink}} process.",
+            "description": "The language and region specification for this container\nrepresented as an IETF-defined standard language tag,\ne.g. `\"en-us\"` or `\"de-de\"`. This is passed during the\nF2.{{#crossLink \"F2/registerApps\"}}{{/crossLink}} process.",
             "itemtype": "property",
             "name": "containerLocale",
             "type": "string",
@@ -1075,78 +1050,6 @@
         {
             "file": "sdk\\src\\classes.js",
             "line": 224,
-            "description": "Allows the [container](../../container-development.html) to override how\nan app's html is inserted into the page. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml",
-            "itemtype": "method",
-            "name": "afterAppRender",
-            "deprecated": true,
-            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
-            "params": [
-                {
-                    "name": "appConfig",
-                    "description": "The F2.AppConfig object",
-                    "type": "F2.AppConfig"
-                },
-                {
-                    "name": "html",
-                    "description": "The string of html representing the app",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "The DOM Element surrounding the app",
-                "type": "Element"
-            },
-            "class": "F2.ContainerConfig",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\classes.js",
-            "line": 236,
-            "description": "Allows the [container](../../container-development.html) to wrap an app\nin extra html. The function should accept an\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object and also a string of\nhtml. The extra html can provide links to edit app settings and remove an\napp from the container. See\n{{#crossLink \"F2.Constants.Css\"}}{{/crossLink}} for CSS classes that\nshould be applied to elements.",
-            "itemtype": "method",
-            "name": "appRender",
-            "deprecated": true,
-            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
-            "params": [
-                {
-                    "name": "appConfig",
-                    "description": "The F2.AppConfig object",
-                    "type": "F2.AppConfig"
-                },
-                {
-                    "name": "html",
-                    "description": "The string of html representing the app",
-                    "type": "String"
-                }
-            ],
-            "class": "F2.ContainerConfig",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\classes.js",
-            "line": 250,
-            "description": "Allows the container to render html for an app before the AppManifest for\nan app has loaded. This can be useful if the design calls for loading\nicons to appear for each app before each app is loaded and rendered to\nthe page.",
-            "itemtype": "method",
-            "name": "beforeAppRender",
-            "deprecated": true,
-            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
-            "params": [
-                {
-                    "name": "appConfig",
-                    "description": "The F2.AppConfig object",
-                    "type": "F2.AppConfig"
-                }
-            ],
-            "return": {
-                "description": "The DOM Element surrounding the app",
-                "type": "Element"
-            },
-            "class": "F2.ContainerConfig",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\classes.js",
-            "line": 261,
             "description": "True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.",
             "itemtype": "property",
             "name": "debugMode",
@@ -1157,8 +1060,8 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 268,
-            "description": "The default language and region specification for this container \nrepresented as an IETF-defined standard language tag,\ne.g. `\"en-us\"` or `\"de-de\"`. This value is passed to each app\nregistered as `containerLocale`.",
+            "line": 231,
+            "description": "The default language and region specification for this container\nrepresented as an IETF-defined standard language tag,\ne.g. `\"en-us\"` or `\"de-de\"`. This value is passed to each app\nregistered as `containerLocale`.",
             "itemtype": "property",
             "name": "locale",
             "type": "string",
@@ -1169,7 +1072,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 280,
+            "line": 243,
             "description": "Milliseconds before F2 fires callback on script resource load errors. Due to issue with the way Internet Explorer attaches load events to script elements, the error event doesn't fire.",
             "itemtype": "property",
             "name": "scriptErrorTimeout",
@@ -1180,7 +1083,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 287,
+            "line": 250,
             "description": "Allows the container to fully override how the AppManifest request is\nmade inside of F2.",
             "itemtype": "method",
             "name": "xhr",
@@ -1212,18 +1115,18 @@
                 }
             ],
             "return": {
-                "description": "The XMLHttpRequest object (or an object that has\nan `abort` function (such as the jqXHR object in jQuery) to abort the\nrequest)",
+                "description": "The XMLHttpRequest object",
                 "type": "XMLHttpRequest"
             },
             "example": [
-                "\n    F2.init({\n        xhr: function(url, appConfigs, success, error, complete) {\n            $.ajax({\n                url: url,\n                type: 'POST',\n                data: {\n                    params: F2.stringify(appConfigs, F2.appConfigReplacer)\n                },\n                jsonp: false, // do not put 'callback=' in the query string\n                jsonpCallback: F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name\n                dataType: 'json',\n                success: function(appManifest) {\n                    // custom success logic\n                    success(appManifest); // fire success callback\n                },\n                error: function() {\n                    // custom error logic\n                    error(); // fire error callback\n                },\n                complete: function() {\n                    // custom complete logic\n                    complete(); // fire complete callback\n                }\n            });\n        }\n    });"
+                "\n     F2.init({\n         xhr: function(url, appConfigs,successCallback, errorCallback, completeCallback) {\n          var jsonpCallback = F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name\n         var fetchUrl = url + '?params=' + F2.stringify(appConfigs.apps, F2.appConfigReplacer);\n          var fetchFunc = fetchJsonp(fetchUrl, {\n                          timeout: 3000,\n                          jsonpCallbackFunction: jsonpCallback\n                          });                \n           fetchFunc.then(function(response) {\n                          return response.json();\n                      })\n                      .then(function(data) {\n                      \tsuccessCallback(data);\n                      \tcompleteCallback();                         \n                  })\n                  .catch(function(error) {\n                      F2.log('Failed to load app(s)', error.toString());\n                      errorCallback();\n                  });\n         }\n     });"
             ],
             "class": "F2.ContainerConfig",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 335,
+            "line": 291,
             "description": "Allows the container to override individual parts of the AppManifest\nrequest.  See properties and methods with the `xhr.` prefix.",
             "itemtype": "property",
             "name": "xhr",
@@ -1236,7 +1139,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 351,
+            "line": 307,
             "description": "Allows the container to override the request data type (JSON or JSONP)\nthat is used for the request",
             "itemtype": "method",
             "name": "xhr.dataType",
@@ -1264,8 +1167,8 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 373,
-            "description": "Allows the container to override the request method that is used (just\nlike the `type` parameter to `jQuery.ajax()`.",
+            "line": 329,
+            "description": "Allows the container to override the request method that is used.",
             "itemtype": "method",
             "name": "xhr.type",
             "params": [
@@ -1292,7 +1195,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 395,
+            "line": 350,
             "description": "Allows the container to override the url that is used to request an\napp's F2.{{#crossLink \"F2.AppManifest\"}}{{/crossLink}}",
             "itemtype": "method",
             "name": "xhr.url",
@@ -1320,7 +1223,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 415,
+            "line": 370,
             "description": "Allows the container to override the script loader which requests\ndependencies defined in the {{#crossLink \"F2.AppManifest\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "loadScripts",
@@ -1333,7 +1236,7 @@
         },
         {
             "file": "sdk\\src\\classes.js",
-            "line": 430,
+            "line": 385,
             "description": "Allows the container to override the stylesheet loader which requests\ndependencies defined in the {{#crossLink \"F2.AppManifest\"}}{{/crossLink}}.",
             "itemtype": "property",
             "name": "loadStyles",
@@ -1474,109 +1377,32 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 14,
-            "description": "Appends the app's html to the DOM",
+            "line": 13,
+            "description": "Search for a value within an array.",
             "itemtype": "method",
-            "name": "_afterAppRender",
-            "deprecated": true,
-            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
-            "access": "private",
-            "tagname": "",
+            "name": "inArray",
             "params": [
                 {
-                    "name": "appConfig",
-                    "description": "The F2.AppConfig object",
-                    "type": "F2.AppConfig"
+                    "name": "value",
+                    "description": "The value to search for",
+                    "type": "Object"
                 },
                 {
-                    "name": "html",
-                    "description": "The string of html",
-                    "type": "String"
+                    "name": "array",
+                    "description": "The array to search",
+                    "type": "Array"
                 }
             ],
             "return": {
-                "description": "The DOM Element that contains the app",
-                "type": "Element"
+                "description": "index of the value in the array, -1 if value not found",
+                "type": "Int"
             },
             "class": "F2",
             "module": "f2"
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 41,
-            "description": "Renders the html for an app.",
-            "itemtype": "method",
-            "name": "_appRender",
-            "deprecated": true,
-            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "appConfig",
-                    "description": "The F2.AppConfig object",
-                    "type": "F2.AppConfig"
-                },
-                {
-                    "name": "html",
-                    "description": "The string of html",
-                    "type": "String"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\container.js",
-            "line": 62,
-            "description": "Rendering hook to allow containers to render some html prior to an app\nloading",
-            "itemtype": "method",
-            "name": "_beforeAppRender",
-            "deprecated": true,
-            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "appConfig",
-                    "description": "The F2.AppConfig object",
-                    "type": "F2.AppConfig"
-                }
-            ],
-            "return": {
-                "description": "The DOM Element surrounding the app",
-                "type": "Element"
-            },
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\container.js",
-            "line": 76,
-            "description": "Handler to inform the container that a script failed to load",
-            "itemtype": "method",
-            "name": "_onScriptLoadFailure",
-            "deprecated": true,
-            "deprecationMessage": "This has been replaced with {{#crossLink \"F2.AppHandlers\"}}{{/crossLink}} and will be removed in v2.0",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "appConfig",
-                    "description": "The F2.AppConfig object",
-                    "type": "F2.AppConfig"
-                },
-                {
-                    "name": "scriptInfo",
-                    "description": "The path of the script that failed to load or the exception info\nfor the inline script that failed to execute"
-                }
-            ],
-            "class": "F2",
-            "module": "f2"
-        },
-        {
-            "file": "sdk\\src\\container.js",
-            "line": 90,
+            "line": 34,
             "description": "Adds properties to the AppConfig object",
             "itemtype": "method",
             "name": "_createAppConfig",
@@ -1598,7 +1424,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 114,
+            "line": 58,
             "description": "Generate an AppConfig from the element's attributes",
             "itemtype": "method",
             "name": "_getAppConfigFromElement",
@@ -1620,7 +1446,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 153,
+            "line": 97,
             "description": "Returns true if the DOM node has children that are not text nodes",
             "itemtype": "method",
             "name": "_hasNonTextChildNodes",
@@ -1642,7 +1468,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 175,
+            "line": 119,
             "description": "Adds properties to the ContainerConfig object to take advantage of defaults",
             "itemtype": "method",
             "name": "_hydrateContainerConfig",
@@ -1660,7 +1486,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 196,
+            "line": 140,
             "description": "Attach container Events",
             "itemtype": "method",
             "name": "_initContainerEvents",
@@ -1671,7 +1497,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 221,
+            "line": 166,
             "description": "Checks if an element is a placeholder element",
             "itemtype": "method",
             "name": "_isPlaceholderElement",
@@ -1693,7 +1519,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 237,
+            "line": 182,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "_isInit",
@@ -1708,7 +1534,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 247,
+            "line": 192,
             "description": "Instantiates each app from it's appConfig and stores that in a local private collection",
             "itemtype": "method",
             "name": "_createAppInstance",
@@ -1726,7 +1552,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 273,
+            "line": 218,
             "description": "Loads the app's html/css/javascript",
             "itemtype": "method",
             "name": "loadApp",
@@ -1750,7 +1576,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 608,
+            "line": 562,
             "description": "Checks if the app is valid",
             "itemtype": "method",
             "name": "_validateApp",
@@ -1772,7 +1598,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 630,
+            "line": 584,
             "description": "Checks if the ContainerConfig is valid",
             "itemtype": "method",
             "name": "_validateContainerConfig",
@@ -1787,7 +1613,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 659,
+            "line": 613,
             "description": "Gets the current list of apps in the container",
             "itemtype": "method",
             "name": "getContainerState",
@@ -1800,7 +1626,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 676,
+            "line": 634,
             "description": "Gets the current locale defined by the container",
             "itemtype": "method",
             "name": "getContainerLocale",
@@ -1813,7 +1639,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 689,
+            "line": 647,
             "description": "Initializes the container. This method must be called before performing\nany other actions in the container.",
             "itemtype": "method",
             "name": "init",
@@ -1829,7 +1655,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 708,
+            "line": 663,
             "description": "Has the container been init?",
             "itemtype": "method",
             "name": "isInit",
@@ -1842,8 +1668,8 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 714,
-            "description": "Automatically load apps that are already defined in the DOM. Elements will \nbe rendered into the location of the placeholder DOM element. Any AppHandlers\nthat are defined will be bypassed.",
+            "line": 669,
+            "description": "Automatically load apps that are already defined in the DOM. Elements will\nbe rendered into the location of the placeholder DOM element. Any AppHandlers\nthat are defined will be bypassed.",
             "itemtype": "method",
             "name": "loadPlaceholders",
             "params": [
@@ -1858,7 +1684,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 764,
+            "line": 719,
             "description": "Begins the loading process for all apps and/or initialization process for pre-loaded apps.\nThe app will be passed the {{#crossLink \"F2.AppConfig\"}}{{/crossLink}} object which will\ncontain the app's unique instanceId within the container. If the\n{{#crossLink \"F2.AppConfig\"}}{{/crossLink}}.root property is populated the app is considered\nto be a pre-loaded app and will be handled accordingly. Optionally, the\n{{#crossLink \"F2.AppManifest\"}}{{/crossLink}} can be passed in and those\nassets will be used instead of making a request.",
             "itemtype": "method",
             "name": "registerApps",
@@ -1885,7 +1711,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 1094,
+            "line": 1064,
             "description": "Removes all apps from the container",
             "itemtype": "method",
             "name": "removeAllApps",
@@ -1894,7 +1720,7 @@
         },
         {
             "file": "sdk\\src\\container.js",
-            "line": 1109,
+            "line": 1081,
             "description": "Removes an app from the container",
             "itemtype": "method",
             "name": "removeApp",
@@ -2032,15 +1858,15 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\F2.js:212"
+            "line": " sdk\\src\\F2.js:202"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:289"
+            "line": " sdk\\src\\app_handlers.js:280"
         },
         {
             "message": "replacing incorrect tag: params with param",
-            "line": " sdk\\src\\app_handlers.js:314"
+            "line": " sdk\\src\\app_handlers.js:305"
         },
         {
             "message": "replacing incorrect tag: depreciated with deprecated",
@@ -2048,19 +1874,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:608"
+            "line": " sdk\\src\\container.js:562"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:630"
+            "line": " sdk\\src\\container.js:584"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:659"
+            "line": " sdk\\src\\container.js:613"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " sdk\\src\\container.js:676"
+            "line": " sdk\\src\\container.js:634"
         },
         {
             "message": "Missing item type",

@@ -38,6 +38,7 @@ srcFiles.forEach(function(filename) {
 
   _locals.filename = filename;
   _locals.filename_html = filename.replace(/\.md$/, '.html');
+  _locals.filename_amd = filename.replace(/\.md$/, '');
 
   //override Marked heading renderer
   //https://github.com/chjj/marked#overriding-renderer-methods
@@ -58,10 +59,10 @@ srcFiles.forEach(function(filename) {
     }
 
     html = (level > 1) ?
-        '<h' + level + ' class="link-header" id="' + escapedText + '">' + 
-          text + 
+        '<h' + level + ' class="link-header" id="' + escapedText + '">' +
+          text +
           '<a class="anchor" href="#' + escapedText + '">' +
-            '<span>#</span>' + 
+            '<span>#</span>' +
           '</a>' +
         '</h' + level + '>'
         : '';
@@ -95,7 +96,7 @@ srcFiles.forEach(function(filename) {
   _locals.content = (handlebars.compile(html))(_locals);
 
   //compile template partials
-  //this happens once for all the source files 
+  //this happens once for all the source files
   //(after the 1st file, all the {{handlebars}} templates are replaced)
   for (var t in _locals.templates){
     _locals.templates[t] = (handlebars.compile( _locals.templates[t]) )(_locals);
