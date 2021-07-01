@@ -139,6 +139,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 }(typeof process !== 'undefined' && typeof process.title !== 'undefined' && typeof exports !== 'undefined' ? exports : window);
 
+(function() {
+
+	var define = false;
+
 (function (global, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['exports', 'module'], factory);
@@ -262,6 +266,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   module.exports = fetchJsonp;
 });
+	window.fetchJsonp = this.fetchJsonp;
+})();
 /**
  * @license
  * Lodash (Custom Build) <https://lodash.com/>
@@ -3121,7 +3127,7 @@ var _ = window._.noConflict();
 
 
 /*!
- * F2 v2.0.0-alpha 02-01-2021
+ * F2 v2.0.0-alpha 07-01-2021
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License");
@@ -3970,8 +3976,28 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	TODO: WRITE $QUERYLESS EXAMPLE
-			*/		
+			*   var _token = F2.AppHandlers.getToken();
+            *   F2.AppHandlers.on(
+            *       _token,
+            *       F2.Constants.AppHandlers.APP_RENDER,
+            *       function(appConfig, appHtml)
+            *       {
+            *           // if no app root is defined use the app's outer most node
+            *           if(!F2.isNativeDOMNode(appConfig.root))
+            *           {
+            *               appConfig.root = domify(appHtml);                               
+            *           }
+            *           else
+            *           {                       
+            *               // append the app html to the root
+            *               appConfig.root.appendChild(domify(appHtml));
+            *           }           
+            *           
+            *           // append the root to the body by default.
+            *           document.body.appendChild(appConfig.root);
+            *       }
+            *   );
+            */		
 			APP_RENDER: 'appRender',
 			/**
 			* Equivalent to `appRenderAfter`. Identifies the after app render method for use in AppHandlers.on/off. 
@@ -4022,8 +4048,27 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	TODO: WRITE $QUERYLESS EXAMPLE
-			*/		
+			*   var _token = F2.AppHandlers.getToken();
+            *   F2.AppHandlers.on(
+            *       _token,
+            *       F2.Constants.AppHandlers.APP_DESTROY,
+            *       function(appInstance)
+            *       {
+            *           // call the apps destroy method, if it has one
+            *           if(appInstance && appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function')
+            *           {
+            *               appInstance.app.destroy();
+            *           }
+            *           else if(appInstance && appInstance.app && appInstance.app.destroy)
+            *           {
+            *               F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+            *           }
+            *           
+            *           // remove the root          
+            *           appInstance.config.root.parentNode.removeChild(appInstance.config.root);
+            *       }
+            *   );
+            */		
 			APP_DESTROY: 'appDestroy',
 			/**
 			* Equivalent to `appDestroyAfter`. Identifies the after app destroy method for use in AppHandlers.on/off. 
@@ -4034,8 +4079,16 @@ F2.extend('Constants', {
 			* @static
 			* @final
 			* @example
-			*	TODO: WRITE $QUERYLESS EXAMPLE
-			*/
+			*   var _token = F2.AppHandlers.getToken();
+            *   F2.AppHandlers.on(
+            *       _token,
+            *       F2.Constants.AppHandlers.APP_DESTROY_AFTER,
+            *       function(appInstance)
+            *       {
+            *           F2.log(appInstance);
+            *       }
+            *   );
+            */
 			APP_DESTROY_AFTER: 'appDestroyAfter',
 			/**
 			* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off. 
@@ -4066,8 +4119,8 @@ F2.extend('Constants', {
  */
 F2.extend('', {
 	/**
-	 * The App Class is an optional class that can be namespaced onto the 
-	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The 
+	 * The App Class is an optional class that can be namespaced onto the
+	 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The
 	 * [F2 Docs](../../app-development.html#app-class)
 	 * has more information on the usage of the App Class.
 	 * @class F2.App
@@ -4139,9 +4192,9 @@ F2.extend('', {
 		 */
 		instanceId: '',
 		/**
-		 * The language and region specification for this container 
+		 * The language and region specification for this container
 		 * represented as an IETF-defined standard language tag,
-		 * e.g. `"en-us"` or `"de-de"`. This is passed during the 
+		 * e.g. `"en-us"` or `"de-de"`. This is passed during the
 		 * F2.{{#crossLink "F2/registerApps"}}{{/crossLink}} process.
 		 *
 		 * @property containerLocale
@@ -4153,7 +4206,7 @@ F2.extend('', {
 		/**
 		 * The languages and regions supported by this app represented
 		 * as an array of IETF-defined standard language tags,
-		 * e.g. `["en-us","de-de"]`. 
+		 * e.g. `["en-us","de-de"]`.
 		 *
 		 * @property localeSupport
 		 * @type array
@@ -4282,7 +4335,7 @@ F2.extend('', {
 	 * [container](../../container-development.html)
 	 * @class F2.ContainerConfig
 	 */
-	ContainerConfig: {		
+	ContainerConfig: {
 		/**
 		 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
 		 * @property debugMode
@@ -4291,7 +4344,7 @@ F2.extend('', {
 		 */
 		debugMode: false,
 		/**
-		 * The default language and region specification for this container 
+		 * The default language and region specification for this container
 		 * represented as an IETF-defined standard language tag,
 		 * e.g. `"en-us"` or `"de-de"`. This value is passed to each app
 		 * registered as `containerLocale`.
@@ -4312,7 +4365,7 @@ F2.extend('', {
 		/**
 		 * Allows the container to fully override how the AppManifest request is
 		 * made inside of F2.
-		 * 
+		 *
 		 * @method xhr
 		 * @param {string} url The manifest url
 		 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
@@ -4322,16 +4375,30 @@ F2.extend('', {
 		 * @param {function} error The function to be called if the request fails
 		 * @param {function} complete The function to be called when the request
 		 * finishes (after success and error callbacks have been executed)
-		 * @return {XMLHttpRequest} The XMLHttpRequest object (or an object that has
-		 * an `abort` function (such as the jqXHR object in jQuery) to abort the
-		 * request)
+		 * @return {XMLHttpRequest} The XMLHttpRequest object
 		 *
-		 * @example
-		 *     F2.init({
-		 *         xhr: function(url, appConfigs, success, error, complete) {
-		 *          TODO: add fetch jsonp example
-		 *         }
-		 *     });
+		 * @example
+         *     F2.init({
+         *         xhr: function(url, appConfigs,successCallback, errorCallback, completeCallback) {
+         *          var jsonpCallback = F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+         *          var fetchUrl = url + '?params=' + F2.stringify(appConfigs.apps, F2.appConfigReplacer);
+         *          var fetchFunc = fetchJsonp(fetchUrl, {
+         *                          timeout: 3000,
+         *                          jsonpCallbackFunction: jsonpCallback
+         *                          });                
+         *           fetchFunc.then(function(response) {
+         *                          return response.json();
+         *                      })
+         *                      .then(function(data) {
+         *                      	successCallback(data);
+         *                      	completeCallback();                         
+         *                  })
+         *                  .catch(function(error) {
+         *                      F2.log('Failed to load app(s)', error.toString());
+         *                      errorCallback();
+         *                  });
+         *         }
+         *     });
 		 *
 		 * @for F2.ContainerConfig
 		 */
@@ -4375,8 +4442,7 @@ F2.extend('', {
 			 */
 			dataType: function(url, appConfigs) {},
 			/**
-			 * Allows the container to override the request method that is used (just
-			 * like the `type` parameter to `jQuery.ajax()`.
+			 * Allows the container to override the request method that is used.
 			 * @method xhr.type
 			 * @param {string} url The manifest url
 			 * @param {Array} appConfigs An array of {{#crossLink "F2.AppConfig"}}{{/crossLink}}
@@ -5545,13 +5611,6 @@ F2.extend('', (function() {
 						F2.log('AppConfig instance:', a);
 						throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 					}
-					// @Brian ? TODO: if we accept only explicit DOM references, do we still need this?
-					//else if (jQuery(a.root).length != 1) {
-					//	F2.log('AppConfig invalid for pre-load, root not unique');
-					//	F2.log('AppConfig instance:', a);
-					//	F2.log('Number of dom node instances:', jQuery(a.root).length);
-					//	throw ('Preloaded appConfig.root property must map to a unique dom node. Please check your inputs and try again.');
-					//}
 
 					// instantiate F2.App
 					_createAppInstance(a, {
@@ -5685,9 +5744,9 @@ F2.extend('', (function() {
 									throw ('Browser does not support the Fetch API.');
 								}
 
-								var fetchFunc, 
+								var fetchFunc,
 									fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
-									
+
 								// Fetch API does not support the JSONP calls so making JSON calls using Fetch API and
 								// JSONP call using fetch-jsonp package (https://www.npmjs.com/package/fetch-jsonp)
 								if (dataType === 'json') {
@@ -5708,7 +5767,7 @@ F2.extend('', (function() {
 									fetchFunc = fetchJsonp(fetchUrl, {
 										timeout: 3000,
 										jsonpCallbackFunction: jsonpCallback
-									});									
+									});
 								}
 
 								fetchFunc.then(function(response) {
@@ -5716,10 +5775,10 @@ F2.extend('', (function() {
 								})
 								.then(function(data) {
 									successCallback(data);
-									completeCallback();							
+									completeCallback();
 								})
 								.catch(function(error) {
-									F2.log('Failed to load app(s)', error.toString(), req.apps);
+									F2.log('Failed to load app(s)', error, req.apps);
 									errorCallback();
 								});
 							};
@@ -5744,9 +5803,11 @@ F2.extend('', (function() {
 				return;
 			}
 
-			_apps.each(function(a) {
-				F2.removeApp(a.config.instanceId);
-			});
+			if(Object.keys(_apps).length > 0) {
+				 Object.keys(_apps).forEach(function(key) {
+				 	F2.removeApp(_apps[key].config.instanceId);
+			  });
+			}
 		},
 		/**
 		 * Removes an app from the container

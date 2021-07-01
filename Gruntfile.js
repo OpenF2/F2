@@ -58,6 +58,17 @@ module.exports = function(grunt) {
 					}
 				]
 			},
+			'f2ToDocs': {
+				files: [{
+					expand: true,
+					flatten: true,
+					src: [
+						'sdk/*.js',
+						'sdk/*.map'
+					],
+					dest: 'docs/dist/js/'
+				}]
+			},
 			'github-pages': {
 				files: [
 					{
@@ -125,7 +136,9 @@ module.exports = function(grunt) {
 				src: [
 					'sdk/src/template/header.js.tmpl',
 					'sdk/src/third-party/domify.js',
+					'sdk/src/third-party/fetch-jsonp-shim-start.js',
 					'sdk/src/third-party/fetch-jsonp.js',
+					'sdk/src/third-party/fetch-jsonp-shim-end.js',
 					'sdk/src/third-party/lodash.custom.js',
 					'sdk/src/third-party/jquery.js',
 					'sdk/src/third-party/noconflict.js',
@@ -137,11 +150,16 @@ module.exports = function(grunt) {
 			}
 		},
 		express: {
+			docs: {
+				options: {
+					bases: [path.resolve('./docs/dist')]
+				}
+			},
 			server: {
 				options: {
 					bases: './',
 					port: 8080,
-					server: (require('path')).resolve('./tests/server')
+					server: path.resolve('./tests/server')
 				}
 			},
 			// this is a duplicate of the above ^^^ to allow for testing cross origin
@@ -150,7 +168,7 @@ module.exports = function(grunt) {
 				options: {
 					bases: './',
 					port: 8081,
-					server: (require('path')).resolve('./tests/server')
+					server: path.resolve('./tests/server')
 				}
 			}
 		},
@@ -182,6 +200,24 @@ module.exports = function(grunt) {
 				'sdk/src/ui.js',
 				'sdk/src/container.js'
 			]
+		},
+		less: {
+			production: {
+				options: {
+					paths: [
+						'docs/src/css/less',
+					],
+					modifyVars: {
+						imgPath: '',
+						version: '<%= pkg.version %>'
+					},
+					compress: true,
+					banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> Copyright Markit On Demand, Inc. */\n'
+				},
+				files: {
+					'docs/dist/css/site.css': 'docs/src/css/less/site.less'
+				}
+			}
 		},
 		uglify: {
 			options: {
@@ -227,26 +263,6 @@ module.exports = function(grunt) {
 				tasks: ['js'],
 				options: {
 					spawn: false,
-				}
-			}
-		},
-		http: {
-			getDocsLayout: {
-				options: {
-					url: 'http://www.openf2.org/api/layout/docs',
-					json: true,
-					strictSSL: false,
-					callback: function(err, res, response){
-						var log = grunt.log.write('Retrieved doc layout...')
-						grunt.config.set('docs-layout',response);
-						log.ok();
-						log = grunt.log.write('Saving templates as HTML...');
-						//save as HTML for gen-docs step
-						grunt.file.write('./docs/src/template/head.html', response.head);
-						grunt.file.write('./docs/src/template/nav.html', response.nav);
-						grunt.file.write('./docs/src/template/footer.html', response.footer);
-						log.ok();
-					}
 				}
 			}
 		}
@@ -368,16 +384,17 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-express');
-	grunt.loadNpmTasks('grunt-http');
 
-	grunt.registerTask('docs', ['http:getDocsLayout','generate-docs', 'yuidoc']);
+	grunt.registerTask('docs', ['less','generate-docs', 'yuidoc', 'copy:f2ToDocs']);
+	grunt.registerTask('docs-dev', ['docs','express:docs', 'express-keepalive']);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist']);
-	grunt.registerTask('sourcemap', ['uglify:sourcemap', 'fix-sourcemap']);
+	grunt.registerTask('js', ['concat:dist', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist', 'copy:f2ToDocs']);
+	grunt.registerTask('sourcemap', ['uglify:sourcemap']);
 	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
 	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
