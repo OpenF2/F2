@@ -5,7 +5,7 @@ F2.Apps["com_openf2_examples_csharp_stocktwits"] = (function () {
         this.appConfig = appConfig;
         this.appContent = appContent;
         this.$root = $(root); //if you're using jQuery.
-        this.$app = this.$root;
+        this.$app = $("div", this.$root);
         this.context = this.appConfig.context || {};
         this.symbol = this.context.symbol || "MSFT"; //default to MSFT
         this.setupEvents();

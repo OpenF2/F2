@@ -28,7 +28,7 @@
     <div class="row">
       <div class="col-sm-12">
         <ol class="breadcrumb">
-          <li class="hidden-xs"><a href="//docs.openf2.org">Home</a></li>
+          <li class="hidden-xs"><a href="/">Home</a></li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v{{version}}</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -36,6 +36,7 @@
               <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
               <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
               <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
+              <li{{#if activeNav.migrating}} class="active"{{/if}}><a href="migrating-to-v2.html">Migrating to V2</a></li>
               <li><a href="./sdk">F2.js API Reference</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+{{title_for_url}}" id="feedbackLink" target="_blank">Submit Feedback</a></li>
@@ -63,8 +64,7 @@
             <li{{#if activeNav.container}} class="active"{{/if}}><a href="container-development.html">Container Development</a></li>
             <li{{#if activeNav.app}} class="active"{{/if}}><a href="app-development.html">App Development</a></li>
             <li{{#if activeNav.extend}} class="active"{{/if}}><a href="extending-f2.html">Extending F2</a></li>
-            <li class="hidden{{#if activeNav.f2js}} active{{/if}}"><a href="f2js-sdk.html">F2.js</a></li>
-            <li class="hidden{{#if activeNav.about}} active{{/if}}"><a href="about-f2.html">About F2</a></li>
+            <li{{#if activeNav.migrating}} class="active"{{/if}}><a href="migrating-to-v2.html">Migrating to V2</a></li>
             <li><a href="./sdk">API Reference</a></li>
           </ul>
         </div>
