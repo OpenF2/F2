@@ -20,6 +20,10 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: pkg,
 		clean: {
+			'docs': {
+				options: { force: true },
+				src: ['./docs/dist']
+			},
 			'github-pages': {
 				options: { force: true },
 				src: ['../gh-pages/src']
@@ -30,6 +34,30 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
+			'docs': {
+				files: [
+					{
+						expand: true,
+						flatten: true,
+						src: [
+							'sdk/*.js',
+							'sdk/*.map'
+						],
+						dest: 'docs/dist/js/'
+					},
+					{
+						cwd: 'docs/src',
+						expand: true,
+						src: [
+							'img/**/*',
+							'fonts/**/*',
+							'apps/**/*',
+							'js/**/*'
+						],
+						dest: 'docs/dist/'
+					},
+				]
+			},
 			'f2ToRoot': {
 				files: [
 					{
@@ -57,17 +85,6 @@ module.exports = function(grunt) {
 						filter: 'isFile'
 					}
 				]
-			},
-			'f2ToDocs': {
-				files: [{
-					expand: true,
-					flatten: true,
-					src: [
-						'sdk/*.js',
-						'sdk/*.map'
-					],
-					dest: 'docs/dist/js/'
-				}]
 			},
 			'github-pages': {
 				files: [
@@ -251,18 +268,17 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			docs: {
-				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js','!docs/src/template/head.html','!docs/src/template/nav.html','!docs/src/template/footer.html'],
+				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
 				tasks: ['docs'],
-				// tasks: ['generate-docs'],
 				options: {
-					spawn: false,
+					spawn: false
 				}
 			},
 			scripts: {
 				files: ['./sdk/src/**/*.js', '!./sdk/src/third-party/**/*.js'],
 				tasks: ['js'],
 				options: {
-					spawn: false,
+					spawn: false
 				}
 			}
 		}
@@ -389,8 +405,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-express');
 
-	grunt.registerTask('docs', ['less','generate-docs', 'yuidoc', 'copy:f2ToDocs']);
-	grunt.registerTask('docs-dev', ['docs','express:docs', 'express-keepalive']);
+	grunt.registerTask('docs', ['clean:docs','less','generate-docs', 'yuidoc', 'copy:docs']);
+	grunt.registerTask('docs-dev', ['docs', 'express:docs', 'watch:docs'/*,'express-keepalive'*/]);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
 	grunt.registerTask('js', ['concat:dist', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist', 'copy:f2ToDocs']);
