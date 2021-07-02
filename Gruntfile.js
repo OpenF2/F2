@@ -229,6 +229,8 @@ module.exports = function(grunt) {
 						version: '<%= pkg.version %>'
 					},
 					compress: true,
+					sourceMap: true,
+					sourceMapURL: '/css/site.css.map',
 					banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> Copyright Markit On Demand, Inc. */\n'
 				},
 				files: {
