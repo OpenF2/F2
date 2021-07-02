@@ -170,12 +170,6 @@ F2.init({
 
 <span class="label label-warning">Note</span> For obvious reasons, this property should only be used in a development environment.
 
-### AppRender, BeforeAppRender, AfterAppRender
-
-The `appRender()`, `beforeAppRender()`, and `afterAppRender()` methods were deprecated in F2 version 1.2 in favor of [`F2.AppHandlers`](#apphandlers-for-app-layout). Upgrading to F2 1.2 will not break existing containers using any of these methods as they are still present in the SDK.
-
-For more information, see [AppHandlers for App Layout](#apphandlers-for-app-layout).
-
 ### Internationalization
 
 To configure internationalization, or "[i18n](http://en.wikipedia.org/wiki/Internationalization_and_localization)", in an application the region and language can be set on the `ContainerConfig`. This "locale" information is shared with all Apps using [IETF-defined standard language tags](http://en.wikipedia.org/wiki/IETF_language_tag).
@@ -253,28 +247,6 @@ Sample `AppConfig` showing the `localeSupport` property:
 ```
 
 <span class="label label-info">Note</span> For more detail on the `localeSupport` property, browse to the SDK for [F2.AppConfig](./sdk/classes/F2.AppConfig.html#properties-localeSupport).
-
-### Setting Up a Loading GIF
-
-Container Developers have the opportunity to customize some user interface (UI) elements which propagate to the App Developers' toolkit in F2.js. One of those is `F2.UI.Mask`. The `Mask` object contains configuration defaults for the `F2.UI.showMask()` and `F2.UI.hideMask()` methods.
-
-An example of setting the mask in `F2.init()`:
-
-```javascript
-F2.init({
-    UI:{
-        Mask:{
-            loadingIcon:'./img/spinner.gif',
-            backgroundColor: '#fff',
-            opacity: 0.5
-        }
-    }
-});
-```
-
-Included in the `F2.UI.Mask` configuration object are the following properties: `backgroundColor`, `loadingIcon`, `opacity`, `useClasses`, and `zIndex`. Each of these `F2.UI.Mask` properties is detailed in [the F2.js SDK docs](./sdk/classes/F2.ContainerConfig.UI.Mask.html).
-
-For more information on `F2.UI`, [browse to the F2.js SDK docs](./sdk/classes/F2.UI.html).
 
 ### Override the AppManifest Request
 
@@ -449,18 +421,6 @@ F2.Events.on('APP_SCRIPTS_LOADED', function(data){
     //Ouputs 'All scripts for com_test_app have been loaded.'
 });
 ```
-
-### Supported Views
-
-F2 Container Developers should define which [app views](app-development.html#f2.ui.views) their container supports. This is set in the `supportedViews` property of the `ContainerConfig` using [`F2.Constants.Views`](./sdk/classes/F2.Constants.Views.html).
-
-```javascript
-F2.init({
-    supportedViews: [F2.Constants.Views.HOME, F2.Constants.Views.SETTINGS, F2.Constants.Views.REMOVE]
-});
-```
-
-<span class="label label-info">Note</span> Every F2 app has a `home` view (whether defined by the App Developer or not). This means if no views are provided by the App Developer, a `home` view is automatically added to `appConfig.views` during the app registration process inside F2.
 
 ### Container Templates
 
@@ -821,15 +781,7 @@ If a manifest is passed with the `AppConfig`, then the `AppClass` will receive a
 
 ## AppHandlers for App Layout
 
-New functionality called `F2.AppHandlers` was added in F2 1.2, and the conversation about this collection of features occurred in [#38](https://github.com/OpenF2/F2/issues/38) on GitHub. The new `AppHandlers` functionality provides Container Developers a higher level of control over configuring app rendering and interaction.
-
-<p class="alert alert-block alert-warning">
-The addition of `F2.AppHandlers` replaces the previous `ContainerConfig` properties `beforeAppRender`, `appRender`, and `afterAppRender`. These methods were deprecated&mdash;but not removed&mdash;in version 1.2. They will be permanently removed in a future version of F2.
-</p>
-
-<p class="alert alert-block alert-info">
-Since F2 version 1.2, `AppHandlers` is the preferred method for Container Developers to manage app layout.
-</p>
+`F2.AppHandlers` was added in F2 1.2, and the conversation about this collection of features occurred in [#38](https://github.com/OpenF2/F2/issues/38) on GitHub. The `AppHandlers` functionality provides Container Developers a higher level of control over configuring app rendering and interaction.
 
 The `AppHandlers` functionality provides an event-based system for Container Developers' web applications. The addition of a collection of constants in `F2.Constants.AppHandlers` shows the primitive set of event types (or hooks) available to developers, including hooks such as `appCreateRoot`, `appRenderAfter`, `appDestroyAfter` and more. (Review the complete `F2.Constants.AppHandlers` collection in [the F2.js SDK documentation](./sdk/classes/F2.Constants.AppHandlers.html).)
 
