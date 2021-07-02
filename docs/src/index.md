@@ -51,7 +51,7 @@ There are a few different types of examples available below.
 	<a class="media-left" href="http://www.openf2.org/examples"><i class="fa fa-compass"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">Examples</h4>
-		Visit [openF2.org/examples](http://www.openf2.org/examples) for a live demo of production-grade Apps in a basic Container.
+		Visit the [examples](examples.html) page for a live demo of Apps in a basic Container.
 	</div>
 </div>
 

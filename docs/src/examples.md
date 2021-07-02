@@ -13,7 +13,7 @@ Press <code>a</code> to see the <a href="http://docs.openf2.org/app-development.
 
 ## Apps
 
-<div class="row">
+<div class="row examples-container">
   <div class="col-md-6">
     <div class="f2-autoload" data-f2-appid="com_openf2_examples_csharp_stocktwits" data-f2-manifestUrl="/apps/com_openf2_examples_csharp_stocktwits/manifest.js" data-f2-context='{"symbol":"AAPL"}'></div>
   </div>
