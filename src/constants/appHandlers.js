@@ -1,3 +1,8 @@
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants.AppHandlers
+ * @static
+ */
 module.exports = {
 	/**
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the

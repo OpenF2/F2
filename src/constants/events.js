@@ -1,3 +1,8 @@
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants.Events
+ * @static
+ */
 module.exports = {
 	/**
 	 * The APP_SCRIPTS_LOADED event is fired when all the scripts defined in

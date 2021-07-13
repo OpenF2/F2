@@ -611,6 +611,11 @@ var _validateContainerConfig = function() {
 	return true;
 };
 
+/**
+ * Root namespace of the F2 SDK
+ * @module f2
+ * @class F2
+ */
 export default {
 	/**
 	 * Gets the current list of apps in the container

@@ -2,6 +2,11 @@ import appHandlers from './appHandlers';
 import css from './css';
 import events from './events';
 
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants
+ * @static
+ */
 export default {
 	AppHandlers: appHandlers,
 	AppStatus: {

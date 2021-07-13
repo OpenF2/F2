@@ -40,9 +40,7 @@ module.exports = function(grunt) {
 						expand: true,
 						flatten: true,
 						src: [
-							'sdk/*.js',
-							'sdk/*.map'
-						],
+							'dist/*'],
 						dest: 'docs/dist/js/'
 					},
 					{
@@ -176,7 +174,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			docs: {
-				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
+				files: ['src/**/*.js','docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
 				tasks: ['docs'],
 				options: {
 					spawn: false

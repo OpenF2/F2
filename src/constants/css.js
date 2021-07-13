@@ -1,3 +1,8 @@
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants.Css
+ * @static
+ */
 module.exports = {
 	/**
 	 * The APP class should be applied to the DOM Element that surrounds the
