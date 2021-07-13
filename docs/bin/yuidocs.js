@@ -19,7 +19,8 @@ json = (new Y.YUIDoc(docOptions)).run();
 json.project = {
   docsAssets: '../',
   version: pkg.version,
-  releaseDateFormatted: pkg._releaseDateFormatted
+  releaseDateFormatted: pkg._releaseDateFormatted,
+  title: 'API Reference'
 };
 docOptions = Y.Project.mix(json, docOptions);
 

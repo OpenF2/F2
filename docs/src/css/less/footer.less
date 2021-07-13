@@ -1,0 +1,150 @@
+footer {
+	a {
+		color: #fff;
+		&:hover {
+			color: #eee;
+		}
+	}
+
+	min-height: 85px;
+	line-height: 85px;
+	color: @footerText;
+	font-size: 12px;
+	background-color: @footerBackground;
+
+	h1 {
+		width: @navbar-width;
+		height: @navbar-height;
+		background: transparent url('/img/logo.png?v=@{version}') top left no-repeat;
+		.text-hide();
+
+		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+			background-image: url('/img/logo@2x.png?v=@{version}');
+			background-size: @navbar-width @navbar-height;
+		}
+	}
+
+	p {
+		font-size: 15px;
+		line-height: 1.4;
+		margin: 30px 0;
+		font-weight: @font-weight-bold;
+	}
+
+	.navbar-nav.list {
+		padding: 0 15px;
+		li > a {
+			color: @footerText;
+			font-size: 15px;
+			border-bottom: 1px solid @footerTextLight;
+
+			&:hover,
+			&:active,
+			&:visited {
+				background-color: transparent;
+			}
+		}
+
+		li:first-child > a {
+			border-top: 1px solid @footerTextLight;
+		}
+	}
+
+	.footer-nav.iconlist {
+		margin-top: 40px;
+
+		@media (min-width: @screen-md-min){
+			margin-top: 20px;
+			text-align: right;
+		}
+
+		> li {
+			width: 24%;
+			padding-right: 0;
+			padding-left: 0;
+			.align-center();
+			display: inline-block;
+
+			@media (min-width: @screen-md-min){
+				width: auto;
+				margin-left: 40px;
+			}
+		}
+
+		li > a > {
+			color: @footerBackground;
+			background-color: @footerHexagon;
+
+			&.hexagon {
+				.make-hexagon(40px,@footerHexagon);
+			}
+
+			i {
+				position: absolute;
+				top: 0px;
+				left: 9px;
+
+				&.fa-github {
+					left: 10px;
+				}
+				&.fa-code-fork {
+					left: 15px;
+				}
+			}
+		}
+
+		li > a:hover {
+			color: #fff;
+		}
+
+		@media (min-width: @screen-md-min){
+			li.version {
+				width: 200px;
+				.clearfix();
+				div {
+					a {
+						display: block;
+						color: #fff;
+
+						&:hover {
+							text-decoration: none;
+						}
+					}
+					cursor: pointer;
+					float: right;
+					text-align: left;
+					margin-left: 10px;
+					padding-top: 15px;
+					h5 {
+						margin-top: 0;
+						margin-bottom: 3px;
+						text-transform: uppercase;
+					}
+					p {
+						margin: 0;
+						font-size: 10px;
+						color: @footerText;
+						font-weight: normal;
+					}
+				}
+			}
+		}
+	}
+
+	.deepFooter {
+		&.hidden-xs {
+			padding-top: 20px;
+		}
+		p {
+			font-weight: normal;
+			line-height: 1.2;
+			font-size: 13px;
+			margin: 15px 0;
+
+			+ p {
+				margin-bottom: 30px;
+			}
+		}
+	}
+
+}

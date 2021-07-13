@@ -1,0 +1,2 @@
+	window.fetchJsonp = this.fetchJsonp;
+})();

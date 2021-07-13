@@ -1,0 +1,22 @@
+/**
+ * All selectors must have .YOUR_APP_ID as a prefix.
+ */
+
+.com_openf2_examples_csharp_stocktwits .avatar {
+	vertical-align: top;
+}
+
+.com_openf2_examples_csharp_stocktwits img {
+	max-width: 35px !important;
+}
+
+.com_openf2_examples_csharp_stocktwits time {
+	display: block;
+	font-size:12px;
+	color: #8f8f8f;
+}
+
+.com_openf2_examples_csharp_stocktwits .table>tbody>tr>td {
+	border-top: 0;
+	border-bottom: 1px solid #ddd;
+}

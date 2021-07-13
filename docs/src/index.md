@@ -51,7 +51,7 @@ There are a few different types of examples available below.
 	<a class="media-left" href="http://www.openf2.org/examples"><i class="fa fa-compass"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">Examples</h4>
-		Visit [openF2.org/examples](http://www.openf2.org/examples) for a live demo of production-grade Apps in a basic Container.
+		Visit the [examples](examples.html) page for a live demo of Apps in a basic Container.
 	</div>
 </div>
 
@@ -91,38 +91,13 @@ There are a few different types of examples available below.
 
 ## Resources & Help
 
-Have a question? Find a bug? Need help? 
-
-<div class="media">
-	<a class="media-left" href="#"><i class="fa fa-book"></i></a>
-	<div class="media-body">
-		<h4 class="media-heading">Guides</h4>
-		_Coming soon..._
-	</div>
-</div>
+Have a question? Find a bug? Need help?
 
 <div class="media">
 	<a class="media-left" href="https://github.com/OpenF2/F2/issues"><i class="fa fa-github"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">GitHub Issues</h4>
-		Browse and submit to [Issues on GitHub](https://github.com/OpenF2/F2/issues) for bug reports, enhancement requests, etc. 
-	</div>
-</div>
-
-<div class="media">
-	<a class="media-left" href="https://openf2.slack.com/"><i class="fa fa-slack"></i></a>
-	<div class="media-body">
-		<h4 class="media-heading">Slack</h4>
-		Join the [F2 Slack](https://openf2.slack.com/) for real-time project updates. _[Get an invite](https://openf2-slack.herokuapp.com/)._<br><br>
-		<script async defer src="//openf2-slack.herokuapp.com/slackin.js"></script>
-	</div>
-</div>
-
-<div class="media">
-	<a class="media-left" href="https://groups.google.com/forum/#!forum/OpenF2"><i class="fa fa-google"></i></a>
-	<div class="media-body">
-		<h4 class="media-heading">OpenF2 Google Group</h4>
-		Use the F2 mailing list on [Google Groups](https://groups.google.com/forum/#!forum/OpenF2) for support.
+		Browse and submit to [Issues on GitHub](https://github.com/OpenF2/F2/issues) for bug reports, enhancement requests, etc.
 	</div>
 </div>
 
@@ -138,7 +113,7 @@ Have a question? Find a bug? Need help?
 
 ## Specification
 
-The F2 development standard will continuously evolve to bring the community the best features, services and apps. F2's promise is to do this by building on the existing spec, not by changing it. The specification aims high to solve many problems and suit many needs. As the standard evolves and new requirements come to light, the functionality in F2 will expand accordingly. 
+The F2 development standard will continuously evolve to bring the community the best features, services and apps. F2's promise is to do this by building on the existing spec, not by changing it. The specification aims high to solve many problems and suit many needs. As the standard evolves and new requirements come to light, the functionality in F2 will expand accordingly.
 
 ### Notational Conventions
 

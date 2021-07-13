@@ -1,0 +1,224 @@
+// ------ MIXINS ----------
+.font-bold(){
+	font-weight: @font-weight-bold;
+	font-family: @font-family-sans-serif-regular;
+}
+
+.align-center() {
+	text-align: center;
+	.center-block();
+}
+
+.align-center {
+	.align-center();
+}
+
+.make-circle(@diameter){
+	display: inline-block;
+	width: @diameter;
+	height: @diameter;
+	-moz-border-radius: @diameter / 2;
+	-webkit-border-radius: @diameter / 2;
+	border-radius: @diameter / 2;
+	text-align: center;
+	padding: 2px 0 0 4px
+}
+
+.make-hexagon(@width,@color){
+	display: inline-block;
+	width: @width;
+	height: @width / 1.8;
+	position: relative;
+
+ 	&:before {
+		content: "";
+		position: absolute;
+		top: (@width / 4) * -1;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-left: @width / 2 solid transparent;
+		border-right: @width / 2 solid transparent;
+		border-bottom: @width / 4 solid @color;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		bottom: (@width / 4) * -1;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-left: @width / 2 solid transparent;
+		border-right: @width / 2 solid transparent;
+		border-top: @width / 4 solid @color;
+	}
+}
+
+
+//generic, reusable classes for sections
+.aboutbox {
+	.align-center();
+	position: relative;
+	min-height: 350px;
+
+	h1, h2, h3 {
+		font-weight: normal;
+		margin: 0;
+		padding: 0;
+	}
+
+	.container {
+		// z-index: 2000;//above animations & positioning
+		.align-center();
+		padding-top: 40px;
+
+		@media (min-width: @screen-sm-min){
+			padding-top: 120px;
+		}
+	}
+
+	&.box-blue {
+		background-color: @f2blue;
+		color: #fff;
+		h2 {
+			color: #fff;
+			font-weight: @font-weight-extra-light;
+			font-size: 25px;
+			padding-bottom: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+
+			@media (min-width: @screen-sm-min){
+				font-size: 40px;
+			}
+		}
+		a {
+			color: #fff;
+		}
+	}
+
+	&.box-grey {
+		background-color: @f2greylight;
+		color: @text-color;
+		h2 {
+			color: @headingBlue;
+			font-weight: @font-weight-extra-light;
+			font-size: 25px;
+			padding-bottom: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+
+			@media (min-width: @screen-sm-min){
+				font-size: 40px;
+			}
+		}
+	}
+
+	&.box-greydark {
+		background-color: @f2greydark;
+		color: @text-color;
+		h2 {
+			color: @headingBlue;
+			font-weight: @font-weight-extra-light;
+			font-size: 25px;
+			padding-bottom: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+
+			@media (min-width: @screen-sm-min){
+				font-size: 40px;
+			}
+		}
+	}
+
+	&.box-white {
+		background-color: #fff;
+		color: @text-color;
+		h2 {
+			color: @headingBlue;
+			font-weight: @font-weight-extra-light;
+			font-size: 25px;
+			padding-bottom: 45px;
+			padding-left: 10px;
+			padding-right: 10px;
+
+			@media (min-width: @screen-sm-min){
+				font-size: 40px;
+			}
+		}
+	}
+
+
+}
+
+//reusable circles
+.circle {
+	.make-circle(25px);
+	font-size: 13px;
+	&.circle-grey {
+		background-color: #e1e1e6;
+		color: @gray-darker;
+	}
+	&.circle-blue {
+		background-color: @f2blue;
+		color: #fff;
+	}
+	&.circle-white {
+		background-color: #fff;
+		color: @f2blue;
+	}
+	&.circle-hollow {
+		background-color: transparent;
+		border: 3px solid #fff;
+		color: #fff;
+		padding-top: 0;
+	}
+	&.circle-white-border-blue-center {
+		background-color: @f2blueDark;
+		border: 3px solid #fff;
+		color: #fff;
+		padding-top: 0;
+	}
+}
+
+//reusable hexagons
+.hexagon {
+
+	&.hexagon-grey {
+		background-color: #e1e1e6;
+		.make-hexagon(45px,#e1e1e6);
+	}
+	&.hexagon-blue {
+		background-color: @f2blue;
+		.make-hexagon(45px,@f2blue);
+	}
+}
+
+.blue-box-aside(){
+	position: relative;
+	padding: 50px 20px;
+	background-color: @f2blueDark;
+	text-align: left;
+
+	@media (min-width: @screen-md-min){
+		padding: 40px;
+	}
+
+	figure {
+		width: 38px;
+		height: 43px;
+		display: block;
+		position: absolute;
+		background: transparent url('/img/howitworks_qmark.png');
+		top: -22px;
+		left: 50%;
+
+		@media (min-width: @screen-md-min){
+			top: -12px;
+			left: -19px;
+		}
+	}
+}
+
+// ------ MIXINS ----------

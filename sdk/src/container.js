@@ -1047,7 +1047,7 @@ F2.extend('', (function() {
 									completeCallback();
 								})
 								.catch(function(error) {
-									F2.log('Failed to load app(s)', error.toString(), req.apps);
+									F2.log('Failed to load app(s)', error, req.apps);
 									errorCallback();
 								});
 							};
