@@ -4867,6 +4867,10 @@ module.exports = {
 
 
 
+/**
+ * Class stubs for documentation purposes
+ * @main F2
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
 	App: (_app__WEBPACK_IMPORTED_MODULE_0___default()),
 	AppConfig: (_appConfig__WEBPACK_IMPORTED_MODULE_1___default()),
@@ -4881,6 +4885,11 @@ module.exports = {
 /***/ 785:
 /***/ ((module) => {
 
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants.AppHandlers
+ * @static
+ */
 module.exports = {
 	/**
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
@@ -5094,6 +5103,11 @@ module.exports = {
 /***/ 10:
 /***/ ((module) => {
 
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants.Css
+ * @static
+ */
 module.exports = {
 	/**
 	 * The APP class should be applied to the DOM Element that surrounds the
@@ -5122,6 +5136,11 @@ module.exports = {
 /***/ 973:
 /***/ ((module) => {
 
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants.Events
+ * @static
+ */
 module.exports = {
 	/**
 	 * The APP_SCRIPTS_LOADED event is fired when all the scripts defined in
@@ -5228,6 +5247,11 @@ module.exports = {
 
 
 
+/**
+ * Constants used throughout the Open Financial Framework
+ * @class F2.Constants
+ * @static
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
 	AppHandlers: (_appHandlers__WEBPACK_IMPORTED_MODULE_0___default()),
 	AppStatus: {
@@ -5873,6 +5897,11 @@ var _validateContainerConfig = function() {
 	return true;
 };
 
+/**
+ * Root namespace of the F2 SDK
+ * @module f2
+ * @class F2
+ */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
 	/**
 	 * Gets the current list of apps in the container
