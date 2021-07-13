@@ -58,34 +58,6 @@ module.exports = function(grunt) {
 					},
 				]
 			},
-			'f2ToRoot': {
-				files: [
-					{
-						expand: true,
-						cwd: 'sdk/',
-						src: 'f2.min.js',
-						dest: './',
-						rename: function(dest,src){
-							return './<%= pkg.name %>.latest.js';
-						}
-					}
-				]
-			},
-			'f2Dist': {
-				files: [
-					{
-						expand: true,
-						flatten: true,
-						src: [
-							'sdk/packages/*',
-							'sdk/*.js',
-							'sdk/*.map'
-						],
-						dest: 'dist/',
-						filter: 'isFile'
-					}
-				]
-			},
 			'github-pages': {
 				files: [
 					{
@@ -130,40 +102,11 @@ module.exports = function(grunt) {
 					},
 					{
 						expand: true,
-						cwd: 'sdk/',
-						src: ['f2.debug.js'],
-						dest: 'sdk/'
-					},
-					{
-						expand: true,
-						cwd: 'sdk/',
-						src: ['src/third-party/require.min.js'],
-						dest: 'sdk/'
+						cwd: 'dist/',
+						src: ['**'],
+						dest: 'dist/'
 					}
 				]
-			}
-		},
-		concat: {
-			options: {
-				process: { data: pkg },
-				separator: '\n',
-				stripBanners: false
-			},
-			dist: {
-				src: [
-					'sdk/src/template/header.js.tmpl',
-					'sdk/src/third-party/domify.js',
-					'sdk/src/third-party/fetch-jsonp-shim-start.js',
-					'sdk/src/third-party/fetch-jsonp.js',
-					'sdk/src/third-party/fetch-jsonp-shim-end.js',
-					'sdk/src/third-party/lodash.custom.js',
-					'sdk/src/third-party/jquery.js',
-					'sdk/src/third-party/noconflict.js',
-					'sdk/src/third-party/eventemitter2.js',
-					'<%= jshint.files %>',
-					'sdk/src/template/footer.js.tmpl'
-				],
-				dest: 'sdk/f2.debug.js'
 			}
 		},
 		express: {
@@ -208,14 +151,7 @@ module.exports = function(grunt) {
 				jshintrc: true
 			},
 			files: [
-				'sdk/src/F2.js',
-				'sdk/src/app_handlers.js',
-				'sdk/src/classes.js',
-				'sdk/src/constants.js',
-				'sdk/src/events.js',
-				'sdk/src/rpc.js',
-				'sdk/src/ui.js',
-				'sdk/src/container.js'
+				'src/**/*.js'
 			]
 		},
 		less: {
@@ -238,36 +174,6 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		uglify: {
-			options: {
-				preserveComments: 'some',
-				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("mm-dd-yyyy") %> - See below for copyright and license */\n'
-			},
-			dist: {
-				files: {'sdk/f2.min.js' : ['sdk/f2.debug.js']},
-				options: {
-					report: 'min'
-				}
-			},
-			sourcemap: {
-				files: '<%= uglify.dist.files %>',
-				options: {
-					sourceMap: function(fileName) {
-						return fileName.replace(/\.js$/, '.map');
-					},
-					sourceMapPrefix: 1,
-					sourceMappingURL: function(path) {
-						return path.replace(grunt.config('sourcemap.options.prefix'), '').replace(/\.js$/, '.map');
-					}
-				}
-			}
-		},
-		sourcemap: {
-			options: {
-				src: 'sdk/f2.min.js',
-				prefix: 'sdk/'
-			}
-		},
 		watch: {
 			docs: {
 				files: ['docs/src/**/*.*','package.json','docs/bin/gen-docs.js'],
@@ -277,26 +183,19 @@ module.exports = function(grunt) {
 				}
 			},
 			scripts: {
-				files: ['./sdk/src/**/*.js', '!./sdk/src/third-party/**/*.js'],
+				files: ['./src/**/*.js'],
 				tasks: ['js'],
 				options: {
 					spawn: false
 				}
 			}
+		},
+		webpack: {
+			prod: require('./webpack.config.js')
 		}
 	});
 
 	// Register tasks
-	grunt.registerTask('fix-sourcemap', 'Fixes the source map file', function() {
-		var uglifyOptions = grunt.config('uglify.sourcemap.options'),
-			options = grunt.config('sourcemap.options'),
-			dest = uglifyOptions.sourceMap(options.src),
-			rawMap = grunt.file.read(dest);
-
-		rawMap = rawMap.replace(options.prefix, '');
-		grunt.file.write(dest, rawMap);
-	});
-
 	grunt.registerTask('generate-docs', 'Generate docs', function() {
 		var done = this.async(),
 			log = grunt.log.write('Generating docs...');
@@ -311,36 +210,6 @@ module.exports = function(grunt) {
 			log.ok();
 			done();
 		});
-	});
-
-	grunt.registerTask('nuget', 'Builds the NuGet package for distribution on NuGet.org', function() {
-		var done = this.async(),
-			log = grunt.log.write('Creating NuSpec file...'),
-			nuspec = grunt.file.read('./sdk/f2.nuspec.tmpl');
-
-		nuspec = grunt.template.process(nuspec, { data: pkg });
-		grunt.file.write('./sdk/f2.nuspec', nuspec);
-		log.ok();
-
-		log = grunt.log.write('Creating NuGet package...');
-		grunt.util.spawn(
-			{
-				cmd: 'nuget',
-				args: ['pack', 'f2.nuspec'],
-				opts: {
-					cwd: './sdk'
-				}
-			},
-			function(error, result, code){
-				if (error){
-					grunt.fail.fatal(error);
-				} else {
-					grunt.file.delete('./sdk/f2.nuspec');
-					log.ok();
-					done();
-				}
-			}
-		);
 	});
 
 	grunt.registerTask('release', 'Prepares the code for release (merge into master)', function(releaseType) {
@@ -398,24 +267,21 @@ module.exports = function(grunt) {
 	// Load plugins
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-express');
+	grunt.loadNpmTasks('grunt-webpack');
 
 	grunt.registerTask('docs', ['clean:docs','less','generate-docs', 'yuidoc', 'copy:docs']);
 	grunt.registerTask('docs-dev', ['docs', 'express:docs', 'watch:docs'/*,'express-keepalive'*/]);
 	grunt.registerTask('github-pages', ['copy:github-pages', 'clean:github-pages']);
 	grunt.registerTask('zip', ['compress', 'copy:F2-examples', 'clean:F2-examples']);
-	grunt.registerTask('js', ['concat:dist', 'uglify:dist', 'sourcemap', 'copy:f2ToRoot', 'copy:f2Dist', 'copy:f2ToDocs']);
-	grunt.registerTask('sourcemap', ['uglify:sourcemap']);
-	grunt.registerTask('test', ['jshint', 'express', 'jasmine']);
-	grunt.registerTask('test-live', ['jshint', 'express', 'express-keepalive']);
+	grunt.registerTask('test', ['jshint', 'express:server', 'express:server2', 'jasmine']);
+	grunt.registerTask('test-live', ['jshint', 'express:server', 'express:server2', 'express-keepalive']);
 	grunt.registerTask('travis', ['test']);
-	grunt.registerTask('default', ['test', 'js', 'docs', 'zip']);
-	grunt.registerTask('build', ['js', 'docs', 'zip', 'nuget'])
+	grunt.registerTask('default', ['webpack', 'test']);
+	grunt.registerTask('build', ['webpack', 'test', 'docs', 'zip'])
 };

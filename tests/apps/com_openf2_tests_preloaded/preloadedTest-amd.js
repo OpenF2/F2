@@ -1,10 +1,10 @@
-require(['../sdk/f2.min.js'], function () {				
+require(['../dist/f2.js'], function () {
 	F2.Apps[TEST_APP_ID] = (function() {
 
 		var App_Class = function (appConfig, appContent, root) {
 			this.appConfig = appConfig;
 			this.appContent = appContent;
-			this.ui = appConfig.ui;		
+			this.ui = appConfig.ui;
 			this.$root = $(root);
 			this.doNotCallAgain = false;
 		};
@@ -25,5 +25,5 @@ require(['../sdk/f2.min.js'], function () {
 		};
 
 		return App_Class;
-	})();	
+	})();
 });

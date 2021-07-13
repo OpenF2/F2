@@ -1,9 +1,11 @@
+import EventEmitter2 from 'eventemitter2';
+
 /**
  * Handles [Context](../../app-development.html#context) passing from
  * containers to apps and apps to apps.
  * @class F2.Events
  */
-F2.extend('Events', (function() {
+export default (function() {
 	// init EventEmitter
 	var _events = new EventEmitter2({
 		wildcard:true
@@ -24,8 +26,8 @@ F2.extend('Events', (function() {
 			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
 		},
 		/**
-		 * Adds a listener that will execute n times for the event before being 
-		 * removed. The listener is invoked only the first time the event is 
+		 * Adds a listener that will execute n times for the event before being
+		 * removed. The listener is invoked only the first time the event is
 		 * fired, after which it is removed.
 		 * @method many
 		 * @param {string} event The event name
@@ -68,4 +70,4 @@ F2.extend('Events', (function() {
 			return _events.once(event, listener);
 		}
 	};
-})());
+})();

@@ -27,7 +27,7 @@ var beforeEachReloadF2 = function(callback) {
 			callback && callback();
 			done();
 		}
-		script.src = '../sdk/f2.debug.js';
+		script.src = '../dist/f2.js';
 		head.appendChild(script);
 	});
 };

@@ -1,3 +1,7 @@
+import container from './container';
+
+export default function() {
+
 	var callback = function() {
 		var autoloadEls = [],
 			add = function(e) {
@@ -22,9 +26,9 @@
 
 		// if elements were found, auto-init F2 and load any placeholders
 		if (autoloadEls.length) {
-			F2.init();
+			container.init();
 			for (var i = 0, len = autoloadEls.length; i < len; i++) {
-				F2.loadPlaceholders(autoloadEls[i]);
+				container.loadPlaceholders(autoloadEls[i]);
 			}
 		}
 	};
@@ -34,15 +38,4 @@
 	} else {
 		document.addEventListener('DOMContentLoaded', callback);
 	}
-
-	exports.F2 = F2;
-
-	if (typeof define !== 'undefined' && define.amd) {
-
-		define(function() {
-			return F2;
-		});
-
-	}
-
-})(typeof exports !== 'undefined' ? exports : window);
+}
