@@ -1,10 +1,11 @@
 import appHandlers from './appHandlers';
+import appClasses from './apps';
 import classes from './classes';
 import cloneDeep from 'lodash.cloneDeep';
 import constants from './constants';
 import domify from 'domify';
 import events from './events';
-import F2 from './F2';
+import utils from './utils';
 import fetchJsonp from 'fetch-jsonp';
 
 var _apps = {};
@@ -47,7 +48,7 @@ var _createAppConfig = function(appConfig) {
 	appConfig = cloneDeep(appConfig) || {};
 
 	// create the instanceId for the app
-	appConfig.instanceId = appConfig.instanceId || F2.guid();
+	appConfig.instanceId = appConfig.instanceId || utils.guid();
 
 	//pass container-defined locale to each app
 	if (classes.ContainerConfig.locale){
@@ -84,7 +85,7 @@ var _getAppConfigFromElement = function(node) {
 
 			if (contextJson) {
 				try {
-					appConfig.context = F2.parse(contextJson);
+					appConfig.context = utils.parse(contextJson);
 				}
 				catch (e) {
 					console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
@@ -174,7 +175,7 @@ var _initContainerEvents = function() {
  */
 var _isPlaceholderElement = function(node) {
 	return (
-		F2.isNativeDOMNode(node) &&
+		utils.isNativeDOMNode(node) &&
 		!_hasNonTextChildNodes(node) &&
 		!!node.getAttribute('data-f2-appid') &&
 		!!node.getAttribute('data-f2-manifesturl')
@@ -199,12 +200,12 @@ var _isInit = function() {
  */
 var _createAppInstance = function(appConfig, appContent) {
 	// instantiate F2.App
-	if (F2.Apps[appConfig.appId] !== undefined) {
-		if (typeof F2.Apps[appConfig.appId] === 'function') {
+	if (appClasses[appConfig.appId] !== undefined) {
+		if (typeof appClasses[appConfig.appId] === 'function') {
 
 			// IE
 			setTimeout(function() {
-				_apps[appConfig.instanceId].app = new F2.Apps[appConfig.appId](appConfig, appContent, appConfig.root);
+				_apps[appConfig.instanceId].app = new appClasses[appConfig.appId](appConfig, appContent, appConfig.root);
 				if (_apps[appConfig.instanceId].app['init'] !== undefined) {
 					_apps[appConfig.instanceId].app.init();
 				}
@@ -212,7 +213,7 @@ var _createAppInstance = function(appConfig, appContent) {
 
 		}
 		else {
-			F2.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
+			utils.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
 		}
 	}
 };
@@ -230,7 +231,7 @@ var _loadApps = function(appConfigs, appManifest) {
 
 	// check that the number of apps in manifest matches the number requested
 	if (appConfigs.length != appManifest.apps.length) {
-		F2.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
+		utils.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
 		return;
 	}
 
@@ -341,7 +342,7 @@ var _loadApps = function(appConfigs, appManifest) {
 				};
 
 				// Send error to console
-				F2.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
+				utils.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
 				// @Brian ? TODO: deprecate, see #222
 				events.emit(constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
@@ -455,7 +456,7 @@ var _loadApps = function(appConfigs, appManifest) {
 					eval(inlines[i]);
 				}
 				catch (exception) {
-					F2.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
+					utils.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
 
 					// Emit events
 					events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
@@ -527,7 +528,7 @@ var _loadApps = function(appConfigs, appManifest) {
 					appConfigs[i] // the app config
 				);
 
-				if (!F2.isNativeDOMNode(root)) {
+				if (!utils.isNativeDOMNode(root)) {
 					throw ('App root for ' + appId + ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
 				}
 			}
@@ -572,11 +573,11 @@ var _validateApp = function(appConfig) {
 
 	// check for valid app configurations
 	if (!appConfig.appId) {
-		F2.log('"appId" missing from app object');
+		utils.log('"appId" missing from app object');
 		return false;
 	}
 	else if (!appConfig.root && !appConfig.manifestUrl) {
-		F2.log('"manifestUrl" missing from app object');
+		utils.log('"manifestUrl" missing from app object');
 		return false;
 	}
 
@@ -624,7 +625,7 @@ export default {
 	 */
 	getContainerState: function() {
 		if (!_isInit()) {
-			F2.log('F2.init() must be called before F2.getContainerState()');
+			utils.log('F2.init() must be called before F2.getContainerState()');
 			return;
 		}
 
@@ -645,7 +646,7 @@ export default {
 	 */
 	getContainerLocale: function() {
 		if (!_isInit()) {
-			F2.log('F2.init() must be called before F2.getContainerLocale()');
+			utils.log('F2.init() must be called before F2.getContainerLocale()');
 			return;
 		}
 
@@ -696,7 +697,7 @@ export default {
 				}
 			};
 
-		if (!!parentNode && !F2.isNativeDOMNode(parentNode)) {
+		if (!!parentNode && !utils.isNativeDOMNode(parentNode)) {
 			throw ('"parentNode" must be null or a DOM node');
 		}
 
@@ -832,11 +833,11 @@ export default {
 	registerApps: function(appConfigs, appManifests) {
 
 		if (!_isInit()) {
-			F2.log('F2.init() must be called before F2.registerApps()');
+			utils.log('F2.init() must be called before F2.registerApps()');
 			return;
 		}
 		else if (!appConfigs) {
-			F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
+			utils.log('At least one AppConfig must be passed when calling F2.registerApps()');
 			return;
 		}
 
@@ -851,12 +852,12 @@ export default {
 
 		// appConfigs must have a length
 		if (!appConfigs.length) {
-			F2.log('At least one AppConfig must be passed when calling F2.registerApps()');
+			utils.log('At least one AppConfig must be passed when calling F2.registerApps()');
 			return;
 			// ensure that the array of apps and manifests are qual
 		}
 		else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
-			F2.log('The length of "apps" does not equal the length of "appManifests"');
+			utils.log('The length of "apps" does not equal the length of "appManifests"');
 			return;
 		}
 
@@ -884,9 +885,9 @@ export default {
 			// If the root property is defined then this app is considered to be preloaded and we will
 			// run it through that logic.
 			if (a.root && !_isPlaceholderElement(a.root)) {
-				if ((!a.root && typeof(a.root) != 'string') && !F2.isNativeDOMNode(a.root)) {
-					F2.log('AppConfig invalid for pre-load, not a valid string and not dom node');
-					F2.log('AppConfig instance:', a);
+				if ((!a.root && typeof(a.root) != 'string') && !utils.isNativeDOMNode(a.root)) {
+					utils.log('AppConfig invalid for pre-load, not a valid string and not dom node');
+					utils.log('AppConfig instance:', a);
 					throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 				}
 
@@ -981,7 +982,7 @@ export default {
 						errorFunc = function() {
 							req.apps.forEach(function(item, idx) {
 								item.name = item.name || item.appId;
-								F2.log('Removed failed ' + item.name + ' app', item);
+								utils.log('Removed failed ' + item.name + ' app', item);
 								appHandlers.__trigger(
 									_sAppHandlerToken,
 									constants.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
@@ -1023,7 +1024,7 @@ export default {
 							}
 
 							var fetchFunc,
-								fetchUrl = url + '?params=' + F2.stringify(req.apps, F2.appConfigReplacer);
+								fetchUrl = url + '?params=' + utils.stringify(req.apps, utils.appConfigReplacer);
 
 							// Fetch API does not support the JSONP calls so making JSON calls using Fetch API and
 							// JSONP call using fetch-jsonp package (https://www.npmjs.com/package/fetch-jsonp)
@@ -1036,7 +1037,7 @@ export default {
 								if (type === 'POST') {
 									fetchUrl = url;
 									fetchInputs.body = {
-										params: F2.stringify(req.apps, F2.appConfigReplacer)
+										params: utils.stringify(req.apps, utils.appConfigReplacer)
 									};
 								}
 
@@ -1056,7 +1057,7 @@ export default {
 								completeCallback();
 							})
 							.catch(function(error) {
-								F2.log('Failed to load app(s)', error, req.apps);
+								utils.log('Failed to load app(s)', error, req.apps);
 								errorCallback();
 							});
 						};
@@ -1079,7 +1080,7 @@ export default {
 		var self = this;
 
 		if (!_isInit()) {
-			F2.log('F2.init() must be called before F2.removeAllApps()');
+			utils.log('F2.init() must be called before F2.removeAllApps()');
 			return;
 		}
 
@@ -1097,7 +1098,7 @@ export default {
 	removeApp: function(instanceId) {
 
 		if (!_isInit()) {
-			F2.log('F2.init() must be called before F2.removeApp()');
+			utils.log('F2.init() must be called before F2.removeApp()');
 			return;
 		}
 

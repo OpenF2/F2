@@ -1,9 +1,9 @@
 import domify from 'domify';
-import F2 from './F2';
+import utils from './utils';
 
 // the hidden token that we will check against every time someone tries to add, remove, fire handler
-var _ct = F2.guid();
-var _f2t = F2.guid();
+var _ct = utils.guid();
+var _f2t = utils.guid();
 
 var _handlerCollection = {
 	appManifestRequestFail: [],
@@ -21,7 +21,7 @@ var _defaultMethods = {
 	appRender: function(appConfig, appHtml)
 	{
 		// if no app root is defined use the app's outer most node
-		if(!F2.isNativeDOMNode(appConfig.root))
+		if(!utils.isNativeDOMNode(appConfig.root))
 		{
 			appConfig.root = domify(appHtml);
 		}
@@ -44,7 +44,7 @@ var _defaultMethods = {
 		// warn the Container and App Developer that even though they have a destroy method it hasn't been
 		else if(appInstance && appInstance.app && appInstance.app.destroy)
 		{
-			F2.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+			utils.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 		}
 
 		// remove the root
@@ -61,7 +61,7 @@ var _createHandler = function(token, sNamespace, func_or_element, bDomNodeApprop
 	var handler = {
 		func: (typeof(func_or_element)) ? func_or_element : null,
 		namespace: sNamespace,
-		domNode: (F2.isNativeDOMNode(func_or_element)) ? func_or_element : null
+		domNode: (utils.isNativeDOMNode(func_or_element)) ? func_or_element : null
 	};
 
 	if(!handler.func && !handler.domNode)
