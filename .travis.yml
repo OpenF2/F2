@@ -4,4 +4,4 @@ node_js:
 before_script:
   - npm install grunt-cli
 script:
-  - grunt travis
+  - npm run ci

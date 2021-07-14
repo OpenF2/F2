@@ -1,6 +1,6 @@
 /*!
  * 
- * F2 v2.0.0-alpha 7/13/21
+ * F2 v2.0.0-alpha 7/14/21
  * Copyright (c) 2014 Markit On Demand, Inc. http://www.openf2.org
  *
  * "F2" is licensed under the Apache License, Version 2.0 (the "License");
@@ -3663,344 +3663,6 @@ module.exports = cloneDeep;
 
 /***/ }),
 
-/***/ 621:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/**
-	 * Abosolutizes a relative URL
-	 * @method _absolutizeURI
-	 * @private
-	 * @param {e.g., location.href} base
-	 * @param {URL to absolutize} href
-	 * @returns {string} URL
-	 * Source: https://gist.github.com/Yaffle/1088850
-	 * Tests: http://skew.org/uri/uri_tests.html
-	 */
- var _absolutizeURI = function(base, href) {// RFC 3986
-
-	function removeDotSegments(input) {
-		var output = [];
-		input.replace(/^(\.\.?(\/|$))+/, '')
-			.replace(/\/(\.(\/|$))+/g, '/')
-			.replace(/\/\.\.$/, '/../')
-			.replace(/\/?[^\/]*/g, function (p) {
-				if (p === '/..') {
-					output.pop();
-				} else {
-					output.push(p);
-				}
-			});
-		return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
-	}
-
-	href = _parseURI(href || '');
-	base = _parseURI(base || '');
-
-	return !href || !base ? null : (href.protocol || base.protocol) +
-		(href.protocol || href.authority ? href.authority : base.authority) +
-		removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
-		(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
-		href.hash;
-};
-
-/**
- * Parses URI
- * @method _parseURI
- * @private
- * @param {The URL to parse} url
- * @returns {Parsed URL} string
- * Source: https://gist.github.com/Yaffle/1088850
- * Tests: http://skew.org/uri/uri_tests.html
- */
-var _parseURI = function(url) {
-	var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
-	// authority = '//' + user + ':' + pass '@' + hostname + ':' port
-	return (m ? {
-			href     : m[0] || '',
-			protocol : m[1] || '',
-			authority: m[2] || '',
-			host     : m[3] || '',
-			hostname : m[4] || '',
-			port     : m[5] || '',
-			pathname : m[6] || '',
-			search   : m[7] || '',
-			hash     : m[8] || ''
-		} : null);
-};
-
-/**
- * Open F2
- * @module f2
- * @main f2
- */
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-	/**
-	 * A function to pass into F2.stringify which will prevent circular
-	 * reference errors when serializing objects
-	 * @method appConfigReplacer
-	 */
-	appConfigReplacer: function(key, value) {
-		if (key == 'root' || key == 'ui' || key == 'height') {
-			return undefined;
-		} else {
-			return value;
-		}
-	},
-	/**
-	 * The apps namespace is a place for app developers to put the javascript
-	 * class that is used to initialize their app. The javascript classes should
-	 * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId.
-	 * It is recommended that the code be placed in a closure to help keep the
-	 * global namespace clean.
-	 *
-	 * If the class has an 'init' function, that function will be called
-	 * automatically by F2.
-	 * @property Apps
-	 * @type object
-	 * @example
-	 *     F2.Apps["com_example_helloworld"] = (function() {
-	 *         var App_Class = function(appConfig, appContent, root) {
-	 *             this._app = appConfig; // the F2.AppConfig object
-	 *             this._appContent = appContent // the F2.AppManifest.AppContent object
-	 *             this.$root = root; // the root DOM Element that contains this app
-	 *         }
-	 *
-	 *         App_Class.prototype.init = function() {
-	 *             // perform init actions
-	 *         }
-	 *
-	 *         return App_Class;
-	 *     })();
-	 * @example
-	 *     F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
-	 *        return {
-	 *            init:function() {
-	 *                // perform init actions
-	 *            }
-	 *        };
-	 *     };
-	 * @for F2
-	 */
-	Apps: {},
-	/**
-	 * Creates a namespace on F2 and copies the contents of an object into
-	 * that namespace optionally overwriting existing properties.
-	 * @method extend
-	 * @param {string} ns The namespace to create. Pass a falsy value to
-	 * add properties to the F2 namespace directly.
-	 * @param {object} obj The object to copy into the namespace.
-	 * @param {bool} overwrite True if object properties should be overwritten
-	 * @return {object} The created object
-	 */
-	extend: function (ns, obj, overwrite) {
-		var isFunc = typeof obj === 'function';
-		var parts = ns ? ns.split('.') : [];
-		var parent = this;
-		obj = obj || {};
-
-		// ignore leading global
-		if (parts[0] === 'F2') {
-			parts = parts.slice(1);
-		}
-
-		// create namespaces
-		for (var i = 0, len = parts.length; i < len; i++) {
-			if (!parent[parts[i]]) {
-				parent[parts[i]] = isFunc && i + 1 == len ? obj : {};
-			}
-			parent = parent[parts[i]];
-		}
-
-		// copy object into namespace
-		if (!isFunc) {
-			for (var prop in obj) {
-				if (typeof parent[prop] === 'undefined' || overwrite) {
-					parent[prop] = obj[prop];
-				}
-			}
-		}
-
-		return parent;
-	},
-	/**
-	 * Generates a somewhat random id
-	 * @method guid
-	 * @return {string} A random id
-	 * @for F2
-	 */
-	guid: function() {
-		var S4 = function() {
-			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-		};
-		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
-	},
-	/**
-	 * Tests a URL to see if it's on the same domain (local) or not
-	 * @method isLocalRequest
-	 * @param {URL to test} url
-	 * @returns {bool} Whether the URL is local or not
-	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
-	 */
-	isLocalRequest: function(url){
-		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
-			urlLower = url.toLowerCase(),
-			parts = rurl.exec( urlLower ),
-			ajaxLocation,
-			ajaxLocParts;
-
-		try {
-			ajaxLocation = location.href;
-		} catch( e ) {
-			// Use the href attribute of an A element
-			// since IE will modify it given document.location
-			ajaxLocation = document.createElement('a');
-			ajaxLocation.href = '';
-			ajaxLocation = ajaxLocation.href;
-		}
-
-		ajaxLocation = ajaxLocation.toLowerCase();
-
-		// uh oh, the url must be relative
-		// make it fully qualified and re-regex url
-		if (!parts){
-			urlLower = _absolutizeURI(ajaxLocation,urlLower).toLowerCase();
-			parts = rurl.exec( urlLower );
-		}
-
-		// Segment location into parts
-		ajaxLocParts = rurl.exec( ajaxLocation ) || [];
-
-		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
-		var matched = !(parts &&
-				(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
-					(parts[ 3 ] || (parts[ 1 ] === 'http:' ? '80' : '443')) !==
-						(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === 'http:' ? '80' : '443'))));
-
-		return matched;
-	},
-	/**
-	 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
-	 * @method isNativeDOMNode
-	 * @param {object} testObject The object you want to check as native dom node.
-	 * @return {bool} Returns true if the object passed is a native dom node.
-	 */
-	isNativeDOMNode: function(testObject) {
-		var bIsNode = (
-			typeof Node === 'object' ? testObject instanceof Node :
-			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
-		);
-
-		var bIsElement = (
-			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
-			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
-		);
-
-		return (bIsNode || bIsElement);
-	},
-	/**
-	 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
-	 * @method log
-	 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
-	 * @param {object} [obj2]* An object to be logged
-	 * @example
-		//Pass any object (string, int, array, object, bool) to .log()
-		F2.log('foo');
-		F2.log(myArray);
-		//Use a console method name as the first argument.
-		F2.log('error', err);
-		F2.log('info', 'The session ID is ' + sessionId);
-		* Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
-		*/
-	log: function() {
-		var _log;
-		var _logMethod = 'log';
-		var method;
-		var noop = function () { };
-		var methods = [
-			'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-			'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-			'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-			'timeStamp', 'trace', 'warn'
-		];
-		var length = methods.length;
-		var console = (window.console = window.console || {});
-		var args;
-
-		while (length--) {
-			method = methods[length];
-
-			// Only stub undefined methods.
-			if (!console[method]) {
-				console[method] = noop;
-			}
-
-			//if first arg is a console function, use it.
-			//defaults to console.log()
-			if (arguments && arguments.length > 1 && arguments[0] == method){
-				_logMethod = method;
-				//remove console func from args
-				args = Array.prototype.slice.call(arguments, 1);
-			}
-		}
-
-		if (Function.prototype.bind) {
-			_log = Function.prototype.bind.call(console[_logMethod], console);
-		} else {
-			_log = function() {
-				Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
-			};
-		}
-
-		_log.apply(this, (args || arguments));
-	},
-	/**
-	 * Wrapper to convert a JSON string to an object
-	 * @method parse
-	 * @param {string} str The JSON string to convert
-	 * @return {object} The parsed object
-	 */
-	parse: function(str) {
-		return JSON.parse(str);
-	},
-	/**
-	 * Wrapper to convert an object to JSON
-	 *
-	 * **Note: When using F2.stringify on an F2.AppConfig object, it is
-	 * recommended to pass F2.appConfigReplacer as the replacer function in
-	 * order to prevent circular serialization errors.**
-	 * @method stringify
-	 * @param {object} value The object to convert
-	 * @param {function|Array} replacer An optional parameter that determines
-	 * how object values are stringified for objects. It can be a function or an
-	 * array of strings.
-	 * @param {int|string} space An optional parameter that specifies the
-	 * indentation of nested structures. If it is omitted, the text will be
-	 * packed without extra whitespace. If it is a number, it will specify the
-	 * number of spaces to indent at each level. If it is a string (such as '\t'
-	 * or '&nbsp;'), it contains the characters used to indent at each level.
-	 * @return {string} The JSON string
-	 */
-	stringify: function(value, replacer, space) {
-		return JSON.stringify(value, replacer, space);
-	},
-	/**
-	 * Function to get the F2 version number
-	 * @method version
-	 * @return {string} F2 version number
-	 */
-	version: function() {
-		/* jshint undef: false */
-		return "2.0.0-alpha";
-	}
-});
-
-
-/***/ }),
-
 /***/ 282:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -4010,13 +3672,13 @@ var _parseURI = function(url) {
 /* harmony export */ });
 /* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(137);
 /* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(domify__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _F2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(621);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(555);
 
 
 
 // the hidden token that we will check against every time someone tries to add, remove, fire handler
-var _ct = _F2__WEBPACK_IMPORTED_MODULE_1__/* .default.guid */ .Z.guid();
-var _f2t = _F2__WEBPACK_IMPORTED_MODULE_1__/* .default.guid */ .Z.guid();
+var _ct = _utils__WEBPACK_IMPORTED_MODULE_1__/* .default.guid */ .Z.guid();
+var _f2t = _utils__WEBPACK_IMPORTED_MODULE_1__/* .default.guid */ .Z.guid();
 
 var _handlerCollection = {
 	appManifestRequestFail: [],
@@ -4034,7 +3696,7 @@ var _defaultMethods = {
 	appRender: function(appConfig, appHtml)
 	{
 		// if no app root is defined use the app's outer most node
-		if(!_F2__WEBPACK_IMPORTED_MODULE_1__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(appConfig.root))
+		if(!_utils__WEBPACK_IMPORTED_MODULE_1__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(appConfig.root))
 		{
 			appConfig.root = domify__WEBPACK_IMPORTED_MODULE_0___default()(appHtml);
 		}
@@ -4057,7 +3719,7 @@ var _defaultMethods = {
 		// warn the Container and App Developer that even though they have a destroy method it hasn't been
 		else if(appInstance && appInstance.app && appInstance.app.destroy)
 		{
-			_F2__WEBPACK_IMPORTED_MODULE_1__/* .default.log */ .Z.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
+			_utils__WEBPACK_IMPORTED_MODULE_1__/* .default.log */ .Z.log(appInstance.config.appId + ' has a destroy property, but destroy is not of type function and as such will not be executed.');
 		}
 
 		// remove the root
@@ -4074,7 +3736,7 @@ var _createHandler = function(token, sNamespace, func_or_element, bDomNodeApprop
 	var handler = {
 		func: (typeof(func_or_element)) ? func_or_element : null,
 		namespace: sNamespace,
-		domNode: (_F2__WEBPACK_IMPORTED_MODULE_1__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(func_or_element)) ? func_or_element : null
+		domNode: (_utils__WEBPACK_IMPORTED_MODULE_1__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(func_or_element)) ? func_or_element : null
 	};
 
 	if(!handler.func && !handler.domNode)
@@ -4244,7 +3906,7 @@ var _removeHandler = function(sToken, eventKey, sNamespace)
 
 			if(_handlerCollection[eventKey].length === 0 && _defaultMethods[eventKey])
 			{
-				_defaultMethods[eventKey].apply(_F2__WEBPACK_IMPORTED_MODULE_1__/* .default */ .Z, passableArgs);
+				_defaultMethods[eventKey].apply(F2, passableArgs);
 				return this;
 			}
 			else if(_handlerCollection[eventKey].length === 0 && !_handlerCollection[eventKey])
@@ -4272,7 +3934,7 @@ var _removeHandler = function(sToken, eventKey, sNamespace)
 				}
 				else
 				{
-					handler.func.apply(_F2__WEBPACK_IMPORTED_MODULE_1__/* .default */ .Z, passableArgs);
+					handler.func.apply(F2, passableArgs);
 				}
 			}
 		}
@@ -4415,6 +4077,52 @@ var _removeHandler = function(sToken, eventKey, sNamespace)
 	}
 });
 
+
+/***/ }),
+
+/***/ 24:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * The apps namespace is a place for app developers to put the javascript
+ * class that is used to initialize their app. The javascript classes should
+ * be namepaced with the {{#crossLink "F2.AppConfig"}}{{/crossLink}}.appId.
+ * It is recommended that the code be placed in a closure to help keep the
+ * global namespace clean.
+ *
+ * If the class has an 'init' function, that function will be called
+ * automatically by F2.
+ * @property Apps
+ * @type object
+ * @example
+ *     F2.Apps["com_example_helloworld"] = (function() {
+ *         var App_Class = function(appConfig, appContent, root) {
+ *             this._app = appConfig; // the F2.AppConfig object
+ *             this._appContent = appContent // the F2.AppManifest.AppContent object
+ *             this.$root = root; // the root DOM Element that contains this app
+ *         }
+ *
+ *         App_Class.prototype.init = function() {
+ *             // perform init actions
+ *         }
+ *
+ *         return App_Class;
+ *     })();
+ * @example
+ *     F2.Apps["com_example_helloworld"] = function(appConfig, appContent, root) {
+ *        return {
+ *            init:function() {
+ *                // perform init actions
+ *            }
+ *        };
+ *     };
+ * @for F2
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
 
@@ -5274,16 +4982,18 @@ module.exports = {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _appHandlers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(282);
-/* harmony import */ var _classes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(81);
-/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(525);
-/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(257);
-/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(137);
-/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(domify__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(478);
-/* harmony import */ var _F2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(621);
-/* harmony import */ var fetch_jsonp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(144);
-/* harmony import */ var fetch_jsonp__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(fetch_jsonp__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _apps__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var _classes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(81);
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(525);
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(257);
+/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(137);
+/* harmony import */ var domify__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(domify__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(478);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(555);
+/* harmony import */ var fetch_jsonp__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(144);
+/* harmony import */ var fetch_jsonp__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(fetch_jsonp__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -5330,14 +5040,14 @@ var _inArray = function(value, array) {
 var _createAppConfig = function(appConfig) {
 
 	// make a copy of the app config to ensure that the original is not modified
-	appConfig = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_2___default()(appConfig) || {};
+	appConfig = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(appConfig) || {};
 
 	// create the instanceId for the app
-	appConfig.instanceId = appConfig.instanceId || _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.guid */ .Z.guid();
+	appConfig.instanceId = appConfig.instanceId || _utils__WEBPACK_IMPORTED_MODULE_7__/* .default.guid */ .Z.guid();
 
 	//pass container-defined locale to each app
-	if (_classes__WEBPACK_IMPORTED_MODULE_1__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale){
-		appConfig.containerLocale = _classes__WEBPACK_IMPORTED_MODULE_1__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale;
+	if (_classes__WEBPACK_IMPORTED_MODULE_2__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale){
+		appConfig.containerLocale = _classes__WEBPACK_IMPORTED_MODULE_2__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale;
 	}
 
 	return appConfig;
@@ -5370,7 +5080,7 @@ var _getAppConfigFromElement = function(node) {
 
 			if (contextJson) {
 				try {
-					appConfig.context = _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.parse */ .Z.parse(contextJson);
+					appConfig.context = _utils__WEBPACK_IMPORTED_MODULE_7__/* .default.parse */ .Z.parse(contextJson);
 				}
 				catch (e) {
 					console.warn('F2: "data-f2-context" of node is not valid JSON', '"' + e + '"');
@@ -5413,15 +5123,15 @@ var _hasNonTextChildNodes = function(node) {
 var _hydrateContainerConfig = function(containerConfig) {
 
 	if (!containerConfig.scriptErrorTimeout) {
-		containerConfig.scriptErrorTimeout = _classes__WEBPACK_IMPORTED_MODULE_1__/* .default.ContainerConfig.scriptErrorTimeout */ .Z.ContainerConfig.scriptErrorTimeout;
+		containerConfig.scriptErrorTimeout = _classes__WEBPACK_IMPORTED_MODULE_2__/* .default.ContainerConfig.scriptErrorTimeout */ .Z.ContainerConfig.scriptErrorTimeout;
 	}
 
 	if (containerConfig.debugMode !== true) {
-		containerConfig.debugMode = _classes__WEBPACK_IMPORTED_MODULE_1__/* .default.ContainerConfig.debugMode */ .Z.ContainerConfig.debugMode;
+		containerConfig.debugMode = _classes__WEBPACK_IMPORTED_MODULE_2__/* .default.ContainerConfig.debugMode */ .Z.ContainerConfig.debugMode;
 	}
 
 	if (containerConfig.locale && typeof containerConfig.locale == 'string'){
-		_classes__WEBPACK_IMPORTED_MODULE_1__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale = containerConfig.locale;
+		_classes__WEBPACK_IMPORTED_MODULE_2__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale = containerConfig.locale;
 	}
 };
 
@@ -5434,7 +5144,7 @@ var _initContainerEvents = function() {
 
 	var resizeTimeout;
 	var resizeHandler = function() {
-		_events__WEBPACK_IMPORTED_MODULE_5__/* .default.emit */ .Z.emit(_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.Events.CONTAINER_WIDTH_CHANGE */ .Z.Events.CONTAINER_WIDTH_CHANGE);
+		_events__WEBPACK_IMPORTED_MODULE_6__/* .default.emit */ .Z.emit(_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.Events.CONTAINER_WIDTH_CHANGE */ .Z.Events.CONTAINER_WIDTH_CHANGE);
 	};
 
 	// TODO: remove this on destroy()
@@ -5444,9 +5154,9 @@ var _initContainerEvents = function() {
 	});
 
 	//listen for container-broadcasted locale changes
-	_events__WEBPACK_IMPORTED_MODULE_5__/* .default.on */ .Z.on(_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.Events.CONTAINER_LOCALE_CHANGE */ .Z.Events.CONTAINER_LOCALE_CHANGE,function(data){
+	_events__WEBPACK_IMPORTED_MODULE_6__/* .default.on */ .Z.on(_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.Events.CONTAINER_LOCALE_CHANGE */ .Z.Events.CONTAINER_LOCALE_CHANGE,function(data){
 		if (data.locale && typeof data.locale == 'string'){
-			_classes__WEBPACK_IMPORTED_MODULE_1__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale = data.locale;
+			_classes__WEBPACK_IMPORTED_MODULE_2__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale = data.locale;
 		}
 	});
 };
@@ -5460,7 +5170,7 @@ var _initContainerEvents = function() {
  */
 var _isPlaceholderElement = function(node) {
 	return (
-		_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(node) &&
+		_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(node) &&
 		!_hasNonTextChildNodes(node) &&
 		!!node.getAttribute('data-f2-appid') &&
 		!!node.getAttribute('data-f2-manifesturl')
@@ -5485,12 +5195,12 @@ var _isInit = function() {
  */
 var _createAppInstance = function(appConfig, appContent) {
 	// instantiate F2.App
-	if (_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.Apps */ .Z.Apps[appConfig.appId] !== undefined) {
-		if (typeof _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.Apps */ .Z.Apps[appConfig.appId] === 'function') {
+	if (_apps__WEBPACK_IMPORTED_MODULE_1__/* .default */ .Z[appConfig.appId] !== undefined) {
+		if (typeof _apps__WEBPACK_IMPORTED_MODULE_1__/* .default */ .Z[appConfig.appId] === 'function') {
 
 			// IE
 			setTimeout(function() {
-				_apps[appConfig.instanceId].app = new _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.Apps */ .Z.Apps[appConfig.appId](appConfig, appContent, appConfig.root);
+				_apps[appConfig.instanceId].app = new _apps__WEBPACK_IMPORTED_MODULE_1__/* .default */ .Z[appConfig.appId](appConfig, appContent, appConfig.root);
 				if (_apps[appConfig.instanceId].app['init'] !== undefined) {
 					_apps[appConfig.instanceId].app.init();
 				}
@@ -5498,7 +5208,7 @@ var _createAppInstance = function(appConfig, appContent) {
 
 		}
 		else {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('app initialization class is defined but not a function. (' + appConfig.appId + ')');
 		}
 	}
 };
@@ -5516,7 +5226,7 @@ var _loadApps = function(appConfigs, appManifest) {
 
 	// check that the number of apps in manifest matches the number requested
 	if (appConfigs.length != appManifest.apps.length) {
-		_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
+		_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('The number of apps defined in the AppManifest do not match the number requested.', appManifest);
 		return;
 	}
 
@@ -5575,7 +5285,7 @@ var _loadApps = function(appConfigs, appManifest) {
 		}
 
 		if (stylesFragment) {
-			var node = domify__WEBPACK_IMPORTED_MODULE_4___default()(stylesFragment.join(''));
+			var node = domify__WEBPACK_IMPORTED_MODULE_5___default()(stylesFragment.join(''));
 			document.getElementsByTagName('head')[0].appendChild(node);
 		}
 
@@ -5627,14 +5337,14 @@ var _loadApps = function(appConfigs, appManifest) {
 				};
 
 				// Send error to console
-				_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
+				_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
 				// @Brian ? TODO: deprecate, see #222
-				_events__WEBPACK_IMPORTED_MODULE_5__/* .default.emit */ .Z.emit(_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.Events.RESOURCE_FAILED_TO_LOAD */ .Z.Events.RESOURCE_FAILED_TO_LOAD, evtData);
+				_events__WEBPACK_IMPORTED_MODULE_6__/* .default.emit */ .Z.emit(_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.Events.RESOURCE_FAILED_TO_LOAD */ .Z.Events.RESOURCE_FAILED_TO_LOAD, evtData);
 
 				_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 						_sAppHandlerToken,
-						_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_SCRIPT_LOAD_FAILED */ .Z.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+						_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_SCRIPT_LOAD_FAILED */ .Z.AppHandlers.APP_SCRIPT_LOAD_FAILED,
 						appConfigs[0],
 						evtData.src
 					);
@@ -5741,13 +5451,13 @@ var _loadApps = function(appConfigs, appManifest) {
 					eval(inlines[i]);
 				}
 				catch (exception) {
-					_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
+					_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
 
 					// Emit events
-					_events__WEBPACK_IMPORTED_MODULE_5__/* .default.emit */ .Z.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
+					_events__WEBPACK_IMPORTED_MODULE_6__/* .default.emit */ .Z.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
 						_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 							_sAppHandlerToken,
-							_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_SCRIPT_LOAD_FAILED */ .Z.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+							_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_SCRIPT_LOAD_FAILED */ .Z.AppHandlers.APP_SCRIPT_LOAD_FAILED,
 							appConfigs[0],
 							exception
 						);
@@ -5776,22 +5486,22 @@ var _loadApps = function(appConfigs, appManifest) {
 	var _loadHtml = function(apps) {
 		apps.forEach(function(a, i) {
 			if (_isPlaceholderElement(appConfigs[i].root)) {
-				var node = domify__WEBPACK_IMPORTED_MODULE_4___default()(a.html);
-				node.classList.add(_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.Css.APP_CONTAINER */ .Z.Css.APP_CONTAINER);
+				var node = domify__WEBPACK_IMPORTED_MODULE_5___default()(a.html);
+				node.classList.add(_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.Css.APP_CONTAINER */ .Z.Css.APP_CONTAINER);
 				node.classList.add(appConfigs[i].appId);
-				appConfigs[i].root.classList.add(_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.Css.APP */ .Z.Css.APP);
+				appConfigs[i].root.classList.add(_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.Css.APP */ .Z.Css.APP);
 				appConfigs[i].root.appendChild(node);
 			}
 			else {
 				var container = document.createElement('div');
-				var childNode = domify__WEBPACK_IMPORTED_MODULE_4___default()(a.html);
-				childNode.classList.add(_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.Css.APP_CONTAINER */ .Z.Css.APP_CONTAINER);
+				var childNode = domify__WEBPACK_IMPORTED_MODULE_5___default()(a.html);
+				childNode.classList.add(_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.Css.APP_CONTAINER */ .Z.Css.APP_CONTAINER);
 				childNode.classList.add(appConfigs[i].appId);
 				container.appendChild(childNode);
 
 				_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 					_sAppHandlerToken,
-					_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_RENDER */ .Z.AppHandlers.APP_RENDER,
+					_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_RENDER */ .Z.AppHandlers.APP_RENDER,
 					appConfigs[i], // the app config
 					container.innerHTML
 				);
@@ -5809,11 +5519,11 @@ var _loadApps = function(appConfigs, appManifest) {
 
 				_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 					_sAppHandlerToken,
-					_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_RENDER_AFTER */ .Z.AppHandlers.APP_RENDER_AFTER,
+					_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_RENDER_AFTER */ .Z.AppHandlers.APP_RENDER_AFTER,
 					appConfigs[i] // the app config
 				);
 
-				if (!_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(root)) {
+				if (!_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(root)) {
 					throw ('App root for ' + appId + ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
 				}
 			}
@@ -5834,7 +5544,7 @@ var _loadApps = function(appConfigs, appManifest) {
 		// Add the script content to the page
 		_loadScripts(scripts, function() {
 			// emit event we're done with scripts
-			if (appConfigs[0]){ _events__WEBPACK_IMPORTED_MODULE_5__/* .default.emit */ .Z.emit('APP_SCRIPTS_LOADED', { appId:appConfigs[0].appId, scripts:scripts }); }
+			if (appConfigs[0]){ _events__WEBPACK_IMPORTED_MODULE_6__/* .default.emit */ .Z.emit('APP_SCRIPTS_LOADED', { appId:appConfigs[0].appId, scripts:scripts }); }
 			// Load any inline scripts
 			_loadInlineScripts(inlines, function() {
 				// Create the apps
@@ -5858,11 +5568,11 @@ var _validateApp = function(appConfig) {
 
 	// check for valid app configurations
 	if (!appConfig.appId) {
-		_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('"appId" missing from app object');
+		_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('"appId" missing from app object');
 		return false;
 	}
 	else if (!appConfig.root && !appConfig.manifestUrl) {
-		_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('"manifestUrl" missing from app object');
+		_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('"manifestUrl" missing from app object');
 		return false;
 	}
 
@@ -5910,7 +5620,7 @@ var _validateContainerConfig = function() {
 	 */
 	getContainerState: function() {
 		if (!_isInit()) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('F2.init() must be called before F2.getContainerState()');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('F2.init() must be called before F2.getContainerState()');
 			return;
 		}
 
@@ -5931,11 +5641,11 @@ var _validateContainerConfig = function() {
 	 */
 	getContainerLocale: function() {
 		if (!_isInit()) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('F2.init() must be called before F2.getContainerLocale()');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('F2.init() must be called before F2.getContainerLocale()');
 			return;
 		}
 
-		return _classes__WEBPACK_IMPORTED_MODULE_1__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale;
+		return _classes__WEBPACK_IMPORTED_MODULE_2__/* .default.ContainerConfig.locale */ .Z.ContainerConfig.locale;
 	},
 	/**
 	 * Initializes the container. This method must be called before performing
@@ -5982,7 +5692,7 @@ var _validateContainerConfig = function() {
 				}
 			};
 
-		if (!!parentNode && !_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(parentNode)) {
+		if (!!parentNode && !_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(parentNode)) {
 			throw ('"parentNode" must be null or a DOM node');
 		}
 
@@ -6118,11 +5828,11 @@ var _validateContainerConfig = function() {
 	registerApps: function(appConfigs, appManifests) {
 
 		if (!_isInit()) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('F2.init() must be called before F2.registerApps()');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('F2.init() must be called before F2.registerApps()');
 			return;
 		}
 		else if (!appConfigs) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('At least one AppConfig must be passed when calling F2.registerApps()');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('At least one AppConfig must be passed when calling F2.registerApps()');
 			return;
 		}
 
@@ -6137,12 +5847,12 @@ var _validateContainerConfig = function() {
 
 		// appConfigs must have a length
 		if (!appConfigs.length) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('At least one AppConfig must be passed when calling F2.registerApps()');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('At least one AppConfig must be passed when calling F2.registerApps()');
 			return;
 			// ensure that the array of apps and manifests are qual
 		}
 		else if (appConfigs.length && haveManifests && appConfigs.length != appManifests.length) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('The length of "apps" does not equal the length of "appManifests"');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('The length of "apps" does not equal the length of "appManifests"');
 			return;
 		}
 
@@ -6170,16 +5880,16 @@ var _validateContainerConfig = function() {
 			// If the root property is defined then this app is considered to be preloaded and we will
 			// run it through that logic.
 			if (a.root && !_isPlaceholderElement(a.root)) {
-				if ((!a.root && typeof(a.root) != 'string') && !_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(a.root)) {
-					_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('AppConfig invalid for pre-load, not a valid string and not dom node');
-					_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('AppConfig instance:', a);
+				if ((!a.root && typeof(a.root) != 'string') && !_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.isNativeDOMNode */ .Z.isNativeDOMNode(a.root)) {
+					_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('AppConfig invalid for pre-load, not a valid string and not dom node');
+					_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('AppConfig instance:', a);
 					throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');
 				}
 
 				// instantiate F2.App
 				_createAppInstance(a, {
 					preloaded: true,
-					status: _constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppStatus.SUCCESS */ .Z.AppStatus.SUCCESS
+					status: _constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppStatus.SUCCESS */ .Z.AppStatus.SUCCESS
 				});
 
 
@@ -6191,13 +5901,13 @@ var _validateContainerConfig = function() {
 			if (!_isPlaceholderElement(a.root)) {
 					_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 						_sAppHandlerToken,
-						_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_CREATE_ROOT */ .Z.AppHandlers.APP_CREATE_ROOT,
+						_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_CREATE_ROOT */ .Z.AppHandlers.APP_CREATE_ROOT,
 						a // the app config
 					);
 
 					_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 						_sAppHandlerToken,
-						_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_RENDER_BEFORE */ .Z.AppHandlers.APP_RENDER_BEFORE,
+						_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_RENDER_BEFORE */ .Z.AppHandlers.APP_RENDER_BEFORE,
 						a // the app config
 					);
 			}
@@ -6239,7 +5949,7 @@ var _validateContainerConfig = function() {
 			// rather than at the same time
 			appStack.forEach(function(req, i) {
 				// define the callback function based on the first app's App ID
-				var jsonpCallback = _constants__WEBPACK_IMPORTED_MODULE_3__/* .default.JSONP_CALLBACK */ .Z.JSONP_CALLBACK + req.apps[0].appId;
+				var jsonpCallback = _constants__WEBPACK_IMPORTED_MODULE_4__/* .default.JSONP_CALLBACK */ .Z.JSONP_CALLBACK + req.apps[0].appId;
 
 				// push the request onto the callback stack
 				callbackStack[jsonpCallback] = callbackStack[jsonpCallback] || [];
@@ -6267,10 +5977,10 @@ var _validateContainerConfig = function() {
 						errorFunc = function() {
 							req.apps.forEach(function(item, idx) {
 								item.name = item.name || item.appId;
-								_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('Removed failed ' + item.name + ' app', item);
+								_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('Removed failed ' + item.name + ' app', item);
 								_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 									_sAppHandlerToken,
-									_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_MANIFEST_REQUEST_FAIL */ .Z.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
+									_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_MANIFEST_REQUEST_FAIL */ .Z.AppHandlers.APP_MANIFEST_REQUEST_FAIL,
 									item // the app config
 								);
 								self.removeApp(item.instanceId);
@@ -6309,7 +6019,7 @@ var _validateContainerConfig = function() {
 							}
 
 							var fetchFunc,
-								fetchUrl = url + '?params=' + _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.stringify */ .Z.stringify(req.apps, _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.appConfigReplacer */ .Z.appConfigReplacer);
+								fetchUrl = url + '?params=' + _utils__WEBPACK_IMPORTED_MODULE_7__/* .default.stringify */ .Z.stringify(req.apps, _utils__WEBPACK_IMPORTED_MODULE_7__/* .default.appConfigReplacer */ .Z.appConfigReplacer);
 
 							// Fetch API does not support the JSONP calls so making JSON calls using Fetch API and
 							// JSONP call using fetch-jsonp package (https://www.npmjs.com/package/fetch-jsonp)
@@ -6322,13 +6032,13 @@ var _validateContainerConfig = function() {
 								if (type === 'POST') {
 									fetchUrl = url;
 									fetchInputs.body = {
-										params: _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.stringify */ .Z.stringify(req.apps, _F2__WEBPACK_IMPORTED_MODULE_6__/* .default.appConfigReplacer */ .Z.appConfigReplacer)
+										params: _utils__WEBPACK_IMPORTED_MODULE_7__/* .default.stringify */ .Z.stringify(req.apps, _utils__WEBPACK_IMPORTED_MODULE_7__/* .default.appConfigReplacer */ .Z.appConfigReplacer)
 									};
 								}
 
 								fetchFunc = fetch(fetchUrl, fetchInputs);
 							} else if (dataType === 'jsonp') {
-								fetchFunc = fetch_jsonp__WEBPACK_IMPORTED_MODULE_7___default()(fetchUrl, {
+								fetchFunc = fetch_jsonp__WEBPACK_IMPORTED_MODULE_8___default()(fetchUrl, {
 									timeout: 3000,
 									jsonpCallbackFunction: jsonpCallback
 								});
@@ -6342,7 +6052,7 @@ var _validateContainerConfig = function() {
 								completeCallback();
 							})
 							.catch(function(error) {
-								_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('Failed to load app(s)', error, req.apps);
+								_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('Failed to load app(s)', error, req.apps);
 								errorCallback();
 							});
 						};
@@ -6365,7 +6075,7 @@ var _validateContainerConfig = function() {
 		var self = this;
 
 		if (!_isInit()) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('F2.init() must be called before F2.removeAllApps()');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('F2.init() must be called before F2.removeAllApps()');
 			return;
 		}
 
@@ -6383,26 +6093,26 @@ var _validateContainerConfig = function() {
 	removeApp: function(instanceId) {
 
 		if (!_isInit()) {
-			_F2__WEBPACK_IMPORTED_MODULE_6__/* .default.log */ .Z.log('F2.init() must be called before F2.removeApp()');
+			_utils__WEBPACK_IMPORTED_MODULE_7__/* .default.log */ .Z.log('F2.init() must be called before F2.removeApp()');
 			return;
 		}
 
 		if (_apps[instanceId]) {
 			_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 				_sAppHandlerToken,
-				_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_DESTROY_BEFORE */ .Z.AppHandlers.APP_DESTROY_BEFORE,
+				_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_DESTROY_BEFORE */ .Z.AppHandlers.APP_DESTROY_BEFORE,
 				_apps[instanceId] // the app instance
 			);
 
 			_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 				_sAppHandlerToken,
-				_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_DESTROY */ .Z.AppHandlers.APP_DESTROY,
+				_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_DESTROY */ .Z.AppHandlers.APP_DESTROY,
 				_apps[instanceId] // the app instance
 			);
 
 			_appHandlers__WEBPACK_IMPORTED_MODULE_0__/* .default.__trigger */ .Z.__trigger(
 				_sAppHandlerToken,
-				_constants__WEBPACK_IMPORTED_MODULE_3__/* .default.AppHandlers.APP_DESTROY_AFTER */ .Z.AppHandlers.APP_DESTROY_AFTER,
+				_constants__WEBPACK_IMPORTED_MODULE_4__/* .default.AppHandlers.APP_DESTROY_AFTER */ .Z.AppHandlers.APP_DESTROY_AFTER,
 				_apps[instanceId] // the app instance
 			);
 
@@ -6496,6 +6206,303 @@ var _validateContainerConfig = function() {
 		}
 	};
 })());
+
+
+/***/ }),
+
+/***/ 555:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+	 * Abosolutizes a relative URL
+	 * @method _absolutizeURI
+	 * @private
+	 * @param {e.g., location.href} base
+	 * @param {URL to absolutize} href
+	 * @return {string} URL
+	 * Source: https://gist.github.com/Yaffle/1088850
+	 * Tests: http://skew.org/uri/uri_tests.html
+	 */
+ var _absolutizeURI = function(base, href) {// RFC 3986
+
+	function removeDotSegments(input) {
+		var output = [];
+		input.replace(/^(\.\.?(\/|$))+/, '')
+			.replace(/\/(\.(\/|$))+/g, '/')
+			.replace(/\/\.\.$/, '/../')
+			.replace(/\/?[^\/]*/g, function (p) {
+				if (p === '/..') {
+					output.pop();
+				} else {
+					output.push(p);
+				}
+			});
+		return output.join('').replace(/^\//, input.charAt(0) === '/' ? '/' : '');
+	}
+
+	href = _parseURI(href || '');
+	base = _parseURI(base || '');
+
+	return !href || !base ? null : (href.protocol || base.protocol) +
+		(href.protocol || href.authority ? href.authority : base.authority) +
+		removeDotSegments(href.protocol || href.authority || href.pathname.charAt(0) === '/' ? href.pathname : (href.pathname ? ((base.authority && !base.pathname ? '/' : '') + base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1) + href.pathname) : base.pathname)) +
+		(href.protocol || href.authority || href.pathname ? href.search : (href.search || base.search)) +
+		href.hash;
+};
+
+/**
+ * Parses URI
+ * @method _parseURI
+ * @private
+ * @param {The URL to parse} url
+ * @return {Parsed URL} string
+ * Source: https://gist.github.com/Yaffle/1088850
+ * Tests: http://skew.org/uri/uri_tests.html
+ */
+var _parseURI = function(url) {
+	var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+	// authority = '//' + user + ':' + pass '@' + hostname + ':' port
+	return (m ? {
+			href     : m[0] || '',
+			protocol : m[1] || '',
+			authority: m[2] || '',
+			host     : m[3] || '',
+			hostname : m[4] || '',
+			port     : m[5] || '',
+			pathname : m[6] || '',
+			search   : m[7] || '',
+			hash     : m[8] || ''
+		} : null);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+	/**
+	 * A function to pass into F2.stringify which will prevent circular
+	 * reference errors when serializing objects
+	 * @method appConfigReplacer
+	 */
+	appConfigReplacer: function(key, value) {
+		if (key == 'root' || key == 'ui' || key == 'height') {
+			return undefined;
+		} else {
+			return value;
+		}
+	},
+	/**
+	 * Creates a namespace on F2 and copies the contents of an object into
+	 * that namespace optionally overwriting existing properties.
+	 * @method extend
+	 * @param {string} ns The namespace to create. Pass a falsy value to
+	 * add properties to the F2 namespace directly.
+	 * @param {object} obj The object to copy into the namespace.
+	 * @param {bool} overwrite True if object properties should be overwritten
+	 * @return {object} The created object
+	 */
+	extend: function (ns, obj, overwrite) {
+		var isFunc = typeof obj === 'function';
+		var parts = ns ? ns.split('.') : [];
+		var parent = this;
+		obj = obj || {};
+
+		// ignore leading global
+		if (parts[0] === 'F2') {
+			parts = parts.slice(1);
+		}
+
+		// create namespaces
+		for (var i = 0, len = parts.length; i < len; i++) {
+			if (!parent[parts[i]]) {
+				parent[parts[i]] = isFunc && i + 1 == len ? obj : {};
+			}
+			parent = parent[parts[i]];
+		}
+
+		// copy object into namespace
+		if (!isFunc) {
+			for (var prop in obj) {
+				if (typeof parent[prop] === 'undefined' || overwrite) {
+					parent[prop] = obj[prop];
+				}
+			}
+		}
+
+		return parent;
+	},
+	/**
+	 * Generates a somewhat random id
+	 * @method guid
+	 * @return {string} A random id
+	 * @for F2
+	 */
+	guid: function() {
+		var S4 = function() {
+			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+		};
+		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
+	},
+	/**
+	 * Tests a URL to see if it's on the same domain (local) or not
+	 * @method isLocalRequest
+	 * @param {URL to test} url
+	 * @return {bool} Whether the URL is local or not
+	 * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
+	 */
+	isLocalRequest: function(url){
+		var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+			urlLower = url.toLowerCase(),
+			parts = rurl.exec( urlLower ),
+			ajaxLocation,
+			ajaxLocParts;
+
+		try {
+			ajaxLocation = location.href;
+		} catch( e ) {
+			// Use the href attribute of an A element
+			// since IE will modify it given document.location
+			ajaxLocation = document.createElement('a');
+			ajaxLocation.href = '';
+			ajaxLocation = ajaxLocation.href;
+		}
+
+		ajaxLocation = ajaxLocation.toLowerCase();
+
+		// uh oh, the url must be relative
+		// make it fully qualified and re-regex url
+		if (!parts){
+			urlLower = _absolutizeURI(ajaxLocation,urlLower).toLowerCase();
+			parts = rurl.exec( urlLower );
+		}
+
+		// Segment location into parts
+		ajaxLocParts = rurl.exec( ajaxLocation ) || [];
+
+		// do hostname and protocol and port of manifest URL match location.href? (a "local" request on the same domain)
+		var matched = !(parts &&
+				(parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
+					(parts[ 3 ] || (parts[ 1 ] === 'http:' ? '80' : '443')) !==
+						(ajaxLocParts[ 3 ] || (ajaxLocParts[ 1 ] === 'http:' ? '80' : '443'))));
+
+		return matched;
+	},
+	/**
+	 * Utility method to determine whether or not the argument passed in is or is not a native dom node.
+	 * @method isNativeDOMNode
+	 * @param {object} testObject The object you want to check as native dom node.
+	 * @return {bool} Returns true if the object passed is a native dom node.
+	 */
+	isNativeDOMNode: function(testObject) {
+		var bIsNode = (
+			typeof Node === 'object' ? testObject instanceof Node :
+			testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
+		);
+
+		var bIsElement = (
+			typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
+			testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
+		);
+
+		return (bIsNode || bIsElement);
+	},
+	/**
+	 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [`console` API](https://developers.google.com/chrome-developer-tools/docs/console).
+	 * @method log
+	 * @param {object|string} Object/Method An object to be logged _or_ a `console` API method name, such as `warn` or `error`. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
+	 * @param {object} [obj2]* An object to be logged
+	 * @example
+		//Pass any object (string, int, array, object, bool) to .log()
+		F2.log('foo');
+		F2.log(myArray);
+		//Use a console method name as the first argument.
+		F2.log('error', err);
+		F2.log('info', 'The session ID is ' + sessionId);
+		* Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
+		*/
+	log: function() {
+		var _log;
+		var _logMethod = 'log';
+		var method;
+		var noop = function () { };
+		var methods = [
+			'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+			'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+			'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+			'timeStamp', 'trace', 'warn'
+		];
+		var length = methods.length;
+		var console = (window.console = window.console || {});
+		var args;
+
+		while (length--) {
+			method = methods[length];
+
+			// Only stub undefined methods.
+			if (!console[method]) {
+				console[method] = noop;
+			}
+
+			//if first arg is a console function, use it.
+			//defaults to console.log()
+			if (arguments && arguments.length > 1 && arguments[0] == method){
+				_logMethod = method;
+				//remove console func from args
+				args = Array.prototype.slice.call(arguments, 1);
+			}
+		}
+
+		if (Function.prototype.bind) {
+			_log = Function.prototype.bind.call(console[_logMethod], console);
+		} else {
+			_log = function() {
+				Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
+			};
+		}
+
+		_log.apply(this, (args || arguments));
+	},
+	/**
+	 * Wrapper to convert a JSON string to an object
+	 * @method parse
+	 * @param {string} str The JSON string to convert
+	 * @return {object} The parsed object
+	 */
+	parse: function(str) {
+		return JSON.parse(str);
+	},
+	/**
+	 * Wrapper to convert an object to JSON
+	 *
+	 * **Note: When using F2.stringify on an F2.AppConfig object, it is
+	 * recommended to pass F2.appConfigReplacer as the replacer function in
+	 * order to prevent circular serialization errors.**
+	 * @method stringify
+	 * @param {object} value The object to convert
+	 * @param {function|Array} replacer An optional parameter that determines
+	 * how object values are stringified for objects. It can be a function or an
+	 * array of strings.
+	 * @param {int|string} space An optional parameter that specifies the
+	 * indentation of nested structures. If it is omitted, the text will be
+	 * packed without extra whitespace. If it is a number, it will specify the
+	 * number of spaces to indent at each level. If it is a string (such as '\t'
+	 * or '&nbsp;'), it contains the characters used to indent at each level.
+	 * @return {string} The JSON string
+	 */
+	stringify: function(value, replacer, space) {
+		return JSON.stringify(value, replacer, space);
+	},
+	/**
+	 * Function to get the F2 version number
+	 * @method version
+	 * @return {string} F2 version number
+	 */
+	version: function() {
+		/* jshint undef: false */
+		return "2.0.0-alpha";
+	}
+});
 
 
 /***/ })
@@ -6593,6 +6600,8 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./src/appHandlers.js
 var appHandlers = __webpack_require__(282);
+// EXTERNAL MODULE: ./src/apps.js
+var apps = __webpack_require__(24);
 // EXTERNAL MODULE: ./src/container.js
 var container = __webpack_require__(239);
 ;// CONCATENATED MODULE: ./src/autoload.js
@@ -6643,9 +6652,10 @@ var classes = __webpack_require__(81);
 var constants = __webpack_require__(257);
 // EXTERNAL MODULE: ./src/events.js
 var events = __webpack_require__(478);
-// EXTERNAL MODULE: ./src/F2.js
-var F2 = __webpack_require__(621);
+// EXTERNAL MODULE: ./src/utils.js
+var utils = __webpack_require__(555);
 ;// CONCATENATED MODULE: ./src/index.js
+
 
 
 
@@ -6656,14 +6666,25 @@ var F2 = __webpack_require__(621);
 
 autoload();
 
-/* harmony default export */ const src = ({
-	...F2/* default */.Z,
+/**
+ * Open F2
+ * @module f2
+ * @main f2
+ */
+const lib = {
+	...utils/* default */.Z,
 	...classes/* default */.Z,
 	...container/* default */.Z,
 	AppHandlers: appHandlers/* default */.Z,
+	Apps: apps/* default */.Z,
 	Constants: constants/* default */.Z,
 	Events: events/* default */.Z
-});
+};
+
+// always export F2 as a global
+window.F2 = lib;
+
+/* harmony default export */ const src = (lib);
 })();
 
 __webpack_exports__ = __webpack_exports__.default;

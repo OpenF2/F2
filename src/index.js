@@ -14,7 +14,7 @@ autoload();
  * @module f2
  * @main f2
  */
-export default {
+const lib = {
 	...utils,
 	...Classes,
 	...container,
@@ -23,3 +23,8 @@ export default {
 	Constants,
 	Events
 };
+
+// always export F2 as a global
+window.F2 = lib;
+
+export default lib;
