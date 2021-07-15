@@ -40,7 +40,7 @@ Once you've forked the F2 repository:
     * `$> git checkout -b 'your_branch_name' *-wip`
 3. Read the F2 [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards).
 4. Add and document unit test(s) for your changes. **At least one unit test is required** for new or changed functionality.
-5. Re-run all the Jasmine tests to confirm your changes didn't break anything. `$> grunt test` and/or `$> grunt test-live`
+5. Re-run all the Jasmine tests to confirm your changes didn't break anything. `$> npm test` and/or `$> npm run test-live`
 6. Perform browser testing in [supported browsers](https://github.com/OpenF2/F2/wiki/Browser-Compatibility).
 
 ### Committing Changes
