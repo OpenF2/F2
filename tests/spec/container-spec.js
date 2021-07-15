@@ -581,7 +581,7 @@ describe('F2.registerApps - xhr overrides', function() {
 	});
 
 	it('should call xhr.url', function() {
-		var spy = jasmine.createSpy('url').and.returnValue('/F2/apps/test/hello-world');
+		var spy = jasmine.createSpy('url').and.returnValue(TEST_MANIFEST_URL);
 		F2.init({
 			xhr: {
 				url: spy
