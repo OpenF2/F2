@@ -24,7 +24,7 @@
 		"docs-live": "http-server ./docs/dist",
 		"gh-pages": "cp -r docs/dist/* ../gh-pages && cp dist/* ../gh-pages && npm run zip",
 		"lint": "jshint --verbose src/",
-		"test": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --single-run\"",
+		"test": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --single-run --browsers ChromeHeadless --reporters nested\"",
 		"test-live": "npm run lint && concurrently -s first -k -r \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start\"",
 		"zip": "bestzip F2-examples.zip examples/* dist/* && cp -f F2-examples.zip ../gh-pages "
 	},
@@ -45,6 +45,8 @@
 		"karma": "^6.3.4",
 		"karma-chrome-launcher": "^3.1.0",
 		"karma-jasmine": "^4.0.1",
+		"karma-jasmine-html-reporter": "^1.7.0",
+		"karma-nested-reporter": "^0.1.7",
 		"karma-serve-static-map": "^2.0.0",
 		"less-loader": "^10.0.1",
 		"lodash.clonedeep": "^4.5.0",

@@ -2,62 +2,48 @@ process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 module.exports = function(config) {
   config.set({
+    // enable / disable watching file and executing tests whenever any file changes
+    autoWatch: true,
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
-
+    browsers: ['Chrome'],
+    client: {
+      jasmine: {
+        failFast: true
+      }
+    },
+    // enable / disable colors in the output (reporters and logs)
+    colors: true,
+    concurrency: Infinity,
     customContextFile: 'tests/context.html',
     customDebugFile: 'tests/debug.html',
-
-    // frameworks to use
-    // available frameworks: https://www.npmjs.com/search?q=keywords:karma-adapter
-    frameworks: ['jasmine'],
-
-    // list of files / patterns to load in the browser
+    exclude: [
+      // TODO: need to figure out the best way to test AMD - perhaps separately
+      // from the rest of the tests
+      'tests/spec/amd-spec.js'
+    ],
     files: [
       'tests/spec/spec-helpers.js',
       'tests/spec/**/*-spec.js'
     ],
-
-    // list of files / patterns to exclude
-    exclude: [
-      'tests/spec/amd-spec.js'
-    ],
-
+    frameworks: ['jasmine'],
+    jasmineHtmlReporter: {
+      suppressAll: true
+    },
+    // level of logging
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    logLevel: config.LOG_INFO,
     middleware: ['serve-static-map'],
-
+    // web server port
+    port: 3000,
+    proxies: {
+      '/F2/apps/test/http-post': 'http://localhost:8080/F2/apps/test/http-post'
+    },
+    reporters: ['kjhtml'],
     serveStaticMap: [
       { fsPath: './dist', baseURL: '/dist' },
       { fsPath: './tests', baseURL: '/tests' }
     ],
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://www.npmjs.com/search?q=keywords:karma-reporter
-    reporters: ['progress'],
-
-    // web server port
-    port: 3000,
-
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
-
-    // start these browsers
-    // available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
-    browsers: ['ChromeHeadless'/*, 'Chrome'*/],
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
-
-    // Concurrency level
-    // how many browser instances should be started simultaneously
-    concurrency: Infinity
+    singleRun: false
   })
 }

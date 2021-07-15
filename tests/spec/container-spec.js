@@ -603,7 +603,7 @@ describe('F2.registerApps - xhr overrides', function() {
 		}).toThrow('ContainerConfig.xhr.url should return a string');
 	});
 
-	itConditionally(window.F2_NODE_TEST_SERVER, 'should use POST when the domain of the container matches that of the app (#41, #59)', function(done) {
+	it('should use POST when the domain of the container matches that of the app (#41, #59)', function(done) {
 
 		F2.log = function(isPost) {
 			expect(isPost).toBeTruthy();
@@ -627,7 +627,7 @@ describe('F2.registerApps - xhr overrides', function() {
 		});
 	});
 
-	itConditionally(window.F2_NODE_TEST_SERVER, 'should use GET when the domain of the container does not match that of the app (#41, #59)', function(done) {
+	it('should use GET when the domain of the container does not match that of the app (#41, #59)', function(done) {
 
 		F2.log = function(isPost) {
 			expect(isPost).toBeFalsy();
