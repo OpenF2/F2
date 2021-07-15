@@ -18,7 +18,7 @@ First, a couple of ground rules.
 	* Include the F2 version number.
 3. [Fork the F2 repository](https://github.com/OpenF2/F2/fork).
 
-## New to GitHub? 
+## New to GitHub?
 
 GitHub has terrific [Guides](http://guides.github.com/) to help developers through various aspects of contributing to open source projects.
 
@@ -28,7 +28,7 @@ GitHub has terrific [Guides](http://guides.github.com/) to help developers throu
 
 The latest F2 changes can be found in the `*-wip` branch. This branch's name uses the upcoming version number followed by `-wip` which stands for "work-in-progress", for example `1.3.1-wip` as shown below. There *should* only be one `-wip` branch at any given time.
 
-Do not work directly in `master`! 
+Do not work directly in `master`!
 
 ![Branches](http://docs.openf2.org/img/branches.png)
 
@@ -36,18 +36,18 @@ Do not work directly in `master`!
 
 Once you've forked the F2 repository:
 
-1. Create a new branch in your fork from the next version `*-wip` branch.  Do not work directly in `master`! 
+1. Create a new branch in your fork from the next version `*-wip` branch.  Do not work directly in `master`!
     * `$> git checkout -b 'your_branch_name' *-wip`
 3. Read the F2 [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards).
 4. Add and document unit test(s) for your changes. **At least one unit test is required** for new or changed functionality.
-5. Re-run all the Jasmine tests to confirm your changes didn't break anything. `$> grunt test` and/or `$> grunt test-live`
+5. Re-run all the Jasmine tests to confirm your changes didn't break anything. `$> npm test` and/or `$> npm run test-live`
 6. Perform browser testing in [supported browsers](https://github.com/OpenF2/F2/wiki/Browser-Compatibility).
 
 ### Committing Changes
 
 * You should only commit files you have changed. **Do not commit compiled or generated F2 files, except:**
-    * If you've modified any file in the `/sdk/src/` directory, you must commit `/sdk/f2.min.js` for the [Travis unit tests](https://travis-ci.org/OpenF2/F2).
-* After you've staged your changes, add a detailed commit message. 
+    * If you've modified any file in the `/src/` directory, you must commit `/dist/f2.js` for the [Travis unit tests](https://travis-ci.org/OpenF2/F2).
+* After you've staged your changes, add a detailed commit message.
 * Push committed changes to your fork's branch.
 * [Submit a pull request](https://help.github.com/articles/using-pull-requests) for `F2\*-wip` **not** `F2\master`.
 * Add a message or additional detail for your changes in the pull request comments.

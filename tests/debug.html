@@ -1,0 +1,60 @@
+<!-- customized from https://raw.githubusercontent.com/karma-runner/karma/master/static/context.html -->
+<!doctype html>
+<!--
+This file is almost the same as context.html - loads all source files,
+but its purpose is to be loaded in the main frame (not within an iframe),
+just for immediate execution, without reporting to Karma server.
+-->
+<html>
+<head>
+%X_UA_COMPATIBLE%
+  <title>Karma DEBUG RUNNER</title>
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="tests/css/page.css">
+</head>
+<body>
+	<!-- start: F2-specific customizations -->
+	<div id="test-server-failure" style="background-color:#B03911;color:#FFFFFF;display:none;font-family:Monaco, Lucida Console, monospace;font-size:11px;padding:3px 9px;">
+		The Node.js Test Server is not running. Some tests will not be run.
+	</div>
+	<div id="test-fixture" style="display: none;">Testing</div>
+
+	<!-- Preloaded App Examples -->
+	<div class="f2-app f2-app-container com_openf2_tests_preloaded test1" style="display: none;">Preload test</div>
+	<div class="f2-app f2-app-container com_openf2_tests_preloaded test2" style="display: none;">Preload test2</div>
+	<div class="f2-app f2-app-container com_openf2_tests_preloaded_argtester test2" style="display: none;"></div>
+
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="/tests/apps/com_openf2_tests_preloaded/preloadedTest.js"></script>
+	<script type="text/javascript" src="/tests/apps/com_openf2_tests_preloaded_argtester/appclass.js"></script>
+	<!-- end: F2-specific customizations -->
+
+
+  <!-- The scripts need to be at the end of body, so that some test running frameworks
+   (Angular Scenario, for example) need the body to be loaded so that it can insert its magic
+   into it. If it is before body, then it fails to find the body and crashes and burns in an epic
+   manner. -->
+  <script src="context.js"></script>
+  <script src="debug.js"></script>
+  <script type="text/javascript">
+    // Configure our Karma
+    %CLIENT_CONFIG%
+
+    // All served files with the latest timestamps
+    %MAPPINGS%
+  </script>
+  <!-- Dynamically replaced with <script> tags -->
+  %SCRIPTS%
+  <!-- Since %SCRIPTS% might include modules, the `loaded()` call needs to be in a module too.
+   This ensures all the tests will have been declared before karma tries to run them. -->
+  <script type="module">
+    window.__karma__.loaded();
+  </script>
+  <script nomodule>
+    window.__karma__.loaded();
+  </script>
+</body>
+</html>

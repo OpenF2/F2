@@ -43,23 +43,19 @@ Be sure you have cloned this repository and have [Node.js](http://nodejs.org/) i
 
 `$> npm install`
 
-This command will install the [Grunt CLI](http://gruntjs.com/getting-started#installing-the-cli) in addition to all dependencies needed to build F2. Some packages may need to be [installed globally](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/) using the `-g` switch.
+This command will install all dependencies needed to build F2.
 
 #### Build F2
 
 After any edits to the core F2 javascript or docs, run this task to compile dist:
 
-`$> grunt`
+`$> npm run build`
 
-For help and a list of available grunt tasks, run:
-
-`$> grunt --help`
+For other helpful tasks, see the `scripts` section of the `package.json`.
 
 ### Versioning
 
-The latest version of F2.js will always be in `master` and the version number/release date is available on the command line by using:
-
-`$> grunt version`
+The latest version of F2.js will always be in `master`.
 
 In accordance with industry standards, F2 is currently maintained, in as far as reasonably possible, under the Semantic Versioning guidelines. Releases will be numbered with the following format:
 
@@ -81,11 +77,11 @@ To track bugs, issues and enhancement requests, we are using [Issues on GitHub](
 
 Copyright &copy; 2015 Markit On Demand, Inc.
 
-"F2" is licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: 
+"F2" is licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at:
 
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.
 
-Please note that F2 ("Software") may contain third party material that Markit On Demand Inc. has a license to use and include within the Software (the "Third Party Material").  A list of the software comprising the Third Party Material and the terms and conditions under which such Third Party Material is distributed are reproduced in the [ThirdPartyMaterial.md](ThirdPartyMaterial.md) file. The inclusion of the Third Party Material in the Software does not grant, provide nor result in you having acquiring any rights whatsoever, other than as stipulated in the terms and conditions related to the specific Third Party Material, if any. 
+Please note that F2 ("Software") may contain third party material that Markit On Demand Inc. has a license to use and include within the Software (the "Third Party Material").  A list of the software comprising the Third Party Material and the terms and conditions under which such Third Party Material is distributed are reproduced in the [ThirdPartyMaterial.md](ThirdPartyMaterial.md) file. The inclusion of the Third Party Material in the Software does not grant, provide nor result in you having acquiring any rights whatsoever, other than as stipulated in the terms and conditions related to the specific Third Party Material, if any.
 

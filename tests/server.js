@@ -1,10 +1,14 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000
+
+app.use(express.static('./'));
+
 app.set('json spaces', 2);
 
 //wrap up AppManifest response
-var getResponse = function(req,id,manifest){
-	var body = JSON.stringify(manifest);
+const getResponse = function(req,id,manifest){
+	const body = JSON.stringify(manifest);
 	if (req.method == 'POST'){
 		return body;
 	} else {
@@ -95,5 +99,6 @@ app.all('/F2/apps/test/hello-world-node', function(req,res){
 	res.send(getResponse(req,'com_openf2_examples_nodejs_helloworld',manifest));
 });
 
-// export the module for use with grunt
-module.exports = app;
+app.listen(port, () => {
+	console.log(`test server listening on ${port}`)
+});

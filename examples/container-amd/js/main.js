@@ -5,7 +5,7 @@ require(
 			'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
 			'jquery-ui': '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min',
 			'bootstrap': '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min',
-			'F2': '../../../sdk/f2.debug'
+			'F2': '../../../dist/f2'
 		},
 		shim: {
 			'bootstrap': ['jquery'],
@@ -18,7 +18,7 @@ require(
 		'appSelector',
 		'jquery-ui',
 		'bootstrap'
-	], 
+	],
 	function($, F2, AppSelector) {
 
 		//simple console log helper for IE
@@ -71,13 +71,13 @@ require(
 							'</header>',
 						'</div>',
 					'</section>'
-				].join('')).get(0);			
+				].join('')).get(0);
 			};
 
 			var appRenderFunc = function(appConfig, app) {
 
 				var gridWidth = appConfig.minGridSize || 3;
-				
+
 				// find a row that can fit this app
 				var row;
 				$('#mainContent div.row').each(function(i, el) {
@@ -106,7 +106,7 @@ require(
 
 			var appDestroyFunc = function(appInstance) {
 				if(!appInstance) { return; }
-				
+
 				// call the apps destroy method, if it has one
 				if(appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function'){
 					appInstance.app.destroy();
@@ -115,21 +115,21 @@ require(
 				else if(appInstance.app && appInstance.app.destroy){
 					F2.log(appInstance.appId + ' has a Destroy property, but Destroy is not of type function and as such will not be executed.');
 				}
-				
+
 				// fade out and remove the root
 				$(appInstance.config.root).fadeOut(250, function() {
 					$(this).remove();
 				});
 			};
 			/**
-			 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+			 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 			 */
 
 			/**
 			 * Init Container
 			 */
 			F2.init();
-				
+
 			// Define these prior to calling F2.registerApps
 			F2.AppHandlers
 				.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_CREATE_ROOT, 	appCreateRootFunc)

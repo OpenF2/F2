@@ -8,7 +8,7 @@
 	],
 	"homepage": "http://www.openf2.org",
 	"version": "1.4.5",
-	"main": "F2.latest.js",
+	"main": "dist/f2.js",
 	"ignore": [
 		"**/.*",
 		".bowerrc",
@@ -24,7 +24,7 @@
 		"LICENSE",
 		"docs",
 		"examples",
-		"sdk",
+		"src",
 		"tests",
 		"node_modules"
 	],

@@ -5,8 +5,7 @@ var Y = require('yuidocjs');
 var builder,
   docOptions = {
     quiet: false,
-    norecurse: true,
-    paths: ['./sdk/src'],
+    paths: ['./src'],
     outdir: './docs/dist/sdk/',
     themedir: './docs/src/sdk-template',
     helpers: ['./docs/src/sdk-template/helpers/helpers.js']
