@@ -25,6 +25,7 @@
 		"gh-pages": "cp -r docs/dist/* ../gh-pages && cp dist/* ../gh-pages && npm run zip",
 		"lint": "jshint --verbose src/",
 		"test": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --single-run --browsers ChromeHeadless --reporters nested\"",
+		"test-debug": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --log-level debug --single-run --browsers ChromeHeadless --reporters nested\"",
 		"test-live": "npm run lint && concurrently -s first -k -r \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start\"",
 		"zip": "bestzip F2-examples.zip examples/* dist/* && cp -f F2-examples.zip ../gh-pages "
 	},
