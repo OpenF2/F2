@@ -25,7 +25,7 @@ module.exports = {
 	*/
 	APP_MANIFEST_REQUEST_FAIL: 'appManifestRequestFail',
 	/**
-	* Equivalent to `appCreateRoot`. Identifies the create root method for use in AppHandlers.on/off.
+	* Identifies the create root method for use in AppHandlers.on/off.
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
 	* @property APP_CREATE_ROOT
@@ -47,7 +47,7 @@ module.exports = {
 	*/
 	APP_CREATE_ROOT: 'appCreateRoot',
 	/**
-	 * Equivalent to `appRenderBefore`. Identifies the before app render method for use in AppHandlers.on/off.
+	 * Identifies the before app render method for use in AppHandlers.on/off.
 	 * When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	 * following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
 	 * @property APP_RENDER_BEFORE
@@ -67,7 +67,7 @@ module.exports = {
 	 */
 	APP_RENDER_BEFORE: 'appRenderBefore',
 	/**
-	* Equivalent to `appRender`. Identifies the app render method for use in AppHandlers.on/off.
+	* Identifies the app render method for use in AppHandlers.on/off.
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}}, [appHtml](../../app-development.html#app-design) )
 	* @property APP_RENDER
@@ -99,7 +99,7 @@ module.exports = {
             */
 	APP_RENDER: 'appRender',
 	/**
-	* Equivalent to `appRenderAfter`. Identifies the after app render method for use in AppHandlers.on/off.
+	* Identifies the after app render method for use in AppHandlers.on/off.
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )
 	* @property APP_RENDER_AFTER
@@ -119,7 +119,7 @@ module.exports = {
 	*/
 	APP_RENDER_AFTER: 'appRenderAfter',
 	/**
-	* Equivalent to `appDestroyBefore`. Identifies the before app destroy method for use in AppHandlers.on/off.
+	* Identifies the before app destroy method for use in AppHandlers.on/off.
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( appInstance )
 	* @property APP_DESTROY_BEFORE
@@ -139,7 +139,7 @@ module.exports = {
 	*/
 	APP_DESTROY_BEFORE: 'appDestroyBefore',
 	/**
-	* Equivalent to `appDestroy`. Identifies the app destroy method for use in AppHandlers.on/off.
+	* Identifies the app destroy method for use in AppHandlers.on/off.
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( appInstance )
 	* @property APP_DESTROY
@@ -170,7 +170,7 @@ module.exports = {
             */
 	APP_DESTROY: 'appDestroy',
 	/**
-	* Equivalent to `appDestroyAfter`. Identifies the after app destroy method for use in AppHandlers.on/off.
+	* Identifies the after app destroy method for use in AppHandlers.on/off.
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( appInstance )
 	* @property APP_DESTROY_AFTER
@@ -190,7 +190,7 @@ module.exports = {
             */
 	APP_DESTROY_AFTER: 'appDestroyAfter',
 	/**
-	* Equivalent to `appScriptLoadFailed`. Identifies the app script load failed method for use in AppHandlers.on/off.
+	* Identifies the app script load failed method for use in AppHandlers.on/off.
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}}, scriptInfo )
 	* @property APP_SCRIPT_LOAD_FAILED
@@ -198,15 +198,14 @@ module.exports = {
 	* @static
 	* @final
 	* @example
-	*	var _token = F2.AppHandlers.getToken();
-	*	F2.AppHandlers.on(
-	*		_token,
-	*		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-	*		function(appConfig, scriptInfo)
-	*		{
-	*			F2.log(appConfig.appId);
-	*		}
-	*	);
+	* var _token = F2.AppHandlers.getToken();
+	* F2.AppHandlers.on(
+	*     _token,
+	*     F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+	*     function(appConfig, scriptInfo) {
+	*         F2.log(appConfig.appId);
+	*     }
+	* );
 	*/
 	APP_SCRIPT_LOAD_FAILED: 'appScriptLoadFailed'
 };

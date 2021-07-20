@@ -205,6 +205,11 @@ var _createAppInstance = function(appConfig, appContent) {
 
 			// IE
 			setTimeout(function() {
+				// #265
+				if (!_apps[appConfig.instanceId]) {
+					utils.log('Unable to create app (' + appConfig.instanceId + ') as it does not exist.');
+					return;
+				}
 				_apps[appConfig.instanceId].app = new appClasses[appConfig.appId](appConfig, appContent, appConfig.root);
 				if (_apps[appConfig.instanceId].app['init'] !== undefined) {
 					_apps[appConfig.instanceId].app.init();
@@ -344,15 +349,12 @@ var _loadApps = function(appConfigs, appManifest) {
 				// Send error to console
 				utils.log('Script defined in \'' + evtData.appId + '\' failed to load \'' + evtData.src + '\'');
 
-				// @Brian ? TODO: deprecate, see #222
-				events.emit(constants.Events.RESOURCE_FAILED_TO_LOAD, evtData);
-
 				appHandlers.__trigger(
-						_sAppHandlerToken,
-						constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-						appConfigs[0],
-						evtData.src
-					);
+					_sAppHandlerToken,
+					constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+					appConfigs[0],
+					evtData.src
+				);
 			}, _config.scriptErrorTimeout); // Defaults to 7000
 		};
 
@@ -459,13 +461,12 @@ var _loadApps = function(appConfigs, appManifest) {
 					utils.log('Error loading inline script: ' + exception + '\n\n' + inlines[i]);
 
 					// Emit events
-					events.emit('RESOURCE_FAILED_TO_LOAD', { appId:appConfigs[0].appId, src: inlines[i], err: exception });
-						appHandlers.__trigger(
-							_sAppHandlerToken,
-							constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
-							appConfigs[0],
-							exception
-						);
+					appHandlers.__trigger(
+						_sAppHandlerToken,
+						constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+						appConfigs[0],
+						exception
+					);
 				}
 			}
 			cb();
