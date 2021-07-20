@@ -18,13 +18,14 @@
 	},
 	"license": "Apache-2.0",
 	"scripts": {
-		"build": "webpack --config webpack.config.js",
-		"ci": "npm run test",
+		"build": "webpack --config webpack.prod.js",
+		"build-dev": "webpack --config webpack.dev.js",
 		"docs": "rm -rf ./docs/dist && webpack --config ./docs/src/webpack.config.js && node docs/bin/gen-docs && node docs/bin/yuidocs && rm docs/dist/css/site.js && cp -r docs/src/img docs/src/fonts docs/src/apps docs/src/js docs/dist && cp dist/* docs/dist/js",
 		"docs-live": "http-server ./docs/dist",
 		"gh-pages": "cp -r docs/dist/* ../gh-pages && cp dist/* ../gh-pages && npm run zip",
 		"lint": "jshint --verbose src/",
 		"test": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --single-run --browsers ChromeHeadless --reporters nested\"",
+		"test-debug": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --log-level debug --single-run --browsers ChromeHeadless --reporters nested\"",
 		"test-live": "npm run lint && concurrently -s first -k -r \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start\"",
 		"zip": "bestzip F2-examples.zip examples/* dist/* && cp -f F2-examples.zip ../gh-pages "
 	},
@@ -59,6 +60,7 @@
 		"webpack": "^5.42.0",
 		"webpack-bundle-analyzer": "^4.4.2",
 		"webpack-cli": "^4.7.2",
+		"webpack-merge": "^5.8.0",
 		"yuidocjs": "^0.10.2"
 	},
 	"files": [

@@ -402,13 +402,17 @@ F2.init({
 
 ### Handling Script Errors
 
-In the event any scripts defined in an `AppManifest` fail to load&mdash;such as HTTP 404 or simply timeout after the [configurable](./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout) 7 seconds&mdash;F2 Events are triggered. The two events are: `RESOURCE_FAILED_TO_LOAD` and the `APP_SCRIPT_LOAD_FAILED` [AppHandler](./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED). Both events are passed the `appId` and `src` of the failed script.
+In the event any scripts defined in an `AppManifest` fail to load&mdash;such as HTTP 404 or simply timeout after the [configurable](./sdk/classes/F2.ContainerConfig.html#properties-scriptErrorTimeout) 7 seconds&mdash;the `APP_SCRIPT_LOAD_FAILED` [AppHandler](./sdk/classes/F2.Constants.AppHandlers.html#properties-APP_SCRIPT_LOAD_FAILED) will be fired. The event is passed the `appId` and `src` of the failed script.
 
 ```javascript
-F2.Events.on('RESOURCE_FAILED_TO_LOAD', function(data){
-    F2.log('Script failed to load: ' data.src);
-    //Ouputs 'Script failed to load: http://cdn.com/script.js'
-});
+var _token = F2.AppHandlers.getToken();
+F2.AppHandlers.on(
+    _token,
+    F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+    function(appConfig, scriptInfo) {
+        F2.log(appConfig.appId);
+    }
+);
 ```
 
 ### When Are Scripts Loaded?

@@ -15,19 +15,23 @@ var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
  */
 var beforeEachReloadF2 = function(callback) {
 	beforeEach(function(done) {
+		console.info('beforeEachReloadF2: start')
 		window.F2 = null;
 		var head = (document.head || document.getElementsByTagName('head')[0]);
 		var script = document.createElement('script');
 		head.appendChild(script);
 		script.async = false;
 		script.onerror = function(e) {
+			console.error('F2 FAILED TO LOAD: ' + e.message);
 			throw new Error('F2 FAILED TO LOAD: ' + e.message);
 		}
 		script.onload = script.onreadystatechange = function(e) {
 			script = null;
 			if (!window.F2) {
+				console.error('F2 WAS NOT PROPERLY LOADED')
 				throw new Error('F2 WAS NOT PROPERLY LOADED');
 			}
+			console.info('beforeEachReloadF2: end')
 			callback && callback();
 			done();
 		}

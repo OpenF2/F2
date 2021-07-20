@@ -7,8 +7,10 @@ describe('F2.loadPlaceholders - auto', function() {
 				function() {
 					var element = document.querySelectorAll(selector);
 					if (!element) {
-						clearInterval(periodicCheck);
-						throw new Error('unable to locate selector: ' + selector);
+						return;
+						// clearInterval(periodicCheck);
+						// console.log('unable to locate selector: ' + selector);
+						// throw new Error('unable to locate selector: ' + selector);
 					}
 					// sum the number of children found in each of the elements that were found
 					children = Array.from(element).reduce((total, current) => total + current.children.length, 0);

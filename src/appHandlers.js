@@ -48,7 +48,9 @@ var _defaultMethods = {
 		}
 
 		// remove the root
-		appInstance.config.root.parentNode.removeChild(appInstance.config.root);
+		if (appInstance.config.root && appInstance.config.root.parentNode) {
+			appInstance.config.root.parentNode.removeChild(appInstance.config.root);
+		}
 	}
 };
 

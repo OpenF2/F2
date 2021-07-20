@@ -76,15 +76,5 @@ module.exports = {
 	 * @static
 	 * @final
 	 */
-	CONTAINER_LOCALE_CHANGE: 'Container.localeChange',
-	/**
-	 * The RESOURCE_FAILED_TO_LOAD event will be fired by the container when
-	 * it fails to load a script or style.
-	 * @property RESOURCE_FAILED_TO_LOAD
-	 * @depreciated since 1.4
-	 * @type string
-	 * @static
-	 * @final
-	 */
-	RESOURCE_FAILED_TO_LOAD: 'Container.resourceFailedToLoad'
+	CONTAINER_LOCALE_CHANGE: 'Container.localeChange'
 };
