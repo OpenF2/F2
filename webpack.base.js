@@ -1,15 +1,9 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const pkg = require('./package.json');
 const webpack = require('webpack');
 
 module.exports = {
-	devtool: 'source-map',
 	entry: './src/index.js',
-	mode: 'production',
-	optimization: {
-		minimize: false
-	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'f2.js',
@@ -50,7 +44,6 @@ nor result in you having acquiring any rights whatsoever, other than as stipulat
 in the terms and conditions related to the specific Third Party Material, if any.`;
 			}
 		}),
-		new BundleAnalyzerPlugin(),
 		new webpack.DefinePlugin({
 			VERSION: JSON.stringify(pkg.version)
 		}),

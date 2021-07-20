@@ -18,8 +18,8 @@
 	},
 	"license": "Apache-2.0",
 	"scripts": {
-		"build": "webpack --config webpack.config.js",
-		"ci": "npm run test",
+		"build": "webpack --config webpack.prod.js",
+		"build-dev": "webpack --config webpack.dev.js",
 		"docs": "rm -rf ./docs/dist && webpack --config ./docs/src/webpack.config.js && node docs/bin/gen-docs && node docs/bin/yuidocs && rm docs/dist/css/site.js && cp -r docs/src/img docs/src/fonts docs/src/apps docs/src/js docs/dist && cp dist/* docs/dist/js",
 		"docs-live": "http-server ./docs/dist",
 		"gh-pages": "cp -r docs/dist/* ../gh-pages && cp dist/* ../gh-pages && npm run zip",
@@ -60,6 +60,7 @@
 		"webpack": "^5.42.0",
 		"webpack-bundle-analyzer": "^4.4.2",
 		"webpack-cli": "^4.7.2",
+		"webpack-merge": "^5.8.0",
 		"yuidocjs": "^0.10.2"
 	},
 	"files": [
