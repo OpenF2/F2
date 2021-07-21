@@ -11,6 +11,16 @@ var TEST_MANIFEST_URL = 'http://localhost:8080/F2/apps/test/hello-world',
 ;
 
 /**
+ * Clean out the test fixture before each spec
+ */
+beforeEach(function() {
+	var fixture = document.getElementById('test-fixture');
+	while (fixture.firstChild) {
+		fixture.removeChild(fixture.firstChild);
+	}
+});
+
+/**
  * Reload F2 before each spec
  */
 var beforeEachReloadF2 = function(callback) {
@@ -38,28 +48,21 @@ var beforeEachReloadF2 = function(callback) {
 		script.src = '../dist/f2.js';
 	});
 };
-
-var afterEachDeleteTestScripts = function(callback) {
-	afterEach(function(done) {
-		var scripts = Array.from(document.querySelectorAll('script[src]') || []);
-		var styles = Array.from(document.querySelectorAll('link[href]') || []);
-
-		([].concat(scripts,styles)).forEach(s => {
-			if (/tests/.test(s.src)) {
-				s.parentNode.removeChild(s);
-			}
-		});
-		callback && callback();
-		done();
-	});
-}
+// go ahead and attach a beforeEach everywhere while allowing this function to
+// be called manually as necessary
+beforeEachReloadF2();
 
 /**
- * Clean out the test fixture before each spec
+ * Delete all test apps after each spec
  */
-beforeEach(function() {
-	var fixture = document.getElementById('test-fixture');
-	while (fixture.firstChild) {
-		fixture.removeChild(fixture.firstChild);
-	}
+afterEach(function(done) {
+	var scripts = Array.from(document.querySelectorAll('script[src]') || []);
+
+	([].concat(scripts)).forEach(s => {
+		if (/tests\/apps/.test(s.src)) {
+			s.parentNode.removeChild(s);
+		}
+	});
+
+	done();
 });

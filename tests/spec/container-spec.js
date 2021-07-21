@@ -1,11 +1,10 @@
 describe('F2.registerApps - pre-load', function() {
 
-	beforeEachReloadF2(function() {
+	beforeEach(function() {
 		spyOn(console, 'log').and.callThrough();
 		// refresh the preloaded apps since the F2/F2.Apps namespace was wiped out
 		window.F2_PRELOADED.forEach(f => f());
 	});
-	afterEachDeleteTestScripts();
 
 	it('should throw exception if F2.init() is not called prior', function() {
 		var appConfig = {
@@ -145,8 +144,6 @@ describe('F2.registerApps - pre-load', function() {
 
 describe('F2.init', function() {
 
-	beforeEachReloadF2();
-
 	it('should allow for no parameters', function() {
 		expect(function() {
 			F2.init();
@@ -162,8 +159,6 @@ describe('F2.init', function() {
 });
 
 describe('F2.init - xhr overrides', function() {
-
-	beforeEachReloadF2();
 
 	it('should throw an exception when ContainerConfig.xhr is not an object or function', function() {
 		expect(function() {
@@ -208,8 +203,6 @@ describe('F2.init - xhr overrides', function() {
 
 describe('F2.isInit', function() {
 
-	beforeEachReloadF2();
-
 	it('should return false when F2.init has not been called', function() {
 		expect(F2.isInit()).toBeFalsy();
 	});
@@ -221,9 +214,6 @@ describe('F2.isInit', function() {
 });
 
 describe('F2.init - internationalization', function() {
-
-	beforeEachReloadF2();
-	afterEachDeleteTestScripts();
 
 	var appConfig = {
 		appId: TEST_APP_ID,
@@ -502,8 +492,6 @@ describe('F2.registerApps - basic', function() {
 
 describe('F2.registerApps - xhr overrides', function() {
 
-	beforeEachReloadF2();
-
 	var appConfig = {
 		appId: TEST_APP_ID,
 		manifestUrl: TEST_MANIFEST_URL
@@ -654,9 +642,6 @@ describe('F2.registerApps - xhr overrides', function() {
 
 describe('F2.registerApps - rendering', function() {
 
-	beforeEachReloadF2();
-	afterEachDeleteTestScripts();
-
 	var appConfig = {
 		appId: TEST_APP_ID,
 		manifestUrl: TEST_MANIFEST_URL
@@ -710,12 +695,15 @@ describe('F2.registerApps - rendering', function() {
 
 	it('should add cache buster to AppManifest.scripts when F2.ContainerConfig.debugMode is true', function(done) {
 
+		var scriptGuid = F2.guid();
+		var scriptRegex = new RegExp('guid=' + scriptGuid);
+
 		F2.checkCacheBuster = function() {
 			var bustedCache = false;
 			var scripts = document.querySelectorAll('script');
 
 			for (var i = 0; i < scripts.length; i++) {
-				if (/appclass.js\?cachebuster/.test(scripts[i].src)) {
+				if (scriptRegex.test(scripts[i].src)) {
 					bustedCache = true;
 					break;
 				}
@@ -733,7 +721,7 @@ describe('F2.registerApps - rendering', function() {
 			manifestUrl: TEST_MANIFEST_URL
 		}], [{
 			'inlineScripts': ['(function() {F2.checkCacheBuster();})()'],
-			'scripts': [appClass],
+			'scripts': [appClass + '?guid=' + scriptGuid],
 			'apps': [{
 				'html': '<div class="test-app-2">Testing</div>'
 			}]
@@ -741,12 +729,16 @@ describe('F2.registerApps - rendering', function() {
 	});
 
 	it('should not add cache buster to AppManifest.scripts when F2.ContainerConfig.debugMode is undefined or false', function(done) {
+
+		var scriptGuid = F2.guid();
+		var scriptRegex = new RegExp('guid=' + scriptGuid);
+
 		F2.checkCacheBuster = function() {
 			var bustedCache = false;
 			var scripts = document.querySelectorAll('script');
 
 			for (var i = 0; i < scripts.length; i++) {
-				if (/appclass.js/.test(scripts[i].src)) {
+				if (scriptRegex.test(scripts[i].src)) {
 					bustedCache = /cachebuster/.test(scripts[i].src);
 					break;
 				}
@@ -762,7 +754,7 @@ describe('F2.registerApps - rendering', function() {
 			manifestUrl: TEST_MANIFEST_URL
 		}], [{
 			'inlineScripts': ['(function() {F2.checkCacheBuster();})()'],
-			'scripts': [appClass],
+			'scripts': [appClass + '?guid=' + scriptGuid],
 			'apps': [{
 				'html': '<div class="test-app-2">Testing</div>'
 			}]
@@ -775,6 +767,7 @@ describe('F2.registerApps - rendering', function() {
 		F2.init();
 
 		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', () => {
+			console.log('event received');
 			appsInitialized++;
 			if (appsInitialized === 3) {
 				expect(appsInitialized).toBe(3);
@@ -804,25 +797,26 @@ describe('F2.registerApps - rendering', function() {
 
 		F2.init();
 
-		//load 1 app with 2 script files, the 2nd one defines F2.HightChartsIsDefined global.
+		//notify when dependencies have been loaded
+		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', data => {
+			console.log('init event received');
+			expect(data.HightChartsIsDefined).toBeTruthy();
+			done();
+		});
+
+		//load 1 app with 2 script files, the 2nd one depends on Highcharts
 		F2.registerApps([{
 				appId: TEST_APP_ID3,
 				manifestUrl: TEST_MANIFEST_URL3
 		}], [{
 			'scripts': [
-				'https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.3/highcharts.js',
+				'http://localhost:8080/tests/apps/com_openf2_examples_nodejs_helloworld/highcharts-4.0.3.js',
 				'http://localhost:8080/tests/apps/com_openf2_examples_nodejs_helloworld/appclass.js'
 			],
 			'apps': [{
 				'html': '<div class="test-app-1">Testing</div>'
 			}]
 		}]);
-
-		//notify when dependencies have been loaded
-		F2.Events.on('com_openf2_examples_nodejs_helloworld-init', data => {
-			expect(data.HightChartsIsDefined).toBeTruthy();
-			done();
-		});
 	});
 
 });

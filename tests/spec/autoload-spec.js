@@ -15,8 +15,13 @@ describe('F2.loadPlaceholders - auto', function() {
 					// sum the number of children found in each of the elements that were found
 					children = Array.from(element).reduce((total, current) => total + current.children.length, 0);
 					if (children === count) {
-						expect(children).toEqual(count);
-						clearInterval(periodicCheck);
+						try {
+							expect(children).toEqual(count);
+						} catch (e) {
+							console.error('caught exception waiting for children: ' + e.message);
+						} finally {
+							clearInterval(periodicCheck);
+						}
 						done();
 					}
 				},
@@ -262,8 +267,13 @@ describe('F2.loadPlaceholders - manual', function() {
 				// sum the number of children found in each of the elements that were found
 				children = Array.from(element).reduce((total, current) => total + current.children.length, 0);
 				if (children === count) {
-					expect(children).toEqual(count);
-					clearInterval(periodicCheck);
+					try {
+						expect(children).toEqual(count);
+					} catch (e) {
+						console.error('caught exception waiting for children: ' + e.message);
+					} finally {
+						clearInterval(periodicCheck);
+					}
 					done();
 				}
 		}, 100);
