@@ -45,8 +45,7 @@ Once you've forked the F2 repository:
 
 ### Committing Changes
 
-* You should only commit files you have changed. **Do not commit compiled or generated F2 files, except:**
-    * If you've modified any file in the `/src/` directory, you must commit `/dist/f2.js` for the [Travis unit tests](https://travis-ci.org/OpenF2/F2).
+* You should only commit files you have changed. **Do not commit compiled or generated F2 files**
 * After you've staged your changes, add a detailed commit message.
 * Push committed changes to your fork's branch.
 * [Submit a pull request](https://help.github.com/articles/using-pull-requests) for `F2\*-wip` **not** `F2\master`.

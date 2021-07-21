@@ -22,7 +22,7 @@ Join the team and help contribute to F2 on GitHub. Begin by reading our [contrib
 
 **Thank you to the [growing list of contributors](https://github.com/OpenF2/F2/graphs/contributors)!**
 
-## Developers [![Build Status](https://travis-ci.org/OpenF2/F2.svg?branch=master)](https://travis-ci.org/OpenF2/F2) [![Slack](https://openf2-slack.herokuapp.com/badge.svg)](https://openf2.slack.com)
+## Developers [![Build Status](https://github.com/openf2/f2/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/OpenF2/F2/actions) [![Slack](https://openf2-slack.herokuapp.com/badge.svg)](https://openf2.slack.com)
 
 ### Get F2.js
 

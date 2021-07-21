@@ -15,7 +15,6 @@
 		".gitignore",
 		".gitattributes",
 		".jshintrc",
-		".travis.yml",
 		"Gruntfile.js",
 		"package.json",
 		"README.md",
