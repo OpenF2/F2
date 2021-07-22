@@ -26,10 +26,10 @@ Join the team and help contribute to F2 on GitHub. Begin by reading our [contrib
 
 ### Get F2.js
 
-* Choose a [F2.js package](http://docs.openf2.org/f2js-sdk.html#packages), including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
-* Grab any version of F2 [on cdnjs.com](http://cdnjs.com/libraries/F2/).
-* For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/) or `PM> Install-Package F2`
-* Bower: `bower install F2`
+- Choose a [F2.js package](http://docs.openf2.org/f2js-sdk.html#packages), including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
+- Grab any version of F2 [on cdnjs.com](http://cdnjs.com/libraries/F2/).
+- For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/) or `PM> Install-Package F2`
+- Bower: `bower install F2`
 
 ### Docs
 
@@ -81,7 +81,6 @@ Copyright &copy; 2015 Markit On Demand, Inc.
 
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the specific language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-Please note that F2 ("Software") may contain third party material that Markit On Demand Inc. has a license to use and include within the Software (the "Third Party Material").  A list of the software comprising the Third Party Material and the terms and conditions under which such Third Party Material is distributed are reproduced in the [ThirdPartyMaterial.md](ThirdPartyMaterial.md) file. The inclusion of the Third Party Material in the Software does not grant, provide nor result in you having acquiring any rights whatsoever, other than as stipulated in the terms and conditions related to the specific Third Party Material, if any.
-
+Please note that F2 ("Software") may contain third party material that Markit On Demand Inc. has a license to use and include within the Software (the "Third Party Material"). A list of the software comprising the Third Party Material and the terms and conditions under which such Third Party Material is distributed are reproduced in the [ThirdPartyMaterial.md](ThirdPartyMaterial.md) file. The inclusion of the Third Party Material in the Software does not grant, provide nor result in you having acquiring any rights whatsoever, other than as stipulated in the terms and conditions related to the specific Third Party Material, if any.

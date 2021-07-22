@@ -1,5 +1,5 @@
 // ------ MIXINS ----------
-.font-bold(){
+.font-bold() {
 	font-weight: @font-weight-bold;
 	font-family: @font-family-sans-serif-regular;
 }
@@ -13,7 +13,7 @@
 	.align-center();
 }
 
-.make-circle(@diameter){
+.make-circle(@diameter) {
 	display: inline-block;
 	width: @diameter;
 	height: @diameter;
@@ -21,17 +21,17 @@
 	-webkit-border-radius: @diameter / 2;
 	border-radius: @diameter / 2;
 	text-align: center;
-	padding: 2px 0 0 4px
+	padding: 2px 0 0 4px;
 }
 
-.make-hexagon(@width,@color){
+.make-hexagon(@width,@color) {
 	display: inline-block;
 	width: @width;
 	height: @width / 1.8;
 	position: relative;
 
- 	&:before {
-		content: "";
+	&:before {
+		content: '';
 		position: absolute;
 		top: (@width / 4) * -1;
 		left: 0;
@@ -43,7 +43,7 @@
 	}
 
 	&:after {
-		content: "";
+		content: '';
 		position: absolute;
 		bottom: (@width / 4) * -1;
 		left: 0;
@@ -55,14 +55,15 @@
 	}
 }
 
-
 //generic, reusable classes for sections
 .aboutbox {
 	.align-center();
 	position: relative;
 	min-height: 350px;
 
-	h1, h2, h3 {
+	h1,
+	h2,
+	h3 {
 		font-weight: normal;
 		margin: 0;
 		padding: 0;
@@ -73,7 +74,7 @@
 		.align-center();
 		padding-top: 40px;
 
-		@media (min-width: @screen-sm-min){
+		@media (min-width: @screen-sm-min) {
 			padding-top: 120px;
 		}
 	}
@@ -89,7 +90,7 @@
 			padding-left: 10px;
 			padding-right: 10px;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				font-size: 40px;
 			}
 		}
@@ -109,7 +110,7 @@
 			padding-left: 10px;
 			padding-right: 10px;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				font-size: 40px;
 			}
 		}
@@ -126,7 +127,7 @@
 			padding-left: 10px;
 			padding-right: 10px;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				font-size: 40px;
 			}
 		}
@@ -143,13 +144,11 @@
 			padding-left: 10px;
 			padding-right: 10px;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				font-size: 40px;
 			}
 		}
 	}
-
-
 }
 
 //reusable circles
@@ -184,7 +183,6 @@
 
 //reusable hexagons
 .hexagon {
-
 	&.hexagon-grey {
 		background-color: #e1e1e6;
 		.make-hexagon(45px,#e1e1e6);
@@ -195,13 +193,13 @@
 	}
 }
 
-.blue-box-aside(){
+.blue-box-aside() {
 	position: relative;
 	padding: 50px 20px;
 	background-color: @f2blueDark;
 	text-align: left;
 
-	@media (min-width: @screen-md-min){
+	@media (min-width: @screen-md-min) {
 		padding: 40px;
 	}
 
@@ -214,7 +212,7 @@
 		top: -22px;
 		left: 50%;
 
-		@media (min-width: @screen-md-min){
+		@media (min-width: @screen-md-min) {
 			top: -12px;
 			left: -19px;
 		}

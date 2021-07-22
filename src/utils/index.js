@@ -6,7 +6,7 @@ export default {
 	 * reference errors when serializing objects
 	 * @method appConfigReplacer
 	 */
-	appConfigReplacer: function(key, value) {
+	appConfigReplacer: function (key, value) {
 		if (key == 'root' || key == 'ui' || key == 'height') {
 			return undefined;
 		} else {
@@ -59,11 +59,24 @@ export default {
 	 * @return {string} A random id
 	 * @for F2
 	 */
-	guid: function() {
-		var S4 = function() {
-			return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	guid: function () {
+		var S4 = function () {
+			return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 		};
-		return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
+		return (
+			S4() +
+			S4() +
+			'-' +
+			S4() +
+			'-' +
+			S4() +
+			'-' +
+			S4() +
+			'-' +
+			S4() +
+			S4() +
+			S4()
+		);
 	},
 	/**
 	 * Tests a URL to see if it's on the same domain (local) or not
@@ -86,16 +99,34 @@ export default {
 		F2.log('info', 'The session ID is ' + sessionId);
 		* Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
 		*/
-	log: function() {
+	log: function () {
 		var _log;
 		var _logMethod = 'log';
 		var method;
-		var noop = function () { };
+		var noop = function () {};
 		var methods = [
-			'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-			'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-			'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-			'timeStamp', 'trace', 'warn'
+			'assert',
+			'clear',
+			'count',
+			'debug',
+			'dir',
+			'dirxml',
+			'error',
+			'exception',
+			'group',
+			'groupCollapsed',
+			'groupEnd',
+			'info',
+			'log',
+			'markTimeline',
+			'profile',
+			'profileEnd',
+			'table',
+			'time',
+			'timeEnd',
+			'timeStamp',
+			'trace',
+			'warn'
 		];
 		var length = methods.length;
 		var console = (window.console = window.console || {});
@@ -111,7 +142,7 @@ export default {
 
 			//if first arg is a console function, use it.
 			//defaults to console.log()
-			if (arguments && arguments.length > 1 && arguments[0] == method){
+			if (arguments && arguments.length > 1 && arguments[0] == method) {
 				_logMethod = method;
 				//remove console func from args
 				args = Array.prototype.slice.call(arguments, 1);
@@ -121,12 +152,16 @@ export default {
 		if (Function.prototype.bind) {
 			_log = Function.prototype.bind.call(console[_logMethod], console);
 		} else {
-			_log = function() {
-				Function.prototype.apply.call(console[_logMethod], console, (args || arguments));
+			_log = function () {
+				Function.prototype.apply.call(
+					console[_logMethod],
+					console,
+					args || arguments
+				);
 			};
 		}
 
-		_log.apply(this, (args || arguments));
+		_log.apply(this, args || arguments);
 	},
 	/**
 	 * Wrapper to convert a JSON string to an object
@@ -134,7 +169,7 @@ export default {
 	 * @param {string} str The JSON string to convert
 	 * @return {object} The parsed object
 	 */
-	parse: function(str) {
+	parse: function (str) {
 		return JSON.parse(str);
 	},
 	/**
@@ -155,7 +190,7 @@ export default {
 	 * or '&nbsp;'), it contains the characters used to indent at each level.
 	 * @return {string} The JSON string
 	 */
-	stringify: function(value, replacer, space) {
+	stringify: function (value, replacer, space) {
 		return JSON.stringify(value, replacer, space);
 	},
 	/**
@@ -163,7 +198,7 @@ export default {
 	 * @method version
 	 * @return {string} F2 version number
 	 */
-	version: function() {
+	version: function () {
 		/* eslint no-undef: 0 */
 		return VERSION;
 	}

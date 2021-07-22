@@ -3,9 +3,8 @@
  * way to replace the preloaded app after F2 has been refreshed.
  */
 window.F2_PRELOADED = window.F2_PRELOADED || [];
-window.F2_PRELOADED.push(function() {
-	F2.Apps[TEST_PRELOADED_APP_ID] = (function() {
-
+window.F2_PRELOADED.push(function () {
+	F2.Apps[TEST_PRELOADED_APP_ID] = (function () {
 		var App_Class = function (appConfig, appContent, root) {
 			this.appConfig = appConfig;
 			this.appContent = appContent;
@@ -16,7 +15,7 @@ window.F2_PRELOADED.push(function() {
 		App_Class.prototype.init = function () {
 			var appConfig = this.appConfig;
 
-			F2.Events.on('PreloadAppTestOne', function(testValue){
+			F2.Events.on('PreloadAppTestOne', function (testValue) {
 				F2.Events.emit('PreloadAppResponseOne', testValue);
 			});
 

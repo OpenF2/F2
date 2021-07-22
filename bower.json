@@ -1,11 +1,7 @@
 {
 	"name": "f2",
 	"description": "F2 is an open and free web integration framework that allows you to deploy apps & components both within your existing web application and cross-domain.",
-	"keywords": [
-		"f2",
-		"openf2",
-		"markit f2"
-	],
+	"keywords": ["f2", "openf2", "markit f2"],
 	"homepage": "http://www.openf2.org",
 	"version": "1.4.5",
 	"main": "dist/f2.js",

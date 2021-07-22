@@ -1,11 +1,11 @@
-
 //put this background image only on the home page
 .home .navbar-inverse {
-	@media (min-width: @screen-sm-min){
-		background: @navbar-inverse-bg url('/img/header-bg.png?v=@{version}') center -114px no-repeat;
+	@media (min-width: @screen-sm-min) {
+		background: @navbar-inverse-bg url('/img/header-bg.png?v=@{version}') center -114px
+			no-repeat;
 	}
 
-	@media (min-width: @screen-md-min){
+	@media (min-width: @screen-md-min) {
 		background-position: center top;
 	}
 }
@@ -21,7 +21,7 @@
 	padding-bottom: 30px;
 	margin-bottom: 0;
 
-	@media (min-width: @screen-md-min){
+	@media (min-width: @screen-md-min) {
 		.container {
 			padding-right: 0px;
 		}
@@ -34,7 +34,7 @@
 	.navbar-header {
 		margin-left: 15px;
 
-		@media (min-width: @screen-md-min){
+		@media (min-width: @screen-md-min) {
 			width: @navbar-width;
 		}
 	}
@@ -42,7 +42,7 @@
 	.navbar-brand {
 		.text-hide();
 
-		@media (min-width: @screen-sm-min){
+		@media (min-width: @screen-sm-min) {
 			padding-left: 0;
 			padding-right: 0;
 		}
@@ -65,14 +65,14 @@
 		margin-top: 20px;
 		float: none;
 
-		@media (min-width: @screen-sm-min){
+		@media (min-width: @screen-sm-min) {
 			margin-top: 0;
 			padding-left: 0;
 			padding-right: 0;
 			margin-left: -@navbar-width; //it's not in a "row", so slide it left
 		}
 
-		@media (min-width: @screen-sm-min) and (max-width: @screen-md-min){
+		@media (min-width: @screen-sm-min) and (max-width: @screen-md-min) {
 			float: right;
 		}
 
@@ -87,7 +87,7 @@
 				border: 0 solid @navbarSeparator;
 				border-bottom-width: 1px;
 
-				@media (min-width: @screen-sm-min){
+				@media (min-width: @screen-sm-min) {
 					font-size: 12px;
 					border: 0 none;
 					&.active,
@@ -98,16 +98,16 @@
 					}
 				}
 
-				@media (min-width: @screen-sm-min){
+				@media (min-width: @screen-sm-min) {
 					margin: 0 5px;
 					padding: 8px 8px;
 				}
 
-				@media (min-width: @screen-md-min){
+				@media (min-width: @screen-md-min) {
 					margin: 0 8px;
 				}
 
-				@media (min-width: @screen-lg-min){
+				@media (min-width: @screen-lg-min) {
 					margin: 0 8px;
 				}
 			}

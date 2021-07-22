@@ -5,17 +5,23 @@
  * @return {bool} Returns true if the object passed is a native dom node.
  */
 function isNativeNode(testObject) {
-	var bIsNode = (
-		typeof Node === 'object' ? testObject instanceof Node :
-		testObject && typeof testObject === 'object' && typeof testObject.nodeType === 'number' && typeof testObject.nodeName === 'string'
-	);
+	var bIsNode =
+		typeof Node === 'object'
+			? testObject instanceof Node
+			: testObject &&
+			  typeof testObject === 'object' &&
+			  typeof testObject.nodeType === 'number' &&
+			  typeof testObject.nodeName === 'string';
 
-	var bIsElement = (
-		typeof HTMLElement === 'object' ? testObject instanceof HTMLElement : //DOM2
-		testObject && typeof testObject === 'object' && testObject.nodeType === 1 && typeof testObject.nodeName === 'string'
-	);
+	var bIsElement =
+		typeof HTMLElement === 'object'
+			? testObject instanceof HTMLElement //DOM2
+			: testObject &&
+			  typeof testObject === 'object' &&
+			  testObject.nodeType === 1 &&
+			  typeof testObject.nodeName === 'string';
 
-	return (bIsNode || bIsElement);
+	return bIsNode || bIsElement;
 }
 
 export default {

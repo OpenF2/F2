@@ -9,7 +9,6 @@
  * http://www.opensource.org/licenses/GPL-2.0
  */
 (function ($, document, undefined) {
-
 	var pluses = /\+/g;
 
 	function raw(s) {
@@ -20,8 +19,7 @@
 		return decodeURIComponent(s.replace(pluses, ' '));
 	}
 
-	var config = $.cookie = function (key, value, options) {
-
+	var config = ($.cookie = function (key, value, options) {
 		// write
 		if (value !== undefined) {
 			options = $.extend({}, config.defaults, options);
@@ -31,18 +29,21 @@
 			}
 
 			if (typeof options.expires === 'number') {
-				var days = options.expires, t = options.expires = new Date();
+				var days = options.expires,
+					t = (options.expires = new Date());
 				t.setDate(t.getDate() + days);
 			}
 
 			value = config.json ? JSON.stringify(value) : String(value);
 
 			return (document.cookie = [
-				encodeURIComponent(key), '=', config.raw ? value : encodeURIComponent(value),
+				encodeURIComponent(key),
+				'=',
+				config.raw ? value : encodeURIComponent(value),
 				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-				options.path    ? '; path=' + options.path : '',
-				options.domain  ? '; domain=' + options.domain : '',
-				options.secure  ? '; secure' : ''
+				options.path ? '; path=' + options.path : '',
+				options.domain ? '; domain=' + options.domain : '',
+				options.secure ? '; secure' : ''
 			].join(''));
 		}
 
@@ -57,7 +58,7 @@
 		}
 
 		return null;
-	};
+	});
 
 	config.defaults = {};
 
@@ -68,5 +69,4 @@
 		}
 		return false;
 	};
-
 })(jQuery, document);

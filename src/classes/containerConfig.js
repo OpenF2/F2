@@ -55,13 +55,13 @@ export default {
 	 *          var fetchFunc = fetchJsonp(fetchUrl, {
 	 *                          timeout: 3000,
 	 *                          jsonpCallbackFunction: jsonpCallback
-	 *                          });                
+	 *                          });
 	 *           fetchFunc.then(function(response) {
 	 *                          return response.json();
 	 *                      })
 	 *                      .then(function(data) {
 	 *                      	successCallback(data);
-	 *                      	completeCallback();                         
+	 *                      	completeCallback();
 	 *                  })
 	 *                  .catch(function(error) {
 	 *                      F2.log('Failed to load app(s)', error.toString());
@@ -110,7 +110,7 @@ export default {
 		 *         }
 		 *     });
 		 */
-		dataType: function(url, appConfigs) {},
+		dataType: function (url, appConfigs) {},
 		/**
 		 * Allows the container to override the request method that is used.
 		 * @method xhr.type
@@ -131,7 +131,7 @@ export default {
 		 *         }
 		 *     });
 		 */
-		type: function(url, appConfigs) {},
+		type: function (url, appConfigs) {},
 		/**
 		 * Allows the container to override the url that is used to request an
 		 * app's F2.{{#crossLink "F2.AppManifest"}}{{/crossLink}}
@@ -150,7 +150,7 @@ export default {
 		 *         }
 		 *     });
 		 */
-		url: function(url, appConfigs) {}
+		url: function (url, appConfigs) {}
 	},
 	/**
 	 * Allows the container to override the script loader which requests
@@ -166,7 +166,7 @@ export default {
 	 *			}
 	 *     });
 	 */
-	loadScripts: function(scripts,inlines,callback){},
+	loadScripts: function (scripts, inlines, callback) {},
 	/**
 	 * Allows the container to override the stylesheet loader which requests
 	 * dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
@@ -181,5 +181,5 @@ export default {
 	 *			}
 	 *     });
 	 */
-	loadStyles: function(styles,callback){}
+	loadStyles: function (styles, callback) {}
 };

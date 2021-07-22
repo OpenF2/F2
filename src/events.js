@@ -5,10 +5,10 @@ import EventEmitter2 from 'eventemitter2';
  * containers to apps and apps to apps.
  * @class F2.Events
  */
-export default (function() {
+export default (function () {
 	// init EventEmitter
 	var _events = new EventEmitter2({
-		wildcard:true
+		wildcard: true
 	});
 
 	// unlimited listeners, set to > 0 for debugging
@@ -22,8 +22,11 @@ export default (function() {
 		 * @param {string} event The event name
 		 * @param {object} [arg]* The arguments to be passed
 		 */
-		emit: function() {
-			return EventEmitter2.prototype.emit.apply(_events, [].slice.call(arguments));
+		emit: function () {
+			return EventEmitter2.prototype.emit.apply(
+				_events,
+				[].slice.call(arguments)
+			);
 		},
 		/**
 		 * Adds a listener that will execute n times for the event before being
@@ -36,7 +39,7 @@ export default (function() {
 		 * @param {function} listener The function to be fired when the event is
 		 * emitted
 		 */
-		many: function(event, timesToListen, listener) {
+		many: function (event, timesToListen, listener) {
 			return _events.many(event, timesToListen, listener);
 		},
 		/**
@@ -45,7 +48,7 @@ export default (function() {
 		 * @param {string} event The event name
 		 * @param {function} listener The function that will be removed
 		 */
-		off: function(event, listener) {
+		off: function (event, listener) {
 			return _events.off(event, listener);
 		},
 		/**
@@ -55,7 +58,7 @@ export default (function() {
 		 * @param {function} listener The function to be fired when the event is
 		 * emitted
 		 */
-		on: function(event, listener){
+		on: function (event, listener) {
 			return _events.on(event, listener);
 		},
 		/**
@@ -66,7 +69,7 @@ export default (function() {
 		 * @param {function} listener The function to be fired when the event is
 		 * emitted
 		 */
-		once: function(event, listener) {
+		once: function (event, listener) {
 			return _events.once(event, listener);
 		}
 	};

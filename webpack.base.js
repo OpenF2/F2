@@ -51,7 +51,7 @@ in the terms and conditions related to the specific Third Party Material, if any
 			// Examine all modules
 			maxModules: Infinity,
 			// Display bailout reasons
-			optimizationBailout: true,
+			optimizationBailout: true
 		})
 	]
 };
