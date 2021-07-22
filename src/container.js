@@ -3,6 +3,7 @@ import appClasses from './apps';
 import classes from './classes';
 import cloneDeep from 'lodash.clonedeep';
 import constants from './constants';
+import dom from './utils/dom';
 import domify from 'domify';
 import events from './events';
 import utils from './utils';
@@ -175,7 +176,7 @@ var _initContainerEvents = function() {
  */
 var _isPlaceholderElement = function(node) {
 	return (
-		utils.isNativeDOMNode(node) &&
+		dom.isNativeNode(node) &&
 		!_hasNonTextChildNodes(node) &&
 		!!node.getAttribute('data-f2-appid') &&
 		!!node.getAttribute('data-f2-manifesturl')
@@ -529,7 +530,7 @@ var _loadApps = function(appConfigs, appManifest) {
 					appConfigs[i] // the app config
 				);
 
-				if (!utils.isNativeDOMNode(root)) {
+				if (!dom.isNativeNode(root)) {
 					throw ('App root for ' + appId + ' must be a native DOM element. Check your AppHandler callbacks to ensure you have set app root to a native DOM element.');
 				}
 			}
@@ -698,7 +699,7 @@ export default {
 				}
 			};
 
-		if (!!parentNode && !utils.isNativeDOMNode(parentNode)) {
+		if (!!parentNode && !dom.isNativeNode(parentNode)) {
 			throw ('"parentNode" must be null or a DOM node');
 		}
 
@@ -886,7 +887,7 @@ export default {
 			// If the root property is defined then this app is considered to be preloaded and we will
 			// run it through that logic.
 			if (a.root && !_isPlaceholderElement(a.root)) {
-				if ((!a.root && typeof(a.root) != 'string') && !utils.isNativeDOMNode(a.root)) {
+				if ((!a.root && typeof(a.root) != 'string') && !dom.isNativeNode(a.root)) {
 					utils.log('AppConfig invalid for pre-load, not a valid string and not dom node');
 					utils.log('AppConfig instance:', a);
 					throw ('Preloaded appConfig.root property must be a native dom node or a string representing a sizzle selector. Please check your inputs and try again.');

@@ -1,3 +1,4 @@
+import dom from './utils/dom';
 import domify from 'domify';
 import utils from './utils';
 
@@ -21,7 +22,7 @@ var _defaultMethods = {
 	appRender: function(appConfig, appHtml)
 	{
 		// if no app root is defined use the app's outer most node
-		if(!utils.isNativeDOMNode(appConfig.root))
+		if(!dom.isNativeNode(appConfig.root))
 		{
 			appConfig.root = domify(appHtml);
 		}
@@ -63,7 +64,7 @@ var _createHandler = function(token, sNamespace, func_or_element, bDomNodeApprop
 	var handler = {
 		func: (typeof(func_or_element)) ? func_or_element : null,
 		namespace: sNamespace,
-		domNode: (utils.isNativeDOMNode(func_or_element)) ? func_or_element : null
+		domNode: (dom.isNativeNode(func_or_element)) ? func_or_element : null
 	};
 
 	if(!handler.func && !handler.domNode)
