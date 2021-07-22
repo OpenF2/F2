@@ -406,7 +406,7 @@ var _loadApps = function(appConfigs, appManifest) {
 
 			// If in debugMode, add cache buster to each script URL
 			if (_config.debugMode) {
-				resourceUrl += '?cachebuster=' + new Date().getTime();
+				resourceUrl += ((/\?/.test(resourceUrl)) ? '&' : '?') +  'cachebuster=' + new Date().getTime();
 			}
 
 			// Scripts are loaded asynchronously and executed in order
