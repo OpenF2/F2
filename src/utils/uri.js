@@ -6,7 +6,7 @@
  * Derived from: https://github.com/jquery/jquery/blob/master/src/ajax.js
  */
 function isLocal(url){
-	var rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+	var rurl = /^([\w.+-]+:)(?:\/\/([^/?#:]*)(?::(\d+)|)|)/,
 		urlLower = url.toLowerCase(),
 		parts = rurl.exec( urlLower ),
 		ajaxLocation,
@@ -52,7 +52,7 @@ function isLocal(url){
  * Tests: http://skew.org/uri/uri_tests.html
  */
 function parse(url) {
-	var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:\/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+	var m = String(url).replace(/^\s+|\s+$/g, '').match(/^([^:/?#]+:)?(\/\/(?:[^:@]*(?::[^:@]*)?@)?(([^:/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
 	// authority = '//' + user + ':' + pass '@' + hostname + ':' port
 	return (m ? {
 			href     : m[0] || '',
@@ -83,7 +83,7 @@ function toAbsolute(base, href) {// RFC 3986
 		input.replace(/^(\.\.?(\/|$))+/, '')
 			.replace(/\/(\.(\/|$))+/g, '/')
 			.replace(/\/\.\.$/, '/../')
-			.replace(/\/?[^\/]*/g, function (p) {
+			.replace(/\/?[^/]*/g, function (p) {
 				if (p === '/..') {
 					output.pop();
 				} else {

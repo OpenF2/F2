@@ -164,7 +164,7 @@ export default {
 	 * @return {string} F2 version number
 	 */
 	version: function() {
-		/* jshint undef: false */
+		/* eslint no-undef: 0 */
 		return VERSION;
 	}
 };

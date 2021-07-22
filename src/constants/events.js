@@ -3,7 +3,7 @@
  * @class F2.Constants.Events
  * @static
  */
-module.exports = {
+export default {
 	/**
 	 * The APP_SCRIPTS_LOADED event is fired when all the scripts defined in
 	 * the AppManifest have been loaded.

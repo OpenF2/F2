@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 /**
 * The App Class is an optional class that can be namespaced onto the
 * {{#crossLink "F2\Apps"}}{{/crossLink}} namespace.  The
@@ -10,7 +12,7 @@
 * object
 * @param {Element} root The root DOM Element for the app
 */
-module.exports = function(appConfig, appContent, root) {
+export default function(appConfig, appContent, root) {
  return {
 	 /**
 		* An optional init function that will automatically be called when

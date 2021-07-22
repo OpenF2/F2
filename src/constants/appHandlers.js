@@ -3,7 +3,7 @@
  * @class F2.Constants.AppHandlers
  * @static
  */
-module.exports = {
+export default {
 	/**
 	* When bound using {{#crossLink "F2.AppHandlers/on"}}F2.AppHandlers.on(){{/crossLink}} the listener function passed will receive the
 	* following argument(s): ( {{#crossLink "F2.AppConfig"}}appConfig{{/crossLink}} )

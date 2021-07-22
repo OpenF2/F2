@@ -62,7 +62,7 @@ var _createHandler = function(token, sNamespace, func_or_element, bDomNodeApprop
 
 	// create handler structure. Not all arguments properties will be populated/used.
 	var handler = {
-		func: (typeof(func_or_element)) ? func_or_element : null,
+		func: func_or_element || null,
 		namespace: sNamespace,
 		domNode: (dom.isNativeNode(func_or_element)) ? func_or_element : null
 	};
@@ -234,7 +234,7 @@ export default {
 
 			if(_handlerCollection[eventKey].length === 0 && _defaultMethods[eventKey])
 			{
-				_defaultMethods[eventKey].apply(F2, passableArgs);
+				_defaultMethods[eventKey].apply(this, passableArgs);
 				return this;
 			}
 			else if(_handlerCollection[eventKey].length === 0 && !_handlerCollection[eventKey])
@@ -262,7 +262,7 @@ export default {
 				}
 				else
 				{
-					handler.func.apply(F2, passableArgs);
+					handler.func.apply(this, passableArgs);
 				}
 			}
 		}

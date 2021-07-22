@@ -387,7 +387,7 @@ var _loadApps = function(appConfigs, appManifest) {
 		};
 
 		// Load scripts and eval inlines once complete
-		filteredScripts.forEach(function(e, i) {
+		filteredScripts.forEach(function(e) {
 			var script = doc.createElement('script'),
 				resourceUrl = e,
 				resourceKey = resourceUrl.toLowerCase();
@@ -954,7 +954,7 @@ export default {
 			// another request for the same app.  We'll create a callbackStack
 			// that will ensure that requests for the same app are loaded in order
 			// rather than at the same time
-			appStack.forEach(function(req, i) {
+			appStack.forEach(function(req) {
 				// define the callback function based on the first app's App ID
 				var jsonpCallback = constants.JSONP_CALLBACK + req.apps[0].appId;
 
@@ -982,7 +982,7 @@ export default {
 							manifestRequest(i, requests.pop());
 						},
 						errorFunc = function() {
-							req.apps.forEach(function(item, idx) {
+							req.apps.forEach(function(item) {
 								item.name = item.name || item.appId;
 								utils.log('Removed failed ' + item.name + ' app', item);
 								appHandlers.__trigger(
@@ -1087,8 +1087,8 @@ export default {
 		}
 
 		if(Object.keys(_apps).length > 0) {
-			 Object.keys(_apps).forEach(function(key) {
-			 	self.removeApp(_apps[key].config.instanceId);
+			Object.keys(_apps).forEach(function(key) {
+				self.removeApp(_apps[key].config.instanceId);
 			});
 		}
 	},

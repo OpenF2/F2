@@ -2,7 +2,7 @@
  * The AppConfig object represents an app's meta data
  * @class F2.AppConfig
  */
-module.exports = {
+export default {
 	/**
 	 * The unique ID of the app. More information can be found
 	 * [here](../../app-development.html#f2-appid)
