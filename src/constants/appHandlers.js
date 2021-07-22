@@ -82,7 +82,7 @@ module.exports = {
             *       function(appConfig, appHtml)
             *       {
             *           // if no app root is defined use the app's outer most node
-            *           if(!F2.isNativeDOMNode(appConfig.root))
+            *           if(!appConfig.root)
             *           {
             *               appConfig.root = domify(appHtml);                               
             *           }
