@@ -1,32 +1,31 @@
 //simple console log helper for IE
 var log = $.noop; //function() { };
-if (!window["console"]) {
-    window.console = {};
+if (!window['console']) {
+	window.console = {};
 }
 
 var logFns = {
-    log: log,
-    warn: log,
-    error: log,
-    info: log,
-    group: log,
-    groupEnd: log
+	log: log,
+	warn: log,
+	error: log,
+	info: log,
+	group: log,
+	groupEnd: log
 };
 
 for (var i in logFns) {
-    if (!window.console[i]) {
-        window.console[i] = logFns[i];
-    }
+	if (!window.console[i]) {
+		window.console[i] = logFns[i];
+	}
 }
 
-$(function() {
-
+$(function () {
 	//locale switcher
-	$('#locale-switcher').on('click','a',function(e){
+	$('#locale-switcher').on('click', 'a', function (e) {
 		var locale = $(this).data('locale');
 
 		//emit standard event with new locale
-		F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,{
+		F2.Events.emit(F2.Constants.Events.CONTAINER_LOCALE_CHANGE, {
 			locale: locale
 		});
 
@@ -39,32 +38,41 @@ $(function() {
 
 	var containerAppHandlerToken = F2.AppHandlers.getToken();
 
-	var appCreateRootFunc = function(appConfig) {
+	var appCreateRootFunc = function (appConfig) {
 		var gridWidth = appConfig.minGridSize || 3;
 
-		appConfig.root = $([
-			'<section class="col-md-' + gridWidth + '" data-grid-width="' + gridWidth + '">',
+		appConfig.root = $(
+			[
+				'<section class="col-md-' +
+					gridWidth +
+					'" data-grid-width="' +
+					gridWidth +
+					'">',
 				'<div class="f2-app-wrapper">',
-					'<header class="clearfix">',
-						'<h2 class="pull-left ', F2.Constants.Css.APP_TITLE, '">', appConfig.name, '</h2>',
-					'</header>',
+				'<header class="clearfix">',
+				'<h2 class="pull-left ',
+				F2.Constants.Css.APP_TITLE,
+				'">',
+				appConfig.name,
+				'</h2>',
+				'</header>',
 				'</div>',
-			'</section>'
-		].join('')).get(0);
+				'</section>'
+			].join('')
+		).get(0);
 	};
 
-	var appRenderFunc = function(appConfig, app) {
-
+	var appRenderFunc = function (appConfig, app) {
 		var gridWidth = appConfig.minGridSize || 3;
 
 		// find a row that can fit this app
 		var row;
-		$('#mainContent div.row').each(function(i, el) {
+		$('#mainContent div.row').each(function (i, el) {
 			var span = 0;
-			$('.f2-app', el).each(function(j, app) {
+			$('.f2-app', el).each(function (j, app) {
 				span += Number($(app).data('gridWidth'));
 			});
-			if (span <= (12 - gridWidth)) {
+			if (span <= 12 - gridWidth) {
 				row = el;
 				return false;
 			}
@@ -83,20 +91,29 @@ $(function() {
 			.appendTo(row);
 	};
 
-	var appDestroyFunc = function(appInstance) {
-		if(!appInstance) { return; }
+	var appDestroyFunc = function (appInstance) {
+		if (!appInstance) {
+			return;
+		}
 
 		// call the apps destroy method, if it has one
-		if(appInstance.app && appInstance.app.destroy && typeof(appInstance.app.destroy) == 'function'){
+		if (
+			appInstance.app &&
+			appInstance.app.destroy &&
+			typeof appInstance.app.destroy == 'function'
+		) {
 			appInstance.app.destroy();
 		}
 		// warn the container developer/app developer that even though they have a destroy method it hasn't been called
-		else if(appInstance.app && appInstance.app.destroy){
-			F2.log(appInstance.appId + ' has a Destroy property, but Destroy is not of type function and as such will not be executed.');
+		else if (appInstance.app && appInstance.app.destroy) {
+			F2.log(
+				appInstance.appId +
+					' has a Destroy property, but Destroy is not of type function and as such will not be executed.'
+			);
 		}
 
 		// fade out and remove the root
-		jQuery(appInstance.config.root).fadeOut(250, function() {
+		jQuery(appInstance.config.root).fadeOut(250, function () {
 			jQuery(this).remove();
 		});
 	};
@@ -109,36 +126,61 @@ $(function() {
 	 */
 	F2.init({
 		debugMode: true,
-		locale: "en-gb"
+		locale: 'en-gb'
 	});
 
 	// Define these prior to calling F2.registerApps
-	F2.AppHandlers
-		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_CREATE_ROOT, 	appCreateRootFunc)
-		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_RENDER, 			appRenderFunc)
-		.on(containerAppHandlerToken, F2.Constants.AppHandlers.APP_DESTROY,			appDestroyFunc)
-	;
+	F2.AppHandlers.on(
+		containerAppHandlerToken,
+		F2.Constants.AppHandlers.APP_CREATE_ROOT,
+		appCreateRootFunc
+	)
+		.on(
+			containerAppHandlerToken,
+			F2.Constants.AppHandlers.APP_RENDER,
+			appRenderFunc
+		)
+		.on(
+			containerAppHandlerToken,
+			F2.Constants.AppHandlers.APP_DESTROY,
+			appDestroyFunc
+		);
 
 	//listen for app symbol change events and re-broadcast
-	F2.Events.on(F2.Constants.Events.APP_SYMBOL_CHANGE,function(data) {
-		F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: data.symbol, name: data.name || '' });
+	F2.Events.on(F2.Constants.Events.APP_SYMBOL_CHANGE, function (data) {
+		F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, {
+			symbol: data.symbol,
+			name: data.name || ''
+		});
 	});
 
 	//listen for any failed resources and display alert (demo purposes only)
-	F2.AppHandlers.on(F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED, function(appConfig, data){
-		var error = ['<div class="row" data-error="scriptfailure">',
-						'<div class="span12">',
-							'<div class="alert">',
-								'<button type="button" class="close" data-dismiss="alert">&times;</button>A <a href="'+data.src+'" target="_blank">script resource</a> defined in "'+appConfig.appId+'" failed to load.',
-							'</div>',
-						'</div>',
-					'</div>'];
-		$('#mainContent').prepend(error.join(''));
-	});
+	F2.AppHandlers.on(
+		containerAppHandlerToken,
+		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
+		function (appConfig, data) {
+			var error = [
+				'<div class="row" data-error="scriptfailure">',
+				'<div class="span12">',
+				'<div class="alert">',
+				'<button type="button" class="close" data-dismiss="alert">&times;</button>A <a href="' +
+					data.src +
+					'" target="_blank">script resource</a> defined in "' +
+					appConfig.appId +
+					'" failed to load.',
+				'</div>',
+				'</div>',
+				'</div>'
+			];
+			$('#mainContent').prepend(error.join(''));
+		}
+	);
 
 	//set active state on selected locale in menubar
-	if (F2.getContainerLocale()){
-		$('a[data-locale='+F2.getContainerLocale()+']','#locale-switcher').parent().addClass('active');
+	if (F2.getContainerLocale()) {
+		$('a[data-locale=' + F2.getContainerLocale() + ']', '#locale-switcher')
+			.parent()
+			.addClass('active');
 	}
 
 	/**
@@ -149,19 +191,21 @@ $(function() {
 	 * init symbol lookup in navbar
 	 */
 	$('#symbolLookup')
-		.on('keypress', function(event) {
+		.on('keypress', function (event) {
 			if (event.keyCode == 13) {
 				event.preventDefault();
 			}
 		})
 		.autocomplete({
-			autoFocus:true,
+			autoFocus: true,
 			minLength: 0,
 			select: function (event, ui) {
-				F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
+				F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, {
+					symbol: ui.item.value,
+					name: ui.item.label
+				});
 			},
 			source: function (request, response) {
-
 				$.ajax({
 					url: 'http://dev.markitondemand.com/api/Lookup/jsonp',
 					dataType: 'jsonp',
@@ -169,21 +213,22 @@ $(function() {
 						input: request.term
 					},
 					success: function (data) {
-						response($.map(data, function (item) {
-							return {
-								label: item.Name + ' (' + item.Exchange + ')',
-								value: item.Symbol
-							};
-						}));
+						response(
+							$.map(data, function (item) {
+								return {
+									label: item.Name + ' (' + item.Exchange + ')',
+									value: item.Symbol
+								};
+							})
+						);
 					},
-					open: function() {
+					open: function () {
 						$(this).removeClass('ui-corner-all').addClass('ui-corner-top');
 					},
-					close: function() {
+					close: function () {
 						$(this).removeClass('ui-corner-top').addClass('ui-corner-all');
 					}
 				});
 			}
 		});
-
 });

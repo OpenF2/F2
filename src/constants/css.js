@@ -3,7 +3,7 @@
  * @class F2.Constants.Css
  * @static
  */
-module.exports = {
+export default {
 	/**
 	 * The APP class should be applied to the DOM Element that surrounds the
 	 * entire app, including any extra html that surrounds the APP\_CONTAINER

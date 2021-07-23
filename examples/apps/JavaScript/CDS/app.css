@@ -1,6 +1,11 @@
-.com_openf2_examples_javascript_cds h5 {margin-bottom: 0;}
+.com_openf2_examples_javascript_cds h5 {
+	margin-bottom: 0;
+}
 
-.com_openf2_examples_javascript_cds .table th{white-space: nowrap; line-height: 13px;}
+.com_openf2_examples_javascript_cds .table th {
+	white-space: nowrap;
+	line-height: 13px;
+}
 .com_openf2_examples_javascript_cds .table th,
 .com_openf2_examples_javascript_cds .table td {
 	text-align: right;
@@ -12,11 +17,11 @@
 }
 
 .com_openf2_examples_javascript_cds .pos {
-	color:green;
+	color: green;
 }
 
 .com_openf2_examples_javascript_cds .neg {
-	color:red;
+	color: red;
 }
 
 .com_openf2_examples_javascript_cds table table {
@@ -26,4 +31,7 @@
 .com_openf2_examples_javascript_cds table table tr {
 	cursor: text;
 }
-.com_openf2_examples_javascript_cds p {line-height: 13px; color: #8F8F8F;}
+.com_openf2_examples_javascript_cds p {
+	line-height: 13px;
+	color: #8f8f8f;
+}

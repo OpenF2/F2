@@ -1,11 +1,14 @@
-@import "twbs/bootstrap.less";
-@import "animate.less";
-@import "mixins.less";
-@import "hljs.less";
-@import "mailchimp.less";
-@import "app-overrides.less";
+@import 'twbs/bootstrap.less';
+@import 'animate.less';
+@import 'mixins.less';
+@import 'hljs.less';
+@import 'mailchimp.less';
+@import 'app-overrides.less';
 
-b,strong,th,dt {
+b,
+strong,
+th,
+dt {
 	.font-bold();
 }
 
@@ -30,7 +33,7 @@ b,strong,th,dt {
 
 //animate ONLY on larger screens (basically not mobile)
 .animated {
-	@media (min-width: @screen-md-min){
+	@media (min-width: @screen-md-min) {
 		-webkit-animation-duration: 1s;
 		animation-duration: 1s;
 		-webkit-animation-fill-mode: both;
@@ -42,7 +45,7 @@ b,strong,th,dt {
 //animate ONLY on larger screens (basically not mobile)
 .noviz {
 	.opacity(1);
-	@media (min-width: @screen-md-min){
+	@media (min-width: @screen-md-min) {
 		.opacity(0);
 	}
 }
@@ -55,30 +58,33 @@ hr.divider {
 	padding: 0;
 }
 
-@import "nav.less";
-@import "homepage.less";
-@import "homepage-gallery.less";
-@import "examples.less";
-@import "footer.less";
+@import 'nav.less';
+@import 'homepage.less';
+@import 'homepage-gallery.less';
+@import 'examples.less';
+@import 'footer.less';
 
 //Generic page CSS, NOT applicable to home page. See 'homepage.less' for that.
 .pageContent {
-
 	margin-top: 40px;
 	margin-bottom: 40px;
 
-	@media (min-width: @screen-sm-min){
+	@media (min-width: @screen-sm-min) {
 		margin-top: 70px;
 		min-height: 500px;
 	}
 
-	@media (min-width: @screen-md-min){
+	@media (min-width: @screen-md-min) {
 		margin-top: 100px;
 		margin-bottom: 0;
 		min-height: 900px;
 	}
 
-	h2, h3, h4, h5, h6 {
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		color: @f2blue;
 	}
 
@@ -121,7 +127,11 @@ hr.divider {
 
 	/****** Right sidebar */
 	.sidebar {
-		h2, h3, h4, h5, h6 {
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
 			color: @headingGrey;
 		}
 
@@ -132,8 +142,6 @@ hr.divider {
 				font-size: 16px;
 			}
 		}
-
-
 	}
 }
 
@@ -159,13 +167,18 @@ dl.faq {
 
 //Developers template
 .cssanimations {
-	.developers, .foundation {
+	.developers,
+	.foundation {
 		.docs-masthead {
 			position: relative;
 			overflow: hidden;
 			background-size: cover;
 			background-color: @navbar-inverse-bg;
-			background-image: radial-gradient(farthest-corner, rgba(61, 156, 220, 0.5), rgba(61, 156, 220, 0.95));
+			background-image: radial-gradient(
+				farthest-corner,
+				rgba(61, 156, 220, 0.5),
+				rgba(61, 156, 220, 0.95)
+			);
 			perspective: 1000px;
 		}
 
@@ -176,29 +189,30 @@ dl.faq {
 			height: 135%;
 			top: 46%;
 			left: 0px;
-			content: "";
+			content: '';
 			background: url('/img/gallery-multivendor-740x351.png?v=@{version}');
-			.opacity(.05);
-			transform: rotateX(50deg) rotateZ(0deg) rotateY(0deg) translateY(-14%) translateX(-10%) translateZ(370px);
+			.opacity(0.05);
+			transform: rotateX(50deg) rotateZ(0deg) rotateY(0deg) translateY(-14%)
+				translateX(-10%) translateZ(370px);
 		}
 	}
 }
-.developers, .foundation {
-
+.developers,
+.foundation {
 	.aboutbox {
-
 		.container {
 			position: relative;
 			z-index: 2;
 			.btn-download {
 				font-size: 15px;
 			}
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				padding-top: 60px;
 			}
 		}
 
-		h1, h5 {
+		h1,
+		h5 {
 			.font-bold();
 		}
 
@@ -206,7 +220,7 @@ dl.faq {
 			padding-top: 20px;
 			padding-bottom: 40px;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				padding-top: 40px;
 			}
 
@@ -214,12 +228,11 @@ dl.faq {
 				font-size: 18px;
 				font-family: @font-family-sans-serif-thin;
 
-				@media (min-width: @screen-sm-min){
+				@media (min-width: @screen-sm-min) {
 					font-size: 23px;
 					line-height: 1.6;
 				}
 			}
-
 		}
 
 		aside {
@@ -237,12 +250,12 @@ dl.faq {
 
 	.docs-3x {
 		padding-bottom: 45px;
-		@media (min-width: @screen-md-min){
+		@media (min-width: @screen-md-min) {
 			padding-bottom: 75px;
 		}
 		//icon
 		h2 {
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				margin: 0;
 			}
 			color: @f2blueDark;
@@ -256,11 +269,11 @@ dl.faq {
 		.detail {
 			text-align: left;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				min-height: 160px;
 			}
 
-			@media (min-width: @screen-md-min){
+			@media (min-width: @screen-md-min) {
 				font-size: 15px;
 				min-height: 112px;
 			}
@@ -271,7 +284,7 @@ dl.faq {
 			margin-top: 30px;
 			padding: 30px 0;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				border-top: 1px solid @f2greydark;
 				border-bottom-width: 0;
 				padding-bottom: 0;
@@ -287,11 +300,11 @@ dl.faq {
 			li {
 				padding: 0;
 				&:after {
-					content: ", ";
+					content: ', ';
 				}
 				&:last-child {
 					&:after {
-						content: "";
+						content: '';
 					}
 				}
 			}
@@ -303,7 +316,7 @@ dl.faq {
 	}
 
 	.apireference {
-		@media (min-width: @screen-md-min){
+		@media (min-width: @screen-md-min) {
 			padding-bottom: 75px;
 		}
 	}
@@ -314,21 +327,19 @@ dl.faq {
 
 	.getinvolved {
 		padding-bottom: 45px;
-		@media (min-width: @screen-md-min){
+		@media (min-width: @screen-md-min) {
 			padding-bottom: 75px;
 		}
 
 		h3 {
 			margin-bottom: 10px;
 		}
-
-
 	}
 }
 
 .foundation {
 	.project-guidelines {
-		padding:40px;
+		padding: 40px;
 	}
 }
 
@@ -336,12 +347,13 @@ dl.faq {
 	.aboutbox {
 		.container {
 			text-align: left;
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				padding-top: 60px;
 			}
 		}
 
-		h1, h5 {
+		h1,
+		h5 {
 			.font-bold();
 		}
 
@@ -349,14 +361,14 @@ dl.faq {
 			padding-top: 20px;
 			padding-bottom: 40px;
 
-			@media (min-width: @screen-sm-min){
+			@media (min-width: @screen-sm-min) {
 				padding-top: 40px;
 			}
 
 			p {
 				font-size: 18px;
 
-				@media (min-width: @screen-sm-min){
+				@media (min-width: @screen-sm-min) {
 					font-size: 23px;
 					line-height: 1.6;
 				}
@@ -373,13 +385,17 @@ dl.faq {
 		font-size: 15px;
 		word-wrap: break-word;
 
-		h2,h3,h4,h5,h6 {
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
 			position: relative;
 		}
 		h4:not(.media-heading),
 		h5,
 		h6 {
-		  margin-top: 30px;
+			margin-top: 30px;
 		}
 		.alert h4,
 		.alert h5,
@@ -387,7 +403,7 @@ dl.faq {
 		.well h4,
 		.well h5,
 		.well h6 {
-		  margin-top: 0;
+			margin-top: 0;
 		}
 
 		.link-header {
@@ -463,28 +479,26 @@ dl.faq {
 	.getting-started-with-f2 .media-left .fa {
 		padding-left: 10px;
 	}
-
 }
 
 /****** Docs, left sidebar */
 .sidebar-nav {
-
 	.affix {
 		position: static;
-    width: 100%;
-    top: 5px;
-      @media (min-width: 768px){
-				position: fixed;
-				width: 158px;
-		  }
+		width: 100%;
+		top: 5px;
+		@media (min-width: 768px) {
+			position: fixed;
+			width: 158px;
+		}
 
-		  @media (min-width: 992px){
-		    width: 213px;
-		  }
+		@media (min-width: 992px) {
+			width: 213px;
+		}
 
-		  @media (min-width: 1200px){
-		    width: 263px;
-		  }
+		@media (min-width: 1200px) {
+			width: 263px;
+		}
 	}
 
 	.affix-bottom {
@@ -495,7 +509,6 @@ dl.faq {
 	&,
 	.spy-container,
 	.navs {
-
 		> ul {
 			background-color: @f2grey;
 			padding-bottom: 20px;

@@ -17,7 +17,7 @@ For the purposes of the documentation on this page, we'll focus on developing **
 
 _Interested in developing F2 containers? [Browse to Container Development](container-development.html)._
 
-* * * *
+---
 
 ## Get Started
 
@@ -51,13 +51,14 @@ Setup a basic container HTML template (or add F2.js to an existing website):
 
 ```javascript
 var _appConfig = {
-    appId: 'com_openf2_examples_javascript_helloworld',
-    manifestUrl: 'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'
+	appId: 'com_openf2_examples_javascript_helloworld',
+	manifestUrl:
+		'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'
 };
 
-$(function(){
-    F2.init();
-    F2.registerApps(_appConfig);
+$(function () {
+	F2.init();
+	F2.registerApps(_appConfig);
 });
 ```
 
@@ -93,7 +94,7 @@ To get started working with or developing containers, browse to the [documentati
 
 <p><a href="#developing-f2-apps" class="btn btn-primary btn-small">Developing F2 Apps</a> <a href="./sdk/" class="btn btn-default btn-small">F2.js SDK Reference</a></p>
 
-* * * *
+---
 
 ## App Design
 
@@ -109,7 +110,7 @@ In order to ensure that apps built using F2 are successful, they must be accessi
 
 Ultimately, the responsibility of app design falls on either the Container or App Developer. In many cases, Container Developers will provide App Developers will visual designs, style guides or other assets required to ensure apps have the form and function for a given container. Container Developers may also [provide CSS for App Developers](about-f2.html#creating-a-common-look-and-feel) to adhere to&mdash;which should be easy since F2 enforces a [consistent HTML structure across all containers and apps](app-development.html#automatic-consistency).
 
-* * * *
+---
 
 ## Developing F2 Apps
 
@@ -127,10 +128,10 @@ As an example, your AppID could look like this:
 
 If you built more than one app while working at Acme Corporation, you could create more AppIDs. All of these are valid:
 
-* `com_acmecorp_watchlist2`
-* `com_acmecorp_watchlist_big_and_tall`
-* `com_acmecorp_static_charts`
-* `com_acmecorp_interactive_charts`
+- `com_acmecorp_watchlist2`
+- `com_acmecorp_watchlist_big_and_tall`
+- `com_acmecorp_static_charts`
+- `com_acmecorp_interactive_charts`
 
 To guarantee uniqueness, we have provided an AppID generation service that allows you to customize your AppID.
 
@@ -140,7 +141,7 @@ To guarantee uniqueness, we have provided an AppID generation service that allow
 
 Once you have your AppID, start by setting up your project. You will need at least one file: the **App Manifest**. Create a new file called `manifest.js`. Also, chances are you'll want custom styling and functionality, so go ahead and create `appclass.js` (for your app logic) and `app.css` for your CSS. Your project folder should look like this:
 
-![](./img/project_folder.png "Setup your project")
+![](./img/project_folder.png 'Setup your project')
 
 <span class="label label-default">Helper</span> [Download the F2 examples](http://docs.openf2.org/F2-examples.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
 
@@ -167,22 +168,20 @@ When it's complete (using the examples further below), the App Manifest looks li
 
 ```javascript
 F2_jsonpCallback_com_companyname_appname({
-	"inlineScripts":["(function(){ var foo = bar; doSomething(); })()"],
-	"scripts":[
-		"http://www.domain.com/js/appclass.js"
-	],
-	"styles":[
-		"http://www.domain.com/css/app.css"
-	],
-	"apps":[{
-			"data":{
-				foo: "bar",
+	inlineScripts: ['(function(){ var foo = bar; doSomething(); })()'],
+	scripts: ['http://www.domain.com/js/appclass.js'],
+	styles: ['http://www.domain.com/css/app.css'],
+	apps: [
+		{
+			data: {
+				foo: 'bar',
 				value: 12345
 			},
-			"html":"<div class=\"sunrise\">Hello world.</div>",
-			"status":"good"
-	}]
-})
+			html: '<div class="sunrise">Hello world.</div>',
+			status: 'good'
+		}
+	]
+});
 ```
 
 Let's break the App Manifest object down and look at each property (in reverse order to keep it fun).
@@ -313,22 +312,20 @@ If we use the examples above, our `AppManifest` would look like this:
 
 ```javascript
 F2_jsonpCallback_com_companyname_appname({
-	"inlineScripts":["(function(){ var foo = bar; doSomething(); })()"],
-	"scripts":[
-		"http://www.domain.com/js/appclass.js"
-	],
-	"styles":[
-		"http://www.domain.com/css/app.css"
-	],
-	"apps":[{
-			"data":{
-				foo: "bar",
+	inlineScripts: ['(function(){ var foo = bar; doSomething(); })()'],
+	scripts: ['http://www.domain.com/js/appclass.js'],
+	styles: ['http://www.domain.com/css/app.css'],
+	apps: [
+		{
+			data: {
+				foo: 'bar',
 				value: 12345
 			},
-			"html":"<div class=\"sunrise\">Hello world.</div>",
-			"status":"good"
-	}]
-})
+			html: '<div class="sunrise">Hello world.</div>',
+			status: 'good'
+		}
+	]
+});
 ```
 
 <span class="label label-info">Note</span> You may have noticed the presence of the function name `F2_jsonpCallback_com_companyname_appname` on the first line of the example above. That function name is the callback and is explained in [App Manifest Response](#app-manifest-response).
@@ -348,16 +345,14 @@ When applied, the final (bare bones) App Manifest file looks like this example (
 ```javascript
 //manifest.js
 F2_jsonpCallback_com_companyname_appname({
-	"scripts":[
-		"http://www.domain.com/js/appclass.js"
-	],
-	"styles":[
-		"http://www.domain.com/css/app.css"
-	],
-	"apps":[{
-			"html":"<div class=\"sunrise\">Hello world.</div>"
-	}]
-})
+	scripts: ['http://www.domain.com/js/appclass.js'],
+	styles: ['http://www.domain.com/css/app.css'],
+	apps: [
+		{
+			html: '<div class="sunrise">Hello world.</div>'
+		}
+	]
+});
 ```
 
 <span class="label label-info">Note</span> The JSONP callback function name will _not_ be passed from the container using a traditional querystring parameter (HTTP GET), so you must configure this correctly for your app to appear on a container. This means you have to hard-code it in your `AppManifest`.
@@ -410,8 +405,8 @@ An example two-column layout using Bootstrap-specifed markup:
 
 ```html
 <div class="row">
-  <div class="col-md-4">...</div>
-  <div class="col-md-8">...</div>
+	<div class="col-md-4">...</div>
+	<div class="col-md-8">...</div>
 </div>
 ```
 
@@ -461,30 +456,30 @@ We won't even begin to talk about or describe this fantastic design pattern simp
 An example of an App Class using prototypal inheritance inside a [closure](http://davidbcalhoun.com/2011/what-is-a-closure-in-javascript) is below. Note the inclusion of the `App_Class.prototype.init()` function&mdash;which will be called automatically during app load&mdash;and the [trailing parentheses](http://peter.michaux.ca/articles/an-important-pair-of-parens), `()`, which are responsible for automatic function execution. Thanks to the closure, the `App_Class` is returned _and_ assigned to `F2.Apps["com_companyname_appname"]`.
 
 ```javascript
-F2.Apps["com_companyname_appname"] = (function() {
-    var App_Class = function(appConfig, appContent, root) {
-    	// constructor
-    }
+F2.Apps['com_companyname_appname'] = (function () {
+	var App_Class = function (appConfig, appContent, root) {
+		// constructor
+	};
 
-    App_Class.prototype.init = function() {
-        // perform init actions
-    }
+	App_Class.prototype.init = function () {
+		// perform init actions
+	};
 
-    return App_Class;
+	return App_Class;
 })();
-````
+```
 
 #### Module Pattern
 
 As an alternative to the prototypal inheritance pattern above, `appclass.js` code could be written following the module pattern shown in the example below. Note the inclusion of an `init()` function&mdash;which will be called automatically during app load&mdash;and the _exclusion_ of the closure and trailing parentheses present in the example using prototypal inheritance above.
 
 ```javascript
-F2.Apps["com_companyname_appname"] = function(appConfig, appContent, root) {
-   return {
-       init:function() {
-           // perform init actions
-       }
-   };
+F2.Apps['com_companyname_appname'] = function (appConfig, appContent, root) {
+	return {
+		init: function () {
+			// perform init actions
+		}
+	};
 };
 ```
 
@@ -499,7 +494,7 @@ Of course, you don't have to use either one of these patterns in your `appclass.
 
 If you don't want to think about any of this and would rather just start coding, [download the F2 examples](http://docs.openf2.org/F2-examples.zip).
 
-* * * *
+---
 
 ### Internationalization
 
@@ -517,7 +512,7 @@ App Providers can listen for locale changes.
 var currentLocale = F2.getContainerLocale(); //en-us
 
 //listen for Container-broadcasted F2 event with new locale
-F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE,function(data){
+F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE, function (data) {
 	//get newly-updated locale
 	currentLocale = F2.getContainerLocale(); //en-gb
 });
@@ -530,21 +525,21 @@ There is a parameter sent to each `AppManifest` request during `F2.registerApps`
 Here is an example of the two ways of getting the container locale inside an AppClass.
 
 ```javascript
-F2.Apps["com_companyname_appname"] = (function() {
-    var App_Class = function(appConfig, appContent, root) {
-        // "containerLocale" is added to the AppConfig
-        // during F2.registerApps
-        console.log(appConfig.containerLocale);//en-us
-    }
+F2.Apps['com_companyname_appname'] = (function () {
+	var App_Class = function (appConfig, appContent, root) {
+		// "containerLocale" is added to the AppConfig
+		// during F2.registerApps
+		console.log(appConfig.containerLocale); //en-us
+	};
 
-    App_Class.prototype.init = function() {
-        // get locale using helper function
-        // if locale changes, this function will
-        // always return the current locale
-        console.log(F2.getContainerLocale());//en-us
-    }
+	App_Class.prototype.init = function () {
+		// get locale using helper function
+		// if locale changes, this function will
+		// always return the current locale
+		console.log(F2.getContainerLocale()); //en-us
+	};
 
-    return App_Class;
+	return App_Class;
 })();
 ```
 
@@ -569,7 +564,7 @@ Sample `AppConfig` showing the `localeSupport` property:
 
 <span class="label label-info">Note</span> For more detail on the `localeSupport` property, browse to the SDK for [F2.AppConfig](./sdk/classes/F2.AppConfig.html#properties-localeSupport).
 
-* * * *
+---
 
 ## Namespacing
 
@@ -584,9 +579,7 @@ When Container Developers [register apps](container-development.html#app-integra
 This example shows app HTML after it has been drawn on the container. Note the `com_companyName_appName` classname.
 
 ```html
-<div class="f2-app-container com_companyName_appName">
-	...
-</div>
+<div class="f2-app-container com_companyName_appName">...</div>
 ```
 
 To avoid styling conflicts or other display issues related to app-provided style sheets, **App Developers must namespace their CSS selectors.** Fortunately, this is quite easy.
@@ -595,11 +588,11 @@ Every selector in app-provided style sheets must look like this:
 
 ```css
 .com_companyName_appName p {
-	padding:5px;
+	padding: 5px;
 }
 
 .com_companyName_appName .alert {
-	color:red;
+	color: red;
 }
 ```
 
@@ -609,7 +602,7 @@ While the [CSS cascade](http://www.webdesignfromscratch.com/html-css/css-inherit
 
 ```css
 .com_companyName_appName #notice {
-	background-color:yellow;
+	background-color: yellow;
 }
 ```
 
@@ -630,18 +623,21 @@ The [F2.js SDK](f2js-sdk.html) was designed with extensibility in mind and there
 Example:
 
 ```javascript
-F2.extend('YourPluginName', (function(){
-    return {
-        doSomething: function(){
-            F2.log("Something has been done.");
-        }
-    };
-})());
+F2.extend(
+	'YourPluginName',
+	(function () {
+		return {
+			doSomething: function () {
+				F2.log('Something has been done.');
+			}
+		};
+	})()
+);
 ```
 
 For more information, read [Extending F2](extending-f2.html).
 
-* * * *
+---
 
 ## Context
 
@@ -662,24 +658,18 @@ Let's look at some code.
 In this example, the container broadcasts, or emits, a javascript event defined in `F2.Events.Constants`. The `F2.Events.emit()` method accepts two arguments: the event name and an optional data object.
 
 ```javascript
-F2.Events.emit(
-	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE,
-	{
-		symbol: "AAPL",
-		name: "Apple, Inc."
-	}
-);
+F2.Events.emit(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, {
+	symbol: 'AAPL',
+	name: 'Apple, Inc.'
+});
 ```
 
 To listen to the `F2.Constants.Events.CONTAINER_SYMBOL_CHANGE` event inside your F2 app, you can use this code to trigger an alert dialog with the symbol:
 
 ```javascript
-F2.Events.on(
-	F2.Constants.Events.CONTAINER_SYMBOL_CHANGE,
-	function(data){
-		F2.log("The symbol was changed to " + data.symbol);
-	}
-);
+F2.Events.on(F2.Constants.Events.CONTAINER_SYMBOL_CHANGE, function (data) {
+	F2.log('The symbol was changed to ' + data.symbol);
+});
 ```
 
 The `F2.Events.on()` method accepts the event name and listener function as arguments. [Read the SDK](./sdk/classes/F2.Events.html) for more information.
@@ -693,16 +683,16 @@ Often times containers will want to send context to apps during [app registratio
 ```javascript
 //define app config
 var _appConfigs = [
-    {
-        appId: "com_acmecorp_news",
-        description: "Acme Corp News",
-        manifestUrl: "http://www.acme.com/apps/news-manifest.js",
-        name: "Acme News App",
-        context: {
-            sessionId: myApp.sessionId,
-            someArray: [value1,value2]
-        }
-    }
+	{
+		appId: 'com_acmecorp_news',
+		description: 'Acme Corp News',
+		manifestUrl: 'http://www.acme.com/apps/news-manifest.js',
+		name: 'Acme News App',
+		context: {
+			sessionId: myApp.sessionId,
+			someArray: [value1, value2]
+		}
+	}
 ];
 ```
 
@@ -729,24 +719,18 @@ This demonstrates complete flexibility of passing arbitrary context values from 
 In this example, your app emits an event indicating a user is looking at a different stock ticker _within your app_. Using `F2.Events.emit()` in your code, your app broadcasts the new symbol. As with container-to-app context passing, the `F2.Events.emit()` method accepts two arguments: the event name and an optional data object.
 
 ```javascript
-F2.Events.emit(
-	F2.Constants.Events.APP_SYMBOL_CHANGE,
-	{
-		symbol: "MSFT",
-		name: "Microsoft, Inc."
-	}
-);
+F2.Events.emit(F2.Constants.Events.APP_SYMBOL_CHANGE, {
+	symbol: 'MSFT',
+	name: 'Microsoft, Inc.'
+});
 ```
 
 The container would need to listen to your app's broadcasted `F2.Constants.Events.APP_SYMBOL_CHANGE` event using code like this:
 
 ```javascript
-F2.Events.on(
-	F2.Constants.Events.APP_SYMBOL_CHANGE,
-	function(data){
-		F2.log("The symbol was changed to " + data.symbol);
-	}
-);
+F2.Events.on(F2.Constants.Events.APP_SYMBOL_CHANGE, function (data) {
+	F2.log('The symbol was changed to ' + data.symbol);
+});
 ```
 
 <span class="label label-default">Note</span> For a full list of support event types, browse to the SDK for [F2.Constants.Events](./sdk/classes/F2.Constants.Events.html).
@@ -759,13 +743,13 @@ Within "App 1", context is _sent_ using `F2.Events.emit()`:
 
 ```javascript
 F2.Events.emit(
-	"buy_stock", //custom event name
+	'buy_stock', //custom event name
 	{
-		symbol: "GOOG",
-		name: "Google Inc",
+		symbol: 'GOOG',
+		name: 'Google Inc',
 		price: 682.68,
 		isAvailableToPurchase: true,
-		orderType: "Market Order"
+		orderType: 'Market Order'
 	}
 );
 ```
@@ -773,16 +757,13 @@ F2.Events.emit(
 Within "App 2", context is _received_ using `F2.Events.on()`:
 
 ```javascript
-F2.Events.on(
-	"buy_stock",
-	function(data){
-		if (data.isAvailableToPurchase){
-			F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
-		} else {
-			F2.log("This stock is not available for purchase.")
-		}
+F2.Events.on('buy_stock', function (data) {
+	if (data.isAvailableToPurchase) {
+		F2.log('Trade ticket order for ' + data.symbol + ' at $' + data.price);
+	} else {
+		F2.log('This stock is not available for purchase.');
 	}
-);
+});
 ```
 
 ### More Complex Context
@@ -793,23 +774,23 @@ This is an example Context object demonstrating arbitrary JavaScript objects:
 
 ```javascript
 F2.Events.emit(
-	"example_event", //custom event name
+	'example_event', //custom event name
 	{
 		//number
 		price: 100,
 		//string
 		name: 'John Smith',
 		//function
-		callback: function(){
+		callback: function () {
 			F2.log('Callback!');
 		},
 		//array
-		watchlist: ['AAPL','MSFT','GE'],
+		watchlist: ['AAPL', 'MSFT', 'GE'],
 		//object
 		userInfo: {
 			name: 'John Smith',
 			title: 'Managing Director',
-			groups: ['Alpha','Beta'],
+			groups: ['Alpha', 'Beta'],
 			sessionId: 1234567890
 		}
 	}
@@ -820,15 +801,15 @@ If two apps want to communicate data for populating a trade ticket _and_ execute
 
 ```javascript
 F2.Events.emit(
-	"buy_stock", //custom event name
+	'buy_stock', //custom event name
 	{
-		symbol: "GOOG",
-		name: "Google Inc",
+		symbol: 'GOOG',
+		name: 'Google Inc',
 		price: 682.68,
 		isAvailableToPurchase: true,
-		orderType: "Market Order",
+		orderType: 'Market Order',
 		//define callback
-		callback: function(data){
+		callback: function (data) {
 			alert('Trade ticket populated');
 		}
 	}
@@ -838,17 +819,14 @@ F2.Events.emit(
 The F2 app listening for the `buy_stock` event would fire the `callback` function.
 
 ```javascript
-F2.Events.on(
-	"buy_stock",
-	function(data){
-		F2.log("Trade ticket order for " + data.symbol + " at $" + data.price);
-		//..populate the trade ticket...
-		//fire the callback
-		if (typeof data.callback === 'function'){
-			data.callback();
-		}
+F2.Events.on('buy_stock', function (data) {
+	F2.log('Trade ticket order for ' + data.symbol + ' at $' + data.price);
+	//..populate the trade ticket...
+	//fire the callback
+	if (typeof data.callback === 'function') {
+		data.callback();
 	}
-);
+});
 ```
 
 ### Types of Context
@@ -859,9 +837,9 @@ Context is a term used to describe the state of an F2 container and its apps. At
 
 Said another way, while `{ symbol:"AAPL", name: "Apple, Inc" }` can be used to communicate symbol context, developers could also use `{ symbol: "123456789" }` to identify Apple, Inc. The latter is more likely given not all apps would programmatically understand `AAPL` but&mdash;given symbol lookup services&mdash;would understand `123456789` as the universal _F2_ identifier for Apple, Inc. It is clear Container and App Developers alike would prefer to communicate with a guaranteed-to-never-change universal ID for all instrument types across all asset classes.
 
-F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols.  _Further details will be forthcoming as the F2 specification evolves._
+F2 will be providing lookup web services in future releases that provide universal F2 identifiers for container and app providers. These lookup services will not just be limited to symbols. _Further details will be forthcoming as the F2 specification evolves._
 
-* * * *
+---
 
 ## Container Integration
 
@@ -886,7 +864,7 @@ If you open `~/F2/examples/container/js/sampleApps.js` in your text editor, you'
 
 For full details on these `F2.AppConfig` properties and all the others, [browse the F2.js SDK documentation](./sdk/classes/F2.AppConfig.html).
 
-* * * *
+---
 
 ## Entitlements
 
@@ -894,13 +872,13 @@ User or content entitlements are the responsibility of the App Developer. Many a
 
 _Further details around app entitlements will be forthcoming as the F2 specification evolves._
 
-* * * *
+---
 
 ## Single Sign-On
 
 Single sign-on (SSO) is a shared responsibility between the Container and App Developer. In some cases, containers will want all of its apps to be authenticated seamlessly for users;that will be negotiated between Container and App Developers. For the purposes of this documentation, it is assumed Container Developers will build and host their container access authentication.
 
-Once a user is authenticated on the container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).*
+Once a user is authenticated on the container, how is the user then authenticated with all of the apps? [Encrypted URLs](#using-encrypted-urls).\*
 
 <span class="label label-default">Note</span> The Container Developer is free to utilize any app authentication method they deem fit. Container Developers and app developers will need to work together to finalize the authentication details.
 
@@ -918,4 +896,4 @@ Authentication is a critical part of any container-app relationship. There are a
 
 _Further details around container and app single sign-on will be forthcoming as the F2 specification evolves._
 
-* * * *
+---

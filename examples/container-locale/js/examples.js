@@ -1,7 +1,6 @@
-$(function(){
-
+$(function () {
 	//ensure this is run from http://localhost
-	if (location.protocol === "file:"){
+	if (location.protocol === 'file:') {
 		return;
 	}
 
@@ -11,17 +10,17 @@ $(function(){
 	// setup modal
 	var $modal = $('#languageSelect').modal({
 		backdrop: 'static',
-		keyboard: false, 
+		keyboard: false,
 		show: false
 	});
 
 	// bind select apps
-	$('#btnSelectApps').on('click', function() {
+	$('#btnSelectApps').on('click', function () {
 		$modal.modal('show');
 	});
 
 	// bind checkbox events
-	$modal.on('change', 'input:checkbox', function() {
+	$modal.on('change', 'input:checkbox', function () {
 		if ($('input:checkbox:checked', $modal).length) {
 			$('button.btn-primary', $modal).removeClass('disabled');
 		} else {
@@ -30,11 +29,11 @@ $(function(){
 	});
 
 	// bind save button
-	$modal.on('click', 'button.btn-primary:not(.disabled)', function() {
+	$modal.on('click', 'button.btn-primary:not(.disabled)', function () {
 		var apps = [];
 		var storageItems = [];
 
-		$('input:checked', $modal).map(function(i, el) {
+		$('input:checked', $modal).map(function (i, el) {
 			apps.push($(el).data('f2-app'));
 			storageItems.push($(el).val());
 		});
@@ -55,27 +54,27 @@ $(function(){
 	}
 
 	// load in app json
-	$.getJSON('./js/sampleApps.js', function(allApps) {
-		$.each(allApps, function(language, apps) {
+	$.getJSON('./js/sampleApps.json', function (allApps) {
+		$.each(allApps, function (language, apps) {
 			$('[data-language="' + language + '"]', $modal).append(
-				$.map(apps, function(app, i) {
-					var $d = $('<div class="checkbox"></div>'), 
+				$.map(apps, function (app, i) {
+					var $d = $('<div class="checkbox"></div>'),
 						$lbl = $('<label></label>'),
-						$ck = $('<input type="checkbox" name="app" value="' + app.appId + '">').data('f2-app', app),
-						name = ' ' + app.name + (app.isSecure ? ' (Secure)' : '')
-					;
-
+						$ck = $(
+							'<input type="checkbox" name="app" value="' + app.appId + '">'
+						).data('f2-app', app),
+						name = ' ' + app.name + (app.isSecure ? ' (Secure)' : '');
 					$lbl.append($ck).append(name);
 
 					return $d.append($lbl);
 				})
 			);
-		})
+		});
 
 		// if no requested apps, hide the loader, otherwise register the apps
 		if (requestedApps.length > 0) {
 			// check the appropriate boxes
-			$.each(requestedApps, function(i, a) {
+			$.each(requestedApps, function (i, a) {
 				$('input[name="app"][value="' + a + '"]', $modal).prop('checked', true);
 			});
 
@@ -86,5 +85,4 @@ $(function(){
 			$('button.btn-primary', $modal).click();
 		}
 	});
-
 });

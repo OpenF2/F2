@@ -2,7 +2,7 @@
  * The AppContent object
  * @class F2.AppManifest.AppContent
  **/
-module.exports = {
+export default {
 	/**
 	 * Arbitrary data to be passed along with the app
 	 * @property data

@@ -2,7 +2,7 @@
  * The assets needed to render an app on the page
  * @class F2.AppManifest
  */
-module.exports = {
+export default {
 	/**
 	 * The array of {{#crossLink "F2.AppManifest.AppContent"}}{{/crossLink}}
 	 * objects

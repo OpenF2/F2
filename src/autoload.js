@@ -1,15 +1,18 @@
 import container from './container';
 
-export default function() {
-
-	var callback = function() {
+export default function () {
+	var callback = function () {
 		var autoloadEls = [],
-			add = function(e) {
-				if (!e) { return; }
+			add = function (e) {
+				if (!e) {
+					return;
+				}
 				autoloadEls.push(e);
 			},
-			addAll = function(els) {
-				if (!els) { return; }
+			addAll = function (els) {
+				if (!els) {
+					return;
+				}
 				for (var i = 0, len = els.length; i < len; i++) {
 					add(els[i]);
 				}
@@ -33,7 +36,10 @@ export default function() {
 		}
 	};
 
-	if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
+	if (
+		document.readyState === 'complete' ||
+		(document.readyState !== 'loading' && !document.documentElement.doScroll)
+	) {
 		callback();
 	} else {
 		document.addEventListener('DOMContentLoaded', callback);

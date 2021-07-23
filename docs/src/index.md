@@ -4,7 +4,7 @@
 
 Below you'll find links to the various sections of the F2 development standard as well as F2.js API reference documentation.
 
-* * * *
+---
 
 <div class="docs-3x">
 	<div class="row">
@@ -29,7 +29,7 @@ Below you'll find links to the various sections of the F2 development standard a
 	</div>
 </div>
 
-* * * *
+---
 
 ## Latest Version
 
@@ -41,7 +41,7 @@ F2 v1.0 was originally open sourced in October 2012. A detailed [changelog](http
 
 <a href="https://github.com/OpenF2/F2/releases" class="btn btn-success">Download version {{version}}</a>
 
-* * * *
+---
 
 ## Examples
 
@@ -87,7 +87,7 @@ There are a few different types of examples available below.
 	</div>
 </div>
 
-* * * *
+---
 
 ## Resources & Help
 
@@ -109,7 +109,7 @@ Have a question? Find a bug? Need help?
 	</div>
 </div>
 
-* * * *
+---
 
 ## Specification
 
@@ -119,7 +119,7 @@ The F2 development standard will continuously evolve to bring the community the 
 
 The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this spec are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119). For readability, these words often do not appear in all uppercase letters.
 
-* * * *
+---
 
 ## Contribute to F2
 

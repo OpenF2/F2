@@ -1,5 +1,8 @@
-F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appContent, root) {
-
+F2.Apps['com_openf2_examples_javascript_quote'] = function (
+	appConfig,
+	appContent,
+	root
+) {
 	var $root = $(root);
 	var $caption = $('caption', $root);
 	var $tbody = $('tbody', $root);
@@ -11,16 +14,15 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 	};
 	var _autoRefreshInterval = false;
 
-	var _getQuote = function(symbolData) {
-
+	var _getQuote = function (symbolData) {
 		appConfig.context = appConfig.context || {};
 
-		if (!!symbolData){
+		if (!!symbolData) {
 			appConfig.context.symbol = symbolData.symbol;
-		} else if(appConfig.context.symbol) {
+		} else if (appConfig.context.symbol) {
 			appConfig.context.symbol = appConfig.context.symbol;
 		} else {
-			appConfig.context.symbol = 'MSFT';//default to Microsoft
+			appConfig.context.symbol = 'MSFT'; //default to Microsoft
 		}
 
 		$.ajax({
@@ -28,36 +30,35 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			data: { symbol: appConfig.context.symbol },
 			dataType: 'jsonp',
 			success: _renderQuote,
-			error: function() {
-
-			}
+			error: function () {}
 		});
 
-		_getWatchListSymbols()
+		_getWatchListSymbols();
 	};
 
-	var _hasWatchListApp = function() {
-		return !!$("div.com_openf2_examples_javascript_watchlist").length;
+	var _hasWatchListApp = function () {
+		return !!$('div.com_openf2_examples_javascript_watchlist').length;
 	};
 
-	var _watchListHasSymbol = function(){
+	var _watchListHasSymbol = function () {
 		return F2.inArray(appConfig.context.symbol, _getWatchListSymbols());
 	};
 
-	var _getWatchListSymbols = function(){
+	var _getWatchListSymbols = function () {
 		var list = [];
-		$('div.com_openf2_examples_javascript_watchlist tr[data-row]').each(function(idx,item){
-			list.push($(item).attr('data-row'))
-		});
+		$('div.com_openf2_examples_javascript_watchlist tr[data-row]').each(
+			function (idx, item) {
+				list.push($(item).attr('data-row'));
+			}
+		);
 		return list;
-	}
+	};
 
-	var _initQuoteButton = function() {
-
-		$('button.get-quote', $root).on('click', function(){
+	var _initQuoteButton = function () {
+		$('button.get-quote', $root).on('click', function () {
 			var symbol = $('.ui-autocomplete-input', $root).val();
 
-			if(!symbol || !symbol.length){
+			if (!symbol || !symbol.length) {
 				return;
 			}
 
@@ -70,126 +71,173 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 					input: symbol
 				},
 				success: function (data) {
-					var result = $.grep(data, function(item){
-						return item.Symbol == symbol; 
+					var result = $.grep(data, function (item) {
+						return item.Symbol == symbol;
 					});
 
-					if(!result.length){
+					if (!result.length) {
 						return;
 					}
 
-					_getQuote({symbol: symbol});
+					_getQuote({ symbol: symbol });
 				}
 			});
 		});
 	};
 
-	var _initTypeahead = function() {
-
-		$('input[name=lookup]', $root)
-			.autocomplete({
-				autoFocus:true,
-				minLength: 0,
-				select: function (event, ui) {
-					//F2.Events.emit(F2.Constants.Events.APP_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
-					_getQuote({ symbol: ui.item.value });
-				},
-				source: function (request, response) {
-
-					$.ajax({
-						url: '//dev.markitondemand.com/api/Lookup/jsonp',
-						dataType: 'jsonp',
-						data: {
-							input: request.term
-						},
-						success: function (data) {
-							response($.map(data, function (item) {
+	var _initTypeahead = function () {
+		$('input[name=lookup]', $root).autocomplete({
+			autoFocus: true,
+			minLength: 0,
+			select: function (event, ui) {
+				//F2.Events.emit(F2.Constants.Events.APP_SYMBOL_CHANGE, { symbol: ui.item.value, name: ui.item.label });
+				_getQuote({ symbol: ui.item.value });
+			},
+			source: function (request, response) {
+				$.ajax({
+					url: '//dev.markitondemand.com/api/Lookup/jsonp',
+					dataType: 'jsonp',
+					data: {
+						input: request.term
+					},
+					success: function (data) {
+						response(
+							$.map(data, function (item) {
 								return {
-									label: item.Symbol + ' - ' + item.Name + ' (' + item.Exchange + ')',
+									label:
+										item.Symbol +
+										' - ' +
+										item.Name +
+										' (' +
+										item.Exchange +
+										')',
 									value: item.Symbol
-								}
-							}));
-						}
-					});
+								};
+							})
+						);
+					}
+				});
 			}
 		});
 	};
 
-	var _populateSettings = function() {
-		$('input[name=refreshMode][value=' + _config.refreshMode + ']', $settings).prop('checked', true);
-		$('input[name=autoRefresh]', $settings).prop('checked', _config.autoRefresh);
+	var _populateSettings = function () {
+		$(
+			'input[name=refreshMode][value=' + _config.refreshMode + ']',
+			$settings
+		).prop('checked', true);
+		$('input[name=autoRefresh]', $settings).prop(
+			'checked',
+			_config.autoRefresh
+		);
 	};
 
-	var _renderQuote = function(quoteData) {
-
-		if (quoteData && quoteData.Data && quoteData.Data.Status == F2.Constants.AppStatus.SUCCESS) {
-
-			$caption.promise().done(function() {
+	var _renderQuote = function (quoteData) {
+		if (
+			quoteData &&
+			quoteData.Data &&
+			quoteData.Data.Status == F2.Constants.AppStatus.SUCCESS
+		) {
+			$caption.promise().done(function () {
 				$(this)
 					.empty()
-					.append([
-						'<h3 class="clearfix">',
-							'<span class="last pull-left">', Format.number(quoteData.Data.LastPrice, 2), '</span>',
-							'<span class="last-change pull-right">', Format.number(quoteData.Data.Change, {precision:2, withColors:true}), ' ', Format.number(quoteData.Data.ChangePercent, {precision:2, withColors:true, prefix:'(', suffix:'%)'}), '</span>',
-						'</h3>'
-					].join(''));
+					.append(
+						[
+							'<h3 class="clearfix">',
+							'<span class="last pull-left">',
+							Format.number(quoteData.Data.LastPrice, 2),
+							'</span>',
+							'<span class="last-change pull-right">',
+							Format.number(quoteData.Data.Change, {
+								precision: 2,
+								withColors: true
+							}),
+							' ',
+							Format.number(quoteData.Data.ChangePercent, {
+								precision: 2,
+								withColors: true,
+								prefix: '(',
+								suffix: '%)'
+							}),
+							'</span>',
+							'</h3>'
+						].join('')
+					);
 			});
 
-			$tbody.promise().done(function() {
+			$tbody.promise().done(function () {
 				$(this)
 					.empty()
-					.append([
-						'<tr>',
+					.append(
+						[
+							'<tr>',
 							'<th>Range</th>',
-							'<td><strong>', Format.number(quoteData.Data.Low), ' - ', Format.number(quoteData.Data.High), '</strong></td>',
-						'</tr>',
-						'<tr>',
+							'<td><strong>',
+							Format.number(quoteData.Data.Low),
+							' - ',
+							Format.number(quoteData.Data.High),
+							'</strong></td>',
+							'</tr>',
+							'<tr>',
 							'<th>Open</th>',
-							'<td><strong>', Format.number(quoteData.Data.Open), '</strong></td>',
-						'</tr>',
-						'<tr>',
+							'<td><strong>',
+							Format.number(quoteData.Data.Open),
+							'</strong></td>',
+							'</tr>',
+							'<tr>',
 							'<th>Volume</th>',
-							'<td><strong>', Format.number(quoteData.Data.Volume, {withMagnitude:true,precision:1}), '</strong></td>',
-						'</tr>',
-						'<tr>',
+							'<td><strong>',
+							Format.number(quoteData.Data.Volume, {
+								withMagnitude: true,
+								precision: 1
+							}),
+							'</strong></td>',
+							'</tr>',
+							'<tr>',
 							'<th>Market Cap</th>',
-							'<td><strong>', Format.number(quoteData.Data.MarketCap, {withMagnitude:true,precision:1}), '</strong></td>',
-						'</tr>'
-					].join(''));
+							'<td><strong>',
+							Format.number(quoteData.Data.MarketCap, {
+								withMagnitude: true,
+								precision: 1
+							}),
+							'</strong></td>',
+							'</tr>'
+						].join('')
+					);
 			});
 
 			$('span', $addToWatchlist).text(quoteData.Data.Symbol);
 			$addToWatchlist
 				.data('watchlist-add', quoteData.Data.Symbol)
-				.closest('tr').toggleClass('hide', (!_hasWatchListApp() || _watchListHasSymbol()));
-
+				.closest('tr')
+				.toggleClass('hide', !_hasWatchListApp() || _watchListHasSymbol());
 		} else {
 			F2.log('Un problemo!');
 		}
 	};
 
-	var _saveSettings = function() {
-
+	var _saveSettings = function () {
 		clearInterval(_autoRefreshInterval);
 
 		_config.refreshMode = $('input[name=refreshMode]:checked', $settings).val();
-		_config.autoRefresh = $('input[name=autoRefresh]', $settings).prop('checked');
+		_config.autoRefresh = $('input[name=autoRefresh]', $settings).prop(
+			'checked'
+		);
 
 		if (_config.autoRefresh) {
 			F2.log('beginning refresh');
-			_autoRefreshInterval = setInterval(function() {
+			_autoRefreshInterval = setInterval(function () {
 				F2.log('refreshed');
 				_getQuote();
 			}, 30000);
 		}
-
 	};
 
 	/**
 	 * @class Format
 	 * @static
 	 */
-	var Format = (function() {
+	var Format = (function () {
 		var _defaultOptions = {
 			precision: 2,
 			withColors: false,
@@ -198,7 +246,7 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			suffix: ''
 		};
 		var _magnitudes = {
-			'shortcap': ['', 'K', 'M', 'B', 'T']
+			shortcap: ['', 'K', 'M', 'B', 'T']
 		};
 
 		return {
@@ -209,10 +257,13 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			 * @param {object|int} [options] If int, formats to X precision. If
 			 * object, formats according to options passed
 			 */
-			number:function(raw, options) {
-				if (!raw) { return '--'; }
+			number: function (raw, options) {
+				if (!raw) {
+					return '--';
+				}
 
-				options = typeof options === 'number' ? { precision: options } : options;
+				options =
+					typeof options === 'number' ? { precision: options } : options;
 				options = $.extend({}, _defaultOptions, options);
 
 				var val;
@@ -227,23 +278,27 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 					options.magnitudeType = options.magnitudeType || 'shortcap';
 					options.suffix = _magnitudes[options.magnitudeType][c];
 				}
-					
+
 				val = raw.toFixed(options.precision);
 				val = options.prefix + val + options.suffix;
 
 				return !!options.withColors
-					? ('<span class="' + (raw > 0 ? 'positive' : raw < 0 ? 'negative' : 'unchanged') + '">' +  val + '</span>')
+					? '<span class="' +
+							(raw > 0 ? 'positive' : raw < 0 ? 'negative' : 'unchanged') +
+							'">' +
+							val +
+							'</span>'
 					: val;
 			}
 		};
 	})();
 
 	return {
-		init: function() {
+		init: function () {
 			// bind container symbol change
 			F2.Events.on(
 				F2.Constants.Events.CONTAINER_SYMBOL_CHANGE,
-				function(symbolData) {
+				function (symbolData) {
 					if (_config.refreshMode == 'page') {
 						_getQuote(symbolData);
 					}
@@ -253,36 +308,32 @@ F2.Apps['com_openf2_examples_javascript_quote'] = function (appConfig, appConten
 			// bind app symbol change
 			F2.Events.on(
 				F2.Constants.Events.APP_SYMBOL_CHANGE,
-				function(symbolData) {
+				function (symbolData) {
 					if (_config.refreshMode == 'app') {
 						_getQuote(symbolData);
 					}
 				}
 			);
 
-
 			//Talk to External Watchlist App
-			$root.on("click", "a[data-watchlist-add]", function(e){
-
-				if (!_hasWatchListApp()){
-					alert("The Watchlist App is not on this container.");
+			$root.on('click', 'a[data-watchlist-add]', function (e) {
+				if (!_hasWatchListApp()) {
+					alert('The Watchlist App is not on this container.');
 				} else {
-
-					F2.Events.emit(
-						"F2_Examples_Watchlist_Add",
-						{ symbol: $(this).data("watchlist-add") }
-					);
+					F2.Events.emit('F2_Examples_Watchlist_Add', {
+						symbol: $(this).data('watchlist-add')
+					});
 
 					$(this).closest('tr').addClass('hide');
 				}
-			});			
+			});
 
 			// bind save settings
-			$root.on("click", "button.save", _saveSettings);
+			$root.on('click', 'button.save', _saveSettings);
 
 			// init typeahead
 			_initTypeahead();
-			
+
 			// init quote button
 			_initQuoteButton();
 

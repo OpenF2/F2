@@ -55,7 +55,7 @@
 			"minGridSize": 6,
 			"manifestUrl": "../apps/PHP/F2wits/manifest.js",
 			"name": "F2wits",
-			"views": ["home","about"]
+			"views": ["home", "about"]
 		},
 		{
 			"appId": "com_openf2_examples_php_news",

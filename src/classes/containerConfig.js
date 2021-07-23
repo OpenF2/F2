@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
+
 /**
  * An object containing configuration information for the
  * [container](../../container-development.html)
  * @class F2.ContainerConfig
  */
-module.exports = {
+export default {
 	/**
 	 * True to enable debug mode in F2.js. Adds additional logging, resource cache busting, etc.
 	 * @property debugMode
@@ -45,28 +47,28 @@ module.exports = {
 	 * finishes (after success and error callbacks have been executed)
 	 * @return {XMLHttpRequest} The XMLHttpRequest object
 	 *
-	 * @example
-         *     F2.init({
-         *         xhr: function(url, appConfigs,successCallback, errorCallback, completeCallback) {
-         *          var jsonpCallback = F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
-			 *          var fetchUrl = url + '?params=' + F2.stringify(appConfigs.apps, F2.appConfigReplacer);
-         *          var fetchFunc = fetchJsonp(fetchUrl, {
-         *                          timeout: 3000,
-         *                          jsonpCallbackFunction: jsonpCallback
-         *                          });                
-         *           fetchFunc.then(function(response) {
-         *                          return response.json();
-         *                      })
-         *                      .then(function(data) {
-         *                      	successCallback(data);
-         *                      	completeCallback();                         
-         *                  })
-         *                  .catch(function(error) {
-         *                      F2.log('Failed to load app(s)', error.toString());
-         *                      errorCallback();
-         *                  });
-         *         }
-         *     });
+	 * @example
+	 *     F2.init({
+	 *         xhr: function(url, appConfigs,successCallback, errorCallback, completeCallback) {
+	 *          var jsonpCallback = F2.Constants.JSONP_CALLBACK + appConfigs[0].appId, // Unique function name
+	 *          var fetchUrl = url + '?params=' + F2.stringify(appConfigs.apps, F2.appConfigReplacer);
+	 *          var fetchFunc = fetchJsonp(fetchUrl, {
+	 *                          timeout: 3000,
+	 *                          jsonpCallbackFunction: jsonpCallback
+	 *                          });
+	 *           fetchFunc.then(function(response) {
+	 *                          return response.json();
+	 *                      })
+	 *                      .then(function(data) {
+	 *                      	successCallback(data);
+	 *                      	completeCallback();
+	 *                  })
+	 *                  .catch(function(error) {
+	 *                      F2.log('Failed to load app(s)', error.toString());
+	 *                      errorCallback();
+	 *                  });
+	 *         }
+	 *     });
 	 *
 	 * @for F2.ContainerConfig
 	 */
@@ -108,7 +110,7 @@ module.exports = {
 		 *         }
 		 *     });
 		 */
-		dataType: function(url, appConfigs) {},
+		dataType: function (url, appConfigs) {},
 		/**
 		 * Allows the container to override the request method that is used.
 		 * @method xhr.type
@@ -129,7 +131,7 @@ module.exports = {
 		 *         }
 		 *     });
 		 */
-		type: function(url, appConfigs) {},
+		type: function (url, appConfigs) {},
 		/**
 		 * Allows the container to override the url that is used to request an
 		 * app's F2.{{#crossLink "F2.AppManifest"}}{{/crossLink}}
@@ -148,7 +150,7 @@ module.exports = {
 		 *         }
 		 *     });
 		 */
-		url: function(url, appConfigs) {}
+		url: function (url, appConfigs) {}
 	},
 	/**
 	 * Allows the container to override the script loader which requests
@@ -164,7 +166,7 @@ module.exports = {
 	 *			}
 	 *     });
 	 */
-	loadScripts: function(scripts,inlines,callback){},
+	loadScripts: function (scripts, inlines, callback) {},
 	/**
 	 * Allows the container to override the stylesheet loader which requests
 	 * dependencies defined in the {{#crossLink "F2.AppManifest"}}{{/crossLink}}.
@@ -179,5 +181,5 @@ module.exports = {
 	 *			}
 	 *     });
 	 */
-	loadStyles: function(styles,callback){}
+	loadStyles: function (styles, callback) {}
 };

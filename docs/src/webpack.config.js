@@ -1,4 +1,4 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const pkg = require('../../package.json');
 
@@ -25,7 +25,10 @@ module.exports = {
 						loader: 'less-loader',
 						options: {
 							lessOptions: {
-								banner: `/*! F2 v${pkg.version} ${new Date().toLocaleString('en', { dateStyle: 'short' })} Copyright IHS Markit Digital */\n`,
+								banner: `/*! F2 v${pkg.version} ${new Date().toLocaleString(
+									'en',
+									{ dateStyle: 'short' }
+								)} Copyright IHS Markit Digital */\n`,
 								compress: true,
 								modifyVars: {
 									imgPath: '',
@@ -45,4 +48,4 @@ module.exports = {
 			filename: '[name].css'
 		})
 	]
-}
+};
