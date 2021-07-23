@@ -50,7 +50,7 @@ define(['jquery', 'F2', 'storage', 'bootstrap'], function ($, F2, Storage) {
 		}
 
 		// load in app json
-		$.getJSON('./js/sampleApps.js', function (allApps) {
+		$.getJSON('./js/sampleApps.json', function (allApps) {
 			$.each(allApps, function (language, apps) {
 				$('[data-language="' + language + '"]', $modal).append(
 					$.map(apps, function (app, i) {

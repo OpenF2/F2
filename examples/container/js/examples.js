@@ -54,7 +54,7 @@ $(function () {
 	}
 
 	// load in app json
-	$.getJSON('./js/sampleApps.js', function (allApps) {
+	$.getJSON('./js/sampleApps.json', function (allApps) {
 		$.each(allApps, function (language, apps) {
 			$('[data-language="' + language + '"]', $modal).append(
 				$.map(apps, function (app, i) {
