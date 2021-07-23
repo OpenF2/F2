@@ -138,6 +138,7 @@ $(function () {
 
 	//listen for any failed resources and display alert (demo purposes only)
 	F2.AppHandlers.on(
+		containerAppHandlerToken,
 		F2.Constants.AppHandlers.APP_SCRIPT_LOAD_FAILED,
 		function (appConfig, data) {
 			var error = [
