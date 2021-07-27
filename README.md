@@ -12,7 +12,7 @@ Visit [docs.openf2.org](http://docs.openf2.org/index.html#examples) for a list o
 
 ## Contributing
 
-F2 is currently maintained by [Markit Digital](https://www.markitdigital.com/).
+F2 is currently maintained by [IHS Markit Digital](https://www.markitdigital.com/).
 
 Join the team and help contribute to F2 on GitHub. Begin by reading our [contribution guidelines](CONTRIBUTING.md), and then start by [forking the repo](https://github.com/OpenF2/F2/fork), sending [pull requests](https://help.github.com/articles/using-pull-requests), or [submitting issues](https://github.com/OpenF2/F2/issues).
 
@@ -71,7 +71,7 @@ To track bugs, issues and enhancement requests, we are using [Issues on GitHub](
 
 ## Copyright and License
 
-Copyright &copy; 2015 Markit On Demand, Inc.
+Copyright &copy; 2021 IHS Markit Digital
 
 "F2" is licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at:
 

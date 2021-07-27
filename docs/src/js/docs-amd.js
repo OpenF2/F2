@@ -1,7 +1,7 @@
 define(['jquery', 'moment'], function ($, moment) {
 	/**
 	 * This code is only for the F2 documentation site. Don't use it anywhere else, you really shouldn't.
-	 * (c) Markit On Demand 2015
+	 * (c) IHS Markit Digital 2021
 	 */
 
 	//F2 docs

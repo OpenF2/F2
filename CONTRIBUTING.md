@@ -1,6 +1,6 @@
 # Contributing to F2
 
-F2 is currently maintained by [Markit Digital](https://www.markitdigital.com/).
+F2 is currently maintained by [IHS Markit Digital](https://www.markitdigital.com/).
 
 Join the team and help contribute to F2 on GitHub. The following are guidelines for contributing; please familiarize yourself before sending pull requests.
 
