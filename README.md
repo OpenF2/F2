@@ -65,7 +65,7 @@ It is our goal to make upgrading to the latest version of F2 a minor effort for 
 
 ### Issues, Enhancements, Bugs
 
-Have a question? Find a bug? Open an [Issue on GitHub](https://github.com/OpenF2/F2/issues), post a topic on the [Google Group](https://groups.google.com/forum/#!forum/OpenF2) or send an email to <info@openf2.org>.
+Have a question? Find a bug? Open an [Issue on GitHub](https://github.com/OpenF2/F2/issues) or send an email to <info@openf2.org>.
 
 To track bugs, issues and enhancement requests, we are using [Issues on GitHub](https://github.com/OpenF2/F2/issues).
 

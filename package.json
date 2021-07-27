@@ -14,7 +14,7 @@
 	},
 	"bugs": {
 		"url": "https://github.com/OpenF2/F2/issues",
-		"email": "OpenF2@googlegroups.com"
+		"email": "info@openf2.org"
 	},
 	"license": "Apache-2.0",
 	"scripts": {

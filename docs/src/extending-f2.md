@@ -54,11 +54,3 @@ The purpose of developing a plugin is to encapsulate clever logic in a single ja
 - Don't overuse or clutter the `F2` namespace with more custom plugins than you need.
 
 ---
-
-## Forum
-
-Have a question? Ask it on the [F2 Google Group](https://groups.google.com/forum/#!forum/OpenF2).
-
-<OpenF2@googlegroups.com>
-
----
