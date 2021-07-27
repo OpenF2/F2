@@ -26,7 +26,6 @@ F2.Apps['com_openf2_examples_csharp_stocktwits'] = (function () {
 
 	App_Class.prototype.getTwits = function () {
 		$.ajax({
-			//url: "http://www.openf2.org/api/stocktwits/" + this.symbol,
 			url:
 				'https://api.stocktwits.com/api/2/streams/symbol/' +
 				this.symbol +

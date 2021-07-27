@@ -1,8 +1,6 @@
 # Contributing to F2
 
-F2 is currently maintained by [Markit On Demand](http://www.markit.com/Product/Markit-On-Demand) and governed by an [Advisory Board](http://www.openf2.org/#advisory-board) (shown below).
-
-![image](http://www.openf2.org/img/advisory-board.png)
+F2 is currently maintained by [Markit Digital](https://www.markitdigital.com/).
 
 Join the team and help contribute to F2 on GitHub. The following are guidelines for contributing; please familiarize yourself before sending pull requests.
 
@@ -62,11 +60,10 @@ Read our [coding standards](https://github.com/OpenF2/F2/wiki/Coding-Standards).
 
 ## Keep in Touch
 
-If you have any questions while writing code to contribute to F2, post a message on the [Google Group](https://groups.google.com/forum/#!forum/OpenF2), find us on Twitter [@OpenF2](https://twitter.com/OpenF2) or by email at [info@openf2.org](mailto:info@openf2.org). You can also follow [our blog](http://blog.openf2.org) for more in-depth F2 updates.
+If you have any questions while writing code to contribute to F2, post a question on [GitHub Issues](https://github.com/OpenF2/F2/issues/new) or by email at [info@openf2.org](mailto:info@openf2.org).
 
 ## Resources
 
-- [F2 Google Group](https://groups.google.com/forum/#!forum/OpenF2)
 - [F2 Coding Standards](https://github.com/OpenF2/F2/wiki/Coding-Standards)
 - [GitHub Documentation: Using Pull Requests](https://help.github.com/articles/using-pull-requests)
 - [GitHub Documentation](https://help.github.com/)

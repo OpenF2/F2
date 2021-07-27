@@ -18,7 +18,7 @@ module.exports = {
 			banner: () => {
 				return `
 F2 v${pkg.version} ${new Date().toLocaleString('en', { dateStyle: 'short' })}
-Copyright (c) 2021 IHS Markit Digital https://www.openf2.org
+Copyright (c) 2021 IHS Markit Digital https://github.com/OpenF2/F2
 
 "F2" is licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -48,7 +48,7 @@ F2 v1.0 was originally open sourced in October 2012. A detailed [changelog](http
 There are a few different types of examples available below.
 
 <div class="media">
-	<a class="media-left" href="http://www.openf2.org/examples"><i class="fa fa-compass"></i></a>
+	<a class="media-left" href="examples.html"><i class="fa fa-compass"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">Examples</h4>
 		Visit the [examples](examples.html) page for a live demo of Apps in a basic Container.
