@@ -30,7 +30,6 @@
 		"test-live": "npm run lint && concurrently -s first -k -r \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start\"",
 		"zip": "bestzip F2-examples.zip examples/* dist/* && cp -f F2-examples.zip ../gh-pages "
 	},
-	"dependencies": {},
 	"devDependencies": {
 		"bestzip": "^2.2.0",
 		"concurrently": "^6.2.0",
@@ -52,6 +51,7 @@
 		"karma-jasmine-html-reporter": "^1.7.0",
 		"karma-nested-reporter": "^0.1.7",
 		"karma-serve-static-map": "^2.0.0",
+		"less": "^4.1.2",
 		"less-loader": "^10.0.1",
 		"lodash.clonedeep": "^4.5.0",
 		"marked": "^0.3.3",
@@ -61,6 +61,7 @@
 		"prettier": "^2.3.2",
 		"puppeteer": "^10.1.0",
 		"semver": "^7.3.5",
+		"underscore": "^1.13.2",
 		"webpack": "^5.42.0",
 		"webpack-bundle-analyzer": "^4.4.2",
 		"webpack-cli": "^4.7.2",

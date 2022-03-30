@@ -2,7 +2,7 @@ require({
 	basePath: '/js',
 	paths: {
 		bootstrap: '//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min',
-		F2: 'f2.min',
+		F2: 'f2',
 		highlightjs: 'thirdparty/highlight.min',
 		jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
 		mousetrap: 'thirdparty/mousetrap',
