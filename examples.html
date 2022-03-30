@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Examples - F2: Open Financial Framework</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta
+	name="description"
+	content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."
+/>
+<meta name="viewport" content="width=device-width initial-scale=1.0" />
+<link rel="stylesheet" href="/css/site.css?v=2.0.0" />
+<link
+	rel="shortcut icon"
+	href="/img/favicon.ico?v=2.0.0"
+	type="image/x-icon"
+/>
+<meta name="apple-mobile-web-app-title" content="F2" />
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=2.0.0" />
+<link
+	rel="apple-touch-icon"
+	sizes="57x57"
+	href="/img/apple-touch-icon-57x57.png?v=2.0.0"
+/>
+<link
+	rel="apple-touch-icon"
+	sizes="60x60"
+	href="/img/apple-touch-icon-60x60.png?v=2.0.0"
+/>
+<link
+	rel="apple-touch-icon"
+	sizes="72x72"
+	href="/img/apple-touch-icon-72x72.png?v=2.0.0"
+/>
+<link
+	rel="apple-touch-icon"
+	sizes="76x76"
+	href="/img/apple-touch-icon-76x76.png?v=2.0.0"
+/>
+<link
+	rel="apple-touch-icon"
+	sizes="114x114"
+	href="/img/apple-touch-icon-114x114.png?v=2.0.0"
+/>
+<link
+	rel="apple-touch-icon"
+	sizes="120x120"
+	href="/img/apple-touch-icon-120x120.png?v=2.0.0"
+/>
+<link
+	rel="apple-touch-icon"
+	sizes="144x144"
+	href="/img/apple-touch-icon-144x144.png?v=2.0.0"
+/>
+<link
+	rel="apple-touch-icon"
+	sizes="152x152"
+	href="/img/apple-touch-icon-152x152.png?v=2.0.0"
+/>
+<meta
+	name="msapplication-square70x70logo"
+	content="/img/smalltile.png?v=2.0.0"
+/>
+<meta
+	name="msapplication-square150x150logo"
+	content="/img/mediumtile.png?v=2.0.0"
+/>
+<meta
+	name="msapplication-wide310x150logo"
+	content="/img/widetile.png?v=2.0.0"
+/>
+<meta
+	name="msapplication-square310x310logo"
+	content="/img/largetile.png?v=2.0.0"
+/><!--[if lt IE 9]>
+	<script src="/js/thirdparty/polyfills/es5.js?v=2.0.0"></script
+><![endif]-->
+<!--[if lt IE 9]>
+	<script src="/js/thirdparty/respond.min.js?v=2.0.0"></script
+><![endif]-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script type="text/javascript">
+	if (/docs.openf2.org/i.test(window.location.hostname)) {
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-35230380-1']);
+		_gaq.push(['_setDomainName', 'openf2.org']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src =
+				('https:' == document.location.protocol
+					? 'https://ssl'
+					: 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	}
+</script>
+
+<style>
+  body {
+    position: relative;/*for scrollspy*/
+  }
+  .pageContent {
+    margin-top: 20px;
+  }
+
+  .docs #docs p:last-child { margin-bottom: 0; }
+
+  #docs code { font-size: 80%; }
+  #docs pre code { font-size: inherit; }
+
+  footer {
+    margin-top: 50px;
+  }
+</style>
+</head>
+<body>
+<div role="navigation" class="navbar navbar-inverse navbar-static-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button
+				type="button"
+				data-toggle="collapse"
+				data-target="#f2navbarcollapse"
+				class="navbar-toggle"
+			>
+				<span class="sr-only">Toggle navigation</span
+				><span class="icon-bar"></span><span class="icon-bar"></span
+				><span class="icon-bar"></span></button
+			><a href="/" title="Home" class="navbar-brand">F2</a>
+		</div>
+		<div id="f2navbarcollapse" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="examples.html">Examples</a></li>
+				<li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="/">Home</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v2.0.0</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="index.html">Getting Started</a></li>
+              <li><a href="container-development.html">Container Development</a></li>
+              <li><a href="app-development.html">App Development</a></li>
+              <li><a href="extending-f2.html">Extending F2</a></li>
+              <li><a href="migrating-to-v2.html">Migrating to V2</a></li>
+              <li><a href="./sdk">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+Examples" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/blob/master/docs/src/examples.md" id="viewSourceLink" target="_blank">View Source</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">Examples</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="examples.html">Examples</a></li>
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
+          <ul class="nav nav-stacked">
+            <li><a href="#">Sections</a></li>
+            <li><a href="index.html">Getting Started</a></li>
+            <li><a href="container-development.html">Container Development</a></li>
+            <li><a href="app-development.html">App Development</a></li>
+            <li><a href="extending-f2.html">Extending F2</a></li>
+            <li><a href="migrating-to-v2.html">Migrating to V2</a></li>
+            <li><a href="./sdk">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9 examples" id="docs">
+        <h1 class="page-header">Examples</h1>
+        <p class="lead">
+These F2 example Apps are designed to demonstrate how simple it is to develop and assemble Apps
+in an <a href="container-development.html">F2 Container</a>. The Apps display data from various
+sources and, using <a href="container-development.html#context">F2 Context</a>, seamlessly communicate with one another.
+</p>
+
+<p>
+We’ve built-in some keyboard shortcuts to highlight individual F2 components.
+Press <code>c</code> to see the <a href="http://docs.openf2.org/container-development.html">F2 Container</a> highlighted (and Apps blurred).
+Press <code>a</code> to see the <a href="http://docs.openf2.org/app-development.html">F2 Apps</a>. (Press again to disable.)</p>
+
+<h2 class="link-header" id="apps">Apps<a class="anchor" href="#apps"><span>#</span></a></h2><div class="row examples-container">
+  <div class="col-md-6">
+    <div class="f2-autoload" data-f2-appid="com_openf2_examples_csharp_stocktwits" data-f2-manifestUrl="/apps/com_openf2_examples_csharp_stocktwits/manifest.js" data-f2-context='{"symbol":"AAPL"}'></div>
+  </div>
+</div>
+
+      </div>
+    </div>
+  </section>
+</div>
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-lg-6">
+				<h1 class="hidden-sm hidden-md hidden-lg">F2</h1>
+				<p class="hidden-sm hidden-md hidden-lg">
+					An open & free framework created for building financial applications.
+				</p>
+				<div class="deepFooter hidden-xs hidden-sm">
+					<p>Enabling smarter financial applications</p>
+					<p>
+						F2 is governed by its Advisory Board, and maintained by
+						<a href="http://www.markit.com/product/markit-on-demand"
+							>Markit On Demand</a
+						>
+						on GitHub. F2 is licensed under the Apache 2.0 License.
+					</p>
+				</div>
+				<ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
+					<li><a href="//docs.openf2.org">Docs</a></li>
+					<li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
+				<ul class="footer-nav iconlist list-inline">
+					<li class="version">
+						<a
+							href="https://github.com/OpenF2/F2"
+							title="F2 on GitHub"
+							class="hexagon"
+							><i class="fa fa-github fa-2x"></i
+						></a>
+						<div class="hidden-xs hidden-sm">
+							<a href="https://github.com/OpenF2/F2">
+								<h5>View on GitHub</h5>
+								<p>
+									Current Version&nbsp;<span>2.0.0</span
+									><br />Released&nbsp;<span>2 March 2018</span>
+								</p></a
+							>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row deepFooter">
+			<div class="col-xs-12 hidden-md hidden-lg">
+				<p>Enabling smarter financial applications</p>
+				<p>
+					F2 is governed by its Advisory Board, and maintained by
+					<a href="http://www.markit.com/product/markit-on-demand"
+						>Markit On Demand</a
+					>
+					on GitHub. F2 is licensed under the Apache 2.0 License.
+				</p>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="/js/thirdparty/require.js" data-main="/js/main" data-page="pages/examples"></script>
+</body>
+</html>

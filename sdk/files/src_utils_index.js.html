@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>API Reference - F2: Open Financial Framework</title>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
+<meta name="viewport" content="width=device-width initial-scale=1.0"/>
+<link rel="stylesheet" href="/css/site.css?v=2.0.0"/>
+<link rel="stylesheet" href="../assets/css/custom.css">
+<link rel="stylesheet" href="../assets/css/prettify.css">
+<link rel="shortcut icon" href="/img/favicon.ico?v=2.0.0" type="image/x-icon"/>
+<meta name="apple-mobile-web-app-title" content="F2"/>
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="57x57" href="/img/apple-touch-icon-57x57.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="60x60" href="/img/apple-touch-icon-60x60.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76x76.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120x120.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="144x144" href="/img/apple-touch-icon-144x144.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152x152.png?v=2.0.0"/>
+<meta name="msapplication-square70x70logo" content="/img/smalltile.png?v=2.0.0"/>
+<meta name="msapplication-square150x150logo" content="/img/mediumtile.png?v=2.0.0"/>
+<meta name="msapplication-wide310x150logo" content="/img/widetile.png?v=2.0.0"/>
+<meta name="msapplication-square310x310logo" content="/img/largetile.png?v=2.0.0"/><!--[if lt IE 9]>
+<script src="/js/thirdparty/polyfills/es5.js?v=2.0.0"></script><![endif]-->
+<!--[if lt IE 9]>
+<script src="/js/thirdparty/respond.min.js?v=2.0.0"></script><![endif]-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<style>
+  .pageContent {
+    margin-top: 20px;
+  }
+  #docs-main .page-header {
+  	margin-top: 0;
+  }
+  .docs #docs p:last-child {
+    margin-bottom: 25px;
+  }
+  #docs div.media:last-child {
+    margin-bottom: 100px;
+  }
+  .sidebar-toc {
+    overflow: hidden;
+  }
+</style>
+<script type="text/javascript">
+  if ((/docs.openf2.org/i).test(window.location.hostname)) {
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-35230380-1']);
+   _gaq.push(['_setDomainName', 'openf2.org']);
+   _gaq.push(['_trackPageview']);
+
+   (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+   })();
+  }
+</script>
+</head>
+<body class="yui3-skin-sam">
+<div role="navigation" class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target="#f2navbarcollapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" title="Home" class="navbar-brand">F2</a>
+    </div>
+    <div id="f2navbarcollapse" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="docs">
+  <section class="container pageContent">
+    <div class="row">
+      <div class="col-sm-12">
+        <ol class="breadcrumb">
+          <li class="hidden-xs"><a href="/">Home</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v2.0.0</span>&nbsp;<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="../../index.html">Getting Started</a></li>
+              <li><a href="../../container-development.html">Container Development</a></li>
+              <li><a href="../../app-development.html">App Development</a></li>
+              <li><a href="../../extending-f2.html">Extending F2</a></li>
+              <li><a href="../../migrating-to-v2.html">Migrating to V2</a></li>
+              <li class="active"><a href="../">F2.js API Reference</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+API Reference" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li class="divider"></li>
+              <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
+            </ul>
+          </li>
+          <li class="active">API Reference</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 sidebar-nav" id="toc">
+        <div class="navs">
+          <div class="spy-container">
+            <ul class="nav nav-stacked sidebar-toc">
+              <li><a href="../">API Reference</a></li>
+                  <li class=""><a href="../classes/F2.html">F2</a></li>
+                  <li class=""><a href="../classes/F2.App.html">F2.App</a></li>
+                  <li class=""><a href="../classes/F2.AppConfig.html">F2.AppConfig</a></li>
+                  <li class=""><a href="../classes/F2.AppHandlers.html">F2.AppHandlers</a></li>
+                  <li class=""><a href="../classes/F2.AppManifest.html">F2.AppManifest</a></li>
+                  <li class=""><a href="../classes/F2.AppManifest.AppContent.html">F2.AppManifest.AppContent</a></li>
+                  <li class="hidden"><a href="../classes/F2.Constants.html">F2.Constants</a></li>
+                  <li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
+                  <li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
+                  <li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
+                  <li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
+                  <li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
+            </ul>
+          </div>
+          <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
+          <ul class="nav nav-stacked">
+            <li><a href="#">Sections</a></li>
+            <li><a href="../../index.html">Getting Started</a></li>
+            <li><a href="../../container-development.html">Container Development</a></li>
+            <li><a href="../../app-development.html">App Development</a></li>
+            <li><a href="../../extending-f2.html">Extending F2</a></li>
+            <li><a href="../../migrating-to-v2.html">Migrating to V2</a></li>
+            <li class="active"><a href="../">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9" id="docs">
+      	<div class="apidocs">
+	      	<div id="docs-main">
+	        	<div class="content">
+	        		<form id='options-form' class='form-inline pull-right'>
+	        			Show:
+	        			<!--<div class="checkbox">
+	        		        <label>
+	        		            <input type="checkbox" id="api-show-inherited" checked>
+	        		            Inherited
+	        		        </label>
+	        		    </div>
+	        		    <div class="checkbox">
+	        		        <label>
+	        		            <input type="checkbox" id="api-show-protected">
+	        		            Protected
+	        		        </label>
+	        		    </div>-->
+	        			<div class='checkbox'>
+	        				<label>
+	        					<input type='checkbox' id='api-show-private' />
+	        					Private
+	        				</label>
+	        			</div>
+	        			<div class='checkbox'>
+	        				<label>
+	        					<input type='checkbox' id='api-show-deprecated' />
+	        					Deprecated
+	        				</label>
+	        			</div>
+	        		</form>	                <h1 class='page-header'>src\utils\index.js <small>File</small></h1>
+	                
+	                <div class='file'>
+	                	<pre class='prettyprint linenums'><code>
+	                			import uri from &#x27;./uri&#x27;;
+	                
+	                export default {
+	                	/**
+	                	 * A function to pass into F2.stringify which will prevent circular
+	                	 * reference errors when serializing objects
+	                	 * @method appConfigReplacer
+	                	 */
+	                	appConfigReplacer: function (key, value) {
+	                		if (key == &#x27;root&#x27; || key == &#x27;ui&#x27; || key == &#x27;height&#x27;) {
+	                			return undefined;
+	                		} else {
+	                			return value;
+	                		}
+	                	},
+	                	/**
+	                	 * Creates a namespace on F2 and copies the contents of an object into
+	                	 * that namespace optionally overwriting existing properties.
+	                	 * @method extend
+	                	 * @param {string} ns The namespace to create. Pass a falsy value to
+	                	 * add properties to the F2 namespace directly.
+	                	 * @param {object} obj The object to copy into the namespace.
+	                	 * @param {bool} overwrite True if object properties should be overwritten
+	                	 * @return {object} The created object
+	                	 */
+	                	extend: function (ns, obj, overwrite) {
+	                		var isFunc = typeof obj === &#x27;function&#x27;;
+	                		var parts = ns ? ns.split(&#x27;.&#x27;) : [];
+	                		var parent = this;
+	                		obj = obj || {};
+	                
+	                		// ignore leading global
+	                		if (parts[0] === &#x27;F2&#x27;) {
+	                			parts = parts.slice(1);
+	                		}
+	                
+	                		// create namespaces
+	                		for (var i = 0, len = parts.length; i &lt; len; i++) {
+	                			if (!parent[parts[i]]) {
+	                				parent[parts[i]] = isFunc &amp;&amp; i + 1 == len ? obj : {};
+	                			}
+	                			parent = parent[parts[i]];
+	                		}
+	                
+	                		// copy object into namespace
+	                		if (!isFunc) {
+	                			for (var prop in obj) {
+	                				if (typeof parent[prop] === &#x27;undefined&#x27; || overwrite) {
+	                					parent[prop] = obj[prop];
+	                				}
+	                			}
+	                		}
+	                
+	                		return parent;
+	                	},
+	                	/**
+	                	 * Generates a somewhat random id
+	                	 * @method guid
+	                	 * @return {string} A random id
+	                	 * @for F2
+	                	 */
+	                	guid: function () {
+	                		var S4 = function () {
+	                			return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	                		};
+	                		return (
+	                			S4() +
+	                			S4() +
+	                			&#x27;-&#x27; +
+	                			S4() +
+	                			&#x27;-&#x27; +
+	                			S4() +
+	                			&#x27;-&#x27; +
+	                			S4() +
+	                			&#x27;-&#x27; +
+	                			S4() +
+	                			S4() +
+	                			S4()
+	                		);
+	                	},
+	                	/**
+	                	 * Tests a URL to see if it&#x27;s on the same domain (local) or not
+	                	 * @method isLocal
+	                	 * @param {URL to test} url
+	                	 * @return {bool} Whether the URL is local or not
+	                	 */
+	                	isLocalRequest: uri.isLocal,
+	                	/**
+	                	 * A utility logging function to write messages or objects to the browser console. This is a proxy for the [&#x60;console&#x60; API](https://developers.google.com/chrome-developer-tools/docs/console).
+	                	 * @method log
+	                	 * @param {object|string} Object/Method An object to be logged _or_ a &#x60;console&#x60; API method name, such as &#x60;warn&#x60; or &#x60;error&#x60;. All of the console method names are [detailed in the Chrome docs](https://developers.google.com/chrome-developer-tools/docs/console-api).
+	                	 * @param {object} [obj2]* An object to be logged
+	                	 * @example
+	                		//Pass any object (string, int, array, object, bool) to .log()
+	                		F2.log(&#x27;foo&#x27;);
+	                		F2.log(myArray);
+	                		//Use a console method name as the first argument.
+	                		F2.log(&#x27;error&#x27;, err);
+	                		F2.log(&#x27;info&#x27;, &#x27;The session ID is &#x27; + sessionId);
+	                		* Some code derived from [HTML5 Boilerplate console plugin](https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js)
+	                		*/
+	                	log: function () {
+	                		var _log;
+	                		var _logMethod = &#x27;log&#x27;;
+	                		var method;
+	                		var noop = function () {};
+	                		var methods = [
+	                			&#x27;assert&#x27;,
+	                			&#x27;clear&#x27;,
+	                			&#x27;count&#x27;,
+	                			&#x27;debug&#x27;,
+	                			&#x27;dir&#x27;,
+	                			&#x27;dirxml&#x27;,
+	                			&#x27;error&#x27;,
+	                			&#x27;exception&#x27;,
+	                			&#x27;group&#x27;,
+	                			&#x27;groupCollapsed&#x27;,
+	                			&#x27;groupEnd&#x27;,
+	                			&#x27;info&#x27;,
+	                			&#x27;log&#x27;,
+	                			&#x27;markTimeline&#x27;,
+	                			&#x27;profile&#x27;,
+	                			&#x27;profileEnd&#x27;,
+	                			&#x27;table&#x27;,
+	                			&#x27;time&#x27;,
+	                			&#x27;timeEnd&#x27;,
+	                			&#x27;timeStamp&#x27;,
+	                			&#x27;trace&#x27;,
+	                			&#x27;warn&#x27;
+	                		];
+	                		var length = methods.length;
+	                		var console = (window.console = window.console || {});
+	                		var args;
+	                
+	                		while (length--) {
+	                			method = methods[length];
+	                
+	                			// Only stub undefined methods.
+	                			if (!console[method]) {
+	                				console[method] = noop;
+	                			}
+	                
+	                			//if first arg is a console function, use it.
+	                			//defaults to console.log()
+	                			if (arguments &amp;&amp; arguments.length &gt; 1 &amp;&amp; arguments[0] == method) {
+	                				_logMethod = method;
+	                				//remove console func from args
+	                				args = Array.prototype.slice.call(arguments, 1);
+	                			}
+	                		}
+	                
+	                		if (Function.prototype.bind) {
+	                			_log = Function.prototype.bind.call(console[_logMethod], console);
+	                		} else {
+	                			_log = function () {
+	                				Function.prototype.apply.call(
+	                					console[_logMethod],
+	                					console,
+	                					args || arguments
+	                				);
+	                			};
+	                		}
+	                
+	                		_log.apply(this, args || arguments);
+	                	},
+	                	/**
+	                	 * Wrapper to convert a JSON string to an object
+	                	 * @method parse
+	                	 * @param {string} str The JSON string to convert
+	                	 * @return {object} The parsed object
+	                	 */
+	                	parse: function (str) {
+	                		return JSON.parse(str);
+	                	},
+	                	/**
+	                	 * Wrapper to convert an object to JSON
+	                	 *
+	                	 * **Note: When using F2.stringify on an F2.AppConfig object, it is
+	                	 * recommended to pass F2.appConfigReplacer as the replacer function in
+	                	 * order to prevent circular serialization errors.**
+	                	 * @method stringify
+	                	 * @param {object} value The object to convert
+	                	 * @param {function|Array} replacer An optional parameter that determines
+	                	 * how object values are stringified for objects. It can be a function or an
+	                	 * array of strings.
+	                	 * @param {int|string} space An optional parameter that specifies the
+	                	 * indentation of nested structures. If it is omitted, the text will be
+	                	 * packed without extra whitespace. If it is a number, it will specify the
+	                	 * number of spaces to indent at each level. If it is a string (such as &#x27;\t&#x27;
+	                	 * or &#x27;&amp;nbsp;&#x27;), it contains the characters used to indent at each level.
+	                	 * @return {string} The JSON string
+	                	 */
+	                	stringify: function (value, replacer, space) {
+	                		return JSON.stringify(value, replacer, space);
+	                	},
+	                	/**
+	                	 * Function to get the F2 version number
+	                	 * @method version
+	                	 * @return {string} F2 version number
+	                	 */
+	                	version: function () {
+	                		/* eslint no-undef: 0 */
+	                		return VERSION;
+	                	}
+	                };
+	                
+	                		</code></pre>
+	                </div>	            </div>
+	        </div>
+	    </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-lg-6">
+        <h1 class="hidden-sm hidden-md hidden-lg">F2</h1>
+        <p class="hidden-sm hidden-md hidden-lg">An open & free framework created for building financial applications.</p>
+        <div class="deepFooter hidden-xs hidden-sm">
+          <p>Enabling smarter financial applications</p>
+          <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+        </div>
+        <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
+          <li><a href="http://docs.openf2.org">Docs</a></li>
+          <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
+        <ul class="footer-nav iconlist list-inline">
+          <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
+            <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
+                <h5>View on GitHub</h5>
+                <p>Current Version&nbsp;<span>2.0.0</span><br/>Released&nbsp;<span></span>
+                </p></a></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row deepFooter">
+      <div class="col-xs-12 hidden-md hidden-lg">
+        <p>Enabling smarter financial applications</p>
+        <p>F2 is maintained by <a href="https://www.markitdigital.com/">IHS Markit Digital</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<!-- <script src="js/docs.js" type="text/javascript"></script>
+<script type="text/javascript">new F2Docs().initialize();</script>-->
+<script>
+  window.prettyPrint && prettyPrint();
+
+	//docs
+	var current = location.pathname.split('/').pop();
+	$('a','ul.sidebar-toc').each(function(i,el){
+		var $el = $(el);
+		if (current.length && $el.attr('href').indexOf(current) > -1){
+			$el.parent().addClass('active');
+		}
+	});
+</script>
+</body>
+</html>

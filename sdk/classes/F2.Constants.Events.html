@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>F2.Constants.Events - Open Financial Framework</title>
+<title>API Reference - F2: Open Financial Framework</title>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
 <meta name="viewport" content="width=device-width initial-scale=1.0"/>
-<link rel="stylesheet" href="//www.openf2.org/css/site.css"/>
+<link rel="stylesheet" href="/css/site.css?v=2.0.0"/>
 <link rel="stylesheet" href="../assets/css/custom.css">
 <link rel="stylesheet" href="../assets/css/prettify.css">
-<link rel="shortcut icon" href="//www.openf2.org/img/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/img/favicon.ico?v=2.0.0" type="image/x-icon"/>
 <meta name="apple-mobile-web-app-title" content="F2"/>
-<link rel="apple-touch-icon" href="//www.openf2.org/img/apple-touch-icon.png"/>
-<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-57x57.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-72x72.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-114x114.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-144x144.png"/>
-<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-60x60.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-120x120.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-76x76.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-152x152.png"/>
-<meta name="msapplication-square70x70logo" content="//www.openf2.org/img/smalltile.png"/>
-<meta name="msapplication-square150x150logo" content="//www.openf2.org/img/mediumtile.png"/>
-<meta name="msapplication-wide310x150logo" content="//www.openf2.org/img/widetile.png"/>
-<meta name="msapplication-square310x310logo" content="//www.openf2.org/img/largetile.png"/><!--[if lt IE 9]>
-<script src="//www.openf2.org/js/thirdparty/polyfills/es5.js"></script><![endif]-->
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="57x57" href="/img/apple-touch-icon-57x57.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="60x60" href="/img/apple-touch-icon-60x60.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76x76.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120x120.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="144x144" href="/img/apple-touch-icon-144x144.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152x152.png?v=2.0.0"/>
+<meta name="msapplication-square70x70logo" content="/img/smalltile.png?v=2.0.0"/>
+<meta name="msapplication-square150x150logo" content="/img/mediumtile.png?v=2.0.0"/>
+<meta name="msapplication-wide310x150logo" content="/img/widetile.png?v=2.0.0"/>
+<meta name="msapplication-square310x310logo" content="/img/largetile.png?v=2.0.0"/><!--[if lt IE 9]>
+<script src="/js/thirdparty/polyfills/es5.js?v=2.0.0"></script><![endif]-->
 <!--[if lt IE 9]>
-<script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
+<script src="/js/thirdparty/respond.min.js?v=2.0.0"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
   .pageContent {
@@ -51,7 +51,7 @@
    _gaq.push(['_setAccount', 'UA-35230380-1']);
    _gaq.push(['_setDomainName', 'openf2.org']);
    _gaq.push(['_trackPageview']);
-   
+
    (function() {
    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -67,15 +67,8 @@
       <button type="button" data-toggle="collapse" data-target="#f2navbarcollapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" title="Home" class="navbar-brand">F2</a>
     </div>
     <div id="f2navbarcollapse" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="//www.openf2.org/">About</a>
-        </li>
-        <li><a href="//www.openf2.org/examples">Examples</a>
-        </li>
-        <li><a href="//www.openf2.org/developers" class="active">Developers</a>
-        </li>
-        <li><a href="//blog.openf2.org">Blog</a>
-        </li>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="examples.html">Examples</a></li>
         <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
       </ul>
     </div>
@@ -86,23 +79,23 @@
     <div class="row">
       <div class="col-sm-12">
         <ol class="breadcrumb">
-          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
-          <li><a href="http://www.openf2.org/developers">Developers</a></li>
+          <li class="hidden-xs"><a href="/">Home</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.5</span>&nbsp;<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v2.0.0</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="../../index.html">Getting Started</a></li>
               <li><a href="../../container-development.html">Container Development</a></li>
               <li><a href="../../app-development.html">App Development</a></li>
-              <li><a href="../../extending-f2.html">Extend F2</a></li>
+              <li><a href="../../extending-f2.html">Extending F2</a></li>
+              <li><a href="../../migrating-to-v2.html">Migrating to V2</a></li>
               <li class="active"><a href="../">F2.js API Reference</a></li>
               <li class="divider"></li>
-              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+F2.Constants.Events" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+API Reference" id="feedbackLink" target="_blank">Submit Feedback</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
             </ul>
           </li>
-          <li class="active">F2.Constants.Events</li>
+          <li class="active">API Reference</li>
         </ol>
       </div>
     </div>
@@ -122,15 +115,8 @@
                   <li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
                   <li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
                   <li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
-                  <li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
                   <li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
-                  <li class="hidden"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
-                  <li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
                   <li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
-                  <li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
-                  <li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
-                  <li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
-                  <li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
             </ul>
           </div>
           <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
@@ -140,8 +126,7 @@
             <li><a href="../../container-development.html">Container Development</a></li>
             <li><a href="../../app-development.html">App Development</a></li>
             <li><a href="../../extending-f2.html">Extending F2</a></li>
-            <li class="hidden"><a href="../../f2js-sdk.html">F2.js</a></li>
-            <li class="hidden"><a href="../../about-f2.html">About F2</a></li>
+            <li><a href="../../migrating-to-v2.html">Migrating to V2</a></li>
             <li class="active"><a href="../">API Reference</a></li>
           </ul>
         </div>
@@ -150,9 +135,9 @@
       	<div class="apidocs">
 	      	<div id="docs-main">
 	        	<div class="content">
-	        		<form id="options-form" class="form-inline pull-right">
-	        		    Show:
-	        		    <!--<div class="checkbox">
+	        		<form id='options-form' class='form-inline pull-right'>
+	        			Show:
+	        			<!--<div class="checkbox">
 	        		        <label>
 	        		            <input type="checkbox" id="api-show-inherited" checked>
 	        		            Inherited
@@ -164,22 +149,22 @@
 	        		            Protected
 	        		        </label>
 	        		    </div>-->
-	        		    <div class="checkbox">
-	        		        <label>
-	        		            <input type="checkbox" id="api-show-private">
-	        		            Private
-	        		        </label>
-	        		    </div>
-	        		    <div class="checkbox">
-	        		        <label>
-	        		            <input type="checkbox" id="api-show-deprecated">
-	        		            Deprecated
-	        		        </label>
-	        		    </div>
+	        			<div class='checkbox'>
+	        				<label>
+	        					<input type='checkbox' id='api-show-private' />
+	        					Private
+	        				</label>
+	        			</div>
+	        			<div class='checkbox'>
+	        				<label>
+	        					<input type='checkbox' id='api-show-deprecated' />
+	        					Deprecated
+	        				</label>
+	        			</div>
 	        		</form>	                <h1 class="page-header">F2.Constants.Events <small>Class</small></h1>
 	                
 	                <div class="classDescription">
-	                    <p>Events constants</p>
+	                    <p>Constants used throughout the Open Financial Framework</p>
 	                
 	                </div>
 	                
@@ -187,7 +172,7 @@
 	                
 	                
 	                        <div class="foundat">
-	                            Defined in: <a href="../files/sdk_src_constants.js.html#l95"><code>sdk\src\constants.js:95</code></a>
+	                            Defined in: <a href="../files/src_constants_events.js.html#l1"><code>src\constants\events.js:1</code></a>
 	                        </div>
 	                
 	                </div>
@@ -279,16 +264,6 @@
 	                the width of the container has changed.</p>
 	                </td>
 	                                            </tr>
-	                                            <tr class="index-item property deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#properties" data-anchor="#property_RESOURCE_FAILED_TO_LOAD" data-tablink="RESOURCE_FAILED_TO_LOAD">RESOURCE_FAILED_TO_LOAD</a>
-	                                                        <span class="label label-default static">static</span>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                </td>
-	                                                <td><p>The RESOURCE_FAILED_TO_LOAD event will be fired by the container when
-	                it fails to load a script or style.</p>
-	                </td>
-	                                            </tr>
 	                                        </tbody>
 	                                    </table>
 	                                </div>
@@ -316,7 +291,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_constants.js.html#l106"><code>sdk\src\constants.js:106</code></a>
+	                                            <a href="../files/src_constants_events.js.html#l7"><code>src\constants\events.js:7</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -348,7 +323,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_constants.js.html#l115"><code>sdk\src\constants.js:115</code></a>
+	                                            <a href="../files/src_constants_events.js.html#l16"><code>src\constants\events.js:16</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -382,7 +357,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_constants.js.html#l128"><code>sdk\src\constants.js:128</code></a>
+	                                            <a href="../files/src_constants_events.js.html#l29"><code>src\constants\events.js:29</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -417,7 +392,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_constants.js.html#l165"><code>sdk\src\constants.js:165</code></a>
+	                                            <a href="../files/src_constants_events.js.html#l66"><code>src\constants\events.js:66</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -452,7 +427,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_constants.js.html#l142"><code>sdk\src\constants.js:142</code></a>
+	                                            <a href="../files/src_constants_events.js.html#l43"><code>src\constants\events.js:43</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -487,7 +462,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_constants.js.html#l156"><code>sdk\src\constants.js:156</code></a>
+	                                            <a href="../files/src_constants_events.js.html#l57"><code>src\constants\events.js:57</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -496,40 +471,6 @@
 	                                        <div class="description">
 	                                            <p>The CONTAINER_WIDTH_CHANGE event will be fired by the container when
 	                                    the width of the container has changed.</p>
-	                                    
-	                                        </div>
-	                                    
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="property_RESOURCE_FAILED_TO_LOAD" class="property item deprecated">
-	                                        <h3>
-	                                            RESOURCE_FAILED_TO_LOAD
-	                                    
-	                                            <span class="label type">String</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="since 1.4">deprecated</span>
-	                                    
-	                                    
-	                                                <span class="label label-default final">final</span>
-	                                    
-	                                                <span class="label label-default static">static</span>
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_constants.js.html#l179"><code>sdk\src\constants.js:179</code></a>
-	                                            </p>
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: since 1.4</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>The RESOURCE_FAILED_TO_LOAD event will be fired by the container when
-	                                    it fails to load a script or style.</p>
 	                                    
 	                                        </div>
 	                                    
@@ -562,11 +503,7 @@
         </div>
         <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
           <li><a href="http://docs.openf2.org">Docs</a></li>
-          <li><a href="//www.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
-          <li><a href="http://blog.openf2.org">Blog</a></li>
-          <li><a href="//www.openf2.org/developers">Developers</a></li>
           <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
-          <li><a href="https://twitter.com/OpenF2">@OpenF2</a></li>
         </ul>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
@@ -574,19 +511,16 @@
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.5</span><br/>Released&nbsp;<span></span>
+                <p>Current Version&nbsp;<span>2.0.0</span><br/>Released&nbsp;<span></span>
                 </p></a></div>
           </li>
-          <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
-          <li><a href="//www.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
-          <li><a href="https://twitter.com/OpenF2" title="@OpenF2" class="hexagon"><i class="fa fa-twitter fa-2x"></i></a></li>
         </ul>
       </div>
     </div>
     <div class="row deepFooter">
       <div class="col-xs-12 hidden-md hidden-lg">
         <p>Enabling smarter financial applications</p>
-        <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+        <p>F2 is maintained by <a href="https://www.markitdigital.com/">IHS Markit Digital</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
       </div>
     </div>
   </div>
@@ -595,7 +529,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 <script src="../assets/js/yuidoc-bootstrap.js"></script>
-<!-- <script src="js/docs.js" type="text/javascript"></script> 
+<!-- <script src="js/docs.js" type="text/javascript"></script>
 <script type="text/javascript">new F2Docs().initialize();</script>-->
 <script>
   window.prettyPrint && prettyPrint();

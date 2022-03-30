@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>F2 - Open Financial Framework</title>
+<title>API Reference - F2: Open Financial Framework</title>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 <meta name="description" content="F2 is an open and free web integration framework designed to help you and other financial industry participants develop custom solutions that combine the best tools and content from multiple providers into one, privately-labeled, seamlessly integrated front-end."/>
 <meta name="viewport" content="width=device-width initial-scale=1.0"/>
-<link rel="stylesheet" href="//www.openf2.org/css/site.css"/>
+<link rel="stylesheet" href="/css/site.css?v=2.0.0"/>
 <link rel="stylesheet" href="../assets/css/custom.css">
 <link rel="stylesheet" href="../assets/css/prettify.css">
-<link rel="shortcut icon" href="//www.openf2.org/img/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="/img/favicon.ico?v=2.0.0" type="image/x-icon"/>
 <meta name="apple-mobile-web-app-title" content="F2"/>
-<link rel="apple-touch-icon" href="//www.openf2.org/img/apple-touch-icon.png"/>
-<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-57x57.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-72x72.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-114x114.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-144x144.png"/>
-<link rel="apple-touch-icon" sizes="57x57" href="//www.openf2.org/img/apple-touch-icon-60x60.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="//www.openf2.org/img/apple-touch-icon-120x120.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="//www.openf2.org/img/apple-touch-icon-76x76.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="//www.openf2.org/img/apple-touch-icon-152x152.png"/>
-<meta name="msapplication-square70x70logo" content="//www.openf2.org/img/smalltile.png"/>
-<meta name="msapplication-square150x150logo" content="//www.openf2.org/img/mediumtile.png"/>
-<meta name="msapplication-wide310x150logo" content="//www.openf2.org/img/widetile.png"/>
-<meta name="msapplication-square310x310logo" content="//www.openf2.org/img/largetile.png"/><!--[if lt IE 9]>
-<script src="//www.openf2.org/js/thirdparty/polyfills/es5.js"></script><![endif]-->
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="57x57" href="/img/apple-touch-icon-57x57.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="60x60" href="/img/apple-touch-icon-60x60.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon-76x76.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="120x120" href="/img/apple-touch-icon-120x120.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="144x144" href="/img/apple-touch-icon-144x144.png?v=2.0.0"/>
+<link rel="apple-touch-icon" sizes="152x152" href="/img/apple-touch-icon-152x152.png?v=2.0.0"/>
+<meta name="msapplication-square70x70logo" content="/img/smalltile.png?v=2.0.0"/>
+<meta name="msapplication-square150x150logo" content="/img/mediumtile.png?v=2.0.0"/>
+<meta name="msapplication-wide310x150logo" content="/img/widetile.png?v=2.0.0"/>
+<meta name="msapplication-square310x310logo" content="/img/largetile.png?v=2.0.0"/><!--[if lt IE 9]>
+<script src="/js/thirdparty/polyfills/es5.js?v=2.0.0"></script><![endif]-->
 <!--[if lt IE 9]>
-<script src="//www.openf2.org/js/thirdparty/respond.min.js"></script><![endif]-->
+<script src="/js/thirdparty/respond.min.js?v=2.0.0"></script><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <style>
   .pageContent {
@@ -51,7 +51,7 @@
    _gaq.push(['_setAccount', 'UA-35230380-1']);
    _gaq.push(['_setDomainName', 'openf2.org']);
    _gaq.push(['_trackPageview']);
-   
+
    (function() {
    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -67,15 +67,8 @@
       <button type="button" data-toggle="collapse" data-target="#f2navbarcollapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" title="Home" class="navbar-brand">F2</a>
     </div>
     <div id="f2navbarcollapse" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="//www.openf2.org/">About</a>
-        </li>
-        <li><a href="//www.openf2.org/examples">Examples</a>
-        </li>
-        <li><a href="//www.openf2.org/developers" class="active">Developers</a>
-        </li>
-        <li><a href="//blog.openf2.org">Blog</a>
-        </li>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="examples.html">Examples</a></li>
         <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
       </ul>
     </div>
@@ -86,23 +79,23 @@
     <div class="row">
       <div class="col-sm-12">
         <ol class="breadcrumb">
-          <li class="hidden-xs"><a href="http://www.openf2.org">Home</a></li>
-          <li><a href="http://www.openf2.org/developers">Developers</a></li>
+          <li class="hidden-xs"><a href="/">Home</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v1.4.5</span>&nbsp;<span class="caret"></span></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" href="#">Docs<span class="hidden-xs">&nbsp;v2.0.0</span>&nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="../../index.html">Getting Started</a></li>
               <li><a href="../../container-development.html">Container Development</a></li>
               <li><a href="../../app-development.html">App Development</a></li>
-              <li><a href="../../extending-f2.html">Extend F2</a></li>
+              <li><a href="../../extending-f2.html">Extending F2</a></li>
+              <li><a href="../../migrating-to-v2.html">Migrating to V2</a></li>
               <li class="active"><a href="../">F2.js API Reference</a></li>
               <li class="divider"></li>
-              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+F2" id="feedbackLink" target="_blank">Submit Feedback</a></li>
+              <li><a href="https://github.com/OpenF2/F2/issues/new?title=Feedback+for:+API Reference" id="feedbackLink" target="_blank">Submit Feedback</a></li>
               <li class="divider"></li>
               <li><a href="https://github.com/OpenF2/F2/releases" target="_blank">Other versions</a></li>
             </ul>
           </li>
-          <li class="active">F2</li>
+          <li class="active">API Reference</li>
         </ol>
       </div>
     </div>
@@ -122,15 +115,8 @@
                   <li class=""><a href="../classes/F2.Constants.AppHandlers.html">F2.Constants.AppHandlers</a></li>
                   <li class=""><a href="../classes/F2.Constants.Css.html">F2.Constants.Css</a></li>
                   <li class=""><a href="../classes/F2.Constants.Events.html">F2.Constants.Events</a></li>
-                  <li class=""><a href="../classes/F2.Constants.Views.html">F2.Constants.Views</a></li>
                   <li class=""><a href="../classes/F2.ContainerConfig.html">F2.ContainerConfig</a></li>
-                  <li class="hidden"><a href="../classes/F2.ContainerConfig.UI.html">F2.ContainerConfig.UI</a></li>
-                  <li class=""><a href="../classes/F2.ContainerConfig.UI.Mask.html">F2.ContainerConfig.UI.Mask</a></li>
                   <li class=""><a href="../classes/F2.Events.html">F2.Events</a></li>
-                  <li class=""><a href="../classes/F2.Rpc.html">F2.Rpc</a></li>
-                  <li class=""><a href="../classes/F2.UI.html">F2.UI</a></li>
-                  <li class=""><a href="../classes/F2.UI.Modals.html">F2.UI.Modals</a></li>
-                  <li class=""><a href="../classes/F2.UI.Views.html">F2.UI.Views</a></li>
             </ul>
           </div>
           <p class="back-to-top"><a href="#top"><i class="fa fa-arrow-circle-up"></i> Back to top</a></p>
@@ -140,8 +126,7 @@
             <li><a href="../../container-development.html">Container Development</a></li>
             <li><a href="../../app-development.html">App Development</a></li>
             <li><a href="../../extending-f2.html">Extending F2</a></li>
-            <li class="hidden"><a href="../../f2js-sdk.html">F2.js</a></li>
-            <li class="hidden"><a href="../../about-f2.html">About F2</a></li>
+            <li><a href="../../migrating-to-v2.html">Migrating to V2</a></li>
             <li class="active"><a href="../">API Reference</a></li>
           </ul>
         </div>
@@ -150,9 +135,9 @@
       	<div class="apidocs">
 	      	<div id="docs-main">
 	        	<div class="content">
-	        		<form id="options-form" class="form-inline pull-right">
-	        		    Show:
-	        		    <!--<div class="checkbox">
+	        		<form id='options-form' class='form-inline pull-right'>
+	        			Show:
+	        			<!--<div class="checkbox">
 	        		        <label>
 	        		            <input type="checkbox" id="api-show-inherited" checked>
 	        		            Inherited
@@ -164,18 +149,18 @@
 	        		            Protected
 	        		        </label>
 	        		    </div>-->
-	        		    <div class="checkbox">
-	        		        <label>
-	        		            <input type="checkbox" id="api-show-private">
-	        		            Private
-	        		        </label>
-	        		    </div>
-	        		    <div class="checkbox">
-	        		        <label>
-	        		            <input type="checkbox" id="api-show-deprecated">
-	        		            Deprecated
-	        		        </label>
-	        		    </div>
+	        			<div class='checkbox'>
+	        				<label>
+	        					<input type='checkbox' id='api-show-private' />
+	        					Private
+	        				</label>
+	        			</div>
+	        			<div class='checkbox'>
+	        				<label>
+	        					<input type='checkbox' id='api-show-deprecated' />
+	        					Deprecated
+	        				</label>
+	        			</div>
 	        		</form>	                <h1 class="page-header">F2 <small>Class</small></h1>
 	                
 	                <div class="classDescription">
@@ -187,7 +172,7 @@
 	                
 	                
 	                        <div class="foundat">
-	                            Defined in: <a href="../files/sdk_src_container.js.html#l1"><code>sdk\src\container.js:1</code></a>
+	                            Defined in: <a href="../files/src_container.js.html#l659"><code>src\container.js:659</code></a>
 	                        </div>
 	                
 	                </div>
@@ -215,87 +200,6 @@
 	                                            </tr>
 	                                        </thead>
 	                                        <tbody>
-	                                            <tr class="index-item method private">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__absolutizeURI" data-tablink="_absolutizeURI">
-	                                                        _absolutizeURI
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        base
-	                                                                </li>
-	                                                                <li>
-	                                                                        href
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Abosolutizes a relative URL</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method private deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__afterAppRender" data-tablink="_afterAppRender">
-	                                                        _afterAppRender
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                                <li>
-	                                                                        html
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Appends the app's html to the DOM</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method private deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__appRender" data-tablink="_appRender">
-	                                                        _appRender
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                                <li>
-	                                                                        html
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Renders the html for an app.</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method private deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__beforeAppRender" data-tablink="_beforeAppRender">
-	                                                        _beforeAppRender
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Rendering hook to allow containers to render some html prior to an app
-	                loading</p>
-	                </td>
-	                                            </tr>
 	                                            <tr class="index-item method private">
 	                                                <td class="name">
 	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__createAppConfig" data-tablink="_createAppConfig">
@@ -383,18 +287,6 @@
 	                                            </tr>
 	                                            <tr class="index-item method private">
 	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__initAppEvents" data-tablink="_initAppEvents">
-	                                                        _initAppEvents
-	                                                        <span class="paren">(</span>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Attach app events</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method private">
-	                                                <td class="name">
 	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__initContainerEvents" data-tablink="_initContainerEvents">
 	                                                        _initContainerEvents
 	                                                        <span class="paren">(</span>
@@ -432,44 +324,6 @@
 	                                                        <span class="label label-info private">private</span>
 	                                                </td>
 	                                                <td><p>Checks if an element is a placeholder element</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method private deprecated">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__onScriptLoadFailure" data-tablink="_onScriptLoadFailure">
-	                                                        _onScriptLoadFailure
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                                <li>
-	                                                                        scriptInfo
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-warning deprecated">deprecated</span>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Handler to inform the container that a script failed to load</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method private">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method__parseURI" data-tablink="_parseURI">
-	                                                        _parseURI
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        url
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Parses URI</p>
 	                </td>
 	                                            </tr>
 	                                            <tr class="index-item method private">
@@ -618,8 +472,8 @@
 	                                            </tr>
 	                                            <tr class="index-item method">
 	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_isLocalRequest" data-tablink="isLocalRequest">
-	                                                        isLocalRequest
+	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_isLocal" data-tablink="isLocal">
+	                                                        isLocal
 	                                                        <span class="paren">(</span>
 	                                                            <ul class="params commas">
 	                                                                <li>
@@ -634,8 +488,8 @@
 	                                            </tr>
 	                                            <tr class="index-item method">
 	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_isNativeDOMNode" data-tablink="isNativeDOMNode">
-	                                                        isNativeDOMNode
+	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_isNativeNode" data-tablink="isNativeNode">
+	                                                        isNativeNode
 	                                                        <span class="paren">(</span>
 	                                                            <ul class="params commas">
 	                                                                <li>
@@ -684,26 +538,6 @@
 	                                                <td><p>Automatically load apps that are already defined in the DOM. Elements will
 	                be rendered into the location of the placeholder DOM element. Any AppHandlers
 	                that are defined will be bypassed.</p>
-	                </td>
-	                                            </tr>
-	                                            <tr class="index-item method private">
-	                                                <td class="name">
-	                                                    <a href="#" data-tabid="#methods" data-anchor="#method_loadSecureApp" data-tablink="loadSecureApp">
-	                                                        loadSecureApp
-	                                                        <span class="paren">(</span>
-	                                                            <ul class="params commas">
-	                                                                <li>
-	                                                                        appConfig
-	                                                                </li>
-	                                                                <li>
-	                                                                        appManifest
-	                                                                </li>
-	                                                            </ul>
-	                                                        <span class="paren">)</span>
-	                                                    </a>
-	                                                        <span class="label label-info private">private</span>
-	                                                </td>
-	                                                <td><p>Loads the app's html/css/javascript into an iframe</p>
 	                </td>
 	                                            </tr>
 	                                            <tr class="index-item method">
@@ -866,302 +700,6 @@
 	                            <div id="methods" class="tab-pane">
 	                                <h2 class="off-left">Methods</h2>
 	                
-	                                    <div id="method__absolutizeURI" class="method item private">
-	                                        <h3>
-	                                            _absolutizeURI
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            base
-	                                                    </li>
-	                                                    <li>
-	                                                            href
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l39"><code>sdk\src\F2.js:39</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Abosolutizes a relative URL</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">base</code>
-	                                                            <span class="type">e.g., location.href</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                             
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                    <li class="param">
-	                                                            <code class="param-name">href</code>
-	                                                            <span class="type">URL to absolutize</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                             
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                            <div class="returns">
-	                                                <h4>Returns:</h4>
-	                                    
-	                                                <div class="returns-description">
-	                                                            <span class="label label-default type">String</span>:
-	                                                        <p>URL
-	                                    Source: <a href="https://gist.github.com/Yaffle/1088850">https://gist.github.com/Yaffle/1088850</a>
-	                                    Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_tests.html</a></p>
-	                                    
-	                                                </div>
-	                                            </div>
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="method__afterAppRender" class="method item private deprecated">
-	                                        <h3>
-	                                            _afterAppRender
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                    <li>
-	                                                            html
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l14"><code>sdk\src\container.js:14</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Appends the app's html to the DOM</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                    <li class="param">
-	                                                            <code class="param-name">html</code>
-	                                                            <span class="type">String</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The string of html</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                            <div class="returns">
-	                                                <h4>Returns:</h4>
-	                                    
-	                                                <div class="returns-description">
-	                                                            <span class="label label-default type">Element</span>:
-	                                                        <p>The DOM Element that contains the app</p>
-	                                    
-	                                                </div>
-	                                            </div>
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="method__appRender" class="method item private deprecated">
-	                                        <h3>
-	                                            _appRender
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                    <li>
-	                                                            html
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l41"><code>sdk\src\container.js:41</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Renders the html for an app.</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                    <li class="param">
-	                                                            <code class="param-name">html</code>
-	                                                            <span class="type">String</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The string of html</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="method__beforeAppRender" class="method item private deprecated">
-	                                        <h3>
-	                                            _beforeAppRender
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l62"><code>sdk\src\container.js:62</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Rendering hook to allow containers to render some html prior to an app
-	                                    loading</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                            <div class="returns">
-	                                                <h4>Returns:</h4>
-	                                    
-	                                                <div class="returns-description">
-	                                                            <span class="label label-default type">Element</span>:
-	                                                        <p>The DOM Element surrounding the app</p>
-	                                    
-	                                                </div>
-	                                            </div>
-	                                    
-	                                        <hr>
-	                                    </div>
 	                                    <div id="method__createAppConfig" class="method item private">
 	                                        <h3>
 	                                            _createAppConfig
@@ -1184,7 +722,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l90"><code>sdk\src\container.js:90</code></a>
+	                                            <a href="../files/src_container.js.html#l38"><code>src\container.js:38</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1249,7 +787,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l277"><code>sdk\src\container.js:277</code></a>
+	                                            <a href="../files/src_container.js.html#l196"><code>src\container.js:196</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1304,7 +842,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l120"><code>sdk\src\container.js:120</code></a>
+	                                            <a href="../files/src_container.js.html#l61"><code>src\container.js:61</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1368,7 +906,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l160"><code>sdk\src\container.js:160</code></a>
+	                                            <a href="../files/src_container.js.html#l102"><code>src\container.js:102</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1432,7 +970,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l182"><code>sdk\src\container.js:182</code></a>
+	                                            <a href="../files/src_container.js.html#l124"><code>src\container.js:124</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1465,39 +1003,6 @@
 	                                    
 	                                        <hr>
 	                                    </div>
-	                                    <div id="method__initAppEvents" class="method item private">
-	                                        <h3>
-	                                            _initAppEvents
-	                                            <span class="paren">(</span>
-	                                            <span class="paren">)</span>
-	                                    
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l203"><code>sdk\src\container.js:203</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Attach app events</p>
-	                                    
-	                                        </div>
-	                                    
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
 	                                    <div id="method__initContainerEvents" class="method item private">
 	                                        <h3>
 	                                            _initContainerEvents
@@ -1515,7 +1020,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l226"><code>sdk\src\container.js:226</code></a>
+	                                            <a href="../files/src_container.js.html#l145"><code>src\container.js:145</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1548,7 +1053,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l267"><code>sdk\src\container.js:267</code></a>
+	                                            <a href="../files/src_container.js.html#l186"><code>src\container.js:186</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1595,7 +1100,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l251"><code>sdk\src\container.js:251</code></a>
+	                                            <a href="../files/src_container.js.html#l170"><code>src\container.js:170</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1637,143 +1142,6 @@
 	                                    
 	                                        <hr>
 	                                    </div>
-	                                    <div id="method__onScriptLoadFailure" class="method item private deprecated">
-	                                        <h3>
-	                                            _onScriptLoadFailure
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                    <li>
-	                                                            scriptInfo
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                                <span class="label label-warning deprecated" title="This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0">deprecated</span>
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l76"><code>sdk\src\container.js:76</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                                <p><span class="label label-warning">Deprecated</span>: This has been replaced with {{#crossLink &quot;F2.AppHandlers&quot;}}{{/crossLink}} and will be removed in v2.0</p>
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Handler to inform the container that a script failed to load</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                    <li class="param">
-	                                                            <code class="param-name">scriptInfo</code>
-	                                                            <span class="type">Object</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The path of the script that failed to load or the exception info
-	                                    for the inline script that failed to execute</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
-	                                    <div id="method__parseURI" class="method item private">
-	                                        <h3>
-	                                            _parseURI
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            url
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l76"><code>sdk\src\F2.js:76</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Parses URI</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">url</code>
-	                                                            <span class="type">The URL to parse</span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                             
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                            <div class="returns">
-	                                                <h4>Returns:</h4>
-	                                    
-	                                                <div class="returns-description">
-	                                                            <span class="label label-default type">Parsed URL</span>:
-	                                                        <p>string
-	                                    Source: <a href="https://gist.github.com/Yaffle/1088850">https://gist.github.com/Yaffle/1088850</a>
-	                                    Tests: <a href="http://skew.org/uri/uri_tests.html">http://skew.org/uri/uri_tests.html</a></p>
-	                                    
-	                                                </div>
-	                                            </div>
-	                                    
-	                                        <hr>
-	                                    </div>
 	                                    <div id="method__validateApp" class="method item private">
 	                                        <h3>
 	                                            _validateApp
@@ -1796,7 +1164,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l711"><code>sdk\src\container.js:711</code></a>
+	                                            <a href="../files/src_container.js.html#l610"><code>src\container.js:610</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1855,7 +1223,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l733"><code>sdk\src\container.js:733</code></a>
+	                                            <a href="../files/src_container.js.html#l630"><code>src\container.js:630</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1896,7 +1264,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l102"><code>sdk\src\F2.js:102</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l4"><code>src\utils\index.js:4</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -1940,7 +1308,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l150"><code>sdk\src\F2.js:150</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l16"><code>src\utils\index.js:16</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2022,7 +1390,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l779"><code>sdk\src\container.js:779</code></a>
+	                                            <a href="../files/src_container.js.html#l686"><code>src\container.js:686</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2063,7 +1431,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l762"><code>sdk\src\container.js:762</code></a>
+	                                            <a href="../files/src_container.js.html#l665"><code>src\container.js:665</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2104,7 +1472,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l190"><code>sdk\src\F2.js:190</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l56"><code>src\utils\index.js:56</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2153,7 +1521,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l202"><code>sdk\src\F2.js:202</code></a>
+	                                            <a href="../files/src_container.js.html#l17"><code>src\container.js:17</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2198,8 +1566,8 @@
 	                                                <h4>Returns:</h4>
 	                                    
 	                                                <div class="returns-description">
-	                                                            <span class="label label-default type">Bool</span>:
-	                                                        <p>True if the item is in the array</p>
+	                                                            <span class="label label-default type">Int</span>:
+	                                                        <p>index of the value in the array, -1 if value not found</p>
 	                                    
 	                                                </div>
 	                                            </div>
@@ -2227,7 +1595,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l792"><code>sdk\src\container.js:792</code></a>
+	                                            <a href="../files/src_container.js.html#l699"><code>src\container.js:699</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2277,7 +1645,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l820"><code>sdk\src\container.js:820</code></a>
+	                                            <a href="../files/src_container.js.html#l715"><code>src\container.js:715</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2302,9 +1670,9 @@
 	                                    
 	                                        <hr>
 	                                    </div>
-	                                    <div id="method_isLocalRequest" class="method item">
+	                                    <div id="method_isLocal" class="method item">
 	                                        <h3>
-	                                            isLocalRequest
+	                                            isLocal
 	                                            <span class="paren">(</span>
 	                                                <ul class="params commas">
 	                                                    <li>
@@ -2323,7 +1691,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l212"><code>sdk\src\F2.js:212</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l81"><code>src\utils\index.js:81</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2357,17 +1725,16 @@
 	                                    
 	                                                <div class="returns-description">
 	                                                            <span class="label label-default type">Bool</span>:
-	                                                        <p>Whether the URL is local or not
-	                                    Derived from: <a href="https://github.com/jquery/jquery/blob/master/src/ajax.js">https://github.com/jquery/jquery/blob/master/src/ajax.js</a></p>
+	                                                        <p>Whether the URL is local or not</p>
 	                                    
 	                                                </div>
 	                                            </div>
 	                                    
 	                                        <hr>
 	                                    </div>
-	                                    <div id="method_isNativeDOMNode" class="method item">
+	                                    <div id="method_isNativeNode" class="method item">
 	                                        <h3>
-	                                            isNativeDOMNode
+	                                            isNativeNode
 	                                            <span class="paren">(</span>
 	                                                <ul class="params commas">
 	                                                    <li>
@@ -2386,7 +1753,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l256"><code>sdk\src\F2.js:256</code></a>
+	                                            <a href="../files/src_utils_dom.js.html#l1"><code>src\utils\dom.js:1</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2453,7 +1820,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l306"><code>sdk\src\container.js:306</code></a>
+	                                            <a href="../files/src_container.js.html#l236"><code>src\container.js:236</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2520,7 +1887,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l826"><code>sdk\src\container.js:826</code></a>
+	                                            <a href="../files/src_container.js.html#l721"><code>src\container.js:721</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2555,76 +1922,6 @@
 	                                    
 	                                        <hr>
 	                                    </div>
-	                                    <div id="method_loadSecureApp" class="method item private">
-	                                        <h3>
-	                                            loadSecureApp
-	                                            <span class="paren">(</span>
-	                                                <ul class="params commas">
-	                                                    <li>
-	                                                            appConfig
-	                                                    </li>
-	                                                    <li>
-	                                                            appManifest
-	                                                    </li>
-	                                                </ul>
-	                                            <span class="paren">)</span>
-	                                    
-	                                    
-	                                                <span class="label label-info private">private</span>
-	                                    
-	                                    
-	                                    
-	                                    
-	                                        </h3>
-	                                    
-	                                        <div class="meta">
-	                                                    <p>
-	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l645"><code>sdk\src\container.js:645</code></a>
-	                                            </p>
-	                                    
-	                                    
-	                                    
-	                                        </div>
-	                                    
-	                                        <div class="description">
-	                                            <p>Loads the app's html/css/javascript into an iframe</p>
-	                                    
-	                                        </div>
-	                                    
-	                                            <div class="params">
-	                                                <h4>Parameters:</h4>
-	                                    
-	                                                <ul class="params-list">
-	                                                    <li class="param">
-	                                                            <code class="param-name">appConfig</code>
-	                                                            <span class="type"><a href="../classes/F2.AppConfig.html" class="crosslink">F2.AppConfig</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The F2.AppConfig object</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                    <li class="param">
-	                                                            <code class="param-name">appManifest</code>
-	                                                            <span class="type"><a href="../classes/F2.AppManifest.html" class="crosslink">F2.AppManifest</a></span>
-	                                    
-	                                    
-	                                                        <div class="param-description">
-	                                                            <p>The app's html/css/js to be loaded into the
-	                                    page.</p>
-	                                    
-	                                                        </div>
-	                                    
-	                                                    </li>
-	                                                </ul>
-	                                            </div>
-	                                    
-	                                    
-	                                        <hr>
-	                                    </div>
 	                                    <div id="method_log" class="method item">
 	                                        <h3>
 	                                            log
@@ -2649,7 +1946,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l275"><code>sdk\src\F2.js:275</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l88"><code>src\utils\index.js:88</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2697,12 +1994,12 @@
 	                                                <h4>Example:</h4>
 	                                    
 	                                                <div class="example-content">
-	                                                    <pre class="code prettyprint"><code>        //Pass any object (string, int, array, object, bool) to .log()
-	                                            F2.log('foo');
-	                                            F2.log(myArray);
-	                                            //Use a console method name as the first argument. 
-	                                            F2.log('error', err);
-	                                            F2.log('info', 'The session ID is ' + sessionId);
+	                                                    <pre class="code prettyprint"><code>    //Pass any object (string, int, array, object, bool) to .log()
+	                                        F2.log('foo');
+	                                        F2.log(myArray);
+	                                        //Use a console method name as the first argument.
+	                                        F2.log('error', err);
+	                                        F2.log('info', 'The session ID is ' + sessionId);
 	                                    </code></pre>
 	                                    <p>Some code derived from <a href="https://github.com/h5bp/html5-boilerplate/blob/master/js/plugins.js">HTML5 Boilerplate console plugin</a></p>
 	                                    
@@ -2731,7 +2028,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l331"><code>sdk\src\F2.js:331</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l166"><code>src\utils\index.js:166</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2797,7 +2094,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l876"><code>sdk\src\container.js:876</code></a>
+	                                            <a href="../files/src_container.js.html#l774"><code>src\container.js:774</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2956,7 +2253,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l1208"><code>sdk\src\container.js:1208</code></a>
+	                                            <a href="../files/src_container.js.html#l1136"><code>src\container.js:1136</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -2993,7 +2290,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_container.js.html#l1223"><code>sdk\src\container.js:1223</code></a>
+	                                            <a href="../files/src_container.js.html#l1154"><code>src\container.js:1154</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -3053,7 +2350,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l340"><code>sdk\src\F2.js:340</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l175"><code>src\utils\index.js:175</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -3142,7 +2439,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l361"><code>sdk\src\F2.js:361</code></a>
+	                                            <a href="../files/src_utils_index.js.html#l196"><code>src\utils\index.js:196</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -3186,7 +2483,7 @@
 	                                        <div class="meta">
 	                                                    <p>
 	                                                    Defined in
-	                                            <a href="../files/sdk_src_F2.js.html#l114"><code>sdk\src\F2.js:114</code></a>
+	                                            <a href="../files/src_apps.js.html#l1"><code>src\apps.js:1</code></a>
 	                                            </p>
 	                                    
 	                                    
@@ -3212,7 +2509,7 @@
 	                                        var App_Class = function(appConfig, appContent, root) {
 	                                            this._app = appConfig; // the F2.AppConfig object
 	                                            this._appContent = appContent // the F2.AppManifest.AppContent object
-	                                            this.$root = $(root); // the root DOM Element that contains this app
+	                                            this.$root = root; // the root DOM Element that contains this app
 	                                        }
 	                                    
 	                                        App_Class.prototype.init = function() {
@@ -3259,11 +2556,7 @@
         </div>
         <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
           <li><a href="http://docs.openf2.org">Docs</a></li>
-          <li><a href="//www.openf2.org/book">F2 Overview&nbsp;<i class="fa fa-file-pdf-o"></i></a></li>
-          <li><a href="http://blog.openf2.org">Blog</a></li>
-          <li><a href="//www.openf2.org/developers">Developers</a></li>
           <li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
-          <li><a href="https://twitter.com/OpenF2">@OpenF2</a></li>
         </ul>
       </div>
       <div class="col-sm-12 col-md-8 col-lg-6 hidden-xs">
@@ -3271,19 +2564,16 @@
           <li class="version"><a href="https://github.com/OpenF2/F2" title="F2 on GitHub" class="hexagon"><i class="fa fa-github fa-2x"></i></a>
             <div class="hidden-xs hidden-sm"><a href="https://github.com/OpenF2/F2">
                 <h5>View on GitHub</h5>
-                <p>Current Version&nbsp;<span>1.4.5</span><br/>Released&nbsp;<span></span>
+                <p>Current Version&nbsp;<span>2.0.0</span><br/>Released&nbsp;<span></span>
                 </p></a></div>
           </li>
-          <li><a href="http://blog.openf2.org" title="F2 Blog" class="hexagon"><i class="fa fa-bullhorn fa-2x"></i></a></li>
-          <li><a href="//www.openf2.org/book" title="Download the &quot;F2 Overview&quot; PDF" class="hexagon"><i class="fa fa-book fa-2x"></i></a></li>
-          <li><a href="https://twitter.com/OpenF2" title="@OpenF2" class="hexagon"><i class="fa fa-twitter fa-2x"></i></a></li>
         </ul>
       </div>
     </div>
     <div class="row deepFooter">
       <div class="col-xs-12 hidden-md hidden-lg">
         <p>Enabling smarter financial applications</p>
-        <p>F2 is governed by its Advisory Board, and maintained by <a href="http://www.markit.com/product/markit-on-demand">Markit On Demand</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
+        <p>F2 is maintained by <a href="https://www.markitdigital.com/">IHS Markit Digital</a> on GitHub. F2 is licensed under the Apache 2.0 License.</p>
       </div>
     </div>
   </div>
@@ -3292,7 +2582,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 <script src="../assets/js/yuidoc-bootstrap.js"></script>
-<!-- <script src="js/docs.js" type="text/javascript"></script> 
+<!-- <script src="js/docs.js" type="text/javascript"></script>
 <script type="text/javascript">new F2Docs().initialize();</script>-->
 <script>
   window.prettyPrint && prettyPrint();

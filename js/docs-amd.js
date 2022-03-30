@@ -1,106 +1,141 @@
-define(['jquery','F2','reqPath','staticPrefix','highlightjs'],function($,F2,reqPath,staticPrefix,hljs){
-
+define(['jquery', 'moment'], function ($, moment) {
 	/**
 	 * This code is only for the F2 documentation site. Don't use it anywhere else, you really shouldn't.
-	 * (c) Markit On Demand 2014
+	 * (c) IHS Markit Digital 2021
 	 */
 
 	//F2 docs
-	var F2Docs = function(){ }
-
-	//shortcut
-	F2Docs.fn = F2Docs.prototype;
+	var F2Docs = function () {};
 
 	/**
 	 * Init
 	 */
-	F2Docs.fn.initialize = function() {
+	F2Docs.prototype.initialize = function () {
+		this.generateToc();
 
-		this.buildLeftRailToc();
-		// this.buildBookmarks();
-		
-		//affix left nav
-		$('#toc > ul.nav').affix({
-			offset: {
-    			top: 214
-    		}
+		//scroll spy
+		$('body').scrollspy({
+			// offset: 100,
+			target: '#toc .spy-container'
 		});
 
-		//add source & feedback links
-		$('#feedbackLink').attr('href', $('#feedbackLink').attr('href') + '+' + location.pathname.split('/').pop() );
-  		$('#viewSourceLink').attr('href', $('#viewSourceLink').attr('href') + location.pathname.split('/').pop().replace('.html','.md') );
-	}
+		//affix left nav
+		$('div.navs', '#toc').affix({
+			offset: {
+				top: 189,
+				bottom: function () {
+					return (this.bottom = $('footer').outerHeight(true) + 80);
+				}
+			}
+		});
+
+		//ensure rwd images
+		$('img', '#docs').addClass('img-responsive');
+
+		//remove active state when going back to the top
+		$(window).on('scroll', function (e) {
+			var $activeNav = $('li', 'ul.sidebar-toc').eq(1); //get 1st nav item (not 1st <li>, that's the nav header)
+			if (document.body.scrollTop < 1 && $activeNav.hasClass('active')) {
+				$activeNav.removeClass('active');
+			}
+		});
+	};
 
 	/**
-	 * Add bookmark links to each <h1/2/3/4/5/6>
+	 * Build table of contents navigation
 	 */
-	F2Docs.fn.buildBookmarks = function(){
+	F2Docs.prototype.generateToc = function () {
 		var $docsContainer = $('#docs'),
-			$headers = $('section', $docsContainer).not('.level1,.level2'),
-			link = "<a href='#{id}' title='Permalink' name='{id}' class='docs-anchor'><span class='fa fa-bookmark-o'></span></a>";
-
-		$headers.each($.proxy(function(idx,item){
-			var $h = $(item).children().first(),
-				//name = $h.text(),
-				anchor = $(item).prop("id"),
-				$link = $(link.supplant({id: anchor}));
-				//animate click
-				$link.on('click',$.proxy(function(e){
-					this._animateAnchor(e,false);
-				},this));
-			$h.append('&nbsp;').append($link);
-		},this));
-	}
-
-	/**
-	 * Build left rail TOC
-	 */
-	F2Docs.fn.buildLeftRailToc = function(){
-
-		var $docsContainer 	= $('#docs'),
-			file 			= location.pathname.split('/').pop(),
-			$sections 		= $('section.level2', $docsContainer),
-			$listContainer 	= $('ul.nav-stacked','#toc');
+			file = location.pathname.split('/').pop(),
+			$sections = $('h2', $docsContainer),
+			$listContainer = $('ul.nav-stacked', '#toc').eq(0);
 
 		//build table of contents based on sections within generated markdown file
 		if (!$sections.length) return;
 
 		//loop over all sections, build nav based on <h2>'s inside the <section.level2>
-		$sections.each($.proxy(function(idx,item){
+		$sections.each(
+			$.proxy(function (idx, item) {
+				var $item = $(item),
+					sectionTitle = $item.text(),
+					//trim "#" from title
+					sectionTitle = sectionTitle.replace('#', ''),
+					sectionId = $item.prop('id'),
+					isActive =
+						sectionId == String(location.hash.replace('#', ''))
+							? " class='active'"
+							: '',
+					$li,
+					$level3Sections = $item.nextUntil('h2', 'h3'); //find all <h3> els until next section (<h2>)
 
-			var $item = $(item),
-				sectionTitle = $item.children().first().text(),
-				sectionId = $item.prop("id"),
-				isActive = (sectionId == String(location.hash.replace("#",""))) ? " class='active'" : "",
-				$li,
-				// $level3Sections = $item.children('section.level3');
+				//only headings with ID attrs should get corresponding left nav
+				if ($item.prop('id').length < 1) {
+					return true;
+				}
 
-			//nav (level2)
-			$li = $("<li"+isActive+"><a href='#"+sectionId+"'>"+sectionTitle+"</a></li>");
+				//nav (level2)
+				$li = $(
+					"<li><a class='nav-toggle' href='#" +
+						sectionId +
+						"'" +
+						isActive +
+						'>' +
+						sectionTitle +
+						'</a></li>'
+				);
 
-			// //sub nav (level3)
-			// if ($level3Sections.length){
-			// 	var $childUl = $('<ul class="nav nav-stacked" style="display:none;"/>');
-			// 	$level3Sections.each(function(jdx,ele){
-			// 		var $ele = $(ele);
-			// 		sectionId = $ele.prop("id");
-			// 		sectionTitle = $ele.children().first().text();
-			// 		$childUl.append( $("<li><a href='#"+sectionId+"'>{label}</a></li>") );
-			// 	});
-			// 	$li.append($childUl);
-			// }
+				//sub nav (level3)
+				if ($level3Sections.length) {
+					var $childUl = $(
+						'<ul class="nav nav-stacked" style="display:none;"/>'
+					);
+					$level3Sections.each(function (jdx, ele) {
+						var $ele = $(ele);
+						sectionId = $ele.prop('id');
+						sectionTitle = $ele.text();
+						//trim "#" from title
+						sectionTitle = sectionTitle.replace('#', '');
+						isActive =
+							sectionId == String(location.hash.replace('#', ''))
+								? " class='active'"
+								: '';
+						$childUl.append(
+							$(
+								"<li><a href='#" +
+									sectionId +
+									"'" +
+									isActive +
+									'>' +
+									sectionTitle +
+									'</a></li>'
+							)
+						);
+					});
+					$li.append($childUl);
+				}
 
-			$listContainer.append($li);
-		},this));
+				$listContainer.append($li);
+			}, this)
+		);
 
-		//append links
-		$('#toc').html($listContainer);
-
-		//add click event
-		// $("a",$listContainer).on("click",$.proxy(function(e){
-		// 	$(e.currentTarget).next('ul').slideToggle();
-		// },this));
-	}
+		//watch to activate "active" nav item
+		$('li', '#toc ul.sidebar-toc').on('activate.bs.scrollspy', function () {
+			var $li = $(this),
+				$toggle = $li.find('a.nav-toggle');
+			if ($li.hasClass('active') && $toggle.length) {
+				//close others
+				$li
+					.parents('ul.nav-stacked')
+					.find('li')
+					.not($li)
+					.find('a.nav-toggle')
+					.next('ul')
+					.hide();
+				//open current
+				$toggle.next('ul').show();
+			}
+		});
+	};
 
 	return new F2Docs();
 });

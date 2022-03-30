@@ -1,95 +1,94 @@
 /** generic */
 .label {
-    font-weight: 400;
-    font-family: 'titilliumregular';
-    display: inline !important;
+	font-weight: 400;
+	font-family: 'titilliumregular';
+	display: inline !important;
 }
 
 ul.inline {
-    display: inline;
-    margin: 0;
-    padding: 0;
+	display: inline;
+	margin: 0;
+	padding: 0;
 }
 
 ul.inline li {
-    list-style: none;
-    display: inline;
+	list-style: none;
+	display: inline;
 }
-
 
 /** classes*/
 
 .classDescription p:first-child {
-    font-size: 21px;
-    margin-bottom: 20px;
-    font-weight: 200;
-    line-height: 1.4;
+	font-size: 21px;
+	margin-bottom: 20px;
+	font-weight: 200;
+	line-height: 1.4;
 }
 
 td.name {
-    font-weight: 400;
-    font-family: 'titilliumregular';
-    white-space: nowrap;
+	font-weight: 400;
+	font-family: 'titilliumregular';
+	white-space: nowrap;
 }
 
 ul.params {
-    display: inline;
-    margin: 0;
-    padding: 0;
+	display: inline;
+	margin: 0;
+	padding: 0;
 }
 
 ul.params li {
-    list-style: none;
-    display: inline;
-    /*make it look like code*/
-    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
-    padding: 1px 2px;
-    font-size: 90%;
-    color: #c7254e;
-    background-color: #f9f2f4;
-    border-radius: 4px;
+	list-style: none;
+	display: inline;
+	/*make it look like code*/
+	font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+	padding: 1px 2px;
+	font-size: 90%;
+	color: #c7254e;
+	background-color: #f9f2f4;
+	border-radius: 4px;
 }
 
 ul.commas li:after {
-    content: ',';
+	content: ',';
 }
 
 ul.commas li:last-child:after {
-    content: '';
+	content: '';
 }
 
 /** methods*/
 
 .method h3 {
-    font-weight: 400;
-    font-family: 'titilliumregular';
+	font-weight: 400;
+	font-family: 'titilliumregular';
 }
 
 h3 ul.params li {
-    font-size: 80%;
-    background-color: transparent;
-    color: inherit;
-    padding: 0;
+	font-size: 80%;
+	background-color: transparent;
+	color: inherit;
+	padding: 0;
 }
 
 .description p {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 .returns-description .type {
-    font-weight: 600;
-    font-family: 'titilliumregular';
+	font-weight: 600;
+	font-family: 'titilliumregular';
 }
 
 .returns-description p {
-    display: inline-block;
+	display: inline-block;
 }
 
 .method .meta {
-    font-size: 14px;
+	font-size: 14px;
 }
 
 /** properties */
 .property .meta {
-    font-size: 14px;
+	font-size: 14px;
 }
