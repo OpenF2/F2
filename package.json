@@ -1,7 +1,7 @@
 {
 	"name": "f2",
 	"description": "An open framework for the financial services industry.",
-	"version": "2.0.0-alpha",
+	"version": "2.0.0",
 	"main": "dist/f2",
 	"keywords": [
 		"openf2"
