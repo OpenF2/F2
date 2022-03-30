@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - "6"
-notifications:
-  slack: openf2:A3LmWCHuXdw8SYyWfAGyaWbK
-before_script:
-  - npm install grunt-cli
-script:
-  - grunt travis

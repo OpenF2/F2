@@ -3,11 +3,11 @@
 	$DEFAULT_PROVIDER = 'yahooBusinessNews';
 	$MAX_ARTICLES = 3;
 	$PROVIDERS = array(
-		'yahooBusinessNews' => array('display' => 'Yahoo Business', 'feed' => 'http://news.yahoo.com/rss/business')
+		'yahooBusinessNews' => array('display' => 'Yahoo Business', 'feed' => 'https://news.yahoo.com/rss/business')
 	);
 
 	$apps = $_REQUEST["params"];
-	$apps = get_magic_quotes_gpc() ? stripslashes($apps) : $apps;
+	$apps = stripslashes($apps);
 	$app = json_decode($apps);  
 	$app = $app[0]; // this App doesn't support batchedRequests
 
@@ -16,10 +16,16 @@
 		((!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] != "off") ? "https://" : "http://") .
 		$_SERVER["SERVER_NAME"] .
 		str_replace("marketnews.php", "", $_SERVER["SCRIPT_NAME"]);
-
-	// read in the news
-	$xml_source = file_get_contents($PROVIDERS[$provider]['feed']);
 	
+		$arrContextOptions=array(
+			"ssl"=>array(
+				"verify_peer"=>false,
+				"verify_peer_name"=>false,
+			),
+		);  
+		
+	// read in the news
+	$xml_source = file_get_contents($PROVIDERS[$provider]['feed'], false, stream_context_create($arrContextOptions));
 	$doc = simplexml_load_string($xml_source);
 
 	$newsItems = array();
@@ -69,22 +75,17 @@
 				'<ul class="list-unstyled">'
 		);
 
-		for ($i = 0; $i < $MAX_ARTICLES; $i++) {
+		for ($i = 0; $i < $MAX_ARTICLES && $i < count($newsItems); $i++) {
 			//format the date
-			$date = date_format(new DateTime($newsItems[$i]['date']), 'g:iA \o\n l M j, Y');
+			$date = date_format(new DateTime($newsItems[$i]['date']), 'g:iA \o\n l M j, Y');			//clean up the description, specific to Yahoo! business RSS (http://news.yahoo.com/rss/business)
+ 			$patterns = array();
+ 			$patterns[0] = '/\<a.*\\>/U'; ///remove the start of the first link '<a .... >' around the image
+ 			$patterns[1] = '/\<\/a\>/'; ///remove the closing link tag '</a>' around the image
+ 			$patterns[2] = '/\<br.*\/\>/U'; //find the break and remove it
+ 			$replacement = '';
+ 			$cleanDescription = preg_replace($patterns, $replacement, $newsItems[$i]['desc']);
 
-			//see if the article has an image (if no image skip that junk)
-			if (preg_match('/\<img/', $newsItems[$i]['desc'])) {
-
-			//clean up the description, specific to Yahoo! business RSS (http://news.yahoo.com/rss/business)
-			$patterns = array();
-			$patterns[0] = '/\<a.*\\>/U'; ///remove the start of the first link '<a .... >' around the image
-			$patterns[1] = '/\<\/a\>/'; ///remove the closing link tag '</a>' around the image
-			$patterns[2] = '/\<br.*\/\>/U'; //find the break and remove it
-			$replacement = '';
-			$cleanDescription = preg_replace($patterns, $replacement, $newsItems[$i]['desc']);
-
-				$html[] = <<<HTML
+		    $html[] = <<<HTML
 <li>
 	<article>
 		<header>
@@ -97,10 +98,6 @@
 	</article>
 </li>
 HTML;
-			} else {
-				//add one to the MAX_ARTICLES count since we are skipping one
-				$MAX_ARTICLES++;
-			}
 		}
 
 		$html[] = join('', array(
@@ -137,7 +134,7 @@ HTML;
 		}
 
 		$html = array(
-			'<form class="f2-app-view hide" data-f2-view="settings">',
+			'<form class="f2-app-view" data-f2-view="settings">',
 				'<div class="checkbox" name="autoRefresh"><label>',
 					'<input type="checkbox" name="autoRefresh"> 30-Second Auto-Refresh',
 				'</label></div>',
@@ -145,7 +142,6 @@ HTML;
 				join('', $providerHtml),
 				'<div class="form-actions">',
 					'<button type="button" class="btn btn-primary save">Save</button> ',
-					'<button type="button" class="btn btn-default cancel">Cancel</button>',
 				'</div>',
 			'</form>'
 		);

@@ -1,0 +1,405 @@
+//specific sections of page ****************
+.intro {
+	&.aboutbox {
+		@media (min-width: @screen-sm-min) {
+			background: @navbar-inverse-bg url('/img/header-bg.png?v=@{version}')
+				center -228px no-repeat;
+		}
+
+		@media (min-width: @screen-md-min) {
+			background-position: center -114px;
+		}
+
+		@media (min-width: @screen-md-min) {
+			min-height: 550px;
+		}
+
+		&.jumbotron {
+			padding: 0;
+			margin-bottom: 0;
+
+			.container {
+				@media (min-width: @screen-sm-min) {
+					padding-top: 90px;
+				}
+			}
+		}
+
+		section {
+			.make-md-column-push(6);
+			.make-md-column(6);
+			text-align: left;
+		}
+
+		h1 {
+			.font-bold();
+			line-height: 1;
+			font-size: 30px;
+
+			@media (min-width: @screen-sm-min) {
+				font-size: 50px;
+			}
+		}
+
+		h2 {
+			padding-top: 45px;
+			padding-bottom: 60px;
+			color: #fff;
+			font-size: 17px !important;
+			line-height: 1.3;
+
+			@media (min-width: @screen-sm-min) {
+				padding-bottom: 120px;
+			}
+
+			@media (min-width: @screen-md-min) {
+				width: 70%;
+			}
+		}
+
+		a {
+			color: @f2BlueLight;
+			text-decoration: underline;
+		}
+	}
+}
+
+.whatisf2 {
+	.container {
+		padding-top: 0;
+	}
+}
+
+.benefits {
+	padding-bottom: 0px;
+
+	@media (min-width: @screen-sm-min) {
+		padding-bottom: 0px;
+	}
+
+	.optimized {
+		section {
+			.make-md-column(4);
+			margin-top: 20px;
+			margin-bottom: 40px;
+			padding-left: 25px;
+			padding-right: 25px;
+
+			@media (min-width: @screen-sm-min) {
+				margin-top: 65px;
+				margin-bottom: 110px;
+			}
+
+			h4 {
+				.clearfix();
+				margin-bottom: 30px;
+				.align-center();
+
+				@media (min-width: @screen-md-min) {
+					text-align: left;
+				}
+
+				.hexagon {
+					.align-center();
+
+					background-repeat: no-repeat;
+					background-position: center center;
+
+					&.standardized {
+						background-image: url('/img/icon_standardization.png?v=@{version}');
+
+						@media (-webkit-min-device-pixel-ratio: 2),
+							(min-resolution: 192dpi) {
+							background-image: url('/img/icon_standardization@2x.png?v=@{version}');
+							background-size: 19px 25px;
+						}
+					}
+
+					&.efficency {
+						background-image: url('/img/icon_efficency.png?v=@{version}');
+
+						@media (-webkit-min-device-pixel-ratio: 2),
+							(min-resolution: 192dpi) {
+							background-image: url('/img/icon_efficency@2x.png?v=@{version}');
+							background-size: 25px 23px;
+						}
+					}
+
+					&.nimbleness {
+						background-image: url('/img/icon_nimbleness.png?v=@{version}');
+
+						@media (-webkit-min-device-pixel-ratio: 2),
+							(min-resolution: 192dpi) {
+							background-image: url('/img/icon_nimbleness@2x.png?v=@{version}');
+							background-size: 24px 24px;
+						}
+					}
+
+					@media (min-width: @screen-md-min) {
+						margin-right: 20px;
+						margin-top: 0;
+					}
+				}
+				span {
+					display: block;
+					@media (min-width: @screen-md-min) {
+						float: left;
+					}
+				}
+				span + span {
+					font-size: 15px;
+					text-transform: uppercase;
+					color: @headingBlue;
+					.font-bold();
+					margin-top: 30px;
+
+					@media (min-width: @screen-md-min) {
+						font-size: 17px;
+						display: inline-block;
+						margin-top: 4px;
+					}
+				}
+			}
+			p {
+				color: @gray-light;
+				font-size: 14px;
+				@media (min-width: @screen-sm-min) {
+					.align-center();
+					width: 65%;
+				}
+
+				@media (min-width: @screen-md-min) {
+					font-size: 15px;
+					text-align: left;
+					width: 90%;
+					margin-left: 0;
+					margin-right: 0;
+				}
+			}
+		}
+	}
+
+	.benefitlist {
+		dl {
+			margin-top: 35px;
+			margin-bottom: 0;
+			.make-md-column(4);
+			.make-md-column-offset(1);
+			+ dl {
+				.make-md-column-offset(2);
+				margin-top: 0;
+			}
+
+			@media (min-width: @screen-md-min) {
+				margin-top: 65px;
+				+ dl {
+					margin-top: 65px;
+				}
+			}
+
+			dt {
+				position: relative;
+				text-align: left;
+				font-size: 17px;
+				text-transform: uppercase;
+				color: @headingBlue;
+				.font-bold();
+				margin-bottom: 18px;
+			}
+			dd {
+				text-align: left;
+				color: @gray-light;
+				font-size: 15px;
+				min-height: 100px;
+			}
+		}
+	}
+}
+
+.partners {
+	@media (min-width: @screen-md-min) {
+		padding-bottom: 150px;
+	}
+
+	h2 {
+		padding-bottom: 50px;
+	}
+
+	@media (min-width: @screen-md-min) {
+		h2 {
+			padding-bottom: 100px !important;
+		}
+	}
+
+	img {
+		// .noviz();
+	}
+
+	//there's a slight color difference
+	//in the background image for the "partners_vert.png" file
+	//so change out the BG color until we can get a new image
+	@media (max-width: @screen-md-min) {
+		&.box-greydark {
+			background-color: @f2greydarkAlt;
+		}
+	}
+}
+
+.moreinfo {
+	display: none;
+	visibility: hidden;
+
+	@media (min-width: @screen-md-min) {
+		display: block;
+		visibility: visible;
+		min-height: 900px;
+
+		@media (min-width: @screen-lg-min) {
+			min-height: 1100px;
+		}
+
+		#bricklayer {
+			position: relative;
+
+			.brick {
+				position: absolute;
+				padding: 20px;
+
+				h3 {
+					text-align: left;
+					font-weight: @font-weight-extra-light;
+					font-size: 21px;
+				}
+
+				p,
+				time {
+					margin-top: 10px;
+					text-align: left;
+					display: block;
+
+					&.title {
+						font-size: 17px;
+						.font-bold();
+					}
+				}
+
+				time {
+					font-size: 12px;
+					color: @f2BlueLight;
+				}
+
+				i {
+					position: absolute;
+					bottom: 20px;
+					left: 20px;
+				}
+
+				&:hover {
+					text-decoration: none;
+				}
+
+				&.brick-white {
+					background-color: #fff;
+					color: @f2blue;
+					h3 {
+						color: @gray-dark;
+					}
+				}
+				&.brick-blue {
+					background-color: @f2blueDark;
+					color: #fff;
+				}
+
+				@brickWidth: 132px;
+				@brickHeight: 132px;
+				@brickTopStart: 150px;
+				@brickLeftStart: 50px;
+
+				@brickWidth-lg: 172px;
+				@brickHeight-lg: 172px;
+				@brickTopStart-lg: 200px;
+				@brickLeftStart-lg: 75px;
+
+				width: @brickWidth;
+				height: @brickWidth;
+
+				&#brick_docs {
+					top: @brickTopStart;
+					left: @brickLeftStart;
+				}
+
+				&#brick_newsletter {
+					top: @brickTopStart;
+					left: @brickWidth + @brickLeftStart;
+					width: @brickWidth * 2;
+					height: @brickHeight * 2;
+				}
+
+				&#brick_github {
+					top: @brickTopStart - @brickHeight;
+					left: @brickWidth * 2 + @brickLeftStart;
+				}
+
+				&#brick_blog {
+					top: @brickTopStart;
+					left: @brickWidth * 3 + @brickLeftStart;
+					width: @brickWidth * 2;
+					height: @brickHeight * 2;
+				}
+
+				&#brick_email {
+					top: @brickTopStart;
+					left: @brickWidth * 5 + @brickLeftStart;
+				}
+
+				&#brick_twitter {
+					top: @brickHeight * 2 + @brickTopStart;
+					left: @brickWidth * 2 + @brickLeftStart;
+					width: @brickWidth * 2;
+					height: @brickHeight * 1.33;
+				}
+
+				//larger viewport
+				@media (min-width: @screen-lg-min) {
+					width: @brickWidth-lg;
+					height: @brickWidth-lg;
+
+					&#brick_docs {
+						top: @brickTopStart-lg;
+						left: @brickLeftStart-lg;
+					}
+
+					&#brick_newsletter {
+						top: @brickTopStart-lg;
+						left: @brickWidth-lg + @brickLeftStart-lg;
+						width: @brickWidth-lg * 2;
+						height: @brickHeight-lg * 2;
+					}
+
+					&#brick_github {
+						top: @brickTopStart-lg - @brickHeight-lg;
+						left: @brickWidth-lg * 2 + @brickLeftStart-lg;
+					}
+
+					&#brick_blog {
+						top: @brickTopStart-lg;
+						left: @brickWidth-lg * 3 + @brickLeftStart-lg;
+						width: @brickWidth-lg * 2;
+						height: @brickHeight-lg * 2;
+					}
+
+					&#brick_email {
+						top: @brickTopStart-lg;
+						left: @brickWidth-lg * 5 + @brickLeftStart-lg;
+					}
+
+					&#brick_twitter {
+						top: @brickHeight-lg * 2 + @brickTopStart-lg;
+						left: @brickWidth-lg * 2 + @brickLeftStart-lg;
+						width: @brickWidth-lg * 2;
+					}
+				}
+			}
+		}
+	}
+}

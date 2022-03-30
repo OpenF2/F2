@@ -1,8 +1,8 @@
 {
 	"name": "f2",
 	"description": "An open framework for the financial services industry.",
-	"version": "1.4.5",
-	"main": "dist/f2.debug",
+	"version": "2.0.0",
+	"main": "dist/f2",
 	"keywords": [
 		"openf2"
 	],
@@ -14,30 +14,57 @@
 	},
 	"bugs": {
 		"url": "https://github.com/OpenF2/F2/issues",
-		"email": "OpenF2@googlegroups.com"
+		"email": "info@openf2.org"
 	},
 	"license": "Apache-2.0",
+	"scripts": {
+		"build": "webpack --config webpack.prod.js",
+		"build-dev": "webpack --config webpack.dev.js",
+		"docs": "rm -rf ./docs/dist && webpack --config ./docs/src/webpack.config.js && node docs/bin/gen-docs && node docs/bin/yuidocs && rm docs/dist/css/site.js && cp -r docs/src/img docs/src/fonts docs/src/apps docs/src/js docs/dist && cp dist/* docs/dist/js",
+		"docs-live": "http-server ./docs/dist",
+		"examples": "http-server ./ -o /examples/container/index.html",
+		"gh-pages": "cp -r docs/dist/* ../gh-pages && cp dist/* ../gh-pages && npm run zip",
+		"lint": "eslint src/ && prettier --check .",
+		"test": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --single-run --browsers ChromeHeadless --reporters nested\"",
+		"test-debug": "npm run lint && concurrently -s first -k -r  \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start --log-level debug --single-run --browsers ChromeHeadless --reporters nested\"",
+		"test-live": "npm run lint && concurrently -s first -k -r \"cross-env PORT=8080 node tests/server\" \"cross-env PORT=8081 node tests/server\" \"karma start\"",
+		"zip": "bestzip F2-examples.zip examples/* dist/* && cp -f F2-examples.zip ../gh-pages "
+	},
+	"dependencies": {},
 	"devDependencies": {
+		"bestzip": "^2.2.0",
+		"concurrently": "^6.2.0",
+		"cross-env": "^7.0.3",
+		"css-loader": "^5.2.7",
+		"domify": "^1.4.1",
+		"eslint": "^7.31.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eventemitter2": "^6.4.4",
 		"express": "^4.16.2",
-		"grunt": "^0.4.1",
-		"grunt-contrib-clean": "~0.4.1",
-		"grunt-contrib-compress": "0.12.0",
-		"grunt-contrib-concat": "~0.3.0",
-		"grunt-contrib-copy": "~0.4.1",
-		"grunt-contrib-jasmine": "~0.4.2",
-		"grunt-contrib-jshint": "~0.4.3",
-		"grunt-contrib-less": "~0.5.1",
-		"grunt-contrib-uglify": "~0.2.0",
-		"grunt-contrib-watch": "^0.6.1",
-		"grunt-express": "1.4.0",
-		"grunt-http": "^2.0.0",
-		"handlebars": "^4.0.11",
+		"fetch-jsonp": "^1.1.3",
+		"handlebars": "^4.7.7",
 		"highlight.js": "^9.12.0",
+		"http-server": "^0.12.3",
+		"jshint": "^2.13.0",
+		"karma": "^6.3.4",
+		"karma-chrome-launcher": "^3.1.0",
+		"karma-jasmine": "^4.0.1",
+		"karma-jasmine-html-reporter": "^1.7.0",
+		"karma-nested-reporter": "^0.1.7",
+		"karma-serve-static-map": "^2.0.0",
+		"less-loader": "^10.0.1",
+		"lodash.clonedeep": "^4.5.0",
 		"marked": "^0.3.3",
+		"mini-css-extract-plugin": "^2.1.0",
 		"moment": "^2.20.1",
 		"pandoc": "0.2.0",
-		"semver": "^5.5.0",
-		"underscore": "^1.8.3",
+		"prettier": "^2.3.2",
+		"puppeteer": "^10.1.0",
+		"semver": "^7.3.5",
+		"webpack": "^5.42.0",
+		"webpack-bundle-analyzer": "^4.4.2",
+		"webpack-cli": "^4.7.2",
+		"webpack-merge": "^5.8.0",
 		"yuidocjs": "^0.10.2"
 	},
 	"files": [
@@ -48,8 +75,5 @@
 		"node": ">=6"
 	},
 	"_releaseDate": "2018-03-02T20:52:10.133Z",
-	"_releaseDateFormatted": "2 March 2018",
-	"dependencies": {
-		"grunt-cli": "^1.2.0"
-	}
+	"_releaseDateFormatted": "2 March 2018"
 }

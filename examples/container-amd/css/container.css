@@ -1,5 +1,5 @@
 .f2-app {
-	margin-bottom:20px;
+	margin-bottom: 20px;
 }
 
 .f2-app-wrapper {
@@ -9,7 +9,7 @@
 
 .f2-app-wrapper > header {
 	padding: 10px;
-	background-color: #f8f8f8
+	background-color: #f8f8f8;
 }
 
 .f2-app header .glyphicon {
@@ -23,7 +23,7 @@
 	line-height: normal;
 }
 
-.f2-app header .btn-group{
+.f2-app header .btn-group {
 	padding: 5px;
 }
 

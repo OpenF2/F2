@@ -1,0 +1,44 @@
+@import 'jquery-ui/jquery-ui.min.less';
+
+.ui-widget {
+	font-family: @font-family-sans-serif;
+}
+
+.ui-widget-content {
+	background: transparent none;
+}
+
+.ui-autocomplete {
+	background-color: @input-bg;
+	border-radius: 2px;
+
+	.ui-autocomplete-category {
+		color: #fff;
+		font-size: 1em;
+		padding: 1px 5px;
+	}
+
+	.ui-menu-item {
+		padding: 1px 5px;
+
+		&.ui-state-focus {
+			margin: 0;
+			background: lighten(@input-bg, 10%) none;
+			color: #333;
+			border: 0 none;
+			font-weight: @font-weight-light;
+		}
+
+		a {
+			color: @input-color;
+			height: 17px;
+			line-height: 17px;
+
+			mark {
+				color: @input-color;
+				background-color: transparent;
+				font-weight: @font-weight-bold;
+			}
+		}
+	}
+}

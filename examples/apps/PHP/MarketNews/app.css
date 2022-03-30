@@ -1,29 +1,29 @@
 .com_openf2_examples_php_marketnews li {
-	border-bottom:1px solid #DDD;
-	padding:0 3px 10px;
+	border-bottom: 1px solid #ddd;
+	padding: 0 3px 10px;
 }
 .com_openf2_examples_php_marketnews li + li {
-	padding-top:10px;
+	padding-top: 10px;
 }
 .com_openf2_examples_php_marketnews header a {
-	font-size:18px;
-	padding-bottom:10px;
+	font-size: 18px;
+	padding-bottom: 10px;
 }
 .com_openf2_examples_php_marketnews header time {
-	color:#8F8F8F;
-	display:block;
-	font-size:11px;
+	color: #8f8f8f;
+	display: block;
+	font-size: 11px;
 }
 .com_openf2_examples_php_marketnews summary {
-	margin-top:5px;
+	margin-top: 5px;
 }
 .com_openf2_examples_php_marketnews p {
-	margin-bottom:0;
+	margin-bottom: 0;
 }
 .com_openf2_examples_php_marketnews img {
-	padding-right:15px;
+	padding-right: 15px;
 }
 .com_openf2_examples_php_marketnews footer {
-	font-size:10px;
-	padding:0 3px 10px;
+	font-size: 10px;
+	padding: 0 3px 10px;
 }
