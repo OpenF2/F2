@@ -1,7 +1,7 @@
 //put this background image only on the home page
 .home .navbar-inverse {
 	@media (min-width: @screen-sm-min) {
-		background: @navbar-inverse-bg url('/img/header-bg.png?v=@{version}') center -114px
+		background: @navbar-inverse-bg url('img/header-bg.png?v=@{version}') center -114px
 			no-repeat;
 	}
 
@@ -48,10 +48,10 @@
 		}
 		width: @navbar-width;
 		height: @navbar-height;
-		background: transparent url('/img/logo.png?v=@{version}') top left no-repeat;
+		background: transparent url('../img/logo.png?v=@{version}') top left no-repeat;
 
 		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-			background-image: url('/img/logo@2x.png?v=@{version}');
+			background-image: url('../img/logo@2x.png?v=@{version}');
 			background-size: @navbar-width @navbar-height;
 		}
 	}

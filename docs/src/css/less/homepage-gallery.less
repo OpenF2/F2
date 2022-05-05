@@ -162,11 +162,11 @@
 		height: 12px;
 		display: block;
 		outline: none;
-		background: transparent url('/img/gallery_dot.png?v=@{version}') center
+		background: transparent url('img/gallery_dot.png?v=@{version}') center
 			center;
 
 		&.active {
-			background-image: url('/img/gallery_dot_active.png?v=@{version}');
+			background-image: url('img/gallery_dot_active.png?v=@{version}');
 		}
 	}
 }
@@ -210,7 +210,7 @@
 			margin: 0;
 			width: 100%;
 			outline: none;
-			background-image: url('/img/blank.gif?v=@{version}');
+			background-image: url('img/blank.gif?v=@{version}');
 			cursor: pointer;
 
 			&:hover {
@@ -244,7 +244,7 @@
 
 				b {
 					float: right;
-					background-image: url('/img/paddle_prev.png?v=@{version}');
+					background-image: url('img/paddle_prev.png?v=@{version}');
 				}
 			}
 
@@ -257,7 +257,7 @@
 
 				b {
 					float: left;
-					background-image: url('/img/paddle_next.png?v=@{version}');
+					background-image: url('img/paddle_next.png?v=@{version}');
 				}
 			}
 		}
@@ -285,7 +285,7 @@
 	}
 
 	.layers {
-		background: transparent url('/img/gallery-multivendor.png?v=@{version}')
+		background: transparent url('img/gallery-multivendor.png?v=@{version}')
 			center bottom no-repeat;
 		background-size: 300px 143px;
 
@@ -308,16 +308,16 @@
 //Compensations for < IE 9
 .no-backgroundsize {
 	#gallery-multivendor .layers {
-		background-image: url('/img/gallery-multivendor-300x143.png?v=@{version}');
+		background-image: url('img/gallery-multivendor-300x143.png?v=@{version}');
 		@media (min-width: @screen-sm-min) {
-			background-image: url('/img/gallery-multivendor-680x323.png?v=@{version}');
+			background-image: url('img/gallery-multivendor-680x323.png?v=@{version}');
 		}
 		@media (min-width: @screen-md-min) {
-			background-image: url('/img/gallery-multivendor-540x256.png?v=@{version}');
+			background-image: url('img/gallery-multivendor-540x256.png?v=@{version}');
 			background-position: 95%;
 		}
 		@media (min-width: @screen-lg-min) {
-			background-image: url('/img/gallery-multivendor-740x351.png?v=@{version}');
+			background-image: url('img/gallery-multivendor-740x351.png?v=@{version}');
 			background-position: right top;
 		}
 	}

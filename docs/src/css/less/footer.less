@@ -15,11 +15,11 @@ footer {
 	h1 {
 		width: @navbar-width;
 		height: @navbar-height;
-		background: transparent url('/img/logo.png?v=@{version}') top left no-repeat;
+		background: transparent url('../img/logo.png?v=@{version}') top left no-repeat;
 		.text-hide();
 
 		@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-			background-image: url('/img/logo@2x.png?v=@{version}');
+			background-image: url('../img/logo@2x.png?v=@{version}');
 			background-size: @navbar-width @navbar-height;
 		}
 	}

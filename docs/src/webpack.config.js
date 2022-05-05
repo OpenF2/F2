@@ -35,7 +35,7 @@ module.exports = {
 									version: `${pkg.version}`
 								},
 								sourceMap: true,
-								sourceMapURL: '/css/site.css.map'
+								sourceMapURL: 'css/site.css.map'
 							}
 						}
 					}

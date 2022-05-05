@@ -141,7 +141,7 @@ To guarantee uniqueness, we have provided an AppID generation service that allow
 
 Once you have your AppID, start by setting up your project. You will need at least one file: the **App Manifest**. Create a new file called `manifest.js`. Also, chances are you'll want custom styling and functionality, so go ahead and create `appclass.js` (for your app logic) and `app.css` for your CSS. Your project folder should look like this:
 
-![](./img/project_folder.png 'Setup your project')
+![](img/project_folder.png 'Setup your project')
 
 <span class="label label-default">Helper</span> [Download the F2 examples](https://openf2.github.io/F2/F2-examples.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
 
