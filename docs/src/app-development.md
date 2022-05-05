@@ -23,7 +23,7 @@ _Interested in developing F2 containers? [Browse to Container Development](conta
 
 To help you get started building an F2 app, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.
 
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 ### Basic Container
 
@@ -53,7 +53,7 @@ Setup a basic container HTML template (or add F2.js to an existing website):
 var _appConfig = {
 	appId: 'com_openf2_examples_javascript_helloworld',
 	manifestUrl:
-		'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'
+		'https://openf2.github.io/F2/demos/apps/JavaScript/HelloWorld/manifest.js'
 };
 
 $(function () {
@@ -80,7 +80,7 @@ Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/mas
 
 These examples are also available in a separate archive if you don't want to download the entire repository.
 
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 ### Configuration
 
@@ -143,7 +143,7 @@ Once you have your AppID, start by setting up your project. You will need at lea
 
 ![](./img/project_folder.png 'Setup your project')
 
-<span class="label label-default">Helper</span> [Download the F2 examples](http://docs.openf2.org/F2-examples.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
+<span class="label label-default">Helper</span> [Download the F2 examples](https://openf2.github.io/F2/F2-examples.zip) or read about [setting up a basic container and app](#get-started) in Getting Started.
 
 ### App Manifest
 
@@ -332,7 +332,7 @@ F2_jsonpCallback_com_companyname_appname({
 
 ### App Manifest Response
 
-OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 examples](http://docs.openf2.org/F2-examples.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format.
+OK, so you know about F2 apps and you're ready to write your own App Manifest. To go from zero to _something_, [download the F2 examples](https://openf2.github.io/F2/F2-examples.zip). Once you have your `AppManifest` defined (or at least stubbed out), there's one important detail you need to know now&mdash;the App Manifest response format.
 
 As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. **This means F2 App Manifest files must provide a JSONP callback function.** (If you don't know what JSONP is or how it works, we recommend [reading what Remy Sharp has to say](http://remysharp.com/2007/10/08/what-is-jsonp/) about it.)
 
@@ -492,7 +492,7 @@ Of course, you don't have to use either one of these patterns in your `appclass.
 	<p>In the absence of a function in your `appclass.js`, F2 will be unable to load your app on a container.</p>
 </div>
 
-If you don't want to think about any of this and would rather just start coding, [download the F2 examples](http://docs.openf2.org/F2-examples.zip).
+If you don't want to think about any of this and would rather just start coding, [download the F2 examples](https://openf2.github.io/F2/F2-examples.zip).
 
 ---
 

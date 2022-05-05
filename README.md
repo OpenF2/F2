@@ -2,13 +2,13 @@
 
 <img src="http://www.gravatar.com/avatar/81a91ece480ee15ae86a26a7a818b620.png?s=128" align="right">
 
-The goal of F2 is to define a [development standard](http://docs.openf2.org) for the financial services industry that offers a cost saving, risk-reducing method for building innovative, multi-provider solutions.
+The goal of F2 is to define a [development standard](https://openf2.github.io/F2) for the financial services industry that offers a cost saving, risk-reducing method for building innovative, multi-provider solutions.
 
 F2 makes **integration** simple, standardized and modern. It's the next-generation of content integration created by [the team](http://www.markit.com/Product/Markit-On-Demand) who has the most experience developing integrated solutions in financial services.
 
 ## Demos
 
-Visit [docs.openf2.org](http://docs.openf2.org/index.html#examples) for a list of all available demos, including [jsFiddle](http://jsfiddle.net/user/OpenF2js/fiddles/) and [Codepen](http://codepen.io/OpenF2/) examples.
+Visit [openf2.github.io/F2](https://openf2.github.io/F2/index.html#examples) for a list of all available demos, including [jsFiddle](http://jsfiddle.net/user/OpenF2js/fiddles/) and [Codepen](http://codepen.io/OpenF2/) examples.
 
 ## Contributing
 
@@ -22,14 +22,14 @@ Join the team and help contribute to F2 on GitHub. Begin by reading our [contrib
 
 ### Get F2.js
 
-- Choose a [F2.js package](http://docs.openf2.org/f2js-sdk.html#packages), including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
+- Choose a [F2.js package](https://openf2.github.io/F2/f2js-sdk.html#packages), including [F2.basic.js](https://raw.github.com/OpenF2/F2/master/sdk/packages/f2.basic.min.js) (7kb, minified and gzipped)
 - Grab any version of F2 [on cdnjs.com](http://cdnjs.com/libraries/F2/).
 - For .NET developers: install the [NuGet Package](https://nuget.org/packages/F2/) or `PM> Install-Package F2`
 - Bower: `bower install F2`
 
 ### Docs
 
-The F2 development standard and API docs are available at [docs.openf2.org](http://docs.openf2.org).
+The F2 development standard and API docs are available at [openf2.github.io/F2](https://openf2.github.io/F2).
 
 ### Contributions
 
@@ -61,7 +61,7 @@ For more information on SemVer, please visit [SemVer.org](http://semver.org/).
 
 #### Upgrading
 
-It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. [Read more in the Docs](http://docs.openf2.org/f2js-sdk.html#upgrading).
+It is our goal to make upgrading to the latest version of F2 a minor effort for development teams. [Read more in the Docs](https://openf2.github.io/F2/f2js-sdk.html#upgrading).
 
 ### Issues, Enhancements, Bugs
 

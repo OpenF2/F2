@@ -10,7 +10,7 @@ The container is the foundation of any F2-enabled solution. By leveraging the [F
 
 To help you get started building an F2 container, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.
 
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 ### Basic Example
 
@@ -40,7 +40,7 @@ Setup a basic container HTML template (or add F2.js to an existing website):
 var _appConfig = {
 	appId: 'com_openf2_examples_javascript_helloworld',
 	manifestUrl:
-		'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'
+		'https://openf2.github.io/F2/demos/apps/JavaScript/HelloWorld/manifest.js'
 };
 
 $(function () {
@@ -67,7 +67,7 @@ Good news! In the [project repo on GitHub](https://github.com/OpenF2/F2/tree/mas
 
 These examples are also available in a separate archive if you don't want to download the entire repository.
 
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 ### Integrating Apps
 
@@ -874,7 +874,7 @@ F2 will insert `html` from the `AppManifest` inside the specified DOM element. T
 </div>
 ```
 
-<span class="label label-info">Note</span> The original `html` in this example app manifest is [available here](http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js).
+<span class="label label-info">Note</span> The original `html` in this example app manifest is [available here](https://openf2.github.io/F2/demos/apps/JavaScript/HelloWorld/manifest.js).
 
 The jsfiddle below demonstrates a Hello World example using the `appRender` event type and a DOM element as the third argument in `on`.
 

@@ -28,8 +28,6 @@ The latest F2 changes can be found in the `*-wip` branch. This branch's name use
 
 Do not work directly in `master`!
 
-![Branches](http://docs.openf2.org/img/branches.png)
-
 ### Steps
 
 Once you've forked the F2 repository:

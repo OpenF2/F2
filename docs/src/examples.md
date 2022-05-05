@@ -8,8 +8,8 @@ sources and, using [F2 Context](container-development.html#context), seamlessly 
 
 <p>
 We've built-in some keyboard shortcuts to highlight individual F2 components.
-Press <code>c</code> to see the <a href="http://docs.openf2.org/container-development.html">F2 Container</a> highlighted (and Apps blurred).
-Press <code>a</code> to see the <a href="http://docs.openf2.org/app-development.html">F2 Apps</a>. (Press again to disable.)</p>
+Press <code>c</code> to see the <a href="https://openf2.github.io/F2/container-development.html">F2 Container</a> highlighted (and Apps blurred).
+Press <code>a</code> to see the <a href="https://openf2.github.io/F2/app-development.html">F2 Apps</a>. (Press again to disable.)</p>
 
 ## Apps
 

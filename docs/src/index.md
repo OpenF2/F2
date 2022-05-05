@@ -56,10 +56,10 @@ There are a few different types of examples available below.
 </div>
 
 <div class="media">
-	<a class="media-left" href="http://docs.openf2.org/F2-examples.zip"><i class="fa fa-download"></i></a>
+	<a class="media-left" href="https://openf2.github.io/F2/F2-examples.zip"><i class="fa fa-download"></i></a>
 	<div class="media-body">
 		<h4 class="media-heading">Download</h4>
-		A variety of example Containers and Apps to [download](http://docs.openf2.org/F2-examples.zip) and run on your localhost. Most are "plain" javascript, others are written in .NET, PHP and Node.js. The [examples source code is also on GitHub](https://github.com/OpenF2/F2/tree/master/examples).
+		A variety of example Containers and Apps to [download](https://openf2.github.io/F2/F2-examples.zip) and run on your localhost. Most are "plain" javascript, others are written in .NET, PHP and Node.js. The [examples source code is also on GitHub](https://github.com/OpenF2/F2/tree/master/examples).
 	</div>
 </div>
 
