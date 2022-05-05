@@ -80,7 +80,7 @@
 ><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <script type="text/javascript">
-	if (/docs.openf2.org/i.test(window.location.hostname)) {
+	if (/openf2.github.io/i.test(window.location.hostname)) {
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-35230380-1']);
 		_gaq.push(['_setDomainName', 'openf2.org']);
@@ -196,7 +196,7 @@ The container is the foundation of any F2-enabled solution. By leveraging the <a
 
 <hr>
 <h2 class="link-header" id="get-started">Get Started<a class="anchor" href="#get-started"><span>#</span></a></h2><p>To help you get started building an F2 container, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.</p>
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 <h3 class="link-header" id="basic-example">Basic Example<a class="anchor" href="#basic-example"><span>#</span></a></h3><p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://getbootstrap.com">Bootstrap</a>, and ensure you’re <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
@@ -216,7 +216,7 @@ The container is the foundation of any F2-enabled solution. By leveraging the <a
 <h4 class="link-header" id="appconfig-amp-init">AppConfig &amp; Init<a class="anchor" href="#appconfig-amp-init"><span>#</span></a></h4><pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _appConfig = {
     <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_openf2_examples_javascript_helloworld'</span>,
     <span class="hljs-attr">manifestUrl</span>:
-        <span class="hljs-string">'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
+        <span class="hljs-string">'https://openf2.github.io/F2/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
 };
 
 $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
@@ -232,7 +232,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span 
 <h3 class="link-header" id="sample-apps-and-container">Sample Apps and Container<a class="anchor" href="#sample-apps-and-container"><span>#</span></a></h3><p>Good news! In the <a href="https://github.com/OpenF2/F2/tree/master/examples/">project repo on GitHub</a>, you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:</p>
 <p><code>http://localhost/F2/examples/</code></p>
 <p>These examples are also available in a separate archive if you don’t want to download the entire repository.</p>
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 <h3 class="link-header" id="integrating-apps">Integrating Apps<a class="anchor" href="#integrating-apps"><span>#</span></a></h3><p>Full details on <a href="#app-integration">App Integration</a> approaches are below. For an even simpler App integration than this basic example above, see <a href="#auto-loading-apps">auto-loading Apps</a>.</p>
 <h3 class="link-header" id="configuration">Configuration<a class="anchor" href="#configuration"><span>#</span></a></h3><p>It is assumed you will be developing an F2 container locally and have a <code>localhost</code> setup. The URLs mentioned in this specification also assume you have configured your F2 container to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
@@ -749,7 +749,7 @@ F2.registerApps(_appConfig);
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 </code></pre>
-<p><span class="label label-info">Note</span> The original <code>html</code> in this example app manifest is <a href="http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js">available here</a>.</p>
+<p><span class="label label-info">Note</span> The original <code>html</code> in this example app manifest is <a href="https://openf2.github.io/F2/demos/apps/JavaScript/HelloWorld/manifest.js">available here</a>.</p>
 <p>The jsfiddle below demonstrates a Hello World example using the <code>appRender</code> event type and a DOM element as the third argument in <code>on</code>.</p>
 <iframe width="100%" height="400" src="http://jsfiddle.net/OpenF2js/SGKa3/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
@@ -961,7 +961,7 @@ F2.registerApps(_appConfig);
 					</p>
 				</div>
 				<ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
-					<li><a href="//docs.openf2.org">Docs</a></li>
+					<li><a href="https://openf2.github.io/F2">Docs</a></li>
 					<li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
 				</ul>
 			</div>
@@ -979,7 +979,7 @@ F2.registerApps(_appConfig);
 								<h5>View on GitHub</h5>
 								<p>
 									Current Version&nbsp;<span>2.0.0</span
-									><br />Released&nbsp;<span>2 March 2018</span>
+									><br />Released&nbsp;<span></span>
 								</p></a
 							>
 						</div>

@@ -80,7 +80,7 @@
 ><![endif]-->
 <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <script type="text/javascript">
-	if (/docs.openf2.org/i.test(window.location.hostname)) {
+	if (/openf2.github.io/i.test(window.location.hostname)) {
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-35230380-1']);
 		_gaq.push(['_setDomainName', 'openf2.org']);
@@ -206,7 +206,7 @@ Apps are the building blocks of any F2-enabled solution. F2 apps are web-based, 
 <p><em>Interested in developing F2 containers? <a href="container-development.html">Browse to Container Development</a>.</em></p>
 <hr>
 <h2 class="link-header" id="get-started">Get Started<a class="anchor" href="#get-started"><span>#</span></a></h2><p>To help you get started building an F2 app, review the documentation and examples below. To jump start your F2 container or app development, download the F2 example container and apps.</p>
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 <h3 class="link-header" id="basic-container">Basic Container<a class="anchor" href="#basic-container"><span>#</span></a></h3><p>To begin, you <strong>do not</strong> need to build (or compile) F2 <a href="https://github.com/OpenF2/F2#build-f2">as described in the readme on GitHub</a>. Simply download <a href="f2js-sdk.html">F2.js</a> and <a href="http://getbootstrap.com/">Bootstrap</a>, and ensure you’re <a href="#configuration">properly configured</a> for continuing with the documentation.</p>
 <p><a href="https://github.com/OpenF2/F2/releases" class="btn btn-primary btn-small">Download F2.js</a> <a href="http://getbootstrap.com/" class="btn btn-default btn-small">Download Bootstrap</a></p>
@@ -226,7 +226,7 @@ Apps are the building blocks of any F2-enabled solution. F2 apps are web-based, 
 <h3 class="link-header" id="basic-appconfig">Basic AppConfig<a class="anchor" href="#basic-appconfig"><span>#</span></a></h3><pre><code class="lang-javascript"><span class="hljs-keyword">var</span> _appConfig = {
     <span class="hljs-attr">appId</span>: <span class="hljs-string">'com_openf2_examples_javascript_helloworld'</span>,
     <span class="hljs-attr">manifestUrl</span>:
-        <span class="hljs-string">'http://docs.openf2.org/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
+        <span class="hljs-string">'https://openf2.github.io/F2/demos/apps/JavaScript/HelloWorld/manifest.js'</span>
 };
 
 $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
@@ -242,7 +242,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span 
 <h3 class="link-header" id="sample-apps-and-container">Sample Apps and Container<a class="anchor" href="#sample-apps-and-container"><span>#</span></a></h3><p>Good news! In the <a href="https://github.com/OpenF2/F2/tree/master/examples/">project repo on GitHub</a>, you will find a basic container along with a number of sample apps which demonstrate functionality far beyond the basic app above. Once you clone or download the project repository, open the sample container by pointing your browser at:</p>
 <p><code>http://localhost/F2/examples/</code></p>
 <p>These examples are also available in a separate archive if you don’t want to download the entire repository.</p>
-<p><a href="http://docs.openf2.org/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
+<p><a href="https://openf2.github.io/F2/F2-examples.zip" class="btn btn-primary btn-small">Download F2 Examples</a></p>
 
 <h3 class="link-header" id="configuration">Configuration<a class="anchor" href="#configuration"><span>#</span></a></h3><p>It is assumed you will be developing F2 apps locally and have a <code>localhost</code> setup. The URLs mentioned in this specification also assume you have configured your F2 apps to run at <code>http://localhost/F2/</code>. The examples provided as part of the project repository demonstrate apps written in different languages (PHP, JavaScript, C#). While it is not a requirement you have a web server configured on your computer, it will certainly allow you to more deeply explore the sample apps.</p>
 <p>To better understand F2 and the role of apps, you need to understand the role of the container. If you haven’t already, <a href="about-f2.html#framework">read more about containers in the Framework</a>.</p>
@@ -273,7 +273,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span 
 <p><a href="https://developer.openf2.com/GetAppID" class="btn btn-primary">Get Your F2 AppID Now &raquo;</a></p>
 <h3 class="link-header" id="setting-up-your-project">Setting Up Your Project<a class="anchor" href="#setting-up-your-project"><span>#</span></a></h3><p>Once you have your AppID, start by setting up your project. You will need at least one file: the <strong>App Manifest</strong>. Create a new file called <code>manifest.js</code>. Also, chances are you’ll want custom styling and functionality, so go ahead and create <code>appclass.js</code> (for your app logic) and <code>app.css</code> for your CSS. Your project folder should look like this:</p>
 <p><img src="./img/project_folder.png" alt="" title="Setup your project"></p>
-<p><span class="label label-default">Helper</span> <a href="http://docs.openf2.org/F2-examples.zip">Download the F2 examples</a> or read about <a href="#get-started">setting up a basic container and app</a> in Getting Started.</p>
+<p><span class="label label-default">Helper</span> <a href="https://openf2.github.io/F2/F2-examples.zip">Download the F2 examples</a> or read about <a href="#get-started">setting up a basic container and app</a> in Getting Started.</p>
 <h3 class="link-header" id="app-manifest">App Manifest<a class="anchor" href="#app-manifest"><span>#</span></a></h3><p>For an app to be considered F2-capable, it must first have this basic structure&mdash;called the <strong>App Manifest</strong>&mdash;represented in <a href="http://json.org">JSON</a>:</p>
 <pre><code class="lang-javascript">{
     <span class="hljs-string">"inlineScripts"</span>:[],
@@ -389,7 +389,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span 
 });
 </code></pre>
 <p><span class="label label-info">Note</span> You may have noticed the presence of the function name <code>F2_jsonpCallback_com_companyname_appname</code> on the first line of the example above. That function name is the callback and is explained in <a href="#app-manifest-response">App Manifest Response</a>.</p>
-<h3 class="link-header" id="app-manifest-response">App Manifest Response<a class="anchor" href="#app-manifest-response"><span>#</span></a></h3><p>OK, so you know about F2 apps and you’re ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="http://docs.openf2.org/F2-examples.zip">download the F2 examples</a>. Once you have your <code>AppManifest</code> defined (or at least stubbed out), there’s one important detail you need to know now&mdash;the App Manifest response format.</p>
+<h3 class="link-header" id="app-manifest-response">App Manifest Response<a class="anchor" href="#app-manifest-response"><span>#</span></a></h3><p>OK, so you know about F2 apps and you’re ready to write your own App Manifest. To go from zero to <em>something</em>, <a href="https://openf2.github.io/F2/F2-examples.zip">download the F2 examples</a>. Once you have your <code>AppManifest</code> defined (or at least stubbed out), there’s one important detail you need to know now&mdash;the App Manifest response format.</p>
 <p>As part of F2, containers register apps&mdash;typically hosted on different domains&mdash;using JSONP. <strong>This means F2 App Manifest files must provide a JSONP callback function.</strong> (If you don’t know what JSONP is or how it works, we recommend <a href="http://remysharp.com/2007/10/08/what-is-jsonp/">reading what Remy Sharp has to say</a> about it.)</p>
 <p>For security reasons, the App Manifest JSONP callback function must be a specific, reliable, and testable format. F2 has defined that using a combination of a string and your unique F2 AppID. The JSONP callback function name looks like this:</p>
 <p><code>F2_jsonpCallback_&lt;AppID&gt;</code></p>
@@ -483,7 +483,7 @@ F2_jsonpCallback_com_companyname_appname({
     <p>In the absence of a function in your <code>appclass.js</code>, F2 will be unable to load your app on a container.</p>
 </div>
 
-<p>If you don’t want to think about any of this and would rather just start coding, <a href="http://docs.openf2.org/F2-examples.zip">download the F2 examples</a>.</p>
+<p>If you don’t want to think about any of this and would rather just start coding, <a href="https://openf2.github.io/F2/F2-examples.zip">download the F2 examples</a>.</p>
 <hr>
 <h3 class="link-header" id="internationalization">Internationalization<a class="anchor" href="#internationalization"><span>#</span></a></h3><p>Internationalization, or “<a href="http://en.wikipedia.org/wiki/Internationalization_and_localization">i18n</a>“, can be <a href="container-development.html#internationalization">configured in a Container</a>. This “locale” information is shared with all Apps using <a href="http://en.wikipedia.org/wiki/IETF_language_tag">IETF-defined standard language tags</a> such as “en-us” or “de-de” for English United States or German Germany, respectively.</p>
 <p><span class="label label-danger">Important</span> Containers providing a <code>locale</code> config is only a means of communicating localization information in the container. F2 does not perform translations, number formatting or other localization modifications to Containers or Apps.</p>
@@ -750,7 +750,7 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE, <span class="hljs-func
 					</p>
 				</div>
 				<ul class="nav navbar-nav hidden-sm hidden-md hidden-lg list">
-					<li><a href="//docs.openf2.org">Docs</a></li>
+					<li><a href="https://openf2.github.io/F2">Docs</a></li>
 					<li><a href="https://github.com/OpenF2/F2">GitHub</a></li>
 				</ul>
 			</div>
@@ -768,7 +768,7 @@ F2.Events.on(F2.Constants.Events.CONTAINER_LOCALE_CHANGE, <span class="hljs-func
 								<h5>View on GitHub</h5>
 								<p>
 									Current Version&nbsp;<span>2.0.0</span
-									><br />Released&nbsp;<span>2 March 2018</span>
+									><br />Released&nbsp;<span></span>
 								</p></a
 							>
 						</div>
